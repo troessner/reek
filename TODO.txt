@@ -1,0 +1,27 @@
+Stories, in decreasing order of priority:
+----------------------------------------
+
+- smell: Long Parameter List
+- add -I for additional load directories
+- smell: nested :iter blocks
+- add a failing test for RCov
+- gem installer
+- --[no]smells reports the smell name at the start of each line
+- smell: Feature Envy
+- smell: Long Method
+- add story tests for the exercises in the book
+- smell: Utility Function
+- smell: Law of Demeter
+- smell: unused parameter
+- provide rake task to run reek
+- configure thresholds via a .yml file
+- disable smells via a .yml file
+- ignore classes or methods via a .yml file
+- an option to print out "What to Do" notes -> book
+- smell: Large Class
+- smell: Lazy Class / Data Class
+- allow report to be sorted by smell
+- allow report to be sorted by class/method
+- allow report to be sorted by "severity"
+- generate report as XHTML
+- smell: Message Chain
