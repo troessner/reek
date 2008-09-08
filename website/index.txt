@@ -1,10 +1,11 @@
-h1. reek
+h1. Code smell detector
 
 h1. &#x2192; 'reek'
 
 
 h2. What
 
+Reek is a tool that examines Ruby classes, modules and methods and reports any code smells it finds.
 
 h2. Installing
 
@@ -12,10 +13,16 @@ h2. Installing
 
 h2. The basics
 
+<pre syntax="ruby">
+  $ cd my_project/lib
+  $ reek
+</pre>
+
+(More details coming soon...)
 
 h2. Demonstration of usage
 
-
+(More details coming soon...)
 
 h2. Forum
 
@@ -23,10 +30,7 @@ Coming soon...
 
 h2. How to access the source code
 
-The source is hosted on both Rubyforge and Github:
-
-* http://github.com/kevinrutherford/reek/tree/master
-* http://rubyforge.org/projects/reek/
+The source is hosted on both "github":http://github.com/kevinrutherford/reek/tree/master and "rubyforge":http://rubyforge.org/projects/reek/
 
 h2. License
 
