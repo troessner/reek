@@ -1,32 +1,38 @@
-= blah
+= reek
 
-* FIX (url)
+* http://rubyforge.org/projects/reek/
+* http://www.refactoring-workbook.com/reek
+* mailto:kevin@rutherford-software.com
 
 == DESCRIPTION:
 
-FIX (describe your package)
+Reek is a tool that examines Ruby classes, modules and methods and
+reports any code smells it finds.
 
 == FEATURES/PROBLEMS:
 
-* FIX (list of features or problems)
+* Not many smells checked right now; more coming soon.
+* The current Feature Envy check is probably over zealous.
+* There's no convenient programmer's API just yet.
 
 == SYNOPSIS:
 
-  FIX (code sample of usage)
+  $ cd my_project/lib
+  $ reek
 
 == REQUIREMENTS:
 
-* FIX (list of requirements)
+* ParseTree
 
 == INSTALL:
 
-* FIX (sudo gem install, anything else)
+* sudo gem install reek
 
 == LICENSE:
 
 (The MIT License)
 
-Copyright (c) 2008 FIX
+Copyright (c) Kevin Rutherford, Rutherford Software
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
