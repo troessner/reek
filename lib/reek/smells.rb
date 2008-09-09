@@ -62,36 +62,13 @@ module Reek
   class LongMethod < Smell
     MAX_ALLOWED = 5
 
-    def count_statements(exp)
-      result = exp.length - 1
-      result -= 1 if Array === exp[1] and exp[1][0] == :args
-      result
-    end
-
-    def recognise?(exp)
-      count_statements(exp) > MAX_ALLOWED
+    def recognise?(num_stmts)
+      @num_stmts = num_stmts
+      num_stmts > MAX_ALLOWED
     end
 
     def detailed_report
-      "#{@context} has > #{MAX_ALLOWED} statements"
-    end
-  end
-
-  class LongBlock < Smell
-    MAX_ALLOWED = 5
-
-    def count_statements(exp)
-      result = exp.length - 1
-      result -= 1 if Array === exp[1] and exp[1][0] == :args
-      result
-    end
-
-    def recognise?(exp)
-      count_statements(exp) > MAX_ALLOWED
-    end
-
-    def detailed_report
-      "#{@context} has a block with > #{MAX_ALLOWED} statements"
+      "#{@context} has approx #{@num_stmts} statements"
     end
   end
 
@@ -105,7 +82,7 @@ module Reek
       max = calls.empty? ? 0 : calls.values.max
       return false unless max > calls[:self]
       receivers = calls.keys.select { |key| calls[key] == max }
-      @receiver = receivers.map {|r| Printer.print(r)}.sort.join(' or ')
+      @receiver = receivers.map {|r| Printer.print(r)}.sort.join(' and ')
       return true
     end
 

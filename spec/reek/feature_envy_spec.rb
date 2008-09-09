@@ -38,7 +38,7 @@ describe MethodChecker, "(Feature Envy)" do
   it 'should report multiple affinities' do
     @cchk.check_source('def simple(arga) s1 = ""; s1.to_s; s2 = ""; s2.to_s; @m = 34; end')
     @rpt.length.should == 1
-    @rpt[0].should == FeatureEnvy.new(@cchk, ':s1 or :s2')
+    @rpt[0].should == FeatureEnvy.new(@cchk, ':s1 and :s2')
   end
 
   it 'should not reference global variables' do

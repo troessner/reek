@@ -12,19 +12,20 @@ module Reek
       super(smells)
       @class_name = klass_name
       @description = klass_name
-      @top_level_block = true
       @calls = Hash.new(0)
       @lvars = Set.new
       @inside_an_iter = false
     end
 
     def process_defn(exp)
+      @num_statements = 0
       @description = "#{@class_name}##{exp[1]}"
       UncommunicativeName.check(exp[1], self, 'method')
       process(exp[2])
       @lvars.each {|lvar| UncommunicativeName.check(lvar, self, 'local variable') }
       UtilityFunction.check(@calls, self)
       FeatureEnvy.check(@calls, self)
+      LongMethod.check(@num_statements, self)
       s(exp)
     end
 
@@ -41,7 +42,6 @@ module Reek
 
     def process_iter(exp)
       NestedIterators.check(@inside_an_iter, self)
-      @top_level_block = false
       @inside_an_iter = true
       exp[1..-1].each { |s| process(s) }
       @inside_an_iter = false
@@ -49,11 +49,7 @@ module Reek
     end
 
     def process_block(exp)
-      if @top_level_block
-        LongMethod.check(exp, self)
-      else
-        LongBlock.check(exp, self)
-      end
+      @num_statements += count_statements(exp)
       exp[1..-1].each { |s| process(s) }
       s(exp)
     end
@@ -108,6 +104,14 @@ module Reek
       @calls[:self] += 1
       process(exp[2])
       s(exp)
+    end
+
+  private
+    
+    def count_statements(exp)
+      result = exp.length - 1
+      result -= 1 if Array === exp[1] and exp[1][0] == :args
+      result
     end
   end
 end

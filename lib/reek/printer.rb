@@ -19,7 +19,11 @@ module Reek
 
     def print(sexp)
       @report = sexp.inspect
-      process(sexp)
+      begin
+        process(sexp)
+      rescue
+        raise "Error in print, parsing:\n #{sexp.inspect}"
+      end
       @report
     end
 
@@ -40,6 +44,11 @@ module Reek
 
     def process_const(exp)
       @report = exp[1].inspect
+      s(exp)
+    end
+
+    def process_iter(exp)
+      @report = 'block'
       s(exp)
     end
 

@@ -20,7 +20,31 @@ describe MethodChecker, "(Long Method)" do
   it 'should report long methods' do
     @cchk.check_source('def long(arga) alf = f(1);@bet = 2;@cut = 3;@dit = 4; @emp = 5;@fry = 6;end')
     @rpt.length.should == 1
-    @rpt[0].should == LongMethod.new(@cchk)
+    @rpt[0].should be_instance_of(LongMethod)
+  end
+
+  it 'should only report a long method once' do
+    source =<<EOS
+  def standard_entries(rbconfig)
+    @abc = rbconfig
+    rubypath = File.join(@abc['bindir'], @abc['ruby_install_name'] + c['EXEEXT'])
+    major = c['MAJOR'].to_i
+    minor = c['MINOR'].to_i
+    teeny = c['TEENY'].to_i
+    version = ""
+    if c['rubylibdir']
+      libruby         = "/lib/ruby"
+      librubyver      = "/lib/ruby/"
+      librubyverarch  = "/lib/ruby/"
+      siteruby        = "lib/ruby/version/site_ruby"
+      siterubyver     = siteruby
+      siterubyverarch = "$siterubyver/['arch']}"
+    end
+  end
+EOS
+    @cchk.check_source(source)
+    @rpt.length.should == 1
+    @rpt[0].should be_instance_of(LongMethod)
   end
 end
 
@@ -47,6 +71,5 @@ end
 EOS
     @cchk.check_source(src)
     @rpt.length.should == 1
-    @rpt[0].report.should match(/block/)
   end
 end
