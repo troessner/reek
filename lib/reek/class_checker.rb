@@ -7,12 +7,12 @@ module Reek
 
   class ClassChecker < Checker
 
-    def initialize(smells)
-      super(smells)
+    def initialize(report)
+      super(report)
       @description = ''
     end
 
-    def process_class(exp)
+    def process_class(exp)  # :nodoc:
       @description = exp[1].to_s
       superclass = exp[2]
       LargeClass.check(@description, self)
@@ -20,7 +20,7 @@ module Reek
       s(exp)
     end
 
-    def process_defn(exp)
+    def process_defn(exp)  # :nodoc:
       bc = Reek::MethodChecker.new(@smells, @description)
       bc.process(exp)
       s(exp)

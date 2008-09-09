@@ -9,8 +9,19 @@
 Reek is a tool that examines Ruby classes, modules and methods and
 reports any code smells it finds.
 
+=== SUPPORTED SMELLS:
+
+* Long Method
+* Large Class
+* Feature Envy
+* Uncommunicative Name
+* Long Parameter List
+* Utility Function
+* Nested Iterators
+
 == FEATURES/PROBLEMS:
 
+* Most of the current checks are quite naive.
 * Not many smells checked right now; more coming soon.
 * The current Feature Envy check is probably over zealous.
 * There's no convenient programmer's API just yet.
@@ -32,7 +43,7 @@ reports any code smells it finds.
 
 (The MIT License)
 
-Copyright (c) Kevin Rutherford, Rutherford Software
+Copyright (c) 2008 Kevin Rutherford, Rutherford Software
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

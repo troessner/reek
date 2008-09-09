@@ -20,13 +20,17 @@ h2. The basics
 
 (More details coming soon...)
 
-h2. Demonstration of usage
+h2. Code Smells
 
-(More details coming soon...)
+reek currently includes very naive checks for the following code smells:
 
-h2. Forum
-
-Coming soon...
+* Long Method
+* Large Class
+* Feature Envy
+* Uncommunicative Name
+* Long Parameter List
+* Utility Function
+* Nested Iterators
 
 h2. How to access the source code
 

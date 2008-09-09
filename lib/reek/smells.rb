@@ -103,15 +103,14 @@ module Reek
 
     def recognise?(calls)
       max = calls.empty? ? 0 : calls.values.max
-      mine = calls[:self]
-      return false unless max > mine
+      return false unless max > calls[:self]
       receivers = calls.keys.select { |key| calls[key] == max }
       @receiver = receivers.map {|r| Printer.print(r)}.sort.join(' or ')
       return true
     end
 
     def detailed_report
-      "#{@context} could be moved to #{@receiver}"
+      "#{@context} uses #{@receiver} more than self"
     end
   end
 
@@ -154,6 +153,16 @@ module Reek
 
     def detailed_report
       "#{@context} uses the #{@symbol_type} name '#{@symbol}'"
+    end
+  end
+
+  class NestedIterators < Smell
+    def recognise?(already_in_iter)
+      already_in_iter
+    end
+
+    def detailed_report
+      "#{@context} has nested iterators"
     end
   end
 end

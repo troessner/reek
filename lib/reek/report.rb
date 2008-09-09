@@ -3,26 +3,28 @@ $:.unshift File.dirname(__FILE__)
 module Reek
 
   class Report
-    def initialize
+    def initialize  # :nodoc:
       @smells = []
     end
 
-    def <<(smell)
+    def <<(smell)  # :nodoc:
       @smells << smell
     end
     
-    def empty?
+    def empty?  # :nodoc:
       @smells.empty?
     end
     
-    def length
+    def length  # :nodoc:
       @smells.length
     end
     
-    def [](i)
+    def [](i)  # :nodoc:
       @smells[i]
     end
 
+    # Creates a formatted report of all the smells recorded in
+    # this report.
     def to_s
       @smells.map {|smell| smell.report}.join("\n")
     end

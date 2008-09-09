@@ -3,14 +3,17 @@ $:.unshift File.dirname(__FILE__)
 require 'reek/class_checker'
 require 'reek/report'
 
-module Reek
+module Reek # :doc:
 
-  def self.analyse(*klasses)
-    report = Report.new
-    klasses.each do |klass|
-      ClassChecker.new(report).check_object(klass)
-    end
-    report
-  end
-  
+    #
+    # Analyse the given instances of class Class, looking for code smells.
+    # Returns a +Report+ listing the smells found.
+    #
+    def self.analyse(*klasses)  # :doc:
+      report = Report.new
+      klasses.each do |klass|
+        ClassChecker.new(report).check_object(klass)
+      end
+      report
+    end    
 end

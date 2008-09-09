@@ -15,6 +15,7 @@ module Reek
       @top_level_block = true
       @calls = Hash.new(0)
       @lvars = Set.new
+      @inside_an_iter = false
     end
 
     def process_defn(exp)
@@ -39,7 +40,9 @@ module Reek
     end
 
     def process_iter(exp)
+      NestedIterators.check(@inside_an_iter, self)
       @top_level_block = false
+      @inside_an_iter = true
       exp[1..-1].each { |s| process(s) }
       s(exp)
     end

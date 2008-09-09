@@ -20,12 +20,12 @@ end
 REPORT_DIR = 'spec/output/coverage'
 CLEAN.include(REPORT_DIR)
 
-desc 'runs the specs in colour'
-Spec::Rake::SpecTask.new(:spec_colour) do |t|
-  t.spec_opts = ['--options', "spec/spec.opts"]
-  t.spec_files = FileList['spec/**/*_spec.rb']
+desc "runs the specs"
+Spec::Rake::SpecTask.new(:spec) do |t|
+  t.spec_files = FileList['spec/**/*.rb']
 end
 
+desc "runs the specs and reports coverage in #{REPORT_DIR}"
 Spec::Rake::SpecTask.new(:spec_rcov) do |t|
   t.spec_files = FileList['spec/**/*.rb']
   t.rcov = true
@@ -33,8 +33,8 @@ Spec::Rake::SpecTask.new(:spec_rcov) do |t|
   t.rcov_opts = ['--exclude', 'spec,\.autotest']
 end
 
-"runs the specs and reports coverage in #{REPORT_DIR}"
-RCov::VerifyTask.new(:spec => :spec_rcov) do |t|
+desc "runs the specs and checks for 100% coverage"
+RCov::VerifyTask.new(:rcov => :spec_rcov) do |t|
   t.index_html = "#{REPORT_DIR}/index.html"
   t.threshold = 100
 end
