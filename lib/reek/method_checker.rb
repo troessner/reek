@@ -44,6 +44,7 @@ module Reek
       @top_level_block = false
       @inside_an_iter = true
       exp[1..-1].each { |s| process(s) }
+      @inside_an_iter = false
       s(exp)
     end
 

@@ -16,5 +16,16 @@ describe MethodChecker, " nested iterators" do
     @chk.check_source('def bad(fred) @fred.each {|item| item.each {|ting| ting.ting} } end')
     @rpt.length.should == 1
   end
+
+  it "should not report method with successive iterators" do
+    source =<<EOS
+def bad(fred)
+  @fred.each {|item| item.each }
+  @jim.each {|item| item.each }
+end    
+EOS
+    @chk.check_source(source)
+    @rpt.should be_empty
+  end
 end
 
