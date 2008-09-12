@@ -1,9 +1,8 @@
 Stories, in decreasing order of priority:
 ----------------------------------------
 
-- allow report to be sorted by smell
-- allow report to be sorted by class/method
 - add -I for additional load directories
+- switch to parsing source code where available
 - --[no]smells reports the smell name at the start of each line
 - smell: Law of Demeter
 - smell: unused parameter

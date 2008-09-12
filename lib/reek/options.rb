@@ -21,7 +21,7 @@ module Reek
     def self.parse_args(args)
       result = default_options
       parser = OptionParser.new do |opts|
-        opts.banner = "Usage: #{$0} [options]"
+        opts.banner = "Usage: #{File.basename($0)} [options] [files]"
 
         opts.separator ""
         opts.separator "Specific options:"

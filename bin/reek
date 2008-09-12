@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 #  Created on 2008-2-17.
-#  Copyright (c) 2008. All rights reserved.
+#  Copyright (c) 2008 Kevin Rutherford, Rutherford Software Ltd. All rights reserved.
 
 begin
   require 'rubygems'

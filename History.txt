@@ -2,6 +2,7 @@
 
 * Minor enhancements:
   * Added --help, --version options
+  * Added --sort option to sort the report by smell or by code location
 
 == 0.1.1 2008-09-09
 

@@ -18,7 +18,7 @@ h2. The basics
   $ reek
 </pre>
 
-(More details coming soon...)
+(See reek --help for more.)
 
 h2. Code Smells
 
