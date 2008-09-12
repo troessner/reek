@@ -27,5 +27,16 @@ EOS
     @chk.check_source(source)
     @rpt.should be_empty
   end
+
+  it "should report nested iterators only once per method" do
+    source =<<EOS
+def bad(fred)
+  @fred.each {|item| item.each {|part| @jim.send} }
+  @jim.each {|item| item.each {|piece| @fred.send} }
+end    
+EOS
+    @chk.check_source(source)
+    @rpt.length.should == 1
+  end
 end
 

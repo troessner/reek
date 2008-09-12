@@ -1,5 +1,6 @@
 namespace :samples do
-  Dir['samples/*.rb'].each do |f|
+  files = Dir['samples/*.rb'] + ['setup.rb']
+  files.each do |f|
     fn = File.basename(f)
     desc "run reek on sample #{fn}"
     task fn do

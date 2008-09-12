@@ -2,7 +2,7 @@
 
 * http://rubyforge.org/projects/reek/
 * http://www.refactoring-workbook.com/reek
-* mailto:kevin@rutherford-software.com
+* kevin@rutherford-software.com
 
 == DESCRIPTION:
 

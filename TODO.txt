@@ -1,8 +1,9 @@
 Stories, in decreasing order of priority:
 ----------------------------------------
 
+- allow report to be sorted by smell
+- allow report to be sorted by class/method
 - add -I for additional load directories
-- smell: nested :iter blocks
 - --[no]smells reports the smell name at the start of each line
 - smell: Law of Demeter
 - smell: unused parameter
@@ -12,7 +13,5 @@ Stories, in decreasing order of priority:
 - ignore classes or methods via a .yml file
 - an option to print out "What to Do" notes -> book
 - smell: Lazy Class / Data Class
-- allow report to be sorted by smell
-- allow report to be sorted by class/method
 - allow report to be sorted by "severity"
 - generate report as XHTML

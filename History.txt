@@ -1,3 +1,16 @@
+== 0.2.0 2008-09-10
+
+* Minor enhancements:
+  * Added --help, --version options
+
+== 0.1.1 2008-09-09
+
+* Some tweaks:
+  * Fixed report printing for Feature Envy when the receiver is a block
+  * Fixed: successive iterators reported as nested
+  * Fixed: Long Method now reports the total length of the method
+  * Fixed: each smell reported only once
+
 == 0.1.0 2008-09-09
 
 * 1 minor enhancement:

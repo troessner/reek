@@ -1,10 +1,13 @@
 $:.unshift File.dirname(__FILE__)
 
 require 'reek/printer'
+require 'reek/options'
 
 module Reek
 
   class Smell
+    include Comparable
+  
     def self.convert_camel_case(class_name)
       class_name.gsub(/([a-z])([A-Z])/) { |s| "#{$1} #{$2}"}
     end
@@ -18,9 +21,15 @@ module Reek
       context.report(smell) if smell.recognise?(exp)
     end
 
-    def ==(other)
-      self.report == other.report
+    def hash  # :nodoc:
+      report.hash
     end
+
+    def <=>(other)  # :nodoc:
+      Options[:sort_order].compare(self, other)
+    end
+
+    alias eql? <=>
     
     def name
       self.class.convert_camel_case(self.class.name.split(/::/)[1])
@@ -28,6 +37,10 @@ module Reek
 
     def report
       "[#{name}] #{detailed_report}"
+    end
+
+    def to_s
+      report
     end
   end
 

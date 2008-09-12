@@ -6,6 +6,7 @@ lib/reek.rb
 lib/reek/checker.rb
 lib/reek/class_checker.rb
 lib/reek/method_checker.rb
+lib/reek/options.rb
 lib/reek/printer.rb
 lib/reek/report.rb
 lib/reek/smells.rb
@@ -17,6 +18,7 @@ spec/reek/large_class_spec.rb
 spec/reek/long_method_spec.rb
 spec/reek/method_checker_spec.rb
 spec/reek/nested_iterators_spec.rb
+spec/reek/options_spec.rb
 spec/reek/report_spec.rb
 spec/reek/smell_spec.rb
 spec/reek/uncommunicative_name_spec.rb

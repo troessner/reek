@@ -10,12 +10,16 @@ rescue LoadError
 end
 
 require 'reek'
+require 'reek/options'
+require 'reek/version'
 
 def classes_currently_loaded
   result = []
   ObjectSpace.each_object(Module) { |klass| result << klass }
   result
 end
+
+Reek::Options.parse(ARGV)
 
 old_classes = classes_currently_loaded
 files = ARGV
