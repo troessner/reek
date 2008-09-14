@@ -2,7 +2,8 @@ Stories, in decreasing order of priority:
 ----------------------------------------
 
 - add -I for additional load directories
-- switch to parsing source code where available
+- check class methods
+- check modules
 - --[no]smells reports the smell name at the start of each line
 - smell: Law of Demeter
 - smell: unused parameter

@@ -18,7 +18,16 @@ module Reek
 
     def self.check(exp, context, arg=nil)
       smell = new(context, arg)
-      context.report(smell) if smell.recognise?(exp)
+      if smell.recognise?(exp)
+        context.report(smell)
+        true
+      else
+        false
+      end
+    end
+    
+    def recognise?(stuff)
+      @context != nil
     end
 
     def hash  # :nodoc:
@@ -39,6 +48,8 @@ module Reek
       "[#{name}] #{detailed_report}"
     end
 
+    alias inspect report
+
     def to_s
       report
     end
@@ -47,28 +58,30 @@ module Reek
   class LongParameterList < Smell
     MAX_ALLOWED = 3
 
-    def count_parameters(exp)
+    def self.count_parameters(exp)
       result = exp.length - 1
       result -= 1 if Array === exp[-1] and exp[-1][0] == :block
       result
     end
 
     def recognise?(args)
-      count_parameters(args) > MAX_ALLOWED
+      @num_params = LongParameterList.count_parameters(args)
+      @num_params > MAX_ALLOWED
     end
 
     def detailed_report
-      "#{@context.to_s} has > #{MAX_ALLOWED} parameters"
+      "#{@context.to_s} has #{@num_params} parameters"
     end
   end
 
   class LongYieldList < LongParameterList
     def recognise?(args)
-      Array === args and args.length > MAX_ALLOWED
+      @num_params = args.length
+      Array === args and @num_params > MAX_ALLOWED
     end
 
     def detailed_report
-      "#{@context} yields > #{MAX_ALLOWED} parameters"
+      "#{@context} yields #{@num_params} parameters"
     end
   end
 
@@ -86,21 +99,28 @@ module Reek
   end
 
   class FeatureEnvy < Smell
-    def initialize(context, receiver)
-      super
-      @receiver = receiver
+    
+    # TODO
+    # Should be moved to Hash; but Hash has 58 methods, and there's currently
+    # no way to turn off that report; which would therefore make the tests fail
+    def self.max_keys(calls)
+      max = calls.values.max or return [:self]
+      calls.keys.select { |key| calls[key] == max }
+    end
+
+    def initialize(context, *receivers)
+      super(context)
+      @receivers = receivers
     end
 
     def recognise?(calls)
-      max = calls.empty? ? 0 : calls.values.max
-      return false unless max > calls[:self]
-      receivers = calls.keys.select { |key| calls[key] == max }
-      @receiver = receivers.map {|r| Printer.print(r)}.sort.join(' and ')
-      return true
+      @receivers = FeatureEnvy.max_keys(calls)
+      return !(@receivers.include?(:self))
     end
 
     def detailed_report
-      "#{@context} uses #{@receiver} more than self"
+      receiver = @receivers.map {|r| Printer.print(r)}.sort.join(' and ')
+      "#{@context} uses #{receiver} more than self"
     end
   end
 
@@ -118,13 +138,13 @@ module Reek
     MAX_ALLOWED = 25
 
     def recognise?(name)
-      kl = Object.const_get(name) rescue return
-      num_methods = kl.instance_methods.length - kl.superclass.instance_methods.length
-      num_methods > MAX_ALLOWED
+      klass = Object.const_get(name) rescue return
+      @num_methods = klass.instance_methods.length - klass.superclass.instance_methods.length
+      @num_methods > MAX_ALLOWED
     end
 
     def detailed_report
-      "#{@context} has > #{MAX_ALLOWED} methods"
+      "#{@context} has #{@num_methods} methods"
     end
   end
 

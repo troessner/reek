@@ -5,13 +5,13 @@ require 'set'
 module Reek
 
   class SortByContext
-    def compare(smell1, smell2)
+    def self.compare(smell1, smell2)
       smell1.detailed_report <=> smell2.detailed_report
     end
   end
 
   class SortBySmell
-    def compare(smell1, smell2)
+    def self.compare(smell1, smell2)
       smell1.report <=> smell2.report
     end
   end
@@ -19,8 +19,8 @@ module Reek
   class Report
 
     SORT_ORDERS = {
-      :context => SortByContext.new,
-      :smell => SortBySmell.new
+      :context => SortByContext,
+      :smell => SortBySmell
     }
 
     def initialize  # :nodoc:
@@ -39,8 +39,8 @@ module Reek
       @smells.length
     end
 
-    def [](i)  # :nodoc:
-      @smells.to_a[i]
+    def [](index)  # :nodoc:
+      @smells.to_a[index]
     end
 
     # Creates a formatted report of all the smells recorded in

@@ -1,3 +1,9 @@
+== 0.2.1 2008-09-14
+
+* Tweaks:
+  * Now works from the source code, instead of requiring each named file
+  * Added integration tests that run reek on a couple of gems
+
 == 0.2.0 2008-09-10
 
 * Minor enhancements:

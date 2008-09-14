@@ -1,0 +1,54 @@
+[Feature Envy] RedCloth#block_markdown_atx uses :blk and :cont and :text more than self
+[Long Method] RedCloth#block_markdown_bq has approx 6 statements
+[Utility Function] RedCloth#block_markdown_lists doesn't depend on instance state
+[Utility Function] RedCloth#block_markdown_rule doesn't depend on instance state
+[Feature Envy] RedCloth#block_markdown_rule uses :text more than self
+[Feature Envy] RedCloth#block_markdown_setext uses :blk and :cont and :text more than self
+[Long Method] RedCloth#block_textile_lists has approx 21 statements
+[Nested Iterators] RedCloth#block_textile_lists has nested iterators
+[Feature Envy] RedCloth#block_textile_lists uses :depth more than self
+[Long Method] RedCloth#block_textile_table has approx 19 statements
+[Nested Iterators] RedCloth#block_textile_table has nested iterators
+[Long Method] RedCloth#blocks has approx 17 statements
+[Nested Iterators] RedCloth#blocks has nested iterators
+[Feature Envy] RedCloth#blocks uses :blk more than self
+[Utility Function] RedCloth#clean_html doesn't depend on instance state
+[Long Method] RedCloth#clean_html has approx 14 statements
+[Nested Iterators] RedCloth#clean_html has nested iterators
+[Feature Envy] RedCloth#clean_html uses :raw and :tags more than self
+[Long Method] RedCloth#clean_white_space has approx 7 statements
+[Feature Envy] RedCloth#clean_white_space uses :text more than self
+[Utility Function] RedCloth#flush_left doesn't depend on instance state
+[Feature Envy] RedCloth#flush_left uses :indt more than self
+[Utility Function] RedCloth#footnote_ref doesn't depend on instance state
+[Feature Envy] RedCloth#footnote_ref uses :text more than self
+[Long Method] RedCloth#glyphs_textile has approx 9 statements
+[Feature Envy] RedCloth#glyphs_textile uses :codepre more than self
+[Utility Function] RedCloth#h_align doesn't depend on instance state
+[Feature Envy] RedCloth#h_align uses :H_ALGN_VALS more than self
+[Utility Function] RedCloth#htmlesc doesn't depend on instance state
+[Feature Envy] RedCloth#htmlesc uses :str more than self
+[Utility Function] RedCloth#incoming_entities doesn't depend on instance state
+[Feature Envy] RedCloth#incoming_entities uses :text more than self
+[Nested Iterators] RedCloth#inline has nested iterators
+[Long Method] RedCloth#inline_markdown_link has approx 6 statements
+[Feature Envy] RedCloth#inline_markdown_link uses :text more than self
+[Long Method] RedCloth#inline_markdown_reflink has approx 7 statements
+[Long Method] RedCloth#inline_textile_image has approx 16 statements
+[Long Method] RedCloth#inline_textile_link has approx 9 statements
+[Long Method] RedCloth#inline_textile_span has approx 8 statements
+[Nested Iterators] RedCloth#inline_textile_span has nested iterators
+[Utility Function] RedCloth#lT doesn't depend on instance state
+[Utility Function] RedCloth#no_textile doesn't depend on instance state
+[Feature Envy] RedCloth#no_textile uses :text more than self
+[Long Method] RedCloth#pba has approx 22 statements
+[Feature Envy] RedCloth#pba uses :style and :text more than self
+[Long Method] RedCloth#rip_offtags has approx 22 statements
+[Feature Envy] RedCloth#rip_offtags uses :codepre more than self
+[Long Parameter List] RedCloth#textile_bq has 4 parameters
+[Long Parameter List] RedCloth#textile_fn_ has 5 parameters
+[Feature Envy] RedCloth#textile_fn_ uses :atts more than self
+[Long Parameter List] RedCloth#textile_p has 4 parameters
+[Long Method] RedCloth#to_html has approx 24 statements
+[Utility Function] RedCloth#v_align doesn't depend on instance state
+[Feature Envy] RedCloth#v_align uses :V_ALGN_VALS more than self

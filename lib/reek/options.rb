@@ -48,13 +48,21 @@ module Reek
       result
     end
     
+    def self.fatal_error(e) # :nodoc:
+      puts "Error: #{e}"
+      puts "Use '-h' for help."
+      exit(1)
+    end
+
     def self.parse(args)
       begin
         @@opts = parse_args(args)
+        files = ARGV
+        files = Dir['**/*.rb'] if files.empty?
+        fatal_error('no source files specified') if files.empty?
+        files
       rescue OptionParser::ParseError => e
-        puts "Error: #{e}"
-        puts "Use '-h' for help."
-        exit(1)
+        fatal_error(e)
       end
     end
   end

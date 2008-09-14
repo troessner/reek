@@ -1,11 +1,12 @@
 $:.unshift File.dirname(__FILE__)
 
 require 'reek/checker'
+require 'reek/class_checker'
 require 'reek/method_checker'
 
 module Reek
 
-  class ClassChecker < Checker
+  class FileChecker < Checker
 
     def initialize(report)
       super(report)
@@ -13,10 +14,7 @@ module Reek
     end
 
     def process_class(exp)  # :nodoc:
-      @description = exp[1].to_s
-      superclass = exp[2]
-      LargeClass.check(@description, self)
-      exp[3..-1].each { |defn| process(defn) } unless superclass == [:const, :Struct]
+      Reek::ClassChecker.new(@smells).process(exp)
       s(exp)
     end
 

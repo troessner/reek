@@ -3,31 +3,8 @@
 #  Created on 2008-2-17.
 #  Copyright (c) 2008 Kevin Rutherford, Rutherford Software Ltd. All rights reserved.
 
-begin
-  require 'rubygems'
-rescue LoadError
-  # no rubygems to load, so we fail silently
-end
-
 require 'reek'
 require 'reek/options'
-require 'reek/version'
 
-def classes_currently_loaded
-  result = []
-  ObjectSpace.each_object(Module) { |klass| result << klass }
-  result
-end
-
-Reek::Options.parse(ARGV)
-
-old_classes = classes_currently_loaded
-files = ARGV
-files = Dir['**/*.rb'] if files.empty?
-files.each { |name| require name }
-new_classes = classes_currently_loaded - old_classes
-if new_classes.empty?
-  puts 'Nothing to analyse!'
-else
-  puts Reek.analyse(*new_classes).to_s
-end
+files = Reek::Options.parse(ARGV)
+puts Reek.analyse(*files).to_s

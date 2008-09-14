@@ -29,4 +29,20 @@ describe MethodChecker, "(Utility Function)" do
     @cchk.check_object(Fred)
     @rpt.should be_empty
   end
+  
+  it 'should count usages of self' do
+    @cchk.check_source('def <=>(other) Options[:sort_order].compare(self, other) end')
+    @rpt.should be_empty
+  end
+  
+  it 'should not report overriding methods' do
+    class Father
+      def thing(ff); @kids = 0; end
+    end
+    class Son < Father
+      def thing(ff); ff; end
+    end
+    ClassChecker.new(@rpt).check_object(Son)
+    @rpt.should be_empty
+  end
 end

@@ -50,7 +50,7 @@ end
 
 describe SortByContext do
   before :each do
-    @sorter = SortByContext.new
+    @sorter = SortByContext
   end
 
   it 'should return 0 for identical smells' do
@@ -65,7 +65,7 @@ end
 
 describe SortBySmell do
   before :each do
-    @sorter = SortBySmell.new
+    @sorter = SortBySmell
   end
   
   it 'should return 0 for identical smells' do

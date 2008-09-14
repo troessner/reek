@@ -22,12 +22,12 @@ CLEAN.include(REPORT_DIR)
 
 desc "runs the specs"
 Spec::Rake::SpecTask.new(:spec) do |t|
-  t.spec_files = FileList['spec/**/*.rb']
+  t.spec_files = FileList['spec/**/*_spec.rb']
 end
 
 desc "runs the specs and reports coverage in #{REPORT_DIR}"
 Spec::Rake::SpecTask.new(:spec_rcov) do |t|
-  t.spec_files = FileList['spec/**/*.rb']
+  t.spec_files = FileList['spec/**/*_spec.rb']
   t.rcov = true
   t.rcov_dir = REPORT_DIR
   t.rcov_opts = ['--exclude', 'spec,\.autotest']

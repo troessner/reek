@@ -19,6 +19,7 @@ module Reek
 
     def print(sexp)
       @report = sexp.inspect
+      return @report unless Array === sexp
       begin
         process(sexp)
       rescue
