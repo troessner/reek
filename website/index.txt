@@ -1,24 +1,16 @@
-h1. Code smell detector
-
-h1. &#x2192; 'reek'
-
-
-h2. What
+h1. reek
 
 Reek is a tool that examines Ruby classes, modules and methods and reports any code smells it finds.
 
 h2. Installing
 
-<pre syntax="ruby">sudo gem install reek</pre>
+    @$ gem install reek@
 
 h2. The basics
 
-<pre syntax="ruby">
-  $ cd my_project/lib
-  $ reek
-</pre>
+    @$ reek [options] [source_files]@
 
-(See reek --help for more.)
+(See @reek --help@ for details.)
 
 h2. Code Smells
 
