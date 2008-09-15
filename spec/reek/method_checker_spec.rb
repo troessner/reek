@@ -31,3 +31,19 @@ describe MethodChecker, 'when given a C extension' do
     @cchk.check_object(Enumerable)
   end
 end
+
+describe MethodChecker, 'when a yield is the receiver' do
+  it 'should report no problems' do
+    source = 'def values(*args)
+  @to_sql += case
+    when block_given? then " #{yield.to_sql}"
+    else " values (#{args.to_sql})"
+  end
+  self
+end'
+    rpt = Report.new
+    chk = MethodChecker.new(rpt, 'Thing')
+    chk.check_source(source)
+    rpt.should be_empty
+  end
+end

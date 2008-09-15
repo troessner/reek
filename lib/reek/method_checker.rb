@@ -50,7 +50,7 @@ module Reek
     end
 
     def process_yield(exp)
-      LongYieldList.check(exp[1], self)
+      LongYieldList.check(exp[1], self) unless exp.length < 2
       process(exp[1])
       s(exp)
     end
@@ -94,6 +94,11 @@ module Reek
     def process_iasgn(exp)
       @calls[:self] += 1
       process(exp[2])
+      s(exp)
+    end
+
+    def process_self(exp)
+      @calls[:self] += 1
       s(exp)
     end
 

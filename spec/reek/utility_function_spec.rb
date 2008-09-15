@@ -30,6 +30,11 @@ describe MethodChecker, "(Utility Function)" do
     @rpt.should be_empty
   end
   
+  it 'should not report references to self' do
+    @cchk.check_source('def into; self; end')
+    @rpt.should be_empty
+  end
+  
   it 'should count usages of self' do
     @cchk.check_source('def <=>(other) Options[:sort_order].compare(self, other) end')
     @rpt.should be_empty
