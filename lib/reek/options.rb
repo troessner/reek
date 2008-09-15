@@ -1,6 +1,7 @@
 $:.unshift File.dirname(__FILE__)
 
 require 'reek/report'
+require 'reek/version'
 require 'optparse'
 
 include Reek
