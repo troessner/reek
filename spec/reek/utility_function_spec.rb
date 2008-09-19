@@ -40,6 +40,11 @@ describe MethodChecker, "(Utility Function)" do
     @rpt.should be_empty
   end
   
+  it 'should count self reference within a dstr' do
+    @cchk.check_source('def as(alias_name); "#{self} as #{alias_name}".to_sym; end')
+    @rpt.should be_empty
+  end
+  
   it 'should not report overriding methods' do
     class Father
       def thing(ff); @kids = 0; end

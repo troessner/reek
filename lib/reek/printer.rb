@@ -18,33 +18,39 @@ module Reek
     end
 
     def print(sexp)
-      @report = sexp.inspect
+      @report = sexp.to_s
       return @report unless Array === sexp
-      begin
-        process(sexp)
-      rescue
-        raise "Error in print, parsing:\n #{sexp.inspect}"
-      end
+      process(sexp)
       @report
     end
 
     def process_lvar(exp)
-      @report = exp[1].inspect
+      @report = Printer.print(exp[1])
       s(exp)
     end
 
     def process_dvar(exp)
-      @report = exp[1].inspect
+      @report = Printer.print(exp[1])
       s(exp)
     end
 
     def process_gvar(exp)
-      @report = exp[1].inspect
+      @report = Printer.print(exp[1])
+      s(exp)
+    end
+
+    def process_cvar(exp)
+      @report = Printer.print(exp[1])
       s(exp)
     end
 
     def process_const(exp)
-      @report = exp[1].inspect
+      @report = Printer.print(exp[1])
+      s(exp)
+    end
+    
+    def process_colon2(exp)
+      @report = "#{Printer.print(exp[1])}::#{Printer.print(exp[2])}"
       s(exp)
     end
 

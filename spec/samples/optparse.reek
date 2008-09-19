@@ -2,10 +2,10 @@
 [Long Method] AmbiguousArgument#options has approx 6 statements
 [Long Parameter List] CompletingHash#complete has 4 parameters
 [Nested Iterators] CompletingHash#complete has nested iterators
-[Feature Envy] CompletingHash#environment uses :env more than self
+[Feature Envy] CompletingHash#environment uses env more than self
 [Long Method] CompletingHash#getopts has approx 17 statements
 [Long Method] CompletingHash#initialize has approx 8 statements
-[Feature Envy] CompletingHash#load uses :File and :filename more than self
+[Feature Envy] CompletingHash#load uses File and filename more than self
 [Long Method] CompletingHash#make_switch has approx 69 statements
 [Nested Iterators] CompletingHash#make_switch has nested iterators
 [Uncommunicative Name] CompletingHash#make_switch uses the local variable name 'a'
@@ -14,42 +14,42 @@
 [Uncommunicative Name] CompletingHash#make_switch uses the local variable name 'q'
 [Uncommunicative Name] CompletingHash#make_switch uses the local variable name 's'
 [Nested Iterators] CompletingHash#match has nested iterators
-[Feature Envy] CompletingHash#order uses :argv more than self
-[Feature Envy] CompletingHash#parse uses :argv more than self
+[Feature Envy] CompletingHash#order uses argv more than self
+[Feature Envy] CompletingHash#parse uses argv more than self
 [Long Method] CompletingHash#parse_in_order has approx 31 statements
 [Nested Iterators] CompletingHash#parse_in_order has nested iterators
-[Feature Envy] CompletingHash#permute uses :argv more than self
-[Feature Envy] CompletingHash#permute! uses :arg more than self
+[Feature Envy] CompletingHash#permute uses argv more than self
+[Feature Envy] CompletingHash#permute! uses arg more than self
 [Long Parameter List] CompletingHash#summarize has 4 parameters
 [Uncommunicative Name] CompletingHash#ver uses the local variable name 'v'
-[Feature Envy] CompletingHash#visit uses :el more than self
-[Feature Envy] List#accept uses :pat more than self
+[Feature Envy] CompletingHash#visit uses el more than self
+[Feature Envy] List#accept uses pat more than self
 [Uncommunicative Name] List#accept uses the parameter name 't'
-[Feature Envy] List#add_banner uses :opt more than self
+[Feature Envy] List#add_banner uses opt more than self
 [Long Parameter List] List#complete has 4 parameters
 [Uncommunicative Name] List#reject uses the parameter name 't'
-[Feature Envy] List#summarize uses :opt more than self
+[Feature Envy] List#summarize uses opt more than self
 [Long Parameter List] List#update has 5 parameters
 [Long Method] List#update has approx 6 statements
-[Feature Envy] List#update uses :o more than self
+[Feature Envy] List#update uses o more than self
 [Uncommunicative Name] List#update uses the local variable name 'o'
 [Long Method] OptionParser#complete has approx 23 statements
-[Feature Envy] OptionParser#complete uses :candidates and :k more than self
+[Feature Envy] OptionParser#complete uses candidates and k more than self
 [Uncommunicative Name] OptionParser#complete uses the local variable name 'k'
 [Uncommunicative Name] OptionParser#complete uses the local variable name 'v'
 [Utility Function] OptionParser#convert doesn't depend on instance state
 [Long Method] PlacedArgument#parse has approx 6 statements
-[Feature Envy] PlacedArgument#parse uses :val more than self
+[Feature Envy] PlacedArgument#parse uses val more than self
 [Uncommunicative Name] Switch#add_banner uses the local variable name 's'
 [Long Parameter List] Switch#initialize has 7 parameters
 [Long Method] Switch#parse_arg has approx 12 statements
-[Feature Envy] Switch#parse_arg uses :m and :s more than self
+[Feature Envy] Switch#parse_arg uses m and s more than self
 [Uncommunicative Name] Switch#parse_arg uses the local variable name 'm'
 [Uncommunicative Name] Switch#parse_arg uses the local variable name 's'
 [Long Parameter List] Switch#summarize has 5 parameters
 [Long Method] Switch#summarize has approx 27 statements
 [Nested Iterators] Switch#summarize has nested iterators
-[Feature Envy] Switch#summarize uses :s more than self
+[Feature Envy] Switch#summarize uses s more than self
 [Uncommunicative Name] Switch#summarize uses the local variable name 'l'
 [Uncommunicative Name] Switch#summarize uses the local variable name 'r'
 [Uncommunicative Name] Switch#summarize uses the local variable name 's'

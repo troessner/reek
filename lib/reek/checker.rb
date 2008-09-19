@@ -7,6 +7,11 @@ require 'sexp_processor'
 module Reek
 
   class Checker < SexpProcessor
+
+    def self.parse_tree_for(code)   # :nodoc:
+      ParseTree.new.parse_tree_for_string(code)
+    end
+
     attr_accessor :description
 
     # Creates a new Ruby code checker. Any smells discovered by
@@ -27,7 +32,7 @@ module Reek
     # Any smells found are saved in the +Report+ object that
     # was passed to this object's constructor.
     def check_source(code)
-      check_parse_tree ParseTree.new.parse_tree_for_string(code)
+      check_parse_tree(Checker.parse_tree_for(code))
     end
 
     # Analyses the given Ruby object +obj+ looking for smells.

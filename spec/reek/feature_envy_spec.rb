@@ -41,7 +41,7 @@ describe MethodChecker, "(Feature Envy)" do
     @rpt[0].should == FeatureEnvy.new(@cchk, :s1, :s2)
   end
 
-  it 'should not reference global variables' do
+  it 'should ignore global variables' do
     @cchk.check_source('def simple(arga) @s = ""; $s2.to_a; $s2.to_s; end')
     @rpt.length.should == 0
   end
