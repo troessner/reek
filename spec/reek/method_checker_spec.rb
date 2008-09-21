@@ -47,3 +47,21 @@ end'
     rpt.should be_empty
   end
 end
+
+describe MethodChecker, '#is_override?' do
+  it 'should be false for non-override method' do
+    MethodChecker.is_override?('String', 'gsub').should == false
+  end
+
+  it 'should be true for overriding method' do
+    MethodChecker.is_override?('MethodChecker', 'to_s').should == true
+  end
+
+  it 'should be false for non-existent class' do
+    MethodChecker.is_override?('Flibble', 'to_s').should == false
+  end
+
+  it 'should be true for smells' do
+    MethodChecker.is_override?('UtilityFunction', 'recognise?').should == true
+  end
+end

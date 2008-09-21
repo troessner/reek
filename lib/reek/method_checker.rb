@@ -2,6 +2,7 @@ $:.unshift File.dirname(__FILE__)
 
 require 'reek/checker'
 require 'reek/smells'
+require 'reek/object_refs'
 require 'set'
 
 module Reek
@@ -11,7 +12,7 @@ module Reek
     def initialize(smells, klass_name)
       super(smells)
       @class_name = @description = klass_name
-      @calls = Hash.new(0)
+      @refs = ObjectRefs.new
       @lvars = Set.new
       @num_statements = 0
     end
@@ -31,7 +32,7 @@ module Reek
     end
     
     def record_reference_to_self
-      @calls[Sexp.from_array([:lit, :self])] += 1
+      @refs.record_reference_to_self
     end
 
     def process_attrset(exp)
@@ -40,7 +41,7 @@ module Reek
     end
 
     def process_lit(exp)
-      @calls[exp] += 1
+      @refs.record_ref(exp)
       s(exp)
     end
 
@@ -67,7 +68,6 @@ module Reek
     def process_call(exp)
       record_receiver(exp[1])
       params = exp[3]
-      process_actual_parameters(params)
       process(params) if exp.length > 3
       s(exp)
     end
@@ -96,7 +96,7 @@ module Reek
 
     def process_lasgn(exp)
       @lvars << exp[1]
-      @calls[s(:lvar, exp[1])] += 1
+      @refs.record_ref(s(:lvar, exp[1]))
       process(exp[2])
       s(exp)
     end
@@ -126,7 +126,7 @@ module Reek
 
     def record_receiver(exp)
       receiver = MethodChecker.unpack_array(process(exp))
-      @calls[receiver] += 1 unless MethodChecker.is_global_variable?(receiver)
+      @refs.record_ref(receiver) unless MethodChecker.is_global_variable?(receiver)
     end
 
     def self.unpack_array(receiver)
@@ -135,35 +135,24 @@ module Reek
       receiver
     end
 
-    def is_override?
+    def self.is_override?(class_name, method_name)
       begin
-        klass = Object.const_get(@class_name)
+        klass = Object.const_get(class_name)
       rescue
         return false
       end
-      klass.superclass.instance_methods.include?(@description.to_s.split('#')[1])
+      klass.superclass.instance_methods.include?(method_name)
+    end
+
+    def is_override?
+      MethodChecker.is_override?(@class_name, @description.to_s.split('#')[1])
     end
 
     def check_method_properties
       @lvars.each {|lvar| UncommunicativeName.check(lvar, self, 'local variable') }
       record_reference_to_self if is_override?
-      FeatureEnvy.check(@calls, self) unless UtilityFunction.check(@calls, self)
+      FeatureEnvy.check(@refs, self) unless UtilityFunction.check(@refs, self)
       LongMethod.check(@num_statements, self)
-    end
-
-    def process_actual_parameters(exp)
-      return unless Array === exp and exp[0] == :array
-      exp[1..-1].each do |param|
-        if Array === param
-          if param.length == 1
-            record_reference_to_self if param[0] == :self
-          else
-            @calls[param] += 1
-          end
-        else
-          record_reference_to_self if param == :self
-        end
-      end
     end
   end
 end

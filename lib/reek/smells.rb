@@ -18,12 +18,9 @@ module Reek
 
     def self.check(exp, context, arg=nil)
       smell = new(context, arg)
-      if smell.recognise?(exp)
-        context.report(smell)
-        true
-      else
-        false
-      end
+      return false unless smell.recognise?(exp)
+      context.report(smell)
+      true
     end
     
     def recognise?(stuff)
@@ -99,34 +96,21 @@ module Reek
   end
 
   class FeatureEnvy < Smell
-    
-    # TODO
-    # Should be moved to Hash; but Hash has 58 methods, and there's currently
-    # no way to turn off that report; which would therefore make the tests fail
-    def self.max_keys(calls)
-      max = calls.values.max or return [Sexp.from_array([:lit, :self])]
-      calls.keys.select { |key| calls[key] == max }
-    end
 
-    def initialize(context, *receivers)
-      super(context)
-      @receivers = receivers == [nil] ? [] : receivers
-    end
-
-    def recognise?(calls)
-      @receivers = FeatureEnvy.max_keys(calls)
-      return !(@receivers.include?(Sexp.from_array([:lit, :self])))
+    def recognise?(refs)
+      @refs = refs
+      !refs.self_is_max?
     end
 
     def detailed_report
-      receiver = @receivers.map {|r| Printer.print(r)}.sort.join(' and ')
+      receiver = @refs.max_keys.map {|r| Printer.print(r)}.sort.join(' and ')
       "#{@context} uses #{receiver} more than self"
     end
   end
 
   class UtilityFunction < Smell
-    def recognise?(calls)
-      calls[Sexp.from_array([:lit, :self])] == 0
+    def recognise?(refs)
+      refs.refs_to_self == 0
     end
 
     def detailed_report

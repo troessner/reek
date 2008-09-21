@@ -39,9 +39,15 @@ describe MethodChecker, "(Utility Function)" do
     @cchk.check_source('def <=>(other) Options[:sort_order].compare(self, other) end')
     @rpt.should be_empty
   end
-  
+
   it 'should count self reference within a dstr' do
     @cchk.check_source('def as(alias_name); "#{self} as #{alias_name}".to_sym; end')
+    @rpt.should be_empty
+  end
+
+  it 'should count calls to self within a dstr' do
+    source = 'def to_sql; "\'#{self.gsub(/\'/, "\'\'")}\'"; end'
+    @cchk.check_source(source)
     @rpt.should be_empty
   end
 
@@ -49,6 +55,11 @@ describe MethodChecker, "(Utility Function)" do
     @cchk.check_source('def simple(arga) arga.to_s end')
     @rpt.length.should == 1
     @rpt[0].should == UtilityFunction.new(@cchk)
+  end
+
+  it 'should report message chain' do
+    @cchk.check_source('def simple(arga) arga.b.c end')
+    @rpt.length.should == 1
   end
   
   it 'should not report overriding methods' do

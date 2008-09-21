@@ -10,7 +10,7 @@ describe Smell, "camel case converter" do
   end
   
   it "should display correct name in report" do
-    smell = FeatureEnvy.new(self, [:lvar, :fred])
+    smell = LongMethod.new(self)
     smell.report.should match(/[#{smell.name}]/)
   end
 end

@@ -45,11 +45,3 @@ describe MethodChecker, "(Feature Envy)" do
     @rpt.should be_empty
   end
 end
-
-describe FeatureEnvy, '#report' do
-  it 'should report the envious host' do
-    mchk = MethodChecker.new([], 'Class')
-    smell = FeatureEnvy.new(mchk, [:lvar, :fred])
-    smell.report.should match(/fred/)
-  end
-end

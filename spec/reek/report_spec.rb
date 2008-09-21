@@ -59,7 +59,7 @@ describe SortByContext do
   end
 
   it 'should return non-0 for different smells' do
-    @sorter.compare(LongMethod.new('x'), FeatureEnvy.new('y', 1)).should == -1
+    @sorter.compare(LongMethod.new('x'), LargeClass.new('y')).should == -1
   end
 end
 
@@ -77,6 +77,6 @@ describe SortBySmell do
   end
 
   it 'should differentiate different smells with identical contexts' do
-    @sorter.compare(LongMethod.new('x'), FeatureEnvy.new('x', 2)).should == 1
+    @sorter.compare(LongMethod.new('x'), LargeClass.new('x')).should == 1
   end
 end
