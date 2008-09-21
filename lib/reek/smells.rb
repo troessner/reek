@@ -104,18 +104,18 @@ module Reek
     # Should be moved to Hash; but Hash has 58 methods, and there's currently
     # no way to turn off that report; which would therefore make the tests fail
     def self.max_keys(calls)
-      max = calls.values.max or return [:self]
+      max = calls.values.max or return [Sexp.from_array([:lit, :self])]
       calls.keys.select { |key| calls[key] == max }
     end
 
     def initialize(context, *receivers)
       super(context)
-      @receivers = receivers
+      @receivers = receivers == [nil] ? [] : receivers
     end
 
     def recognise?(calls)
       @receivers = FeatureEnvy.max_keys(calls)
-      return !(@receivers.include?(:self))
+      return !(@receivers.include?(Sexp.from_array([:lit, :self])))
     end
 
     def detailed_report
@@ -126,7 +126,7 @@ module Reek
 
   class UtilityFunction < Smell
     def recognise?(calls)
-      calls[:self] == 0
+      calls[Sexp.from_array([:lit, :self])] == 0
     end
 
     def detailed_report

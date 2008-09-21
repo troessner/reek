@@ -44,6 +44,12 @@ describe MethodChecker, "(Utility Function)" do
     @cchk.check_source('def as(alias_name); "#{self} as #{alias_name}".to_sym; end')
     @rpt.should be_empty
   end
+
+  it 'should report simple parameter call' do
+    @cchk.check_source('def simple(arga) arga.to_s end')
+    @rpt.length.should == 1
+    @rpt[0].should == UtilityFunction.new(@cchk)
+  end
   
   it 'should not report overriding methods' do
     class Father

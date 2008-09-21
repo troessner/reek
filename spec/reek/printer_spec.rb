@@ -23,4 +23,8 @@ describe Printer do
   it 'should format class variables correctly' do
     render('@@fred').should == '@@fred'
   end
+
+  it 'should format xstr correctly' do
+    render('`ls`').should == '`ls`'
+  end
 end

@@ -18,10 +18,17 @@ module Reek
     # +check_source+ or +check_object+ will be stored in +report+.
     def initialize(report)
       super()
-      @require_empty = false
       @smells = report
-      @description = ''
       @unsupported -= [:cfunc]
+      @default_method = :process_default
+      @require_empty = @warn_on_default = false
+    end
+
+    def process_default(exp)
+      if Array === exp
+        exp[1..-1].each { |e| process(e) if Array === e}
+      end
+      s(exp)
     end
 
     def report(smell)  # :nodoc:

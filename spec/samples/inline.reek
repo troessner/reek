@@ -3,7 +3,7 @@
 [Uncommunicative Name] C#build uses the local variable name 't'
 [Feature Envy] C#c uses options more than self
 [Uncommunicative Name] C#c uses the method name 'c'
-[Feature Envy] C#c2ruby uses @@type_map and type more than self
+[Feature Envy] C#c2ruby uses type more than self
 [Feature Envy] C#c_raw_singleton uses options more than self
 [Feature Envy] C#c_singleton uses options more than self
 [Feature Envy] C#crap_for_windoze uses Config::CONFIG more than self
@@ -14,9 +14,8 @@
 [Long Method] C#module_name has approx 6 statements
 [Nested Iterators] C#module_name has nested iterators
 [Long Method] C#parse_signature has approx 15 statements
-[Feature Envy] C#ruby2c uses @@type_map and type more than self
+[Feature Envy] C#ruby2c uses type more than self
 [Utility Function] C#strip_comments doesn't depend on instance state
-[Feature Envy] C#strip_comments uses src more than self
 [Large Class] Dir has 31 methods
 [Large Class] Module has 34 methods
 [Long Method] Module#inline has approx 12 statements

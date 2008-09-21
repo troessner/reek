@@ -59,7 +59,7 @@ describe MethodChecker, "(Long Block)" do
     src = <<EOS
 def long(arga)
   f(3)
-  37.each do |xyzero|
+  self.each do |xyzero|
     xyzero = 1
     xyzero = 2
     xyzero = 3

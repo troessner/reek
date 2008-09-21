@@ -1,8 +1,11 @@
 == 0.2.3 2008-09-xx
 
+* Minor enhancements:
+  * Only reports Feature Envy when the method isn't a Utility Function
 * Tweaks:
   * Fixed: coping with parameterless yield call
   * Fixed: copes with :self as an expression
+  * Fixed: displaying the receiver of many more kinds of Feature Envy
 
 == 0.2.2 2008-09-15
 

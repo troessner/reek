@@ -24,7 +24,7 @@ describe Report, "to_s" do
   before(:each) do
     rpt = Report.new
     chk = MethodChecker.new(rpt, 'Thing')
-    chk.check_source('def simple(arga) arga[3] end')
+    chk.check_source('def simple(a) a[3] end')
     @report = rpt.to_s.split("\n")
   end
 

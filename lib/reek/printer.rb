@@ -13,7 +13,8 @@ module Reek
 
     def initialize
       super
-      @require_empty = false
+      @default_method = :process_default
+      @require_empty = @warn_on_default = false
       @report = ''
     end
 
@@ -24,8 +25,28 @@ module Reek
       @report
     end
 
+    def process_default(exp)
+      @report = exp.inspect
+      s(exp)
+    end
+
     def process_lvar(exp)
-      @report = Printer.print(exp[1])
+      @report = exp[1].to_s
+      s(exp)
+    end
+
+    def process_lit(exp)
+      @report = exp[1].to_s
+      s(exp)
+    end
+
+    def process_str(exp)
+      @report = exp[1].inspect
+      s(exp)
+    end
+
+    def process_xstr(exp)
+      @report = "`#{exp[1]}`"
       s(exp)
     end
 
@@ -60,7 +81,7 @@ module Reek
     end
 
     def process_call(exp)
-      @report = "#{exp[1]}.#{exp[2]}"
+      @report = "#{Printer.print(exp[1])}.#{exp[2]}"
       @report += "(#{exp[3]})" if exp.length > 3
       s(exp)
     end

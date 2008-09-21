@@ -29,9 +29,18 @@ module Reek
       exp.each { |arg| UncommunicativeName.check(arg, self, 'parameter') }
       s(exp)
     end
+    
+    def record_reference_to_self
+      @calls[Sexp.from_array([:lit, :self])] += 1
+    end
 
     def process_attrset(exp)
-      @calls[:self] += 1 if /^@/ === exp[1].to_s
+      record_reference_to_self if /^@/ === exp[1].to_s
+      s(exp)
+    end
+
+    def process_lit(exp)
+      @calls[exp] += 1
       s(exp)
     end
 
@@ -57,30 +66,31 @@ module Reek
 
     def process_call(exp)
       record_receiver(exp[1])
-      process_actual_parameters(exp[3])
-      process(exp[3]) if exp.length > 3
+      params = exp[3]
+      process_actual_parameters(params)
+      process(params) if exp.length > 3
       s(exp)
     end
 
     def process_fcall(exp)
-      @calls[:self] += 1
-      process(exp[2]) if exp.length > 2
+      record_reference_to_self
+      process(exp[2]) if exp.length >= 3
       s(exp)
     end
 
     def process_cfunc(exp)
-      @calls[:self] += 1
+      record_reference_to_self
       s(exp)
     end
 
     def process_vcall(exp)
-      @calls[:self] += 1
+      record_reference_to_self
       s(exp)
     end
 
     def process_ivar(exp)
       UncommunicativeName.check(exp[1], self, 'field')
-      @calls[:self] += 1
+      record_reference_to_self
       s(exp)
     end
 
@@ -92,13 +102,13 @@ module Reek
     end
 
     def process_iasgn(exp)
-      @calls[:self] += 1
+      record_reference_to_self
       process(exp[2])
       s(exp)
     end
 
     def process_self(exp)
-      @calls[:self] += 1
+      record_reference_to_self
       s(exp)
     end
 
@@ -136,9 +146,8 @@ module Reek
 
     def check_method_properties
       @lvars.each {|lvar| UncommunicativeName.check(lvar, self, 'local variable') }
-      @calls[:self] += 1 if is_override?
-      UtilityFunction.check(@calls, self)
-      FeatureEnvy.check(@calls, self)
+      record_reference_to_self if is_override?
+      FeatureEnvy.check(@calls, self) unless UtilityFunction.check(@calls, self)
       LongMethod.check(@num_statements, self)
     end
 
@@ -147,12 +156,12 @@ module Reek
       exp[1..-1].each do |param|
         if Array === param
           if param.length == 1
-            @calls[:self] += 1 if param[0] == :self
+            record_reference_to_self if param[0] == :self
           else
             @calls[param] += 1
           end
         else
-          @calls[:self] += 1 if param == :self
+          record_reference_to_self if param == :self
         end
       end
     end

@@ -1,5 +1,6 @@
 [Large Class] AmbiguousArgument has 52 methods
 [Long Method] AmbiguousArgument#options has approx 6 statements
+[Feature Envy] CompletingHash#base uses 1 more than self
 [Long Parameter List] CompletingHash#complete has 4 parameters
 [Nested Iterators] CompletingHash#complete has nested iterators
 [Feature Envy] CompletingHash#environment uses env more than self
@@ -14,18 +15,19 @@
 [Uncommunicative Name] CompletingHash#make_switch uses the local variable name 'q'
 [Uncommunicative Name] CompletingHash#make_switch uses the local variable name 's'
 [Nested Iterators] CompletingHash#match has nested iterators
-[Feature Envy] CompletingHash#order uses argv more than self
-[Feature Envy] CompletingHash#parse uses argv more than self
+[Feature Envy] CompletingHash#order uses 0 and argv more than self
+[Feature Envy] CompletingHash#parse uses 0 and argv more than self
 [Long Method] CompletingHash#parse_in_order has approx 31 statements
 [Nested Iterators] CompletingHash#parse_in_order has nested iterators
-[Feature Envy] CompletingHash#permute uses argv more than self
+[Feature Envy] CompletingHash#permute uses 0 and argv more than self
 [Feature Envy] CompletingHash#permute! uses arg more than self
 [Long Parameter List] CompletingHash#summarize has 4 parameters
+[Feature Envy] CompletingHash#top uses -1 more than self
 [Uncommunicative Name] CompletingHash#ver uses the local variable name 'v'
 [Feature Envy] CompletingHash#visit uses el more than self
-[Feature Envy] List#accept uses pat more than self
+[Feature Envy] List#accept uses convert and match and pat more than self
 [Uncommunicative Name] List#accept uses the parameter name 't'
-[Feature Envy] List#add_banner uses opt more than self
+[Feature Envy] List#add_banner uses add_banner and opt more than self
 [Long Parameter List] List#complete has 4 parameters
 [Uncommunicative Name] List#reject uses the parameter name 't'
 [Feature Envy] List#summarize uses opt more than self
@@ -38,6 +40,7 @@
 [Uncommunicative Name] OptionParser#complete uses the local variable name 'k'
 [Uncommunicative Name] OptionParser#complete uses the local variable name 'v'
 [Utility Function] OptionParser#convert doesn't depend on instance state
+[Feature Envy] ParseError#recover uses 0 more than self
 [Long Method] PlacedArgument#parse has approx 6 statements
 [Feature Envy] PlacedArgument#parse uses val more than self
 [Uncommunicative Name] Switch#add_banner uses the local variable name 's'

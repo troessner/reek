@@ -18,27 +18,21 @@ describe MethodChecker, "(Feature Envy)" do
   end
 
   it 'should report message chain' do
-    @cchk.check_source('def parse(arga) arga.b.c end')
-    @rpt.length.should == 2
-  end
-
-  it 'should report simple parameter call' do
-    @cchk.check_source('def simple(arga) arga[3] end')
-    @rpt.length.should == 2
-    @rpt[0].should == UtilityFunction.new(@cchk)
-    @rpt[1].should == FeatureEnvy.new(@cchk, :arga)
+    @cchk.check_source('def simple(arga) arga.b(arga) + arga.b(@fred) end')
+    @rpt.length.should == 1
   end
 
   it 'should report highest affinity' do
     @cchk.check_source('def simple(arga) slim = ""; s1 = ""; s1.to_s; @m = 34; end')
     @rpt.length.should == 1
-    @rpt[0].should == FeatureEnvy.new(@cchk, :s1)
+    @rpt[0].to_s.should match(/s1/)
   end
 
   it 'should report multiple affinities' do
     @cchk.check_source('def simple(arga) s1 = ""; s1.to_s; s2 = ""; s2.to_s; @m = 34; end')
     @rpt.length.should == 1
-    @rpt[0].should == FeatureEnvy.new(@cchk, :s1, :s2)
+    @rpt[0].to_s.should match(/s1/)
+    @rpt[0].to_s.should match(/s2/)
   end
 
   it 'should ignore global variables' do
