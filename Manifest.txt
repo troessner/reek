@@ -7,6 +7,7 @@ lib/reek/checker.rb
 lib/reek/class_checker.rb
 lib/reek/file_checker.rb
 lib/reek/method_checker.rb
+lib/reek/object_refs.rb
 lib/reek/options.rb
 lib/reek/printer.rb
 lib/reek/report.rb
@@ -21,11 +22,16 @@ spec/reek/long_method_spec.rb
 spec/reek/long_parameter_list_spec.rb
 spec/reek/method_checker_spec.rb
 spec/reek/nested_iterators_spec.rb
+spec/reek/object_refs_spec.rb
 spec/reek/options_spec.rb
+spec/reek/printer_spec.rb
 spec/reek/report_spec.rb
 spec/reek/smell_spec.rb
 spec/reek/uncommunicative_name_spec.rb
 spec/reek/utility_function_spec.rb
+spec/reek_source_spec.rb
+spec/samples/inline.rb
+spec/samples/inline.reek
 spec/samples/optparse.rb
 spec/samples/optparse.reek
 spec/samples/optparse/date.rb
