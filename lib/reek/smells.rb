@@ -123,7 +123,8 @@ module Reek
 
     def recognise?(name)
       klass = Object.const_get(name) rescue return
-      @num_methods = klass.instance_methods.length - klass.superclass.instance_methods.length
+      super_methods = klass.superclass ? klass.superclass.instance_methods : []
+      @num_methods = klass.instance_methods.length - super_methods.length
       @num_methods > MAX_ALLOWED
     end
 

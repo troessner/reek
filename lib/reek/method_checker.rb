@@ -137,6 +137,7 @@ module Reek
       rescue
         return false
       end
+      return false unless klass.superclass
       klass.superclass.instance_methods.include?(method_name)
     end
 
