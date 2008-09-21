@@ -1,27 +1,27 @@
 $:.unshift File.dirname(__FILE__)
 
-require 'reek/checker'
-require 'reek/smells'
-require 'set'
+require 'sexp'
 
 module Reek
 
   class ObjectRefs
+    SELF_REF = Sexp.from_array([:lit, :self])
 
     def initialize
       @refs = Hash.new(0)
     end
     
     def record_reference_to_self
-      record_ref Sexp.from_array([:lit, :self])
+      record_ref(SELF_REF)
     end
 
     def record_ref(exp)
       @refs[exp] += 1
+#      puts "record_ref(#{exp.inspect}) -> #{@refs.inspect}"
     end
 
     def refs_to_self
-      @refs[Sexp.from_array([:lit, :self])]
+      @refs[SELF_REF]
     end
 
     # TODO
@@ -33,7 +33,7 @@ module Reek
     end
 
     def self_is_max?
-      max_keys.include?(Sexp.from_array([:lit, :self]))
+      max_keys.include?(SELF_REF)
     end
   end
 end

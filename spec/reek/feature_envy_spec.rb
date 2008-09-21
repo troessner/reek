@@ -23,15 +23,15 @@ describe MethodChecker, "(Feature Envy)" do
   end
 
   it 'should report highest affinity' do
-    @cchk.check_source('def simple(arga) slim = ""; s1 = ""; s1.to_s; @m = 34; end')
+    @cchk.check_source('def simple(arga) s1 = 0; arga.look(s1); process(s1) end')
     @rpt.length.should == 1
     @rpt[0].to_s.should match(/s1/)
   end
 
   it 'should report multiple affinities' do
-    @cchk.check_source('def simple(arga) s1 = ""; s1.to_s; s2 = ""; s2.to_s; @m = 34; end')
+    @cchk.check_source('def simple(arga) s1 = s2 = @thing = arga; arga.fire(s2); s2.fire(s1); arga.fire(s2) end')
     @rpt.length.should == 1
-    @rpt[0].to_s.should match(/s1/)
+    @rpt[0].to_s.should match(/arga/)
     @rpt[0].to_s.should match(/s2/)
   end
 

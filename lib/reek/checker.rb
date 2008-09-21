@@ -25,9 +25,7 @@ module Reek
     end
 
     def process_default(exp)
-      if Array === exp
-        exp[1..-1].each { |e| process(e) if Array === e}
-      end
+      exp[1..-1].each { |e| process(e) if Array === e}
       s(exp)
     end
 

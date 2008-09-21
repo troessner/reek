@@ -30,17 +30,18 @@ module Reek
       exp.each { |arg| UncommunicativeName.check(arg, self, 'parameter') }
       s(exp)
     end
-    
-    def record_reference_to_self
-      @refs.record_reference_to_self
-    end
 
     def process_attrset(exp)
-      record_reference_to_self if /^@/ === exp[1].to_s
+      @refs.record_reference_to_self if /^@/ === exp[1].to_s
       s(exp)
     end
 
     def process_lit(exp)
+      @refs.record_ref(exp)
+      s(exp)
+    end
+
+    def process_lvar(exp)
       @refs.record_ref(exp)
       s(exp)
     end
@@ -60,55 +61,61 @@ module Reek
     end
 
     def process_yield(exp)
-      LongYieldList.check(exp[1], self) unless exp.length < 2
-      process(exp[1])
+      args = exp[1]
+      if args
+        LongYieldList.check(args, self)
+        process(args)
+      end
       s(exp)
     end
 
     def process_call(exp)
-      record_receiver(exp[1])
-      params = exp[3]
-      process(params) if exp.length > 3
+      receiver, meth, args = exp[1..3]
+      process(receiver)
+      process(args) if args
       s(exp)
     end
 
     def process_fcall(exp)
-      record_reference_to_self
+      @refs.record_reference_to_self
       process(exp[2]) if exp.length >= 3
       s(exp)
     end
 
     def process_cfunc(exp)
-      record_reference_to_self
+      @refs.record_reference_to_self
       s(exp)
     end
 
     def process_vcall(exp)
-      record_reference_to_self
+      @refs.record_reference_to_self
       s(exp)
     end
 
     def process_ivar(exp)
       UncommunicativeName.check(exp[1], self, 'field')
-      record_reference_to_self
+      @refs.record_reference_to_self  # BUG: also a ref to the ivar!
+      s(exp)
+    end
+
+    def process_gvar(exp)
       s(exp)
     end
 
     def process_lasgn(exp)
       @lvars << exp[1]
-      @refs.record_ref(s(:lvar, exp[1]))
       process(exp[2])
       s(exp)
     end
 
     def process_iasgn(exp)
-      record_reference_to_self
+      @refs.record_reference_to_self
       process(exp[2])
       s(exp)
     end
 
     def process_self(exp)
-      record_reference_to_self
+      @refs.record_reference_to_self
       s(exp)
     end
 
@@ -122,17 +129,6 @@ module Reek
 
     def self.is_global_variable?(exp)
       Array === exp and exp[0] == :gvar
-    end
-
-    def record_receiver(exp)
-      receiver = MethodChecker.unpack_array(process(exp))
-      @refs.record_ref(receiver) unless MethodChecker.is_global_variable?(receiver)
-    end
-
-    def self.unpack_array(receiver)
-      receiver = receiver[0] if Array === receiver and Array === receiver[0] and receiver.length == 1
-      receiver = :self if receiver == s(:self)
-      receiver
     end
 
     def self.is_override?(class_name, method_name)
@@ -150,7 +146,7 @@ module Reek
 
     def check_method_properties
       @lvars.each {|lvar| UncommunicativeName.check(lvar, self, 'local variable') }
-      record_reference_to_self if is_override?
+      @refs.record_reference_to_self if is_override?
       FeatureEnvy.check(@refs, self) unless UtilityFunction.check(@refs, self)
       LongMethod.check(@num_statements, self)
     end

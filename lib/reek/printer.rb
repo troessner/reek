@@ -69,9 +69,10 @@ module Reek
       @report = Printer.print(exp[1])
       s(exp)
     end
-    
+
     def process_colon2(exp)
-      @report = "#{Printer.print(exp[1])}::#{Printer.print(exp[2])}"
+      mod, member = exp[1..2]
+      @report = "#{Printer.print(mod)}::#{Printer.print(member)}"
       s(exp)
     end
 
@@ -81,8 +82,9 @@ module Reek
     end
 
     def process_call(exp)
-      @report = "#{Printer.print(exp[1])}.#{exp[2]}"
-      @report += "(#{exp[3]})" if exp.length > 3
+      receiver, meth, args = exp[1..3]
+      @report = "#{Printer.print(receiver)}.#{meth}"
+      @report += "(#{args})" if args
       s(exp)
     end
   end
