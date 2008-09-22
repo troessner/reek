@@ -1,7 +1,8 @@
-== 0.2.3 2008-09-xx
+== 0.2.3 2008-09-22
 
 * Minor enhancements:
   * Only reports Feature Envy when the method isn't a Utility Function
+  * General improvements to assessing Feature Envy
 * Tweaks:
   * Fixed: coping with parameterless yield call
   * Fixed: copes with :self as an expression
