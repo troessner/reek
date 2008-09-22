@@ -30,6 +30,11 @@ module Reek
       s(exp)
     end
 
+    def process_array(exp)
+      @report = Printer.print(exp[1])
+      s(exp)
+    end
+
     def process_lvar(exp)
       @report = exp[1].to_s
       s(exp)
@@ -56,7 +61,26 @@ module Reek
     end
 
     def process_gvar(exp)
-      @report = Printer.print(exp[1])
+      @report = exp[1].to_s
+      s(exp)
+    end
+
+    def process_ivar(exp)
+      @report = exp[1].to_s
+      s(exp)
+    end
+
+    def process_vcall(exp)
+      meth, args = exp[1..2]
+      @report = meth.to_s
+      @report += "(#{Printer.print(args)})" if args
+      s(exp)
+    end
+
+    def process_fcall(exp)
+      meth, args = exp[1..2]
+      @report = meth.to_s
+      @report += "(#{Printer.print(args)})" if args
       s(exp)
     end
 
@@ -84,7 +108,7 @@ module Reek
     def process_call(exp)
       receiver, meth, args = exp[1..3]
       @report = "#{Printer.print(receiver)}.#{meth}"
-      @report += "(#{args})" if args
+      @report += "(#{Printer.print(args)})" if args
       s(exp)
     end
   end

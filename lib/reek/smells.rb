@@ -109,8 +109,8 @@ module Reek
   end
 
   class UtilityFunction < Smell
-    def recognise?(refs)
-      refs.refs_to_self == 0
+    def recognise?(depends_on_self)
+      !depends_on_self
     end
 
     def detailed_report
@@ -121,10 +121,14 @@ module Reek
   class LargeClass < Smell
     MAX_ALLOWED = 25
 
+    def self.non_inherited_methods(klass)
+      return klass.instance_methods if klass.superclass.nil?
+      klass.instance_methods - klass.superclass.instance_methods
+    end
+
     def recognise?(name)
       klass = Object.const_get(name) rescue return
-      super_methods = klass.superclass ? klass.superclass.instance_methods : []
-      @num_methods = klass.instance_methods.length - super_methods.length
+      @num_methods = LargeClass.non_inherited_methods(klass).length
       @num_methods > MAX_ALLOWED
     end
 
@@ -139,11 +143,15 @@ module Reek
       @symbol_type = symbol_type
     end
 
+    def self.effective_length(name)
+      return 500 if name == '*'
+      name = name[1..-1] while /^@/ === name
+      name.length
+    end
+
     def recognise?(symbol)
       @symbol = symbol.to_s
-      return false if @symbol == '*'
-      min_len = (/^@/ === @symbol) ? 3 : 2;
-      @symbol.length < min_len
+      UncommunicativeName.effective_length(@symbol) < 2
     end
 
     def detailed_report

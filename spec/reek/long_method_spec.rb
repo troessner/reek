@@ -27,18 +27,18 @@ describe MethodChecker, "(Long Method)" do
     source =<<EOS
   def standard_entries(rbconfig)
     @abc = rbconfig
-    rubypath = File.join(@abc['bindir'], @abc['ruby_install_name'] + c['EXEEXT'])
-    major = c['MAJOR'].to_i
-    minor = c['MINOR'].to_i
-    teeny = c['TEENY'].to_i
+    rubypath = File.join(@abc['bindir'], @abcf['ruby_install_name'] + cff['EXEEXT'])
+    major = yyy['MAJOR'].to_i
+    minor = zzz['MINOR'].to_i
+    teeny = ccc['TEENY'].to_i
     version = ""
     if c['rubylibdir']
-      libruby         = "/lib/ruby"
-      librubyver      = "/lib/ruby/"
-      librubyverarch  = "/lib/ruby/"
-      siteruby        = "lib/ruby/version/site_ruby"
-      siterubyver     = siteruby
-      siterubyverarch = "$siterubyver/['arch']}"
+      @libruby         = "/lib/ruby"
+      @librubyver      = "/lib/ruby/"
+      @librubyverarch  = "/lib/ruby/"
+      @siteruby        = "lib/ruby/version/site_ruby"
+      @siterubyver     = siteruby
+      @siterubyverarch = "$siterubyver/['arch']}"
     end
   end
 EOS

@@ -21,8 +21,8 @@ describe MethodChecker, " nested iterators" do
     source =<<EOS
 def bad(fred)
   @fred.each {|item| item.each }
-  @jim.each {|item| item.each }
-end    
+  @jim.each {|ting| ting.each }
+end
 EOS
     @chk.check_source(source)
     @rpt.should be_empty
@@ -31,8 +31,8 @@ EOS
   it "should report nested iterators only once per method" do
     source =<<EOS
 def bad(fred)
-  @fred.each {|item| item.each {|part| @jim.send} }
-  @jim.each {|item| item.each {|piece| @fred.send} }
+  @fred.each {|item| item.each {|part| @joe.send} }
+  @jim.each {|ting| ting.each {|piece| @hal.send} }
 end    
 EOS
     @chk.check_source(source)

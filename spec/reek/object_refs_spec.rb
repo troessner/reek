@@ -9,8 +9,8 @@ describe ObjectRefs, 'when empty' do
     @refs = ObjectRefs.new
   end
 
-  it 'should report no refs to self' do
-    @refs.refs_to_self.should == 0
+  it 'should report one ref to self' do
+    @refs.refs_to_self.should == 1
   end
 end
 
@@ -23,7 +23,7 @@ describe ObjectRefs, 'with no refs to self' do
   end
 
   it 'should report no refs to self' do
-    @refs.refs_to_self.should == 0
+    @refs.refs_to_self.should == 1
   end
 
   it 'should report :a as the max' do
@@ -45,15 +45,16 @@ describe ObjectRefs, 'with one ref to self' do
   end
 
   it 'should report 1 ref to self' do
-    @refs.refs_to_self.should == 1
+    @refs.refs_to_self.should == 2
   end
 
-  it 'should report :a as the max' do
-    @refs.max_keys.should == ['a']
+  it 'should report self among the max' do
+    @refs.max_keys.should be_include('a')
+    @refs.max_keys.should be_include(Sexp.from_array([:lit, :self]))
   end
 
-  it 'should not report self as the max' do
-    @refs.self_is_max?.should == false
+  it 'should report self as the max' do
+    @refs.self_is_max?.should == true
   end
 end
 
@@ -69,7 +70,7 @@ describe ObjectRefs, 'with many refs to self' do
   end
 
   it 'should report all refs to self' do
-    @refs.refs_to_self.should == 3
+    @refs.refs_to_self.should == 4
   end
 
   it 'should report self among the max' do
@@ -88,7 +89,6 @@ describe ObjectRefs, 'when self is not the only max' do
     @refs.record_reference_to_self
     @refs.record_ref('b')
     @refs.record_ref('a')
-    @refs.record_reference_to_self
   end
 
   it 'should report all refs to self' do
@@ -111,7 +111,6 @@ describe ObjectRefs, 'when self is not among the max' do
     @refs.record_ref('a')
     @refs.record_ref('b')
     @refs.record_ref('a')
-    @refs.record_reference_to_self
     @refs.record_ref('b')
   end
 

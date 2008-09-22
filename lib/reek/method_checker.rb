@@ -15,6 +15,7 @@ module Reek
       @refs = ObjectRefs.new
       @lvars = Set.new
       @num_statements = 0
+      @depends_on_self = false
     end
 
     def process_defn(exp)
@@ -32,17 +33,17 @@ module Reek
     end
 
     def process_attrset(exp)
-      @refs.record_reference_to_self if /^@/ === exp[1].to_s
+      @depends_on_self = true if /^@/ === exp[1].to_s
       s(exp)
     end
 
     def process_lit(exp)
-      @refs.record_ref(exp)
+      val = exp[1]
+      @depends_on_self = true if val == :self
       s(exp)
     end
 
     def process_lvar(exp)
-      @refs.record_ref(exp)
       s(exp)
     end
 
@@ -71,30 +72,32 @@ module Reek
 
     def process_call(exp)
       receiver, meth, args = exp[1..3]
+      @refs.record_ref(receiver)
       process(receiver)
       process(args) if args
       s(exp)
     end
 
     def process_fcall(exp)
+      @depends_on_self = true
       @refs.record_reference_to_self
       process(exp[2]) if exp.length >= 3
       s(exp)
     end
 
     def process_cfunc(exp)
-      @refs.record_reference_to_self
+      @depends_on_self = true
       s(exp)
     end
 
     def process_vcall(exp)
-      @refs.record_reference_to_self
+      @depends_on_self = true
       s(exp)
     end
 
     def process_ivar(exp)
       UncommunicativeName.check(exp[1], self, 'field')
-      @refs.record_reference_to_self  # BUG: also a ref to the ivar!
+      @depends_on_self = true
       s(exp)
     end
 
@@ -109,13 +112,13 @@ module Reek
     end
 
     def process_iasgn(exp)
-      @refs.record_reference_to_self
+      @depends_on_self = true
       process(exp[2])
       s(exp)
     end
 
     def process_self(exp)
-      @refs.record_reference_to_self
+      @depends_on_self = true
       s(exp)
     end
 
@@ -140,16 +143,20 @@ module Reek
       return false unless klass.superclass
       klass.superclass.instance_methods.include?(method_name)
     end
+    
+    def method_name
+      @description.to_s.split('#')[1]
+    end
 
     def is_override?
-      MethodChecker.is_override?(@class_name, @description.to_s.split('#')[1])
+      MethodChecker.is_override?(@class_name, method_name)
     end
 
     def check_method_properties
       @lvars.each {|lvar| UncommunicativeName.check(lvar, self, 'local variable') }
-      @refs.record_reference_to_self if is_override?
-      FeatureEnvy.check(@refs, self) unless UtilityFunction.check(@refs, self)
-      LongMethod.check(@num_statements, self)
+      @depends_on_self = true if is_override?
+      FeatureEnvy.check(@refs, self) unless UtilityFunction.check(@depends_on_self, self)
+      LongMethod.check(@num_statements, self) unless method_name == 'initialize'
     end
   end
 end

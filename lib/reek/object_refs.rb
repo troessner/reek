@@ -1,6 +1,8 @@
 $:.unshift File.dirname(__FILE__)
 
+require 'rubygems'
 require 'sexp'
+require 'reek/printer'
 
 module Reek
 
@@ -9,6 +11,7 @@ module Reek
 
     def initialize
       @refs = Hash.new(0)
+      record_reference_to_self
     end
     
     def record_reference_to_self
@@ -16,24 +19,35 @@ module Reek
     end
 
     def record_ref(exp)
-      @refs[exp] += 1
-#      puts "record_ref(#{exp.inspect}) -> #{@refs.inspect}"
+      type = exp[0]
+      case type
+      when :gvar
+        return
+      when :self
+        record_reference_to_self
+      else
+        @refs[exp] += 1
+      end
     end
 
     def refs_to_self
       @refs[SELF_REF]
     end
 
+    def max_refs
+      @refs.values.max or 0
+    end
+
     # TODO
     # Should be moved to Hash; but Hash has 58 methods, and there's currently
     # no way to turn off that report; which would therefore make the tests fail
     def max_keys
-      max = @refs.values.max or 0
-      @refs.keys.select { |key| @refs[key] == max }
+      max = max_refs
+      @refs.reject {|k,v| v != max}.keys
     end
 
     def self_is_max?
-      max_keys.include?(SELF_REF)
+      max_keys.length == 0 || @refs[SELF_REF] == max_refs
     end
   end
 end
