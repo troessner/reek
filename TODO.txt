@@ -5,6 +5,7 @@ Stories, in decreasing order of priority:
 - check class methods
 - check modules
 - --[no]smells reports the smell name at the start of each line
+- internationalised reports
 - smell: Law of Demeter
 - smell: unused parameter
 - provide rake task to run reek

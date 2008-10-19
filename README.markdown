@@ -1,8 +1,7 @@
 = reek
 
 * http://rubyforge.org/projects/reek/
-* http://www.refactoring-workbook.com/reek
-* kevin@rutherford-software.com
+* mailto:kevin@rutherford-software.com
 
 == DESCRIPTION:
 
@@ -19,6 +18,12 @@ reports any code smells it finds.
 * Utility Function
 * Nested Iterators
 
+== SYNOPSIS:
+
+  $ reek [options] [source_files]
+
+(See `reek --help` for details.)
+
 == FEATURES/PROBLEMS:
 
 * Most of the current checks are quite naive.
@@ -26,11 +31,8 @@ reports any code smells it finds.
 * The current Feature Envy check is probably over zealous.
 * There's no convenient programmer's API just yet.
 
-== SYNOPSIS:
-
-  $ reek [options] [source_files]
-
-(See `reek --help` for details.)
+Please submit feature requests and defects to me via email (see above)
+or via reek's project page at http://rubyforge.org/projects/reek/
 
 == REQUIREMENTS:
 
@@ -38,11 +40,11 @@ reports any code smells it finds.
 
 == INSTALL:
 
-Get the latest version of the gem:
+To install the latest version of the gem:
 
     $ gem install reek
 
-Or get the latest unpackaged source code:
+To get the latest source code (not necessarily fully release-tested):
 
     $ git clone git://github.com/kevinrutherford/reek.git
 
