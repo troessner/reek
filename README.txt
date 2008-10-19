@@ -1,14 +1,14 @@
-# reek
+= reek
 
 * http://rubyforge.org/projects/reek/
 * mailto:kevin@rutherford-software.com
 
-## DESCRIPTION:
+== DESCRIPTION:
 
 Reek is a tool that examines Ruby classes, modules and methods and
 reports any code smells it finds.
 
-### SUPPORTED CODE SMELLS:
+=== SUPPORTED CODE SMELLS:
 
 * Long Method
 * Large Class
@@ -18,33 +18,30 @@ reports any code smells it finds.
 * Utility Function
 * Nested Iterators
 
-## SYNOPSIS:
-
-  $ reek [options] [source_files]
-
-(See `reek --help` for details.)
-
-## FEATURES/PROBLEMS:
+== FEATURES/PROBLEMS:
 
 * Most of the current checks are quite naive.
 * Not many smells checked right now; more coming soon.
 * The current Feature Envy check is probably over zealous.
 * There's no convenient programmer's API just yet.
 
-Please submit feature requests and defects to me via email (see above)
-or via reek's project page at http://rubyforge.org/projects/reek/
+== SYNOPSIS:
 
-## DEPENDENCIES:
+  $ reek [options] [source_files]
+
+(See `reek --help` for details.)
+
+== REQUIREMENTS:
 
 * ParseTree
 
-## INSTALL:
+== INSTALL:
 
-To install the latest version of the gem:
+Get the latest version of the gem:
 
     $ gem install reek
 
-To get the latest source code (not necessarily fully release-tested):
+Or get the latest unpackaged source code:
 
     $ git clone git://github.com/kevinrutherford/reek.git
 
@@ -52,7 +49,7 @@ or
 
     $ git clone git://rubyforge.org/reek.git
 
-## LICENSE:
+== LICENSE:
 
 (The MIT License)
 
