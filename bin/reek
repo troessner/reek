@@ -3,8 +3,14 @@
 #  Created on 2008-2-17.
 #  Copyright (c) 2008 Kevin Rutherford, Rutherford Software Ltd. All rights reserved.
 
-require 'reek'
-require 'reek/options'
+require File.join(File.dirname(__FILE__), '../lib/', 'reek')
+require File.join(File.dirname(__FILE__), '../lib/', 'reek/options')
 
 files = Reek::Options.parse(ARGV)
-puts Reek.analyse(*files).to_s
+files.each do |file|
+  stinky = Reek.analyse(file).to_s
+  next if stinky.empty?
+  puts file unless 1 == files.size
+  puts stinky
+  puts
+end
