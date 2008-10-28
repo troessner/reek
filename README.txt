@@ -31,7 +31,7 @@ reports any code smells it finds.
 
 (See `reek --help` for details.)
 
-== REQUIREMENTS:
+== DEPENDENCIES:
 
 * ParseTree
 

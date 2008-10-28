@@ -10,7 +10,10 @@ module Reek
 
   class Options
     def self.default_options
-      {:sort_order => Report::SORT_ORDERS[:context]}
+      {
+        :sort_order => Report::SORT_ORDERS[:context],
+        :expressions => []
+      }
     end
     
     @@opts = default_options
@@ -26,6 +29,11 @@ module Reek
 
         opts.separator ""
         opts.separator "Specific options:"
+
+        opts.on('-e', "--expression CODE",
+          "Parse CODE along with named files; multiple occurrences permitted") do |arg|
+          result[:expressions] << arg unless arg.nil?
+        end
 
         opts.on('-s', "--sort ORDER", Report::SORT_ORDERS.keys,
           "Select sort order for report (#{Report::SORT_ORDERS.keys.join(', ')})") do |arg|
@@ -58,9 +66,9 @@ module Reek
     def self.parse(args)
       begin
         @@opts = parse_args(args)
-        files = ARGV
-        files = Dir['**/*.rb'] if files.empty?
-        fatal_error('no source files specified') if files.empty?
+        files = ARGV || []
+        files += @@opts[:expressions]
+        fatal_error('no source code specified') if files.empty?
         files
       rescue OptionParser::ParseError => e
         fatal_error(e)

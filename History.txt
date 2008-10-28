@@ -1,3 +1,11 @@
+== 0.3.0 2008-??-??
+
+* Minor enhancements:
+  * Now only checks files named on the command line
+  * New option -e treats code on the commandline as if in a file
+* Tweaks:
+  * Fixed: Returns exit status 2 when smells are reported
+
 == 0.2.3 2008-09-22
 
 * Minor enhancements:

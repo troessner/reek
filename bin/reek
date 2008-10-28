@@ -2,9 +2,16 @@
 #
 #  Created on 2008-2-17.
 #  Copyright (c) 2008 Kevin Rutherford, Rutherford Software Ltd. All rights reserved.
+#
 
 require 'reek'
 require 'reek/options'
 
 files = Reek::Options.parse(ARGV)
-puts Reek.analyse(*files).to_s
+report = Reek.analyse(*files)
+if report.length == 0
+  exit(0)
+else
+  puts report.to_s
+  exit(2)
+end

@@ -1,15 +1,5 @@
 require File.dirname(__FILE__) + '/spec_helper.rb'
 
-require 'reek/version'
-
-describe 'Reek version number' do
-  it 'should report the correct value' do
-    actual = `ruby -Ilib bin/reek --version`.split
-    actual[0].should == 'reek'
-    actual[1].should == Reek::VERSION::STRING
-  end
-end
-
 describe 'Integration test:' do
   Dir['spec/samples/*.rb'].each do |source|
     describe source do
