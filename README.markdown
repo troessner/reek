@@ -20,7 +20,7 @@ reports any code smells it finds.
 
 ## SYNOPSIS:
 
-  $ reek [options] [source_files]
+  $ reek [options] sources
 
 (See `reek --help` for details.)
 

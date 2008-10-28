@@ -25,14 +25,18 @@ module Reek
     def self.parse_args(args)
       result = default_options
       parser = OptionParser.new do |opts|
-        opts.banner = "Usage: #{File.basename($0)} [options] [files]"
+        opts.banner = <<EOB
+Usage: #{File.basename($0)} [options] SOURCES
+
+The SOURCES may be any combination of file paths and Ruby source code.
+EOB
 
         opts.separator ""
-        opts.separator "Specific options:"
+        opts.separator "Options:"
 
-        opts.on('-e', "--expression CODE",
-          "Parse CODE along with named files; multiple occurrences permitted") do |arg|
-          result[:expressions] << arg unless arg.nil?
+        opts.on("-h", "--help", "Show this message") do
+          puts opts
+          exit(0)
         end
 
         opts.on('-s', "--sort ORDER", Report::SORT_ORDERS.keys,
@@ -40,14 +44,7 @@ module Reek
           result[:sort_order] = Report::SORT_ORDERS[arg] unless arg.nil?
         end
 
-        opts.separator ""
-        opts.separator "Common options:"
-        opts.on_tail("-h", "--help", "Show this message") do
-          puts opts
-          exit(0)
-        end
-
-        opts.on_tail("-v", "--version", "Show version") do
+        opts.on("-v", "--version", "Show version") do
           puts "#{File.basename($0)} #{Reek::VERSION::STRING}"
           exit(0)
         end
@@ -66,10 +63,7 @@ module Reek
     def self.parse(args)
       begin
         @@opts = parse_args(args)
-        files = ARGV || []
-        files += @@opts[:expressions]
-        fatal_error('no source code specified') if files.empty?
-        files
+        ARGV
       rescue OptionParser::ParseError => e
         fatal_error(e)
       end

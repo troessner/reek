@@ -23,19 +23,24 @@ describe 'exit status', 'when reek is used incorrectly' do
   end
 
   it 'should return non-zero status on missing argument' do
-    `ruby -Ilib bin/reek -e 2>/dev/null`
+    `ruby -Ilib bin/reek -s 2>/dev/null`
     $?.exitstatus.should == 1
+  end
+
+  it 'should not complain when no source given' do
+    `ruby -Ilib bin/reek 2>/dev/null`
+    $?.exitstatus.should == 0
   end
 end
 
 describe 'exit status', 'when reek is used correctly' do
   it 'should return non-zero status when smells are reported' do
-    `ruby -Ilib bin/reek -e "def x() 3; end"`
+    `ruby -Ilib bin/reek "def x() 3; end"`
     $?.exitstatus.should == 2
   end
 
   it 'should return zero status with no smells' do
-    `ruby -Ilib bin/reek --expression "def simple() @fred = 3 end"`
+    `ruby -Ilib bin/reek "def simple() @fred = 3 end"`
     $?.exitstatus.should == 0
   end
 end
