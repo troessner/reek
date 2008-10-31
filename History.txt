@@ -4,6 +4,7 @@
   * Now only checks files named on the command line
   * Code snippets can be supplied on the commandline
   * Added headings and warnings count when smells in multiple files
+  * Added Reek::RakeTask to help run reek from rakefiles
 * Tweaks:
   * Fixed: Returns exit status 2 when smells are reported
 
