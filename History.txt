@@ -1,8 +1,9 @@
-== 0.3.0 2008-??-??
+== 0.2.x 2008-??-??
 
 * Minor enhancements:
   * Now only checks files named on the command line
-  * New option -e treats code on the commandline as if in a file
+  * Code snippets can be supplied on the commandline
+  * Added headings and warnings count when smells in multiple files
 * Tweaks:
   * Fixed: Returns exit status 2 when smells are reported
 

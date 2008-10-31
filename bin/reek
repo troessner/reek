@@ -4,14 +4,22 @@
 #  Copyright (c) 2008 Kevin Rutherford, Rutherford Software Ltd. All rights reserved.
 #
 
-require 'reek'
-require 'reek/options'
+require File.join(File.dirname(__FILE__), '../lib/', 'reek')
+require File.join(File.dirname(__FILE__), '../lib/', 'reek/options')
 
-files = Reek::Options.parse(ARGV)
-report = Reek.analyse(*files)
-if report.length == 0
-  exit(0)
-else
-  puts report.to_s
-  exit(2)
+sources = Reek::Options.parse(ARGV)
+exitstatus = 0
+sources.each do |src|
+  smells = Reek.analyse(src)
+  next if smells.empty?
+  if sources.size == 1
+    puts smells.to_s
+  else
+    puts "\"#{src}\" -- #{smells.length} warnings:"
+    puts smells.to_s
+    puts
+  end
+  exitstatus = 2
 end
+
+exit(exitstatus)

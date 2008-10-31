@@ -186,8 +186,8 @@ describe FeatureEnvy, 'when the receiver is a dvar' do
     @cchk = MethodChecker.new(@rpt, 'Thing')
   end
 
-  it "should not report method with successive iterators" do
-    pending('this is a bug!')
+  it "should count each scope separately" do
+    pending('bug')
     source =<<EOS
 def bad(fred)
   @fred.each {|item| item.each }

@@ -44,3 +44,25 @@ describe 'exit status', 'when reek is used correctly' do
     $?.exitstatus.should == 0
   end
 end
+
+describe 'report format', 'with no sources' do
+  it 'should output nothing' do
+    `ruby -Ilib bin/reek`.should be_empty
+  end
+end
+
+describe 'report format', 'with one source' do
+  it 'should output nothing with empty source' do
+    `ruby -Ilib bin/reek ""`.should be_empty
+  end
+
+  it 'should output nothing when no smells' do
+    `ruby -Ilib bin/reek "def simple() @fred = 3; end"`.should be_empty
+  end
+
+  it 'should not adorn the list of warnings' do
+    report = `ruby -Ilib bin/reek "def y() @x = 3; end"`
+    report.split(/\n/).length.should == 1
+    report.should_not match(/\n\n/)
+  end
+end
