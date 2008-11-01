@@ -198,3 +198,25 @@ EOS
     @rpt.should be_empty
   end  
 end
+
+describe FeatureEnvy, 'when the receiver is a message chain keyed on self' do
+  before(:each) do
+    @rpt = Report.new
+    @cchk = MethodChecker.new(@rpt, 'Thing')
+  end
+
+  it "count the references correctly" do
+    pending('bug')
+    source =<<EOS
+class Parcel
+  def addressee
+    "#{self.person.first_name} #{self.person.last_name}"
+  end
+end
+EOS
+    @chk.check_source(source)
+    @rpt.length.should == 1
+    FeatureEnvy.should === @rpt[0]
+    @rpt[0].to_s.should match(/self.person/)
+  end  
+end

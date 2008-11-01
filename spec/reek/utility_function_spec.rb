@@ -12,6 +12,12 @@ describe MethodChecker, "(Utility Function)" do
     @cchk = MethodChecker.new(@rpt, 'Thing')
   end
 
+  it 'should not report empty method' do
+    pending('bug')
+    @cchk.check_source('def simple(arga) end')
+    @rpt.should be_empty
+  end
+
   it 'should not report instance variable reference' do
     @cchk.check_source('def simple(arga) @yellow end')
     @rpt.should be_empty
@@ -29,7 +35,7 @@ describe MethodChecker, "(Utility Function)" do
     @cchk.check_object(Fred)
     @rpt.should be_empty
   end
-  
+
   it 'should not report references to self' do
     @cchk.check_source('def into; self; end')
     @rpt.should be_empty
@@ -70,6 +76,21 @@ describe MethodChecker, "(Utility Function)" do
       def thing(ff); ff; end
     end
     ClassChecker.new(@rpt).check_object(Son)
+    @rpt.should be_empty
+  end
+
+  it 'should not report class method' do
+    pending('bug')
+    source = <<EOS
+class Cache
+  class << self
+    def create_unless_known(attributes)
+      Cache.create(attributes) unless Cache.known?
+    end
+  end
+end
+EOS
+    @cchk.check_source(source)
     @rpt.should be_empty
   end
 end
