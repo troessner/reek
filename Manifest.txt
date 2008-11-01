@@ -10,6 +10,7 @@ lib/reek/method_checker.rb
 lib/reek/object_refs.rb
 lib/reek/options.rb
 lib/reek/printer.rb
+lib/reek/rake_task.rb
 lib/reek/report.rb
 lib/reek/smells.rb
 lib/reek/version.rb
@@ -41,8 +42,10 @@ spec/samples/optparse/uri.rb
 spec/samples/optparse/version.rb
 spec/samples/redcloth.rb
 spec/samples/redcloth.reek
+spec/script_spec.rb
 spec/spec.opts
 spec/spec_helper.rb
+tasks/reek.rake
 tasks/rspec.rake
 tasks/samples.rake
 website/index.html
