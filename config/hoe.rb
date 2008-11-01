@@ -1,8 +1,8 @@
 require 'reek/version'
 
-AUTHOR = 'Kevin Rutherford'  # can also be an array of Authors
+AUTHOR = 'Kevin Rutherford'
 EMAIL = "kevin@rutherford-software.com"
-DESCRIPTION = "detects smells in your Ruby code"
+DESCRIPTION = "detects smells in Ruby code"
 GEM_NAME = 'reek' # what ppl will type to install your gem
 RUBYFORGE_PROJECT = 'reek' # The unix name for your project
 HOMEPATH = "http://#{RUBYFORGE_PROJECT}.rubyforge.org"
@@ -58,8 +58,8 @@ hoe = Hoe.new(GEM_NAME, VERS) do |p|
   
   # == Optional
   p.changes = p.paragraphs_of("History.txt", 0..1).join("\n\n")
-  p.extra_deps = [['ParseTree', '>= 2.2.0']]
-  
+  p.extra_deps = [['ParseTree', '~> 3.0'], ['sexp_processor', '~> 3.0']]
+
   #p.spec_extras = {}    # A hash of extra values to set in the gemspec.
   
 end
