@@ -17,6 +17,7 @@ lib/reek/version.rb
 setup.rb
 spec/integration_spec.rb
 spec/reek/class_checker_spec.rb
+spec/reek/control_couple_spec.rb
 spec/reek/feature_envy_spec.rb
 spec/reek/large_class_spec.rb
 spec/reek/long_method_spec.rb
