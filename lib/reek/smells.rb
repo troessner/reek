@@ -168,4 +168,20 @@ module Reek
       "#{@context} has nested iterators"
     end
   end
+
+  class ControlCouple < Smell
+    def initialize(context, args)
+      super
+      @args = args
+    end
+
+    def recognise?(cond)
+      @couple = cond
+      cond[0] == :lvar and @args.include?(@couple[1])
+    end
+
+    def detailed_report
+      "#{@context} is controlled by argument #{Printer.print(@couple)}"
+    end
+  end
 end

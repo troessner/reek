@@ -4,7 +4,6 @@ Stories, in decreasing order of priority:
 - Feature Envy needs to look at smaller chunks of code
 - check class methods
 - check modules
-- --[no]smells reports the smell name at the start of each line
 - internationalised reports
 - smell: Law of Demeter
 - smell: unused parameter
@@ -12,7 +11,7 @@ Stories, in decreasing order of priority:
 - configure thresholds via a .yml file
 - disable smells via a .yml file
 - ignore classes or methods via a .yml file
-- an option to print out "What to Do" notes -> book
+- an option to print out "What to Do" notes <- book
 - smell: Lazy Class / Data Class
 - allow report to be sorted by "severity"
 - generate report as XHTML

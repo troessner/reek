@@ -29,6 +29,7 @@ module Reek
     def process_args(exp)
       LongParameterList.check(exp, self)
       exp.each { |arg| UncommunicativeName.check(arg, self, 'parameter') }
+      @args = exp[1..-1]
       s(exp)
     end
 
@@ -92,6 +93,14 @@ module Reek
 
     def process_vcall(exp)
       @depends_on_self = true
+      s(exp)
+    end
+
+    def process_if(exp)
+      process(exp[1])
+      process(exp[2])
+      process(exp[3]) if exp[3]
+      ControlCouple.check(exp[1], self, @args)
       s(exp)
     end
 

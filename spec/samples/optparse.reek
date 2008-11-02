@@ -15,9 +15,11 @@
 [Feature Envy] CompletingHash#parse uses argv more than self
 [Long Method] CompletingHash#parse_in_order has approx 31 statements
 [Nested Iterators] CompletingHash#parse_in_order has nested iterators
+[Control Couple] CompletingHash#parse_in_order is controlled by argument setter
 [Feature Envy] CompletingHash#permute uses argv more than self
 [Long Parameter List] CompletingHash#summarize has 4 parameters
 [Uncommunicative Name] CompletingHash#ver uses the local variable name 'v'
+[Control Couple] List#accept is controlled by argument pat
 [Feature Envy] List#accept uses pat more than self
 [Uncommunicative Name] List#accept uses the parameter name 't'
 [Feature Envy] List#add_banner uses opt more than self
@@ -27,13 +29,19 @@
 [Feature Envy] List#summarize uses opt more than self
 [Long Parameter List] List#update has 5 parameters
 [Long Method] List#update has approx 6 statements
+[Control Couple] List#update is controlled by argument lopts
+[Control Couple] List#update is controlled by argument sopts
 [Uncommunicative Name] List#update uses the local variable name 'o'
+[Control Couple] NoArgument#parse is controlled by argument arg
 [Long Method] OptionParser#complete has approx 23 statements
 [Feature Envy] OptionParser#complete uses candidates more than self
 [Uncommunicative Name] OptionParser#complete uses the local variable name 'k'
 [Uncommunicative Name] OptionParser#complete uses the local variable name 'v'
 [Utility Function] OptionParser#convert doesn't depend on instance state
+[Control Couple] OptionalArgument#parse is controlled by argument arg
+[Control Couple] ParseError#set_option is controlled by argument eq
 [Long Method] PlacedArgument#parse has approx 6 statements
+[Control Couple] RequiredArgument#parse is controlled by argument arg
 [Uncommunicative Name] Switch#add_banner uses the local variable name 's'
 [Long Parameter List] Switch#initialize has 7 parameters
 [Long Method] Switch#parse_arg has approx 12 statements

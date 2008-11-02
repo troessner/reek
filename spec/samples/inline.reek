@@ -11,7 +11,9 @@
 [Nested Iterators] C#module_name has nested iterators
 [Feature Envy] C#module_name uses md5 more than self
 [Long Method] C#parse_signature has approx 15 statements
+[Control Couple] C#parse_signature is controlled by argument raw
 [Utility Function] C#strip_comments doesn't depend on instance state
 [Large Class] Dir has 31 methods
 [Large Class] Module has 34 methods
 [Long Method] Module#inline has approx 12 statements
+[Control Couple] Module#inline is controlled by argument options
