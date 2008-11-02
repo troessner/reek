@@ -8,7 +8,7 @@ h2. Installing
 
 h2. The basics
 
-    @$ reek [options] [source_files]@
+    @$ reek [options] sources@
 
 (See @reek --help@ for details.)
 
@@ -23,6 +23,7 @@ reek currently includes very naive checks for the following code smells:
 * Long Parameter List
 * Utility Function
 * Nested Iterators
+* Control Couple
 
 h2. How to access the source code
 
