@@ -76,6 +76,8 @@ module Reek
       define
     end
 
+private
+    
     def define # :nodoc:
       desc "Check for code smells" unless ::Rake.application.last_comment
       task(name) { run_task }
