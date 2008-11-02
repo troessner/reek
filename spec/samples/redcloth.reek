@@ -1,5 +1,4 @@
 [Long Method] RedCloth#block_markdown_bq has approx 6 statements
-[Utility Function] RedCloth#block_markdown_lists doesn't depend on instance state
 [Utility Function] RedCloth#block_markdown_rule doesn't depend on instance state
 [Long Method] RedCloth#block_textile_lists has approx 21 statements
 [Nested Iterators] RedCloth#block_textile_lists has nested iterators

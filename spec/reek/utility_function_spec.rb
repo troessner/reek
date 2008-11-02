@@ -13,7 +13,6 @@ describe MethodChecker, "(Utility Function)" do
   end
 
   it 'should not report empty method' do
-    pending('bug')
     @cchk.check_source('def simple(arga) end')
     @rpt.should be_empty
   end
@@ -60,7 +59,7 @@ describe MethodChecker, "(Utility Function)" do
   it 'should report simple parameter call' do
     @cchk.check_source('def simple(arga) arga.to_s end')
     @rpt.length.should == 1
-    @rpt[0].should == UtilityFunction.new(@cchk)
+    @rpt[0].should == UtilityFunction.new(@cchk, 1)
   end
 
   it 'should report message chain' do

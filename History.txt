@@ -1,12 +1,14 @@
 == 0.2.x 2008-??-??
 
 * Minor enhancements:
-  * Now only checks files named on the command line
+  * New smell: first naive checks for Control Couple
+  * reek now only checks sources passed on the command line
   * Code snippets can be supplied on the commandline
   * Added headings and warnings count when smells in multiple files
   * Added Reek::RakeTask to run reek from rakefiles
 * Tweaks:
   * Fixed: Returns exit status 2 when smells are reported
+  * Fixed: no longer claims an empty method is a Utility Function
 
 == 0.2.3 2008-09-22
 

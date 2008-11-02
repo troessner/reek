@@ -1,5 +1,4 @@
 [Large Class] AmbiguousArgument has 52 methods
-[Long Method] AmbiguousArgument#options has approx 6 statements
 [Long Parameter List] CompletingHash#complete has 4 parameters
 [Nested Iterators] CompletingHash#complete has nested iterators
 [Long Method] CompletingHash#getopts has approx 17 statements
@@ -13,7 +12,7 @@
 [Nested Iterators] CompletingHash#match has nested iterators
 [Feature Envy] CompletingHash#order uses argv more than self
 [Feature Envy] CompletingHash#parse uses argv more than self
-[Long Method] CompletingHash#parse_in_order has approx 31 statements
+[Long Method] CompletingHash#parse_in_order has approx 30 statements
 [Nested Iterators] CompletingHash#parse_in_order has nested iterators
 [Control Couple] CompletingHash#parse_in_order is controlled by argument setter
 [Feature Envy] CompletingHash#permute uses argv more than self

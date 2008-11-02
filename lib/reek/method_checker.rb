@@ -136,6 +136,7 @@ module Reek
     def self.count_statements(exp)
       result = exp.length - 1
       result -= 1 if Array === exp[1] and exp[1][0] == :args
+      result -= 1 if exp[2] == s(:nil)
       result
     end
 
@@ -164,7 +165,7 @@ module Reek
     def check_method_properties
       @lvars.each {|lvar| UncommunicativeName.check(lvar, self, 'local variable') }
       @depends_on_self = true if is_override?
-      FeatureEnvy.check(@refs, self) unless UtilityFunction.check(@depends_on_self, self)
+      FeatureEnvy.check(@refs, self) unless UtilityFunction.check(@depends_on_self, self, @num_statements)
       LongMethod.check(@num_statements, self) unless method_name == 'initialize'
     end
   end

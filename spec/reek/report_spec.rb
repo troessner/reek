@@ -41,9 +41,9 @@ end
 describe Report, " as a SortedSet" do
   it 'should only add a smell once' do
     rpt = Report.new
-    rpt << UtilityFunction.new(self)
+    rpt << UtilityFunction.new(self, 1)
     rpt.length.should == 1
-    rpt << UtilityFunction.new(self)
+    rpt << UtilityFunction.new(self, 1)
     rpt.length.should == 1
   end
 end

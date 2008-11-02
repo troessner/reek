@@ -10,6 +10,8 @@ reports any code smells it finds.
 
 === SUPPORTED CODE SMELLS:
 
+Reek currently includes very naive checks for the following smells:
+
 * Long Method
 * Large Class
 * Feature Envy
@@ -17,6 +19,7 @@ reports any code smells it finds.
 * Long Parameter List
 * Utility Function
 * Nested Iterators
+* Control Couple
 
 == FEATURES/PROBLEMS:
 
@@ -33,7 +36,10 @@ reports any code smells it finds.
 
 == DEPENDENCIES:
 
+Reek makes use of the following other gems:
+
 * ParseTree
+* sexp_processor
 
 == INSTALL:
 
@@ -41,7 +47,7 @@ Get the latest version of the gem:
 
     $ gem install reek
 
-Or get the latest unpackaged source code:
+Or get the latest source code from:
 
     $ git clone git://github.com/kevinrutherford/reek.git
 
