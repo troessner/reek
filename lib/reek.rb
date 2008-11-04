@@ -6,21 +6,20 @@ require 'reek/report'
 module Reek # :doc:
 
   #
-  # Analyse the given source files, looking for code smells.
+  # Analyse the given source, looking for code smells.
+  # The source can be a filename or a String containing Ruby code.
   # Returns a +Report+ listing the smells found.
   #
-  def self.analyse(*files)  # :doc:
+  def self.analyse(src)  # :doc:
     report = Report.new
-    files.each do |file|
-      source = Reek.read(file)
-      FileChecker.new(report).check_source(source)
-    end
+    source = Reek.get_source(src)
+    FileChecker.new(report).check_source(source)
     report
   end
 
 private
 
-  def self.read(file)
-    File.exists?(file) ? IO.readlines(file).join : file
+  def self.get_source(src)
+    File.exists?(src) ? IO.readlines(src).join : src
   end
 end

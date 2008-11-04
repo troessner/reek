@@ -54,7 +54,7 @@ module Reek
     # Array of commandline options to pass to ruby. Defaults to [].
     attr_accessor :ruby_opts
 
-    # Whether or not to fail Rake when an error occurs (typically when specs fail).
+    # Whether or not to fail Rake when an error occurs (typically when smells are found).
     # Defaults to true.
     attr_accessor :fail_on_error
 
