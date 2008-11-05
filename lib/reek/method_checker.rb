@@ -125,6 +125,7 @@ module Reek
     end
 
     def process_iasgn(exp)
+      @instance_variables << exp[1]
       @depends_on_self = true
       process(exp[2])
       s(exp)

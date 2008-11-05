@@ -40,6 +40,15 @@ describe MethodChecker, "uncommunicative field name" do
   it 'should report one-letter fieldname' do
     @cchk.check_source('def simple(fred) @x end')
     @rpt.length.should == 1
+    @rpt[0].name.should == 'Uncommunicative Name'
+    @rpt[0].detailed_report.should match(/@x/)
+    @rpt[0].detailed_report.should match(/field name/)
+  end
+
+  it 'should report one-letter fieldname in assignment' do
+    @cchk.check_source('def simple(fred) @x = fred end')
+    @rpt.length.should == 1
+    @rpt[0].name.should == 'Uncommunicative Name'
     @rpt[0].detailed_report.should match(/@x/)
     @rpt[0].detailed_report.should match(/field name/)
   end
@@ -102,5 +111,24 @@ describe UncommunicativeName, '#report' do
     smell.recognise?(:x).should == true
     smell.report.should match(/x/)
     smell.report.should_not match(/:x/)
+  end
+end
+
+describe MethodChecker, "several uncommunicative names" do
+
+  before(:each) do
+    @rpt = Report.new
+    @cchk = MethodChecker.new(@rpt, 'Thing')
+  end
+
+  it 'should report all bad names' do
+    @cchk.check_source('def y(x) @z = x end')
+    @rpt[0].name.should == 'Uncommunicative Name'
+    @rpt[0].report.should match(/'@z'/)
+    @rpt[1].name.should == 'Uncommunicative Name'
+    @rpt[1].report.should match(/'y'/)
+    @rpt[2].name.should == 'Uncommunicative Name'
+    @rpt[2].report.should match(/'x'/)
+    @rpt.length.should == 3
   end
 end

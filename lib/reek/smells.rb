@@ -146,14 +146,14 @@ module Reek
 
     def self.examine(method, report)
       consider(method.name, method, report, 'method')
+      method.parameters.each do |param|
+        consider(param, method, report, 'parameter')
+      end
       method.local_variables.each do |lvar|
         consider(lvar, method, report, 'local variable')
       end
       method.instance_variables.each do |ivar|
         consider(ivar, method, report, 'field')
-      end
-      method.parameters.each do |param|
-        consider(param, method, report, 'parameter')
       end
     end
 
@@ -172,7 +172,7 @@ module Reek
 
     def initialize(name, context, symbol_type)
       super(context, symbol_type)
-      @name = name
+      @bad_name = name
       @symbol_type = symbol_type
     end
 
@@ -182,7 +182,7 @@ module Reek
     end
 
     def detailed_report
-      "#{@context} uses the #{@symbol_type} name '#{@name}'"
+      "#{@context} uses the #{@symbol_type} name '#{@bad_name}'"
     end
   end
 
