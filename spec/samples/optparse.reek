@@ -23,7 +23,6 @@
 [Uncommunicative Name] List#accept uses the parameter name 't'
 [Feature Envy] List#add_banner uses opt more than self
 [Long Parameter List] List#complete has 4 parameters
-[Feature Envy] List#initialize uses OptionMap more than self
 [Uncommunicative Name] List#reject uses the parameter name 't'
 [Feature Envy] List#summarize uses opt more than self
 [Long Parameter List] List#update has 5 parameters

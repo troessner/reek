@@ -10,20 +10,20 @@ describe 'Integration test:' do
 
       it 'should report the correct smells' do
         actual = `ruby -Ilib bin/reek #{source} 2>/dev/null`.split(/\n/)
-        actual.length.should == @expected.length
         @expected.zip(actual).each do |p|
-          actual = p[1] ? p[1].chomp : p[1]
-          actual.should == p[0]
+          actual_line = p[1] ? p[1].chomp : p[1]
+          actual_line.should == p[0]
         end
+        actual.length.should == @expected.length
       end
 
       it 'should report the correct smells in smell order' do
         actual = `ruby -Ilib bin/reek --sort smell #{source} 2>/dev/null`.split(/\n/)
-        actual.length.should == @expected.length
         @expected.sort.zip(actual).each do |p|
-          actual = p[1] ? p[1].chomp : p[1]
-          actual.should == p[0]
+          actual_line = p[1] ? p[1].chomp : p[1]
+          actual_line.should == p[0]
         end
+        actual.length.should == @expected.length
       end
     end
   end

@@ -143,9 +143,25 @@ module Reek
   end
 
   class UncommunicativeName < Smell
-    def initialize(context, symbol_type)
-      super
-      @symbol_type = symbol_type
+
+    def self.examine(method, report)
+      consider(method.name, method, report, 'method')
+      method.local_variables.each do |lvar|
+        consider(lvar, method, report, 'local variable')
+      end
+      method.instance_variables.each do |ivar|
+        consider(ivar, method, report, 'field')
+      end
+      method.parameters.each do |param|
+        consider(param, method, report, 'parameter')
+      end
+    end
+
+    def self.consider(sym, method, report, type)
+      name = sym.to_s
+      if effective_length(name) < 2
+        report << new(name, method, type)
+      end
     end
 
     def self.effective_length(name)
@@ -154,13 +170,19 @@ module Reek
       name.length
     end
 
+    def initialize(name, context, symbol_type)
+      super(context, symbol_type)
+      @name = name
+      @symbol_type = symbol_type
+    end
+
     def recognise?(symbol)
       @symbol = symbol.to_s
       UncommunicativeName.effective_length(@symbol) < 2
     end
 
     def detailed_report
-      "#{@context} uses the #{@symbol_type} name '#{@symbol}'"
+      "#{@context} uses the #{@symbol_type} name '#{@name}'"
     end
   end
 

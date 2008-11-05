@@ -9,18 +9,23 @@ module Reek
 
   class MethodChecker < Checker
 
+    attr_reader :local_variables, :name, :parameters
+    attr_reader :instance_variables     # TODO: should be on the class
+
     def initialize(smells, klass_name)
       super(smells)
       @class_name = @description = klass_name
       @refs = ObjectRefs.new
-      @lvars = Set.new
+      @local_variables = Set.new
+      @instance_variables = Set.new
+      @parameters = []
       @num_statements = 0
       @depends_on_self = false
     end
 
     def process_defn(exp)
+      @name = exp[1].to_s
       @description = "#{@class_name}##{exp[1]}"
-      UncommunicativeName.check(exp[1], self, 'method')
       process(exp[2])
       check_method_properties
       s(exp)
@@ -28,8 +33,7 @@ module Reek
 
     def process_args(exp)
       LongParameterList.check(exp, self)
-      exp.each { |arg| UncommunicativeName.check(arg, self, 'parameter') }
-      @args = exp[1..-1]
+      @parameters = exp[1..-1]
       s(exp)
     end
 
@@ -100,12 +104,12 @@ module Reek
       process(exp[1])
       process(exp[2])
       process(exp[3]) if exp[3]
-      ControlCouple.check(exp[1], self, @args)
+      ControlCouple.check(exp[1], self, @parameters)
       s(exp)
     end
 
     def process_ivar(exp)
-      UncommunicativeName.check(exp[1], self, 'field')
+      @instance_variables << exp[1]
       @depends_on_self = true
       s(exp)
     end
@@ -115,7 +119,7 @@ module Reek
     end
 
     def process_lasgn(exp)
-      @lvars << exp[1]
+      @local_variables << exp[1]
       process(exp[2])
       s(exp)
     end
@@ -153,20 +157,17 @@ module Reek
       return false unless klass.superclass
       klass.superclass.instance_methods.include?(method_name)
     end
-    
-    def method_name
-      @description.to_s.split('#')[1]
-    end
 
     def is_override?
-      MethodChecker.is_override?(@class_name, method_name)
+      MethodChecker.is_override?(@class_name, @name)
     end
 
     def check_method_properties
-      @lvars.each {|lvar| UncommunicativeName.check(lvar, self, 'local variable') }
+      return if @name == 'initialize'
+      UncommunicativeName.examine(self, @smells)
       @depends_on_self = true if is_override?
       FeatureEnvy.check(@refs, self) unless UtilityFunction.check(@depends_on_self, self, @num_statements)
-      LongMethod.check(@num_statements, self) unless method_name == 'initialize'
+      LongMethod.check(@num_statements, self) unless @name == 'initialize'
     end
   end
 end

@@ -98,7 +98,7 @@ end
 describe UncommunicativeName, '#report' do
   it 'should report the bad symbol name' do
     mchk = MethodChecker.new([], 'Class')
-    smell = UncommunicativeName.new(mchk, 'thing')
+    smell = UncommunicativeName.new('x', mchk, 'thing')
     smell.recognise?(:x).should == true
     smell.report.should match(/x/)
     smell.report.should_not match(/:x/)

@@ -5,7 +5,6 @@
 [Uncommunicative Name] C#c uses the method name 'c'
 [Feature Envy] C#crap_for_windoze uses Config::CONFIG more than self
 [Long Method] C#generate has approx 33 statements
-[Feature Envy] C#initialize uses stack more than self
 [Long Method] C#load_cache has approx 7 statements
 [Long Method] C#module_name has approx 6 statements
 [Nested Iterators] C#module_name has nested iterators
