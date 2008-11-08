@@ -123,12 +123,28 @@ describe MethodChecker, "several uncommunicative names" do
 
   it 'should report all bad names' do
     @cchk.check_source('def y(x) @z = x end')
+    @rpt.length.should == 3
     @rpt[0].name.should == 'Uncommunicative Name'
     @rpt[0].report.should match(/'@z'/)
     @rpt[1].name.should == 'Uncommunicative Name'
     @rpt[1].report.should match(/'y'/)
     @rpt[2].name.should == 'Uncommunicative Name'
     @rpt[2].report.should match(/'x'/)
-    @rpt.length.should == 3
+  end
+
+  it 'should report all bad block parameters' do
+    pending('bug')
+    source =<<EOS
+def bad(fred)
+  @fred.each {|x| 4 - x }
+  @jim.each {|y| y - 4 }
+end
+EOS
+    @cchk.check_source(source)
+    @rpt.length.should == 2
+    @rpt[0].name.should == 'Uncommunicative Name'
+    @rpt[0].report.should match(/'x'/)
+    @rpt[1].name.should == 'Uncommunicative Name'
+    @rpt[1].report.should match(/'y'/)
   end
 end
