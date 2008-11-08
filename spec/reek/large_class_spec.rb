@@ -9,7 +9,7 @@ describe ClassChecker, "(Large Class)" do
 
   class BigOne
     26.times do |i|
-      define_method "m#{i}".to_sym do
+      define_method "method#{i}".to_sym do
         @melting
       end
     end
@@ -22,12 +22,12 @@ describe ClassChecker, "(Large Class)" do
 
   it 'should not report short class' do
     class ShortClass
-      def m1() @m1; end
-      def m2() @m2; end
-      def m3() @m3; end
-      def m4() @m4; end
-      def m5() @m5; end
-      def m6() @m6; end
+      def method1() @var1; end
+      def method2() @var2; end
+      def method3() @var3; end
+      def method4() @var4; end
+      def method5() @var5; end
+      def method6() @var6; end
     end
     @cchk.check_object(ShortClass)
     @rpt.should be_empty

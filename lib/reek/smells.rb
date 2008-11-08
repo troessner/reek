@@ -159,15 +159,15 @@ module Reek
 
     def self.consider(sym, method, report, type)
       name = sym.to_s
-      if effective_length(name) < 2
-        report << new(name, method, type)
-      end
+      report << new(name, method, type) if is_bad_name?(name)
     end
 
-    def self.effective_length(name)
-      return 500 if name == '*'
+    def self.is_bad_name?(name)
+      return false if name == '*'
       name = name[1..-1] while /^@/ === name
-      name.length
+      return true if name.length < 2
+      return true if /^.[0-9]$/ === name
+      false
     end
 
     def initialize(name, context, symbol_type)
