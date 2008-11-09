@@ -10,6 +10,17 @@ module Reek
     # a parameter in order to decide which execution path to take. The
     # offending parameter is often called a Control Couple.
     # 
+    # A simple example would be the <tt>quoted</tt> parameter
+    # in the following method:
+    # 
+    #  def write(quoted)
+    #    if quoted
+    #      write_quoted(@value)
+    #    else
+    #      puts @value
+    #    end
+    #  end
+    # 
     # Control Coupling is a kind of duplication, because the calling method
     # already knows which path should be taken.
     # 
