@@ -2,6 +2,7 @@ $:.unshift File.dirname(__FILE__)
 
 require 'reek/checker'
 require 'reek/method_checker'
+require 'reek/smells/smells'
 
 module Reek
 
@@ -15,7 +16,7 @@ module Reek
     def process_class(exp)  # :nodoc:
       @description = exp[1].to_s
       superclass = exp[2]
-      LargeClass.check(@description, self)
+      Smells::LargeClass.check(@description, self)
       exp[3..-1].each { |defn| process(defn) } unless superclass == [:const, :Struct]
       s(exp)
     end

@@ -1,7 +1,9 @@
 $:.unshift File.dirname(__FILE__)
 
 require 'reek/checker'
-require 'reek/smells'
+require 'reek/smells/smells'
+require 'reek/smells/control_couple'
+require 'reek/smells/uncommunicative_name'
 require 'reek/object_refs'
 require 'set'
 
@@ -32,7 +34,7 @@ module Reek
     end
 
     def process_args(exp)
-      LongParameterList.check(exp, self)
+      Smells::LongParameterList.check(exp, self)
       @parameters = exp[1..-1]
       s(exp)
     end
@@ -53,7 +55,7 @@ module Reek
     end
 
     def process_iter(exp)
-      NestedIterators.check(@inside_an_iter, self)
+      Smells::NestedIterators.check(@inside_an_iter, self)
       @inside_an_iter = true
       exp[1..-1].each { |s| process(s) }
       @inside_an_iter = false
@@ -69,7 +71,7 @@ module Reek
     def process_yield(exp)
       args = exp[1]
       if args
-        LongYieldList.check(args, self)
+        Smells::LongYieldList.check(args, self)
         process(args)
       end
       s(exp)
@@ -104,7 +106,7 @@ module Reek
       process(exp[1])
       process(exp[2])
       process(exp[3]) if exp[3]
-      ControlCouple.check(exp[1], self, @parameters)
+      Smells::ControlCouple.check(exp[1], self, @parameters)
       s(exp)
     end
 
@@ -164,11 +166,11 @@ module Reek
     end
 
     def check_method_properties
+      Smells::UncommunicativeName.examine(self, @smells)
       return if @name == 'initialize'
-      UncommunicativeName.examine(self, @smells)
       @depends_on_self = true if is_override?
-      FeatureEnvy.check(@refs, self) unless UtilityFunction.check(@depends_on_self, self, @num_statements)
-      LongMethod.check(@num_statements, self) unless @name == 'initialize'
+      Smells::FeatureEnvy.check(@refs, self) unless Smells::UtilityFunction.check(@depends_on_self, self, @num_statements)
+      Smells::LongMethod.check(@num_statements, self) unless @name == 'initialize'
     end
   end
 end

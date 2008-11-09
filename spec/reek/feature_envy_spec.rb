@@ -5,6 +5,7 @@ require 'reek/smells'
 require 'reek/report'
 
 include Reek
+include Reek::Smells
 
 describe FeatureEnvy, 'with only messages to self' do
   before(:each) do
