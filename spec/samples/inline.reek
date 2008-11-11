@@ -7,7 +7,6 @@
 [Long Method] C#generate has approx 33 statements
 [Long Method] C#load_cache has approx 7 statements
 [Long Method] C#module_name has approx 6 statements
-[Nested Iterators] C#module_name has nested iterators
 [Feature Envy] C#module_name uses md5 more than self
 [Long Method] C#parse_signature has approx 15 statements
 [Control Couple] C#parse_signature is controlled by argument raw

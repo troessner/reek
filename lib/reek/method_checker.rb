@@ -59,11 +59,16 @@ module Reek
       s(exp)
     end
 
+    def cascade_iter(exp)
+      process(exp[1])
+      @inside_an_iter = true
+      exp[2..-1].each { |s| process(s) }
+      @inside_an_iter = false
+    end
+
     def process_iter(exp)
       Smells::NestedIterators.check(@inside_an_iter, self)
-      @inside_an_iter = true
-      exp[1..-1].each { |s| process(s) }
-      @inside_an_iter = false
+      cascade_iter(exp)
       s(exp)
     end
 

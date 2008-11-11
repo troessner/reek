@@ -5,50 +5,39 @@ require 'reek/report'
 
 include Reek
 
+def check(desc, src, expected, pending_str = nil)
+  it(desc) do
+    pending(pending_str) unless pending_str.nil?
+    rpt = Report.new
+    cchk = MethodChecker.new(rpt, 'Thing')
+    cchk.check_source(src)
+    rpt.length.should == expected.length
+    (0...rpt.length).each do |smell|
+      expected[smell].each { |patt| rpt[smell].detailed_report.should match(patt) }
+    end
+  end
+end
+
 describe MethodChecker, " nested iterators" do
 
-  before(:each) do
-    @rpt = Report.new
-    @chk = MethodChecker.new(@rpt, 'Thing')
-  end
+  check 'should report nested iterators in a method',
+    'def bad(fred) @fred.each {|item| item.each {|ting| ting.ting} } end', [[/nested iterators/]]
 
-  it "should report nested iterators in a method" do
-    @chk.check_source('def bad(fred) @fred.each {|item| item.each {|ting| ting.ting} } end')
-    @rpt.length.should == 1
-  end
+  check 'should not report method with successive iterators',
+    'def bad(fred)
+      @fred.each {|item| item.each }
+      @jim.each {|ting| ting.each }
+    end', []
 
-  it "should not report method with successive iterators" do
-    source =<<EOS
-def bad(fred)
-  @fred.each {|item| item.each }
-  @jim.each {|ting| ting.each }
-end
-EOS
-    @chk.check_source(source)
-    @rpt.should be_empty
-  end
+  check 'should not report method with chained iterators',
+    'def chained
+      @sig.keys.sort_by { |x| x.to_s }.each { |m| md5 << m.to_s }
+    end', []
 
-  it "should not report method with chained iterators" do
-    pending('bug')
-    source =<<EOS
-def module_name
-  @sig.keys.sort_by { |x| x.to_s }.each { |m| md5 << m.to_s }
-end
-EOS
-    @chk.check_source(source)
-    puts @rpt
-    @rpt.should be_empty
-  end
-
-  it "should report nested iterators only once per method" do
-    source =<<EOS
-def bad(fred)
+  check 'should report nested iterators only once per method',
+    'def bad(fred)
   @fred.each {|item| item.each {|part| @joe.send} }
   @jim.each {|ting| ting.each {|piece| @hal.send} }
-end    
-EOS
-    @chk.check_source(source)
-    @rpt.length.should == 1
-  end
+end', [[/nested iterators/]]
 end
 
