@@ -28,6 +28,18 @@ EOS
     @rpt.should be_empty
   end
 
+  it "should not report method with chained iterators" do
+    pending('bug')
+    source =<<EOS
+def module_name
+  @sig.keys.sort_by { |x| x.to_s }.each { |m| md5 << m.to_s }
+end
+EOS
+    @chk.check_source(source)
+    puts @rpt
+    @rpt.should be_empty
+  end
+
   it "should report nested iterators only once per method" do
     source =<<EOS
 def bad(fred)

@@ -5,6 +5,12 @@ require 'reek/smells/smell'
 module Reek
   module Smells
 
+    #
+    # A Long Method is any method that has a large number of lines.
+    #
+    # Currently +LongMethod+ reports any method with more than
+    # +MAX_ALLOWED+ statements.
+    #
     class LongMethod < Smell
       MAX_ALLOWED = 5
 

@@ -5,6 +5,14 @@ require 'reek/smells/smell'
 module Reek
   module Smells
 
+    #
+    # A Long Parameter List occurs when a method has more than one
+    # or two parameters, or when a method yields more than one or
+    # two objects to an associated block.
+    #
+    # Currently +LongParameterList+ reports any method with more
+    # than +MAX_ALLOWED+ parameters.
+    #
     class LongParameterList < Smell
       MAX_ALLOWED = 3
 

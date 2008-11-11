@@ -5,6 +5,10 @@ require 'reek/smells/smell'
 module Reek
   module Smells
 
+    # 
+    # A Utility Function is any instance method that has no
+    # dependency on the state of the instance.
+    #
     class UtilityFunction < Smell
       def initialize(context, num_stmts)
         super

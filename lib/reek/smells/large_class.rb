@@ -5,6 +5,13 @@ require 'reek/smells/smell'
 module Reek
   module Smells
 
+    #
+    # A Large Class is a class or module that has a large number of
+    # instance variables, methods or lines of code.
+    # 
+    # Currently +LargeClass+ only reports classes having more than
+    # +MAX_ALLOWED+ methods.
+    #
     class LargeClass < Smell
       MAX_ALLOWED = 25
 
