@@ -2,7 +2,7 @@ $:.unshift File.dirname(__FILE__)
 
 require 'reek/checker'
 require 'reek/method_checker'
-require 'reek/smells/smells'
+require 'reek/smells/smell'
 
 module Reek
 

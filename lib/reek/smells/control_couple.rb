@@ -1,6 +1,6 @@
 $:.unshift File.dirname(__FILE__)
 
-require 'reek/smells/smells'
+require 'reek/smells/smell'
 
 module Reek
   module Smells

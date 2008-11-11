@@ -1,7 +1,7 @@
 $:.unshift File.dirname(__FILE__)
 
 require 'reek/checker'
-require 'reek/smells/smells'
+require 'reek/smells/smell'
 require 'reek/smells/control_couple'
 require 'reek/smells/uncommunicative_name'
 require 'reek/object_refs'

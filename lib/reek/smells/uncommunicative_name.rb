@@ -1,6 +1,6 @@
 $:.unshift File.dirname(__FILE__)
 
-require 'reek/smells/smells'
+require 'reek/smells/smell'
 
 module Reek
   module Smells
@@ -14,8 +14,9 @@ module Reek
     # and they hurt the flow of reading, because the reader must slow
     # down to interpret the names.
     #
-    # Currently +UncommunicativeName+ checks for 1-character names, and
-    # names consisting of a single character followed by a number.
+    # Currently +UncommunicativeName+ checks for
+    # * 1-character names
+    # * names consisting of a single character followed by a number
     #
     class UncommunicativeName < Smell
 
