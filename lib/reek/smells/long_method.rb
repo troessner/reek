@@ -12,7 +12,19 @@ module Reek
     # +MAX_ALLOWED+ statements.
     #
     class LongMethod < Smell
+
       MAX_ALLOWED = 5
+
+      def self.examine(method, report)
+        return if method.name == 'initialize'
+        num = method.num_statements
+        report << new(method, num) if num > MAX_ALLOWED
+      end
+
+      def initialize(context, num)
+        super(context)
+        @num_stmts = num
+      end
 
       def recognise?(num_stmts)
         @num_stmts = num_stmts

@@ -3,6 +3,8 @@
 * Minor enhancements:
   * Uncommunicative Name now checks instance variables more thoroughly
   * Uncommunicative Name now warns about names of the form 'x2'
+  * Added rdoc comments explaining what each smell is about
+  * Chained iterators are no longer mis-reported as nested
 
 == 0.3.0 2008-11-02
 

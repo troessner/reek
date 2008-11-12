@@ -16,7 +16,7 @@ module Reek
 
   class MethodChecker < Checker
 
-    attr_reader :local_variables, :name, :parameters
+    attr_reader :local_variables, :name, :parameters, :num_statements
     attr_reader :instance_variables     # TODO: should be on the class
 
     def initialize(smells, klass_name)
@@ -177,10 +177,10 @@ module Reek
 
     def check_method_properties
       Smells::UncommunicativeName.examine(self, @smells)
+      Smells::LongMethod.examine(self, @smells)
       return if @name == 'initialize'
       @depends_on_self = true if is_override?
       Smells::FeatureEnvy.check(@refs, self) unless Smells::UtilityFunction.check(@depends_on_self, self, @num_statements)
-      Smells::LongMethod.check(@num_statements, self) unless @name == 'initialize'
     end
   end
 end

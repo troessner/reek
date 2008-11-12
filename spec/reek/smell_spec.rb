@@ -10,7 +10,7 @@ describe Smell, "camel case converter" do
   end
   
   it "should display correct name in report" do
-    smell = LongMethod.new(self)
+    smell = LongMethod.new(self, 25)
     smell.report.should match(/[#{smell.name}]/)
   end
 end

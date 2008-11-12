@@ -54,12 +54,12 @@ describe SortByContext do
   end
 
   it 'should return 0 for identical smells' do
-    smell = LongMethod.new('Class#method')
+    smell = LongMethod.new('Class#method', 30)
     @sorter.compare(smell, smell).should == 0
   end
 
   it 'should return non-0 for different smells' do
-    @sorter.compare(LongMethod.new('x'), LargeClass.new('y')).should == -1
+    @sorter.compare(LongMethod.new('x', 30), LargeClass.new('y')).should == -1
   end
 end
 
@@ -69,14 +69,14 @@ describe SortBySmell do
   end
   
   it 'should return 0 for identical smells' do
-    @sorter.compare(LongMethod.new('x'), LongMethod.new('x')).should == 0
+    @sorter.compare(LongMethod.new('x', 30), LongMethod.new('x', 30)).should == 0
   end
 
   it 'should differentiate identical smells with different contexts' do
-    @sorter.compare(LongMethod.new('x'), LongMethod.new('y')).should == -1
+    @sorter.compare(LongMethod.new('x', 29), LongMethod.new('y', 29)).should == -1
   end
 
   it 'should differentiate different smells with identical contexts' do
-    @sorter.compare(LongMethod.new('x'), LargeClass.new('x')).should == 1
+    @sorter.compare(LongMethod.new('x', 28), LargeClass.new('x')).should == 1
   end
 end
