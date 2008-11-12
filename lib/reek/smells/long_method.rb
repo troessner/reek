@@ -26,11 +26,6 @@ module Reek
         @num_stmts = num
       end
 
-      def recognise?(num_stmts)
-        @num_stmts = num_stmts
-        num_stmts > MAX_ALLOWED
-      end
-
       def detailed_report
         "#{@context} has approx #{@num_stmts} statements"
       end

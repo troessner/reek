@@ -57,3 +57,25 @@ end
 EOS
   check 'should report all bad block parameters', source, [[/'x'/], [/'y'/]], 'bug'
 end
+
+require 'ostruct'
+
+describe UncommunicativeName, '#examine' do
+  
+  before :each do
+    @mc = OpenStruct.new
+    @mc.parameters = []
+    @mc.local_variables = []
+    @mc.instance_variables = []
+  end
+
+  it 'should return true when reporting a smell' do
+    @mc.name = 'x'
+    UncommunicativeName.examine(@mc, []).should == true
+  end
+  
+  it 'should return false when not reporting a smell' do
+    @mc.name = 'not_bad'
+    UncommunicativeName.examine(@mc, []).should == false
+  end
+end

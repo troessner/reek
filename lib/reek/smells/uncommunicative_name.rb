@@ -20,22 +20,33 @@ module Reek
     #
     class UncommunicativeName < Smell
 
+      #
+      # Checks the given +method+ for uncommunicative method name,
+      # parameter names, local variable names and instance variable names.
+      # Any smells found are added to the +report+; returns true in that case,
+      # and false otherwise.
+      #
       def self.examine(method, report)
-        consider(method.name, method, report, 'method')
+        smell_reported = consider(method.name, method, report, 'method')
         method.parameters.each do |param|
-          consider(param, method, report, 'parameter')
+          smell_reported = consider(param, method, report, 'parameter') || smell_reported
         end
         method.local_variables.each do |lvar|
-          consider(lvar, method, report, 'local variable')
+          smell_reported = consider(lvar, method, report, 'local variable') || smell_reported
         end
         method.instance_variables.each do |ivar|
-          consider(ivar, method, report, 'field')
+          smell_reported = consider(ivar, method, report, 'field') || smell_reported
         end
+        smell_reported
       end
 
-      def self.consider(sym, method, report, type)
+      def self.consider(sym, method, report, type)  # :nodoc:
         name = sym.to_s
-        report << new(name, method, type) if is_bad_name?(name)
+        if is_bad_name?(name)
+          report << new(name, method, type)
+          return true
+        end
+        return false
       end
 
       def self.is_bad_name?(name)
@@ -50,11 +61,6 @@ module Reek
         super(context, symbol_type)
         @bad_name = name
         @symbol_type = symbol_type
-      end
-
-      def recognise?(symbol)
-        @symbol = symbol.to_s
-        UncommunicativeName.effective_length(@symbol) < 2
       end
 
       def detailed_report
