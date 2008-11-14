@@ -78,10 +78,7 @@ module Reek
     end
 
     def process_fcall(exp)
-      meth, args = exp[1..2]
-      @report = meth.to_s
-      @report += "(#{Printer.print(args)})" if args
-      s(exp)
+      process_vcall(exp)
     end
 
     def process_cvar(exp)

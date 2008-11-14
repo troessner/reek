@@ -29,6 +29,11 @@ module Reek
       s(exp)
     end
 
+    def process_defn(exp)  # :nodoc:
+      Reek::MethodChecker.new(@smells, @description).process(exp)
+      s(exp)
+    end  
+
     def report(smell)  # :nodoc:
       @smells << smell
     end
@@ -56,3 +61,8 @@ module Reek
     end
   end
 end
+
+# SMELL:
+# This is here to resolve a circular dependency -- MethodChecker inherits
+# Checker, which calls MethodChecker. Yuk!
+require 'reek/method_checker'

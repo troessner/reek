@@ -2,7 +2,6 @@ $:.unshift File.dirname(__FILE__)
 
 require 'reek/checker'
 require 'reek/class_checker'
-require 'reek/method_checker'
 
 module Reek
 
@@ -17,10 +16,5 @@ module Reek
       Reek::ClassChecker.new(@smells).process(exp)
       s(exp)
     end
-
-    def process_defn(exp)  # :nodoc:
-      Reek::MethodChecker.new(@smells, @description).process(exp)
-      s(exp)
-    end  
   end
 end
