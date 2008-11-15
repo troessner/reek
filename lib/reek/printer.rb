@@ -102,6 +102,36 @@ module Reek
       s(exp)
     end
 
+    def process_nth_ref(exp)
+      @report = "$#{exp[1]}"
+      s(exp)
+    end
+
+    def process_lasgn(exp)
+      @report = "#{exp[1]}=#{Printer.print(exp[2])}"
+      s(exp)
+    end
+
+    def process_str(exp)
+      @report = exp[1]
+      s(exp)
+    end
+
+    def process_dstr(exp)
+      @report = '"' + exp[1..-1].map {|sub| Printer.print(sub)}.join + '"'
+      s(exp)
+    end
+
+    def process_evstr(exp)
+      @report = "\#\{#{Printer.print(exp[1])}\}"
+      s(exp)
+    end
+
+    def process_true(exp)
+      @report = 'true'
+      s(exp)
+    end
+
     def process_call(exp)
       receiver, meth, args = exp[1..3]
       @report = "#{Printer.print(receiver)}"

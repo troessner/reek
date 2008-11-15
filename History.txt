@@ -3,6 +3,8 @@
 * Minor enhancements:
   * Uncommunicative Name now checks instance variables more thoroughly
   * Uncommunicative Name now warns about names of the form 'x2'
+  * Added check for duplicated calls within a method
+  * Reduced scope of Feature Envy warnings to cover only overuse of lvars
   * Added rdoc comments explaining what each smell is about
   * Chained iterators are no longer mis-reported as nested
 

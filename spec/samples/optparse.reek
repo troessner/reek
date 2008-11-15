@@ -2,13 +2,13 @@
 [Long Parameter List] CompletingHash#complete has 4 parameters
 [Nested Iterators] CompletingHash#complete has nested iterators
 [Long Method] CompletingHash#getopts has approx 17 statements
-[Duplication] CompletingHash#make_switch calls default_style.guess([:lasgn, :arg, [:lvar, :a]]) more than once
-[Duplication] CompletingHash#make_switch calls long.<<([:lasgn, :o, [:call, [:lvar, :q], :downcase]]) more than once
+[Duplication] CompletingHash#make_switch calls default_style.guess(arg=a) more than once
+[Duplication] CompletingHash#make_switch calls long.<<(o=q.downcase) more than once
 [Duplication] CompletingHash#make_switch calls pattern.method(convert) more than once
 [Duplication] CompletingHash#make_switch calls pattern.method(convert).to_proc more than once
 [Duplication] CompletingHash#make_switch calls pattern.respond_to?(convert) more than once
 [Duplication] CompletingHash#make_switch calls q.downcase more than once
-[Duplication] CompletingHash#make_switch calls sdesc.<<([:dstr, "-", [:evstr, [:lvar, :q]]]) more than once
+[Duplication] CompletingHash#make_switch calls sdesc.<<("-#{q}") more than once
 [Long Method] CompletingHash#make_switch has approx 69 statements
 [Nested Iterators] CompletingHash#make_switch has nested iterators
 [Uncommunicative Name] CompletingHash#make_switch uses the local variable name 'a'
@@ -21,7 +21,7 @@
 [Feature Envy] CompletingHash#order uses argv more than self
 [Duplication] CompletingHash#parse calls argv[0] more than once
 [Feature Envy] CompletingHash#parse uses argv more than self
-[Duplication] CompletingHash#parse_in_order calls $!.set_option(arg, [:true]) more than once
+[Duplication] CompletingHash#parse_in_order calls $!.set_option(arg, true) more than once
 [Duplication] CompletingHash#parse_in_order calls cb.call(val) more than once
 [Duplication] CompletingHash#parse_in_order calls setter.call(sw.switch_name, val) more than once
 [Duplication] CompletingHash#parse_in_order calls sw.block more than once

@@ -1,16 +1,16 @@
 [Duplication] C#build calls $?.==(0) more than once
 [Duplication] C#build calls Inline.directory more than once
 [Duplication] C#build calls io.puts more than once
-[Duplication] C#build calls io.puts("#endif") more than once
-[Duplication] C#build calls io.puts("#ifdef __cplusplus") more than once
+[Duplication] C#build calls io.puts(#endif) more than once
+[Duplication] C#build calls io.puts(#ifdef __cplusplus) more than once
 [Long Method] C#build has approx 61 statements
 [Nested Iterators] C#build has nested iterators
 [Uncommunicative Name] C#build uses the local variable name 't'
 [Uncommunicative Name] C#c uses the method name 'c'
-[Duplication] C#crap_for_windoze calls Config::CONFIG["libdir"] more than once
-[Duplication] C#generate calls result.sub!((?-mix:\A\n), "") more than once
-[Duplication] C#generate calls signature["args"] more than once
-[Duplication] C#generate calls signature["args"].map more than once
+[Duplication] C#crap_for_windoze calls Config::CONFIG[libdir] more than once
+[Duplication] C#generate calls result.sub!((?-mix:\A\n), ) more than once
+[Duplication] C#generate calls signature[args] more than once
+[Duplication] C#generate calls signature[args].map more than once
 [Long Method] C#generate has approx 33 statements
 [Duplication] C#initialize calls stack.empty? more than once
 [Long Method] C#load_cache has approx 7 statements

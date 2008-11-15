@@ -21,6 +21,7 @@ lib/reek/smells/long_parameter_list.rb
 lib/reek/smells/long_yield_list.rb
 lib/reek/smells/nested_iterators.rb
 lib/reek/smells/smell.rb
+lib/reek/smells/smells.rb
 lib/reek/smells/uncommunicative_name.rb
 lib/reek/smells/utility_function.rb
 lib/reek/version.rb

@@ -23,4 +23,8 @@ describe Printer do
   check 'array[0, 1, 2]'
   check 'obj.method(arg1, arg2)'
   check 'obj.method'
+  check '$1'
+  check 'o=q.downcase'
+  check 'true'
+  check '"-#{q}xxx#{z.size}"'
 end

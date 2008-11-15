@@ -35,7 +35,7 @@
 [Nested Iterators] RedCloth#inline_textile_span has nested iterators
 [Utility Function] RedCloth#lT doesn't depend on instance state
 [Utility Function] RedCloth#no_textile doesn't depend on instance state
-[Duplication] RedCloth#pba calls [:nth_ref, 1].length more than once
+[Duplication] RedCloth#pba calls $1.length more than once
 [Long Method] RedCloth#pba has approx 22 statements
 [Control Couple] RedCloth#pba is controlled by argument text_in
 [Feature Envy] RedCloth#pba uses style and text more than self
@@ -45,7 +45,7 @@
 [Duplication] RedCloth#rip_offtags calls codepre.-(used_offtags.length).>(0) more than once
 [Duplication] RedCloth#rip_offtags calls codepre.zero? more than once
 [Duplication] RedCloth#rip_offtags calls used_offtags.length more than once
-[Duplication] RedCloth#rip_offtags calls used_offtags["notextile"] more than once
+[Duplication] RedCloth#rip_offtags calls used_offtags[notextile] more than once
 [Long Method] RedCloth#rip_offtags has approx 22 statements
 [Feature Envy] RedCloth#rip_offtags uses codepre more than self
 [Long Parameter List] RedCloth#textile_bq has 4 parameters
