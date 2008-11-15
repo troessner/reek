@@ -17,7 +17,7 @@ module Reek
 
     attr_reader :local_variables, :name, :parameters, :num_statements
     attr_reader :instance_variables     # TODO: should be on the class
-    attr_reader :calls
+    attr_reader :calls, :depends_on_self
 
     def initialize(smells, klass_name)
       super(smells)
@@ -174,10 +174,10 @@ module Reek
     end
 
     def check_method_properties
+      @depends_on_self = true if is_override?
       SMELLS[:defn].each {|smell| smell.examine(self, @smells) }
       return if @name == 'initialize'
-      @depends_on_self = true if is_override?
-      Smells::FeatureEnvy.check(@refs, self) unless Smells::UtilityFunction.check(@depends_on_self, self, @num_statements)
+      Smells::FeatureEnvy.check(@refs, self)
     end
 
     def cascade_iter(exp)

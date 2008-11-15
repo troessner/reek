@@ -10,13 +10,19 @@ module Reek
     # dependency on the state of the instance.
     #
     class UtilityFunction < Smell
-      def initialize(context, num_stmts)
-        super
-        @num_stmts = num_stmts
-      end
 
-      def recognise?(depends_on_self)
-        @num_stmts > 0 and !depends_on_self
+      #
+      # Checks whether the given +method+ is a utility function.
+      # Any smells found are added to the +report+; returns true in that case,
+      # and false otherwise.
+      #
+      def self.examine(method, report)
+        return false if method.name == 'initialize'
+        if method.num_statements > 0 and !method.depends_on_self
+          report << new(method)
+          true
+        end
+        false
       end
 
       def detailed_report

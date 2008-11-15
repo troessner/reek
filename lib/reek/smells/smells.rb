@@ -13,6 +13,11 @@ require 'reek/smells/utility_function'
 module Reek
 
   SMELLS = {
-    :defn => [Smells::UncommunicativeName, Smells::LongMethod, Smells::Duplication]
+    :defn => [
+      Smells::UncommunicativeName,
+      Smells::LongMethod,
+      Smells::Duplication,
+      Smells::UtilityFunction
+      ]
   }
 end
