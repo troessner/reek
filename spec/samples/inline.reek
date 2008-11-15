@@ -1,10 +1,18 @@
+[Duplication] C#build calls $?.==(0) more than once
+[Duplication] C#build calls Inline.directory more than once
+[Duplication] C#build calls io.puts more than once
+[Duplication] C#build calls io.puts("#endif") more than once
+[Duplication] C#build calls io.puts("#ifdef __cplusplus") more than once
 [Long Method] C#build has approx 61 statements
 [Nested Iterators] C#build has nested iterators
-[Feature Envy] C#build uses io more than self
 [Uncommunicative Name] C#build uses the local variable name 't'
 [Uncommunicative Name] C#c uses the method name 'c'
-[Feature Envy] C#crap_for_windoze uses Config::CONFIG more than self
+[Duplication] C#crap_for_windoze calls Config::CONFIG["libdir"] more than once
+[Duplication] C#generate calls result.sub!((?-mix:\A\n), "") more than once
+[Duplication] C#generate calls signature["args"] more than once
+[Duplication] C#generate calls signature["args"].map more than once
 [Long Method] C#generate has approx 33 statements
+[Duplication] C#initialize calls stack.empty? more than once
 [Long Method] C#load_cache has approx 7 statements
 [Long Method] C#module_name has approx 6 statements
 [Feature Envy] C#module_name uses md5 more than self
@@ -13,5 +21,6 @@
 [Utility Function] C#strip_comments doesn't depend on instance state
 [Large Class] Dir has 31 methods
 [Large Class] Module has 34 methods
+[Duplication] Module#inline calls Inline.const_get(lang) more than once
 [Long Method] Module#inline has approx 12 statements
 [Control Couple] Module#inline is controlled by argument options

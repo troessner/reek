@@ -12,8 +12,6 @@ module Reek
       ParseTree.new.parse_tree_for_string(code)
     end
 
-    attr_accessor :description
-
     # Creates a new Ruby code checker. Any smells discovered by
     # +check_source+ or +check_object+ will be stored in +report+.
     def initialize(report)

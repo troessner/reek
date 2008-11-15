@@ -2,6 +2,13 @@
 [Long Parameter List] CompletingHash#complete has 4 parameters
 [Nested Iterators] CompletingHash#complete has nested iterators
 [Long Method] CompletingHash#getopts has approx 17 statements
+[Duplication] CompletingHash#make_switch calls default_style.guess([:lasgn, :arg, [:lvar, :a]]) more than once
+[Duplication] CompletingHash#make_switch calls long.<<([:lasgn, :o, [:call, [:lvar, :q], :downcase]]) more than once
+[Duplication] CompletingHash#make_switch calls pattern.method(convert) more than once
+[Duplication] CompletingHash#make_switch calls pattern.method(convert).to_proc more than once
+[Duplication] CompletingHash#make_switch calls pattern.respond_to?(convert) more than once
+[Duplication] CompletingHash#make_switch calls q.downcase more than once
+[Duplication] CompletingHash#make_switch calls sdesc.<<([:dstr, "-", [:evstr, [:lvar, :q]]]) more than once
 [Long Method] CompletingHash#make_switch has approx 69 statements
 [Nested Iterators] CompletingHash#make_switch has nested iterators
 [Uncommunicative Name] CompletingHash#make_switch uses the local variable name 'a'
@@ -10,27 +17,35 @@
 [Uncommunicative Name] CompletingHash#make_switch uses the local variable name 'q'
 [Uncommunicative Name] CompletingHash#make_switch uses the local variable name 's'
 [Nested Iterators] CompletingHash#match has nested iterators
+[Duplication] CompletingHash#order calls argv[0] more than once
 [Feature Envy] CompletingHash#order uses argv more than self
+[Duplication] CompletingHash#parse calls argv[0] more than once
 [Feature Envy] CompletingHash#parse uses argv more than self
+[Duplication] CompletingHash#parse_in_order calls $!.set_option(arg, [:true]) more than once
+[Duplication] CompletingHash#parse_in_order calls cb.call(val) more than once
+[Duplication] CompletingHash#parse_in_order calls setter.call(sw.switch_name, val) more than once
+[Duplication] CompletingHash#parse_in_order calls sw.block more than once
+[Duplication] CompletingHash#parse_in_order calls sw.switch_name more than once
 [Long Method] CompletingHash#parse_in_order has approx 30 statements
 [Nested Iterators] CompletingHash#parse_in_order has nested iterators
 [Control Couple] CompletingHash#parse_in_order is controlled by argument setter
+[Duplication] CompletingHash#permute calls argv[0] more than once
 [Feature Envy] CompletingHash#permute uses argv more than self
 [Long Parameter List] CompletingHash#summarize has 4 parameters
 [Uncommunicative Name] CompletingHash#ver uses the local variable name 'v'
 [Control Couple] List#accept is controlled by argument pat
 [Feature Envy] List#accept uses pat more than self
 [Uncommunicative Name] List#accept uses the parameter name 't'
-[Feature Envy] List#add_banner uses opt more than self
 [Long Parameter List] List#complete has 4 parameters
 [Uncommunicative Name] List#reject uses the parameter name 't'
-[Feature Envy] List#summarize uses opt more than self
 [Long Parameter List] List#update has 5 parameters
 [Long Method] List#update has approx 6 statements
 [Control Couple] List#update is controlled by argument lopts
 [Control Couple] List#update is controlled by argument sopts
 [Uncommunicative Name] List#update uses the local variable name 'o'
 [Control Couple] NoArgument#parse is controlled by argument arg
+[Duplication] OptionParser#complete calls candidates.size more than once
+[Duplication] OptionParser#complete calls k.id2name more than once
 [Long Method] OptionParser#complete has approx 23 statements
 [Feature Envy] OptionParser#complete uses candidates more than self
 [Uncommunicative Name] OptionParser#complete uses the local variable name 'k'
@@ -42,10 +57,18 @@
 [Control Couple] RequiredArgument#parse is controlled by argument arg
 [Uncommunicative Name] Switch#add_banner uses the local variable name 's'
 [Long Parameter List] Switch#initialize has 7 parameters
+[Duplication] Switch#parse_arg calls s.length more than once
 [Long Method] Switch#parse_arg has approx 12 statements
 [Feature Envy] Switch#parse_arg uses arg more than self
 [Uncommunicative Name] Switch#parse_arg uses the local variable name 'm'
 [Uncommunicative Name] Switch#parse_arg uses the local variable name 's'
+[Duplication] Switch#summarize calls block.max more than once
+[Duplication] Switch#summarize calls block.max.to_i more than once
+[Duplication] Switch#summarize calls indent.+(l) more than once
+[Duplication] Switch#summarize calls left.collect more than once
+[Duplication] Switch#summarize calls left.shift more than once
+[Duplication] Switch#summarize calls left[-1] more than once
+[Duplication] Switch#summarize calls s.length more than once
 [Long Parameter List] Switch#summarize has 5 parameters
 [Long Method] Switch#summarize has approx 27 statements
 [Nested Iterators] Switch#summarize has nested iterators

@@ -10,7 +10,7 @@ module Reek
     # instance variables, methods or lines of code.
     # 
     # Currently +LargeClass+ only reports classes having more than
-    # +MAX_ALLOWED+ methods.
+    # +MAX_ALLOWED+ public methods.
     #
     class LargeClass < Smell
       MAX_ALLOWED = 25

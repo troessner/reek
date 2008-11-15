@@ -38,7 +38,7 @@ module Reek
       alias eql? <=>
 
       def name
-        self.class.convert_camel_case(self.class.name.split(/::/)[2])
+        Smell.convert_camel_case(self.class.name.split(/::/)[2])
       end
 
       def report

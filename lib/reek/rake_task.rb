@@ -100,9 +100,9 @@ private
     end
 
     def cmd_words
-      [self.class.ruby_exe] +
+      [RakeTask.ruby_exe] +
           ruby_options +
-          [ %Q|"#{self.class.reek_script}"| ] +
+          [ %Q|"#{RakeTask.reek_script}"| ] +
           [sort_option] +
           source_file_list.collect { |fn| %["#{fn}"] }
     end

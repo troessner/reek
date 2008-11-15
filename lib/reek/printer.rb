@@ -31,7 +31,7 @@ module Reek
     end
 
     def process_array(exp)
-      @report = Printer.print(exp[1])
+      @report = exp[1..-1].map {|arg| Printer.print(arg)}.join(', ')
       s(exp)
     end
 
@@ -104,9 +104,20 @@ module Reek
 
     def process_call(exp)
       receiver, meth, args = exp[1..3]
-      @report = "#{Printer.print(receiver)}.#{meth}"
-      @report += "(#{Printer.print(args)})" if args
+      @report = "#{Printer.print(receiver)}"
+      if meth.to_s == '[]'
+        @report += Printer.format_array_args(args)
+      else
+        @report += ".#{meth}" + (args ? "(#{Printer.print(args)})" : '')
+      end
       s(exp)
+    end
+
+private
+    
+    def Printer.format_array_args(args)
+      args_str = args ? Printer.print(args) : ''
+      "[#{args_str}]"
     end
   end
   

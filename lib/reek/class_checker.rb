@@ -6,6 +6,8 @@ require 'reek/smells/large_class'
 module Reek
 
   class ClassChecker < Checker
+    
+    attr_accessor :description
 
     def initialize(report)
       super(report)

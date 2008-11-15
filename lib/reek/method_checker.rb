@@ -3,12 +3,11 @@ $:.unshift File.dirname(__FILE__)
 require 'reek/checker'
 require 'reek/smells/control_couple'
 require 'reek/smells/feature_envy'
-require 'reek/smells/long_method'
 require 'reek/smells/long_parameter_list'
 require 'reek/smells/long_yield_list'
 require 'reek/smells/nested_iterators'
-require 'reek/smells/uncommunicative_name'
 require 'reek/smells/utility_function'
+require 'reek/smells/smells'
 require 'reek/object_refs'
 require 'set'
 
@@ -18,22 +17,28 @@ module Reek
 
     attr_reader :local_variables, :name, :parameters, :num_statements
     attr_reader :instance_variables     # TODO: should be on the class
+    attr_reader :calls
 
     def initialize(smells, klass_name)
       super(smells)
-      @class_name = @description = klass_name
+      @class_name = klass_name
       @refs = ObjectRefs.new
       @local_variables = Set.new
       @instance_variables = Set.new
       @parameters = []
+      @calls = Hash.new(0)
       @num_statements = 0
       @depends_on_self = false
     end
+    
+    def description
+      "#{@class_name}##{@name}"
+    end
 
     def process_defn(exp)
-      @name = exp[1].to_s
-      @description = "#{@class_name}##{exp[1]}"
-      process(exp[2])
+      name, args = exp[1..2]
+      @name = name.to_s
+      process(args)
       check_method_properties
       s(exp)
     end
@@ -59,13 +64,6 @@ module Reek
       s(exp)
     end
 
-    def cascade_iter(exp)
-      process(exp[1])
-      @inside_an_iter = true
-      exp[2..-1].each { |s| process(s) }
-      @inside_an_iter = false
-    end
-
     def process_iter(exp)
       Smells::NestedIterators.check(@inside_an_iter, self)
       cascade_iter(exp)
@@ -88,9 +86,9 @@ module Reek
     end
 
     def process_call(exp)
+      @calls[exp] += 1
       receiver, meth, args = exp[1..3]
-      @refs.record_ref(receiver)
-      process(receiver)
+      deal_with_receiver(receiver, meth)
       process(args) if args
       s(exp)
     end
@@ -113,10 +111,10 @@ module Reek
     end
 
     def process_if(exp)
-      process(exp[1])
-      process(exp[2])
-      process(exp[3]) if exp[3]
-      Smells::ControlCouple.check(exp[1], self, @parameters)
+      cond, then_part, else_part = exp[1..3]
+      deal_with_conditional(cond, then_part)
+      process(else_part) if else_part
+      Smells::ControlCouple.check(cond, self, @parameters)
       s(exp)
     end
 
@@ -176,11 +174,27 @@ module Reek
     end
 
     def check_method_properties
-      Smells::UncommunicativeName.examine(self, @smells)
-      Smells::LongMethod.examine(self, @smells)
+      SMELLS[:defn].each {|smell| smell.examine(self, @smells) }
       return if @name == 'initialize'
       @depends_on_self = true if is_override?
       Smells::FeatureEnvy.check(@refs, self) unless Smells::UtilityFunction.check(@depends_on_self, self, @num_statements)
+    end
+
+    def cascade_iter(exp)
+      process(exp[1])
+      @inside_an_iter = true
+      exp[2..-1].each { |s| process(s) }
+      @inside_an_iter = false
+    end
+
+    def deal_with_conditional(cond, then_part)
+      process(cond)
+      process(then_part)
+    end
+
+    def deal_with_receiver(receiver, meth)
+      @refs.record_ref(receiver) if (receiver[0] == :lvar and meth != :new)
+      process(receiver)
     end
   end
 end

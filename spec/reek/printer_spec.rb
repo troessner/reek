@@ -1,30 +1,26 @@
 require File.dirname(__FILE__) + '/../spec_helper.rb'
 
-require 'reek/method_checker'
-require 'reek/smells'
-require 'reek/report'
+require 'reek/checker'
+require 'reek/printer'
 
 include Reek
 
-def render(source)
-  sexp = Checker.parse_tree_for(source)[0]
-  Printer.print(sexp)
+def check(examples)
+  examples.each do |actual|
+    it "should format #{actual} correctly" do
+      sexp = Checker.parse_tree_for(actual)[0]
+      Printer.print(sexp).should == actual
+    end
+  end
 end
 
 describe Printer do
-  it 'should format a simple constant' do
-    render('Alpha').should == 'Alpha'
-  end
-
-  it 'should format "::" correctly' do
-    render('Alpha::Beta').should == 'Alpha::Beta'
-  end
-
-  it 'should format class variables correctly' do
-    render('@@fred').should == '@@fred'
-  end
-
-  it 'should format xstr correctly' do
-    render('`ls`').should == '`ls`'
-  end
+  check 'Alpha'
+  check 'Alpha::Beta'
+  check '@@fred'
+  check '`ls`'
+  check 'array[0]'
+  check 'array[0, 1, 2]'
+  check 'obj.method(arg1, arg2)'
+  check 'obj.method'
 end
