@@ -15,11 +15,11 @@
 [Duplication] C#initialize calls stack.empty? more than once
 [Long Method] C#load_cache has approx 7 statements
 [Long Method] C#module_name has approx 6 statements
-[Feature Envy] C#module_name uses md5 more than self
+[Feature Envy] C#module_name refers to md5 more than self
 [Long Method] C#parse_signature has approx 15 statements
 [Control Couple] C#parse_signature is controlled by argument raw
 [Utility Function] C#strip_comments doesn't depend on instance state
-[Feature Envy] C#strip_comments uses src more than self
+[Feature Envy] C#strip_comments refers to src more than self
 [Large Class] Dir has 31 methods
 [Large Class] Module has 34 methods
 [Duplication] Module#inline calls Inline.const_get(lang) more than once

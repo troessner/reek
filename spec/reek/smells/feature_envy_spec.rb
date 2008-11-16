@@ -47,7 +47,7 @@ describe FeatureEnvy, 'when there are many possible receivers' do
       total = 0
       total += fred.price
       total += fred.tax
-    end', [[/total/, /fred/]]
+    end', [[/fred/], [/total/]]
 end
 
 describe FeatureEnvy, 'when the receiver is external' do
@@ -67,4 +67,25 @@ describe FeatureEnvy, 'when the receiver is an lvar' do
   check 'should not report returning an lvar', 'def no_envy() lv = @item; lv.to_a; lv end', []
   check 'should report many calls to lvar', 'def envy; lv = @item; lv.price + lv.tax end', [[/lv/]]
   check 'should not report lvar usage in a parameter', 'def no_envy; lv = @item; lv.price + tax(lv) - savings(lv) end', []
+end
+
+require 'ostruct'
+
+describe FeatureEnvy, '#examine' do
+
+  before :each do
+    @mc = OpenStruct.new   # SMELL: this is a mock!!
+    @mc.name = 'cool'
+    @mc.refs = ObjectRefs.new
+  end
+
+  it 'should return true when reporting a smell' do
+    @mc.refs.record_ref([:lvar, :thing])
+    @mc.refs.record_ref([:lvar, :thing])
+    FeatureEnvy.examine(@mc, []).should == true
+  end
+  
+  it 'should return false when not reporting a smell' do
+    FeatureEnvy.examine(@mc, []).should == false
+  end
 end

@@ -34,14 +34,30 @@ module Reek
     #
     class FeatureEnvy < Smell
 
-      def recognise?(refs)
-        @refs = refs
-        !refs.self_is_max?
+      #
+      # Checks whether the given +method+ includes any code fragment that
+      # might "belong" on another class.
+      # Any smells found are added to the +report+; returns true in that case,
+      # and false otherwise.
+      #
+      def self.examine(method, report)
+        return false if method.name == 'initialize'
+        return false if method.refs.self_is_max?
+        smell_found = false
+        method.refs.max_keys.each do |r|
+          report << new(method, Printer.print(r))
+          smell_found = true
+        end
+        smell_found
+      end
+      
+      def initialize(context, receiver)
+        super(context)
+        @receiver = receiver
       end
 
       def detailed_report
-        receiver = @refs.max_keys.map {|r| Printer.print(r)}.sort.join(' and ')
-        "#{@context} uses #{receiver} more than self"
+        "#{@context} refers to #{@receiver} more than self"
       end
     end
 

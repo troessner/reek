@@ -18,16 +18,17 @@
 [Utility Function] RedCloth#clean_html doesn't depend on instance state
 [Long Method] RedCloth#clean_html has approx 14 statements
 [Nested Iterators] RedCloth#clean_html has nested iterators
-[Feature Envy] RedCloth#clean_html uses tags more than self
+[Feature Envy] RedCloth#clean_html refers to tags more than self
 [Long Method] RedCloth#clean_white_space has approx 7 statements
-[Feature Envy] RedCloth#clean_white_space uses text more than self
+[Feature Envy] RedCloth#clean_white_space refers to text more than self
 [Utility Function] RedCloth#flush_left doesn't depend on instance state
-[Feature Envy] RedCloth#flush_left uses indt and text more than self
+[Feature Envy] RedCloth#flush_left refers to indt more than self
+[Feature Envy] RedCloth#flush_left refers to text more than self
 [Utility Function] RedCloth#footnote_ref doesn't depend on instance state
 [Long Method] RedCloth#glyphs_textile has approx 9 statements
 [Utility Function] RedCloth#h_align doesn't depend on instance state
 [Utility Function] RedCloth#htmlesc doesn't depend on instance state
-[Feature Envy] RedCloth#htmlesc uses str more than self
+[Feature Envy] RedCloth#htmlesc refers to str more than self
 [Utility Function] RedCloth#incoming_entities doesn't depend on instance state
 [Nested Iterators] RedCloth#inline has nested iterators
 [Long Method] RedCloth#inline_markdown_link has approx 6 statements
@@ -38,11 +39,12 @@
 [Nested Iterators] RedCloth#inline_textile_span has nested iterators
 [Utility Function] RedCloth#lT doesn't depend on instance state
 [Utility Function] RedCloth#no_textile doesn't depend on instance state
-[Feature Envy] RedCloth#no_textile uses text more than self
+[Feature Envy] RedCloth#no_textile refers to text more than self
 [Duplication] RedCloth#pba calls $1.length more than once
 [Long Method] RedCloth#pba has approx 22 statements
 [Control Couple] RedCloth#pba is controlled by argument text_in
-[Feature Envy] RedCloth#pba uses style and text more than self
+[Feature Envy] RedCloth#pba refers to style more than self
+[Feature Envy] RedCloth#pba refers to text more than self
 [Duplication] RedCloth#rip_offtags calls @pre_list.last more than once
 [Duplication] RedCloth#rip_offtags calls @pre_list.last.<<(line) more than once
 [Duplication] RedCloth#rip_offtags calls codepre.-(used_offtags.length) more than once
@@ -51,7 +53,7 @@
 [Duplication] RedCloth#rip_offtags calls used_offtags.length more than once
 [Duplication] RedCloth#rip_offtags calls used_offtags[notextile] more than once
 [Long Method] RedCloth#rip_offtags has approx 22 statements
-[Feature Envy] RedCloth#rip_offtags uses codepre more than self
+[Feature Envy] RedCloth#rip_offtags refers to codepre more than self
 [Long Parameter List] RedCloth#textile_bq has 4 parameters
 [Control Couple] RedCloth#textile_bq is controlled by argument atts
 [Control Couple] RedCloth#textile_bq is controlled by argument cite

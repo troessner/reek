@@ -7,8 +7,6 @@ require 'reek/printer'
 module Reek
 
   class ObjectRefs
-    SELF_REF = Sexp.from_array([:lit, :self])
-
     def initialize
       @refs = Hash.new(0)
       record_reference_to_self
@@ -49,5 +47,10 @@ module Reek
     def self_is_max?
       max_keys.length == 0 || @refs[SELF_REF] == max_refs
     end
+
+  private
+    
+    SELF_REF = Sexp.from_array([:lit, :self])
+
   end
 end

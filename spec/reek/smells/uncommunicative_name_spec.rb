@@ -59,6 +59,8 @@ EOS
 end
 
 require 'ostruct'
+require 'reek/smells/uncommunicative_name'
+include Reek::Smells
 
 describe UncommunicativeName, '#examine' do
   
