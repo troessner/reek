@@ -20,6 +20,7 @@ Reek currently includes very naive checks for the following smells:
 * Utility Function
 * Nested Iterators
 * Control Couple
+* Duplication
 
 == FEATURES/PROBLEMS:
 

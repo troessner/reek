@@ -1,4 +1,4 @@
-== 0.3.1 2008-??-??
+== 0.3.1 2008-11-17
 
 * Minor enhancements:
   * Uncommunicative Name now checks instance variables more thoroughly

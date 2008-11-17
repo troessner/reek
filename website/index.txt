@@ -24,6 +24,7 @@ reek currently includes very naive checks for the following code smells:
 * Utility Function
 * Nested Iterators
 * Control Couple
+* Duplication
 
 h2. How to access the source code
 
