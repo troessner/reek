@@ -43,7 +43,6 @@ end
 require 'ostruct'
 
 describe Duplication, '#examine' do
-  
   before :each do
     @mc = OpenStruct.new
   end
@@ -55,6 +54,11 @@ describe Duplication, '#examine' do
   
   it 'should return false when not reporting a smell' do
     @mc.calls = []
+    Duplication.examine(@mc, []).should == false
+  end
+  
+  it 'should return false when not reporting calls to new' do
+    @mc.calls = {[:call, :Set, :new] => 4}
     Duplication.examine(@mc, []).should == false
   end
 end

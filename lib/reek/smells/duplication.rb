@@ -31,13 +31,15 @@ module Reek
       end
 
       def self.look_for_duplicate_calls(method, report)  # :nodoc:
-        smell_reported = false
+        smell_found = false
         method.calls.select {|key,val| val > 1}.each do |call_exp|
           call = call_exp[0]
-          report << new(method, call_exp[0]) unless call[2] == :new
-          smell_reported = true
+          unless call[2] == :new
+            report << new(method, call)
+            smell_found = true
+          end
         end
-        return smell_reported
+        return smell_found
       end
 
       def initialize(context, call)
