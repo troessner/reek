@@ -1,3 +1,8 @@
+== 0.3.x 2008-??-??
+
+* Fixes:
+  * Corrected false reports of long arg lists to yield
+
 == 0.3.1 2008-11-17
 
 * Minor enhancements:
