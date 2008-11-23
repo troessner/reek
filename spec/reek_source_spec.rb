@@ -9,4 +9,10 @@ describe 'Reek source code:' do
       end
     end
   end
+
+  it 'should report no duplication' do
+    files = Dir['lib/**/*.rb'].join(' ')
+    report = `flay #{files} 2>/dev/null`
+    report.should == ''
+  end
 end

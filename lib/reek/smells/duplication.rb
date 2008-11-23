@@ -29,15 +29,16 @@ module Reek
       def self.examine(method, report)
         look_for_duplicate_calls(method, report)
       end
+      
+      def self.smelly_calls(method)   # :nodoc:
+        method.calls.select { |key,val| val > 1 and key[2] != :new }.map { |call_exp| call_exp[0] }
+      end
 
       def self.look_for_duplicate_calls(method, report)  # :nodoc:
         smell_found = false
-        method.calls.select {|key,val| val > 1}.each do |call_exp|
-          call = call_exp[0]
-          unless call[2] == :new
-            report << new(method, call)
-            smell_found = true
-          end
+        smelly_calls(method).each do |call|
+          report << new(method, call)
+          smell_found = true
         end
         return smell_found
       end
