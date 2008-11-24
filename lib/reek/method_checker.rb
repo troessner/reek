@@ -3,11 +3,6 @@ $:.unshift File.dirname(__FILE__)
 require 'reek/checker'
 require 'reek/if_context'
 require 'reek/yield_call_context'
-require 'reek/smells/feature_envy'
-require 'reek/smells/long_parameter_list'
-require 'reek/smells/long_yield_list'
-require 'reek/smells/nested_iterators'
-require 'reek/smells/utility_function'
 require 'reek/smells/smells'
 require 'reek/object_refs'
 require 'set'
@@ -78,10 +73,7 @@ module Reek
     end
 
     def process_yield(exp)
-      ctx = YieldCallContext.new(self, exp)
-      process(exp[1]) unless exp.length == 0
-      SMELLS[:yield].each {|smell| smell.examine(ctx, @smells) }
-      s(exp)
+      handle_context(YieldCallContext, :yield, exp)
     end
 
     def process_call(exp)
@@ -110,10 +102,7 @@ module Reek
     end
 
     def process_if(exp)
-      ctx = IfContext.new(self, exp)
-      exp[1..-1].each {|sub| process(sub)}
-      SMELLS[:if].each {|smell| smell.examine(ctx, @smells) }
-      s(exp)
+      handle_context(IfContext, :if, exp)
     end
 
     def process_ivar(exp)
@@ -186,6 +175,13 @@ module Reek
     def deal_with_receiver(receiver, meth)
       @refs.record_ref(receiver) if (receiver[0] == :lvar and meth != :new)
       process(receiver)
+    end
+
+    def handle_context(klass, type, exp)
+      ctx = klass.new(self, exp)
+      exp[1..-1].each {|sub| process(sub)}
+      SMELLS[type].each {|smell| smell.examine(ctx, @smells) }
+      s(exp)
     end
   end
 end
