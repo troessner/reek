@@ -1,6 +1,7 @@
 $:.unshift File.dirname(__FILE__)
 
 require 'reek/checker'
+require 'reek/yield_call_context'
 require 'reek/smells/control_couple'
 require 'reek/smells/feature_envy'
 require 'reek/smells/long_parameter_list'
@@ -77,11 +78,9 @@ module Reek
     end
 
     def process_yield(exp)
-      args = exp[1]
-      if args
-        Smells::LongYieldList.check(args, self)
-        process(args)
-      end
+      ctx = YieldCallContext.new(self, exp)
+      process(exp[1]) unless exp.length == 0
+      SMELLS[:yield].each {|smell| smell.examine(ctx, @smells) }
       s(exp)
     end
 

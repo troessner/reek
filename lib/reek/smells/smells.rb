@@ -19,6 +19,7 @@ module Reek
       Smells::Duplication,
       Smells::UtilityFunction,
       Smells::FeatureEnvy
-      ]
+      ],
+    :yield => [Smells::LongYieldList]
   }
 end
