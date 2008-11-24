@@ -5,27 +5,24 @@ require 'reek/report'
 
 include Reek
 
+def check(desc, src, expected, pending_str = nil)
+  it(desc) do
+    pending(pending_str) unless pending_str.nil?
+    rpt = Report.new
+    cchk = MethodChecker.new(rpt, 'Thing')
+    cchk.check_source(src)
+    rpt.length.should == expected.length
+    (0...rpt.length).each do |smell|
+      expected[smell].each { |patt| rpt[smell].detailed_report.should match(patt) }
+    end
+  end
+end
+
 describe MethodChecker, "(Control Couple)" do
-
-  before(:each) do
-    @rpt = Report.new
-    @cchk = MethodChecker.new(@rpt, 'Thing')
-  end
-
-  it 'should report a ternary check on a parameter' do
-    @cchk.check_source('def simple(arga) arga ? @ivar : 3 end')
-    @rpt.length.should == 1
-    ControlCouple.should === @rpt[0]
-    @rpt[0].to_s.should match(/arga/)
-  end
-
-  it 'should not report a ternary check on an ivar' do
-    @cchk.check_source('def simple(arga) @ivar ? arga : 3 end')
-    @rpt.should be_empty
-  end
-
-  it 'should not report a ternary check on a lvar' do
-    @cchk.check_source('def simple(arga) lvar = 27; lvar ? arga : @ivar end')
-    @rpt.should be_empty
-  end
+  check 'should report a ternary check on a parameter',
+    'def simple(arga) arga ? @ivar : 3 end', [[/arga/]]
+  check 'should not report a ternary check on an ivar',
+    'def simple(arga) @ivar ? arga : 3 end', []
+  check 'should not report a ternary check on a lvar',
+    'def simple(arga) lvar = 27; lvar ? arga : @ivar end', []
 end

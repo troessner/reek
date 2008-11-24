@@ -20,6 +20,7 @@ module Reek
       Smells::UtilityFunction,
       Smells::FeatureEnvy
       ],
+    :if => [Smells::ControlCouple],
     :yield => [Smells::LongYieldList]
   }
 end

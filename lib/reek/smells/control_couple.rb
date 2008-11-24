@@ -34,14 +34,23 @@ module Reek
     # because it includes at least two different code paths.
     #
     class ControlCouple < Smell
-      def initialize(context, args)
-        super
-        @args = args
-      end
 
-      def recognise?(cond)
-        @couple = cond
-        cond[0] == :lvar and @args.include?(@couple[1])
+      #
+      # Checks whether the given conditional statement relies on a control couple.
+      # Any smells found are added to the +report+; returns true in that case,
+      # and false otherwise.
+      #
+      def self.examine(cond, report)
+        if_expr = cond.if_expr
+        return false if if_expr[0] != :lvar
+        return false unless cond.has_parameter(if_expr)
+        report << new(cond, if_expr)
+        return true
+      end
+      
+      def initialize(context, couple)
+        super(context)
+        @couple = couple
       end
 
       def detailed_report

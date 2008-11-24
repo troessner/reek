@@ -1,8 +1,8 @@
 $:.unshift File.dirname(__FILE__)
 
 require 'reek/checker'
+require 'reek/if_context'
 require 'reek/yield_call_context'
-require 'reek/smells/control_couple'
 require 'reek/smells/feature_envy'
 require 'reek/smells/long_parameter_list'
 require 'reek/smells/long_yield_list'
@@ -110,10 +110,9 @@ module Reek
     end
 
     def process_if(exp)
-      cond, then_part, else_part = exp[1..3]
-      deal_with_conditional(cond, then_part)
-      process(else_part) if else_part
-      Smells::ControlCouple.check(cond, self, @parameters)
+      ctx = IfContext.new(self, exp)
+      exp[1..-1].each {|sub| process(sub)}
+      SMELLS[:if].each {|smell| smell.examine(ctx, @smells) }
       s(exp)
     end
 
@@ -182,11 +181,6 @@ module Reek
       @inside_an_iter = true
       exp[2..-1].each { |s| process(s) }
       @inside_an_iter = false
-    end
-
-    def deal_with_conditional(cond, then_part)
-      process(cond)
-      process(then_part)
     end
 
     def deal_with_receiver(receiver, meth)
