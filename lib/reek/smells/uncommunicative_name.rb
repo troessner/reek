@@ -26,24 +26,24 @@ module Reek
       # Any smells found are added to the +report+; returns true in that case,
       # and false otherwise.
       #
-      def self.examine(method, report)
-        smell_reported = consider(method.name, method, report, 'method')
-        method.parameters.each do |param|
-          smell_reported = consider(param, method, report, 'parameter') || smell_reported
+      def self.examine(context, report)
+        smell_reported = consider(context.name, context, report, 'method')
+        context.parameters.each do |param|
+          smell_reported = consider(param, context, report, 'parameter') || smell_reported
         end
-        method.local_variables.each do |lvar|
-          smell_reported = consider(lvar, method, report, 'local variable') || smell_reported
+        context.local_variables.each do |lvar|
+          smell_reported = consider(lvar, context, report, 'local variable') || smell_reported
         end
-        method.instance_variables.each do |ivar|
-          smell_reported = consider(ivar, method, report, 'field') || smell_reported
+        context.instance_variables.each do |ivar|
+          smell_reported = consider(ivar, context, report, 'field') || smell_reported
         end
         smell_reported
       end
 
-      def self.consider(sym, method, report, type)  # :nodoc:
+      def self.consider(sym, context, report, type)  # :nodoc:
         name = sym.to_s
         if is_bad_name?(name)
-          report << new(name, method, type)
+          report << new(name, context, type)
           return true
         end
         return false
@@ -64,7 +64,7 @@ module Reek
       end
 
       def detailed_report
-        "#{@context} uses the #{@symbol_type} name '#{@bad_name}'"
+        "#{@context.to_s} uses the #{@symbol_type} name '#{@bad_name}'"
       end
     end
 

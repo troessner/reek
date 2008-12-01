@@ -9,7 +9,7 @@ def check(desc, src, expected, pending_str = nil)
   it(desc) do
     pending(pending_str) unless pending_str.nil?
     rpt = Report.new
-    cchk = MethodChecker.new(rpt, 'Thing')
+    cchk = MethodChecker.new(rpt)
     cchk.check_source(src)
     rpt.length.should == expected.length
     (0...rpt.length).each do |smell|
@@ -39,10 +39,22 @@ describe MethodChecker, "uncommunicative local variable name" do
 end
 
 describe MethodChecker, "uncommunicative parameter name" do
-  check 'should recognise short parameter name', 'def help(x) basics(17) end', [[]]
   check 'should not recognise *', 'def help(xray, *) basics(17) end', []
   check "should report parameter's name", 'def help(x) basics(17) end', [[/x/, /parameter name/]]
   check 'should report name of the form "x2"', 'def help(x2) basics(17) end', [[/x2/, /parameter name/]]
+end
+
+describe MethodChecker, "uncommunicative block parameter name" do
+  check "should report parameter's name", 'def help() @stuff.each {|x|} end', [[/x/, /block/, /parameter name/]]
+  
+  src = <<EOS
+def bad
+  unless @mod then
+    @sig.each { |x| x.to_s }
+  end
+end
+EOS
+  check "should report method name via if context", src, [[/x/, /block/, /bad/]]
 end
 
 describe MethodChecker, "several uncommunicative names" do

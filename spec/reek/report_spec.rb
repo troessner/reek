@@ -23,7 +23,7 @@ end
 describe Report, "to_s" do
   before(:each) do
     rpt = Report.new
-    chk = MethodChecker.new(rpt, 'Thing')
+    chk = MethodChecker.new(rpt)
     chk.check_source('def simple(a) a[3] end')
     @report = rpt.to_s.split("\n")
   end
@@ -59,7 +59,7 @@ describe SortByContext do
   end
 
   it 'should return non-0 for different smells' do
-    @sorter.compare(LongMethod.new('x', 30), LargeClass.new('y')).should == -1
+    @sorter.compare(LongMethod.new('x', 30), LargeClass.new('y', 30)).should == -1
   end
 end
 
@@ -77,6 +77,6 @@ describe SortBySmell do
   end
 
   it 'should differentiate different smells with identical contexts' do
-    @sorter.compare(LongMethod.new('x', 28), LargeClass.new('x')).should == 1
+    @sorter.compare(LongMethod.new('x', 28), LargeClass.new('x', 28)).should == 1
   end
 end

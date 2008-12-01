@@ -1,11 +1,11 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
-require 'reek/class_checker'
+require 'reek/method_checker'
 require 'reek/report'
 
 include Reek
 
-describe ClassChecker, "(Large Class)" do
+describe LargeClass do
 
   class BigOne
     26.times do |i|
@@ -17,7 +17,7 @@ describe ClassChecker, "(Large Class)" do
 
   before(:each) do
     @rpt = Report.new
-    @cchk = ClassChecker.new(@rpt)
+    @cchk = MethodChecker.new(@rpt)
   end
 
   it 'should not report short class' do

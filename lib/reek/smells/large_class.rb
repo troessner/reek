@@ -15,19 +15,35 @@ module Reek
     class LargeClass < Smell
       MAX_ALLOWED = 25
 
-      def self.non_inherited_methods(klass)
-        return klass.instance_methods if klass.superclass.nil?
-        klass.instance_methods - klass.superclass.instance_methods
+      #
+      # Checks the length of the given +klass+.
+      # Any smells found are added to the +report+; returns true in that case,
+      # and false otherwise.
+      #
+      def self.examine(klass, report)
+        begin
+          klass_obj = Object.const_get(klass.name)
+          num_methods = non_inherited_methods(klass_obj).length
+        rescue
+          num_methods = klass.num_methods
+        end
+        return false if num_methods <= MAX_ALLOWED
+        report << new(klass, num_methods)
+        return true
       end
 
-      def recognise?(name)
-        klass = Object.const_get(name) rescue return
-        @num_methods = LargeClass.non_inherited_methods(klass).length
-        @num_methods > MAX_ALLOWED
+      def self.non_inherited_methods(klass_obj)
+        return klass_obj.instance_methods if klass_obj.superclass.nil?
+        klass_obj.instance_methods - klass_obj.superclass.instance_methods
+      end
+      
+      def initialize(context, num_methods)
+        super(context)
+        @num_methods = num_methods
       end
 
       def detailed_report
-        "#{@context} has #{@num_methods} methods"
+        "#{@context.to_s} has at least #{@num_methods} methods"
       end
     end
 

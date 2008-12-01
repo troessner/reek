@@ -2,29 +2,29 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 require 'reek/method_checker'
 require 'reek/report'
+require 'reek/smells/utility_function'
 
 include Reek
+include Reek::Smells
+
+def check(desc, src, expected, pending_str = nil)
+  it(desc) do
+    pending(pending_str) unless pending_str.nil?
+    rpt = Report.new
+    cchk = MethodChecker.new(rpt)
+    cchk.check_source(src)
+    rpt.length.should == expected.length
+    (0...rpt.length).each do |smell|
+      expected[smell].each { |patt| rpt[smell].detailed_report.should match(patt) }
+    end
+  end
+end
 
 describe MethodChecker, "(Utility Function)" do
 
   before(:each) do
     @rpt = Report.new
-    @cchk = MethodChecker.new(@rpt, 'Thing')
-  end
-
-  it 'should not report empty method' do
-    @cchk.check_source('def simple(arga) end')
-    @rpt.should be_empty
-  end
-
-  it 'should not report instance variable reference' do
-    @cchk.check_source('def simple(arga) @yellow end')
-    @rpt.should be_empty
-  end
-
-  it 'should not report vcall' do
-    @cchk.check_source('def simple(arga) y end')
-    @rpt.should be_empty
+    @cchk = MethodChecker.new(@rpt)
   end
 
   it 'should not report attrset' do
@@ -35,37 +35,14 @@ describe MethodChecker, "(Utility Function)" do
     @rpt.should be_empty
   end
 
-  it 'should not report references to self' do
-    @cchk.check_source('def into; self; end')
-    @rpt.should be_empty
-  end
-  
-  it 'should count usages of self' do
-    @cchk.check_source('def <=>(other) Options[:sort_order].compare(self, other) end')
-    @rpt.should be_empty
-  end
-
-  it 'should count self reference within a dstr' do
-    @cchk.check_source('def as(alias_name); "#{self} as #{alias_name}".to_sym; end')
-    @rpt.should be_empty
-  end
-
-  it 'should count calls to self within a dstr' do
-    source = 'def to_sql; "\'#{self.gsub(/\'/, "\'\'")}\'"; end'
-    @cchk.check_source(source)
-    @rpt.should be_empty
-  end
-
-  it 'should report simple parameter call' do
-    @cchk.check_source('def simple(arga) arga.to_s end')
-    @rpt.length.should == 1
-    @rpt[0].should == UtilityFunction.new(@cchk, 1)
-  end
-
-  it 'should report message chain' do
-    @cchk.check_source('def simple(arga) arga.b.c end')
-    @rpt.length.should == 1
-  end
+  check 'should count usages of self',
+    'def <=>(other) Options[:sort_order].compare(self, other) end', []
+  check 'should count self reference within a dstr',
+    'def as(alias_name); "#{self} as #{alias_name}".to_sym; end', []
+  check 'should count calls to self within a dstr',
+    'def to_sql; "\'#{self.gsub(/\'/, "\'\'")}\'"; end', []
+  check 'should report simple parameter call', 'def simple(arga) arga.to_s end', [[/simple/, /instance state/]]
+  check 'should report message chain', 'def simple(arga) arga.b.c end', [[/simple/, /instance state/]]
   
   it 'should not report overriding methods' do
     class Father
@@ -74,12 +51,10 @@ describe MethodChecker, "(Utility Function)" do
     class Son < Father
       def thing(ff); ff; end
     end
-    ClassChecker.new(@rpt).check_object(Son)
+    MethodChecker.new(@rpt).check_object(Son)
     @rpt.should be_empty
   end
 
-  it 'should not report class method' do
-    pending('bug')
     source = <<EOS
 class Cache
   class << self
@@ -89,7 +64,26 @@ class Cache
   end
 end
 EOS
-    @cchk.check_source(source)
-    @rpt.should be_empty
+  check 'should not report class method', source, [], 'bug'
+  
+  src = <<EOS
+class Red
+  def deep(text)
+    text.each { |mod| atts = shelve(mod) }
   end
+
+  def shelve(val)
+    @shelf << val
+  end
+end
+EOS
+  check 'should recognise a deep call', src, []
+end
+
+describe UtilityFunction, 'should only report a method containing a call' do
+  check 'should not report empty method', 'def simple(arga) end', []
+  check 'should not report literal', 'def simple(arga) 3; end', []
+  check 'should not report instance variable reference',  'def simple(arga) @yellow end', []
+  check 'should not report vcall', 'def simple(arga) y end', []
+  check 'should not report references to self', 'def into; self; end', []
 end

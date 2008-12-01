@@ -41,7 +41,7 @@ module Reek
     # no way to turn off that report; which would therefore make the tests fail
     def max_keys
       max = max_refs
-      @refs.reject {|k,v| v != max}.keys
+      @refs.reject {|key,val| val != max}.keys
     end
 
     def self_is_max?

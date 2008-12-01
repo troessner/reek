@@ -1,27 +1,31 @@
-[Duplication] C#build calls $?.==(0) more than once
-[Duplication] C#build calls Inline.directory more than once
-[Duplication] C#build calls io.puts more than once
-[Duplication] C#build calls io.puts(#endif) more than once
-[Duplication] C#build calls io.puts(#ifdef __cplusplus) more than once
-[Long Method] C#build has approx 61 statements
-[Nested Iterators] C#build has nested iterators
-[Uncommunicative Name] C#build uses the local variable name 't'
-[Uncommunicative Name] C#c uses the method name 'c'
-[Duplication] C#crap_for_windoze calls Config::CONFIG[libdir] more than once
-[Duplication] C#generate calls result.sub!((?-mix:\A\n), ) more than once
-[Duplication] C#generate calls signature[args] more than once
-[Duplication] C#generate calls signature[args].map more than once
-[Long Method] C#generate has approx 33 statements
-[Duplication] C#initialize calls stack.empty? more than once
-[Long Method] C#load_cache has approx 7 statements
-[Long Method] C#module_name has approx 6 statements
-[Feature Envy] C#module_name refers to md5 more than self
-[Long Method] C#parse_signature has approx 15 statements
-[Control Couple] C#parse_signature is controlled by argument raw
-[Utility Function] C#strip_comments doesn't depend on instance state
-[Feature Envy] C#strip_comments refers to src more than self
-[Large Class] Dir has 31 methods
-[Large Class] Module has 34 methods
+[Large Class] Dir has at least 31 methods
+[Duplication] Inline::C#build calls $?.==(0) more than once
+[Duplication] Inline::C#build calls Inline.directory more than once
+[Duplication] Inline::C#build calls io.puts more than once
+[Duplication] Inline::C#build calls io.puts(#endif) more than once
+[Duplication] Inline::C#build calls io.puts(#ifdef __cplusplus) more than once
+[Long Method] Inline::C#build has approx 61 statements
+[Uncommunicative Name] Inline::C#build uses the local variable name 't'
+[Nested Iterators] Inline::C#build/block/block is nested
+[Uncommunicative Name] Inline::C#build/block/block uses the parameter name 'n'
+[Uncommunicative Name] Inline::C#c uses the method name 'c'
+[Duplication] Inline::C#crap_for_windoze calls Config::CONFIG[libdir] more than once
+[Duplication] Inline::C#generate calls result.sub!((?-mix:\A\n), ) more than once
+[Duplication] Inline::C#generate calls signature[args] more than once
+[Duplication] Inline::C#generate calls signature[args].map more than once
+[Long Method] Inline::C#generate has approx 33 statements
+[Duplication] Inline::C#initialize calls stack.empty? more than once
+[Long Method] Inline::C#load_cache has approx 7 statements
+[Long Method] Inline::C#module_name has approx 6 statements
+[Feature Envy] Inline::C#module_name refers to md5 more than self
+[Uncommunicative Name] Inline::C#module_name/block uses the parameter name 'm'
+[Uncommunicative Name] Inline::C#module_name/block uses the parameter name 'x'
+[Long Method] Inline::C#parse_signature has approx 15 statements
+[Control Couple] Inline::C#parse_signature is controlled by argument raw
+[Uncommunicative Name] Inline::C#parse_signature/block uses the parameter name 'x'
+[Utility Function] Inline::C#strip_comments doesn't depend on instance state
+[Feature Envy] Inline::C#strip_comments refers to src more than self
+[Large Class] Module has at least 34 methods
 [Duplication] Module#inline calls Inline.const_get(lang) more than once
 [Long Method] Module#inline has approx 12 statements
 [Control Couple] Module#inline is controlled by argument options

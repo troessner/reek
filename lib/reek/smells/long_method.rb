@@ -15,10 +15,16 @@ module Reek
 
       MAX_ALLOWED = 5
 
+      #
+      # Checks the length of the given +method+.
+      # Any smells found are added to the +report+; returns true in that case,
+      # and false otherwise.
+      #
       def self.examine(method, report)
-        return if method.name == 'initialize'
         num = method.num_statements
-        report << new(method, num) if num > MAX_ALLOWED
+        return false if method.name == 'initialize' or num <= MAX_ALLOWED
+        report << new(method, num)
+        return true
       end
 
       def initialize(context, num)
@@ -27,7 +33,7 @@ module Reek
       end
 
       def detailed_report
-        "#{@context} has approx #{@num_stmts} statements"
+        "#{@context.to_s} has approx #{@num_stmts} statements"
       end
     end
 

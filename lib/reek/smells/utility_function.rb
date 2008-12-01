@@ -17,16 +17,16 @@ module Reek
       # and false otherwise.
       #
       def self.examine(method, report)
-        return false if method.name == 'initialize'
-        if method.num_statements > 0 and !method.depends_on_self
-          report << new(method)
-          true
-        end
-        false
+        return false if method.name == 'initialize' or
+          method.calls.keys.length == 0 or
+          method.num_statements == 0 or
+          method.depends_on_self
+        report << new(method)
+        true
       end
 
       def detailed_report
-        "#{@context} doesn't depend on instance state"
+        "#{@context.to_s} doesn't depend on instance state"
       end
     end
 

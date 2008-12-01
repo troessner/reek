@@ -49,7 +49,7 @@ module Reek
       end
 
       def detailed_report
-        "#{@context} calls #{Printer.print(@call)} more than once"
+        "#{@context.to_s} calls #{Printer.print(@call)} more than once"
       end
     end
 

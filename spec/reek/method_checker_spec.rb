@@ -8,7 +8,7 @@ include Reek
 describe MethodChecker, "with no method definitions" do  
   before(:each) do
     @rpt = Report.new
-    @cchk = MethodChecker.new(@rpt, 'Thing')
+    @cchk = MethodChecker.new(@rpt)
   end
 
   it 'should report no problems for empty source code' do
@@ -24,7 +24,7 @@ end
 
 describe MethodChecker, 'when given a C extension' do
   before(:each) do
-    @cchk = MethodChecker.new(Report.new, 'Thing')
+    @cchk = MethodChecker.new(Report.new)
   end
 
   it 'should ignore :cfunc' do
@@ -42,7 +42,7 @@ describe MethodChecker, 'when a yield is the receiver' do
   self
 end'
     rpt = Report.new
-    chk = MethodChecker.new(rpt, 'Thing')
+    chk = MethodChecker.new(rpt)
     chk.check_source(source)
     rpt.should be_empty
   end
@@ -59,9 +59,5 @@ describe MethodChecker, '#is_override?' do
 
   it 'should be false for non-existent class' do
     MethodChecker.is_override?('Flibble', 'to_s').should == false
-  end
-
-  it 'should be true for smells' do
-    MethodChecker.is_override?('UtilityFunction', 'recognise?').should == true
   end
 end

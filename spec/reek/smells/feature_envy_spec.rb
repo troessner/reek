@@ -11,7 +11,7 @@ def check(desc, src, expected, pending_str = nil)
   it(desc) do
     pending(pending_str) unless pending_str.nil?
     rpt = Report.new
-    cchk = MethodChecker.new(rpt, 'Thing')
+    cchk = MethodChecker.new(rpt)
     cchk.check_source(src)
     rpt.length.should == expected.length
     (0...rpt.length).each do |smell|

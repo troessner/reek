@@ -1,3 +1,6 @@
+[Large Class] RedCloth has at least 44 methods
+[Uncommunicative Name] RedCloth#block uses the parameter name 'a'
+[Uncommunicative Name] RedCloth#block uses the parameter name 'b'
 [Long Method] RedCloth#block_markdown_bq has approx 6 statements
 [Utility Function] RedCloth#block_markdown_rule doesn't depend on instance state
 [Duplication] RedCloth#block_textile_lists calls depth.last more than once
@@ -7,18 +10,26 @@
 [Duplication] RedCloth#block_textile_lists calls lines[line_id.-(1)] more than once
 [Duplication] RedCloth#block_textile_lists calls tl.length more than once
 [Long Method] RedCloth#block_textile_lists has approx 21 statements
-[Nested Iterators] RedCloth#block_textile_lists has nested iterators
+[Nested Iterators] RedCloth#block_textile_lists/block/block is nested
+[Nested Iterators] RedCloth#block_textile_lists/block/block/block is nested
+[Uncommunicative Name] RedCloth#block_textile_lists/block/block/block uses the parameter name 'i'
+[Uncommunicative Name] RedCloth#block_textile_lists/block/block/block uses the parameter name 'v'
 [Long Method] RedCloth#block_textile_table has approx 19 statements
-[Nested Iterators] RedCloth#block_textile_table has nested iterators
+[Nested Iterators] RedCloth#block_textile_table/block/block is nested
+[Uncommunicative Name] RedCloth#block_textile_table/block/block uses the parameter name 'x'
+[Nested Iterators] RedCloth#block_textile_table/block/block/block is nested
 [Long Method] RedCloth#blocks has approx 17 statements
-[Nested Iterators] RedCloth#blocks has nested iterators
-[Control Couple] RedCloth#blocks is controlled by argument deep_code
+[Control Couple] RedCloth#blocks/block is controlled by argument deep_code
+[Nested Iterators] RedCloth#blocks/block/block is nested
 [Control Couple] RedCloth#check_refs is controlled by argument text
 [Duplication] RedCloth#clean_html calls tags[tag] more than once
 [Utility Function] RedCloth#clean_html doesn't depend on instance state
 [Long Method] RedCloth#clean_html has approx 14 statements
-[Nested Iterators] RedCloth#clean_html has nested iterators
 [Feature Envy] RedCloth#clean_html refers to tags more than self
+[Nested Iterators] RedCloth#clean_html/block/block is nested
+[Nested Iterators] RedCloth#clean_html/block/block/block is nested
+[Uncommunicative Name] RedCloth#clean_html/block/block/block uses the parameter name 'q'
+[Uncommunicative Name] RedCloth#clean_html/block/block/block uses the parameter name 'q2'
 [Long Method] RedCloth#clean_white_space has approx 7 statements
 [Feature Envy] RedCloth#clean_white_space refers to text more than self
 [Utility Function] RedCloth#flush_left doesn't depend on instance state
@@ -30,14 +41,20 @@
 [Utility Function] RedCloth#htmlesc doesn't depend on instance state
 [Feature Envy] RedCloth#htmlesc refers to str more than self
 [Utility Function] RedCloth#incoming_entities doesn't depend on instance state
-[Nested Iterators] RedCloth#inline has nested iterators
+[Uncommunicative Name] RedCloth#initialize/block uses the parameter name 'r'
+[Nested Iterators] RedCloth#inline/block/block is nested
 [Long Method] RedCloth#inline_markdown_link has approx 6 statements
+[Uncommunicative Name] RedCloth#inline_markdown_link/block uses the parameter name 'm'
 [Long Method] RedCloth#inline_markdown_reflink has approx 7 statements
+[Uncommunicative Name] RedCloth#inline_markdown_reflink/block uses the parameter name 'm'
+[Uncommunicative Name] RedCloth#inline_textile_code/block uses the parameter name 'm'
 [Long Method] RedCloth#inline_textile_image has approx 16 statements
+[Uncommunicative Name] RedCloth#inline_textile_image/block uses the parameter name 'm'
 [Long Method] RedCloth#inline_textile_link has approx 9 statements
+[Uncommunicative Name] RedCloth#inline_textile_link/block uses the parameter name 'm'
 [Long Method] RedCloth#inline_textile_span has approx 8 statements
-[Nested Iterators] RedCloth#inline_textile_span has nested iterators
-[Utility Function] RedCloth#lT doesn't depend on instance state
+[Nested Iterators] RedCloth#inline_textile_span/block/block is nested
+[Uncommunicative Name] RedCloth#inline_textile_span/block/block uses the parameter name 'm'
 [Utility Function] RedCloth#no_textile doesn't depend on instance state
 [Feature Envy] RedCloth#no_textile refers to text more than self
 [Duplication] RedCloth#pba calls $1.length more than once
@@ -45,6 +62,10 @@
 [Control Couple] RedCloth#pba is controlled by argument text_in
 [Feature Envy] RedCloth#pba refers to style more than self
 [Feature Envy] RedCloth#pba refers to text more than self
+[Uncommunicative Name] RedCloth#refs_markdown/block uses the parameter name 'm'
+[Uncommunicative Name] RedCloth#refs_textile/block uses the parameter name 'm'
+[Uncommunicative Name] RedCloth#retrieve/block uses the parameter name 'i'
+[Uncommunicative Name] RedCloth#retrieve/block uses the parameter name 'r'
 [Duplication] RedCloth#rip_offtags calls @pre_list.last more than once
 [Duplication] RedCloth#rip_offtags calls @pre_list.last.<<(line) more than once
 [Duplication] RedCloth#rip_offtags calls codepre.-(used_offtags.length) more than once

@@ -23,13 +23,8 @@ module Reek
         end
       end
 
-      def initialize(context, num_params)
-        super(context)
-        @num_params = num_params
-      end
-
       def detailed_report
-        "#{@context} yields #{@num_params} parameters"
+        "#{@context.to_s} yields #{@num_params} parameters"
       end
     end
 

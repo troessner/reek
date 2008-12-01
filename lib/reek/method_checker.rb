@@ -1,7 +1,12 @@
 $:.unshift File.dirname(__FILE__)
 
 require 'reek/checker'
+require 'reek/block_context'
+require 'reek/class_context'
+require 'reek/module_context'
+require 'reek/stop_context'
 require 'reek/if_context'
+require 'reek/method_context'
 require 'reek/yield_call_context'
 require 'reek/smells/smells'
 require 'reek/object_refs'
@@ -11,48 +16,44 @@ module Reek
 
   class MethodChecker < Checker
 
-    attr_reader :local_variables, :name, :parameters, :num_statements
-    attr_reader :instance_variables     # TODO: should be on the class
-    attr_reader :calls, :depends_on_self, :refs
-
-    def initialize(smells, klass_name)
+    def initialize(smells)
       super(smells)
-      @class_name = klass_name
-      @refs = ObjectRefs.new
-      @local_variables = Set.new
-      @instance_variables = Set.new
-      @parameters = []
-      @calls = Hash.new(0)
-      @num_statements = 0
-      @depends_on_self = false
+      @element = StopContext.new
     end
-    
-    def description
-      "#{@class_name}##{@name}"
+
+    def process_module(exp)
+      @element = ModuleContext.new(@element, exp)
+      exp[2..-1].each { |sub| process(sub) if Array === sub }
+      SMELLS[:module].each {|smell| smell.examine(@element, @smells) }
+      pop(exp)
+    end
+
+    def process_class(exp)
+      @element = ClassContext.new(@element, exp)
+      exp[3..-1].each { |sub| process(sub) } unless @element.is_struct?
+      SMELLS[:class].each {|smell| smell.examine(@element, @smells) }
+      pop(exp)
     end
 
     def process_defn(exp)
-      name, args = exp[1..2]
-      @name = name.to_s
-      process(args)
-      check_method_properties
-      s(exp)
+      handle_context(MethodContext, :defn, exp) do |ctx|
+        ctx.record_depends_on_self if is_override?
+      end
     end
 
     def process_args(exp)
-      Smells::LongParameterList.check(exp, self)
-      @parameters = exp[1..-1]
+      exp[1..-1].each {|sym| @element.record_parameter(sym) }
       s(exp)
     end
 
     def process_attrset(exp)
-      @depends_on_self = true if /^@/ === exp[1].to_s
+      @element.record_depends_on_self if /^@/ === exp[1].to_s
       s(exp)
     end
 
     def process_lit(exp)
       val = exp[1]
-      @depends_on_self = true if val == :self
+      @element.record_depends_on_self if val == :self
       s(exp)
     end
 
@@ -61,15 +62,19 @@ module Reek
     end
 
     def process_iter(exp)
-      Smells::NestedIterators.check(@inside_an_iter, self)
-      cascade_iter(exp)
+      process(exp[1])
+      handle_context(BlockContext, :iter, exp[1..-1])
+    end
+    
+    def process_dasgn_curr(exp)
+      @element.record_parameter(exp[1])
+      process_children(exp)
       s(exp)
     end
 
     def process_block(exp)
-      @num_statements += MethodChecker.count_statements(exp)
-      exp[1..-1].each { |s| process(s) }
-      s(exp)
+      @element.count_statements(MethodChecker.count_statements(exp))
+      process_children(exp)
     end
 
     def process_yield(exp)
@@ -77,27 +82,25 @@ module Reek
     end
 
     def process_call(exp)
-      @calls[exp] += 1
-      receiver, meth, args = exp[1..3]
-      deal_with_receiver(receiver, meth)
-      process(args) if args
-      s(exp)
+      @element.record_call_to(exp)
+      receiver, meth = exp[1..2]
+      @element.refs.record_ref(receiver) if (receiver[0] == :lvar and meth != :new)
+      process_children(exp)
     end
 
     def process_fcall(exp)
-      @depends_on_self = true
-      @refs.record_reference_to_self
-      process(exp[2]) if exp.length >= 3
-      s(exp)
+      @element.record_depends_on_self
+      @element.refs.record_reference_to_self
+      process_children(exp)
     end
 
     def process_cfunc(exp)
-      @depends_on_self = true
+      @element.record_depends_on_self
       s(exp)
     end
 
     def process_vcall(exp)
-      @depends_on_self = true
+      @element.record_depends_on_self
       s(exp)
     end
 
@@ -106,8 +109,8 @@ module Reek
     end
 
     def process_ivar(exp)
-      @instance_variables << exp[1]
-      @depends_on_self = true
+      @element.instance_variables << exp[1]
+      @element.record_depends_on_self
       s(exp)
     end
 
@@ -116,20 +119,19 @@ module Reek
     end
 
     def process_lasgn(exp)
-      @local_variables << exp[1]
+      @element.record_local_variable(exp[1])
       process(exp[2])
       s(exp)
     end
 
     def process_iasgn(exp)
-      @instance_variables << exp[1]
-      @depends_on_self = true
-      process(exp[2])
-      s(exp)
+      @element.record_instance_variable(exp[1])
+      @element.record_depends_on_self
+      process_children(exp)
     end
 
     def process_self(exp)
-      @depends_on_self = true
+      @element.record_depends_on_self
       s(exp)
     end
 
@@ -160,28 +162,26 @@ module Reek
       MethodChecker.is_override?(@class_name, @name)
     end
 
-    def check_method_properties
-      @depends_on_self = true if is_override?
-      SMELLS[:defn].each {|smell| smell.examine(self, @smells) }
-    end
-
-    def cascade_iter(exp)
-      process(exp[1])
-      @inside_an_iter = true
-      exp[2..-1].each { |s| process(s) }
-      @inside_an_iter = false
-    end
-
-    def deal_with_receiver(receiver, meth)
-      @refs.record_ref(receiver) if (receiver[0] == :lvar and meth != :new)
-      process(receiver)
-    end
-
     def handle_context(klass, type, exp)
-      ctx = klass.new(self, exp)
-      exp[1..-1].each {|sub| process(sub)}
-      SMELLS[type].each {|smell| smell.examine(ctx, @smells) }
+      @element = klass.new(@element, exp)
+      exp[1..-1].each {|sub| process(sub) if Array === sub}
+      yield(@element) if block_given?
+      SMELLS[type].each {|smell| smell.examine(@element, @smells) }
+      pop(exp)
+    end
+    
+    def pop(exp)
+      @element = @element.outer
       s(exp)
+    end
+
+    def process_children(exp)
+      exp[1..-1].each { |sub| process(sub) if Array === sub }
+      s(exp)
+    end
+
+    def check_smells_for(type)
+      SMELLS[type].each {|smell| smell.examine(@element, @smells) }
     end
   end
 end

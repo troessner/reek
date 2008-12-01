@@ -43,7 +43,7 @@ module Reek
       def self.examine(cond, report)
         if_expr = cond.if_expr
         return false if if_expr[0] != :lvar
-        return false unless cond.has_parameter(if_expr)
+        return false unless cond.has_parameter(if_expr[1])
         report << new(cond, if_expr)
         return true
       end
@@ -54,7 +54,7 @@ module Reek
       end
 
       def detailed_report
-        "#{@context} is controlled by argument #{Printer.print(@couple)}"
+        "#{@context.to_s} is controlled by argument #{Printer.print(@couple)}"
       end
     end
 

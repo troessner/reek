@@ -23,17 +23,8 @@ module Reek
     end
 
     def process_default(exp)
-      exp[1..-1].each { |e| process(e) if Array === e}
+      exp[1..-1].each { |sub| process(sub) if Array === sub}
       s(exp)
-    end
-
-    def process_defn(exp)  # :nodoc:
-      Reek::MethodChecker.new(@smells, @description).process(exp)
-      s(exp)
-    end  
-
-    def report(smell)  # :nodoc:
-      @smells << smell
     end
 
     # Analyses the given Ruby source +code+ looking for smells.
@@ -48,10 +39,6 @@ module Reek
     # was passed to this object's constructor.
     def check_object(obj)
       check_parse_tree ParseTree.new.parse_tree(obj)
-    end
-    
-    def to_s  # :nodoc:
-      description
     end
 
     def check_parse_tree(sexp)  # :nodoc:

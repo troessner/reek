@@ -11,12 +11,20 @@ module Reek
     # +NestedIterators+ reports failing methods only once.
     #
     class NestedIterators < Smell
-      def recognise?(already_in_iter)
-        already_in_iter && @context
+
+      #
+      # Checks whether the given +block+ is inside another.
+      # Any smells found are added to the +report+; returns true in that case,
+      # and false otherwise.
+      #
+      def self.examine(block, report)
+        return false unless block.nested_block?
+        report << new(block)
+        return true
       end
 
       def detailed_report
-        "#{@context} has nested iterators"
+        "#{@context} is nested"
       end
     end
 

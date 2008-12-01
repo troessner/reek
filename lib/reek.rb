@@ -13,7 +13,7 @@ module Reek # :doc:
   def self.analyse(src)  # :doc:
     report = Report.new
     source = Reek.get_source(src)
-    FileChecker.new(report).check_source(source)
+    MethodChecker.new(report).check_source(source)
     report
   end
 

@@ -1,15 +1,17 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 require 'reek/method_checker'
+require 'reek/smells/long_parameter_list'
 require 'reek/report'
 
 include Reek
+include Reek::Smells
 
 def check(desc, src, expected, pending_str = nil)
   it(desc) do
     pending(pending_str) unless pending_str.nil?
     rpt = Report.new
-    cchk = MethodChecker.new(rpt, 'Thing')
+    cchk = MethodChecker.new(rpt)
     cchk.check_source(src)
     rpt.length.should == expected.length
     (0...rpt.length).each do |smell|
@@ -54,7 +56,7 @@ describe MethodChecker, "(Long Parameter List)" do
 
       before(:each) do
         @rpt = Report.new
-        @cchk = MethodChecker.new(@rpt, 'Thing')
+        @cchk = MethodChecker.new(@rpt)
       end
 
       class InnerTest
@@ -76,35 +78,8 @@ describe MethodChecker, "(Long Parameter List)" do
     check 'should not report yield with few parameters',
       'def simple(arga, argb, &blk) f(3);yield a,b; end', []
     check 'should report yield with many parameters',
-      'def simple(arga, argb, &blk) f(3);yield a,b,a,b; end', [[/yields/, /4/]]
+      'def simple(arga, argb, &blk) f(3);yield a,b,a,b; end', [[/simple/, /yields/, /4/]]
     check 'should not report yield of a long expression',
       'def simple(arga, argb, &blk) f(3);yield(if @dec then argb else 5+3 end); end', []
   end
-end
-
-require 'reek/smells/long_parameter_list'
-include Reek::Smells
-
-describe LongParameterList, 'when given the class name' do
-  
-  before(:each) do
-    @rpt = Report.new
-    @cchk = MethodChecker.new(@rpt, 'classname')
-  end
-
-  it 'should report the class name' do
-    @cchk.check_source('def simple(arga, argb, argc, argd) f(3);true end')
-    @rpt.length.should == 1
-    @rpt[0].should be_instance_of(LongParameterList)
-    @rpt[0].report.should match(/classname#simple/)
-  end
-end
-
-describe LongParameterList, '#report' do
-  it 'should report the method name and num params' do
-    mchk = MethodChecker.new([], 'Class')
-    smell = LongParameterList.new(mchk)
-    smell.report.should match(/Class/)
-  end
-
 end

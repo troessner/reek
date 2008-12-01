@@ -2,6 +2,7 @@
 
 * Fixes:
   * Corrected false reports of long arg lists to yield
+  * A method can now be a UtilityFunction only when it includes a call
 
 == 0.3.1 2008-11-17
 

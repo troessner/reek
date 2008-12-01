@@ -44,8 +44,8 @@ module Reek
         return false if method.name == 'initialize'
         return false if method.refs.self_is_max?
         smell_found = false
-        method.refs.max_keys.each do |r|
-          report << new(method, Printer.print(r))
+        method.refs.max_keys.each do |ref|
+          report << new(method, Printer.print(ref))
           smell_found = true
         end
         smell_found
@@ -57,7 +57,7 @@ module Reek
       end
 
       def detailed_report
-        "#{@context} refers to #{@receiver} more than self"
+        "#{@context.to_s} refers to #{@receiver} more than self"
       end
     end
 

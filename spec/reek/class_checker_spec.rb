@@ -1,36 +1,42 @@
 require File.dirname(__FILE__) + '/../spec_helper.rb'
 
-require 'reek/class_checker'
+require 'reek/class_context'
+require 'reek/method_checker'
+require 'reek/smells/large_class'
 
 include Reek
 
-describe ClassChecker do
+def check(desc, src, expected, pending_str = nil)
+  it(desc) do
+    pending(pending_str) unless pending_str.nil?
+    rpt = Report.new
+    cchk = MethodChecker.new(rpt)
+    cchk.check_source(src)
+    rpt.length.should == expected.length
+    (0...rpt.length).each do |smell|
+      expected[smell].each { |patt| rpt[smell].detailed_report.should match(patt) }
+    end
+  end
+end
+
+describe ClassContext do
 
   before(:each) do
     @rpt = []
-    @cchk = ClassChecker.new(@rpt)
+    @cchk = MethodChecker.new(@rpt)
   end
 
-  it 'should report Long Parameter List' do
-    @cchk.check_source('class Inner; def simple(arga, argb, argc, argd) f(3);true end end')
-    @rpt.length.should == 1
-    @rpt[0].report.should match(/Inner#simple/)
-  end
+  check 'should report Long Parameter List',
+    'class Inner; def simple(arga, argb, argc, argd) f(3);true end end', [[/Inner/, /simple/, /4 parameters/]]
 
-  it 'should report two different methods' do
     src = <<EOEX
 class Fred
   def simple(arga, argb, argc, argd) f(3);true end
   def simply(arga, argb, argc, argd) f(3);false end
 end
 EOEX
-    @cchk.check_source(src)
-    @rpt.length.should == 2
-    @rpt[0].report.should match(/Fred#simple/)
-    @rpt[1].report.should match(/Fred#simply/)
-  end
+  check 'should report two different methods', src, [[/Fred/, /simple/], [/Fred/, /simply/]]
 
-  it 'should report many different methods' do
     src = <<EOEX
 class Fred
     def textile_bq(tag, atts, cite, content) f(3);end
@@ -39,10 +45,6 @@ class Fred
     def textile_popup_help(name, windowW, windowH) f(3);end
 end
 EOEX
-    @cchk.check_source(src)
-    @rpt.length.should == 3
-    @rpt[0].report.should match(/Fred#textile_bq/)
-    @rpt[1].report.should match(/Fred#textile_p/)
-  end
-
+  check 'should report many different methods', src,
+    [[/Fred/, /textile_bq/], [/Fred/, /textile_fn_/], [/Fred/, /textile_p/]]
 end

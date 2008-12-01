@@ -5,25 +5,27 @@ require 'reek/report'
 
 include Reek
 
+def check(desc, src, expected, pending_str = nil)
+  it(desc) do
+    pending(pending_str) unless pending_str.nil?
+    rpt = Report.new
+    cchk = MethodChecker.new(rpt)
+    cchk.check_source(src)
+    rpt.length.should == expected.length
+    (0...rpt.length).each do |smell|
+      expected[smell].each { |patt| rpt[smell].detailed_report.should match(patt) }
+    end
+  end
+end
+
 describe MethodChecker, "(Long Method)" do
+  check 'should not report short methods',
+    'def short(arga) alf = f(1);@bet = 2;@cut = 3;@dit = 4; @emp = 5;end', []
+  check 'should report long methods',
+    'def long(arga) alf = f(1);@bet = 2;@cut = 3;@dit = 4; @emp = 5;@fry = 6;end', [[/6 statements/]]
+  check 'should not report initialize',
+    'def initialize(arga) alf = f(1);@bet = 2;@cut = 3;@dit = 4; @emp = 5;@fry = 6;end', []
 
-  before(:each) do
-    @rpt = Report.new
-    @cchk = MethodChecker.new(@rpt, 'Thing')
-  end
-
-  it 'should not report short methods' do
-    @cchk.check_source('def short(arga) alf = f(1);@bet = 2;@cut = 3;@dit = 4; @emp = 5;end')
-    @rpt.should be_empty
-  end
-
-  it 'should report long methods' do
-    @cchk.check_source('def long(arga) alf = f(1);@bet = 2;@cut = 3;@dit = 4; @emp = 5;@fry = 6;end')
-    @rpt.length.should == 1
-    @rpt[0].should be_instance_of(LongMethod)
-  end
-
-  it 'should only report a long method once' do
     source =<<EOS
   def standard_entries(rbconfig)
     @abc = rbconfig
@@ -42,17 +44,14 @@ describe MethodChecker, "(Long Method)" do
     end
   end
 EOS
-    @cchk.check_source(source)
-    @rpt.length.should == 1
-    @rpt[0].should be_instance_of(LongMethod)
-  end
+  check 'should only report a long method once', source, [[]]
 end
 
 describe MethodChecker, "(Long Block)" do
 
   before(:each) do
     @rpt = Report.new
-    @cchk = MethodChecker.new(@rpt, 'Thing')
+    @cchk = MethodChecker.new(@rpt)
   end
 
   it 'should report long inner block' do
