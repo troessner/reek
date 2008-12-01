@@ -20,7 +20,6 @@ module Reek
       def self.examine(block, report)
         return false unless block.nested_block?
         report << new(block)
-        return true
       end
 
       def detailed_report

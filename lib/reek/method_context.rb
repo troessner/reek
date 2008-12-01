@@ -57,5 +57,10 @@ module Reek
     def to_s
       "#{@outer.outer_name}#{@name}"
     end
+
+    def envious_receivers
+      return [] if @name == 'initialize' or @refs.self_is_max?
+      @refs.max_keys
+    end
   end
 end

@@ -24,14 +24,17 @@ module Reek
         num_params = count_parameters(ctx.parameters)
         return false if num_params <= MAX_ALLOWED
         report << new(ctx, num_params)
-        return true
       end
 
       MAX_ALLOWED = 3
 
+      def self.is_block_arg?(param)
+        Array === param and param[0] == :block
+      end
+
       def self.count_parameters(params)
         result = params.length
-        result -= 1 if Array === params[-1] and params[-1][0] == :block
+        result -= 1 if is_block_arg?(params[-1])
         result
       end
       

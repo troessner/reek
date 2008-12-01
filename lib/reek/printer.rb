@@ -35,6 +35,11 @@ module Reek
       s(exp)
     end
 
+    def process_self(exp)
+      @report = 'self'
+      s(exp)
+    end
+
     def process_lvar(exp)
       @report = exp[1].to_s
       s(exp)

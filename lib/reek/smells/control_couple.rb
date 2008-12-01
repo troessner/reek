@@ -45,7 +45,6 @@ module Reek
         return false if if_expr[0] != :lvar
         return false unless cond.has_parameter(if_expr[1])
         report << new(cond, if_expr)
-        return true
       end
       
       def initialize(context, couple)

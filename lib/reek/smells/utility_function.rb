@@ -22,7 +22,6 @@ module Reek
           method.num_statements == 0 or
           method.depends_on_self
         report << new(method)
-        true
       end
 
       def detailed_report

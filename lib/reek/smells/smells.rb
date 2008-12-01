@@ -24,6 +24,7 @@ module Reek
       Smells::UtilityFunction,
       Smells::FeatureEnvy
       ]
+  SMELLS[:defs] = SMELLS[:defn]
   SMELLS[:if] = [Smells::ControlCouple]
   SMELLS[:iter] = [Smells::NestedIterators, Smells::UncommunicativeName]
   SMELLS[:yield] = [Smells::LongYieldList]

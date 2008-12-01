@@ -15,12 +15,9 @@ module Reek
       def self.examine(ctx, report)
         args = ctx.args
         return false unless Array === args and args[0] == :array
-        if (args.length - 1) > MAX_ALLOWED
-          report << new(ctx, args.length-1)
-          return true
-        else
-          return false
-        end
+        num_args = args.length-1
+        return false if num_args <= MAX_ALLOWED
+        report << new(ctx, num_args)
       end
 
       def detailed_report

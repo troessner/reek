@@ -29,12 +29,13 @@ module Reek
         end
         return false if num_methods <= MAX_ALLOWED
         report << new(klass, num_methods)
-        return true
       end
 
       def self.non_inherited_methods(klass_obj)
-        return klass_obj.instance_methods if klass_obj.superclass.nil?
-        klass_obj.instance_methods - klass_obj.superclass.instance_methods
+        methods = klass_obj.instance_methods
+        superk = klass_obj.superclass
+        return methods if superk.nil?
+        methods - superk.instance_methods
       end
       
       def initialize(context, num_methods)

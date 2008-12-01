@@ -29,6 +29,7 @@ module Reek
 
     def <<(smell)  # :nodoc:
       @smells << smell
+      true
     end
     
     def empty?  # :nodoc:

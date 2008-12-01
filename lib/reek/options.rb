@@ -9,6 +9,7 @@ include Reek
 module Reek
 
   class Options
+    
     def self.default_options
       {
         :sort_order => Report::SORT_ORDERS[:context],
@@ -26,7 +27,7 @@ module Reek
       result = default_options
       parser = OptionParser.new do |opts|
         opts.banner = <<EOB
-Usage: #{File.basename($0)} [options] SOURCES
+Usage: #{opts.program_name} [options] SOURCES
 
 The SOURCES may be any combination of file paths and Ruby source code.
 EOB
@@ -45,7 +46,7 @@ EOB
         end
 
         opts.on("-v", "--version", "Show version") do
-          puts "#{File.basename($0)} #{Reek::VERSION::STRING}"
+          puts "#{opts.program_name} #{Reek::VERSION::STRING}"
           exit(0)
         end
       end
@@ -54,8 +55,8 @@ EOB
       result
     end
     
-    def self.fatal_error(e) # :nodoc:
-      puts "Error: #{e}"
+    def self.fatal_error(err) # :nodoc:
+      puts "Error: #{err}"
       puts "Use '-h' for help."
       exit(1)
     end
@@ -64,8 +65,8 @@ EOB
       begin
         @@opts = parse_args(args)
         ARGV
-      rescue OptionParser::ParseError => e
-        fatal_error(e)
+      rescue OptionParser::ParseError => err
+        fatal_error(err)
       end
     end
   end

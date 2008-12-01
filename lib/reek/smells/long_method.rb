@@ -24,7 +24,6 @@ module Reek
         num = method.num_statements
         return false if method.name == 'initialize' or num <= MAX_ALLOWED
         report << new(method, num)
-        return true
       end
 
       def initialize(context, num)
