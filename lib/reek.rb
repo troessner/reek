@@ -1,6 +1,6 @@
 $:.unshift File.dirname(__FILE__)
 
-require 'reek/file_checker'
+require 'reek/method_checker'
 require 'reek/report'
 
 module Reek # :doc:

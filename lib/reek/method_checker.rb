@@ -1,6 +1,8 @@
 $:.unshift File.dirname(__FILE__)
 
-require 'reek/checker'
+require 'rubygems'
+require 'parse_tree'
+require 'sexp_processor'
 require 'reek/block_context'
 require 'reek/class_context'
 require 'reek/module_context'
@@ -9,21 +11,51 @@ require 'reek/if_context'
 require 'reek/method_context'
 require 'reek/yield_call_context'
 require 'reek/smells/smells'
-require 'reek/object_refs'
-require 'set'
 
 module Reek
 
-  class MethodChecker < Checker
+  class MethodChecker < SexpProcessor
 
-    def initialize(smells)
-      super(smells)
+    def self.parse_tree_for(code)   # :nodoc:
+      ParseTree.new.parse_tree_for_string(code)
+    end
+
+    def process_default(exp)
+      process_children(exp)
+    end
+
+    # Analyses the given Ruby source +code+ looking for smells.
+    # Any smells found are saved in the +Report+ object that
+    # was passed to this object's constructor.
+    def check_source(code)
+      check_parse_tree(MethodChecker.parse_tree_for(code))
+    end
+
+    # Analyses the given Ruby object +obj+ looking for smells.
+    # Any smells found are saved in the +Report+ object that
+    # was passed to this object's constructor.
+    def check_object(obj)
+      check_parse_tree ParseTree.new.parse_tree(obj)
+    end
+
+    def check_parse_tree(sexp)  # :nodoc:
+      sexp.each { |exp| process(exp) }
+    end
+
+    # Creates a new Ruby code checker. Any smells discovered by
+    # +check_source+ or +check_object+ will be stored in +report+.
+    def initialize(report)
+      super()
+      @smells = report
       @element = StopContext.new
+      @unsupported -= [:cfunc]
+      @default_method = :process_default
+      @require_empty = @warn_on_default = false
     end
 
     def process_module(exp)
       @element = ModuleContext.new(@element, exp)
-      exp[2..-1].each { |sub| process(sub) if Array === sub }
+      process_children(exp)
       SMELLS[:module].each {|smell| smell.examine(@element, @smells) }
       pop(exp)
     end
@@ -164,7 +196,7 @@ module Reek
 
     def handle_context(klass, type, exp)
       @element = klass.new(@element, exp)
-      exp[1..-1].each {|sub| process(sub) if Array === sub}
+      process_children(exp)
       yield(@element) if block_given?
       SMELLS[type].each {|smell| smell.examine(@element, @smells) }
       pop(exp)
