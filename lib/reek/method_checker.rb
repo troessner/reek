@@ -9,6 +9,7 @@ require 'reek/module_context'
 require 'reek/stop_context'
 require 'reek/if_context'
 require 'reek/method_context'
+require 'reek/singleton_method_context'
 require 'reek/yield_call_context'
 require 'reek/smells/smells'
 
@@ -21,7 +22,8 @@ module Reek
     end
 
     def process_default(exp)
-      process_children(exp)
+      exp[1..-1].each { |sub| process(sub) if Array === sub }
+      s(exp)
     end
 
     # Analyses the given Ruby source +code+ looking for smells.
@@ -35,11 +37,7 @@ module Reek
     # Any smells found are saved in the +Report+ object that
     # was passed to this object's constructor.
     def check_object(obj)
-      check_parse_tree ParseTree.new.parse_tree(obj)
-    end
-
-    def check_parse_tree(sexp)  # :nodoc:
-      sexp.each { |exp| process(exp) }
+      check_parse_tree(ParseTree.new.parse_tree(obj))
     end
 
     # Creates a new Ruby code checker. Any smells discovered by
@@ -55,7 +53,7 @@ module Reek
 
     def process_module(exp)
       @element = ModuleContext.new(@element, exp)
-      process_children(exp)
+      process_default(exp)
       SMELLS[:module].each {|smell| smell.examine(@element, @smells) }
       pop(exp)
     end
@@ -68,9 +66,11 @@ module Reek
     end
 
     def process_defn(exp)
-      handle_context(MethodContext, :defn, exp) do |ctx|
-        ctx.record_depends_on_self if is_override?
-      end
+      handle_context(MethodContext, :defn, exp)
+    end
+
+    def process_defs(exp)
+      handle_context(SingletonMethodContext, :defs, exp)
     end
 
     def process_args(exp)
@@ -100,13 +100,12 @@ module Reek
     
     def process_dasgn_curr(exp)
       @element.record_parameter(exp[1])
-      process_children(exp)
-      s(exp)
+      process_default(exp)
     end
 
     def process_block(exp)
       @element.count_statements(MethodChecker.count_statements(exp))
-      process_children(exp)
+      process_default(exp)
     end
 
     def process_yield(exp)
@@ -117,13 +116,13 @@ module Reek
       @element.record_call_to(exp)
       receiver, meth = exp[1..2]
       @element.refs.record_ref(receiver) if (receiver[0] == :lvar and meth != :new)
-      process_children(exp)
+      process_default(exp)
     end
 
     def process_fcall(exp)
       @element.record_depends_on_self
       @element.refs.record_reference_to_self
-      process_children(exp)
+      process_default(exp)
     end
 
     def process_cfunc(exp)
@@ -141,9 +140,7 @@ module Reek
     end
 
     def process_ivar(exp)
-      @element.instance_variables << exp[1]
-      @element.record_depends_on_self
-      s(exp)
+      process_iasgn(exp)
     end
 
     def process_gvar(exp)
@@ -159,7 +156,7 @@ module Reek
     def process_iasgn(exp)
       @element.record_instance_variable(exp[1])
       @element.record_depends_on_self
-      process_children(exp)
+      process_default(exp)
     end
 
     def process_self(exp)
@@ -170,34 +167,24 @@ module Reek
   private
 
     def self.count_statements(exp)
-      result = exp.length - 1
-      result -= 1 if Array === exp[1] and exp[1][0] == :args
-      result -= 1 if exp[2] == s(:nil)
-      result
+      stmts = exp[1..-1]
+      ignore = 0
+      ignore = 1 if is_expr?(stmts[0], :args)
+      ignore += 1 if stmts[1] == s(:nil)
+      stmts.length - ignore
+    end
+
+    def self.is_expr?(exp, type)
+      Array === exp and exp[0] == type
     end
 
     def self.is_global_variable?(exp)
-      Array === exp and exp[0] == :gvar
-    end
-
-    def self.is_override?(class_name, method_name)
-      begin
-        klass = Object.const_get(class_name)
-      rescue
-        return false
-      end
-      return false unless klass.superclass
-      klass.superclass.instance_methods.include?(method_name)
-    end
-
-    def is_override?
-      MethodChecker.is_override?(@class_name, @name)
+      is_expr?(exp, :gvar)
     end
 
     def handle_context(klass, type, exp)
       @element = klass.new(@element, exp)
-      process_children(exp)
-      yield(@element) if block_given?
+      process_default(exp)
       SMELLS[type].each {|smell| smell.examine(@element, @smells) }
       pop(exp)
     end
@@ -207,13 +194,8 @@ module Reek
       s(exp)
     end
 
-    def process_children(exp)
-      exp[1..-1].each { |sub| process(sub) if Array === sub }
-      s(exp)
-    end
-
-    def check_smells_for(type)
-      SMELLS[type].each {|smell| smell.examine(@element, @smells) }
+    def check_parse_tree(sexp)  # :nodoc:
+      sexp.each { |exp| process(exp) }
     end
   end
 end

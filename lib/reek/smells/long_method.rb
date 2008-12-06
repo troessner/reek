@@ -22,7 +22,7 @@ module Reek
       #
       def self.examine(method, report)
         num = method.num_statements
-        return false if method.name == 'initialize' or num <= MAX_ALLOWED
+        return false if method.constructor? or num <= MAX_ALLOWED
         report << new(method, num)
       end
 

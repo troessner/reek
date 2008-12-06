@@ -149,10 +149,9 @@ module Reek
     end
 
 private
-    
+
     def Printer.format_array_args(args)
-      args_str = args ? Printer.print(args) : ''
-      "[#{args_str}]"
+      args.nil? ? '[]' : "[#{Printer.print(args)}]"
     end
   end
   

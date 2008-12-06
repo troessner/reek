@@ -25,40 +25,22 @@ module Reek
 
     def self.parse_args(args)
       result = default_options
-      parser = OptionParser.new do |opts|
-        opts.banner = <<EOB
-Usage: #{opts.program_name} [options] SOURCES
-
-The SOURCES may be any combination of file paths and Ruby source code.
-EOB
-
-        opts.separator ""
-        opts.separator "Options:"
-
-        opts.on("-h", "--help", "Show this message") do
-          puts opts
-          exit(0)
-        end
-
-        opts.on('-s', "--sort ORDER", Report::SORT_ORDERS.keys,
-          "Select sort order for report (#{Report::SORT_ORDERS.keys.join(', ')})") do |arg|
-          result[:sort_order] = Report::SORT_ORDERS[arg] unless arg.nil?
-        end
-
-        opts.on("-v", "--version", "Show version") do
-          puts "#{opts.program_name} #{Reek::VERSION::STRING}"
-          exit(0)
-        end
-      end
-
+      parser = OptionParser.new { |opts| set_options(opts, result) }
       parser.parse!(args)
       result
     end
     
-    def self.fatal_error(err) # :nodoc:
-      puts "Error: #{err}"
-      puts "Use '-h' for help."
-      exit(1)
+    def self.set_options(opts, config)
+      opts.banner = <<EOB
+Usage: #{opts.program_name} [options] SOURCES
+
+The SOURCES may be any combination of file paths and Ruby source code.
+EOB
+      
+      opts.separator "\nOptions:"
+      set_help_option(opts)
+      set_sort_option(config, opts)
+      set_version_option(opts)
     end
 
     def self.parse(args)
@@ -69,5 +51,36 @@ EOB
         fatal_error(err)
       end
     end
+
+  private
+    
+    def self.set_version_option(opts)
+      opts.on("-v", "--version", "Show version") do
+        puts "#{opts.program_name} #{Reek::VERSION::STRING}"
+        exit(0)
+      end
+    end
+
+    def self.set_help_option(opts)
+      opts.on("-h", "--help", "Show this message") do
+        puts opts
+        exit(0)
+      end
+    end
+
+    def self.set_sort_option(config, opts)
+      sort_options = Report::SORT_ORDERS.keys
+      opts.on('-s', "--sort ORDER", sort_options,
+        "Select sort order for report (#{sort_options.join(', ')})") do |arg|
+        config[:sort_order] = Report::SORT_ORDERS[arg] unless arg.nil?
+      end
+    end
+    
+    def self.fatal_error(err) # :nodoc:
+      puts "Error: #{err}"
+      puts "Use '-h' for help."
+      exit(1)
+    end
+    
   end
 end

@@ -27,31 +27,49 @@ module Reek
       # and false otherwise.
       #
       def self.examine(context, report)
-        smell_reported = consider(context.name, context, report, 'method')
-        context.parameters.each do |param|
-          smell_reported = consider(param, context, report, 'parameter') || smell_reported
-        end
-        context.local_variables.each do |lvar|
-          smell_reported = consider(lvar, context, report, 'local variable') || smell_reported
-        end
-        context.instance_variables.each do |ivar|
-          smell_reported = consider(ivar, context, report, 'field') || smell_reported
-        end
+        smell_reported = consider_method_name(context, report)
+        smell_reported = consider_parameters(context, report) || smell_reported
+        smell_reported = consider_lvars(context, report) || smell_reported
+        smell_reported = consider_ivars(context, report) || smell_reported
         smell_reported
       end
-
-      def self.consider(sym, context, report, type)  # :nodoc:
-        name = sym.to_s
-        if is_bad_name?(name)
-          report << new(name, context, type)
-          return true
+      
+      def self.consider_ivars(context, report)
+        result = false
+        context.instance_variables.each do |ivar|
+          next unless is_bad_name?(ivar)
+          result = (report << new(ivar, context, 'field'))
         end
-        return false
+        result
+      end
+      
+      def self.consider_lvars(context, report)
+        result = false
+        context.local_variables.each do |lvar|
+          next unless is_bad_name?(lvar)
+          result = (report << new(lvar, context, 'local variable'))
+        end
+        result
+      end
+      
+      def self.consider_parameters(context, report)
+        result = false
+        context.parameters.each do |param|
+          next unless is_bad_name?(param)
+          result = (report << new(param, context, 'parameter'))
+        end
+        result
+      end
+
+      def self.consider_method_name(context, report)  # :nodoc:
+        name = context.name
+        return false unless is_bad_name?(name)
+        report << new(name.to_s, context, 'method')
       end
 
       def self.is_bad_name?(name)
+        name = name.effective_name
         return false if name == '*'
-        name = name[1..-1] while /^@/ === name
         return true if name.length < 2
         return true if /^.[0-9]$/ === name
         false

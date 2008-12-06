@@ -74,18 +74,16 @@ require 'ostruct'
 describe FeatureEnvy, '#examine' do
 
   before :each do
-    @mc = OpenStruct.new   # SMELL: this is a mock!!
-    @mc.name = 'cool'
-    @mc.refs = ObjectRefs.new
+    @context = MethodContext.new(StopContext.new, [:defn, :cool])
   end
 
   it 'should return true when reporting a smell' do
-    @mc.refs.record_ref([:lvar, :thing])
-    @mc.refs.record_ref([:lvar, :thing])
-    FeatureEnvy.examine(@mc, []).should == true
+    @context.refs.record_ref([:lvar, :thing])
+    @context.refs.record_ref([:lvar, :thing])
+    FeatureEnvy.examine(@context, []).should == true
   end
   
   it 'should return false when not reporting a smell' do
-    FeatureEnvy.examine(@mc, []).should == false
+    FeatureEnvy.examine(@context, []).should == false
   end
 end

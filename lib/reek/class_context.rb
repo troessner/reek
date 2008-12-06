@@ -22,7 +22,7 @@ module Reek
     end
 
     def record_method(name)
-      @parsed_methods << name
+      @parsed_methods << name.to_s
     end
 
     def outer_name

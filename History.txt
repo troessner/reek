@@ -1,5 +1,9 @@
 == 0.3.x 2008-??-??
 
+* Minor enhancements:
+  * Smells in singleton methods now analysed
+  * Uncommunicative parameter names in blocks now reported
+  * Modules and blocks now reflected in scope of smell reports
 * Fixes:
   * Corrected false reports of long arg lists to yield
   * A method can now be a UtilityFunction only when it includes a call

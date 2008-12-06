@@ -12,7 +12,7 @@ module Reek
       @parameters = []
       @local_variables = []
       @instance_variables = []
-      @name = 'block'
+      @name = Name.new('block')
     end
 
     def inside_a_block?
@@ -28,7 +28,7 @@ module Reek
     end
     
     def record_parameter(sym)
-      @parameters << sym
+      @parameters << Name.new(sym)
     end
 
     def outer_name

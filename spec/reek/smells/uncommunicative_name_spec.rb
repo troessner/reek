@@ -75,21 +75,17 @@ require 'reek/smells/uncommunicative_name'
 include Reek::Smells
 
 describe UncommunicativeName, '#examine' do
-  
   before :each do
-    @mc = OpenStruct.new
-    @mc.parameters = []
-    @mc.local_variables = []
-    @mc.instance_variables = []
+    @report = Report.new
   end
-
+  
   it 'should return true when reporting a smell' do
-    @mc.name = 'x'
-    UncommunicativeName.examine(@mc, []).should == true
+    mc = MethodContext.new(StopContext.new, [:defn, :x, nil])
+    UncommunicativeName.examine(mc, @report).should == true
   end
   
   it 'should return false when not reporting a smell' do
-    @mc.name = 'not_bad'
-    UncommunicativeName.examine(@mc, []).should == false
+    mc = MethodContext.new(StopContext.new, [:defn, :not_bad, nil])
+    UncommunicativeName.examine(mc, @report).should == false
   end
 end
