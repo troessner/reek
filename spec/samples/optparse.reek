@@ -28,6 +28,8 @@
 [Feature Envy] OptionParser#Switch#parse_arg refers to arg more than self
 [Uncommunicative Name] OptionParser#Switch#parse_arg uses the local variable name 'm'
 [Uncommunicative Name] OptionParser#Switch#parse_arg uses the local variable name 's'
+[Uncommunicative Name] OptionParser#Switch#self.guess uses the local variable name 't'
+[Uncommunicative Name] OptionParser#Switch#self.incompatible_argument_styles uses the parameter name 't'
 [Duplication] OptionParser#Switch#summarize calls block.max more than once
 [Duplication] OptionParser#Switch#summarize calls block.max.to_i more than once
 [Duplication] OptionParser#Switch#summarize calls indent.+(l) more than once

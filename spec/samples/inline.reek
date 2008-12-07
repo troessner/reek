@@ -1,4 +1,5 @@
 [Large Class] Dir has at least 31 methods
+[Long Method] File#self.write_with_backup has approx 6 statements
 [Duplication] Inline::C#build calls $?.==(0) more than once
 [Duplication] Inline::C#build calls Inline.directory more than once
 [Duplication] Inline::C#build calls io.puts more than once
@@ -25,6 +26,8 @@
 [Uncommunicative Name] Inline::C#parse_signature/block uses the parameter name 'x'
 [Utility Function] Inline::C#strip_comments doesn't depend on instance state
 [Feature Envy] Inline::C#strip_comments refers to src more than self
+[Duplication] Inline::self.rootdir calls env.nil? more than once
+[Long Method] Inline::self.rootdir has approx 9 statements
 [Large Class] Module has at least 34 methods
 [Duplication] Module#inline calls Inline.const_get(lang) more than once
 [Long Method] Module#inline has approx 12 statements
