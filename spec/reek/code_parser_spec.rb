@@ -1,14 +1,14 @@
 require File.dirname(__FILE__) + '/../spec_helper.rb'
 
-require 'reek/method_checker'
+require 'reek/code_parser'
 require 'reek/report'
 
 include Reek
 
-describe MethodChecker, "with no method definitions" do  
+describe CodeParser, "with no method definitions" do  
   before(:each) do
     @rpt = Report.new
-    @cchk = MethodChecker.new(@rpt)
+    @cchk = CodeParser.new(@rpt)
   end
 
   it 'should report no problems for empty source code' do
@@ -22,9 +22,9 @@ describe MethodChecker, "with no method definitions" do
   end
 end
 
-describe MethodChecker, 'when given a C extension' do
+describe CodeParser, 'when given a C extension' do
   before(:each) do
-    @cchk = MethodChecker.new(Report.new)
+    @cchk = CodeParser.new(Report.new)
   end
 
   it 'should ignore :cfunc' do
@@ -32,7 +32,7 @@ describe MethodChecker, 'when given a C extension' do
   end
 end
 
-describe MethodChecker, 'when a yield is the receiver' do
+describe CodeParser, 'when a yield is the receiver' do
   it 'should report no problems' do
     source = 'def values(*args)
   @to_sql += case
@@ -42,7 +42,7 @@ describe MethodChecker, 'when a yield is the receiver' do
   self
 end'
     rpt = Report.new
-    chk = MethodChecker.new(rpt)
+    chk = CodeParser.new(rpt)
     chk.check_source(source)
     rpt.should be_empty
   end

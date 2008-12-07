@@ -1,6 +1,6 @@
 $:.unshift File.dirname(__FILE__)
 
-require 'reek/method_checker'
+require 'reek/code_parser'
 require 'reek/report'
 
 module Reek # :doc:
@@ -13,7 +13,7 @@ module Reek # :doc:
   def self.analyse(src)  # :doc:
     report = Report.new
     source = Reek.get_source(src)
-    MethodChecker.new(report).check_source(source)
+    CodeParser.new(report).check_source(source)
     report
   end
 

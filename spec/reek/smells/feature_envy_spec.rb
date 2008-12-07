@@ -1,24 +1,10 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
-require 'reek/method_checker'
-require 'reek/smells'
-require 'reek/report'
+require 'spec/reek/code_checks'
+require 'reek/smells/feature_envy'
 
-include Reek
+include CodeChecks
 include Reek::Smells
-
-def check(desc, src, expected, pending_str = nil)
-  it(desc) do
-    pending(pending_str) unless pending_str.nil?
-    rpt = Report.new
-    cchk = MethodChecker.new(rpt)
-    cchk.check_source(src)
-    rpt.length.should == expected.length
-    (0...rpt.length).each do |smell|
-      expected[smell].each { |patt| rpt[smell].detailed_report.should match(patt) }
-    end
-  end
-end
 
 describe FeatureEnvy, 'with only messages to self' do
   check 'should not report use of self', 'def simple() self.to_s + self.to_i end', []
@@ -69,7 +55,10 @@ describe FeatureEnvy, 'when the receiver is an lvar' do
   check 'should not report lvar usage in a parameter', 'def no_envy; lv = @item; lv.price + tax(lv) - savings(lv) end', []
 end
 
-require 'ostruct'
+require 'reek/method_context'
+require 'reek/stop_context'
+
+include Reek
 
 describe FeatureEnvy, '#examine' do
 

@@ -15,7 +15,7 @@ require 'reek/smells/smells'
 
 module Reek
 
-  class MethodChecker < SexpProcessor
+  class CodeParser < SexpProcessor
 
     def self.parse_tree_for(code)   # :nodoc:
       ParseTree.new.parse_tree_for_string(code)
@@ -30,7 +30,7 @@ module Reek
     # Any smells found are saved in the +Report+ object that
     # was passed to this object's constructor.
     def check_source(code)
-      check_parse_tree(MethodChecker.parse_tree_for(code))
+      check_parse_tree(CodeParser.parse_tree_for(code))
     end
 
     # Analyses the given Ruby object +obj+ looking for smells.
@@ -104,7 +104,7 @@ module Reek
     end
 
     def process_block(exp)
-      @element.count_statements(MethodChecker.count_statements(exp))
+      @element.count_statements(CodeParser.count_statements(exp))
       process_default(exp)
     end
 

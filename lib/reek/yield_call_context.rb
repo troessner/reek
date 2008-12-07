@@ -1,7 +1,5 @@
 $:.unshift File.dirname(__FILE__)
 
-require 'rubygems'
-require 'method_checker'
 require 'reek/smells/smells'
 require 'reek/code_context'
 

@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
-require 'reek/method_checker'
+require 'reek/code_parser'
 require 'reek/report'
 
 include Reek
@@ -17,7 +17,7 @@ describe LargeClass do
 
   before(:each) do
     @rpt = Report.new
-    @cchk = MethodChecker.new(@rpt)
+    @cchk = CodeParser.new(@rpt)
   end
 
   it 'should not report short class' do

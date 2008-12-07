@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper.rb'
 
-require 'reek/method_checker'
+require 'reek/code_parser'
 require 'reek/smells'
 require 'reek/report'
 
@@ -23,7 +23,7 @@ end
 describe Report, "to_s" do
   before(:each) do
     rpt = Report.new
-    chk = MethodChecker.new(rpt)
+    chk = CodeParser.new(rpt)
     chk.check_source('def simple(a) a[3] end')
     @report = rpt.to_s.split("\n")
   end
@@ -51,25 +51,28 @@ end
 describe SortByContext do
   before :each do
     @sorter = SortByContext
+    @long_method = LongMethod.new('x', 30)
+    @large_class = LargeClass.new('y', 30)
   end
 
   it 'should return 0 for identical smells' do
-    smell = LongMethod.new('Class#method', 30)
-    @sorter.compare(smell, smell).should == 0
+    @sorter.compare(@long_method, @long_method).should == 0
   end
 
   it 'should return non-0 for different smells' do
-    @sorter.compare(LongMethod.new('x', 30), LargeClass.new('y', 30)).should == -1
+    @sorter.compare(@long_method, @large_class).should == -1
   end
 end
 
 describe SortBySmell do
   before :each do
     @sorter = SortBySmell
+    @long_method = LongMethod.new('x', 30)
+    @large_class = LargeClass.new('y', 30)
   end
   
   it 'should return 0 for identical smells' do
-    @sorter.compare(LongMethod.new('x', 30), LongMethod.new('x', 30)).should == 0
+    @sorter.compare(@long_method, @long_method).should == 0
   end
 
   it 'should differentiate identical smells with different contexts' do
@@ -77,6 +80,6 @@ describe SortBySmell do
   end
 
   it 'should differentiate different smells with identical contexts' do
-    @sorter.compare(LongMethod.new('x', 28), LargeClass.new('x', 28)).should == 1
+    @sorter.compare(@long_method, @large_class).should == 1
   end
 end

@@ -66,13 +66,13 @@ module Reek
         return false unless is_bad_name?(name)
         report << new(name.to_s, context, 'method')
       end
+      
+      BAD_NAME_PATTERNS = [/^.[0-9]*$/]
 
       def self.is_bad_name?(name)
         name = name.effective_name
         return false if name == '*'
-        return true if name.length < 2
-        return true if /^.[0-9]$/ === name
-        false
+        BAD_NAME_PATTERNS.detect {|patt| patt === name}
       end
 
       def initialize(name, context, symbol_type)

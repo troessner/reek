@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper.rb'
 
-require 'reek/method_checker'
+require 'reek/code_parser'
 require 'reek/printer'
 
 include Reek
@@ -8,7 +8,7 @@ include Reek
 def check(examples)
   examples.each do |actual|
     it "should format #{actual} correctly" do
-      sexp = MethodChecker.parse_tree_for(actual)[0]
+      sexp = CodeParser.parse_tree_for(actual)[0]
       Printer.print(sexp).should == actual
     end
   end

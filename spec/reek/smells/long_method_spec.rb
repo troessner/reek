@@ -1,24 +1,15 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
-require 'reek/method_checker'
+require 'spec/reek/code_checks'
+
+include CodeChecks
+
+require 'reek/code_parser'
 require 'reek/report'
 
 include Reek
 
-def check(desc, src, expected, pending_str = nil)
-  it(desc) do
-    pending(pending_str) unless pending_str.nil?
-    rpt = Report.new
-    cchk = MethodChecker.new(rpt)
-    cchk.check_source(src)
-    rpt.length.should == expected.length
-    (0...rpt.length).each do |smell|
-      expected[smell].each { |patt| rpt[smell].detailed_report.should match(patt) }
-    end
-  end
-end
-
-describe MethodChecker, "(Long Method)" do
+describe CodeParser, "(Long Method)" do
   check 'should not report short methods',
     'def short(arga) alf = f(1);@bet = 2;@cut = 3;@dit = 4; @emp = 5;end', []
   check 'should report long methods',
@@ -45,17 +36,8 @@ describe MethodChecker, "(Long Method)" do
   end
 EOS
   check 'should only report a long method once', source, [[]]
-end
 
-describe MethodChecker, "(Long Block)" do
-
-  before(:each) do
-    @rpt = Report.new
-    @cchk = MethodChecker.new(@rpt)
-  end
-
-  it 'should report long inner block' do
-    src = <<EOS
+  src = <<EOS
 def long(arga)
   f(3)
   self.each do |xyzero|
@@ -68,7 +50,5 @@ def long(arga)
   end
 end
 EOS
-    @cchk.check_source(src)
-    @rpt.length.should == 1
-  end
+  check 'should report long inner block', src, [[/8 statements/]]
 end

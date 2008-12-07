@@ -16,3 +16,11 @@ describe 'Reek source code:' do
     report.should == ''
   end
 end
+
+#describe 'Reek tests:' do
+#  it 'should report no duplication' do
+#    files = Dir['spec/**/*_spec.rb'].join(' ')
+#    report = `flay #{files} 2>/dev/null`
+#    report.should == ''
+#  end
+#end

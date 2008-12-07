@@ -1,26 +1,17 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
-require 'reek/method_checker'
+require 'spec/reek/code_checks'
+
+include CodeChecks
+
+require 'reek/code_parser'
 require 'reek/smells/long_parameter_list'
 require 'reek/report'
 
 include Reek
 include Reek::Smells
 
-def check(desc, src, expected, pending_str = nil)
-  it(desc) do
-    pending(pending_str) unless pending_str.nil?
-    rpt = Report.new
-    cchk = MethodChecker.new(rpt)
-    cchk.check_source(src)
-    rpt.length.should == expected.length
-    (0...rpt.length).each do |smell|
-      expected[smell].each { |patt| rpt[smell].detailed_report.should match(patt) }
-    end
-  end
-end
-
-describe MethodChecker, "(Long Parameter List)" do
+describe CodeParser, "(Long Parameter List)" do
   
   describe 'for methods with few parameters' do
     check 'should report nothing for no parameters', 'def simple; f(3);true; end', []
@@ -56,7 +47,7 @@ describe MethodChecker, "(Long Parameter List)" do
 
       before(:each) do
         @rpt = Report.new
-        @cchk = MethodChecker.new(@rpt)
+        @cchk = CodeParser.new(@rpt)
       end
 
       class InnerTest
