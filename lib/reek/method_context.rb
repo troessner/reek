@@ -71,5 +71,9 @@ module Reek
       return [] if constructor? or @refs.self_is_max?
       @refs.max_keys
     end
+    
+    def variable_names
+      @parameters + @local_variables
+    end
   end
 end

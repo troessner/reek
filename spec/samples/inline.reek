@@ -6,9 +6,9 @@
 [Duplication] Inline::C#build calls io.puts(#endif) more than once
 [Duplication] Inline::C#build calls io.puts(#ifdef __cplusplus) more than once
 [Long Method] Inline::C#build has approx 61 statements
-[Uncommunicative Name] Inline::C#build uses the local variable name 't'
+[Uncommunicative Name] Inline::C#build uses the variable name 't'
 [Nested Iterators] Inline::C#build/block/block is nested
-[Uncommunicative Name] Inline::C#build/block/block uses the parameter name 'n'
+[Uncommunicative Name] Inline::C#build/block/block uses the variable name 'n'
 [Uncommunicative Name] Inline::C#c uses the method name 'c'
 [Duplication] Inline::C#crap_for_windoze calls Config::CONFIG[libdir] more than once
 [Duplication] Inline::C#generate calls result.sub!((?-mix:\A\n), ) more than once
@@ -19,11 +19,11 @@
 [Long Method] Inline::C#load_cache has approx 7 statements
 [Long Method] Inline::C#module_name has approx 6 statements
 [Feature Envy] Inline::C#module_name refers to md5 more than self
-[Uncommunicative Name] Inline::C#module_name/block uses the parameter name 'm'
-[Uncommunicative Name] Inline::C#module_name/block uses the parameter name 'x'
+[Uncommunicative Name] Inline::C#module_name/block uses the variable name 'm'
+[Uncommunicative Name] Inline::C#module_name/block uses the variable name 'x'
 [Long Method] Inline::C#parse_signature has approx 15 statements
 [Control Couple] Inline::C#parse_signature is controlled by argument raw
-[Uncommunicative Name] Inline::C#parse_signature/block uses the parameter name 'x'
+[Uncommunicative Name] Inline::C#parse_signature/block uses the variable name 'x'
 [Utility Function] Inline::C#strip_comments doesn't depend on instance state
 [Feature Envy] Inline::C#strip_comments refers to src more than self
 [Duplication] Inline::self.rootdir calls env.nil? more than once

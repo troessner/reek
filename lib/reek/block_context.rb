@@ -34,5 +34,9 @@ module Reek
     def outer_name
       "#{@outer.outer_name}#{@name}/"
     end
+    
+    def variable_names
+      @parameters + @local_variables
+    end
   end
 end

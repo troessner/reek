@@ -28,8 +28,7 @@ module Reek
       #
       def self.examine(context, report)
         smell_reported = consider_method_name(context, report)
-        smell_reported = consider_parameters(context, report) || smell_reported
-        smell_reported = consider_lvars(context, report) || smell_reported
+        smell_reported = consider_variables(context, report) || smell_reported
         smell_reported = consider_ivars(context, report) || smell_reported
         smell_reported
       end
@@ -43,20 +42,11 @@ module Reek
         result
       end
       
-      def self.consider_lvars(context, report)
+      def self.consider_variables(context, report)
         result = false
-        context.local_variables.each do |lvar|
-          next unless is_bad_name?(lvar)
-          result = (report << new(lvar, context, 'local variable'))
-        end
-        result
-      end
-      
-      def self.consider_parameters(context, report)
-        result = false
-        context.parameters.each do |param|
-          next unless is_bad_name?(param)
-          result = (report << new(param, context, 'parameter'))
+        context.variable_names.each do |name|
+          next unless is_bad_name?(name)
+          result = (report << new(name.to_s, context, 'variable'))
         end
         result
       end
