@@ -1,10 +1,6 @@
 desc 'Release the website and new gem version'
 task :deploy => [:check_version, :website, :release] do
-  puts "Remember to create SVN tag:"
-  puts "svn copy svn+ssh://#{rubyforge_username}@rubyforge.org/var/svn/#{PATH}/trunk " +
-    "svn+ssh://#{rubyforge_username}@rubyforge.org/var/svn/#{PATH}/tags/REL-#{VERS} "
-  puts "Suggested comment:"
-  puts "Tagging release #{CHANGES}"
+  puts "Remember to tag git!"
 end
 
 desc 'Runs tasks website_generate and install_gem as a local deployment of the gem'
@@ -21,14 +17,20 @@ task :check_version do
   end
 end
 
-desc 'Install the package as a gem, without generating documentation(ri/rdoc)'
-task :install_gem_no_doc => [:clean, :package] do
-  sh "#{'sudo ' unless Hoe::WINDOZE }gem install pkg/*.gem --no-rdoc --no-ri"
-end
-
 namespace :manifest do
-  desc 'Recreate Manifest.txt to include ALL files'
-  task :refresh do
-    `rake check_manifest | patch -p0 > Manifest.txt`
+  desc 'Verify the manifest'
+  task :check => :clean do
+    f = "Manifest.tmp"
+    require 'find'
+    files = []
+    Find.find '.' do |path|
+      next unless File.file? path
+      next if path =~ /tmp$|\.git/
+      files << path[2..-1]
+    end
+    files = files.sort.join("\n")
+    File.open(f, 'w') { |fp| fp.puts files }
+    system "diff -du Manifest.txt #{f}"
+    rm f
   end
 end
