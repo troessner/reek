@@ -15,7 +15,7 @@ module Reek
   
   SMELLS = Hash.new {|hash,key| hash[key] = [] }
   
-  SMELLS[:class] = [Smells::LargeClass]
+  SMELLS[:class] = [Smells::LargeClass, Smells::UncommunicativeName]
   SMELLS[:defn] = [
       Smells::UncommunicativeName,
       Smells::LongMethod,

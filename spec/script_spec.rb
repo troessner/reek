@@ -61,7 +61,7 @@ describe 'report format', 'with one source' do
   end
 
   it 'should not adorn the list of warnings' do
-    report = `ruby -Ilib bin/reek "def y() @x = 3; end"`
+    report = `ruby -Ilib bin/reek "class Turn; def y() @x = 3; end end"`
     report.split(/\n/).length.should == 2
     report.should_not match(/\n\n/)
   end

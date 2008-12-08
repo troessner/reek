@@ -6,7 +6,7 @@ require 'reek/object_refs'
 
 module Reek
   class MethodContext < CodeContext
-    attr_reader :parameters, :local_variables, :instance_variables
+    attr_reader :parameters, :local_variables
     attr_reader :outer, :calls, :refs
     attr_reader :num_statements, :depends_on_self
     attr_accessor :name
@@ -15,7 +15,6 @@ module Reek
       super(outer, exp)
       @parameters = []
       @local_variables = []
-      @instance_variables = []
       @name = Name.new(exp[1])
       @num_statements = 0
       @calls = Hash.new(0)
@@ -43,10 +42,6 @@ module Reek
       @depends_on_self = true
     end
 
-    def record_instance_variable(sym)
-      @instance_variables << Name.new(sym)
-    end
-
     def record_local_variable(sym)
       @local_variables << Name.new(sym)
     end
@@ -71,7 +66,7 @@ module Reek
       return [] if constructor? or @refs.self_is_max?
       @refs.max_keys
     end
-    
+
     def variable_names
       @parameters + @local_variables
     end

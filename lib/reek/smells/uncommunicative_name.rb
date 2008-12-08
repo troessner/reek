@@ -19,6 +19,9 @@ module Reek
     # * names consisting of a single character followed by a number
     #
     class UncommunicativeName < Smell
+      
+      BAD_NAME_PATTERNS = [/^.[0-9]*$/]     # :nodoc:
+      EXCEPTIONS = ['Inline::C']            # :nodoc:
 
       #
       # Checks the given +method+ for uncommunicative method name,
@@ -27,19 +30,9 @@ module Reek
       # and false otherwise.
       #
       def self.examine(context, report)
-        smell_reported = consider_method_name(context, report)
+        smell_reported = consider_name(context, report) unless EXCEPTIONS.include?(context.to_s)
         smell_reported = consider_variables(context, report) || smell_reported
-        smell_reported = consider_ivars(context, report) || smell_reported
         smell_reported
-      end
-      
-      def self.consider_ivars(context, report)
-        result = false
-        context.instance_variables.each do |ivar|
-          next unless is_bad_name?(ivar)
-          result = (report << new(ivar, context, 'field'))
-        end
-        result
       end
       
       def self.consider_variables(context, report)
@@ -51,13 +44,11 @@ module Reek
         result
       end
 
-      def self.consider_method_name(context, report)  # :nodoc:
+      def self.consider_name(context, report)  # :nodoc:
         name = context.name
         return false unless is_bad_name?(name)
-        report << new(name.to_s, context, 'method')
+        report << new(name.to_s, context, '')
       end
-      
-      BAD_NAME_PATTERNS = [/^.[0-9]*$/]
 
       def self.is_bad_name?(name)
         name = name.effective_name
@@ -72,7 +63,7 @@ module Reek
       end
 
       def detailed_report
-        "#{@context.to_s} uses the #{@symbol_type} name '#{@bad_name}'"
+        "#{@context.to_s} has the #{@symbol_type} name '#{@bad_name}'"
       end
     end
 

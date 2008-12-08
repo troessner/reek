@@ -36,3 +36,15 @@ describe CodeContext, 'to_s' do
     BlockContext.new(element3, nil).to_s.should match(/bad/)
   end
 end
+
+describe CodeContext, 'instance variables' do
+  it 'should pass instance variables down to the first class' do
+    element = StopContext.new
+    element = ModuleContext.new(element, [0, :mod])
+    class_element = ClassContext.new(element, [0, :klass])
+    element = MethodContext.new(class_element, [0, :bad])
+    element = BlockContext.new(element, nil)
+    element.record_instance_variable(:fred)
+    class_element.variable_names.should == [Name.new(:fred)]
+  end
+end

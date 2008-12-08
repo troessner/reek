@@ -22,7 +22,7 @@ module Reek
       #
       def self.examine(klass, report)
         begin
-          klass_obj = Object.const_get(klass.name)
+          klass_obj = Object.const_get(klass.name.to_s)
           num_methods = non_inherited_methods(klass_obj).length
         rescue
           num_methods = klass.num_methods

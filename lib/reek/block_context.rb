@@ -4,14 +4,13 @@ require 'reek/code_context'
 
 module Reek
   class BlockContext < CodeContext
-    attr_reader :parameters, :local_variables, :instance_variables
-    attr_reader :name, :outer
+    attr_reader :parameters, :local_variables
+    attr_reader :name
 
     def initialize(outer, exp)
       super
       @parameters = []
       @local_variables = []
-      @instance_variables = []
       @name = Name.new('block')
     end
 
