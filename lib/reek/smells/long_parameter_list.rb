@@ -26,6 +26,10 @@ module Reek
         report << new(ctx, num_params)
       end
 
+      def self.set_default_values(hash)      # :nodoc:
+        hash['max_params'] = 3
+      end
+
       MAX_ALLOWED = 3
       
       def initialize(context, num_params)

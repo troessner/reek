@@ -22,6 +22,10 @@ module Reek
         report << new(block)
       end
 
+      def self.contexts      # :nodoc:
+        [:iter]
+      end
+
       def detailed_report
         "#{@context} is nested"
       end

@@ -43,6 +43,10 @@ module Reek
         return smell_found
       end
 
+      def self.set_default_values(hash)      # :nodoc:
+        hash['max_calls'] = 1
+      end
+
       def initialize(context, call)
         super(context)
         @call = call

@@ -12,20 +12,26 @@ require 'reek/smells/uncommunicative_name'
 require 'reek/smells/utility_function'
 
 module Reek
-  
+
+  SMELL_CLASSES = [
+    Smells::ControlCouple,
+    Smells::Duplication,
+    Smells::FeatureEnvy,
+    Smells::LargeClass,
+    Smells::LongMethod,
+    Smells::LongParameterList,
+    Smells::LongYieldList,
+    Smells::NestedIterators,
+    Smells::UncommunicativeName,
+    Smells::UtilityFunction,
+  ]
+
+  CONFIG = Hash.new {|hash,key| hash[key] = {} }
   SMELLS = Hash.new {|hash,key| hash[key] = [] }
   
-  SMELLS[:class] = [Smells::LargeClass, Smells::UncommunicativeName]
-  SMELLS[:defn] = [
-      Smells::UncommunicativeName,
-      Smells::LongMethod,
-      Smells::LongParameterList,
-      Smells::Duplication,
-      Smells::UtilityFunction,
-      Smells::FeatureEnvy
-      ]
-  SMELLS[:defs] = SMELLS[:defn]
-  SMELLS[:if] = [Smells::ControlCouple]
-  SMELLS[:iter] = [Smells::NestedIterators, Smells::UncommunicativeName]
-  SMELLS[:yield] = [Smells::LongYieldList]
+  SMELL_CLASSES.each do |smell|
+    smell.configure(CONFIG)
+    smell.attach_to(SMELLS)
+  end
+
 end

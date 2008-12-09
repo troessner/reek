@@ -20,6 +20,10 @@ module Reek
         report << new(ctx, num_args)
       end
 
+      def self.contexts      # :nodoc:
+        [:yield]
+      end
+
       def detailed_report
         "#{@context.to_s} yields #{@num_params} parameters"
       end

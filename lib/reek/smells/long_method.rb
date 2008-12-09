@@ -26,6 +26,10 @@ module Reek
         report << new(method, num)
       end
 
+      def self.set_default_values(hash)      # :nodoc:
+        hash['max_statements'] = 5
+      end
+
       def initialize(context, num)
         super(context)
         @num_stmts = num

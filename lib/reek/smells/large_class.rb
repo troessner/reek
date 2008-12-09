@@ -37,6 +37,14 @@ module Reek
         return methods if superk.nil?
         methods - superk.instance_methods
       end
+
+      def self.set_default_values(hash)      # :nodoc:
+        hash['max_methods'] = 25
+      end
+
+      def self.contexts      # :nodoc:
+        [:class]
+      end
       
       def initialize(context, num_methods)
         super(context)

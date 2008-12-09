@@ -56,6 +56,14 @@ module Reek
         BAD_NAME_PATTERNS.detect {|patt| patt === name}
       end
 
+      def self.set_default_values(hash)      # :nodoc:
+        hash['bad_names'] = [/^.[0-9]*$/]
+      end
+
+      def self.contexts      # :nodoc:
+        [:class, :defn, :defs, :iter]
+      end
+
       def initialize(name, context, symbol_type)
         super(context, symbol_type)
         @bad_name = name

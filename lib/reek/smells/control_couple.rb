@@ -46,6 +46,10 @@ module Reek
         return false unless cond.has_parameter(if_expr[1])
         report << new(cond, if_expr)
       end
+
+      def self.contexts      # :nodoc:
+        [:if]
+      end
       
       def initialize(context, couple)
         super(context)
