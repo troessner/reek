@@ -12,22 +12,6 @@ module Reek
       @if_expr = exp[1]
     end
 
-    def count_statements(num)
-      @outer.count_statements(num)
-    end
-    
-    def has_parameter(exp)
-      @outer.has_parameter(exp)
-    end
-    
-    def refs
-      @outer.refs
-    end
-    
-    def record_call_to(exp)
-      @outer.record_call_to(exp)
-    end
-
     def outer_name
       @outer.outer_name
     end
