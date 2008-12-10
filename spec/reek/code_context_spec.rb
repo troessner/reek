@@ -48,3 +48,15 @@ describe CodeContext, 'instance variables' do
     class_element.variable_names.should == [Name.new(:fred)]
   end
 end
+
+describe CodeContext, 'generics' do
+  it 'should pass unknown method calls down the stack' do
+    stop = StopContext.new
+    def stop.bananas(arg1, arg2) arg1 + arg2 + 43 end
+    element = ModuleContext.new(stop, [0, :mod])
+    class_element = ClassContext.new(element, [0, :klass])
+    element = MethodContext.new(class_element, [0, :bad])
+    element = BlockContext.new(element, nil)
+    element.bananas(17, -5).should == 55
+  end
+end

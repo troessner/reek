@@ -40,7 +40,7 @@ module Reek
       # Any smells found are added to the +report+; returns true in that case,
       # and false otherwise.
       #
-      def self.examine(cond, report)
+      def self.examine_context(cond, report)
         if_expr = cond.if_expr
         return false if if_expr[0] != :lvar
         return false unless cond.has_parameter(if_expr[1])

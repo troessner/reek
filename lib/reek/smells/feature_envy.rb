@@ -40,13 +40,10 @@ module Reek
       # Any smells found are added to the +report+; returns true in that case,
       # and false otherwise.
       #
-      def self.examine(context, report)
-        smell_found = false
+      def self.examine_context(context, report)
         context.envious_receivers.each do |ref|
           report << new(context, Printer.print(ref))
-          smell_found = true
         end
-        smell_found
       end
       
       def initialize(context, receiver)

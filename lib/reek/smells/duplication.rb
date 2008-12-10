@@ -22,19 +22,11 @@ module Reek
     class Duplication < Smell
 
       MAX_CALLS_KEY = 'max_calls'      
-      
-      #
-      # Checks the given +method+ for duplication.
-      # Any smells found are added to the +report+; returns true in that case,
-      # and false otherwise.
-      #
-      def self.examine(method, report)
-        smell_found = false
+
+      def self.examine_context(method, report)
         smelly_calls(method).each do |call|
           report << new(method, call)
-          smell_found = true
         end
-        return smell_found
       end
       
       def self.smelly_calls(method)   # :nodoc:

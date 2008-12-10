@@ -12,7 +12,7 @@ module Reek
       # Any smells found are added to the +report+; returns true in that case,
       # and false otherwise.
       #
-      def self.examine(ctx, report)
+      def self.examine_context(ctx, report)
         args = ctx.args
         return false unless Array === args and args[0] == :array
         num_args = args.length-1

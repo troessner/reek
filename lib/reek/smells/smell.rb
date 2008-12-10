@@ -15,6 +15,7 @@ module Reek
       def self.configure(hash)              # :nodoc:
         section = hash[class_name]
         section['enabled'] = true
+        @@enabled = true
         set_default_values(section)
       end
 
@@ -35,6 +36,25 @@ module Reek
 
       def self.convert_camel_case(class_name)
         class_name.gsub(/([a-z])([A-Z])/) { |sub| "#{$1} #{$2}"}
+      end
+
+      #
+      # Checks the given +context+ for smells.
+      # Any smells found are added to the +report+; returns true in that case,
+      # and false otherwise.
+      #
+      def self.examine(context, report)
+        before = report.size
+        examine_context(context, report) if @@enabled
+        report.length > before
+      end
+
+      def self.enable
+        @@enabled = true
+      end
+
+      def self.disable
+        @@enabled = false
       end
 
       def initialize(context, arg=nil)

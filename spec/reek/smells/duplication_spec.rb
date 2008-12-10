@@ -48,3 +48,22 @@ describe Duplication, '#examine' do
     Duplication.examine(@mc, []).should == false
   end
 end
+
+describe Duplication, 'when disabled' do
+  before :each do
+    Duplication.disable
+  end
+
+  check 'should not report repeated call',
+    'def double_thing() @other.thing + @other.thing end', []
+  check 'should not report repeated call to lvar',
+    'def double_thing() other[@thing] + other[@thing] end', []
+  check 'should not report call parameters',
+    'def double_thing() @other.thing(2,3) + @other.thing(2,3) end', []
+  check 'should not report nested calls',
+    'def double_thing() @other.thing.foo + @other.thing.foo end', []
+
+  after :each do
+    Duplication.enable
+  end
+end

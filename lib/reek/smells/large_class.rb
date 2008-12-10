@@ -22,7 +22,7 @@ module Reek
       # Any smells found are added to the +report+; returns true in that case,
       # and false otherwise.
       #
-      def self.examine(klass, report)
+      def self.examine_context(klass, report)
         return false if config[EXCEPTIONS_KEY].include?(klass.name.to_s)
         num_methods = klass.num_methods
         return false if num_methods <= config[MAX_METHODS_KEY]

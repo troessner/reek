@@ -22,7 +22,7 @@ module Reek
       # Any smells found are added to the +report+; returns true in that case,
       # and false otherwise.
       #
-      def self.examine(ctx, report)
+      def self.examine_context(ctx, report)
         num_params = ctx.parameters.length
         return false if num_params <= config[MAX_PARAMS_KEY]
         report << new(ctx, num_params)

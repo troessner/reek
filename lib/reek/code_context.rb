@@ -8,6 +8,10 @@ module Reek
       @outer = outer
       @exp = exp
     end
+    
+    def method_missing(method, *args)
+      @outer.send(method, *args)
+    end
 
     def count_statements(num)
       @outer.count_statements(num)

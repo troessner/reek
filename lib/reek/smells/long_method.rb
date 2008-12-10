@@ -20,7 +20,7 @@ module Reek
       # Any smells found are added to the +report+; returns true in that case,
       # and false otherwise.
       #
-      def self.examine(method, report)
+      def self.examine_context(method, report)
         num = method.num_statements
         return false if method.constructor? or num <= config[MAX_STATEMENTS_KEY]
         report << new(method, num)

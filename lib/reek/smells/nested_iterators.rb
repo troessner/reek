@@ -17,7 +17,7 @@ module Reek
       # Any smells found are added to the +report+; returns true in that case,
       # and false otherwise.
       #
-      def self.examine(block, report)
+      def self.examine_context(block, report)
         return false unless block.nested_block?
         report << new(block)
       end

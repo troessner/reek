@@ -39,6 +39,8 @@ module Reek
     def length  # :nodoc:
       @smells.length
     end
+    
+    alias size length
 
     def [](index)  # :nodoc:
       @smells.to_a[index]

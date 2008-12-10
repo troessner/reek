@@ -29,10 +29,9 @@ module Reek
       # Any smells found are added to the +report+; returns true in that case,
       # and false otherwise.
       #
-      def self.examine(context, report)
-        smell_reported = consider_name(context, report) unless config[EXCEPTIONS_KEY].include?(context.to_s)
-        smell_reported = consider_variables(context, report) || smell_reported
-        smell_reported
+      def self.examine_context(context, report)
+        consider_name(context, report) unless config[EXCEPTIONS_KEY].include?(context.to_s)
+        consider_variables(context, report)
       end
       
       def self.consider_variables(context, report)
