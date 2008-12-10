@@ -13,7 +13,7 @@ module Reek
     #
     class LongMethod < Smell
 
-      MAX_ALLOWED = 5
+      MAX_STATEMENTS_KEY = 'max_statements'
 
       #
       # Checks the length of the given +method+.
@@ -22,12 +22,12 @@ module Reek
       #
       def self.examine(method, report)
         num = method.num_statements
-        return false if method.constructor? or num <= MAX_ALLOWED
+        return false if method.constructor? or num <= config[MAX_STATEMENTS_KEY]
         report << new(method, num)
       end
 
       def self.set_default_values(hash)      # :nodoc:
-        hash['max_statements'] = 5
+        hash[MAX_STATEMENTS_KEY] = 5
       end
 
       def initialize(context, num)

@@ -13,7 +13,9 @@ module Reek
     # +MAX_ALLOWED+ public methods.
     #
     class LargeClass < Smell
-      MAX_ALLOWED = 25
+
+      MAX_METHODS_KEY = 'max_methods'
+      EXCEPTIONS_KEY = 'exceptions'
 
       #
       # Checks the length of the given +klass+.
@@ -21,25 +23,15 @@ module Reek
       # and false otherwise.
       #
       def self.examine(klass, report)
-        begin
-          klass_obj = Object.const_get(klass.name.to_s)
-          num_methods = non_inherited_methods(klass_obj).length
-        rescue
-          num_methods = klass.num_methods
-        end
-        return false if num_methods <= MAX_ALLOWED
+        return false if config[EXCEPTIONS_KEY].include?(klass.name.to_s)
+        num_methods = klass.num_methods
+        return false if num_methods <= config[MAX_METHODS_KEY]
         report << new(klass, num_methods)
       end
 
-      def self.non_inherited_methods(klass_obj)
-        methods = klass_obj.instance_methods
-        superk = klass_obj.superclass
-        return methods if superk.nil?
-        methods - superk.instance_methods
-      end
-
       def self.set_default_values(hash)      # :nodoc:
-        hash['max_methods'] = 25
+        hash[MAX_METHODS_KEY] = 25
+        hash[EXCEPTIONS_KEY] = ['Hash']
       end
 
       def self.contexts      # :nodoc:

@@ -1,7 +1,7 @@
 [Large Class] OptionParser has at least 52 methods
 [Nested Iterators] OptionParser#CompletingHash#match/block/block is nested
-[Duplication] OptionParser#Completion::complete calls candidates.size more than once
-[Duplication] OptionParser#Completion::complete calls k.id2name more than once
+[Duplication] OptionParser#Completion::complete calls candidates.size multiple times
+[Duplication] OptionParser#Completion::complete calls k.id2name multiple times
 [Long Method] OptionParser#Completion::complete has approx 23 statements
 [Uncommunicative Name] OptionParser#Completion::complete has the variable name 'k'
 [Uncommunicative Name] OptionParser#Completion::complete has the variable name 'v'
@@ -23,20 +23,20 @@
 [Control Couple] OptionParser#Switch#RequiredArgument#parse is controlled by argument arg
 [Uncommunicative Name] OptionParser#Switch#add_banner has the variable name 's'
 [Long Parameter List] OptionParser#Switch#initialize has 7 parameters
-[Duplication] OptionParser#Switch#parse_arg calls s.length more than once
+[Duplication] OptionParser#Switch#parse_arg calls s.length multiple times
 [Long Method] OptionParser#Switch#parse_arg has approx 12 statements
 [Uncommunicative Name] OptionParser#Switch#parse_arg has the variable name 'm'
 [Uncommunicative Name] OptionParser#Switch#parse_arg has the variable name 's'
 [Feature Envy] OptionParser#Switch#parse_arg refers to arg more than self
 [Uncommunicative Name] OptionParser#Switch#self.guess has the variable name 't'
 [Uncommunicative Name] OptionParser#Switch#self.incompatible_argument_styles has the variable name 't'
-[Duplication] OptionParser#Switch#summarize calls block.max more than once
-[Duplication] OptionParser#Switch#summarize calls block.max.to_i more than once
-[Duplication] OptionParser#Switch#summarize calls indent.+(l) more than once
-[Duplication] OptionParser#Switch#summarize calls left.collect more than once
-[Duplication] OptionParser#Switch#summarize calls left.shift more than once
-[Duplication] OptionParser#Switch#summarize calls left[-1] more than once
-[Duplication] OptionParser#Switch#summarize calls s.length more than once
+[Duplication] OptionParser#Switch#summarize calls block.max multiple times
+[Duplication] OptionParser#Switch#summarize calls block.max.to_i multiple times
+[Duplication] OptionParser#Switch#summarize calls indent.+(l) multiple times
+[Duplication] OptionParser#Switch#summarize calls left.collect multiple times
+[Duplication] OptionParser#Switch#summarize calls left.shift multiple times
+[Duplication] OptionParser#Switch#summarize calls left[-1] multiple times
+[Duplication] OptionParser#Switch#summarize calls s.length multiple times
 [Long Parameter List] OptionParser#Switch#summarize has 5 parameters
 [Long Method] OptionParser#Switch#summarize has approx 27 statements
 [Uncommunicative Name] OptionParser#Switch#summarize has the variable name 'l'
@@ -54,13 +54,13 @@
 [Nested Iterators] OptionParser#complete/block/block is nested
 [Long Method] OptionParser#getopts has approx 17 statements
 [Uncommunicative Name] OptionParser#load/block has the variable name 's'
-[Duplication] OptionParser#make_switch calls default_style.guess(arg=a) more than once
-[Duplication] OptionParser#make_switch calls long.<<(o=q.downcase) more than once
-[Duplication] OptionParser#make_switch calls pattern.method(convert) more than once
-[Duplication] OptionParser#make_switch calls pattern.method(convert).to_proc more than once
-[Duplication] OptionParser#make_switch calls pattern.respond_to?(convert) more than once
-[Duplication] OptionParser#make_switch calls q.downcase more than once
-[Duplication] OptionParser#make_switch calls sdesc.<<("-#{q}") more than once
+[Duplication] OptionParser#make_switch calls default_style.guess(arg=a) multiple times
+[Duplication] OptionParser#make_switch calls long.<<(o=q.downcase) multiple times
+[Duplication] OptionParser#make_switch calls pattern.method(convert) multiple times
+[Duplication] OptionParser#make_switch calls pattern.method(convert).to_proc multiple times
+[Duplication] OptionParser#make_switch calls pattern.respond_to?(convert) multiple times
+[Duplication] OptionParser#make_switch calls q.downcase multiple times
+[Duplication] OptionParser#make_switch calls sdesc.<<("-#{q}") multiple times
 [Long Method] OptionParser#make_switch has approx 69 statements
 [Uncommunicative Name] OptionParser#make_switch has the variable name 'a'
 [Uncommunicative Name] OptionParser#make_switch has the variable name 'n'
@@ -71,20 +71,20 @@
 [Uncommunicative Name] OptionParser#make_switch/block/block has the variable name 'v'
 [Nested Iterators] OptionParser#make_switch/block/block is nested
 [Nested Iterators] OptionParser#make_switch/block/block/block is nested
-[Duplication] OptionParser#order calls argv[0] more than once
+[Duplication] OptionParser#order calls argv[0] multiple times
 [Feature Envy] OptionParser#order refers to argv more than self
-[Duplication] OptionParser#parse calls argv[0] more than once
+[Duplication] OptionParser#parse calls argv[0] multiple times
 [Feature Envy] OptionParser#parse refers to argv more than self
-[Duplication] OptionParser#parse_in_order calls $!.set_option(arg, true) more than once
-[Duplication] OptionParser#parse_in_order calls cb.call(val) more than once
-[Duplication] OptionParser#parse_in_order calls setter.call(sw.switch_name, val) more than once
-[Duplication] OptionParser#parse_in_order calls sw.block more than once
-[Duplication] OptionParser#parse_in_order calls sw.switch_name more than once
+[Duplication] OptionParser#parse_in_order calls $!.set_option(arg, true) multiple times
+[Duplication] OptionParser#parse_in_order calls cb.call(val) multiple times
+[Duplication] OptionParser#parse_in_order calls setter.call(sw.switch_name, val) multiple times
+[Duplication] OptionParser#parse_in_order calls sw.block multiple times
+[Duplication] OptionParser#parse_in_order calls sw.switch_name multiple times
 [Long Method] OptionParser#parse_in_order has approx 30 statements
 [Control Couple] OptionParser#parse_in_order/block is controlled by argument setter
 [Nested Iterators] OptionParser#parse_in_order/block/block is nested
 [Nested Iterators] OptionParser#parse_in_order/block/block/block is nested
-[Duplication] OptionParser#permute calls argv[0] more than once
+[Duplication] OptionParser#permute calls argv[0] multiple times
 [Feature Envy] OptionParser#permute refers to argv more than self
 [Uncommunicative Name] OptionParser#search/block has the variable name 'k'
 [Long Parameter List] OptionParser#summarize has 4 parameters

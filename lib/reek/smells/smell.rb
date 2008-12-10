@@ -28,6 +28,10 @@ module Reek
       def self.contexts      # :nodoc:
         [:defn, :defs]
       end
+      
+      def self.config   # :nodoc:
+        CONFIG[class_name]
+      end
 
       def self.convert_camel_case(class_name)
         class_name.gsub(/([a-z])([A-Z])/) { |sub| "#{$1} #{$2}"}

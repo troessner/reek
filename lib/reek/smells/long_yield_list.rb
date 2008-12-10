@@ -16,7 +16,7 @@ module Reek
         args = ctx.args
         return false unless Array === args and args[0] == :array
         num_args = args.length-1
-        return false if num_args <= MAX_ALLOWED
+        return false if num_args <= config[MAX_PARAMS_KEY]
         report << new(ctx, num_args)
       end
 

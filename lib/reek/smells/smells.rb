@@ -11,6 +11,19 @@ require 'reek/smells/nested_iterators'
 require 'reek/smells/uncommunicative_name'
 require 'reek/smells/utility_function'
 
+class Hash
+  def value_merge!(other)
+    keys.each do |key|
+      self[key].merge!(other[key])
+    end
+    self
+  end
+  
+  def deep_copy
+    YAML::load(YAML::dump(self))
+  end
+end
+
 module Reek
 
   SMELL_CLASSES = [

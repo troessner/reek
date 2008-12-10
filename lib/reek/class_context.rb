@@ -19,7 +19,19 @@ module Reek
     end
 
     def num_methods
-      @parsed_methods.length
+      begin
+        klass_obj = Object.const_get(@name.to_s)
+        return self.class.non_inherited_methods(klass_obj).length
+      rescue
+        return @parsed_methods.length
+      end
+    end
+
+    def self.non_inherited_methods(klass_obj)
+      methods = klass_obj.instance_methods
+      superk = klass_obj.superclass
+      return methods if superk.nil?
+      methods - superk.instance_methods
     end
 
     def record_instance_variable(sym)
