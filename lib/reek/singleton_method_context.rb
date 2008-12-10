@@ -11,7 +11,7 @@ module Reek
       super(outer, exp, false)
       @name = Name.new(exp[2])
       @receiver = Printer.print(exp[1])
-      @depends_on_self = true
+      record_depends_on_self
     end
 
     def envious_receivers

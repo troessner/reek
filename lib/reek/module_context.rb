@@ -13,9 +13,5 @@ module Reek
     def outer_name
       "#{@outer.outer_name}#{@name}::"
     end
-
-    def to_s
-      "#{@outer.outer_name}#{@name}"
-    end
   end
 end
