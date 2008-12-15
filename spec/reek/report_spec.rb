@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../spec_helper.rb'
 
 require 'reek/code_parser'
-require 'reek/smells'
+require 'reek/smells/smells'
 require 'reek/report'
 
 include Reek
