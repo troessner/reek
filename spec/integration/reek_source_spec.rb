@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/spec_helper.rb'
+require File.dirname(__FILE__) + '/../spec_helper.rb'
 
 describe 'Reek source code:' do
   Dir['lib/**/*.rb'].each do |source|

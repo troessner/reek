@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/spec_helper.rb'
+require File.dirname(__FILE__) + '/../spec_helper.rb'
 
 describe 'Integration test:' do
   Dir['spec/samples/*.rb'].each do |source|
