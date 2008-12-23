@@ -1,4 +1,4 @@
-[Large Class] OptionParser has at least 52 methods
+[Large Class] OptionParser has at least 60 methods
 [Nested Iterators] OptionParser#CompletingHash#match/block/block is nested
 [Duplication] OptionParser#Completion::complete calls candidates.size multiple times
 [Duplication] OptionParser#Completion::complete calls k.id2name multiple times

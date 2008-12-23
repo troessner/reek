@@ -9,8 +9,10 @@ module Reek
     # A Large Class is a class or module that has a large number of
     # instance variables, methods or lines of code.
     # 
-    # Currently +LargeClass+ only reports classes having more than
-    # +MAX_ALLOWED+ public methods.
+    # Currently +LargeClass+ only reports classes having more than a
+    # configurable number of methods. This includes public, protected and
+    # private methods, but excludes methods inherited from superclasses or
+    # included modules.
     #
     class LargeClass < Smell
 
