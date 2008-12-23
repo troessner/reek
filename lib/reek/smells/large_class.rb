@@ -16,8 +16,7 @@ module Reek
     #
     class LargeClass < Smell
 
-      MAX_METHODS_KEY = 'max_methods'
-      EXCEPTIONS_KEY = 'exceptions'
+      @@max_methods = 25
 
       #
       # Checks the length of the given +klass+.
@@ -25,15 +24,14 @@ module Reek
       # and false otherwise.
       #
       def self.examine_context(klass, report)
-        return false if config[EXCEPTIONS_KEY].include?(klass.name.to_s)
+        return false if exception?(klass.name.to_s)
         num_methods = klass.num_methods
-        return false if num_methods <= config[MAX_METHODS_KEY]
+        return false if num_methods <= @@max_methods
         report << new(klass, num_methods)
       end
 
       def self.set_default_values(hash)      # :nodoc:
-        hash[MAX_METHODS_KEY] = 25
-        hash[EXCEPTIONS_KEY] = ['Hash', 'Module']
+        @@max_methods = hash['max_methods']
       end
 
       def self.contexts      # :nodoc:

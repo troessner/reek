@@ -10,6 +10,7 @@ require 'reek/smells/long_yield_list'
 require 'reek/smells/nested_iterators'
 require 'reek/smells/uncommunicative_name'
 require 'reek/smells/utility_function'
+require 'yaml'
 
 class Hash
   def value_merge!(other)
@@ -39,8 +40,11 @@ module Reek
     Smells::UtilityFunction,
   ]
 
-  CONFIG = Hash.new {|hash,key| hash[key] = {} }
+#  CONFIG = Hash.new {|hash,key| hash[key] = {} }
   SMELLS = Hash.new {|hash,key| hash[key] = [] }
+  
+  defaults_file = File.join(File.dirname(__FILE__), '..', '..', '..', 'config', 'defaults.reek')
+  CONFIG = YAML.load_file(defaults_file)
   
   SMELL_CLASSES.each do |smell|
     smell.configure(CONFIG)

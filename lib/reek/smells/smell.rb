@@ -8,14 +8,17 @@ module Reek
     class Smell
       include Comparable
       
+      @@enabled = true
+      @@exceptions = []
+      
       def self.class_name
         self.name.split(/::/)[-1]
       end
 
       def self.configure(hash)              # :nodoc:
         section = hash[class_name]
-        section['enabled'] = true
-        @@enabled = true
+        @@enabled = section['enabled']
+        @@exceptions = section['exceptions'] || []
         set_default_values(section)
       end
 
@@ -47,6 +50,10 @@ module Reek
         before = report.size
         examine_context(context, report) if @@enabled
         report.length > before
+      end
+
+      def self.exception?(val)
+        @@exceptions.include?(val)
       end
 
       def self.enable

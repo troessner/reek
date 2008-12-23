@@ -19,9 +19,8 @@ module Reek
     # * names consisting of a single character followed by a number
     #
     class UncommunicativeName < Smell
-
-      BAD_NAMES_KEY = 'bad_names'
-      EXCEPTIONS_KEY = 'exceptions'
+      
+      @@bad_name_patterns = [/^.[0-9]*$/]
 
       #
       # Checks the given +method+ for uncommunicative method name,
@@ -30,7 +29,7 @@ module Reek
       # and false otherwise.
       #
       def self.examine_context(context, report)
-        consider_name(context, report) unless config[EXCEPTIONS_KEY].include?(context.to_s)
+        consider_name(context, report) unless exception?(context.to_s)
         consider_variables(context, report)
       end
       
@@ -52,12 +51,11 @@ module Reek
       def self.is_bad_name?(name)
         name = name.effective_name
         return false if name == '*'
-        config[BAD_NAMES_KEY].detect {|patt| patt === name}
+        @@bad_name_patterns.detect {|patt| patt === name}
       end
 
       def self.set_default_values(hash)      # :nodoc:
-        hash[BAD_NAMES_KEY] = [/^.[0-9]*$/]
-        hash[EXCEPTIONS_KEY] = []
+        @@bad_name_patterns = hash['bad_names']
       end
 
       def self.contexts      # :nodoc:

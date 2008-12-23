@@ -15,7 +15,7 @@ module Reek
     #
     class LongParameterList < Smell
 
-      MAX_PARAMS_KEY = 'max_params'
+      @@max_params = 3
       
       #
       # Checks whether the given conditional statement relies on a control couple.
@@ -24,12 +24,12 @@ module Reek
       #
       def self.examine_context(ctx, report)
         num_params = ctx.parameters.length
-        return false if num_params <= config[MAX_PARAMS_KEY]
+        return false if num_params <= @@max_params
         report << new(ctx, num_params)
       end
 
       def self.set_default_values(hash)      # :nodoc:
-        hash[MAX_PARAMS_KEY] = 3
+        @@max_params = hash['max_params']
       end
 
       MAX_ALLOWED = 3
