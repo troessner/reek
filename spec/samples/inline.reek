@@ -1,4 +1,3 @@
-[Large Class] Dir has at least 31 methods
 [Long Method] File#self.write_with_backup has approx 6 statements
 [Duplication] Inline::C#build calls $?.==(0) multiple times
 [Duplication] Inline::C#build calls Inline.directory multiple times
