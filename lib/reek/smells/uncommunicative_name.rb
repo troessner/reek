@@ -57,7 +57,7 @@ module Reek
 
       def self.set_default_values(hash)      # :nodoc:
         hash[BAD_NAMES_KEY] = [/^.[0-9]*$/]
-        hash[EXCEPTIONS_KEY] = ['Inline::C']
+        hash[EXCEPTIONS_KEY] = []
       end
 
       def self.contexts      # :nodoc:

@@ -89,10 +89,6 @@ module Reek
       s(exp)
     end
 
-    def process_lvar(exp)
-      s(exp)
-    end
-
     def process_iter(exp)
       process(exp[1])
       handle_context(BlockContext, :iter, exp[1..-1])
@@ -141,10 +137,6 @@ module Reek
 
     def process_ivar(exp)
       process_iasgn(exp)
-    end
-
-    def process_gvar(exp)
-      s(exp)
     end
 
     def process_lasgn(exp)
