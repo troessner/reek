@@ -33,7 +33,7 @@ module Reek
 
       def self.set_default_values(hash)      # :nodoc:
         hash[MAX_METHODS_KEY] = 25
-        hash[EXCEPTIONS_KEY] = []#['Dir', 'Hash', 'Module']
+        hash[EXCEPTIONS_KEY] = ['Hash', 'Module']
       end
 
       def self.contexts      # :nodoc:
