@@ -27,7 +27,6 @@
 [Feature Envy] Inline::C#strip_comments refers to src more than self
 [Duplication] Inline::self.rootdir calls env.nil? multiple times
 [Long Method] Inline::self.rootdir has approx 9 statements
-[Large Class] Module has at least 34 methods
 [Duplication] Module#inline calls Inline.const_get(lang) multiple times
 [Long Method] Module#inline has approx 12 statements
 [Control Couple] Module#inline is controlled by argument options
