@@ -27,7 +27,7 @@ module Reek
       end
 
       def self.set_default_values(hash)      # :nodoc:
-        @@max_statements = hash['max_statements']
+        update(:max_statements, hash)
       end
 
       def initialize(context, num)

@@ -20,7 +20,7 @@ module Reek
     #
     class UncommunicativeName < Smell
       
-      @@bad_name_patterns = [/^.[0-9]*$/]
+      @@bad_names = [/^.[0-9]*$/]
 
       #
       # Checks the given +method+ for uncommunicative method name,
@@ -51,11 +51,11 @@ module Reek
       def self.is_bad_name?(name)
         name = name.effective_name
         return false if name == '*'
-        @@bad_name_patterns.detect {|patt| patt === name}
+        @@bad_names.detect {|patt| patt === name}
       end
 
       def self.set_default_values(hash)      # :nodoc:
-        @@bad_name_patterns = hash['bad_names'] ? hash['bad_names'] : @@bad_name_patterns
+        update(:bad_names, hash)
       end
 
       def self.contexts      # :nodoc:

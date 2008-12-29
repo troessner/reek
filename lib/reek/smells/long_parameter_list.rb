@@ -29,7 +29,7 @@ module Reek
       end
 
       def self.set_default_values(hash)      # :nodoc:
-        @@max_params = hash['max_params']
+        update(:max_params, hash)
       end
 
       MAX_ALLOWED = 3

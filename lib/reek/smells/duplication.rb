@@ -21,7 +21,7 @@ module Reek
     #
     class Duplication < Smell
 
-      @@max_dup_calls = 1
+      @@max_calls = 1
 
       def self.examine_context(method, report)
         smelly_calls(method).each do |call|
@@ -31,12 +31,12 @@ module Reek
       
       def self.smelly_calls(method)   # :nodoc:
         method.calls.select do |key,val|
-          val > @@max_dup_calls and key[2] != :new
+          val > @@max_calls and key[2] != :new
         end.map { |call_exp| call_exp[0] }
       end
 
       def self.set_default_values(hash)      # :nodoc:
-        @@max_dup_calls = hash['max_calls'] ? hash['max_calls'] : @@max_dup_calls
+        update(:max_calls, hash)
       end
 
       def initialize(context, call)

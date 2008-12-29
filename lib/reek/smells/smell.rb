@@ -17,9 +17,14 @@ module Reek
 
       def self.configure(hash)              # :nodoc:
         section = hash[class_name]
-        @@enabled = section['enabled'] ? section['enabled'] : @@enabled
-        @@exceptions = section['exceptions'] || []
+        update(:enabled, section)
+        update(:exceptions, section)
         set_default_values(section)
+      end
+
+      def self.update(var, hash)
+        val = hash[var.to_s]
+        class_eval "@@#{var} = #{val.inspect}" if val
       end
 
       def self.set_default_values(hash)      # :nodoc:
