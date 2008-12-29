@@ -55,7 +55,7 @@ module Reek
       end
 
       def self.set_default_values(hash)      # :nodoc:
-        @@bad_name_patterns = hash['bad_names']
+        @@bad_name_patterns = hash['bad_names'] ? hash['bad_names'] : @@bad_name_patterns
       end
 
       def self.contexts      # :nodoc:

@@ -31,7 +31,7 @@ module Reek
       end
 
       def self.set_default_values(hash)      # :nodoc:
-        @@max_methods = hash['max_methods']
+        @@max_methods = hash['max_methods'] ? hash['max_methods'] : @@max_methods
       end
 
       def self.contexts      # :nodoc:

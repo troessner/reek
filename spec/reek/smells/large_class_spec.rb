@@ -44,4 +44,18 @@ describe LargeClass do
     @cchk.check_object(BigOne)
     @rpt[0].report.should match(/BigOne/)
   end
+
+  describe 'when exceptions are listed' do
+    it 'should ignore first excepted name' do
+      LargeClass.configure 'LargeClass' => {'exceptions' => ['BigOne']}
+      @cchk.check_object(BigOne)
+      @rpt.length.should == 0
+    end
+
+    it 'should ignore second excepted name' do
+      LargeClass.configure 'LargeClass' => {'exceptions' => ['Oversized', 'BigOne']}
+      @cchk.check_object(BigOne)
+      @rpt.length.should == 0
+    end
+  end
 end

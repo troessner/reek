@@ -31,6 +31,7 @@ require 'ostruct'
 describe Duplication, '#examine' do
   before :each do
     @mc = OpenStruct.new
+    Duplication.enable
   end
 
   it 'should return true when reporting a smell' do

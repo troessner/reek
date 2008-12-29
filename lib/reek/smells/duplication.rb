@@ -36,7 +36,7 @@ module Reek
       end
 
       def self.set_default_values(hash)      # :nodoc:
-        @@max_dup_calls = hash['max_calls']
+        @@max_dup_calls = hash['max_calls'] ? hash['max_calls'] : @@max_dup_calls
       end
 
       def initialize(context, call)

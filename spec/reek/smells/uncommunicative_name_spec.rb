@@ -77,6 +77,7 @@ include Reek::Smells
 describe UncommunicativeName, '#examine' do
   before :each do
     @report = Report.new
+    UncommunicativeName.enable
   end
   
   it 'should return true when reporting a smell' do

@@ -40,7 +40,6 @@ module Reek
     Smells::UtilityFunction,
   ]
 
-#  CONFIG = Hash.new {|hash,key| hash[key] = {} }
   SMELLS = Hash.new {|hash,key| hash[key] = [] }
   
   defaults_file = File.join(File.dirname(__FILE__), '..', '..', '..', 'config', 'defaults.reek')

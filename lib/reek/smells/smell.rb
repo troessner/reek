@@ -17,7 +17,7 @@ module Reek
 
       def self.configure(hash)              # :nodoc:
         section = hash[class_name]
-        @@enabled = section['enabled']
+        @@enabled = section['enabled'] ? section['enabled'] : @@enabled
         @@exceptions = section['exceptions'] || []
         set_default_values(section)
       end

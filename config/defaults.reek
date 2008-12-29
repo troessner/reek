@@ -11,8 +11,6 @@ LongParameterList:
   max_params: 3
   enabled: true
 UncommunicativeName: 
-  exceptions: []
-
   enabled: true
   bad_names: 
   - !ruby/regexp /^.[0-9]*$/
