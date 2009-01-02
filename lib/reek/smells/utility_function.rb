@@ -21,13 +21,15 @@ module Reek
           method.calls.keys.length == 0 or
           method.num_statements == 0 or
           method.depends_on_self
-        report << new(method)
+        report << UtilityFunctionReport.new(method)
       end
+    end
+
+    class UtilityFunctionReport < SmellDetector
 
       def detailed_report
         "#{@context.to_s} doesn't depend on instance state"
       end
     end
-
   end
 end

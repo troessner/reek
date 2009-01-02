@@ -44,12 +44,15 @@ module Reek
         if_expr = cond.if_expr
         return false if if_expr[0] != :lvar
         return false unless cond.has_parameter(if_expr[1])
-        report << new(cond, if_expr)
+        report << ControlCoupleReport.new(cond, if_expr)
       end
 
       def self.contexts      # :nodoc:
         [:if]
       end
+    end
+
+    class ControlCoupleReport < SmellDetector
       
       def initialize(context, couple)
         super(context)
@@ -58,8 +61,7 @@ module Reek
 
       def detailed_report
         "#{@context.to_s} is controlled by argument #{Printer.print(@couple)}"
-      end
+      end      
     end
-
   end
 end

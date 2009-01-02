@@ -41,9 +41,9 @@ end
 describe Report, " as a SortedSet" do
   it 'should only add a smell once' do
     rpt = Report.new
-    rpt << UtilityFunction.new(self, 1)
+    rpt << UtilityFunctionReport.new(self, 1)
     rpt.length.should == 1
-    rpt << UtilityFunction.new(self, 1)
+    rpt << UtilityFunctionReport.new(self, 1)
     rpt.length.should == 1
   end
 end
@@ -51,8 +51,8 @@ end
 describe SortByContext do
   before :each do
     @sorter = SortByContext
-    @long_method = LongMethod.new('x', 30)
-    @large_class = LargeClass.new('y', 30)
+    @long_method = LongMethodReport.new('x', 30)
+    @large_class = LargeClassReport.new('y', 30)
   end
 
   it 'should return 0 for identical smells' do
@@ -67,8 +67,8 @@ end
 describe SortBySmell do
   before :each do
     @sorter = SortBySmell
-    @long_method = LongMethod.new('x', 30)
-    @large_class = LargeClass.new('y', 30)
+    @long_method = LongMethodReport.new('x', 30)
+    @large_class = LargeClassReport.new('y', 30)
   end
   
   it 'should return 0 for identical smells' do
@@ -76,7 +76,7 @@ describe SortBySmell do
   end
 
   it 'should differentiate identical smells with different contexts' do
-    @sorter.compare(LongMethod.new('x', 29), LongMethod.new('y', 29)).should == -1
+    @sorter.compare(LongMethodReport.new('x', 29), LongMethodReport.new('y', 29)).should == -1
   end
 
   it 'should differentiate different smells with identical contexts' do

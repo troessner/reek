@@ -58,7 +58,7 @@ describe CodeParser, "(Long Parameter List)" do
       it 'should only report long param list' do
         @cchk.check_object(InnerTest)
         @rpt.length.should == 1
-        @rpt[0].should be_instance_of(LongParameterList)
+        @rpt[0].should be_instance_of(LongParameterListReport)
       end
     end
   end

@@ -17,17 +17,24 @@ module Reek
         return false unless Array === args and args[0] == :array
         num_args = args.length-1
         return false if num_args <= @@max_params
-        report << new(ctx, num_args)
+        report << LongYieldListReport.new(ctx, num_args)
       end
 
       def self.contexts      # :nodoc:
         [:yield]
+      end
+    end
+
+    class LongYieldListReport < SmellDetector
+      
+      def initialize(context, num_params)
+        super(context)
+        @num_params = num_params
       end
 
       def detailed_report
         "#{@context.to_s} yields #{@num_params} parameters"
       end
     end
-
   end
 end

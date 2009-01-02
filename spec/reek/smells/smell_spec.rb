@@ -10,24 +10,24 @@ describe SmellDetector, "camel case converter" do
   end
   
   it "should display correct name in report" do
-    smell = LongMethod.new(self, 25)
+    smell = LongMethodReport.new(self, 25)
     smell.report.should match(/[#{smell.name}]/)
   end
 end
 
 describe SmellDetector, ' in comparisons' do
   it 'should hash equal when the smell is the same' do
-    UtilityFunction.new(self, 2).hash.should == UtilityFunction.new(self, 2).hash
-    NestedIterators.new(self).hash.should == NestedIterators.new(self).hash
+    UtilityFunctionReport.new(self, 2).hash.should == UtilityFunctionReport.new(self, 2).hash
+    NestedIteratorsReport.new(self).hash.should == NestedIteratorsReport.new(self).hash
   end
 
   it 'should compare equal when the smell is the same' do
-    UtilityFunction.new(self, 2).should == UtilityFunction.new(self, 2)
-    NestedIterators.new(self).should == NestedIterators.new(self)
+    UtilityFunctionReport.new(self, 2).should == UtilityFunctionReport.new(self, 2)
+    NestedIteratorsReport.new(self).should == NestedIteratorsReport.new(self)
   end
 
   it 'should compare equal when using <=>' do
-    (UtilityFunction.new(self, 2) <=> UtilityFunction.new(self, 2)).should == 0
-    (NestedIterators.new(self) <=> NestedIterators.new(self)).should == 0
+    (UtilityFunctionReport.new(self, 2) <=> UtilityFunctionReport.new(self, 2)).should == 0
+    (NestedIteratorsReport.new(self) <=> NestedIteratorsReport.new(self)).should == 0
   end
 end

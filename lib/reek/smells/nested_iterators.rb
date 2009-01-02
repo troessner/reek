@@ -19,7 +19,7 @@ module Reek
       #
       def self.examine_context(block, report)
         return false unless block.nested_block?
-        report << new(block)
+        report << NestedIteratorsReport.new(block)
       end
 
       def self.contexts      # :nodoc:
@@ -31,5 +31,11 @@ module Reek
       end
     end
 
+    class NestedIteratorsReport < SmellDetector
+
+      def detailed_report
+        "#{@context} is nested"
+      end
+    end
   end
 end

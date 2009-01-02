@@ -23,12 +23,15 @@ module Reek
       def self.examine_context(method, report)
         num = method.num_statements
         return false if method.constructor? or num <= @@max_statements
-        report << new(method, num)
+        report << LongMethodReport.new(method, num)
       end
 
       def self.set_default_values(hash)      # :nodoc:
         update(:max_statements, hash)
       end
+    end
+
+    class LongMethodReport < SmellDetector
 
       def initialize(context, num)
         super(context)
@@ -39,6 +42,5 @@ module Reek
         "#{@context.to_s} has approx #{@num_stmts} statements"
       end
     end
-
   end
 end

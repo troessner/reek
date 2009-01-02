@@ -42,9 +42,12 @@ module Reek
       #
       def self.examine_context(context, report)
         context.envious_receivers.each do |ref|
-          report << new(context, Printer.print(ref))
+          report << FeatureEnvyReport.new(context, Printer.print(ref))
         end
       end
+    end
+
+    class FeatureEnvyReport < SmellDetector
       
       def initialize(context, receiver)
         super(context)
@@ -55,6 +58,5 @@ module Reek
         "#{@context.to_s} refers to #{@receiver} more than self"
       end
     end
-
   end
 end

@@ -27,7 +27,7 @@ module Reek
         return false if exception?(klass.name.to_s)
         num_methods = klass.num_methods
         return false if num_methods <= @@max_methods
-        report << new(klass, num_methods)
+        report << LargeClassReport.new(klass, num_methods)
       end
 
       def self.set_default_values(hash)      # :nodoc:
@@ -37,7 +37,9 @@ module Reek
       def self.contexts      # :nodoc:
         [:class]
       end
-      
+    end
+
+    class LargeClassReport < SmellDetector
       def initialize(context, num_methods)
         super(context)
         @num_methods = num_methods
@@ -45,8 +47,7 @@ module Reek
 
       def detailed_report
         "#{@context.to_s} has at least #{@num_methods} methods"
-      end
+      end      
     end
-
   end
 end

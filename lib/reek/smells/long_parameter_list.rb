@@ -25,14 +25,15 @@ module Reek
       def self.examine_context(ctx, report)
         num_params = ctx.parameters.length
         return false if num_params <= @@max_params
-        report << new(ctx, num_params)
+        report << LongParameterListReport.new(ctx, num_params)
       end
 
       def self.set_default_values(hash)      # :nodoc:
         update(:max_params, hash)
       end
+    end
 
-      MAX_ALLOWED = 3
+    class LongParameterListReport < SmellDetector
       
       def initialize(context, num_params)
         super(context)
@@ -43,6 +44,5 @@ module Reek
         "#{@context.to_s} has #{@num_params} parameters"
       end
     end
-
   end
 end

@@ -37,7 +37,7 @@ module Reek
         result = false
         context.variable_names.each do |name|
           next unless is_bad_name?(name)
-          result = (report << new(name.to_s, context, 'variable'))
+          result = (report << UncommunicativeNameReport.new(name.to_s, context, 'variable'))
         end
         result
       end
@@ -45,7 +45,7 @@ module Reek
       def self.consider_name(context, report)  # :nodoc:
         name = context.name
         return false unless is_bad_name?(name)
-        report << new(name.to_s, context, '')
+        report << UncommunicativeNameReport.new(name.to_s, context, '')
       end
 
       def self.is_bad_name?(name)
@@ -61,6 +61,9 @@ module Reek
       def self.contexts      # :nodoc:
         [:class, :defn, :defs, :iter]
       end
+    end
+
+    class UncommunicativeNameReport < SmellDetector
 
       def initialize(name, context, symbol_type)
         super(context, symbol_type)
@@ -72,6 +75,5 @@ module Reek
         "#{@context.to_s} has the #{@symbol_type} name '#{@bad_name}'"
       end
     end
-
   end
 end

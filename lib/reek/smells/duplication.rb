@@ -25,7 +25,7 @@ module Reek
 
       def self.examine_context(method, report)
         smelly_calls(method).each do |call|
-          report << new(method, call)
+          report << DuplicationReport.new(method, call)
         end
       end
       
@@ -38,6 +38,9 @@ module Reek
       def self.set_default_values(hash)      # :nodoc:
         update(:max_calls, hash)
       end
+    end
+
+    class DuplicationReport < SmellDetector
 
       def initialize(context, call)
         super(context)
@@ -48,6 +51,5 @@ module Reek
         "#{@context.to_s} calls #{Printer.print(@call)} multiple times"
       end
     end
-
   end
 end
