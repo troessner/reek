@@ -4,9 +4,9 @@ require 'reek/smells/smells'
 
 include Reek
 
-describe Smell, "camel case converter" do
+describe SmellDetector, "camel case converter" do
   it "should convert camel case name" do
-    Smell.convert_camel_case('LongParameterList').should == 'Long Parameter List'
+    SmellDetector.convert_camel_case('LongParameterList').should == 'Long Parameter List'
   end
   
   it "should display correct name in report" do
@@ -15,7 +15,7 @@ describe Smell, "camel case converter" do
   end
 end
 
-describe Smell, ' in comparisons' do
+describe SmellDetector, ' in comparisons' do
   it 'should hash equal when the smell is the same' do
     UtilityFunction.new(self, 2).hash.should == UtilityFunction.new(self, 2).hash
     NestedIterators.new(self).hash.should == NestedIterators.new(self).hash

@@ -1,6 +1,6 @@
 $:.unshift File.dirname(__FILE__)
 
-require 'reek/smells/smell'
+require 'reek/smells/smell_detector'
 require 'reek/printer'
 
 module Reek
@@ -19,7 +19,7 @@ module Reek
     #     @other.thing + @other.thing
     #   end
     #
-    class Duplication < Smell
+    class Duplication < SmellDetector
 
       @@max_calls = 1
 

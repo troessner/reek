@@ -1,6 +1,6 @@
 $:.unshift File.dirname(__FILE__)
 
-require 'reek/smells/smell'
+require 'reek/smells/smell_detector'
 
 module Reek
   module Smells
@@ -10,7 +10,7 @@ module Reek
     #
     # +NestedIterators+ reports failing methods only once.
     #
-    class NestedIterators < Smell
+    class NestedIterators < SmellDetector
 
       #
       # Checks whether the given +block+ is inside another.

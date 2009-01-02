@@ -1,6 +1,6 @@
 $:.unshift File.dirname(__FILE__)
 
-require 'reek/smells/smell'
+require 'reek/smells/smell_detector'
 
 module Reek
   module Smells
@@ -9,7 +9,7 @@ module Reek
     # A Utility Function is any instance method that has no
     # dependency on the state of the instance.
     #
-    class UtilityFunction < Smell
+    class UtilityFunction < SmellDetector
 
       #
       # Checks whether the given +method+ is a utility function.

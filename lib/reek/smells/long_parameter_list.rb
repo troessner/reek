@@ -1,6 +1,6 @@
 $:.unshift File.dirname(__FILE__)
 
-require 'reek/smells/smell'
+require 'reek/smells/smell_detector'
 
 module Reek
   module Smells
@@ -13,7 +13,7 @@ module Reek
     # Currently +LongParameterList+ reports any method with more
     # than +MAX_ALLOWED+ parameters.
     #
-    class LongParameterList < Smell
+    class LongParameterList < SmellDetector
 
       @@max_params = 3
       

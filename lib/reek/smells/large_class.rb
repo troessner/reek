@@ -1,6 +1,6 @@
 $:.unshift File.dirname(__FILE__)
 
-require 'reek/smells/smell'
+require 'reek/smells/smell_detector'
 
 module Reek
   module Smells
@@ -14,7 +14,7 @@ module Reek
     # private methods, but excludes methods inherited from superclasses or
     # included modules.
     #
-    class LargeClass < Smell
+    class LargeClass < SmellDetector
 
       @@max_methods = 25
 

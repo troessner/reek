@@ -1,6 +1,6 @@
 $:.unshift File.dirname(__FILE__)
 
-require 'reek/smells/smell'
+require 'reek/smells/smell_detector'
 
 module Reek
   module Smells
@@ -11,7 +11,7 @@ module Reek
     # Currently +LongMethod+ reports any method with more than
     # +MAX_ALLOWED+ statements.
     #
-    class LongMethod < Smell
+    class LongMethod < SmellDetector
 
       @@max_statements = 5
 

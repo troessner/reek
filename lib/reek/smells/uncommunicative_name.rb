@@ -1,6 +1,6 @@
 $:.unshift File.dirname(__FILE__)
 
-require 'reek/smells/smell'
+require 'reek/smells/smell_detector'
 
 module Reek
   module Smells
@@ -18,7 +18,7 @@ module Reek
     # * 1-character names
     # * names consisting of a single character followed by a number
     #
-    class UncommunicativeName < Smell
+    class UncommunicativeName < SmellDetector
       
       @@bad_names = [/^.[0-9]*$/]
 

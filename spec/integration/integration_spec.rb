@@ -4,7 +4,7 @@ describe 'Integration test:' do
   Dir['spec/samples/*.rb'].each do |source|
     describe source do
       before :each do
-        @expected = IO.readlines(source.sub(/\.rb/, '.reek'))
+        @expected = IO.readlines("#{source}.expected")
         @expected.each {|line| line.chomp!}
       end
 

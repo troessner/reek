@@ -5,7 +5,7 @@ require 'reek/options'
 module Reek
   module Smells
 
-    class Smell
+    class SmellDetector
       include Comparable
       
       @@enabled = true
@@ -84,7 +84,7 @@ module Reek
       alias eql? <=>
 
       def name
-        Smell.convert_camel_case(self.class.class_name)
+        SmellDetector.convert_camel_case(self.class.class_name)
       end
 
       def report

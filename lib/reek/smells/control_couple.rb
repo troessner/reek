@@ -1,6 +1,6 @@
 $:.unshift File.dirname(__FILE__)
 
-require 'reek/smells/smell'
+require 'reek/smells/smell_detector'
 
 module Reek
   module Smells
@@ -33,7 +33,7 @@ module Reek
     # method probably has more than one responsibility,
     # because it includes at least two different code paths.
     #
-    class ControlCouple < Smell
+    class ControlCouple < SmellDetector
 
       #
       # Checks whether the given conditional statement relies on a control couple.

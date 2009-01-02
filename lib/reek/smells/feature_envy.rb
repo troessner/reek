@@ -1,6 +1,6 @@
 $:.unshift File.dirname(__FILE__)
 
-require 'reek/smells/smell'
+require 'reek/smells/smell_detector'
 
 module Reek
   module Smells
@@ -32,7 +32,7 @@ module Reek
     # Currently +FeatureEnvy+ reports any method that refers to self less
     # often than it refers to (ie. send messages to) some other object.
     #
-    class FeatureEnvy < Smell
+    class FeatureEnvy < SmellDetector
 
       #
       # Checks whether the given +context+ includes any code fragment that
