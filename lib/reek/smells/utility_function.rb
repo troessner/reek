@@ -25,7 +25,7 @@ module Reek
       end
     end
 
-    class UtilityFunctionReport < SmellDetector
+    class UtilityFunctionReport < SmellReport
 
       def detailed_report
         "#{@context.to_s} doesn't depend on instance state"

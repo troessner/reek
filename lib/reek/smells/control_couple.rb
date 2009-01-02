@@ -52,7 +52,7 @@ module Reek
       end
     end
 
-    class ControlCoupleReport < SmellDetector
+    class ControlCoupleReport < SmellReport
       
       def initialize(context, couple)
         super(context)

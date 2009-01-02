@@ -39,7 +39,7 @@ module Reek
       end
     end
 
-    class LargeClassReport < SmellDetector
+    class LargeClassReport < SmellReport
       def initialize(context, num_methods)
         super(context)
         @num_methods = num_methods

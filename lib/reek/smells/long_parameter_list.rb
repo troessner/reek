@@ -33,7 +33,7 @@ module Reek
       end
     end
 
-    class LongParameterListReport < SmellDetector
+    class LongParameterListReport < SmellReport
       
       def initialize(context, num_params)
         super(context)

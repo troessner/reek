@@ -31,7 +31,7 @@ module Reek
       end
     end
 
-    class LongMethodReport < SmellDetector
+    class LongMethodReport < SmellReport
 
       def initialize(context, num)
         super(context)

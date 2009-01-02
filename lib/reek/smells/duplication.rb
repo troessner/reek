@@ -40,7 +40,7 @@ module Reek
       end
     end
 
-    class DuplicationReport < SmellDetector
+    class DuplicationReport < SmellReport
 
       def initialize(context, call)
         super(context)

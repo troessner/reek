@@ -47,7 +47,7 @@ module Reek
       end
     end
 
-    class FeatureEnvyReport < SmellDetector
+    class FeatureEnvyReport < SmellReport
       
       def initialize(context, receiver)
         super(context)

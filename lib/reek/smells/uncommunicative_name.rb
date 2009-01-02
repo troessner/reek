@@ -63,7 +63,7 @@ module Reek
       end
     end
 
-    class UncommunicativeNameReport < SmellDetector
+    class UncommunicativeNameReport < SmellReport
 
       def initialize(name, context, symbol_type)
         super(context, symbol_type)

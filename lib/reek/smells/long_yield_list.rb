@@ -25,7 +25,7 @@ module Reek
       end
     end
 
-    class LongYieldListReport < SmellDetector
+    class LongYieldListReport < SmellReport
       
       def initialize(context, num_params)
         super(context)

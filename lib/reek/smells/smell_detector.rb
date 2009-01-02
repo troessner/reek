@@ -2,11 +2,17 @@ $:.unshift File.dirname(__FILE__)
 
 require 'reek/options'
 
+class Class
+  def name_words
+    class_name = name.split(/::/)[-1]
+    class_name.gsub(/([a-z])([A-Z])/) { |sub| "#{$1} #{$2}"}.split
+  end
+end
+
 module Reek
   module Smells
 
     class SmellDetector
-      include Comparable
       
       @@enabled = true
       @@exceptions = []
@@ -42,10 +48,6 @@ module Reek
         CONFIG[class_name]
       end
 
-      def self.convert_camel_case(class_name)
-        class_name.gsub(/([a-z])([A-Z])/) { |sub| "#{$1} #{$2}"}
-      end
-
       #
       # Checks the given +context+ for smells.
       # Any smells found are added to the +report+; returns true in that case,
@@ -68,6 +70,10 @@ module Reek
       def self.disable
         @@enabled = false
       end
+    end
+
+    class SmellReport
+      include Comparable
 
       def initialize(context, arg=nil)
         @context = context
@@ -83,16 +89,15 @@ module Reek
 
       alias eql? <=>
 
-      def name
-        SmellDetector.convert_camel_case(self.class.class_name)
+      def self.smell_name
+        name_words[0..-2].join(' ')
       end
 
       def report
-        "[#{name}] #{detailed_report}"
+        "[#{self.class.smell_name}] #{detailed_report}"
       end
 
       alias inspect report
     end
-
   end
 end

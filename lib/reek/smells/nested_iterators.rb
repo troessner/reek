@@ -31,7 +31,7 @@ module Reek
       end
     end
 
-    class NestedIteratorsReport < SmellDetector
+    class NestedIteratorsReport < SmellReport
 
       def detailed_report
         "#{@context} is nested"
