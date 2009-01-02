@@ -20,15 +20,19 @@ module Reek
         @max_params = config.fetch('max_params', 3)
       end
       
+      def create_report(ctx, num_params)
+        LongParameterListReport.new(ctx, num_params)
+      end
+      
       #
-      # Checks whether the given conditional statement relies on a control couple.
+      # Checks the number of parameters in the given scope.
       # Any smells found are added to the +report+; returns true in that case,
       # and false otherwise.
       #
       def examine_context(ctx, report)
         num_params = ctx.parameters.length
         return false if num_params <= @max_params
-        report << LongParameterListReport.new(ctx, num_params)
+        report << create_report(ctx, num_params)
       end
     end
 

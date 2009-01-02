@@ -5,12 +5,13 @@ require 'reek/code_context'
 
 module Reek
   class YieldCallContext < CodeContext
-    attr_reader :args, :outer
-    
+    attr_reader :parameters
+
     def initialize(outer, exp)
-      @outer = outer
-      @exp = exp
-      @args = @exp[1]
+      super
+      @parameters = []
+      args = exp[1]
+      @parameters = args[0...-1] if args
     end
   end
 end
