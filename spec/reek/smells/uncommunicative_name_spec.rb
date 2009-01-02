@@ -77,16 +77,16 @@ include Reek::Smells
 describe UncommunicativeName, '#examine' do
   before :each do
     @report = Report.new
-    UncommunicativeName.enable
+    @uc = UncommunicativeName.new('enabled' => true)
   end
   
   it 'should return true when reporting a smell' do
     mc = MethodContext.new(StopContext.new, [:defn, :x, nil])
-    UncommunicativeName.examine(mc, @report).should == true
+    @uc.examine(mc, @report).should == true
   end
   
   it 'should return false when not reporting a smell' do
     mc = MethodContext.new(StopContext.new, [:defn, :not_bad, nil])
-    UncommunicativeName.examine(mc, @report).should == false
+    @uc.examine(mc, @report).should == false
   end
 end

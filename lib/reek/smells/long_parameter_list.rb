@@ -15,21 +15,20 @@ module Reek
     #
     class LongParameterList < SmellDetector
 
-      @@max_params = 3
+      def initialize(config = {})
+        super
+        @max_params = config.fetch('max_params', 3)
+      end
       
       #
       # Checks whether the given conditional statement relies on a control couple.
       # Any smells found are added to the +report+; returns true in that case,
       # and false otherwise.
       #
-      def self.examine_context(ctx, report)
+      def examine_context(ctx, report)
         num_params = ctx.parameters.length
-        return false if num_params <= @@max_params
+        return false if num_params <= @max_params
         report << LongParameterListReport.new(ctx, num_params)
-      end
-
-      def self.set_default_values(hash)      # :nodoc:
-        update(:max_params, hash)
       end
     end
 

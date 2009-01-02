@@ -40,7 +40,7 @@ module Reek
       # Any smells found are added to the +report+; returns true in that case,
       # and false otherwise.
       #
-      def self.examine_context(context, report)
+      def examine_context(context, report)
         context.envious_receivers.each do |ref|
           report << FeatureEnvyReport.new(context, Printer.print(ref))
         end

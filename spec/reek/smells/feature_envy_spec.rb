@@ -64,15 +64,16 @@ describe FeatureEnvy, '#examine' do
 
   before :each do
     @context = MethodContext.new(StopContext.new, [:defn, :cool])
+    @fe = FeatureEnvy.new({})
   end
 
   it 'should return true when reporting a smell' do
     @context.refs.record_ref([:lvar, :thing])
     @context.refs.record_ref([:lvar, :thing])
-    FeatureEnvy.examine(@context, []).should == true
+    @fe.examine(@context, []).should == true
   end
   
   it 'should return false when not reporting a smell' do
-    FeatureEnvy.examine(@context, []).should == false
+    @fe.examine(@context, []).should == false
   end
 end

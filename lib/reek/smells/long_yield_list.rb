@@ -7,21 +7,21 @@ module Reek
 
     class LongYieldList < LongParameterList
 
+      def self.contexts      # :nodoc:
+        [:yield]
+      end
+
       #
       # Checks the arguments to the given call to yield.
       # Any smells found are added to the +report+; returns true in that case,
       # and false otherwise.
       #
-      def self.examine_context(ctx, report)
+      def examine_context(ctx, report)
         args = ctx.args
         return false unless Array === args and args[0] == :array
         num_args = args.length-1
-        return false if num_args <= @@max_params
+        return false if num_args <= @max_params
         report << LongYieldListReport.new(ctx, num_args)
-      end
-
-      def self.contexts      # :nodoc:
-        [:yield]
       end
     end
 

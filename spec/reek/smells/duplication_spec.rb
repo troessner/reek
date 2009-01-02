@@ -31,40 +31,36 @@ require 'ostruct'
 describe Duplication, '#examine' do
   before :each do
     @mc = OpenStruct.new
-    Duplication.enable
+    @dup = Duplication.new
   end
 
   it 'should return true when reporting a smell' do
     @mc.calls = {'x' => 47}
-    Duplication.examine(@mc, []).should == true
+    @dup.examine(@mc, []).should == true
   end
   
   it 'should return false when not reporting a smell' do
     @mc.calls = []
-    Duplication.examine(@mc, []).should == false
+    @dup.examine(@mc, []).should == false
   end
   
   it 'should return false when not reporting calls to new' do
     @mc.calls = {[:call, :Set, :new] => 4}
-    Duplication.examine(@mc, []).should == false
+    @dup.examine(@mc, []).should == false
   end
 end
 
 describe Duplication, 'when disabled' do
   before :each do
-    Duplication.disable
+    @ctx = MethodContext.new(StopContext.new, [0, :double_thing])
+    @dup = Duplication.new({'enabled' => false})
+    @rpt = Report.new
   end
 
-  check 'should not report repeated call',
-    'def double_thing() @other.thing + @other.thing end', []
-  check 'should not report repeated call to lvar',
-    'def double_thing() other[@thing] + other[@thing] end', []
-  check 'should not report call parameters',
-    'def double_thing() @other.thing(2,3) + @other.thing(2,3) end', []
-  check 'should not report nested calls',
-    'def double_thing() @other.thing.foo + @other.thing.foo end', []
-
-  after :each do
-    Duplication.enable
+  it 'should not report repeated call' do
+    @ctx.record_call_to([:fred])
+    @ctx.record_call_to([:fred])
+    @dup.examine(@ctx, @rpt).should == false
+    @rpt.length.should == 0
   end
 end

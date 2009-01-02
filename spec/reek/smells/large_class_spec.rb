@@ -46,16 +46,27 @@ describe LargeClass do
   end
 
   describe 'when exceptions are listed' do
+    before :each do
+      @ctx = ClassContext.new(StopContext.new, [0, :Humungous])
+      30.times { |num| @ctx.record_method("method#{num}") }
+    end
+
     it 'should ignore first excepted name' do
-      LargeClass.configure 'LargeClass' => {'exceptions' => ['BigOne']}
-      @cchk.check_object(BigOne)
+      lc = LargeClass.new({'exceptions' => ['Humungous']})
+      lc.examine(@ctx, @rpt).should == false
       @rpt.length.should == 0
     end
 
     it 'should ignore second excepted name' do
-      LargeClass.configure 'LargeClass' => {'exceptions' => ['Oversized', 'BigOne']}
-      @cchk.check_object(BigOne)
+      lc = LargeClass.new({'exceptions' => ['Oversized', 'Humungous']})
+      lc.examine(@ctx, @rpt).should == false
       @rpt.length.should == 0
+    end
+
+    it 'should report non-excepted name' do
+      lc = LargeClass.new({'exceptions' => ['SmellMe']})
+      lc.examine(@ctx, @rpt).should == true
+      @rpt.length.should == 1
     end
   end
 end

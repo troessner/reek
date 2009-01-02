@@ -13,21 +13,20 @@ module Reek
     #
     class LongMethod < SmellDetector
 
-      @@max_statements = 5
+      def initialize(config = {})
+        super
+        @max_statements = config.fetch('max_calls', 5)
+      end
 
       #
       # Checks the length of the given +method+.
       # Any smells found are added to the +report+; returns true in that case,
       # and false otherwise.
       #
-      def self.examine_context(method, report)
+      def examine_context(method, report)
         num = method.num_statements
-        return false if method.constructor? or num <= @@max_statements
+        return false if method.constructor? or num <= @max_statements
         report << LongMethodReport.new(method, num)
-      end
-
-      def self.set_default_values(hash)      # :nodoc:
-        update(:max_statements, hash)
       end
     end
 

@@ -12,18 +12,18 @@ module Reek
     #
     class NestedIterators < SmellDetector
 
+      def self.contexts      # :nodoc:
+        [:iter]
+      end
+
       #
       # Checks whether the given +block+ is inside another.
       # Any smells found are added to the +report+; returns true in that case,
       # and false otherwise.
       #
-      def self.examine_context(block, report)
+      def examine_context(block, report)
         return false unless block.nested_block?
         report << NestedIteratorsReport.new(block)
-      end
-
-      def self.contexts      # :nodoc:
-        [:iter]
       end
     end
 

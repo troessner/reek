@@ -45,9 +45,6 @@ module Reek
   defaults_file = File.join(File.dirname(__FILE__), '..', '..', '..', 'config', 'defaults.reek')
   CONFIG = YAML.load_file(defaults_file)
   
-  SMELL_CLASSES.each do |smell|
-    smell.configure(CONFIG)
-    smell.attach_to(SMELLS)
-  end
+  SMELL_CLASSES.each { |smell| smell.listen(SMELLS, CONFIG) }
 
 end

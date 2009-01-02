@@ -17,17 +17,17 @@ end
 
 describe SmellReport, ' in comparisons' do
   it 'should hash equal when the smell is the same' do
-    UtilityFunctionReport.new(self, 2).hash.should == UtilityFunctionReport.new(self, 2).hash
+    UtilityFunctionReport.new(self).hash.should == UtilityFunctionReport.new(self).hash
     NestedIteratorsReport.new(self).hash.should == NestedIteratorsReport.new(self).hash
   end
 
   it 'should compare equal when the smell is the same' do
-    UtilityFunctionReport.new(self, 2).should == UtilityFunctionReport.new(self, 2)
+    UtilityFunctionReport.new(self).should == UtilityFunctionReport.new(self)
     NestedIteratorsReport.new(self).should == NestedIteratorsReport.new(self)
   end
 
   it 'should compare equal when using <=>' do
-    (UtilityFunctionReport.new(self, 2) <=> UtilityFunctionReport.new(self, 2)).should == 0
+    (UtilityFunctionReport.new(self) <=> UtilityFunctionReport.new(self)).should == 0
     (NestedIteratorsReport.new(self) <=> NestedIteratorsReport.new(self)).should == 0
   end
 end

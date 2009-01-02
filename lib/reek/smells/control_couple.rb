@@ -35,20 +35,20 @@ module Reek
     #
     class ControlCouple < SmellDetector
 
+      def self.contexts      # :nodoc:
+        [:if]
+      end
+
       #
       # Checks whether the given conditional statement relies on a control couple.
       # Any smells found are added to the +report+; returns true in that case,
       # and false otherwise.
       #
-      def self.examine_context(cond, report)
+      def examine_context(cond, report)
         if_expr = cond.if_expr
         return false if if_expr[0] != :lvar
         return false unless cond.has_parameter(if_expr[1])
         report << ControlCoupleReport.new(cond, if_expr)
-      end
-
-      def self.contexts      # :nodoc:
-        [:if]
       end
     end
 

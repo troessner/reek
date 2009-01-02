@@ -16,7 +16,7 @@ module Reek
       # Any smells found are added to the +report+; returns true in that case,
       # and false otherwise.
       #
-      def self.examine_context(method, report)
+      def examine_context(method, report)
         return false if method.constructor? or
           method.calls.keys.length == 0 or
           method.num_statements == 0 or

@@ -19,8 +19,15 @@ module Reek
     # * names consisting of a single character followed by a number
     #
     class UncommunicativeName < SmellDetector
-      
-      @@bad_names = [/^.[0-9]*$/]
+
+      def self.contexts      # :nodoc:
+        [:class, :defn, :defs, :iter]
+      end
+
+      def initialize(config = {})
+        super
+        @bad_names = config.fetch('bad_names', [/^.[0-9]*$/])
+      end
 
       #
       # Checks the given +method+ for uncommunicative method name,
@@ -28,12 +35,12 @@ module Reek
       # Any smells found are added to the +report+; returns true in that case,
       # and false otherwise.
       #
-      def self.examine_context(context, report)
+      def examine_context(context, report)
         consider_name(context, report) unless exception?(context.to_s)
         consider_variables(context, report)
       end
       
-      def self.consider_variables(context, report)
+      def consider_variables(context, report)
         result = false
         context.variable_names.each do |name|
           next unless is_bad_name?(name)
@@ -42,31 +49,23 @@ module Reek
         result
       end
 
-      def self.consider_name(context, report)  # :nodoc:
+      def consider_name(context, report)  # :nodoc:
         name = context.name
         return false unless is_bad_name?(name)
         report << UncommunicativeNameReport.new(name.to_s, context, '')
       end
 
-      def self.is_bad_name?(name)
+      def is_bad_name?(name)
         name = name.effective_name
         return false if name == '*'
-        @@bad_names.detect {|patt| patt === name}
-      end
-
-      def self.set_default_values(hash)      # :nodoc:
-        update(:bad_names, hash)
-      end
-
-      def self.contexts      # :nodoc:
-        [:class, :defn, :defs, :iter]
+        @bad_names.detect {|patt| patt === name}
       end
     end
 
     class UncommunicativeNameReport < SmellReport
 
       def initialize(name, context, symbol_type)
-        super(context, symbol_type)
+        super(context)
         @bad_name = name
         @symbol_type = symbol_type
       end
