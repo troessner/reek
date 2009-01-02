@@ -45,8 +45,8 @@ module Reek
         @num_methods = num_methods
       end
 
-      def detailed_report
-        "#{@context.to_s} has at least #{@num_methods} methods"
+      def warning
+        "has at least #{@num_methods} methods"
       end      
     end
   end

@@ -47,8 +47,8 @@ module Reek
         @call = call
       end
 
-      def detailed_report
-        "#{@context.to_s} calls #{Printer.print(@call)} multiple times"
+      def warning
+        "calls #{Printer.print(@call)} multiple times"
       end
     end
   end

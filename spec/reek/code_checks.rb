@@ -15,7 +15,7 @@ module CodeChecks
       cchk.check_source(src)
       rpt.length.should == expected.length
       (0...rpt.length).each do |smell|
-        expected[smell].each { |patt| rpt[smell].detailed_report.should match(patt) }
+        expected[smell].each { |patt| rpt[smell].report.should match(patt) }
       end
     end
   end

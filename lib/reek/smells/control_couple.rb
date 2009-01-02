@@ -59,8 +59,8 @@ module Reek
         @couple = couple
       end
 
-      def detailed_report
-        "#{@context.to_s} is controlled by argument #{Printer.print(@couple)}"
+      def warning
+        "is controlled by argument #{Printer.print(@couple)}"
       end      
     end
   end

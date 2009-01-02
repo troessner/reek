@@ -54,8 +54,8 @@ module Reek
         @receiver = receiver
       end
 
-      def detailed_report
-        "#{@context.to_s} refers to #{@receiver} more than self"
+      def warning
+        "refers to #{@receiver} more than self"
       end
     end
   end

@@ -38,8 +38,8 @@ module Reek
         @num_stmts = num
       end
 
-      def detailed_report
-        "#{@context.to_s} has approx #{@num_stmts} statements"
+      def warning
+        "has approx #{@num_stmts} statements"
       end
     end
   end

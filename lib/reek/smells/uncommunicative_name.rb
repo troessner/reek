@@ -71,8 +71,8 @@ module Reek
         @symbol_type = symbol_type
       end
 
-      def detailed_report
-        "#{@context.to_s} has the #{@symbol_type} name '#{@bad_name}'"
+      def warning
+        "has the #{@symbol_type} name '#{@bad_name}'"
       end
     end
   end

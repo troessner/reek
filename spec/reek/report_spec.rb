@@ -60,7 +60,7 @@ describe SortByContext do
   end
 
   it 'should return non-0 for different smells' do
-    @sorter.compare(@long_method, @large_class).should == -1
+    @sorter.compare(@long_method, @large_class).should_not == 0
   end
 end
 

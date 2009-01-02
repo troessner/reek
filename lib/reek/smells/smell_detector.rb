@@ -79,6 +79,10 @@ module Reek
         @context = context
       end
 
+      def detailed_report
+        "#{@context.to_s} #{warning}"
+      end
+
       def hash  # :nodoc:
         report.hash
       end

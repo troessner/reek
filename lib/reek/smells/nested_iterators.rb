@@ -25,16 +25,12 @@ module Reek
       def self.contexts      # :nodoc:
         [:iter]
       end
-
-      def detailed_report
-        "#{@context} is nested"
-      end
     end
 
     class NestedIteratorsReport < SmellReport
 
-      def detailed_report
-        "#{@context} is nested"
+      def warning
+        "is nested"
       end
     end
   end

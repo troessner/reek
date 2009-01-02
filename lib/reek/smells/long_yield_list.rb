@@ -32,8 +32,8 @@ module Reek
         @num_params = num_params
       end
 
-      def detailed_report
-        "#{@context.to_s} yields #{@num_params} parameters"
+      def warning
+        "yields #{@num_params} parameters"
       end
     end
   end
