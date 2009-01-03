@@ -45,18 +45,16 @@ module Reek
       # and false otherwise.
       #
       def examine_context(cond, report)
-        if_expr = cond.if_expr
-        return false if if_expr[0] != :lvar
-        return false unless cond.has_parameter(if_expr[1])
-        report << ControlCoupleReport.new(cond, if_expr)
+        return unless cond.tests_a_parameter?
+        report << ControlCoupleReport.new(cond)
       end
     end
 
     class ControlCoupleReport < SmellReport
       
-      def initialize(context, couple)
+      def initialize(context)
         super(context)
-        @couple = couple
+        @couple = context.if_expr
       end
 
       def warning

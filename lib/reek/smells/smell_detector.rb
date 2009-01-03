@@ -41,10 +41,6 @@ module Reek
       def exception?(val)
         @exceptions.include?(val)
       end
-
-      def value_of(config, key, deflt)
-        config.has_key?(key) ? config[key] : deflt
-      end
     end
 
     class SmellReport
