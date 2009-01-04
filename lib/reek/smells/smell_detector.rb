@@ -31,11 +31,14 @@ module Reek
         @enabled = config.fetch('enabled', true)
         @exceptions = config.fetch('exceptions', [])
       end
-      
+
       def examine(context, report)
         before = report.size
         examine_context(context, report) if @enabled
         report.length > before
+      end
+
+      def examine_context(context, report)
       end
       
       def exception?(val)

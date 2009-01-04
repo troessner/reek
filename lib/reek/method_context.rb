@@ -25,6 +25,10 @@ module Reek
     def count_statements(num)
       @num_statements += num
     end
+    
+    def depends_on_instance?
+      @depends_on_self or is_overriding_method?(@name)
+    end
 
     def has_parameter(sym)
       parameters.include?(sym.to_s)

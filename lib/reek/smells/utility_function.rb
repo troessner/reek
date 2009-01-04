@@ -20,7 +20,7 @@ module Reek
         return false if method.constructor? or
           method.calls.keys.length == 0 or
           method.num_statements == 0 or
-          method.depends_on_self
+          method.depends_on_instance?
         report << UtilityFunctionReport.new(method)
       end
     end

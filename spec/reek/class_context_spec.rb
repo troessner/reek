@@ -69,3 +69,50 @@ describe Class do
     end
   end
 end
+
+describe ClassContext, 'overridden methods' do
+  class Above
+    def above() end
+    def both() end
+  end
+  
+  class Below < Above
+    def both() end
+    def below() end
+  end
+  
+  describe 'of loaded class' do
+    before :each do
+      @ctx = ClassContext.new(StopContext.new, [0, :Below])
+    end
+
+    it 'should recognise non-overridden method' do
+      @ctx.is_overriding_method?('below').should == false
+      @ctx.is_overriding_method?('above').should == false
+    end
+
+    it 'should recognise overridden method' do
+      @ctx.is_overriding_method?('both').should == true
+    end
+    
+    it 'should recognise methods in current codebase' do
+      ctx = ClassContext.new(StopContext.new, [0, :FeatureEnvy])
+      ctx.is_overriding_method?('examine_context').should == true
+    end
+  end
+  
+  describe 'of non-loaded class' do
+    before :each do
+      @ctx = ClassContext.new(StopContext.new, [0, :Missing])
+    end
+
+    it 'should recognise non-overridden method' do
+      @ctx.is_overriding_method?('below').should == false
+      @ctx.is_overriding_method?('above').should == false
+    end
+
+    it 'should recognise overridden method' do
+      @ctx.is_overriding_method?('both').should == false
+    end
+  end
+end
