@@ -13,10 +13,6 @@ module Reek
       @outer.send(method, *args)
     end
 
-    def is_overriding_method?(name)
-      false
-    end
-
     def num_methods
       0
     end

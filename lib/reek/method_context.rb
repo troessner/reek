@@ -7,7 +7,7 @@ require 'reek/object_refs'
 module Reek
   class MethodContext < CodeContext
     attr_reader :parameters, :local_variables
-    attr_reader :outer, :calls, :refs
+    attr_reader :calls, :refs
     attr_reader :num_statements, :depends_on_self
     attr_accessor :name
 
@@ -18,6 +18,7 @@ module Reek
       @name = Name.new(exp[1])
       @num_statements = 0
       @calls = Hash.new(0)
+      @depends_on_self = false
       @refs = ObjectRefs.new
       @outer.record_method(@name)    # TODO: should be children of outer?
     end
@@ -27,7 +28,7 @@ module Reek
     end
     
     def depends_on_instance?
-      @depends_on_self or is_overriding_method?(@name)
+      @depends_on_self || is_overriding_method?(@name)
     end
 
     def has_parameter(sym)

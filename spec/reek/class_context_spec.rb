@@ -116,3 +116,14 @@ describe ClassContext, 'overridden methods' do
     end
   end
 end
+
+describe 'Integration defect:' do
+  it 'should not report UtilityFunction for FeatureEnvy#examine_context' do
+    kelement = ClassContext.new(StopContext.new, [0, :FeatureEnvy, s(:const, :SmellDetector)])
+    meth = Name.new(:examine_context)
+    kelement.is_overriding_method?(meth).should == true
+    melement = MethodContext.new(kelement, [0, :examine_context])
+    melement.is_overriding_method?(meth).should == true
+    melement.depends_on_instance?.should == true
+  end
+end

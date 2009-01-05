@@ -18,6 +18,10 @@ module Reek
     def inside_a_block?
       false
     end
+
+    def is_overriding_method?(name)
+      false
+    end
     
     def num_statements
       0
