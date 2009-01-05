@@ -18,10 +18,7 @@ module Reek
       def initialize(config = {})
         super
         @max_params = config.fetch('max_params', 3)
-      end
-      
-      def create_report(ctx, num_params)
-        LongParameterListReport.new(ctx, num_params)
+        @report_class = LongParameterListReport
       end
       
       #
@@ -32,7 +29,7 @@ module Reek
       def examine_context(ctx, report)
         num_params = ctx.parameters.length
         return false if num_params <= @max_params
-        report << create_report(ctx, num_params)
+        report << @report_class.new(ctx, num_params)
       end
     end
 

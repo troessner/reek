@@ -10,9 +10,11 @@ module Reek
       def self.contexts      # :nodoc:
         [:yield]
       end
-      
-      def create_report(ctx, num_params)
-        LongYieldListReport.new(ctx, num_params)
+
+      def initialize(config = {})
+        super
+        @max_params = config.fetch('max_params', 3)
+        @report_class = LongYieldListReport
       end
     end
 
