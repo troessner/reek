@@ -5,10 +5,16 @@ module Reek
     
     def initialize
       @refs = ObjectRefs.new
+      @myself = Object
     end
 
     def count_statements(num)
       0
+    end
+
+    def find_module(name)
+      sym = name.to_s
+      @myself.const_defined?(sym) ? @myself.const_get(sym) : nil
     end
 
     def has_parameter(sym)

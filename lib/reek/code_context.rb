@@ -7,6 +7,16 @@ module Reek
     def initialize(outer, exp)
       @outer = outer
       @exp = exp
+      @myself = nil
+    end
+
+    def myself
+      @myself ||= @outer.find_module(@name)
+    end
+
+    def find_module(name)
+      sym = name.to_s
+      myself.const_defined?(sym) ? myself.const_get(sym) : nil
     end
     
     def method_missing(method, *args)

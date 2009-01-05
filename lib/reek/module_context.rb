@@ -7,7 +7,7 @@ module Reek
 
     def initialize(outer, exp)
       super
-      @name = exp[1].to_s
+      @name = Name.new(exp[1])
     end
 
     def outer_name

@@ -2,6 +2,7 @@ require File.dirname(__FILE__) + '/../spec_helper.rb'
 
 require 'spec/reek/code_checks'
 require 'reek/class_context'
+require 'reek/smells/feature_envy'
 
 include CodeChecks
 include Reek
@@ -125,5 +126,65 @@ describe 'Integration defect:' do
     melement = MethodContext.new(kelement, [0, :examine_context])
     melement.is_overriding_method?(meth).should == true
     melement.depends_on_instance?.should == true
+  end
+end
+
+describe CodeContext, 'find class' do
+  module Mod1
+    class Klass1
+      module Mod2
+        class Klass2
+        end
+      end
+    end
+  end
+
+  before :each do
+    @stop = StopContext.new
+    @mod1 = ModuleContext.new(@stop, [0, :Mod1])
+    @klass1 = ClassContext.new(@mod1, [0, :Klass1])
+    @mod2 = ModuleContext.new(@klass1, [0, :Mod2])
+    @klass2 = ClassContext.new(@mod2, [0, :Klass2])
+  end
+
+  describe StopContext do
+    it 'should not find unqualified class' do
+      @stop.find_module('Klass2').should == nil
+    end
+
+    it 'should find unqualified module' do
+      @stop.find_module('Mod1').name.should == 'Mod1'
+    end
+  end
+  
+  describe ModuleContext do
+    it 'should find local name' do
+      @mod1.find_module('Klass1').name.should == 'Mod1::Klass1'
+      @mod2.find_module('Klass2').name.should == 'Mod1::Klass1::Mod2::Klass2'
+    end
+    
+    it 'should not find deeper class' do
+      @mod1.find_module('Klass2').should == nil
+    end
+    
+    it 'should find own Module' do
+      @mod1.myself.name.should == 'Mod1'
+      @mod2.myself.name.should == 'Mod1::Klass1::Mod2'
+    end
+  end
+  
+  describe ClassContext do
+    it 'should find local module' do
+      @klass1.find_module('Mod2').name.should == 'Mod1::Klass1::Mod2'
+    end
+    
+    it 'should not find deeper module' do
+      @klass1.find_module('Klass2').should == nil
+    end
+    
+    it 'should find own Class' do
+      @klass1.myself.name.should == 'Mod1::Klass1'
+      @klass2.myself.name.should == 'Mod1::Klass1::Mod2::Klass2'
+    end
   end
 end

@@ -12,23 +12,9 @@ class Class
   end
 end
 
-class MissingClass
-  def initialize(ctx)
-    @ctx = ctx
-  end
-
-  def non_inherited_methods
-    @ctx.parsed_methods
-  end
-
-  def is_overriding_method?(name)
-    false
-  end
-end
-
 module Reek
   class ClassContext < CodeContext
-    attr_accessor :name, :parsed_methods
+    attr_accessor :name
 
     def initialize(outer, exp)
       super
@@ -39,7 +25,8 @@ module Reek
     end
 
     def is_overriding_method?(name)
-      my_class.is_overriding_method?(name.to_s)
+      return false unless myself
+      myself.is_overriding_method?(name.to_s)
     end
     
     def is_struct?
@@ -47,7 +34,8 @@ module Reek
     end
 
     def num_methods
-      my_class.non_inherited_methods.length
+      meths = myself ? myself.non_inherited_methods : @parsed_methods
+      meths.length
     end
 
     def record_instance_variable(sym)
@@ -68,17 +56,6 @@ module Reek
 
     def variable_names
       @instance_variables
-    end
-
-  private
-    
-    def my_class
-      sym = @name.to_s
-      if Object.const_defined?(sym)
-        return Object.const_get(sym)
-      else
-        return MissingClass.new(self)
-      end
     end
   end
 end
