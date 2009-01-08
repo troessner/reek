@@ -14,6 +14,8 @@ UncommunicativeName:
   enabled: true
   bad_names: 
   - !ruby/regexp /^.[0-9]*$/
+  exceptions:
+  - Inline::C
 NestedIterators: 
   enabled: true
 LongMethod: 

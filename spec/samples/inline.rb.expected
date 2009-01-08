@@ -1,4 +1,5 @@
 [Long Method] File#self.write_with_backup has approx 6 statements
+[Large Class] Inline::C has at least 46 methods
 [Duplication] Inline::C#build calls $?.==(0) multiple times
 [Duplication] Inline::C#build calls Inline.directory multiple times
 [Duplication] Inline::C#build calls io.puts multiple times
@@ -8,7 +9,7 @@
 [Uncommunicative Name] Inline::C#build has the variable name 't'
 [Uncommunicative Name] Inline::C#build/block/block has the variable name 'n'
 [Nested Iterators] Inline::C#build/block/block is nested
-[Uncommunicative Name] Inline::C#c has the  name 'c'
+[Uncommunicative Name] Inline::C#c has the name 'c'
 [Duplication] Inline::C#crap_for_windoze calls Config::CONFIG[libdir] multiple times
 [Duplication] Inline::C#generate calls result.sub!((?-mix:\A\n), ) multiple times
 [Duplication] Inline::C#generate calls signature[args] multiple times

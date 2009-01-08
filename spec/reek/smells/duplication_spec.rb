@@ -14,7 +14,7 @@ describe Duplication, "repeated method calls" do
   check 'should report call parameters',
     'def double_thing() @other.thing(2,3) + @other.thing(2,3) end', [[/@other.thing\(2, 3\)/]]
   check 'should report nested calls',
-    'def double_thing() @other.thing.foo + @other.thing.foo end', [[/@other.thing.foo/], [/@other.thing[^\.]/]]
+    'def double_thing() @other.thing.foo + @other.thing.foo end', [[/@other.thing[^\.]/], [/@other.thing.foo/]]
   check 'should ignore calls to new',
     'def double_thing() @other.new + @other.new end', []
 end

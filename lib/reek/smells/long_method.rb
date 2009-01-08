@@ -9,7 +9,7 @@ module Reek
     # A Long Method is any method that has a large number of lines.
     #
     # Currently +LongMethod+ reports any method with more than
-    # +MAX_ALLOWED+ statements.
+    # 5 statements.
     #
     class LongMethod < SmellDetector
 

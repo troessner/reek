@@ -63,7 +63,7 @@ module Reek
       end
 
       def detailed_report
-        @context.to_s
+        "#{@context} #{@warning}"
       end
 
       def hash  # :nodoc:
@@ -77,7 +77,7 @@ module Reek
       alias eql? <=>
 
       def report
-        "[#{@smell}] #{@context} #{@warning}"
+        "[#{@smell}] #{detailed_report}"
       end
 
       alias inspect report
