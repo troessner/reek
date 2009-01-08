@@ -28,7 +28,8 @@ module Reek
 
       def examine_context(method, report)
         smelly_calls(method).each do |call|
-          report << DuplicationReport.new(method, call)
+          report << SmellWarning.new(smell_name, method,
+                      "calls #{Printer.print(call)} multiple times")
         end
       end
       
@@ -36,18 +37,6 @@ module Reek
         method.calls.select do |key,val|
           val > @max_calls and key[2] != :new
         end.map { |call_exp| call_exp[0] }
-      end
-    end
-
-    class DuplicationReport < SmellReport
-
-      def initialize(context, call)
-        super(context)
-        @call = call
-      end
-
-      def warning
-        "calls #{Printer.print(@call)} multiple times"
       end
     end
   end

@@ -18,30 +18,18 @@ module Reek
       def initialize(config = {})
         super
         @max_params = config.fetch('max_params', 3)
-        @report_class = LongParameterListReport
+        @action = 'has'
       end
       
       #
       # Checks the number of parameters in the given scope.
-      # Any smells found are added to the +report+; returns true in that case,
-      # and false otherwise.
+      # Any smells found are added to the +report+.
       #
       def examine_context(ctx, report)
         num_params = ctx.parameters.length
         return false if num_params <= @max_params
-        report << @report_class.new(ctx, num_params)
-      end
-    end
-
-    class LongParameterListReport < SmellReport
-      
-      def initialize(context, num_params)
-        super(context)
-        @num_params = num_params
-      end
-
-      def warning
-        "has #{@num_params} parameters"
+        report << SmellWarning.new(smell_name, ctx,
+                    "#{@action} #{num_params} parameters")
       end
     end
   end

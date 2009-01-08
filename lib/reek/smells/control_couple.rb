@@ -41,25 +41,13 @@ module Reek
 
       #
       # Checks whether the given conditional statement relies on a control couple.
-      # Any smells found are added to the +report+; returns true in that case,
-      # and false otherwise.
+      # Any smells found are added to the +report+.
       #
       def examine_context(cond, report)
         return unless cond.tests_a_parameter?
-        report << ControlCoupleReport.new(cond)
+        report << SmellWarning.new(smell_name, cond,
+                    "is controlled by argument #{Printer.print(cond.if_expr)}")
       end
-    end
-
-    class ControlCoupleReport < SmellReport
-      
-      def initialize(context)
-        super(context)
-        @couple = context.if_expr
-      end
-
-      def warning
-        "is controlled by argument #{Printer.print(@couple)}"
-      end      
     end
   end
 end

@@ -32,8 +32,7 @@ module Reek
       #
       # Checks the given +method+ for uncommunicative method name,
       # parameter names, local variable names and instance variable names.
-      # Any smells found are added to the +report+; returns true in that case,
-      # and false otherwise.
+      # Any smells found are added to the +report+.
       #
       def examine_context(context, report)
         consider_name(context, report) unless exception?(context.to_s)
@@ -41,37 +40,24 @@ module Reek
       end
       
       def consider_variables(context, report)
-        result = false
         context.variable_names.each do |name|
           next unless is_bad_name?(name)
-          result = (report << UncommunicativeNameReport.new(name.to_s, context, 'variable'))
+          report << SmellWarning.new(smell_name, context,
+                      "has the variable name '#{name}'")
         end
-        result
       end
 
       def consider_name(context, report)  # :nodoc:
         name = context.name
         return false unless is_bad_name?(name)
-        report << UncommunicativeNameReport.new(name.to_s, context, '')
+        report << SmellWarning.new(smell_name, context,
+                      "has the name '#{name}'")
       end
 
       def is_bad_name?(name)
         name = name.effective_name
         return false if name == '*'
         @bad_names.detect {|patt| patt === name}
-      end
-    end
-
-    class UncommunicativeNameReport < SmellReport
-
-      def initialize(name, context, symbol_type)
-        super(context)
-        @bad_name = name
-        @symbol_type = symbol_type
-      end
-
-      def warning
-        "has the #{@symbol_type} name '#{@bad_name}'"
       end
     end
   end

@@ -37,25 +37,13 @@ module Reek
       #
       # Checks whether the given +context+ includes any code fragment that
       # might "belong" on another class.
-      # Any smells found are added to the +report+; returns true in that case,
-      # and false otherwise.
+      # Any smells found are added to the +report+.
       #
       def examine_context(context, report)
         context.envious_receivers.each do |ref|
-          report << FeatureEnvyReport.new(context, Printer.print(ref))
+          report << SmellWarning.new(smell_name, context,
+                      "refers to #{Printer.print(ref)} more than self")
         end
-      end
-    end
-
-    class FeatureEnvyReport < SmellReport
-      
-      def initialize(context, receiver)
-        super(context)
-        @receiver = receiver
-      end
-
-      def warning
-        "refers to #{@receiver} more than self"
       end
     end
   end

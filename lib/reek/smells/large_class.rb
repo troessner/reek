@@ -28,26 +28,15 @@ module Reek
 
       #
       # Checks the length of the given +klass+.
-      # Any smells found are added to the +report+; returns true in that case,
-      # and false otherwise.
+      # Any smells found are added to the +report+.
       #
       def examine_context(klass, report)
         return false if exception?(klass.name.to_s)
         num_methods = klass.num_methods
         return false if num_methods <= @max_methods
-        report << LargeClassReport.new(klass, num_methods)
+        report << SmellWarning.new(smell_name, klass,
+                    "has at least #{num_methods} methods")
       end
-    end
-
-    class LargeClassReport < SmellReport
-      def initialize(context, num_methods)
-        super(context)
-        @num_methods = num_methods
-      end
-
-      def warning
-        "has at least #{@num_methods} methods"
-      end      
     end
   end
 end

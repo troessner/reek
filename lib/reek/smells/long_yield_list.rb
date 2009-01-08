@@ -14,19 +14,7 @@ module Reek
       def initialize(config = {})
         super
         @max_params = config.fetch('max_params', 3)
-        @report_class = LongYieldListReport
-      end
-    end
-
-    class LongYieldListReport < SmellReport
-      
-      def initialize(context, num_params)
-        super(context)
-        @num_params = num_params
-      end
-
-      def warning
-        "yields #{@num_params} parameters"
+        @action = 'yields'
       end
     end
   end

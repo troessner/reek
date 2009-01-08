@@ -67,7 +67,7 @@ class Thing
   end
 end
 EOS
-  check 'should report all bad block parameters', source, [[/'x'/], [/'y'/]]
+  check 'should report all bad block parameters', source, [[/'y'/], [/'x'/]]
 end
 
 require 'ostruct'

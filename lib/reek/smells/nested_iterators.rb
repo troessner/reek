@@ -18,19 +18,11 @@ module Reek
 
       #
       # Checks whether the given +block+ is inside another.
-      # Any smells found are added to the +report+; returns true in that case,
-      # and false otherwise.
+      # Any smells found are added to the +report+.
       #
       def examine_context(block, report)
         return false unless block.nested_block?
-        report << NestedIteratorsReport.new(block)
-      end
-    end
-
-    class NestedIteratorsReport < SmellReport
-
-      def warning
-        "is nested"
+        report << SmellWarning.new(smell_name, block, 'is nested')
       end
     end
   end

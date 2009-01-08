@@ -41,45 +41,48 @@ end
 describe Report, " as a SortedSet" do
   it 'should only add a smell once' do
     rpt = Report.new
-    rpt << UtilityFunctionReport.new(self)
+    rpt << SmellWarning.new('ha', self, self)
     rpt.length.should == 1
-    rpt << UtilityFunctionReport.new(self)
+    rpt << SmellWarning.new('ha', self, self)
     rpt.length.should == 1
   end
 end
 
-describe SortByContext do
+describe 'sorting' do
   before :each do
-    @sorter = SortByContext
-    @long_method = LongMethodReport.new('x', 30)
-    @large_class = LargeClassReport.new('y', 30)
+    @long_method = SmellWarning.new('Long Method', 'x', 30)
+    @large_class = SmellWarning.new('Large Class', 'y', 30)
   end
 
-  it 'should return 0 for identical smells' do
-    @sorter.compare(@long_method, @long_method).should == 0
+  describe SortByContext do
+    before :each do
+      @sorter = SortByContext
+    end
+
+    it 'should return 0 for identical smells' do
+      @sorter.compare(@long_method, @long_method).should == 0
+    end
+
+    it 'should return non-0 for different smells' do
+      @sorter.compare(@long_method, @large_class).should_not == 0
+    end
   end
 
-  it 'should return non-0 for different smells' do
-    @sorter.compare(@long_method, @large_class).should_not == 0
-  end
-end
+  describe SortBySmell do
+    before :each do
+      @sorter = SortBySmell
+    end
 
-describe SortBySmell do
-  before :each do
-    @sorter = SortBySmell
-    @long_method = LongMethodReport.new('x', 30)
-    @large_class = LargeClassReport.new('y', 30)
-  end
-  
-  it 'should return 0 for identical smells' do
-    @sorter.compare(@long_method, @long_method).should == 0
-  end
+    it 'should return 0 for identical smells' do
+      @sorter.compare(@long_method, @long_method).should == 0
+    end
 
-  it 'should differentiate identical smells with different contexts' do
-    @sorter.compare(LongMethodReport.new('x', 29), LongMethodReport.new('y', 29)).should == -1
-  end
+    it 'should differentiate identical smells with different contexts' do
+      @sorter.compare(SmellWarning.new('Long Method', 'x', 29), SmellWarning.new('Long Method', 'y', 29)).should == -1
+    end
 
-  it 'should differentiate different smells with identical contexts' do
-    @sorter.compare(@long_method, @large_class).should == 1
+    it 'should differentiate different smells with identical contexts' do
+      @sorter.compare(@long_method, @large_class).should == 1
+    end
   end
 end

@@ -44,17 +44,26 @@ module Reek
       def exception?(val)
         @exceptions.include?(val)
       end
+
+      def smell_name
+        self.class.name_words.join(' ')
+      end
     end
 
-    class SmellReport
+    #
+    # Reports a warning that a smell has been found.
+    #
+    class SmellWarning
       include Comparable
 
-      def initialize(context)
+      def initialize(smell, context, warning)
+        @smell = smell
         @context = context
+        @warning = warning
       end
 
       def detailed_report
-        "#{@context.to_s} #{warning}"
+        @context.to_s
       end
 
       def hash  # :nodoc:
@@ -67,12 +76,8 @@ module Reek
 
       alias eql? <=>
 
-      def self.smell_name
-        name_words[0..-2].join(' ')
-      end
-
       def report
-        "[#{self.class.smell_name}] #{detailed_report}"
+        "[#{@smell}] #{@context} #{@warning}"
       end
 
       alias inspect report
