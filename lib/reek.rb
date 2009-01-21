@@ -12,7 +12,13 @@ module Reek # :doc:
   #
   class Analyser
     def initialize(src)
-      @source = src
+      @config = SmellConfig.new
+      if File.exists?(src)
+        @source = IO.readlines(src).join
+        @config.load_local(src)
+      else
+        @source = src
+      end
     end
     
     #
@@ -20,15 +26,8 @@ module Reek # :doc:
     #
     def analyse
       report = Report.new
-      config = SmellConfig.new
-      if File.exists?(@source)
-        source = IO.readlines(@source).join
-        config.load_local(@source)
-      else
-        source = @source
-      end
-      smells = config.smell_listeners
-      CodeParser.new(report, smells).check_source(source)
+      smells = @config.smell_listeners
+      CodeParser.new(report, smells).check_source(@source)
       report
     end
   end

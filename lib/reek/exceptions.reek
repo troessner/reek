@@ -1,0 +1,4 @@
+--- 
+LargeClass:
+  exceptions:
+  - CodeParser
