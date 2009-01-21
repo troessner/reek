@@ -19,7 +19,7 @@ describe LargeClass do
 
   before(:each) do
     @rpt = Report.new
-    @cchk = CodeParser.new(@rpt)
+    @cchk = CodeParser.new(@rpt, Reek::smell_listeners)
   end
 
   it 'should not report short class' do

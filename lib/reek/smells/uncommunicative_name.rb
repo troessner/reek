@@ -35,7 +35,7 @@ module Reek
       # Any smells found are added to the +report+.
       #
       def examine_context(context, report)
-        consider_name(context, report) unless exception?(context.to_s)
+        consider_name(context, report)
         consider_variables(context, report)
       end
       

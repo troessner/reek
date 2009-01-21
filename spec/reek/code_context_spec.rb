@@ -60,3 +60,33 @@ describe CodeContext, 'generics' do
     element.bananas(17, -5).should == 55
   end
 end
+
+describe CodeContext do
+  it 'should recognise itself in a collection of names' do
+    element = StopContext.new
+    element = ModuleContext.new(element, [0, :mod])
+    element.matches?(['banana', 'mod']).should == true
+  end
+
+  it 'should recognise itself in a collection of REs' do
+    element = StopContext.new
+    element = ModuleContext.new(element, [0, :mod])
+    element.matches?([/banana/, /mod/]).should == true
+  end
+
+  it 'should recognise its fq name in a collection of names' do
+    element = StopContext.new
+    element = ModuleContext.new(element, [0, :mod])
+    element = ClassContext.new(element, [0, :klass])
+    element.matches?(['banana', 'mod']).should == false
+    element.matches?(['banana', 'mod::klass']).should == true
+  end
+
+  it 'should recognise its fq name in a collection of names' do
+    element = StopContext.new
+    element = ModuleContext.new(element, [0, :mod])
+    element = ClassContext.new(element, [0, :klass])
+    element.matches?([/banana/, /mod/]).should == true
+    element.matches?([/banana/, /mod::klass/]).should == true
+  end
+end

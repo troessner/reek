@@ -11,7 +11,7 @@ describe CodeParser, "(Utility Function)" do
 
   before(:each) do
     @rpt = Report.new
-    @cchk = CodeParser.new(@rpt)
+    @cchk = CodeParser.new(@rpt, Reek::smell_listeners)
   end
 
   it 'should not report attrset' do
@@ -38,7 +38,7 @@ describe CodeParser, "(Utility Function)" do
     class Son < Father
       def thing(ff); ff; end
     end
-    CodeParser.new(@rpt).check_object(Son)
+    CodeParser.new(@rpt, Reek::smell_listeners).check_object(Son)
     @rpt.should be_empty
   end
 

@@ -3,6 +3,7 @@ require File.dirname(__FILE__) + '/../spec_helper.rb'
 require 'reek/code_parser'
 require 'reek/smells/smells'
 require 'reek/report'
+require 'reek'
 
 include Reek
 
@@ -23,7 +24,7 @@ end
 describe Report, "to_s" do
   before(:each) do
     rpt = Report.new
-    chk = CodeParser.new(rpt)
+    chk = CodeParser.new(rpt, Reek::smell_listeners)
     chk.check_source('def simple(a) a[3] end')
     @report = rpt.to_s.split("\n")
   end

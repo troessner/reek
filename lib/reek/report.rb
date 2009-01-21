@@ -24,32 +24,32 @@ module Reek
     }
 
     def initialize  # :nodoc:
-      @smells = SortedSet.new
+      @report = SortedSet.new
     end
 
     def <<(smell)  # :nodoc:
-      @smells << smell
+      @report << smell
       true
     end
     
     def empty?  # :nodoc:
-      @smells.empty?
+      @report.empty?
     end
 
     def length  # :nodoc:
-      @smells.length
+      @report.length
     end
     
     alias size length
 
     def [](index)  # :nodoc:
-      @smells.to_a[index]
+      @report.to_a[index]
     end
 
     # Creates a formatted report of all the smells recorded in
     # this report.
     def to_s
-      @smells.map {|smell| smell.report}.join("\n")
+      @report.map {|smell| smell.report}.join("\n")
     end
   end
 

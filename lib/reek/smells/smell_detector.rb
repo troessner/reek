@@ -34,15 +34,17 @@ module Reek
 
       def examine(context, report)
         before = report.size
-        examine_context(context, report) if @enabled
+        examine_context(context, report) if @enabled and !exception?(context)
         report.length > before
       end
 
       def examine_context(context, report)
       end
       
-      def exception?(val)
-        @exceptions.include?(val)
+      def exception?(context)
+#        puts "#{@exceptions.inspect} === #{context}" if smell_name == 'Feature Envy'
+        return false if @exceptions.length == 0
+        context.matches?(@exceptions)
       end
 
       def smell_name

@@ -18,6 +18,11 @@ module Reek
       sym = name.to_s
       myself.const_defined?(sym) ? myself.const_get(sym) : nil
     end
+
+    def matches?(strings)
+      me = @name.to_s
+      strings.any? {|str| str === me or str === self.to_s}
+    end
     
     def method_missing(method, *args)
       @outer.send(method, *args)

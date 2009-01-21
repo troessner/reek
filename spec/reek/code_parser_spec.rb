@@ -8,7 +8,7 @@ include Reek
 describe CodeParser, "with no method definitions" do  
   before(:each) do
     @rpt = Report.new
-    @cchk = CodeParser.new(@rpt)
+    @cchk = CodeParser.new(@rpt, Reek::smell_listeners)
   end
 
   it 'should report no problems for empty source code' do
@@ -24,7 +24,7 @@ end
 
 describe CodeParser, 'when given a C extension' do
   before(:each) do
-    @cchk = CodeParser.new(Report.new)
+    @cchk = CodeParser.new(Report.new, Reek::smell_listeners)
   end
 
   it 'should ignore :cfunc' do
@@ -42,7 +42,7 @@ describe CodeParser, 'when a yield is the receiver' do
   self
 end'
     rpt = Report.new
-    chk = CodeParser.new(rpt)
+    chk = CodeParser.new(rpt, Reek::smell_listeners)
     chk.check_source(source)
     rpt.should be_empty
   end

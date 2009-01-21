@@ -21,9 +21,16 @@ module Reek
       ParseTree.new.parse_tree_for_string(code)
     end
 
-    def process_default(exp)
-      exp[1..-1].each { |sub| process(sub) if Array === sub }
-      s(exp)
+    # Creates a new Ruby code checker. Any smells discovered by
+    # +check_source+ or +check_object+ will be stored in +report+.
+    def initialize(report, smells, ctx = StopContext.new)
+      super()
+      @report = report
+      @smells = smells
+      @element = ctx
+      @unsupported -= [:cfunc]
+      @default_method = :process_default
+      @require_empty = @warn_on_default = false
     end
 
     # Analyses the given Ruby source +code+ looking for smells.
@@ -40,28 +47,22 @@ module Reek
       check_parse_tree(ParseTree.new.parse_tree(obj))
     end
 
-    # Creates a new Ruby code checker. Any smells discovered by
-    # +check_source+ or +check_object+ will be stored in +report+.
-    def initialize(report, ctx = StopContext.new)
-      super()
-      @smells = report
-      @element = ctx
-      @unsupported -= [:cfunc]
-      @default_method = :process_default
-      @require_empty = @warn_on_default = false
+    def process_default(exp)
+      exp[1..-1].each { |sub| process(sub) if Array === sub }
+      s(exp)
     end
 
     def process_module(exp)
       @element = ModuleContext.new(@element, exp)
       process_default(exp)
-      SMELLS[:module].each {|smell| smell.examine(@element, @smells) }
+      @smells[:module].each {|smell| smell.examine(@element, @report) }
       pop(exp)
     end
 
     def process_class(exp)
       @element = ClassContext.new(@element, exp)
       exp[3..-1].each { |sub| process(sub) } unless @element.is_struct?
-      SMELLS[:class].each {|smell| smell.examine(@element, @smells) }
+      @smells[:class].each {|smell| smell.examine(@element, @report) }
       pop(exp)
     end
 
@@ -177,7 +178,7 @@ module Reek
     def handle_context(klass, type, exp)
       @element = klass.new(@element, exp)
       process_default(exp)
-      SMELLS[type].each {|smell| smell.examine(@element, @smells) }
+      @smells[type].each {|smell| smell.examine(@element, @report) }
       pop(exp)
     end
     

@@ -31,7 +31,6 @@ module Reek
       # Any smells found are added to the +report+.
       #
       def examine_context(klass, report)
-        return false if exception?(klass.name.to_s)
         num_methods = klass.num_methods
         return false if num_methods <= @max_methods
         report << SmellWarning.new(smell_name, klass,
