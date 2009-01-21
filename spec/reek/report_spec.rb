@@ -23,9 +23,7 @@ end
 
 describe Report, "to_s" do
   before(:each) do
-    rpt = Report.new
-    chk = CodeParser.new(rpt, Reek::smell_listeners)
-    chk.check_source('def simple(a) a[3] end')
+    rpt = Analyser.new('def simple(a) a[3] end').analyse
     @report = rpt.to_s.split("\n")
   end
 

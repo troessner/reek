@@ -46,7 +46,7 @@ describe CodeParser, "(Long Parameter List)" do
     describe 'in a class' do
       before(:each) do
         @rpt = Report.new
-        @cchk = CodeParser.new(@rpt, Reek::smell_listeners)
+        @cchk = CodeParser.new(@rpt, SmellConfig.new.smell_listeners)
       end
 
       class InnerTest

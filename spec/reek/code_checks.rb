@@ -11,9 +11,7 @@ module CodeChecks
   def check(desc, src, expected, pending_str = nil)
     it(desc) do
       pending(pending_str) unless pending_str.nil?
-      rpt = Report.new
-      cchk = CodeParser.new(rpt, Reek::smell_listeners())
-      cchk.check_source(src)
+      rpt = Analyser.new(src).analyse
       rpt.length.should == expected.length
       (0...rpt.length).each do |smell|
         expected[smell].each { |patt| rpt[smell].report.should match(patt) }

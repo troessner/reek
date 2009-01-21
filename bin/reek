@@ -10,13 +10,13 @@ require File.join(File.dirname(__FILE__), '../lib/', 'reek/options')
 sources = Reek::Options.parse(ARGV)
 exitstatus = 0
 sources.each do |src|
-  smells = Reek.analyse(src)
-  next if smells.empty?
+  warnings = Analyser.new(src).analyse
+  next if warnings.empty?
   if sources.size == 1
-    puts smells.to_s
+    puts warnings.to_s
   else
-    puts "\"#{src}\" -- #{smells.length} warnings:"
-    puts smells.to_s
+    puts "\"#{src}\" -- #{warnings.length} warnings:"
+    puts warnings.to_s
     puts
   end
   exitstatus = 2

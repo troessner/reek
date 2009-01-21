@@ -2,29 +2,19 @@ require File.dirname(__FILE__) + '/../spec_helper.rb'
 
 require 'reek/code_parser'
 require 'reek/report'
+require 'spec/reek/code_checks'
 
+include CodeChecks
 include Reek
 
-describe CodeParser, "with no method definitions" do  
-  before(:each) do
-    @rpt = Report.new
-    @cchk = CodeParser.new(@rpt, Reek::smell_listeners)
-  end
-
-  it 'should report no problems for empty source code' do
-    @cchk.check_source('')
-    @rpt.should be_empty
-  end
-
-  it 'should report no problems for empty class' do
-    @cchk.check_source('class Fred; end')
-    @rpt.should be_empty
-  end
+describe CodeParser, "with no method definitions" do
+  check 'should report no problems for empty source code', '', []
+  check 'should report no problems for empty class', 'class Fred; end', []
 end
 
 describe CodeParser, 'when given a C extension' do
   before(:each) do
-    @cchk = CodeParser.new(Report.new, Reek::smell_listeners)
+    @cchk = CodeParser.new(Report.new, SmellConfig.new.smell_listeners)
   end
 
   it 'should ignore :cfunc' do
@@ -33,17 +23,12 @@ describe CodeParser, 'when given a C extension' do
 end
 
 describe CodeParser, 'when a yield is the receiver' do
-  it 'should report no problems' do
-    source = 'def values(*args)
+  source = 'def values(*args)
   @to_sql += case
     when block_given? then " #{yield.to_sql}"
     else " values (#{args.to_sql})"
   end
   self
 end'
-    rpt = Report.new
-    chk = CodeParser.new(rpt, Reek::smell_listeners)
-    chk.check_source(source)
-    rpt.should be_empty
-  end
+  check 'should report no problems', source, []
 end
