@@ -55,9 +55,9 @@ module Reek
       end
 
       def is_bad_name?(name)
-        name = name.effective_name
-        return false if name == '*'
-        @bad_names.detect {|patt| patt === name}
+        var = name.effective_name
+        return false if var == '*'
+        @bad_names.detect {|patt| patt === var}
       end
     end
   end
