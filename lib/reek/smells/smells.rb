@@ -61,8 +61,10 @@ module Reek
     end
 
     def all_reekfiles(path)
-      return [] if path == '/' or ! File.exist?(path)
-      all_reekfiles(File.dirname(path)) + Dir["#{path}/*.reek"]
+      return [] unless File.exist?(path)
+      parent = File.dirname(path)
+      return [] if path == parent
+      all_reekfiles(parent) + Dir["#{path}/*.reek"]
     end
   end
 end
