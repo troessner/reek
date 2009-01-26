@@ -1,7 +1,9 @@
-== 0.3.x 2008-??-??
+== 0.3.x 2009-??-??
 
+* Major enhancements:
+  * Place *.reek files in source folder to configure smell detection behaviour
 * Minor enhancements:
-  * Smells in singleton methods now analysed
+  * Smells in singleton methods are now analysed
   * Uncommunicative parameter names in blocks now reported
   * Modules and blocks now reflected in scope of smell reports
 * Fixes:

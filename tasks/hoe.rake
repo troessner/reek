@@ -1,3 +1,5 @@
+# -*- ruby -*-
+
 require 'rubygems'
 require 'rake'
 require 'rake/gempackagetask'
@@ -311,6 +313,12 @@ class Hoe
     Rake::GemPackageTask.new spec do |pkg|
       pkg.need_tar = @need_tar
       pkg.need_zip = @need_zip
+    end
+
+    desc 'Install the package as a gem.'
+    task :install_gem => [:clean, :package] do
+      gem = Dir['pkg/*.gem'].first
+      sh "#{'sudo ' unless WINDOZE}gem install --local #{gem}"
     end
 
     desc 'Package and upload the release to rubyforge.'

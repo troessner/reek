@@ -1,4 +1,7 @@
 --- 
+FeatureEnvy:
+  exceptions:
+  - examine_context
 LargeClass:
   exceptions:
   - CodeParser

@@ -51,14 +51,18 @@ module Reek
       SMELL_CLASSES.each { |smell| smell.listen(result, @config) }
       return result
     end
-    
+
     def load_local(file)
-      dir = File.dirname(file)
-      reeks = Dir["#{dir}/*.reek"]
-      reeks.each do |rfile|
+      path = File.dirname(File.expand_path(file))
+      all_reekfiles(path).each do |rfile|
         cf = YAML.load_file(rfile)
         @config.value_merge!(cf)
       end
+    end
+
+    def all_reekfiles(path)
+      return [] if path == '/' or ! File.exist?(path)
+      all_reekfiles(File.dirname(path)) + Dir["#{path}/*.reek"]
     end
   end
 end
