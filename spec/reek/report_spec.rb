@@ -40,17 +40,17 @@ end
 describe Report, " as a SortedSet" do
   it 'should only add a smell once' do
     rpt = Report.new
-    rpt << SmellWarning.new('ha', self, self)
+    rpt << SmellWarning.new('ha', "self", 'too many!')
     rpt.length.should == 1
-    rpt << SmellWarning.new('ha', self, self)
+    rpt << SmellWarning.new('ha', "self", 'too many!')
     rpt.length.should == 1
   end
 end
 
 describe 'sorting' do
   before :each do
-    @long_method = SmellWarning.new('Long Method', 'x', 30)
-    @large_class = SmellWarning.new('Large Class', 'y', 30)
+    @long_method = SmellWarning.new('Long Method', 'x', 'too many!')
+    @large_class = SmellWarning.new('Large Class', 'y', 'too many!')
   end
 
   describe SortByContext do
@@ -77,7 +77,7 @@ describe 'sorting' do
     end
 
     it 'should differentiate identical smells with different contexts' do
-      @sorter.compare(SmellWarning.new('Long Method', 'x', 29), SmellWarning.new('Long Method', 'y', 29)).should == -1
+      @sorter.compare(SmellWarning.new('Long Method', 'x', 'too many!'), SmellWarning.new('Long Method', 'y', 'too many!')).should == -1
     end
 
     it 'should differentiate different smells with identical contexts' do

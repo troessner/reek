@@ -65,7 +65,7 @@ module Reek
       end
 
       def detailed_report
-        "#{@context} #{@warning}"
+        "%c %w".gsub(/\%c/, @context.to_s).gsub(/\%w/, @warning)
       end
 
       def hash  # :nodoc:

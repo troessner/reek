@@ -45,9 +45,9 @@ spec/reek/config_spec.rb
 spec/reek/module_context_spec.rb
 spec/reek/object_refs_spec.rb
 spec/reek/options_spec.rb
-spec/reek/printer_spec.rb
 spec/reek/report_spec.rb
 spec/reek/script_spec.rb
+spec/reek/sexp_formatter_spec.rb
 spec/reek/singleton_method_context_spec.rb
 spec/reek/smells/control_couple_spec.rb
 spec/reek/smells/duplication_spec.rb

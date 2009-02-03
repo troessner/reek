@@ -5,15 +5,20 @@ require 'reek/smells/smells'
 include Reek
 
 describe SmellWarning, ' in comparisons' do
+  before :each do
+    @first = SmellWarning.new('ha', "self", "self")
+    @second = SmellWarning.new('ha', "self", "self")
+  end
+
   it 'should hash equal when the smell is the same' do
-    SmellWarning.new('ha', self, self).hash.should == SmellWarning.new('ha', self, self).hash
+    @first.hash.should == @second.hash
   end
 
   it 'should compare equal when the smell is the same' do
-    SmellWarning.new('ha', self, self).should == SmellWarning.new('ha', self, self)
+    @first.should == @second
   end
 
   it 'should compare equal when using <=>' do
-    (SmellWarning.new('ha', self, self) <=> SmellWarning.new('ha', self, self)).should == 0
+    (@first <=> @second).should == 0
   end
 end
