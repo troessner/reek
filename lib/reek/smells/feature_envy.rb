@@ -1,6 +1,7 @@
 $:.unshift File.dirname(__FILE__)
 
 require 'reek/smells/smell_detector'
+require 'reek/sexp_formatter'
 
 module Reek
   module Smells
@@ -42,7 +43,7 @@ module Reek
       def examine_context(context, report)
         context.envious_receivers.each do |ref|
           report << SmellWarning.new(smell_name, context,
-                      "refers to #{Printer.print(ref)} more than self")
+                      "refers to #{SexpFormatter.format(ref)} more than self")
         end
       end
     end

@@ -1,21 +1,18 @@
 require File.dirname(__FILE__) + '/../spec_helper.rb'
 
 require 'reek/code_parser'
-require 'reek/printer'
+require 'reek/sexp_formatter'
 
 include Reek
 
-def should_print(examples)
-  examples.each do |actual|
-    it "should format #{actual} correctly" do
-      sexp = CodeParser.parse_tree_for(actual)[0]
-      Printer.print(sexp).should == actual
-    end
+def should_print(example)
+  it "should format #{example} correctly" do
+    sexp = CodeParser.parse_tree_for(example)[0]
+    SexpFormatter.format(sexp).should == example
   end
 end
 
-describe Printer do
-
+describe SexpFormatter do
   should_print 'self'
   should_print 'Alpha'
   should_print 'Alpha::Beta'

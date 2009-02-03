@@ -1,6 +1,7 @@
 $:.unshift File.dirname(__FILE__)
 
 require 'reek/smells/smell_detector'
+require 'reek/sexp_formatter'
 
 module Reek
   module Smells
@@ -46,7 +47,7 @@ module Reek
       def examine_context(cond, report)
         return unless cond.tests_a_parameter?
         report << SmellWarning.new(smell_name, cond,
-                    "is controlled by argument #{Printer.print(cond.if_expr)}")
+                    "is controlled by argument #{SexpFormatter.format(cond.if_expr)}")
       end
     end
   end

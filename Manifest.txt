@@ -15,9 +15,9 @@ lib/reek/module_context.rb
 lib/reek/name.rb
 lib/reek/object_refs.rb
 lib/reek/options.rb
-lib/reek/printer.rb
 lib/reek/rake_task.rb
 lib/reek/report.rb
+lib/reek/sexp_formatter.rb
 lib/reek/singleton_method_context.rb
 lib/reek/smells/control_couple.rb
 lib/reek/smells/duplication.rb

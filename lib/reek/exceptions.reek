@@ -5,3 +5,6 @@ FeatureEnvy:
 LargeClass:
   exceptions:
   - CodeParser
+LongMethod:
+  exceptions:
+  - Reek::SexpFormatter#self.format

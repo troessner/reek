@@ -1,7 +1,7 @@
 $:.unshift File.dirname(__FILE__)
 
 require 'reek/smells/smell_detector'
-require 'reek/printer'
+require 'reek/sexp_formatter'
 
 module Reek
   module Smells
@@ -29,7 +29,7 @@ module Reek
       def examine_context(method, report)
         smelly_calls(method).each do |call|
           report << SmellWarning.new(smell_name, method,
-                      "calls #{Printer.print(call)} multiple times")
+                      "calls #{SexpFormatter.format(call)} multiple times")
         end
       end
       

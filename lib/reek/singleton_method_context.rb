@@ -2,7 +2,7 @@ $:.unshift File.dirname(__FILE__)
 
 require 'reek/name'
 require 'reek/method_context'
-require 'reek/printer'
+require 'reek/sexp_formatter'
 
 module Reek
   class SingletonMethodContext < MethodContext
@@ -10,7 +10,7 @@ module Reek
     def initialize(outer, exp)
       super(outer, exp, false)
       @name = Name.new(exp[2])
-      @receiver = Printer.print(exp[1])
+      @receiver = SexpFormatter.format(exp[1])
       record_depends_on_self
     end
 
