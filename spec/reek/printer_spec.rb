@@ -29,4 +29,6 @@ describe Printer do
   should_print 'o=q.downcase'
   should_print 'true'
   should_print '"-#{q}xxx#{z.size}"'
+  should_print '0..5'
+  should_print '0..temp'
 end

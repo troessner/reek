@@ -35,6 +35,11 @@ module Reek
       s(exp)
     end
 
+    def process_dot2(exp)
+      @report = "#{Printer.print(exp[1])}..#{Printer.print(exp[2])}"
+      s(exp)
+    end
+
     def process_self(exp)
       @report = 'self'
       s(exp)
