@@ -1,7 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper.rb'
 
-require 'reek/code_parser'
-require 'reek/smells/smells'
+require 'reek/smells/smell_detector'
 require 'reek/report'
 require 'reek'
 
@@ -44,44 +43,5 @@ describe Report, " as a SortedSet" do
     rpt.length.should == 1
     rpt << SmellWarning.new('ha', "self", 'too many!')
     rpt.length.should == 1
-  end
-end
-
-describe 'sorting' do
-  before :each do
-    @long_method = SmellWarning.new('Long Method', 'x', 'too many!')
-    @large_class = SmellWarning.new('Large Class', 'y', 'too many!')
-  end
-
-  describe SortByContext do
-    before :each do
-      @sorter = SortByContext
-    end
-
-    it 'should return 0 for identical smells' do
-      @sorter.compare(@long_method, @long_method).should == 0
-    end
-
-    it 'should return non-0 for different smells' do
-      @sorter.compare(@long_method, @large_class).should_not == 0
-    end
-  end
-
-  describe SortBySmell do
-    before :each do
-      @sorter = SortBySmell
-    end
-
-    it 'should return 0 for identical smells' do
-      @sorter.compare(@long_method, @long_method).should == 0
-    end
-
-    it 'should differentiate identical smells with different contexts' do
-      @sorter.compare(SmellWarning.new('Long Method', 'x', 'too many!'), SmellWarning.new('Long Method', 'y', 'too many!')).should == -1
-    end
-
-    it 'should differentiate different smells with identical contexts' do
-      @sorter.compare(@long_method, @large_class).should == 1
-    end
   end
 end

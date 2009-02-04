@@ -23,7 +23,7 @@ describe 'exit status', 'when reek is used incorrectly' do
   end
 
   it 'should return non-zero status on missing argument' do
-    `ruby -Ilib bin/reek -s 2>/dev/null`
+    `ruby -Ilib bin/reek -f 2>/dev/null`
     $?.exitstatus.should == 1
   end
 

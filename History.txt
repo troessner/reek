@@ -2,6 +2,8 @@
 
 * Major enhancements:
   * Place *.reek files in source folder to configure smell detection behaviour
+  * Added -f option to configure report format
+  * --sort_order replaced by -f, -c and -s
 * Minor enhancements:
   * Smells in singleton methods are now analysed
   * Uncommunicative parameter names in blocks now reported

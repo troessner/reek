@@ -1,7 +1,5 @@
 $:.unshift File.dirname(__FILE__)
 
-require 'sexp_processor'
-
 module Reek
   class SexpFormatter
     def self.format(sexp)

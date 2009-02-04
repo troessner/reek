@@ -1,19 +1,20 @@
 $:.unshift File.dirname(__FILE__)
 
-require 'reek/report'
 require 'reek/version'
 require 'optparse'
 
 include Reek
 
 module Reek
-
-  class Options
     
+  class Options
+
+    CTX_SORT = '%c %w (%s)'
+    SMELL_SORT = '[%s] %c %w'
+
     def self.default_options
       {
-        :sort_order => Report::SORT_ORDERS[:context],
-        :expressions => []
+        :format => CTX_SORT
       }
     end
     
@@ -69,10 +70,14 @@ EOB
     end
 
     def self.set_sort_option(config, opts)
-      sort_options = Report::SORT_ORDERS.keys
-      opts.on('-s', "--sort ORDER", sort_options,
-        "Select sort order for report (#{sort_options.join(', ')})") do |arg|
-        config[:sort_order] = Report::SORT_ORDERS[arg] unless arg.nil?
+      opts.on('-f', "--format FORMAT", 'Specify the format of smell warnings') do |arg|
+        config[:format] = arg unless arg.nil?
+      end
+      opts.on('-c', "Sort by context; sets the format string to \"#{CTX_SORT}\"") do
+        config[:format] = CTX_SORT
+      end
+      opts.on('-s', "Sort by smell; sets the format string to \"#{SMELL_SORT}\"") do
+        config[:format] = SMELL_SORT
       end
     end
     

@@ -64,22 +64,18 @@ module Reek
         @warning = warning
       end
 
-      def detailed_report
-        "%c %w".gsub(/\%c/, @context.to_s).gsub(/\%w/, @warning)
-      end
-
       def hash  # :nodoc:
         report.hash
       end
 
       def <=>(other)  # :nodoc:
-        Options[:sort_order].compare(self, other)
+        report <=> other.report
       end
 
       alias eql? <=>
 
       def report
-        "[#{@smell}] #{detailed_report}"
+        Options[:format].gsub(/\%s/, @smell).gsub(/\%c/, @context.to_s).gsub(/\%w/, @warning)
       end
 
       alias inspect report

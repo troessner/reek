@@ -6,34 +6,8 @@ include Reek
 
 describe Options, ' when given no arguments' do
   it "should retain the default sort order" do
-    default_order = Options[:sort_order]
+    default_order = Options[:format]
     Options.parse ['nosuchfile.rb']
-    Options[:sort_order].should == default_order
-  end
-end
-
-describe Options, ' when --sort_order is specified' do
-  before :each do
-    @default_order = Options[:sort_order]
-  end
-
-  it 'should require an argument' do
-    lambda { Options.parse_args(['-s']) }.should raise_error(OptionParser::MissingArgument)
-    Options[:sort_order].should == @default_order
-  end
-
-  it "should allow sort by smell" do
-    Options.parse %w{-s smell xx}
-    Options[:sort_order].should == Report::SORT_ORDERS[:smell]
-  end
-
-  it "should allow sort by context" do
-    Options.parse %w{-s context xx}
-    Options[:sort_order].should == Report::SORT_ORDERS[:context]
-  end
-
-  it "should reject illegal sort order" do
-    lambda { Options.parse_args(%w{-s tarts}) }.should raise_error(OptionParser::InvalidArgument)
-    Options[:sort_order].should == @default_order
+    Options[:format].should == default_order
   end
 end

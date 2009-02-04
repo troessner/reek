@@ -8,17 +8,17 @@ describe 'Integration test:' do
         @expected.each {|line| line.chomp!}
       end
 
-      it 'should report the correct smells' do
-        actual = `ruby -Ilib bin/reek #{source} 2>/dev/null`.split(/\n/)
-        @expected.zip(actual).each do |p|
-          actual_line = p[1] ? p[1].chomp : p[1]
-          actual_line.should == p[0]
-        end
-        actual.length.should == @expected.length
-      end
+#      it 'should report the correct smells' do
+#        actual = `ruby -Ilib bin/reek #{source} 2>/dev/null`.split(/\n/)
+#        @expected.zip(actual).each do |p|
+#          actual_line = p[1] ? p[1].chomp : p[1]
+#          actual_line.should == p[0]
+#        end
+#        actual.length.should == @expected.length
+#      end
 
       it 'should report the correct smells in smell order' do
-        actual = `ruby -Ilib bin/reek --sort smell #{source} 2>/dev/null`.split(/\n/)
+        actual = `ruby -Ilib bin/reek -s #{source} 2>/dev/null`.split(/\n/)
         @expected.sort.zip(actual).each do |p|
           actual_line = p[1] ? p[1].chomp : p[1]
           actual_line.should == p[0]
