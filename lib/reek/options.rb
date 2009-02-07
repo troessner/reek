@@ -36,6 +36,7 @@ module Reek
 Usage: #{opts.program_name} [options] SOURCES
 
 The SOURCES may be any combination of file paths and Ruby source code.
+See http://wiki.github.com/kevinrutherford/reek for detailed help.
 EOB
       
       opts.separator "\nOptions:"
@@ -73,10 +74,10 @@ EOB
       opts.on('-f', "--format FORMAT", 'Specify the format of smell warnings') do |arg|
         config[:format] = arg unless arg.nil?
       end
-      opts.on('-c', "Sort by context; sets the format string to \"#{CTX_SORT}\"") do
+      opts.on('-c', '--context-first', "Sort by context; sets the format string to \"#{CTX_SORT}\"") do
         config[:format] = CTX_SORT
       end
-      opts.on('-s', "Sort by smell; sets the format string to \"#{SMELL_SORT}\"") do
+      opts.on('-s', '--smell-first', "Sort by smell; sets the format string to \"#{SMELL_SORT}\"") do
         config[:format] = SMELL_SORT
       end
     end
