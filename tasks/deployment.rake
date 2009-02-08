@@ -8,7 +8,9 @@ require File.dirname(__FILE__) + '/../lib/reek'
 $hoe = Hoe.new('reek', ::Reek::VERSION) do |p|
   p.developer('Kevin Rutherford', 'kevin@rutherford-software.com')
   p.changes              = p.paragraphs_of("History.txt", 0..1).join("\n\n")
-  p.post_install_message = 'PostInstall.txt' # TODO remove if post-install message not required
+  p.post_install_message = '
+For more information on reek, see http://wiki.github.com/kevinrutherford/reek
+'
   p.rubyforge_name       = p.name # TODO this is default value
   p.extra_deps         = [
     ['ParseTree', '~> 3.0'],
@@ -22,7 +24,9 @@ $hoe = Hoe.new('reek', ::Reek::VERSION) do |p|
   path = (p.rubyforge_name == p.name) ? p.rubyforge_name : "\#{p.rubyforge_name}/\#{p.name}"
   p.remote_rdoc_dir = File.join(path.gsub(/^#{p.rubyforge_name}\/?/,''), 'rdoc')
   p.rsync_args = '-av --delete --ignore-errors'
+  p.summary = 'Code smell detector for Ruby'
 end
+$hoe.spec.homepage = 'http://wiki.github.com/kevinrutherford/reek'
 
 desc "Generate a #{$hoe.name}.gemspec file"
 task :gemspec do

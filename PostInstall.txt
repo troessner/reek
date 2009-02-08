@@ -1,2 +1,0 @@
-
-For more information on reek, see http://wiki.github.com/kevinrutherford/reek
