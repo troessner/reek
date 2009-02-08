@@ -1,6 +1,7 @@
 $:.unshift File.dirname(__FILE__)
 
-require 'sexp'
+require 'rubygems'
+require 'sexp_processor'
 
 module Reek
 

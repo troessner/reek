@@ -1,7 +1,6 @@
 $:.unshift File.dirname(__FILE__)
 
 require 'optparse'
-require 'reek'
 
 module Reek
     
