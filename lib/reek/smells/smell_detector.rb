@@ -68,17 +68,23 @@ module Reek
         report.hash
       end
 
-      def <=>(other)  # :nodoc:
+      def <=>(other)
         report <=> other.report
       end
 
-      alias eql? <=>
+      alias eql? <=>  # :nodoc:
 
+      #
+      # Returns a copy of the current report format (see +Options+)
+      # in which the following magic tokens have been substituted:
+      # 
+      # * %s <-- the name of the smell that was detected
+      # * %c <-- a description of the +CodeContext+ containing the smell
+      # * %w <-- the specific problem that was detected
+      #
       def report
         Options[:format].gsub(/\%s/, @smell).gsub(/\%c/, @context.to_s).gsub(/\%w/, @warning)
       end
-
-      alias inspect report
     end
   end
 end

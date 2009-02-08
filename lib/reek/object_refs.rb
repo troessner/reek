@@ -5,7 +5,7 @@ require 'sexp_processor'
 
 module Reek
 
-  class ObjectRefs
+  class ObjectRefs  # :nodoc:
     def initialize
       @refs = Hash.new(0)
       record_reference_to_self

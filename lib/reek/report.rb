@@ -1,6 +1,7 @@
 $:.unshift File.dirname(__FILE__)
 
 require 'set'
+require 'smells/smell_detector'
 
 module Reek
   class Report
@@ -27,7 +28,7 @@ module Reek
       @report.to_a[index]
     end
 
-    # Creates a formatted report of all the smells recorded in
+    # Creates a formatted report of all the +Smells::SmellWarning+ objects recorded in
     # this report.
     def to_s
       @report.map {|smell| smell.report}.join("\n")
