@@ -8,9 +8,10 @@ $hoe = Hoe.new('reek', Reek::VERSION) do |p|
   p.changes              = p.paragraphs_of("History.txt", 0..1).join("\n\n")
   p.post_install_message = 'PostInstall.txt' # TODO remove if post-install message not required
   p.rubyforge_name       = p.name # TODO this is default value
-  # p.extra_deps         = [
-  #   ['activesupport','>= 2.0.2'],
-  # ]
+  p.extra_deps         = [
+    ['ParseTree', '~> 3.0'],
+    ['sexp_processor', '~> 3.0']
+  ]
   p.extra_dev_deps = [
     ['newgem', ">= #{::Newgem::VERSION}"]
   ]
@@ -21,5 +22,4 @@ $hoe = Hoe.new('reek', Reek::VERSION) do |p|
   p.rsync_args = '-av --delete --ignore-errors'
 end
 
-require 'newgem/tasks' # load /tasks/*.rake
 Dir['tasks/**/*.rake'].each { |t| load t }
