@@ -1,8 +1,6 @@
 $:.unshift File.dirname(__FILE__)
 
-require 'rubygems'
 require 'sexp'
-require 'reek/printer'
 
 module Reek
 

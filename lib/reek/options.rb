@@ -1,9 +1,7 @@
 $:.unshift File.dirname(__FILE__)
 
-require 'reek/version'
 require 'optparse'
-
-include Reek
+require 'reek'
 
 module Reek
     
@@ -58,7 +56,7 @@ EOB
     
     def self.set_version_option(opts)
       opts.on("-v", "--version", "Show version") do
-        puts "#{opts.program_name} #{Reek::VERSION::STRING}"
+        puts "#{opts.program_name} #{Reek::VERSION}"
         exit(0)
       end
     end

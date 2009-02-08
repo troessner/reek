@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-APP_ROOT = File.join(File.dirname(__FILE__), '..')
+APP_ROOT = File.expand_path(File.join(File.dirname(__FILE__), '..'))
 
 begin
   require 'rubigen'

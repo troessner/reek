@@ -32,7 +32,6 @@ lib/reek/smells/smells.rb
 lib/reek/smells/uncommunicative_name.rb
 lib/reek/smells/utility_function.rb
 lib/reek/stop_context.rb
-lib/reek/version.rb
 lib/reek/yield_call_context.rb
 setup.rb
 spec/integration/integration_spec.rb

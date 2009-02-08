@@ -1,13 +1,11 @@
 require File.dirname(__FILE__) + '/../spec_helper.rb'
 
-require 'reek/version'
-
 describe 'version number' do
   it 'should report the correct value' do
     actual = `ruby -Ilib bin/reek --version`.split
     $?.exitstatus.should == 0
     actual[0].should == 'reek'
-    actual[1].should == Reek::VERSION::STRING
+    actual[1].should == Reek::VERSION
   end
 end
 

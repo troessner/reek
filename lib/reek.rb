@@ -4,6 +4,8 @@ require 'reek/code_parser'
 require 'reek/report'
 
 module Reek # :doc:
+  
+  VERSION = '0.3.99'
 
   #
   # Analyse the given source, looking for code smells.
