@@ -15,7 +15,7 @@ module Reek
 
       def initialize(config = {})
         super
-        @max_statements = config.fetch('max_calls', 5)
+        @max_statements = config.fetch('max_statements', 5)
       end
 
       #

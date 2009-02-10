@@ -42,7 +42,6 @@ module Reek
       end
       
       def exception?(context)
-#        puts "#{@exceptions.inspect} === #{context}" if smell_name == 'Feature Envy'
         return false if @exceptions.length == 0
         context.matches?(@exceptions)
       end
