@@ -20,10 +20,20 @@ module Reek
     #
     class UncommunicativeName < SmellDetector
 
-      BAD_NAMES_KEY = 'bad_names'
+      # The name of the config field that lists the regexps of
+      # smelly names to be rejected.
+      REJECT_KEY = 'reject'
+      
+      # The name of the config field that lists the specific names that are
+      # to be treated as exceptions; these names will not be reported as
+      # uncommunicative.
+      ACCEPT_KEY = 'accept'
 
       def self.default_config
-        super.adopt(BAD_NAMES_KEY => [/^.[0-9]*$/])
+        super.adopt(
+          REJECT_KEY => [/^.[0-9]*$/],
+          ACCEPT_KEY => ['Inline::C']
+        )
       end
 
       def self.contexts      # :nodoc:
@@ -32,20 +42,20 @@ module Reek
 
       def initialize(config = UncommunicativeName.default_config)
         super
-        @bad_names = config[BAD_NAMES_KEY]
+        @reject = config[REJECT_KEY]
+        @accept = config[ACCEPT_KEY]
       end
 
       #
-      # Checks the given +method+ for uncommunicative method name,
-      # parameter names, local variable names and instance variable names.
+      # Checks the given +context+ for uncommunicative names.
       # Any smells found are added to the +report+.
       #
       def examine_context(context, report)
         consider_name(context, report)
         consider_variables(context, report)
       end
-      
-      def consider_variables(context, report)
+
+      def consider_variables(context, report) # :nodoc:
         context.variable_names.each do |name|
           next unless is_bad_name?(name)
           report << SmellWarning.new(smell_name, context,
@@ -55,15 +65,16 @@ module Reek
 
       def consider_name(context, report)  # :nodoc:
         name = context.name
+        return false if @accept.include?(context.to_s)  # TODO: fq_name() ?
         return false unless is_bad_name?(name)
         report << SmellWarning.new(smell_name, context,
                       "has the name '#{name}'")
       end
 
-      def is_bad_name?(name)
+      def is_bad_name?(name)  # :nodoc:
         var = name.effective_name
-        return false if var == '*'
-        @bad_names.detect {|patt| patt === var}
+        return false if var == '*' or @accept.include?(var)
+        @reject.detect {|patt| patt === var}
       end
     end
   end

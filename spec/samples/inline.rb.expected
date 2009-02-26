@@ -1,33 +1,33 @@
-[Control Couple] Inline::C#parse_signature is controlled by argument raw
-[Control Couple] Module#inline is controlled by argument options
-[Duplication] Inline::C#build calls $?.==(0) multiple times
-[Duplication] Inline::C#build calls Inline.directory multiple times
-[Duplication] Inline::C#build calls io.puts(#endif) multiple times
-[Duplication] Inline::C#build calls io.puts(#ifdef __cplusplus) multiple times
-[Duplication] Inline::C#build calls io.puts multiple times
-[Duplication] Inline::C#crap_for_windoze calls Config::CONFIG[libdir] multiple times
-[Duplication] Inline::C#generate calls result.sub!((?-mix:\A\n), ) multiple times
-[Duplication] Inline::C#generate calls signature[args].map multiple times
-[Duplication] Inline::C#generate calls signature[args] multiple times
-[Duplication] Inline::C#initialize calls stack.empty? multiple times
-[Duplication] Inline::self.rootdir calls env.nil? multiple times
-[Duplication] Module#inline calls Inline.const_get(lang) multiple times
-[Feature Envy] Inline::C#module_name refers to md5 more than self
-[Feature Envy] Inline::C#strip_comments refers to src more than self
-[Large Class] Inline::C has at least 46 methods
-[Long Method] File#self.write_with_backup has approx 6 statements
-[Long Method] Inline::C#build has approx 61 statements
-[Long Method] Inline::C#generate has approx 33 statements
-[Long Method] Inline::C#load_cache has approx 7 statements
-[Long Method] Inline::C#module_name has approx 6 statements
-[Long Method] Inline::C#parse_signature has approx 15 statements
-[Long Method] Inline::self.rootdir has approx 9 statements
-[Long Method] Module#inline has approx 12 statements
-[Nested Iterators] Inline::C#build/block/block is nested
-[Uncommunicative Name] Inline::C#build/block/block has the variable name 'n'
-[Uncommunicative Name] Inline::C#build has the variable name 't'
-[Uncommunicative Name] Inline::C#c has the name 'c'
-[Uncommunicative Name] Inline::C#module_name/block has the variable name 'm'
-[Uncommunicative Name] Inline::C#module_name/block has the variable name 'x'
-[Uncommunicative Name] Inline::C#parse_signature/block has the variable name 'x'
-[Utility Function] Inline::C#strip_comments doesn't depend on instance state
+File#self.write_with_backup has approx 6 statements (Long Method)
+Inline::C has at least 46 methods (Large Class)
+Inline::C#build calls $?.==(0) multiple times (Duplication)
+Inline::C#build calls Inline.directory multiple times (Duplication)
+Inline::C#build calls io.puts multiple times (Duplication)
+Inline::C#build calls io.puts(#endif) multiple times (Duplication)
+Inline::C#build calls io.puts(#ifdef __cplusplus) multiple times (Duplication)
+Inline::C#build has approx 61 statements (Long Method)
+Inline::C#build has the variable name 't' (Uncommunicative Name)
+Inline::C#build/block/block has the variable name 'n' (Uncommunicative Name)
+Inline::C#build/block/block is nested (Nested Iterators)
+Inline::C#c has the name 'c' (Uncommunicative Name)
+Inline::C#crap_for_windoze calls Config::CONFIG[libdir] multiple times (Duplication)
+Inline::C#generate calls result.sub!((?-mix:\A\n), ) multiple times (Duplication)
+Inline::C#generate calls signature[args] multiple times (Duplication)
+Inline::C#generate calls signature[args].map multiple times (Duplication)
+Inline::C#generate has approx 33 statements (Long Method)
+Inline::C#initialize calls stack.empty? multiple times (Duplication)
+Inline::C#load_cache has approx 7 statements (Long Method)
+Inline::C#module_name has approx 6 statements (Long Method)
+Inline::C#module_name refers to md5 more than self (Feature Envy)
+Inline::C#module_name/block has the variable name 'm' (Uncommunicative Name)
+Inline::C#module_name/block has the variable name 'x' (Uncommunicative Name)
+Inline::C#parse_signature has approx 15 statements (Long Method)
+Inline::C#parse_signature is controlled by argument raw (Control Couple)
+Inline::C#parse_signature/block has the variable name 'x' (Uncommunicative Name)
+Inline::C#strip_comments doesn't depend on instance state (Utility Function)
+Inline::C#strip_comments refers to src more than self (Feature Envy)
+Inline::self.rootdir calls env.nil? multiple times (Duplication)
+Inline::self.rootdir has approx 9 statements (Long Method)
+Module#inline calls Inline.const_get(lang) multiple times (Duplication)
+Module#inline has approx 12 statements (Long Method)
+Module#inline is controlled by argument options (Control Couple)
