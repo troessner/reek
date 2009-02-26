@@ -27,7 +27,7 @@ module Reek
       end
 
       def self.contexts      # :nodoc:
-        [:class, :defn, :defs, :iter]
+        [:module, :class, :defn, :defs, :iter]
       end
 
       def initialize(config = UncommunicativeName.default_config)

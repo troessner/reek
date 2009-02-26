@@ -5,7 +5,6 @@ require 'reek/code_context'
 module Reek
   class BlockContext < CodeContext
     attr_reader :parameters, :local_variables
-    attr_reader :name
 
     def initialize(outer, exp)
       super
