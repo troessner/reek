@@ -60,7 +60,6 @@ spec/reek/smells/uncommunicative_name_spec.rb
 spec/reek/smells/utility_function_spec.rb
 spec/samples/inline.rb
 spec/samples/inline.rb.expected
-spec/samples/inline.rb.reek
 spec/samples/optparse.rb
 spec/samples/optparse.rb.expected
 spec/samples/optparse/date.rb
