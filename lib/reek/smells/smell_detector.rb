@@ -21,6 +21,13 @@ module Reek
       def self.contexts      # :nodoc:
         [:defn, :defs]
       end
+      
+      def self.default_config
+        {
+          'enabled' => true,
+          'exceptions' => []
+        }
+      end
 
       def self.listen(hooks, config)
         detector = new(config[class_name])
@@ -28,8 +35,8 @@ module Reek
       end
 
       def initialize(config)
-        @enabled = config.fetch('enabled', true)
-        @exceptions = config.fetch('exceptions', [])
+        @enabled = config['enabled']
+        @exceptions = config['exceptions']
       end
 
       def examine(context, report)
@@ -42,7 +49,7 @@ module Reek
       end
       
       def exception?(context)
-        return false if @exceptions.length == 0
+        return false if @exceptions.nil? or @exceptions.length == 0
         context.matches?(@exceptions)
       end
 

@@ -15,9 +15,25 @@ require 'yaml'
 class Hash
   def value_merge!(other)
     other.keys.each do |key|
-      self[key].merge!(other[key])
+      self[key].adopt!(other[key])
     end
     self
+  end
+  
+  def adopt!(other)
+    other.keys.each do |key|
+      ov = other[key]
+      if Array === ov and has_key?(key)
+        self[key] += ov
+      else
+        self[key] = ov
+      end
+    end
+    self
+  end
+  
+  def adopt(other)
+    self.deep_copy.adopt!(other)
   end
   
   def deep_copy

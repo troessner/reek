@@ -26,4 +26,17 @@ describe 'Config' do
     second = @first.deep_copy
     second['two'].object_id.should_not be_eql(@first['two'].object_id)
   end
+  
+  it 'should merge array values' do
+    @first['three'] = [1,2,3]
+  end
+end
+
+describe Config, 'merging arrays' do
+  it 'should merge array values' do
+    first = {'key' => {'one' => [1,2,3]}}
+    second = {'key' => {'one' => [4,5]}}
+    first.value_merge!(second)
+    first['key']['one'].should == [1,2,3,4,5]
+  end
 end

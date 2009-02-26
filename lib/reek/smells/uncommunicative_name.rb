@@ -20,13 +20,19 @@ module Reek
     #
     class UncommunicativeName < SmellDetector
 
+      BAD_NAMES_KEY = 'bad_names'
+
+      def self.default_config
+        super.adopt(BAD_NAMES_KEY => [/^.[0-9]*$/])
+      end
+
       def self.contexts      # :nodoc:
         [:class, :defn, :defs, :iter]
       end
 
-      def initialize(config = {})
+      def initialize(config = UncommunicativeName.default_config)
         super
-        @bad_names = config.fetch('bad_names', [/^.[0-9]*$/])
+        @bad_names = config[BAD_NAMES_KEY]
       end
 
       #

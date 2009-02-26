@@ -21,3 +21,6 @@ Spec::Rake::SpecTask.new(:cruise) do |t|
   t.spec_files = UNITS + INTEGS
   t.rcov = false
 end
+
+task :spec => [:mkconfig]
+task :cruise => [:mkconfig]

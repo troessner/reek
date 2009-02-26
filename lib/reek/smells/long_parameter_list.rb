@@ -15,9 +15,15 @@ module Reek
     #
     class LongParameterList < SmellDetector
 
-      def initialize(config = {})
+      MAX_ALLOWED_PARAMS_KEY = 'max_params'
+
+      def self.default_config
+        super.adopt(MAX_ALLOWED_PARAMS_KEY => 3)
+      end
+
+      def initialize(config)
         super
-        @max_params = config.fetch('max_params', 3)
+        @max_params = config['max_params']
         @action = 'has'
       end
       

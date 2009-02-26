@@ -13,9 +13,18 @@ module Reek
     #
     class LongMethod < SmellDetector
 
-      def initialize(config = {})
+      MAX_ALLOWED_STATEMENTS_KEY = 'max_statements'
+
+      def self.default_config
+        super.adopt(
+          MAX_ALLOWED_STATEMENTS_KEY => 5,
+          'exceptions' => ['initialize']
+        )
+      end
+
+      def initialize(config = LongMethod.default_config)
         super
-        @max_statements = config.fetch('max_statements', 5)
+        @max_statements = config[MAX_ALLOWED_STATEMENTS_KEY]
       end
 
       #
@@ -24,7 +33,7 @@ module Reek
       #
       def examine_context(method, report)
         num = method.num_statements
-        return false if method.constructor? or num <= @max_statements
+        return false if num <= @max_statements
         report << SmellWarning.new(smell_name, method,
                     "has approx #{num} statements")
       end

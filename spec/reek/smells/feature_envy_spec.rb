@@ -64,7 +64,7 @@ describe FeatureEnvy, '#examine' do
 
   before :each do
     @context = MethodContext.new(StopContext.new, [:defn, :cool])
-    @fe = FeatureEnvy.new({})
+    @fe = FeatureEnvy.new
   end
 
   it 'should return true when reporting a smell' do

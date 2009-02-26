@@ -35,10 +35,6 @@ module Reek
       parameters.include?(sym.to_s)
     end
     
-    def constructor?
-      @name.to_s == 'initialize'
-    end
-    
     def record_call_to(exp)
       @calls[exp] += 1
     end
@@ -68,7 +64,7 @@ module Reek
     end
 
     def envious_receivers
-      return [] if constructor? or @refs.self_is_max?
+      return [] if @refs.self_is_max?
       @refs.max_keys
     end
 

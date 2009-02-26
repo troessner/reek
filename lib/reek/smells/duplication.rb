@@ -21,9 +21,15 @@ module Reek
     #
     class Duplication < SmellDetector
 
-      def initialize(config = {})
+      MAX_ALLOWED_CALLS_KEY = 'max_calls'
+
+      def self.default_config
+        super.adopt(MAX_ALLOWED_CALLS_KEY => 1)
+      end
+
+      def initialize(config = Duplication.default_config)
         super
-        @max_calls = config.fetch('max_calls', 1)
+        @max_calls = config[MAX_ALLOWED_CALLS_KEY]
       end
 
       def examine_context(method, report)

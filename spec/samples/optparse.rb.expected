@@ -1,93 +1,93 @@
-[Large Class] OptionParser has at least 60 methods
-[Nested Iterators] OptionParser#CompletingHash#match/block/block is nested
-[Duplication] OptionParser#Completion::complete calls candidates.size multiple times
-[Duplication] OptionParser#Completion::complete calls k.id2name multiple times
-[Long Method] OptionParser#Completion::complete has approx 23 statements
-[Uncommunicative Name] OptionParser#Completion::complete has the variable name 'k'
-[Uncommunicative Name] OptionParser#Completion::complete has the variable name 'v'
-[Feature Envy] OptionParser#Completion::complete refers to candidates more than self
-[Uncommunicative Name] OptionParser#List#accept has the variable name 't'
-[Control Couple] OptionParser#List#accept is controlled by argument pat
-[Feature Envy] OptionParser#List#accept refers to pat more than self
-[Long Parameter List] OptionParser#List#complete has 4 parameters
-[Uncommunicative Name] OptionParser#List#reject has the variable name 't'
-[Long Parameter List] OptionParser#List#update has 5 parameters
-[Long Method] OptionParser#List#update has approx 6 statements
-[Uncommunicative Name] OptionParser#List#update has the variable name 'o'
-[Control Couple] OptionParser#List#update is controlled by argument lopts
-[Control Couple] OptionParser#List#update is controlled by argument sopts
-[Control Couple] OptionParser#ParseError#set_option is controlled by argument eq
-[Control Couple] OptionParser#Switch#NoArgument#parse is controlled by argument arg
-[Control Couple] OptionParser#Switch#OptionalArgument#parse is controlled by argument arg
-[Long Method] OptionParser#Switch#PlacedArgument#parse has approx 6 statements
-[Control Couple] OptionParser#Switch#RequiredArgument#parse is controlled by argument arg
-[Uncommunicative Name] OptionParser#Switch#add_banner has the variable name 's'
-[Long Parameter List] OptionParser#Switch#initialize has 7 parameters
-[Duplication] OptionParser#Switch#parse_arg calls s.length multiple times
-[Long Method] OptionParser#Switch#parse_arg has approx 12 statements
-[Uncommunicative Name] OptionParser#Switch#parse_arg has the variable name 'm'
-[Uncommunicative Name] OptionParser#Switch#parse_arg has the variable name 's'
-[Feature Envy] OptionParser#Switch#parse_arg refers to arg more than self
-[Uncommunicative Name] OptionParser#Switch#self.guess has the variable name 't'
-[Uncommunicative Name] OptionParser#Switch#self.incompatible_argument_styles has the variable name 't'
-[Duplication] OptionParser#Switch#summarize calls block.max multiple times
-[Duplication] OptionParser#Switch#summarize calls block.max.to_i multiple times
-[Duplication] OptionParser#Switch#summarize calls indent.+(l) multiple times
-[Duplication] OptionParser#Switch#summarize calls left.collect multiple times
-[Duplication] OptionParser#Switch#summarize calls left.shift multiple times
-[Duplication] OptionParser#Switch#summarize calls left[-1] multiple times
-[Duplication] OptionParser#Switch#summarize calls s.length multiple times
-[Long Parameter List] OptionParser#Switch#summarize has 5 parameters
-[Long Method] OptionParser#Switch#summarize has approx 27 statements
-[Uncommunicative Name] OptionParser#Switch#summarize has the variable name 'l'
-[Uncommunicative Name] OptionParser#Switch#summarize has the variable name 'r'
-[Uncommunicative Name] OptionParser#Switch#summarize has the variable name 's'
-[Feature Envy] OptionParser#Switch#summarize refers to left more than self
-[Nested Iterators] OptionParser#Switch#summarize/block/block is nested
-[Uncommunicative Name] OptionParser#block has the variable name 'f'
-[Uncommunicative Name] OptionParser#block has the variable name 'k'
-[Uncommunicative Name] OptionParser#block has the variable name 'o'
-[Uncommunicative Name] OptionParser#block has the variable name 's'
-[Uncommunicative Name] OptionParser#block/block has the variable name 'v'
-[Nested Iterators] OptionParser#block/block is nested
-[Long Parameter List] OptionParser#complete has 4 parameters
-[Nested Iterators] OptionParser#complete/block/block is nested
-[Long Method] OptionParser#getopts has approx 17 statements
-[Uncommunicative Name] OptionParser#load/block has the variable name 's'
-[Duplication] OptionParser#make_switch calls default_style.guess(arg=a) multiple times
-[Duplication] OptionParser#make_switch calls long.<<(o=q.downcase) multiple times
-[Duplication] OptionParser#make_switch calls pattern.method(convert) multiple times
-[Duplication] OptionParser#make_switch calls pattern.method(convert).to_proc multiple times
-[Duplication] OptionParser#make_switch calls pattern.respond_to?(convert) multiple times
-[Duplication] OptionParser#make_switch calls q.downcase multiple times
-[Duplication] OptionParser#make_switch calls sdesc.<<("-#{q}") multiple times
-[Long Method] OptionParser#make_switch has approx 69 statements
-[Uncommunicative Name] OptionParser#make_switch has the variable name 'a'
-[Uncommunicative Name] OptionParser#make_switch has the variable name 'n'
-[Uncommunicative Name] OptionParser#make_switch has the variable name 'o'
-[Uncommunicative Name] OptionParser#make_switch has the variable name 'q'
-[Uncommunicative Name] OptionParser#make_switch has the variable name 's'
-[Uncommunicative Name] OptionParser#make_switch/block/block has the variable name 'c'
-[Uncommunicative Name] OptionParser#make_switch/block/block has the variable name 'v'
-[Nested Iterators] OptionParser#make_switch/block/block is nested
-[Nested Iterators] OptionParser#make_switch/block/block/block is nested
-[Duplication] OptionParser#order calls argv[0] multiple times
-[Feature Envy] OptionParser#order refers to argv more than self
-[Duplication] OptionParser#parse calls argv[0] multiple times
-[Feature Envy] OptionParser#parse refers to argv more than self
-[Duplication] OptionParser#parse_in_order calls $!.set_option(arg, true) multiple times
-[Duplication] OptionParser#parse_in_order calls cb.call(val) multiple times
-[Duplication] OptionParser#parse_in_order calls setter.call(sw.switch_name, val) multiple times
-[Duplication] OptionParser#parse_in_order calls sw.block multiple times
-[Duplication] OptionParser#parse_in_order calls sw.switch_name multiple times
-[Long Method] OptionParser#parse_in_order has approx 30 statements
-[Control Couple] OptionParser#parse_in_order/block is controlled by argument setter
-[Nested Iterators] OptionParser#parse_in_order/block/block is nested
-[Nested Iterators] OptionParser#parse_in_order/block/block/block is nested
-[Duplication] OptionParser#permute calls argv[0] multiple times
-[Feature Envy] OptionParser#permute refers to argv more than self
-[Uncommunicative Name] OptionParser#search/block has the variable name 'k'
-[Long Parameter List] OptionParser#summarize has 4 parameters
-[Uncommunicative Name] OptionParser#summarize/block has the variable name 'l'
-[Uncommunicative Name] OptionParser#ver has the variable name 'v'
-[Uncommunicative Name] block has the variable name 'q'
+OptionParser has at least 60 methods (Large Class)
+OptionParser#CompletingHash#match/block/block is nested (Nested Iterators)
+OptionParser#Completion::complete calls candidates.size multiple times (Duplication)
+OptionParser#Completion::complete calls k.id2name multiple times (Duplication)
+OptionParser#Completion::complete has approx 23 statements (Long Method)
+OptionParser#Completion::complete has the variable name 'k' (Uncommunicative Name)
+OptionParser#Completion::complete has the variable name 'v' (Uncommunicative Name)
+OptionParser#Completion::complete refers to candidates more than self (Feature Envy)
+OptionParser#List#accept has the variable name 't' (Uncommunicative Name)
+OptionParser#List#accept is controlled by argument pat (Control Couple)
+OptionParser#List#accept refers to pat more than self (Feature Envy)
+OptionParser#List#complete has 4 parameters (Long Parameter List)
+OptionParser#List#reject has the variable name 't' (Uncommunicative Name)
+OptionParser#List#update has 5 parameters (Long Parameter List)
+OptionParser#List#update has approx 6 statements (Long Method)
+OptionParser#List#update has the variable name 'o' (Uncommunicative Name)
+OptionParser#List#update is controlled by argument lopts (Control Couple)
+OptionParser#List#update is controlled by argument sopts (Control Couple)
+OptionParser#ParseError#set_option is controlled by argument eq (Control Couple)
+OptionParser#Switch#NoArgument#parse is controlled by argument arg (Control Couple)
+OptionParser#Switch#OptionalArgument#parse is controlled by argument arg (Control Couple)
+OptionParser#Switch#PlacedArgument#parse has approx 6 statements (Long Method)
+OptionParser#Switch#RequiredArgument#parse is controlled by argument arg (Control Couple)
+OptionParser#Switch#add_banner has the variable name 's' (Uncommunicative Name)
+OptionParser#Switch#initialize has 7 parameters (Long Parameter List)
+OptionParser#Switch#parse_arg calls s.length multiple times (Duplication)
+OptionParser#Switch#parse_arg has approx 12 statements (Long Method)
+OptionParser#Switch#parse_arg has the variable name 'm' (Uncommunicative Name)
+OptionParser#Switch#parse_arg has the variable name 's' (Uncommunicative Name)
+OptionParser#Switch#parse_arg refers to arg more than self (Feature Envy)
+OptionParser#Switch#self.guess has the variable name 't' (Uncommunicative Name)
+OptionParser#Switch#self.incompatible_argument_styles has the variable name 't' (Uncommunicative Name)
+OptionParser#Switch#summarize calls block.max multiple times (Duplication)
+OptionParser#Switch#summarize calls block.max.to_i multiple times (Duplication)
+OptionParser#Switch#summarize calls indent.+(l) multiple times (Duplication)
+OptionParser#Switch#summarize calls left.collect multiple times (Duplication)
+OptionParser#Switch#summarize calls left.shift multiple times (Duplication)
+OptionParser#Switch#summarize calls left[-1] multiple times (Duplication)
+OptionParser#Switch#summarize calls s.length multiple times (Duplication)
+OptionParser#Switch#summarize has 5 parameters (Long Parameter List)
+OptionParser#Switch#summarize has approx 27 statements (Long Method)
+OptionParser#Switch#summarize has the variable name 'l' (Uncommunicative Name)
+OptionParser#Switch#summarize has the variable name 'r' (Uncommunicative Name)
+OptionParser#Switch#summarize has the variable name 's' (Uncommunicative Name)
+OptionParser#Switch#summarize refers to left more than self (Feature Envy)
+OptionParser#Switch#summarize/block/block is nested (Nested Iterators)
+OptionParser#block has the variable name 'f' (Uncommunicative Name)
+OptionParser#block has the variable name 'k' (Uncommunicative Name)
+OptionParser#block has the variable name 'o' (Uncommunicative Name)
+OptionParser#block has the variable name 's' (Uncommunicative Name)
+OptionParser#block/block has the variable name 'v' (Uncommunicative Name)
+OptionParser#block/block is nested (Nested Iterators)
+OptionParser#complete has 4 parameters (Long Parameter List)
+OptionParser#complete/block/block is nested (Nested Iterators)
+OptionParser#getopts has approx 17 statements (Long Method)
+OptionParser#load/block has the variable name 's' (Uncommunicative Name)
+OptionParser#make_switch calls default_style.guess(arg=a) multiple times (Duplication)
+OptionParser#make_switch calls long.<<(o=q.downcase) multiple times (Duplication)
+OptionParser#make_switch calls pattern.method(convert) multiple times (Duplication)
+OptionParser#make_switch calls pattern.method(convert).to_proc multiple times (Duplication)
+OptionParser#make_switch calls pattern.respond_to?(convert) multiple times (Duplication)
+OptionParser#make_switch calls q.downcase multiple times (Duplication)
+OptionParser#make_switch calls sdesc.<<("-#{q}") multiple times (Duplication)
+OptionParser#make_switch has approx 69 statements (Long Method)
+OptionParser#make_switch has the variable name 'a' (Uncommunicative Name)
+OptionParser#make_switch has the variable name 'n' (Uncommunicative Name)
+OptionParser#make_switch has the variable name 'o' (Uncommunicative Name)
+OptionParser#make_switch has the variable name 'q' (Uncommunicative Name)
+OptionParser#make_switch has the variable name 's' (Uncommunicative Name)
+OptionParser#make_switch/block/block has the variable name 'c' (Uncommunicative Name)
+OptionParser#make_switch/block/block has the variable name 'v' (Uncommunicative Name)
+OptionParser#make_switch/block/block is nested (Nested Iterators)
+OptionParser#make_switch/block/block/block is nested (Nested Iterators)
+OptionParser#order calls argv[0] multiple times (Duplication)
+OptionParser#order refers to argv more than self (Feature Envy)
+OptionParser#parse calls argv[0] multiple times (Duplication)
+OptionParser#parse refers to argv more than self (Feature Envy)
+OptionParser#parse_in_order calls $!.set_option(arg, true) multiple times (Duplication)
+OptionParser#parse_in_order calls cb.call(val) multiple times (Duplication)
+OptionParser#parse_in_order calls setter.call(sw.switch_name, val) multiple times (Duplication)
+OptionParser#parse_in_order calls sw.block multiple times (Duplication)
+OptionParser#parse_in_order calls sw.switch_name multiple times (Duplication)
+OptionParser#parse_in_order has approx 30 statements (Long Method)
+OptionParser#parse_in_order/block is controlled by argument setter (Control Couple)
+OptionParser#parse_in_order/block/block is nested (Nested Iterators)
+OptionParser#parse_in_order/block/block/block is nested (Nested Iterators)
+OptionParser#permute calls argv[0] multiple times (Duplication)
+OptionParser#permute refers to argv more than self (Feature Envy)
+OptionParser#search/block has the variable name 'k' (Uncommunicative Name)
+OptionParser#summarize has 4 parameters (Long Parameter List)
+OptionParser#summarize/block has the variable name 'l' (Uncommunicative Name)
+OptionParser#ver has the variable name 'v' (Uncommunicative Name)
+block has the variable name 'q' (Uncommunicative Name)

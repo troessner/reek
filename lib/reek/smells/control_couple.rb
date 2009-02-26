@@ -40,6 +40,14 @@ module Reek
         [:if]
       end
 
+      def self.default_config
+        super.adopt('exceptions' => ['initialize'])
+      end
+
+      def initialize(config = ControlCouple.default_config)
+        super
+      end
+
       #
       # Checks whether the given conditional statement relies on a control couple.
       # Any smells found are added to the +report+.

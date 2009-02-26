@@ -11,9 +11,8 @@ module Reek
         [:yield]
       end
 
-      def initialize(config = {})
+      def initialize(config)
         super
-        @max_params = config.fetch('max_params', 3)
         @action = 'yields'
       end
     end

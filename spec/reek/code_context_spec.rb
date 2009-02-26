@@ -78,7 +78,7 @@ describe CodeContext do
     element = StopContext.new
     element = ModuleContext.new(element, [0, :mod])
     element = ClassContext.new(element, [0, :klass])
-    element.matches?(['banana', 'mod']).should == false
+    element.matches?(['banana', 'mod']).should == true
     element.matches?(['banana', 'mod::klass']).should == true
   end
 

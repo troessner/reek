@@ -35,6 +35,14 @@ module Reek
     #
     class FeatureEnvy < SmellDetector
 
+      def self.default_config
+        super.adopt('exceptions' => ['initialize'])
+      end
+
+      def initialize(config = FeatureEnvy.default_config)
+        super
+      end
+
       #
       # Checks whether the given +context+ includes any code fragment that
       # might "belong" on another class.

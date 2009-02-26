@@ -16,14 +16,22 @@ module Reek
     #
     class LargeClass < SmellDetector
 
+      MAX_ALLOWED_METHODS_KEY = 'max_methods'
+
       def self.contexts      # :nodoc:
         [:class]
       end
 
-      def initialize(config = {})
+      def self.default_config
+        super.adopt(
+          MAX_ALLOWED_METHODS_KEY => 25,
+          'exceptions' => ['Hash', 'Module']
+          )
+      end
+
+      def initialize(config)
         super
-        @max_methods = config.fetch('max_methods', 25)
-        @exceptions += ['Hash', 'Module']
+        @max_methods = config[MAX_ALLOWED_METHODS_KEY]
       end
 
       #
