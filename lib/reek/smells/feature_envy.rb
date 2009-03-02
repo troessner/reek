@@ -34,7 +34,7 @@ module Reek
     class FeatureEnvy < SmellDetector
 
       def self.default_config
-        super.adopt('exceptions' => ['initialize'])
+        super.adopt(EXCLUDE_KEY => ['initialize'])
       end
 
       def initialize(config = FeatureEnvy.default_config)

@@ -16,7 +16,7 @@ module Reek
       def self.default_config
         super.adopt(
           MAX_ALLOWED_STATEMENTS_KEY => 5,
-          'exceptions' => ['initialize']
+          EXCLUDE_KEY => ['initialize']
         )
       end
 

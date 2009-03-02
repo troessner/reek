@@ -53,21 +53,21 @@ describe LargeClass do
     end
 
     it 'should ignore first excepted name' do
-      @config['exceptions'] = ['Humungous']
+      @config[LargeClass::EXCLUDE_KEY] = ['Humungous']
       lc = LargeClass.new(@config)
       lc.examine(@ctx, @rpt).should == false
       @rpt.length.should == 0
     end
 
     it 'should ignore second excepted name' do
-      @config['exceptions'] = ['Oversized', 'Humungous']
+      @config[LargeClass::EXCLUDE_KEY] = ['Oversized', 'Humungous']
       lc = LargeClass.new(@config)
       lc.examine(@ctx, @rpt).should == false
       @rpt.length.should == 0
     end
 
     it 'should report non-excepted name' do
-      @config['exceptions'] = ['SmellMe']
+      @config[LargeClass::EXCLUDE_KEY] = ['SmellMe']
       lc = LargeClass.new(@config)
       lc.examine(@ctx, @rpt).should == true
       @rpt.length.should == 1

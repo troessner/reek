@@ -39,7 +39,7 @@ module Reek
       end
 
       def self.default_config
-        super.adopt('exceptions' => ['initialize'])
+        super.adopt(EXCLUDE_KEY => ['initialize'])
       end
 
       def initialize(config = ControlCouple.default_config)
