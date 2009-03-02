@@ -1,5 +1,3 @@
-$:.unshift File.dirname(__FILE__)
-
 require 'reek/name'
 require 'reek/method_context'
 require 'reek/sexp_formatter'

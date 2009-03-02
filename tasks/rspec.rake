@@ -11,6 +11,7 @@ CLEAN.include(REPORT_DIR)
 desc "runs the specs and reports coverage in #{REPORT_DIR}"
 Spec::Rake::SpecTask.new(:spec) do |t|
   t.spec_files = UNITS
+  t.ruby_opts = ['-Ilib']
 #  t.rcov = true
 #  t.rcov_dir = REPORT_DIR
 #  t.rcov_opts = ['--exclude', 'spec,\.autotest']

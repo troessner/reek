@@ -1,5 +1,3 @@
-$:.unshift File.dirname(__FILE__)
-
 require 'reek/smells/control_couple'
 require 'reek/smells/duplication'
 require 'reek/smells/feature_envy'

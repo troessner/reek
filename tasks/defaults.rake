@@ -1,5 +1,3 @@
-$:.unshift 'lib'
-
 require 'rake/clean'
 require 'reek/smells/smells'
 require 'yaml'

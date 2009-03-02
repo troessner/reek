@@ -1,5 +1,3 @@
-$:.unshift File.dirname(__FILE__)
-
 require 'reek/smells/smells'
 require 'reek/code_context'
 

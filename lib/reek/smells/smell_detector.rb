@@ -1,5 +1,3 @@
-$:.unshift File.dirname(__FILE__)
-
 require 'reek/options'
 
 class Class
@@ -13,6 +11,15 @@ module Reek
   module Smells
 
     class SmellDetector
+
+      # The name of the config field that lists the names of code contexts
+      # that should not be checked. Add this field to the config for each
+      # smell that should ignore this code element.
+      EXCLUDE_KEY = 'exceptions'
+
+      # The name fo the config field that specifies whether a smell is
+      # enabled. Set to +true+ or +false+.
+      ENABLED_KEY = 'enabled'
       
       def self.class_name
         self.name.split(/::/)[-1]
@@ -24,8 +31,8 @@ module Reek
       
       def self.default_config
         {
-          'enabled' => true,
-          'exceptions' => []
+          ENABLED_KEY => true,
+          EXCLUDE_KEY => []
         }
       end
 
@@ -35,8 +42,8 @@ module Reek
       end
 
       def initialize(config)
-        @enabled = config['enabled']
-        @exceptions = config['exceptions']
+        @enabled = config[ENABLED_KEY]
+        @exceptions = config[EXCLUDE_KEY]
       end
 
       def examine(context, report)

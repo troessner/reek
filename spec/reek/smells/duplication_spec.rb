@@ -1,5 +1,3 @@
-require File.dirname(__FILE__) + '/../../spec_helper.rb'
-
 require 'spec/reek/code_checks'
 require 'reek/smells/duplication'
 
@@ -53,7 +51,7 @@ end
 describe Duplication, 'when disabled' do
   before :each do
     @ctx = MethodContext.new(StopContext.new, [0, :double_thing])
-    @dup = Duplication.new({'enabled' => false})
+    @dup = Duplication.new({SmellDetector::ENABLED_KEY => false})
     @rpt = Report.new
   end
 

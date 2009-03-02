@@ -1,5 +1,3 @@
-$:.unshift File.dirname(__FILE__)
-
 require 'reek/smells/smell_detector'
 
 module Reek

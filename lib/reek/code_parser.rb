@@ -1,5 +1,3 @@
-$:.unshift File.dirname(__FILE__)
-
 require 'rubygems'
 require 'parse_tree'
 require 'sexp_processor'

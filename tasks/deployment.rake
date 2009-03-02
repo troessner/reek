@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'newgem'
 require 'rubigen'
-require File.dirname(__FILE__) + '/../lib/reek'
+require 'reek'
 
 # Generate all the Rake tasks
 # Run 'rake -T' to see list of generated tasks (from gem root directory)

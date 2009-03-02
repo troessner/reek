@@ -1,7 +1,5 @@
-$:.unshift File.dirname(__FILE__)
-
 require 'set'
-require 'smells/smell_detector'
+require 'reek/smells/smell_detector'
 
 module Reek
   class Report

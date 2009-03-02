@@ -1,5 +1,3 @@
-$:.unshift File.dirname(__FILE__)
-
 require 'reek/name'
 require 'reek/code_context'
 require 'reek/object_refs'
