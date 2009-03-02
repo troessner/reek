@@ -1,6 +1,4 @@
-require 'rubygems'
 require 'newgem'
-require 'rubigen'
 require 'reek'
 
 # Generate all the Rake tasks
