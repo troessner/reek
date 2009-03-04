@@ -8,11 +8,13 @@ module Reek
     # or two parameters, or when a method yields more than one or
     # two objects to an associated block.
     #
-    # Currently +LongParameterList+ reports any method with more
-    # than +MAX_ALLOWED+ parameters.
+    # Currently +LongParameterList+ reports any method or block with too
+    # many parameters.
     #
     class LongParameterList < SmellDetector
 
+      # The name of the config field that sets the maximum number of
+      # parameters permitted in any method or block.
       MAX_ALLOWED_PARAMS_KEY = 'max_params'
 
       def self.default_config

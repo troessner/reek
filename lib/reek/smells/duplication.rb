@@ -19,6 +19,8 @@ module Reek
     #
     class Duplication < SmellDetector
 
+      # The name of the config field that sets the maximum number of
+      # identical calls to be permitted within any single method.
       MAX_ALLOWED_CALLS_KEY = 'max_calls'
 
       def self.default_config

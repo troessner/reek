@@ -14,6 +14,8 @@ module Reek
     #
     class LargeClass < SmellDetector
 
+      # The name of the config field that sets the maximum number of methods
+      # permitted in a class.
       MAX_ALLOWED_METHODS_KEY = 'max_methods'
 
       def self.contexts      # :nodoc:

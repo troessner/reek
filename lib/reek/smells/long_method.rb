@@ -11,6 +11,8 @@ module Reek
     #
     class LongMethod < SmellDetector
 
+      # The name of the config field that sets the maximum number of
+      # statements permitted in any method.
       MAX_ALLOWED_STATEMENTS_KEY = 'max_statements'
 
       def self.default_config
