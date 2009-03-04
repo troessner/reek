@@ -15,7 +15,7 @@ module Reek
       # The name of the config field that lists the names of code contexts
       # that should not be checked. Add this field to the config for each
       # smell that should ignore this code element.
-      EXCLUDE_KEY = 'exceptions'
+      EXCLUDE_KEY = 'exclude'
 
       # The name fo the config field that specifies whether a smell is
       # enabled. Set to +true+ or +false+.

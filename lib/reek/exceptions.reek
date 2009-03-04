@@ -1,10 +1,10 @@
 --- 
 FeatureEnvy:
-  exceptions:
+  exclude:
   - examine_context
 LargeClass:
-  exceptions:
+  exclude:
   - CodeParser
 LongMethod:
-  exceptions:
+  exclude:
   - Reek::SexpFormatter#self.format
