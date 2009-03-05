@@ -19,37 +19,31 @@ module Reek
   #
   #   rake reek
   #
-  # If rake is invoked with a "SPEC=filename" command line option,
-  # then the list of spec files will be overridden to include only the
-  # filename specified on the command line.  This provides an easy way
-  # to run just one spec.
-  #
-  # If rake is invoked with a "REEK_SORT=order" command line option,
-  # then the given sort order will override the value of the +sort+
-  # attribute.
-  #
   # Examples:
   #
-  #   rake reek                                      # run specs normally
-  #   rake reek SPEC=just_one_file.rb                # run just one spec file.
-  #   rake reek REEK_SORT=smell                      # sort warnings by smell
+  #   rake reek                                # checks lib/**/*.rb
+  #   rake reek REEK_SRC=just_one_file.rb      # checks a single source file
+  #   rake reek REEK_OPTS=-s                   # sorts the report by smell
   #
   class RakeTask < ::Rake::TaskLib
 
-    # Name of reek task. (default is :reek)
+    # Name of reek task.
+    # Defaults to :reek.
     attr_accessor :name
 
     # Array of directories to be added to $LOAD_PATH before running reek.
     # Defaults to ['<the absolute path to reek's lib directory>']
     attr_accessor :libs
 
-    # Glob pattern to match source files. (default is 'lib/**/*.rb')
+    # Glob pattern to match source files.
     # Setting the REEK_SRC environment variable overrides this.
+    # Defaults to 'lib/**/*.rb'.
     attr_accessor :source_files
 
-    # Set the sort order for reported smells (see 'reek --help' for possible values).
-    # Setting the REEK_SORT environment variable overrides this.
-    attr_accessor :sort
+    # String containing commandline options to be passed to Reek.
+    # Setting the REEK_OPTS environment variable overrides this value.
+    # Defaults to ''.
+    attr_accessor :reek_opts
 
     # Array of commandline options to pass to ruby. Defaults to [].
     attr_accessor :ruby_opts
@@ -65,9 +59,10 @@ module Reek
     # Defines a new task, using the name +name+.
     def initialize(name = :reek)
       @name = name
-      @libs = [File.expand_path(File.dirname(__FILE__) + '/../../../lib')]
+      @libs = [File.expand_path(File.dirname(__FILE__) + '/../../lib')]
       @source_files = nil
       @ruby_opts = []
+      @reek_opts = ''
       @fail_on_error = true
       @sort = nil
 
@@ -79,7 +74,7 @@ module Reek
 private
     
     def define # :nodoc:
-      desc "Check for code smells" unless ::Rake.application.last_comment
+      desc 'Check for code smells' unless ::Rake.application.last_comment
       task(name) { run_task }
       self
     end
@@ -88,9 +83,9 @@ private
       return if source_file_list.empty?
       cmd = cmd_words.join(' ')
       puts cmd if @verbose
-      raise("Smells found!") if !system(cmd) and fail_on_error
+      raise('Smells found!') if !system(cmd) and fail_on_error
     end
-    
+
     def self.reek_script
       File.expand_path(File.dirname(__FILE__) + '/../../bin/reek')
     end
@@ -113,17 +108,13 @@ private
     end
     
     def sort_option
-      env_sort = ENV['REEK_SORT']
-      return "--sort #{env_sort}" if env_sort
-      return "--sort #{@sort}" if @sort
-      ''
+      ENV['REEK_OPTS'] || @reek_opts
     end
 
     def source_file_list # :nodoc:
-      env_src = ENV['REEK_SRC']
-      return env_src if env_src
-      return FileList[@source_files] if @source_files
-      []
+      files = ENV['REEK_SRC'] || @source_files
+      return [] unless files
+      return FileList[files]
     end
 
   end

@@ -4,7 +4,7 @@ require 'flay'
 Reek::RakeTask.new do |t|
   t.fail_on_error = true
   t.verbose = false
-#  t.sort = 'smell'
+#  t.reek_opts = '-f "Smell: %s: %c %w"'
 end
 
 desc 'Check for code duplication'

@@ -17,10 +17,9 @@ describe 'Reek source code:' do
   end
 end
 
-#describe 'Reek tests:' do
-#  it 'should report no duplication' do
-#    files = Dir['spec/**/*_spec.rb'].join(' ')
-#    report = `flay #{files} 2>/dev/null`
-#    report.should == ''
-#  end
-#end
+describe 'RakeTask' do
+  it 'should report no duplication' do
+    report = `rake reek 2>&1`.split("\n")
+    report.length.should == 2
+  end
+end
