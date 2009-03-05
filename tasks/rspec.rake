@@ -2,26 +2,21 @@ require 'rake/clean'
 require 'spec'
 require 'spec/rake/spectask'
 
-REPORT_DIR = 'spec/output/coverage'
-UNITS = FileList['spec/reek/**/*_spec.rb']
-INTEGS = FileList['spec/integration/**/*_spec.rb']
+namespace 'rspec' do
+  FAST = FileList['spec/reek/**/*_spec.rb']
+  SLOW = FileList['spec/integration/**/*_spec.rb']
 
-CLEAN.include(REPORT_DIR)
+  Spec::Rake::SpecTask.new('fast') do |t|
+    t.spec_files = FAST
+    t.ruby_opts = ['-Ilib']
+    t.rcov = false
+  end
 
-desc "runs the specs and reports coverage in #{REPORT_DIR}"
-Spec::Rake::SpecTask.new(:spec) do |t|
-  t.spec_files = UNITS
-  t.ruby_opts = ['-Ilib']
-#  t.rcov = true
-#  t.rcov_dir = REPORT_DIR
-#  t.rcov_opts = ['--exclude', 'spec,\.autotest']
+  Spec::Rake::SpecTask.new('all') do |t|
+    t.spec_files = FAST + SLOW
+    t.rcov = false
+  end
 end
 
-desc "runs the unit and intergration tests"
-Spec::Rake::SpecTask.new(:cruise) do |t|
-  t.spec_files = UNITS + INTEGS
-  t.rcov = false
-end
-
-task :spec => [:mkconfig]
-task :cruise => [:mkconfig]
+desc 'runs the unit tests'
+task 'spec' => 'rspec:fast'
