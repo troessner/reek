@@ -25,7 +25,7 @@ module Reek
       def self.default_config
         super.adopt(
           MAX_ALLOWED_METHODS_KEY => 25,
-          EXCLUDE_KEY => ['Hash', 'Module']
+          EXCLUDE_KEY => ['Array', 'Hash', 'Module']
           )
       end
 

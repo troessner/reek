@@ -19,7 +19,7 @@ file CONFIG_FILE => [CONFIG_DIR] do
   File.open(CONFIG_FILE, 'w') { |f| YAML.dump(config, f) }
 end
 
-task CONFIG_FILE => FileList['lib/reek/smells']
+task CONFIG_FILE => FileList['lib/reek/smells/*.rb']
 
 namespace 'git' do
 

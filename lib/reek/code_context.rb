@@ -16,16 +16,6 @@ module Reek
       @myself = nil
     end
 
-    def myself
-      @myself ||= @outer.find_module(@name)
-    end
-
-    def find_module(modname)
-      sym = modname.to_s
-      return nil unless myself
-      myself.const_defined?(sym) ? myself.const_get(sym) : nil
-    end
-
     def matches?(strings)
       me = @name.to_s
       strings.any? do |str|
