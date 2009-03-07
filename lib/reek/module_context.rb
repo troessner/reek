@@ -13,8 +13,8 @@ module Reek
     end
 
     def find_module(modname)
-      sym = modname.to_s
       return nil unless myself
+      sym = modname.to_s
       myself.const_defined?(sym) ? myself.const_get(sym) : nil
     end
 
