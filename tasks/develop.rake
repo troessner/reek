@@ -3,19 +3,23 @@ require 'reek/smells/smells'
 require 'yaml'
 
 CONFIG_DIR = 'config'
+CONFIG_FILE = "#{CONFIG_DIR}/defaults.reek"
 
 CLOBBER.include(CONFIG_DIR)
 
 directory CONFIG_DIR
 
 desc 'creates the default config file'
-task 'mkconfig' => [CONFIG_DIR] do
+file CONFIG_FILE => [CONFIG_DIR] do
   config = {}
   Reek::SmellConfig::SMELL_CLASSES.each do |klass|
     config[klass.name.split(/::/)[-1]] = klass.default_config
   end
-  File.open("#{CONFIG_DIR}/defaults.reek", 'w') { |f| YAML.dump(config, f) }
+  $stderr.puts "Creating #{CONFIG_FILE}"
+  File.open(CONFIG_FILE, 'w') { |f| YAML.dump(config, f) }
 end
+
+task CONFIG_FILE => FileList['lib/reek/smells']
 
 namespace 'git' do
 
@@ -32,6 +36,8 @@ namespace 'git' do
 end
 
 desc 'runs the unit and integration tests'
-task 'cruise' => %w{clobber mkconfig rspec:all}
+task 'cruise' => ['clobber', 'rspec:all']
 
-task 'spec' => ['mkconfig']
+task 'rspec:fast' => [CONFIG_FILE]
+task 'rspec:all' => [CONFIG_FILE]
+task 'reek' => [CONFIG_FILE]

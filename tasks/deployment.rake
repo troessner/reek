@@ -53,5 +53,3 @@ task :check_version do
     exit
   end
 end
-
-task 'package' => 'cruise'
