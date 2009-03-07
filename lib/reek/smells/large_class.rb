@@ -29,7 +29,7 @@ module Reek
           )
       end
 
-      def initialize(config)
+      def initialize(config = LargeClass.default_config)
         super
         @max_methods = config[MAX_ALLOWED_METHODS_KEY]
       end
