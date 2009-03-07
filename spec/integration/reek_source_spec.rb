@@ -19,7 +19,7 @@ end
 
 describe 'RakeTask' do
   it 'should report no duplication' do
-    report = `rake reek 2>&1`.split("\n")
-    report.length.should == 2
+    report = `rake reek`.split("\n")
+    report.length.should == 1
   end
 end
