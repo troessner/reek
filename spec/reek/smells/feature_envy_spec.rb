@@ -10,9 +10,9 @@ describe FeatureEnvy, 'with only messages to self' do
   check 'should not report use of self',
     'def simple() self.to_s + self.to_i end', []
   check 'should not report vcall with no argument',
-    'def simple() func + grunc end', []
+    'def simple() func; end', []
   check 'should not report vcall with argument',
-    'def simple(arga) func(17) + grunc(arga) end', []
+    'def simple(arga) func(17); end', []
 end
 
 describe FeatureEnvy, 'when the receiver is a parameter' do
