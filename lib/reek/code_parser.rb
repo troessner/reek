@@ -109,8 +109,6 @@ module Reek
 
     def process_call(exp)
       @element.record_call_to(exp)
-      receiver, meth = exp[1..2]
-      @element.refs.record_ref(receiver) if (receiver[0] == :lvar and meth != :new)
       process_default(exp)
     end
 
@@ -127,6 +125,7 @@ module Reek
 
     def process_vcall(exp)
       @element.record_depends_on_self
+      @element.refs.record_reference_to_self
       s(exp)
     end
 

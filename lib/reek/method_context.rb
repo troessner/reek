@@ -35,6 +35,18 @@ module Reek
     
     def record_call_to(exp)
       @calls[exp] += 1
+      receiver, meth = exp[1..2]
+      if receiver.nil?
+        record_depends_on_self
+      else
+        case receiver[0]
+        when :lvar
+          @refs.record_ref(receiver) unless meth == :new
+        when :ivar
+          record_depends_on_self
+          @refs.record_reference_to_self
+        end
+      end
     end
     
     def record_depends_on_self

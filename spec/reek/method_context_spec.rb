@@ -41,3 +41,12 @@ describe MethodContext, 'matching fq names' do
     @element.matches?([/banana/]).should == false
   end
 end
+
+describe MethodContext do
+  it 'should record ivars as refs to self' do
+    mctx = MethodContext.new(StopContext.new, [:defn, :feed])
+    mctx.refs.refs_to_self.should == 1
+    mctx.record_call_to([:call, [:ivar, :@cow], :feed_to])
+    mctx.refs.refs_to_self.should == 2
+  end
+end
