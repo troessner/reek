@@ -4,15 +4,14 @@ module Reek
 
     def self.resolve(exp, context)
       return [context, new(exp)] unless Array === exp
+      name = exp[1]
       case exp[0]
       when :colon2
-        mod = resolve(exp[1], context)[0]
-        return [mod, new(exp[2])]
+        return [resolve(name, context)[0], new(exp[2])]
       when :const
-        mod = ModuleContext.new(context, exp)
-        return [mod, new(exp[2])]
+        return [ModuleContext.new(context, exp), new(name)]
       else
-        return [context, new(exp[1])]
+        return [context, new(name)]
       end
     end
 

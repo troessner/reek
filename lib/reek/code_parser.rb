@@ -51,18 +51,18 @@ module Reek
     end
 
     def process_module(exp)
-      @element = ModuleContext.new(@element, exp)
-      process_default(exp)
-      @smells[:module].each {|smell| smell.examine(@element, @report) }
-      pop(exp)
+      push(ModuleContext.new(@element, exp)) do
+        process_default(exp)
+        check_smells(:module)
+      end
+      s(exp)
     end
 
     def process_class(exp)
-      orig = @element
-      @element = ClassContext.create(@element, exp)
-      exp[3..-1].each { |sub| process(sub) } unless @element.is_struct?
-      @smells[:class].each {|smell| smell.examine(@element, @report) }
-      @element = orig
+      push(ClassContext.create(@element, exp)) do
+        process_default(exp) unless @element.is_struct?
+        check_smells(:class)
+      end
       s(exp)
     end
 
@@ -175,10 +175,22 @@ module Reek
     end
 
     def handle_context(klass, type, exp)
-      @element = klass.new(@element, exp)
-      process_default(exp)
+      push(klass.new(@element, exp)) do
+        process_default(exp)
+        check_smells(type)
+      end
+      s(exp)
+    end
+
+    def check_smells(type)
       @smells[type].each {|smell| smell.examine(@element, @report) }
-      pop(exp)
+    end
+
+    def push(context)
+      orig = @element
+      @element = context
+      yield
+      @element = orig
     end
     
     def pop(exp)
