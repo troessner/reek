@@ -1,9 +1,9 @@
-require File.dirname(__FILE__) + '/../../spec_helper.rb'
-
+require 'spec/reek/code_checks'
 require 'reek/code_parser'
 require 'reek/report'
 require 'reek/smells/large_class'
 
+include CodeChecks
 include Reek
 include Reek::Smells
 
@@ -47,7 +47,7 @@ describe LargeClass do
 
   describe 'when exceptions are listed' do
     before :each do
-      @ctx = ClassContext.new(StopContext.new, [0, :Humungous])
+      @ctx = ClassContext.create(StopContext.new, [0, :Humungous])
       30.times { |num| @ctx.record_method("method#{num}") }
       @config = LargeClass.default_config
     end
@@ -72,5 +72,15 @@ describe LargeClass do
       lc.examine(@ctx, @rpt).should == true
       @rpt.length.should == 1
     end
+  end
+end
+
+describe LargeClass do
+  check 'should not report empty class in another module',
+    'class Treetop::Runtime::SyntaxNode; end', []
+
+  it 'should deal with :: scoped names' do
+    element = ClassContext.create(StopContext.new, [:colon2, [:colon2, [:const, :Treetop], :Runtime], :SyntaxNode])
+    element.num_methods.should == 0
   end
 end

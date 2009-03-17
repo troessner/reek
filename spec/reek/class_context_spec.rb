@@ -84,7 +84,7 @@ describe ClassContext, 'overridden methods' do
   
   describe 'of loaded class' do
     before :each do
-      @ctx = ClassContext.new(StopContext.new, [0, :Below])
+      @ctx = ClassContext.create(StopContext.new, [0, :Below])
     end
 
     it 'should recognise non-overridden method' do
@@ -97,14 +97,14 @@ describe ClassContext, 'overridden methods' do
     end
     
     it 'should recognise methods in current codebase' do
-      ctx = ClassContext.new(StopContext.new, [0, :FeatureEnvy])
+      ctx = ClassContext.create(StopContext.new, [0, :FeatureEnvy])
       ctx.is_overriding_method?('examine_context').should == true
     end
   end
   
   describe 'of non-loaded class' do
     before :each do
-      @ctx = ClassContext.new(StopContext.new, [0, :Missing])
+      @ctx = ClassContext.create(StopContext.new, [0, :Missing])
     end
 
     it 'should recognise non-overridden method' do
@@ -120,7 +120,7 @@ end
 
 describe 'Integration defect:' do
   it 'should not report UtilityFunction for FeatureEnvy#examine_context' do
-    kelement = ClassContext.new(StopContext.new, [0, :FeatureEnvy, s(:const, :SmellDetector)])
+    kelement = ClassContext.create(StopContext.new, [0, :FeatureEnvy, s(:const, :SmellDetector)])
     meth = Name.new(:examine_context)
     kelement.is_overriding_method?(meth).should == true
     melement = MethodContext.new(kelement, [0, :examine_context])
@@ -142,9 +142,9 @@ describe CodeContext, 'find class' do
   before :each do
     @stop = StopContext.new
     @mod1 = ModuleContext.new(@stop, [0, :Mod1])
-    @klass1 = ClassContext.new(@mod1, [0, :Klass1])
+    @klass1 = ClassContext.create(@mod1, [0, :Klass1])
     @mod2 = ModuleContext.new(@klass1, [0, :Mod2])
-    @klass2 = ClassContext.new(@mod2, [0, :Klass2])
+    @klass2 = ClassContext.create(@mod2, [0, :Klass2])
   end
 
   describe StopContext do

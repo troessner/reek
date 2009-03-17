@@ -1,5 +1,3 @@
-require File.dirname(__FILE__) + '/../../spec_helper.rb'
-
 require 'spec/reek/code_checks'
 require 'reek/smells/feature_envy'
 

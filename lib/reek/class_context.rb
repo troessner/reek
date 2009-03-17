@@ -12,12 +12,18 @@ end
 
 module Reek
   class ClassContext < CodeContext
+
+    def ClassContext.create(outer, exp)
+      res = Name.resolve(exp[1], outer)
+      ClassContext.new(res[0], res[1], exp[2])
+    end
+
     attr_accessor :name
 
-    def initialize(outer, exp)
-      super
-      @name = Name.new(exp[1])
-      @superclass = exp[2]
+    def initialize(outer, name, superclass = nil)
+      super(outer, nil)
+      @name = name
+      @superclass = superclass
       @parsed_methods = []
       @instance_variables = []
     end

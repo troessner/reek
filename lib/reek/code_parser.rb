@@ -58,10 +58,12 @@ module Reek
     end
 
     def process_class(exp)
-      @element = ClassContext.new(@element, exp)
+      orig = @element
+      @element = ClassContext.create(@element, exp)
       exp[3..-1].each { |sub| process(sub) } unless @element.is_struct?
       @smells[:class].each {|smell| smell.examine(@element, @report) }
-      pop(exp)
+      @element = orig
+      s(exp)
     end
 
     def process_defn(exp)

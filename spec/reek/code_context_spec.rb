@@ -77,7 +77,7 @@ describe CodeContext do
   it 'should recognise its fq name in a collection of names' do
     element = StopContext.new
     element = ModuleContext.new(element, [0, :mod])
-    element = ClassContext.new(element, [0, :klass])
+    element = ClassContext.create(element, [0, :klass])
     element.matches?(['banana', 'mod']).should == true
     element.matches?(['banana', 'mod::klass']).should == true
   end
@@ -85,7 +85,7 @@ describe CodeContext do
   it 'should recognise its fq name in a collection of names' do
     element = StopContext.new
     element = ModuleContext.new(element, [0, :mod])
-    element = ClassContext.new(element, [0, :klass])
+    element = ClassContext.create(element, [0, :klass])
     element.matches?([/banana/, /mod/]).should == true
     element.matches?([/banana/, /mod::klass/]).should == true
   end
