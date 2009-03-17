@@ -25,10 +25,12 @@ namespace 'git' do
 
   task 'github' do
     `git push origin`
+    `git push --tags origin`
   end
 
   task 'rubyforge' do
     `git push rubyforge`
+    `git push --tags rubyforge`
   end
 
   desc 'push the current master to all remotes'
