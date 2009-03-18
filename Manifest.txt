@@ -33,7 +33,6 @@ lib/reek/smells/uncommunicative_name.rb
 lib/reek/smells/utility_function.rb
 lib/reek/stop_context.rb
 lib/reek/yield_call_context.rb
-setup.rb
 spec/integration/integration_spec.rb
 spec/integration/reek_source_spec.rb
 spec/integration/script_spec.rb
@@ -58,19 +57,7 @@ spec/reek/smells/nested_iterators_spec.rb
 spec/reek/smells/smell_spec.rb
 spec/reek/smells/uncommunicative_name_spec.rb
 spec/reek/smells/utility_function_spec.rb
-spec/samples/inline.rb
-spec/samples/inline.rb.expected
-spec/samples/optparse.rb
-spec/samples/optparse.rb.expected
-spec/samples/optparse/date.rb
-spec/samples/optparse/shellwords.rb
-spec/samples/optparse/time.rb
-spec/samples/optparse/uri.rb
-spec/samples/optparse/version.rb
-spec/samples/redcloth.rb
-spec/samples/redcloth.rb.expected
 spec/spec.opts
 spec/spec_helper.rb
 tasks/reek.rake
 tasks/rspec.rake
-tasks/samples.rake

@@ -5,7 +5,7 @@ require 'reek/report'
 
 module Reek # :doc:
   
-  VERSION = '0.3.99'
+  VERSION = '0.3.1.1'
 
   #
   # Analyse the given source, looking for code smells.
