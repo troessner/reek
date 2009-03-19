@@ -67,7 +67,7 @@ module Reek
     end
 
     def load_local(file)
-      path = File.dirname(File.expand_path(file))
+      path = File.expand_path(file)
       all_reekfiles(path).each do |rfile|
         cf = YAML.load_file(rfile)
         @config.value_merge!(cf)

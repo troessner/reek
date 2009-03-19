@@ -11,7 +11,7 @@ require 'reek/source'
 sources = Reek::Options.parse(ARGV)
 exitstatus = 0
 sources.each do |src|
-  warnings = Reek::Analyser.new(src.filename).analyse
+  warnings = Reek::Analyser.new(src).analyse
   next if warnings.empty?
   if sources.size == 1
     puts warnings.to_s

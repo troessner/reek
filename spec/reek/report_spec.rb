@@ -22,7 +22,7 @@ end
 
 describe Report, "to_s" do
   before(:each) do
-    rpt = Analyser.new('def simple(a) a[3] end').analyse
+    rpt = Analyser.new(Source.new('def simple(a) a[3] end')).analyse
     @report = rpt.to_s.split("\n")
   end
 

@@ -9,7 +9,7 @@ module CodeChecks
   def check(desc, src, expected, pending_str = nil)
     it(desc) do
       pending(pending_str) unless pending_str.nil?
-      rpt = Analyser.new(src).analyse
+      rpt = Analyser.new(Source.new(src)).analyse
       rpt.length.should == expected.length
       (0...rpt.length).each do |line|
         expected[line].each { |patt| rpt[line].report.should match(patt) }
