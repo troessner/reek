@@ -1,4 +1,5 @@
 require 'optparse'
+require 'reek/source'
 
 module Reek
     
@@ -43,7 +44,7 @@ EOB
     def self.parse(args)
       begin
         @@opts = parse_args(args)
-        ARGV
+        ARGV.map {|arg| Source.new(arg)}
       rescue OptionParser::ParseError => err
         fatal_error(err)
       end
