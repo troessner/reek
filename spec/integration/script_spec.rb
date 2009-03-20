@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../spec_helper.rb'
+require 'reek'
 
 describe 'version number' do
   it 'should report the correct value' do

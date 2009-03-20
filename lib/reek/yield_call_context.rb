@@ -1,4 +1,3 @@
-require 'reek/smells/smells'
 require 'reek/code_context'
 
 module Reek

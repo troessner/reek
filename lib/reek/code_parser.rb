@@ -9,7 +9,6 @@ require 'reek/if_context'
 require 'reek/method_context'
 require 'reek/singleton_method_context'
 require 'reek/yield_call_context'
-require 'reek/smells/smells'
 
 module Reek
 

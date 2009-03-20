@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../spec_helper.rb'
 
 require 'reek/smells/smell_detector'
 require 'reek/report'
-require 'reek'
+require 'reek/source'
 
 include Reek
 
@@ -22,7 +22,7 @@ end
 
 describe Report, "to_s" do
   before(:each) do
-    rpt = Analyser.new(Source.new('def simple(a) a[3] end')).analyse
+    rpt = Source.new('def simple(a) a[3] end').analyse
     @report = rpt.to_s.split("\n")
   end
 

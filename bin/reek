@@ -5,18 +5,18 @@
 #
 
 require 'reek'
-require 'reek/options'
 require 'reek/source'
+require 'reek/options'
 
 sources = Reek::Options.parse(ARGV)
 exitstatus = 0
 sources.each do |src|
-  warnings = Reek::Analyser.new(src).analyse
+  warnings = src.analyse
   next if warnings.empty?
   if sources.size == 1
     puts warnings.to_s
   else
-    puts "\"#{src.filename}\" -- #{warnings.length} warnings:"
+    puts "\"#{src}\" -- #{warnings.length} warnings:"
     puts warnings.to_s
     puts
   end

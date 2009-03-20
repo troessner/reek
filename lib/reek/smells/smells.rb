@@ -72,6 +72,7 @@ module Reek
         cf = YAML.load_file(rfile)
         @config.value_merge!(cf)
       end
+      self
     end
 
     def all_reekfiles(path)
