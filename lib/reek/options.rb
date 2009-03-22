@@ -29,9 +29,9 @@ module Reek
     
     def self.set_options(opts, config)
       opts.banner = <<EOB
-Usage: #{opts.program_name} [options] SOURCES
+Usage: #{opts.program_name} [options] files...
 
-The SOURCES may be any combination of file paths and Ruby source code.
+If no files are given, Reek reads source code from standard input.
 See http://wiki.github.com/kevinrutherford/reek for detailed help.
 EOB
       
