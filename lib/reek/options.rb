@@ -44,8 +44,12 @@ EOB
     def self.parse(args)
       begin
         @@opts = parse_args(args)
-        ARGV.map {|arg| Source.new(arg)}
-      rescue OptionParser::ParseError => err
+        if ARGV.length > 0
+          return ARGV.map {|arg| Source.from_f(arg)}
+        else
+          return [Source.from_io($stdin, 'stdin')]
+        end
+      rescue OptionParser::ParseError, SystemCallError => err
         fatal_error(err)
       end
     end

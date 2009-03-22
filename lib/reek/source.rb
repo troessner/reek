@@ -2,16 +2,24 @@ require 'reek/code_parser'
 
 module Reek
   class Source
-    def initialize(filename)
-      if File.exists?(filename)
-        @source = IO.readlines(filename).join
-        @dir = File.dirname(filename)
-        @filename = filename
-      else
-        @source = filename
-        @dir = '.'
-        @filename = "source code"
-      end
+    def self.from_io(ios, desc)
+      code = ios.readlines.join
+      return new(code, desc)
+    end
+
+    def self.from_s(code)
+      return new(code, 'string')
+    end
+
+    def self.from_f(filename)
+      code = IO.readlines(filename).join
+      return new(code, filename, File.dirname(filename))
+    end
+
+    def initialize(code, desc, dir = '.')
+      @source = code
+      @dir = dir
+      @desc = desc
     end
 
     #
@@ -27,7 +35,7 @@ module Reek
     end
 
     def to_s
-      @filename
+      @desc
     end
   end
 end
