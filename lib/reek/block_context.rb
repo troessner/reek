@@ -2,7 +2,6 @@ require 'reek/code_context'
 
 module Reek
   class BlockContext < CodeContext
-    attr_reader :parameters, :local_variables
 
     def initialize(outer, exp)
       super
@@ -15,8 +14,8 @@ module Reek
       true
     end
     
-    def has_parameter(sym)
-      parameters.include?(sym) or @outer.has_parameter(sym)
+    def has_parameter(name)
+      @parameters.include?(name) or @outer.has_parameter(name)
     end
 
     def nested_block?

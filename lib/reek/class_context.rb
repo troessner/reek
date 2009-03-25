@@ -18,8 +18,6 @@ module Reek
       ClassContext.new(res[0], res[1], exp[2])
     end
 
-    attr_accessor :name
-
     def initialize(outer, name, superclass = nil)
       super(outer, nil)
       @name = name

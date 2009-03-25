@@ -4,10 +4,10 @@ require 'reek/object_refs'
 
 module Reek
   class MethodContext < CodeContext
-    attr_reader :parameters, :local_variables
-    attr_reader :calls, :refs
-    attr_reader :num_statements, :depends_on_self
-    attr_accessor :name
+    attr_reader :parameters
+    attr_reader :calls
+    attr_reader :refs
+    attr_reader :num_statements
 
     def initialize(outer, exp, record = true)
       super(outer, exp)
@@ -30,7 +30,7 @@ module Reek
     end
 
     def has_parameter(sym)
-      parameters.include?(sym.to_s)
+      @parameters.include?(sym.to_s)
     end
     
     def record_call_to(exp)

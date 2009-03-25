@@ -7,7 +7,7 @@ module Reek
   # with each context holding a reference to a unique outer context.
   #
   class CodeContext
-    attr_reader :outer
+
     attr_reader :name
 
     def initialize(outer, exp)
