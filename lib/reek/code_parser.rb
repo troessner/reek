@@ -50,7 +50,7 @@ module Reek
     end
 
     def process_module(exp)
-      push(ModuleContext.new(@element, exp)) do
+      push(ModuleContext.create(@element, exp)) do
         process_default(exp)
         check_smells(:module)
       end

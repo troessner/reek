@@ -3,9 +3,14 @@ require 'reek/code_context'
 module Reek
   class ModuleContext < CodeContext
 
-    def initialize(outer, exp)
-      super
-      @name = Name.new(exp[1])
+    def ModuleContext.create(outer, exp)
+      res = Name.resolve(exp[1], outer)
+      ModuleContext.new(res[0], res[1])
+    end
+
+    def initialize(outer, name)
+      super(outer, nil)
+      @name = name
     end
 
     def myself

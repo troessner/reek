@@ -1,3 +1,4 @@
+require 'reek/smells/smells'
 require 'reek/source'
 require 'reek/code_parser'
 require 'reek/report'

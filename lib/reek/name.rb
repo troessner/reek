@@ -9,7 +9,9 @@ module Reek
       when :colon2
         return [resolve(name, context)[0], new(exp[2])]
       when :const
-        return [ModuleContext.new(context, exp), new(name)]
+        return [ModuleContext.create(context, exp), new(name)]
+      when :colon3
+        return [StopContext.new, new(name)]
       else
         return [context, new(name)]
       end

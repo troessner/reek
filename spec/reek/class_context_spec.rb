@@ -141,9 +141,9 @@ describe CodeContext, 'find class' do
 
   before :each do
     @stop = StopContext.new
-    @mod1 = ModuleContext.new(@stop, [0, :Mod1])
+    @mod1 = ModuleContext.create(@stop, [0, :Mod1])
     @klass1 = ClassContext.create(@mod1, [0, :Klass1])
-    @mod2 = ModuleContext.new(@klass1, [0, :Mod2])
+    @mod2 = ModuleContext.create(@klass1, [0, :Mod2])
     @klass2 = ClassContext.create(@mod2, [0, :Klass2])
   end
 
