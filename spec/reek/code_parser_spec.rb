@@ -12,6 +12,11 @@ describe CodeParser, "with no method definitions" do
   check 'should report no problems for empty class', 'class Fred; end', []
 end
 
+describe CodeParser, 'with a global method definition' do
+  check 'should report no problems for simple method',
+    'def Outermost::fred() true; end', []
+end
+
 describe CodeParser, 'when given a C extension' do
   before(:each) do
     @cchk = CodeParser.new(Report.new, SmellConfig.new.smell_listeners)
