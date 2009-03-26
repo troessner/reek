@@ -1,4 +1,5 @@
 require 'reek/smells/smell_detector'
+require 'reek/smell_warning'
 
 module Reek
   module Smells
@@ -20,7 +21,7 @@ module Reek
       #
       def examine_context(block, report)
         return false unless block.nested_block?
-        report << SmellWarning.new(smell_name, block, 'is nested')
+        report << SmellWarning.new(self, block, 'is nested')
       end
     end
   end

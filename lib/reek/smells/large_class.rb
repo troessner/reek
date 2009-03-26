@@ -1,4 +1,5 @@
 require 'reek/smells/smell_detector'
+require 'reek/smell_warning'
 
 module Reek
   module Smells
@@ -41,7 +42,7 @@ module Reek
       def examine_context(klass, report)
         num_methods = klass.num_methods
         return false if num_methods <= @max_methods
-        report << SmellWarning.new(smell_name, klass,
+        report << SmellWarning.new(self, klass,
                     "has at least #{num_methods} methods")
       end
     end

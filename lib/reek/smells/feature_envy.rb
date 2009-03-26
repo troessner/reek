@@ -1,4 +1,5 @@
 require 'reek/smells/smell_detector'
+require 'reek/smell_warning'
 require 'reek/sexp_formatter'
 
 module Reek
@@ -48,7 +49,7 @@ module Reek
       #
       def examine_context(context, report)
         context.envious_receivers.each do |ref|
-          report << SmellWarning.new(smell_name, context,
+          report << SmellWarning.new(self, context,
                       "refers to #{SexpFormatter.format(ref)} more than self")
         end
       end

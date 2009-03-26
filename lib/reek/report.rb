@@ -3,8 +3,14 @@ require 'reek/smells/smell_detector'
 
 module Reek
   class Report
+    include Enumerable
+
     def initialize  # :nodoc:
       @report = SortedSet.new
+    end
+
+    def each
+      @report.each { |smell| yield smell }
     end
 
     def <<(smell)  # :nodoc:

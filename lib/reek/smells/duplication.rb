@@ -1,4 +1,5 @@
 require 'reek/smells/smell_detector'
+require 'reek/smell_warning'
 require 'reek/sexp_formatter'
 
 module Reek
@@ -34,7 +35,7 @@ module Reek
 
       def examine_context(method, report)
         smelly_calls(method).each do |call|
-          report << SmellWarning.new(smell_name, method,
+          report << SmellWarning.new(self, method,
                       "calls #{SexpFormatter.format(call)} multiple times")
         end
       end

@@ -95,3 +95,49 @@ describe FeatureEnvy, '#examine' do
     @fe.examine(@context, []).should == false
   end
 end
+
+#-------------------------------------------------------------------------------------------
+
+Spec::Matchers.create :smell do
+  match do |src|
+    src.smelly?
+  end
+  failure_message_for_should do |src|
+    "Expected source to smell, but it didn't"
+  end
+  failure_message_for_should_not do |src|
+    "Expected no smells, but got the following:\n#{src.report}"
+  end
+end
+
+Spec::Matchers.create :smell_of do |smell, *patterns|
+  match do |src|
+    src.has_smell?(smell, patterns)
+  end
+  failure_message_for_should do |src|
+    "Expected source to smell of #{smell}, but it didn't"
+  end
+  failure_message_for_should_not do |src|
+    "Expected no #{smell} smell, but got the following:\n#{src.report}"
+  end
+end
+
+describe FeatureEnvy, 'when the receiver is an lvar' do
+  it 'should not report single use of an lvar' do
+    Source.from_s('def no_envy() lv = @item; lv.to_a end').should_not smell
+  end
+
+  it 'should not report returning an lvar' do
+    Source.from_s('def no_envy() lv = @item; lv.to_a; lv end').should_not smell
+  end
+
+  it 'should report many calls to lvar' do
+    ruby = Source.from_s('def envy; lv = @item; lv.price + lv.tax end')
+    ruby.should smell
+    ruby.should smell_of(:FeatureEnvy, /lv/)
+  end
+
+  it 'should not report lvar usage in a parameter' do
+    Source.from_s('def no_envy; lv = @item; lv.price + tax(lv) - savings(lv) end').should_not smell
+  end
+end

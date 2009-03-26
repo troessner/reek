@@ -11,7 +11,7 @@ require 'reek/options'
 sources = Reek::Options.parse(ARGV)
 exitstatus = 0
 sources.each do |src|
-  warnings = src.analyse
+  warnings = src.report
   next if warnings.empty?
   if sources.size == 1
     puts warnings.to_s

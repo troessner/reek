@@ -23,15 +23,23 @@ module Reek
     end
 
     #
-    # Analyse the given source, looking for code smells.
-    # The source can be a filename or a String containing Ruby code.
-    # Returns a +Report+ listing the smells found.
+    # Returns a +Report+ listing the smells found in this source.
     #
-    def analyse
-      report = Report.new
-      smells = SmellConfig.new.load_local(@dir).smell_listeners
-      CodeParser.new(report, smells).check_source(@source)
-      report
+    def report
+      unless @report
+        @report = Report.new
+        smells = SmellConfig.new.load_local(@dir).smell_listeners
+        CodeParser.new(@report, smells).check_source(@source)
+      end
+      @report
+    end
+
+    def smelly?
+      report.length > 0
+    end
+
+    def has_smell?(smell_sym, *patterns)
+      report.any? { |smell| smell.matches?(smell_sym, patterns) }
     end
 
     def to_s

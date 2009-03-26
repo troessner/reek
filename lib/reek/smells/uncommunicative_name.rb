@@ -1,4 +1,5 @@
 require 'reek/smells/smell_detector'
+require 'reek/smell_warning'
 
 module Reek
   module Smells
@@ -56,7 +57,7 @@ module Reek
       def consider_variables(context, report) # :nodoc:
         context.variable_names.each do |name|
           next unless is_bad_name?(name)
-          report << SmellWarning.new(smell_name, context,
+          report << SmellWarning.new(self, context,
                       "has the variable name '#{name}'")
         end
       end
@@ -65,7 +66,7 @@ module Reek
         name = context.name
         return false if @accept.include?(context.to_s)  # TODO: fq_name() ?
         return false unless is_bad_name?(name)
-        report << SmellWarning.new(smell_name, context,
+        report << SmellWarning.new(self, context,
                       "has the name '#{name}'")
       end
 

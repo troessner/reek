@@ -22,7 +22,7 @@ end
 
 describe Report, "to_s" do
   before(:each) do
-    rpt = Source.from_s('def simple(a) a[3] end').analyse
+    rpt = Source.from_s('def simple(a) a[3] end').report
     @report = rpt.to_s.split("\n")
   end
 
@@ -39,9 +39,9 @@ end
 describe Report, " as a SortedSet" do
   it 'should only add a smell once' do
     rpt = Report.new
-    rpt << SmellWarning.new('ha', "self", 'too many!')
+    rpt << SmellWarning.new(FeatureEnvy.new, "self", 'too many!')
     rpt.length.should == 1
-    rpt << SmellWarning.new('ha', "self", 'too many!')
+    rpt << SmellWarning.new(FeatureEnvy.new, "self", 'too many!')
     rpt.length.should == 1
   end
 end

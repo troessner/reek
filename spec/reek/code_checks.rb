@@ -10,7 +10,7 @@ module CodeChecks
   def check(desc, src, expected, pending_str = nil)
     it(desc) do
       pending(pending_str) unless pending_str.nil?
-      rpt = Source.from_s(src).analyse
+      rpt = Source.from_s(src).report
       rpt.length.should == expected.length
       (0...rpt.length).each do |line|
         expected[line].each { |patt| rpt[line].report.should match(patt) }

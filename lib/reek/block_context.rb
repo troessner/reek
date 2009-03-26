@@ -13,7 +13,7 @@ module Reek
     def inside_a_block?
       true
     end
-    
+
     def has_parameter(name)
       @parameters.include?(name) or @outer.has_parameter(name)
     end

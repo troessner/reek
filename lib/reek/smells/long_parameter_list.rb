@@ -1,4 +1,5 @@
 require 'reek/smells/smell_detector'
+require 'reek/smell_warning'
 
 module Reek
   module Smells
@@ -34,7 +35,7 @@ module Reek
       def examine_context(ctx, report)
         num_params = ctx.parameters.length
         return false if num_params <= @max_params
-        report << SmellWarning.new(smell_name, ctx,
+        report << SmellWarning.new(self, ctx,
                     "#{@action} #{num_params} parameters")
       end
     end

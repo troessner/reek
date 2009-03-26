@@ -1,4 +1,5 @@
 require 'reek/smells/smell_detector'
+require 'reek/smell_warning'
 
 module Reek
   module Smells
@@ -25,7 +26,7 @@ module Reek
         return false if method.calls.keys.length == 0 or
           method.num_statements == 0 or
           method.depends_on_instance?
-        report << SmellWarning.new('Utility Function', method,
+        report << SmellWarning.new(self, method,
                       "doesn't depend on instance state")
       end
     end

@@ -17,6 +17,7 @@ lib/reek/object_refs.rb
 lib/reek/options.rb
 lib/reek/rake_task.rb
 lib/reek/report.rb
+lib/reek/smell_warning.rb
 lib/reek/source.rb
 lib/reek/sexp_formatter.rb
 lib/reek/singleton_method_context.rb
