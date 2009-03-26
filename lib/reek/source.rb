@@ -38,7 +38,7 @@ module Reek
       report.length > 0
     end
 
-    def has_smell?(smell_sym, *patterns)
+    def has_smell?(smell_sym, patterns)
       report.any? { |smell| smell.matches?(smell_sym, patterns) }
     end
 
