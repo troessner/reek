@@ -24,7 +24,7 @@ module Reek
     def count_statements(num)
       @num_statements += num
     end
-    
+
     def depends_on_instance?
       @depends_on_self || is_overriding_method?(@name)
     end

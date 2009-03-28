@@ -1,13 +1,11 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
+require 'reek/smells/utility_function'
 
-require 'spec/reek/code_checks'
-
-include CodeChecks
 include Reek
 include Reek::Smells
 
-describe CodeParser, "(Utility Function)" do
+describe UtilityFunction do
 
   before(:each) do
     @rpt = Report.new
@@ -22,14 +20,21 @@ describe CodeParser, "(Utility Function)" do
     @rpt.should be_empty
   end
 
-  check 'should count usages of self',
-    'def <=>(other) Options[:sort_order].compare(self, other) end', []
-  check 'should count self reference within a dstr',
-    'def as(alias_name); "#{self} as #{alias_name}".to_sym; end', []
-  check 'should count calls to self within a dstr',
-    'def to_sql; "\'#{self.gsub(/\'/, "\'\'")}\'"; end', []
-  check 'should report simple parameter call', 'def simple(arga) arga.to_s end', [[/simple/, /instance state/]]
-  check 'should report message chain', 'def simple(arga) arga.b.c end', [[/simple/, /instance state/]]
+  it 'should count usages of self'do
+    'def <=>(other) Options[:sort_order].compare(self, other) end'.should_not reek
+  end
+  it 'should count self reference within a dstr' do
+    'def as(alias_name); "#{self} as #{alias_name}".to_sym; end'.should_not reek
+  end
+  it 'should count calls to self within a dstr' do
+    'def to_sql; "\'#{self.gsub(/\'/, "\'\'")}\'"; end'.should_not reek
+  end
+  it 'should report simple parameter call' do
+    'def simple(arga) arga.to_s end'.should reek_of(:UtilityFunction, /simple/)
+  end
+  it 'should report message chain' do
+    'def simple(arga) arga.b.c end'.should reek_of(:UtilityFunction, /simple/)
+  end
   
   it 'should not report overriding methods' do
     class Father
@@ -42,6 +47,8 @@ describe CodeParser, "(Utility Function)" do
     @rpt.should be_empty
   end
 
+  it 'should not report class method' do
+    pending('bug')
     source = <<EOS
 class Cache
   class << self
@@ -51,9 +58,11 @@ class Cache
   end
 end
 EOS
-  check 'should not report class method', source, [], 'bug'
+    source.should_not reek
+  end
   
-  src = <<EOS
+  it 'should recognise a deep call' do
+    src = <<EOS
 class Red
   def deep(text)
     text.each { |mod| atts = shelve(mod) }
@@ -64,13 +73,24 @@ class Red
   end
 end
 EOS
-  check 'should recognise a deep call', src, []
+    src.should_not reek
+  end
 end
 
 describe UtilityFunction, 'should only report a method containing a call' do
-  check 'should not report empty method', 'def simple(arga) end', []
-  check 'should not report literal', 'def simple(arga) 3; end', []
-  check 'should not report instance variable reference',  'def simple(arga) @yellow end', []
-  check 'should not report vcall', 'def simple(arga) y end', []
-  check 'should not report references to self', 'def into; self; end', []
+  it 'should not report empty method' do
+    'def simple(arga) end'.should_not reek
+  end
+  it 'should not report literal' do
+    'def simple(arga) 3; end'.should_not reek
+  end
+  it 'should not report instance variable reference' do
+    'def simple(arga) @yellow end'.should_not reek
+  end
+  it 'should not report vcall' do
+    'def simple(arga) y end'.should_not reek
+  end
+  it 'should not report references to self' do
+    'def into; self; end'.should_not reek
+  end
 end

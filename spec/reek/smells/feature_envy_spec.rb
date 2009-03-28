@@ -1,58 +1,10 @@
-require 'spec/reek/code_checks'
 require 'reek/smells/feature_envy'
 
 require 'reek/method_context'
 require 'reek/stop_context'
 
 include Reek
-include CodeChecks
 include Reek::Smells
-
-class String
-  def to_source
-    Source.from_s(self)
-  end
-end
-
-class ShouldReek
-  def matches?(actual)
-    @source = actual.to_source
-    @source.smelly?
-  end
-  def failure_message_for_should
-    "Expected source to smell, but it didn't"
-  end
-  def failure_message_for_should_not
-    "Expected no smells, but got the following:\n#{@source.report}"
-  end
-end
-
-def reek
-  ShouldReek.new
-end
-
-class ShouldReekOf
-  def initialize(klass, patterns)
-    @klass = klass
-    @patterns = patterns
-  end
-  def matches?(actual)
-    @source = actual.to_source
-    @source.has_smell?(@klass, @patterns)
-  end
-  def failure_message_for_should
-    "Expected source to smell of #{@klass}, but it didn't"
-  end
-  def failure_message_for_should_not
-    "Expected source not to smell of #{@klass}, but got the following:\n#{@source.report}"
-  end
-end
-
-def reek_of(klass, *patterns)
-  ShouldReekOf.new(klass, patterns)
-end
-
-#-------------------------------------------------------------------------------------------
 
 describe FeatureEnvy, 'with only messages to self' do
   it 'should not report use of self' do
@@ -78,7 +30,7 @@ describe FeatureEnvy, 'when the receiver is a parameter' do
   end
 
   it 'should report many calls to parameter' do
-    'def envy(arga) arga.b(arga) + arga.c(@fred) end'.should reek_of(:FeatureEnvy, /arga/)
+    'def envy(arga) arga.b(arga) + arga.c(@fred) end'.should reek_only_of(:FeatureEnvy, /arga/)
   end
 end
 
@@ -91,8 +43,7 @@ describe FeatureEnvy, 'when there are many possible receivers' do
       total += fred.tax
       total *= 1.15
     end'
-    ruby.should reek_of(:FeatureEnvy, /total/)
-    ruby.should_not reek_of(:FeatureEnvy, /fred/)
+    ruby.should reek_only_of(:FeatureEnvy, /total/)
   end
 
   it 'should report multiple affinities' do
@@ -131,10 +82,13 @@ describe FeatureEnvy, 'when the receiver is an ivar' do
   end
 
   it 'should not be fooled by duplication' do
-    'def feed(thing); @cow.feed_to(thing.pig); @duck.feed_to(thing.pig); end'.should_not reek_of(:FeatureEnvy)
+    ruby = Source.from_s('def feed(thing); @cow.feed_to(thing.pig); @duck.feed_to(thing.pig); end')
+    ruby.should reek_only_of(:Duplication, /thing.pig/)
   end
+
   it 'should count local calls' do
-    'def feed(thing); cow.feed_to(thing.pig); duck.feed_to(thing.pig); end'.should_not reek_of(:FeatureEnvy)
+    ruby = Source.from_s('def feed(thing); cow.feed_to(thing.pig); duck.feed_to(thing.pig); end')
+    ruby.should reek_only_of(:Duplication, /thing.pig/)
   end
 end
 
@@ -166,7 +120,7 @@ describe FeatureEnvy, 'when the receiver is an lvar' do
   end
 
   it 'should report many calls to lvar' do
-    'def envy; lv = @item; lv.price + lv.tax end'.should reek_of(:FeatureEnvy, /lv/)
+    'def envy; lv = @item; lv.price + lv.tax end'.should reek_only_of(:FeatureEnvy, /lv/)
   end
 
   it 'should not report lvar usage in a parameter' do

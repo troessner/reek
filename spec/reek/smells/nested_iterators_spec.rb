@@ -1,29 +1,33 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
-require 'spec/reek/code_checks'
+require 'reek/smells/nested_iterators'
 
-include CodeChecks
+include Reek::Smells
 
-describe CodeParser, " nested iterators" do
+describe NestedIterators do
 
-  check 'should report nested iterators in a method',
-    'def bad(fred) @fred.each {|item| item.each {|ting| ting.ting} } end', [[/bad/, /nested/]]
+  it 'should report nested iterators in a method' do
+    'def bad(fred) @fred.each {|item| item.each {|ting| ting.ting} } end'.should reek_only_of(:NestedIterators)
+  end
 
-  check 'should not report method with successive iterators',
+  it 'should not report method with successive iterators' do
     'def bad(fred)
       @fred.each {|item| item.each }
       @jim.each {|ting| ting.each }
-    end', []
+    end'.should_not reek
+  end
 
-  check 'should not report method with chained iterators',
+  it 'should not report method with chained iterators' do
     'def chained
       @sig.keys.sort_by { |xray| xray.to_s }.each { |min| md5 << min.to_s }
-    end', []
+    end'.should_not reek
+  end
 
-  check 'should report nested iterators only once per method',
+  it 'should report nested iterators only once per method' do
     'def bad(fred)
-  @fred.each {|item| item.each {|part| @joe.send} }
-  @jim.each {|ting| ting.each {|piece| @hal.send} }
-end', [[/bad/, /nested/]]
+      @fred.each {|item| item.each {|part| @joe.send} }
+      @jim.each {|ting| ting.each {|piece| @hal.send} }
+    end'.should reek_only_of(:NestedIterators)
+  end
 end
 

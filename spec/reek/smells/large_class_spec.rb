@@ -1,9 +1,7 @@
-require 'spec/reek/code_checks'
 require 'reek/code_parser'
 require 'reek/report'
 require 'reek/smells/large_class'
 
-include CodeChecks
 include Reek
 include Reek::Smells
 
@@ -76,8 +74,9 @@ describe LargeClass do
 end
 
 describe LargeClass do
-  check 'should not report empty class in another module',
-    'class Treetop::Runtime::SyntaxNode; end', []
+  it 'should not report empty class in another module' do
+    'class Treetop::Runtime::SyntaxNode; end'.should_not reek
+  end
 
   it 'should deal with :: scoped names' do
     element = ClassContext.create(StopContext.new, [:colon2, [:colon2, [:const, :Treetop], :Runtime], :SyntaxNode])

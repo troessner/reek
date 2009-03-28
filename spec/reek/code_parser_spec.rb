@@ -2,19 +2,22 @@ require File.dirname(__FILE__) + '/../spec_helper.rb'
 
 require 'reek/code_parser'
 require 'reek/report'
-require 'spec/reek/code_checks'
 
-include CodeChecks
 include Reek
 
 describe CodeParser, "with no method definitions" do
-  check 'should report no problems for empty source code', '', []
-  check 'should report no problems for empty class', 'class Fred; end', []
+  it 'should report no problems for empty source code' do
+    ''.should_not reek
+  end
+  it 'should report no problems for empty class' do
+    'class Fred; end'.should_not reek
+  end
 end
 
 describe CodeParser, 'with a global method definition' do
-  check 'should report no problems for simple method',
-    'def Outermost::fred() true; end', []
+  it 'should report no problems for simple method' do
+    'def Outermost::fred() true; end'.should_not reek
+  end
 end
 
 describe CodeParser, 'when given a C extension' do
@@ -28,12 +31,14 @@ describe CodeParser, 'when given a C extension' do
 end
 
 describe CodeParser, 'when a yield is the receiver' do
-  source = 'def values(*args)
+  it 'should report no problems' do
+    source = 'def values(*args)
   @to_sql += case
     when block_given? then " #{yield.to_sql}"
     else " values (#{args.to_sql})"
   end
   self
 end'
-  check 'should report no problems', source, []
+    source.should_not reek
+  end
 end

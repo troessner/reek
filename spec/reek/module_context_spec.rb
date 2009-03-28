@@ -1,15 +1,15 @@
-require 'spec/reek/code_checks'
 require 'reek/module_context'
 
-include CodeChecks
 include Reek
 
 describe ModuleContext do
-  check 'should report module name for smell in method',
-    'module Fred; def simple(x) true; end; end', [[/x/, /simple/, /Fred/]]
+  it 'should report module name for smell in method' do
+    'module Fred; def simple(x) true; end; end'.should reek_of(:UncommunicativeName, /x/, /simple/, /Fred/)
+  end
 
-  check 'should not report module with empty class',
-    'module Fred; class Jim; end; end', []
+  it 'should not report module with empty class' do
+    'module Fred; class Jim; end; end'.should_not reek
+  end
 
   it 'should handle module with empty class' do
     stop = StopContext.new
@@ -19,8 +19,9 @@ describe ModuleContext do
 end
 
 describe ModuleContext do
-  check 'should recognise global constant',
-    'module ::Global class Inside; end; end', []
+  it 'should recognise global constant' do
+    'module ::Global class Inside; end; end'.should_not reek
+  end
 
   it 'should not find missing global constant' do
     element = ModuleContext.create(StopContext.new, [:module, [:colon3, :Global], nil])

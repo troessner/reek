@@ -1,24 +1,28 @@
 require File.dirname(__FILE__) + '/../spec_helper.rb'
 
-require 'spec/reek/code_checks'
 require 'reek/class_context'
 require 'reek/smells/feature_envy'
 
-include CodeChecks
 include Reek
 
 describe ClassContext do
-  check 'should report Long Parameter List',
-    'class Inner; def simple(arga, argb, argc, argd) f(3);true end end', [[/Inner/, /simple/, /4 parameters/]]
+  it 'should report Long Parameter List' do
+    ruby = 'class Inner; def simple(arga, argb, argc, argd) f(3);true end end'
+    ruby.should reek_of(:LongParameterList, /Inner/, /simple/, /4 parameters/)
+  end
 
+  it 'should report two different methods' do
     src = <<EOEX
 class Fred
   def simple(arga, argb, argc, argd) f(3);true end
   def simply(arga, argb, argc, argd) f(3);false end
 end
 EOEX
-  check 'should report two different methods', src, [[/Fred/, /simple/], [/Fred/, /simply/]]
+    src.should reek_of(:LongParameterList, /Fred/, /simple/)
+    src.should reek_of(:LongParameterList, /Fred/, /simply/)
+  end
 
+  it 'should report many different methods' do
     src = <<EOEX
 class Fred
     def textile_bq(tag, atts, cite, content) f(3);end
@@ -27,8 +31,10 @@ class Fred
     def textile_popup_help(name, windowW, windowH) f(3);end
 end
 EOEX
-  check 'should report many different methods', src,
-    [[/Fred/, /textile_bq/], [/Fred/, /textile_fn_/], [/Fred/, /textile_p/]]
+    src.should reek_of(:LongParameterList, /Fred/, /textile_bq/)
+    src.should reek_of(:LongParameterList, /Fred/, /textile_fn_/)
+    src.should reek_of(:LongParameterList, /Fred/, /textile_p/)
+  end
 end
 
 describe Class do

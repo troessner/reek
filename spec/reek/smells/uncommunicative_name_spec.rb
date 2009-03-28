@@ -1,65 +1,87 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
-require 'spec/reek/code_checks'
-
-include CodeChecks
-
 describe CodeParser, "uncommunicative method name" do
-  check 'should not report one-word method name', 'def help(fred) basics(17) end', []
-  check 'should report one-letter method name', 'def x(fred) basics(17) end', [[/x/, /name/]]
-  check 'should report name of the form "x2"', 'def x2(fred) basics(17) end', [[/x2/, /name/]]
+  it 'should not report one-word method name' do
+    'def help(fred) basics(17) end'.should_not reek
+  end
+  it 'should report one-letter method name' do
+    'def x(fred) basics(17) end'.should reek_only_of(:UncommunicativeName, /x/)
+  end
+  it 'should report name of the form "x2"' do
+    'def x2(fred) basics(17) end'.should reek_only_of(:UncommunicativeName, /x2/)
+  end
 end
 
 describe CodeParser, "uncommunicative field name" do
-  check 'should not report one-word field name',
-    'class Thing; def help(fred) @simple end end', []
-  check 'should report one-letter fieldname',
-    'class Thing; def simple(fred) @x end end', [[/@x/, /Thing/, /variable name/]]
-  check 'should report name of the form "x2"',
-    'class Thing; def simple(fred) @x2 end end', [[/@x2/, /Thing/, /variable name/]]
-  check 'should report one-letter fieldname in assignment',
-    'class Thing; def simple(fred) @x = fred end end', [[/@x/, /Thing/, /variable name/]]
+  it 'should not report one-word field name' do
+    'class Thing; def help(fred) @simple end end'.should_not reek
+  end
+  it 'should report one-letter fieldname' do
+    'class Thing; def simple(fred) @x end end'.should reek_only_of(:UncommunicativeName, /@x/, /Thing/, /variable name/)
+  end
+  it 'should report name of the form "x2"' do
+    'class Thing; def simple(fred) @x2 end end'.should reek_only_of(:UncommunicativeName, /@x2/, /Thing/, /variable name/)
+  end
+  it 'should report one-letter fieldname in assignment' do
+    'class Thing; def simple(fred) @x = fred end end'.should reek_only_of(:UncommunicativeName, /@x/, /Thing/, /variable name/)
+  end
 end
 
-#describe CodeParser, "uncommunicative class variable name" do
-#  check 'should not report one-word name', 'def help(fred) @@vari - @simple end', []
-#  check 'should report one-letter name', 'def simple(fred) @@x end', [[/@@x/, /field name/]]
-#  check 'should report name of the form "x2"', 'def simple(fred) @@x2 end', [[/@@x2/, /field name/]]
-#  check 'should report one-letter name in assignment', 'def simple(fred) @@x = fred end', [[/@@x/, /field name/]]
-#end
-
 describe CodeParser, "uncommunicative local variable name" do
-  check 'should not report one-word variable name', 'def help(fred) simple = jim(45) end', []
-  check 'should report one-letter variable name', 'def simple(fred) x = jim(45) end', [[/x/, /variable name/]]
-  check 'should report name of the form "x2"', 'def simple(fred) x2 = jim(45) end', [[/x2/, /variable name/]]
-  check 'should report variable name only once', 'def simple(fred) x = jim(45); x = y end', [[]]
+  it 'should not report one-word variable name' do
+    'def help(fred) simple = jim(45) end'.should_not reek
+  end
+  it 'should report one-letter variable name' do
+    'def simple(fred) x = jim(45) end'.should reek_only_of(:UncommunicativeName, /x/, /variable name/)
+  end
+  it 'should report name of the form "x2"' do
+    'def simple(fred) x2 = jim(45) end'.should reek_only_of(:UncommunicativeName, /x2/, /variable name/)
+  end
+  it 'should report variable name only once' do
+    'def simple(fred) x = jim(45); x = y end'.should reek_only_of(:UncommunicativeName, /x/)
+  end
 end
 
 describe CodeParser, "uncommunicative parameter name" do
-  check 'should not recognise *', 'def help(xray, *) basics(17) end', []
-  check "should report parameter's name", 'def help(x) basics(17) end', [[/x/, /variable name/]]
-  check 'should report name of the form "x2"', 'def help(x2) basics(17) end', [[/x2/, /variable name/]]
+  it 'should not recognise *' do
+    'def help(xray, *) basics(17) end'.should_not reek
+  end
+  it "should report parameter's name" do
+    'def help(x) basics(17) end'.should reek_only_of(:UncommunicativeName, /x/, /variable name/)
+  end
+  it 'should report name of the form "x2"' do
+    'def help(x2) basics(17) end'.should reek_only_of(:UncommunicativeName, /x2/, /variable name/)
+  end
 end
 
 describe CodeParser, "uncommunicative block parameter name" do
-  check "should report parameter's name", 'def help() @stuff.each {|x|} end', [[/x/, /block/, /variable name/]]
+  it "should report parameter's name" do
+    'def help() @stuff.each {|x|} end'.should reek_only_of(:UncommunicativeName, /x/, /block/, /variable name/)
+  end
   
-  src = <<EOS
+  it "should report method name via if context" do
+    src = <<EOS
 def bad
   unless @mod then
     @sig.each { |x| x.to_s }
   end
 end
 EOS
-  check "should report method name via if context", src, [[/x/, /block/, /bad/]]
+    src.should reek_only_of(:UncommunicativeName, /'x'/)
+  end
 end
 
 describe CodeParser, "several uncommunicative names" do
 
-  check 'should report all bad names',
-    'class Oof; def y(x) @z = x end end', [[/'@z'/], [/'y'/], [/'x'/]]
+  it 'should report all bad names' do
+    ruby = Source.from_s('class Oof; def y(x) @z = x end end')
+    ruby.should reek_of(:UncommunicativeName, /'x'/)
+    ruby.should reek_of(:UncommunicativeName, /'y'/)
+    ruby.should reek_of(:UncommunicativeName, /'@z'/)
+  end
 
-  source =<<EOS
+  it 'should report all bad block parameters' do
+    source =<<EOS
 class Thing
   def bad(fred)
     @fred.each {|x| 4 - x }
@@ -67,7 +89,9 @@ class Thing
   end
 end
 EOS
-  check 'should report all bad block parameters', source, [[/'x'/], [/'y'/]]
+    source.should reek_of(:UncommunicativeName, /'x'/)
+    source.should reek_of(:UncommunicativeName, /'y'/)
+  end
 end
 
 require 'ostruct'

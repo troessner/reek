@@ -8,3 +8,6 @@ LargeClass:
 LongMethod:
   exclude:
   - Reek::SexpFormatter#self.format
+UtilityFunction:
+  exclude:
+  - Reek::Spec
