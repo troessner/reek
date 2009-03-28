@@ -11,7 +11,11 @@ module Reek
       return new(code, 'string')
     end
 
-    def self.from_f(filename)
+    def self.from_f(file)
+      from_path(file.path)
+    end
+
+    def self.from_path(filename)
       code = IO.readlines(filename).join
       return new(code, filename, File.dirname(filename))
     end

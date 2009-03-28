@@ -61,6 +61,12 @@ module Reek
   end
 end
 
+class File
+  def to_source
+    Source.from_f(self)
+  end
+end
+
 class String
   def to_source
     Source.from_s(self)
