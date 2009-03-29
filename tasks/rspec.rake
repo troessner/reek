@@ -4,7 +4,7 @@ require 'spec/rake/spectask'
 
 namespace 'rspec' do
   FAST = FileList['spec/reek/**/*_spec.rb']
-  SLOW = FileList['spec/integration/**/*_spec.rb']
+  SLOW = FileList['spec/integration/**/*_spec.rb'] + FileList['spec/samples/**/*_spec.rb']
 
   Spec::Rake::SpecTask.new('fast') do |t|
     t.spec_files = FAST

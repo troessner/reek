@@ -1,3 +1,5 @@
+require 'reek/source'
+
 module Reek
 
   #
@@ -58,10 +60,10 @@ module Reek
         @source.has_smell?(@klass, @patterns)
       end
       def failure_message_for_should
-        "Expected source to reek of #{@klass}, but it didn't"
+        "Expected #{@source} to reek of #{@klass}, but it didn't"
       end
       def failure_message_for_should_not
-        "Expected source not to reek of #{@klass}, but got:\n#{@source.report}"
+        "Expected #{@source} not to reek of #{@klass}, but got:\n#{@source.report}"
       end
     end
 
@@ -103,13 +105,13 @@ end
 
 class File
   def to_source
-    Source.from_f(self)
+    Reek::Source.from_f(self)
   end
 end
 
 class String
   def to_source
-    Source.from_s(self)
+    Reek::Source.from_s(self)
   end
 end
 

@@ -1,4 +1,5 @@
 $:.unshift File.dirname(__FILE__) + '/../lib'
+require 'reek'
 
 begin
   require 'spec'
