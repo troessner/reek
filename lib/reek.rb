@@ -4,5 +4,5 @@ require 'reek/report'
 require 'reek/smells/smells'
 
 module Reek # :doc:
-  VERSION = '0.3.1.2'
+  VERSION = '0.3.1.3'
 end

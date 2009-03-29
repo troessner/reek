@@ -5,6 +5,7 @@
 * Place *.reek files in source folder to configure smell detection behaviour
 * Added -f option to configure report format
 * --sort_order replaced by -f, -c and -s
+* Matchers provided for rspec; eg. foo.should_not reek
 
 === Minor enhancements:
 

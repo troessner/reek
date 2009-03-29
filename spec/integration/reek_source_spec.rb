@@ -1,15 +1,13 @@
 require File.dirname(__FILE__) + '/../spec_helper.rb'
 
 describe 'Reek source code:' do
-  Dir['lib/**/*.rb'].each do |source|
-    describe source do
-      it 'should report no smells' do
-        File.new(source).should_not reek
-      end
-      it 'should report no smells via bin/reek' do
-        `ruby -Ilib bin/reek #{source}`.should == ''
-        $?.exitstatus.should == 0
-      end
+  Dir['lib/**/*.rb'].each do |path|
+    it "reports no smells in #{path}" do
+      File.new(path).should_not reek
+    end
+    it "reports no smells in #{path} via bin/reek" do
+      `ruby -Ilib bin/reek #{path}`.should == ''
+      $?.exitstatus.should == 0
     end
   end
 end

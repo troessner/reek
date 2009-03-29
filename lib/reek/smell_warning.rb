@@ -24,8 +24,12 @@ module Reek
 
     alias eql? <=>  # :nodoc:
 
-    def matches?(name_sym, patterns)
-      return false unless name_sym.to_s == @smell.class.class_name
+    #
+    # Returns +true+ only if this is a warning about an instance of
+    # +smell_class+ and its report string matches all of the +patterns+.
+    #
+    def matches?(smell_class, patterns)
+      return false unless smell_class.to_s == @smell.class.class_name
       rpt = report
       return patterns.all? {|exp| exp === rpt}
     end

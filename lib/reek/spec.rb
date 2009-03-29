@@ -1,6 +1,34 @@
 module Reek
+
+  #
+  # Provides matchers for Rspec, making it easy to check code quality.
+  #
+  # === Examples
+  #
+  # Here's a spec that ensures there are no smell warnings in the current project:
+  #
+  #  describe 'source code quality' do
+  #    Dir['lib/**/*.rb'].each do |path|
+  #      it "reports no smells in #{path}" do
+  #        File.new(path).should_not reek
+  #      end
+  #    end
+  #  end
+  #
+  # Here's a simple check of a code fragment:
+  #
+  #  'def equals(other) other.thing == self.thing end'.should_not reek
+  #
+  # And a more complex example, making use of one of the factory methods for
+  # +Source+ so that the code is parsed and analysed only once:
+  # 
+  #   ruby = 'def double_thing() @other.thing.foo + @other.thing.foo end'.to_source
+  #   ruby.should reek_of(:Duplication, /@other.thing[^\.]/)
+  #   ruby.should reek_of(:Duplication, /@other.thing.foo/)
+  #   ruby.should_not reek_of(:FeatureEnvy)
+  #
   module Spec
-    class ShouldReek
+    class ShouldReek        # :nodoc:
       def matches?(actual)
         @source = actual.to_source
         @source.smelly?
@@ -9,15 +37,18 @@ module Reek
         "Expected source to reek, but it didn't"
       end
       def failure_message_for_should_not
-        "Expected no smells, but got the following:\n#{@source.report}"
+        "Expected no smells, but got:\n#{@source.report}"
       end
     end
 
+    #
+    # Returns +true+ if and only if the target source code contains smells.
+    #
     def reek
       ShouldReek.new
     end
 
-    class ShouldReekOf
+    class ShouldReekOf        # :nodoc:
       def initialize(klass, patterns)
         @klass = klass
         @patterns = patterns
@@ -34,11 +65,16 @@ module Reek
       end
     end
 
-    def reek_of(klass, *patterns)
-      ShouldReekOf.new(klass, patterns)
+    #
+    # Checks the target source code for instances of +smell_class+,
+    # and returns +true+ only if one of them has a report string matching
+    # all of the +patterns+.
+    #
+    def reek_of(smell_class, *patterns)
+      ShouldReekOf.new(smell_class, patterns)
     end
 
-    class ShouldReekOnlyOf
+    class ShouldReekOnlyOf        # :nodoc:
       def initialize(klass, patterns)
         @klass = klass
         @patterns = patterns
@@ -55,8 +91,12 @@ module Reek
       end
     end
 
-    def reek_only_of(klass, *patterns)
-      ShouldReekOnlyOf.new(klass, patterns)
+    #
+    # As for reek_of, but the matched smell warning must be the only warning of
+    # any kind in the target source code's Reek report.
+    #
+    def reek_only_of(smell_class, *patterns)
+      ShouldReekOnlyOf.new(smell_class, patterns)
     end
   end
 end
