@@ -46,6 +46,15 @@ module Reek
       return new(code, filename, File.dirname(filename))
     end
 
+    #
+    # Factory method: creates a +Source+ object from an array of file paths.
+    # No source code is actually parsed until the report is accessed.
+    #
+    def self.from_pathlist(paths)
+      sources = paths.map {|path| Source.from_path(path) }
+      SourceList.new(sources)
+    end
+
     def initialize(code, desc, dir = '.')     # :nodoc:
       @source = code
       @dir = dir
@@ -80,6 +89,23 @@ module Reek
 
     def to_s
       @desc
+    end
+  end
+
+  class SourceList
+    def initialize(sources)
+      @sources = sources
+    end
+
+    def smelly?
+      @sources.any? {|source| source.smelly? }
+    end
+
+    def report
+      @sources.select {|src| src.smelly? }.map do |src|
+        warnings = src.report
+        "\"#{src}\" -- #{warnings.length} warnings:\n#{warnings.to_s}\n"
+      end.join("\n")
     end
   end
 end

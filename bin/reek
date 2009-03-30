@@ -1,26 +1,19 @@
 #!/usr/bin/env ruby
 #
-#  Created on 2008-2-17.
-#  Copyright (c) 2008-2009 Kevin Rutherford, Rutherford Software Ltd. All rights reserved.
+# Reek examines Ruby source code for smells.
+# Visit http://reek.rubyforge.org/ for docs etc.
+#
+# Author: Kevin Rutherford
 #
 
 require 'reek'
 require 'reek/source'
 require 'reek/options'
 
-sources = Reek::Options.parse(ARGV)
 exitstatus = 0
-sources.each do |src|
-  warnings = src.report
-  next if warnings.empty?
-  if sources.size == 1
-    puts warnings.to_s
-  else
-    puts "\"#{src}\" -- #{warnings.length} warnings:"
-    puts warnings.to_s
-    puts
-  end
+source = Reek::Options.parse(ARGV)
+if source.smelly?
+  puts source.report
   exitstatus = 2
 end
-
 exit(exitstatus)

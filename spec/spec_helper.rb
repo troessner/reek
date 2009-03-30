@@ -1,5 +1,4 @@
 $:.unshift File.dirname(__FILE__) + '/../lib'
-require 'reek'
 
 begin
   require 'spec'
@@ -9,6 +8,7 @@ rescue LoadError
   require 'spec'
 end
 
+require 'reek'
 require 'reek/spec'
 
 Spec::Runner.configure do |config|

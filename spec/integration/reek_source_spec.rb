@@ -5,10 +5,10 @@ describe 'Reek source code:' do
     it "reports no smells in #{path}" do
       File.new(path).should_not reek
     end
-    it "reports no smells in #{path} via bin/reek" do
-      `ruby -Ilib bin/reek #{path}`.should == ''
-      $?.exitstatus.should == 0
-    end
+  end
+
+  it 'reports no smells via the Dir matcher' do
+    Dir['lib/**/*.rb'].should_not reek
   end
 end
 

@@ -45,9 +45,9 @@ EOB
       begin
         @@opts = parse_args(args)
         if ARGV.length > 0
-          return ARGV.map {|arg| Source.from_path(arg)}
+          return Source.from_pathlist(ARGV)
         else
-          return [Source.from_io($stdin, 'stdin')]
+          return Source.from_io($stdin, 'stdin')
         end
       rescue OptionParser::ParseError, SystemCallError => err
         fatal_error(err)

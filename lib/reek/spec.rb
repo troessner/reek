@@ -115,6 +115,12 @@ class String
   end
 end
 
+class Array
+  def to_source
+    Reek::Source.from_pathlist(self)
+  end
+end
+
 module Reek
   class Source
     def to_source
