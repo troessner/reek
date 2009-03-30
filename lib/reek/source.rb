@@ -92,6 +92,9 @@ module Reek
     end
   end
 
+  #
+  # Represents a list of Sources as if they were a single source.
+  #
   class SourceList
     def initialize(sources)
       @sources = sources
