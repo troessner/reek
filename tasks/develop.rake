@@ -21,21 +21,18 @@ end
 
 task CONFIG_FILE => FileList['lib/reek/smells/*.rb']
 
-namespace 'git' do
+#- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  task 'github' do
-    `git push origin`
-    `git push --tags origin`
-  end
-
-  task 'rubyforge' do
-    `git push rubyforge`
-    `git push --tags rubyforge`
-  end
-
-  desc 'push the current master to all remotes'
-  task 'push' => ['github', 'rubyforge']
+task :release_notes do
+  puts "1) git commit -m \"Release #{Reek::VERSION}\""
+  puts "2) git tag -a \"v#{Reek::VERSION}\" -m \"Release #{Reek::VERSION}\""
+  puts "3) git push"
+  puts "4) git push --tags"
 end
+
+task :gemspec => :release_notes
+
+#- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 desc 'runs the unit and integration tests'
 task 'cruise' => ['clobber', 'rspec:all']
