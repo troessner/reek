@@ -9,7 +9,3 @@ rescue LoadError
 end
 
 require 'reek/spec'
-
-Spec::Runner.configure do |config|
-  config.include(Reek::Spec)
-end

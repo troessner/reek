@@ -5,6 +5,10 @@ module Reek
   #
   # Provides matchers for Rspec, making it easy to check code quality.
   #
+  # If you require this module somewhere within your spec (or in your spec_helper),
+  # Reek will arrange to update Spec::Runner's config so that it knows about the
+  # matchers defined here.
+  #
   # === Examples
   #
   # Here's a spec that ensures there are no smell warnings in the current project:
@@ -15,6 +19,12 @@ module Reek
   #        File.new(path).should_not reek
   #      end
   #    end
+  #  end
+  #
+  # And here's an even simpler way to do the same:
+  #
+  #  it 'has no code smells' do
+  #    Dir['lib/**/*.rb'].should_not reek
   #  end
   #
   # Here's a simple check of a code fragment:
@@ -126,5 +136,11 @@ module Reek
     def to_source
       self
     end
+  end
+end
+
+if Object.const_defined?(:Spec)
+  Spec::Runner.configure do |config|
+    config.include(Reek::Spec)
   end
 end
