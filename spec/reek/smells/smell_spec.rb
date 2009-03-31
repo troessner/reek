@@ -6,8 +6,8 @@ include Reek
 
 describe SmellWarning, ' in comparisons' do
   before :each do
-    @first = SmellWarning.new(FeatureEnvy.new, "self", "self")
-    @second = SmellWarning.new(FeatureEnvy.new, "self", "self")
+    @first = SmellWarning.new(Smells::FeatureEnvy.new, "self", "self")
+    @second = SmellWarning.new(Smells::FeatureEnvy.new, "self", "self")
   end
 
   it 'should hash equal when the smell is the same' do

@@ -1,4 +1,6 @@
+require File.dirname(__FILE__) + '/../spec_helper.rb'
 require 'reek/module_context'
+require 'reek/stop_context'
 
 include Reek
 

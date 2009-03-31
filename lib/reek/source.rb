@@ -1,4 +1,6 @@
 require 'reek/code_parser'
+require 'reek/report'
+require 'reek/smells/smells'
 
 module Reek
 

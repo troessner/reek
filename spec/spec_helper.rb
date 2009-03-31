@@ -8,7 +8,6 @@ rescue LoadError
   require 'spec'
 end
 
-require 'reek'
 require 'reek/spec'
 
 Spec::Runner.configure do |config|

@@ -1,5 +1,10 @@
+require File.dirname(__FILE__) + '/../../spec_helper.rb'
+require 'reek/report'
+require 'reek/method_context'
+require 'reek/stop_context'
 require 'reek/smells/duplication'
 
+include Reek
 include Reek::Smells
 
 describe Duplication, "repeated method calls" do

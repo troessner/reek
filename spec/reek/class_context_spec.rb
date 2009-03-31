@@ -1,9 +1,11 @@
 require File.dirname(__FILE__) + '/../spec_helper.rb'
 
 require 'reek/class_context'
+require 'reek/stop_context'
 require 'reek/smells/feature_envy'
 
 include Reek
+include Reek::Smells
 
 describe ClassContext do
   it 'should report Long Parameter List' do

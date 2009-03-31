@@ -1,6 +1,12 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
+require 'ostruct'
+require 'reek/method_context'
+require 'reek/smells/uncommunicative_name'
 
-describe CodeParser, "uncommunicative method name" do
+include Reek
+include Reek::Smells
+
+describe UncommunicativeName, "method name" do
   it 'should not report one-word method name' do
     'def help(fred) basics(17) end'.should_not reek
   end
@@ -12,7 +18,7 @@ describe CodeParser, "uncommunicative method name" do
   end
 end
 
-describe CodeParser, "uncommunicative field name" do
+describe UncommunicativeName, "field name" do
   it 'should not report one-word field name' do
     'class Thing; def help(fred) @simple end end'.should_not reek
   end
@@ -27,7 +33,7 @@ describe CodeParser, "uncommunicative field name" do
   end
 end
 
-describe CodeParser, "uncommunicative local variable name" do
+describe UncommunicativeName, "local variable name" do
   it 'should not report one-word variable name' do
     'def help(fred) simple = jim(45) end'.should_not reek
   end
@@ -42,7 +48,7 @@ describe CodeParser, "uncommunicative local variable name" do
   end
 end
 
-describe CodeParser, "uncommunicative parameter name" do
+describe UncommunicativeName, "parameter name" do
   it 'should not recognise *' do
     'def help(xray, *) basics(17) end'.should_not reek
   end
@@ -54,7 +60,7 @@ describe CodeParser, "uncommunicative parameter name" do
   end
 end
 
-describe CodeParser, "uncommunicative block parameter name" do
+describe UncommunicativeName, "block parameter name" do
   it "should report parameter's name" do
     'def help() @stuff.each {|x|} end'.should reek_only_of(:UncommunicativeName, /x/, /block/, /variable name/)
   end
@@ -71,7 +77,7 @@ EOS
   end
 end
 
-describe CodeParser, "several uncommunicative names" do
+describe UncommunicativeName, "several names" do
 
   it 'should report all bad names' do
     ruby = Source.from_s('class Oof; def y(x) @z = x end end')
@@ -93,10 +99,6 @@ EOS
     source.should reek_of(:UncommunicativeName, /'y'/)
   end
 end
-
-require 'ostruct'
-require 'reek/smells/uncommunicative_name'
-include Reek::Smells
 
 describe UncommunicativeName, '#examine' do
   before :each do

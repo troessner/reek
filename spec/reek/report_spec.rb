@@ -3,6 +3,7 @@ require File.dirname(__FILE__) + '/../spec_helper.rb'
 require 'reek/smells/smell_detector'
 require 'reek/report'
 require 'reek/source'
+require 'reek/smells/feature_envy'
 
 include Reek
 
@@ -39,9 +40,9 @@ end
 describe Report, " as a SortedSet" do
   it 'should only add a smell once' do
     rpt = Report.new
-    rpt << SmellWarning.new(FeatureEnvy.new, "self", 'too many!')
+    rpt << SmellWarning.new(Smells::FeatureEnvy.new, "self", 'too many!')
     rpt.length.should == 1
-    rpt << SmellWarning.new(FeatureEnvy.new, "self", 'too many!')
+    rpt << SmellWarning.new(Smells::FeatureEnvy.new, "self", 'too many!')
     rpt.length.should == 1
   end
 end

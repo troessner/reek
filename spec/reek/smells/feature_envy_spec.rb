@@ -1,5 +1,5 @@
+require File.dirname(__FILE__) + '/../../spec_helper.rb'
 require 'reek/smells/feature_envy'
-
 require 'reek/method_context'
 require 'reek/stop_context'
 
