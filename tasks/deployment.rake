@@ -13,24 +13,14 @@ rescue Gem::LoadError
 end
 
 class Hoe
-  attr_accessor :author
-  attr_accessor :bin_files
   attr_accessor :changes
   attr_accessor :clean_globs
   attr_accessor :description
   attr_accessor :description_sections
-  attr_accessor :email
   attr_accessor :extra_deps
   attr_accessor :extra_dev_deps
-  attr_accessor :lib_files
-  attr_accessor :name
-  attr_accessor :post_install_message
-  attr_accessor :rdoc_pattern
-  attr_accessor :remote_rdoc_dir
-  attr_accessor :rsync_args
   attr_accessor :spec
   attr_accessor :summary
-  attr_accessor :summary_sentences
   attr_accessor :url
   attr_accessor :version
 
@@ -44,22 +34,14 @@ class Hoe
   end
 
   def initialize(name, version) # :nodoc:
-    self.name = name
     self.version = version
 
     # Defaults
-    self.author = []
     self.clean_globs = %w(diff diff.txt email.txt ri deps .source_index
                           *.gem *~ **/*~ *.rbc **/*.rbc)
     self.description_sections = %w(description)
-    self.email = []
     self.extra_deps = []
     self.extra_dev_deps = []
-    self.rdoc_pattern = /^(lib|bin|ext)|txt|rdoc$/
-    self.remote_rdoc_dir = name
-    self.rsync_args = '-av --delete'
-    self.summary_sentences = 1
-    self.post_install_message = nil
 
     yield self if block_given?
 
@@ -72,8 +54,7 @@ class Hoe
       }
       sections = Hash[*sections]
       desc = sections.values_at(*description_sections).join("\n\n")
-      summ = desc.split(/\.\s+/).first(summary_sentences).join(". ")
-
+      summ = desc.split(/\.\s+/).first(1).join(". ")
       self.description ||= desc
       self.summary ||= summ
       self.url ||= readme[1].gsub(/^\* /, '').split(/\n/).grep(/\S+/)
@@ -87,20 +68,9 @@ class Hoe
                        missing 'History.txt'
                        ''
                      end
-    %w(email author).each do |field|
-      value = self.send(field)
-      if value.nil? or value.empty? then
-        abort "Hoe #{field} value not set. aborting"
-      end
-    end
     self.extra_deps     = normalize_deps extra_deps
     self.extra_dev_deps = normalize_deps extra_dev_deps
     define_tasks
-  end
-
-  def developer name, email
-    self.author << name
-    self.email << email
   end
 
   def define_tasks
@@ -109,12 +79,12 @@ class Hoe
     # Packaging and Installing
 
     self.spec = Gem::Specification.new do |s|
-      s.name = name
+      s.name = PROJECT_NAME
       s.version = version
       s.summary = s.description = 'Code smell detector for Ruby'
-      s.author = author
-      s.email = email
-      s.homepage = Array(url).first
+      s.author = 'Kevin Rutherford'
+      s.email = ['kevin@rutherford-software.com']
+      s.homepage = 'http://wiki.github.com/kevinrutherford/reek'
       s.rubyforge_project = PROJECT_NAME
       extra_deps.each do |dep|
         s.add_dependency(*dep)
@@ -125,21 +95,19 @@ class Hoe
       s.files = File.read("Manifest.txt").delete("\r").split(/\n/)
       s.executables = s.files.grep(/^bin/) { |f| File.basename(f) }
       s.bindir = "bin"
-      dirs = Dir['{lib,ext}']
-      s.require_paths = dirs unless dirs.empty?
+      s.require_paths = ['lib']
       s.rdoc_options = ['--main', 'README.txt']
       s.extra_rdoc_files = s.files.grep(/(txt|rdoc)$/)
       s.has_rdoc = true
-      s.post_install_message = post_install_message
+      s.post_install_message = '
+For more information on reek, see http://wiki.github.com/kevinrutherford/reek
+'
     end
 
     desc 'Show information about the gem.'
     task :show_gemspec do
       puts spec.to_ruby
     end
-
-    self.lib_files = spec.files.grep(/^(lib|ext)/)
-    self.bin_files = spec.files.grep(/^bin/)
 
     Rake::GemPackageTask.new spec do |pkg|
       pkg.need_tar = true
@@ -171,22 +139,12 @@ class Hoe
 
     Rake::RDocTask.new(:docs) do |rd|
       rd.main = 'README.txt'
-      rd.options << '-d' if RUBY_PLATFORM !~ /win32/ and `which dot` =~ /\/dot/ and not ENV['NODOT']
       rd.rdoc_dir = 'doc'
-      files = spec.files.grep(rdoc_pattern)
+      files = spec.files.grep(/^(lib|bin|ext)|txt|rdoc$/)
       files -= ['Manifest.txt']
       rd.rdoc_files.push(*files)
-      title = "#{name}-#{version} Documentation"
+      title = "#{PROJECT_NAME}-#{version} Documentation"
       rd.options << "-t #{title}"
-    end
-
-    desc 'Publish RDoc to RubyForge.'
-    task :publish_docs => [:clean, :docs] do
-      config = YAML.load(File.read(File.expand_path("~/.rubyforge/user-config.yml")))
-      host = "#{config["username"]}@rubyforge.org"
-      remote_dir = "/var/www/gforge-projects/#{PROJECT_NAME}/#{remote_rdoc_dir}"
-      local_dir = 'doc'
-      sh %{rsync #{rsync_args} #{local_dir}/ #{host}:#{remote_dir}}
     end
 
     desc 'Clean up all the extras.'
@@ -267,27 +225,20 @@ class String
 end
 
 $hoe = Hoe.new(PROJECT_NAME, ::Reek::VERSION) do |p|
-  p.developer('Kevin Rutherford', 'kevin@rutherford-software.com')
   p.changes = p.paragraphs_of("History.txt", 0..1).join("\n\n")
-  p.post_install_message = '
-For more information on reek, see http://wiki.github.com/kevinrutherford/reek
-'
   p.extra_deps = [
     ['ParseTree', '~> 3.0'],
     ['sexp_processor', '~> 3.0']
   ]
   p.clean_globs |= %w[**/.DS_Store tmp *.log]
-  p.remote_rdoc_dir = 'rdoc'
-  p.rsync_args = '-av --delete --ignore-errors'
   p.summary = 'Code smell detector for Ruby'
 end
-$hoe.spec.homepage = 'http://wiki.github.com/kevinrutherford/reek'
 
 GEMSPEC = "#{PROJECT_NAME}.gemspec"
 
 file GEMSPEC => ['Manifest.txt', 'lib/reek.rb', __FILE__] do
-  puts "Generating #{PROJECT_NAME}.gemspec"
-  File.open("#{PROJECT_NAME}.gemspec", "w") do |file|
+  puts "Generating #{GEMSPEC}"
+  File.open(GEMSPEC, 'w') do |file|
     file.puts $hoe.spec.to_ruby
   end
   puts "1) git commit -a -m \"Release #{Reek::VERSION}\""
@@ -304,4 +255,13 @@ task :release do
   Announce your release on RubyForge News:
     rake post_news
   EOS
+end
+
+desc 'Publish RDoc to RubyForge.'
+task :publish_docs => [:clean, :docs] do
+  config = YAML.load(File.read(File.expand_path("~/.rubyforge/user-config.yml")))
+  host = "#{config["username"]}@rubyforge.org"
+  remote_dir = "/var/www/gforge-projects/#{PROJECT_NAME}/rdoc"
+  local_dir = 'doc'
+  sh %{rsync -av --delete --ignore-errors #{local_dir}/ #{host}:#{remote_dir}}
 end

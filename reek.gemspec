@@ -5,10 +5,10 @@ Gem::Specification.new do |s|
   s.version = "0.3.1.6"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = [["Kevin Rutherford"]]
+  s.authors = ["Kevin Rutherford"]
   s.date = %q{2009-04-02}
   s.default_executable = %q{reek}
-  s.description = %q{}
+  s.description = %q{Code smell detector for Ruby}
   s.email = ["kevin@rutherford-software.com"]
   s.executables = ["reek"]
   s.extra_rdoc_files = ["History.txt", "README.txt"]
