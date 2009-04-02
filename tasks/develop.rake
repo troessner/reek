@@ -21,19 +21,6 @@ end
 
 task CONFIG_FILE => FileList['lib/reek/smells/*.rb']
 
-#- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-task :release_notes do
-  puts "1) git commit -m \"Release #{Reek::VERSION}\""
-  puts "2) git tag -a \"v#{Reek::VERSION}\" -m \"Release #{Reek::VERSION}\""
-  puts "3) git push"
-  puts "4) git push --tags"
-end
-
-task :gemspec => :release_notes
-
-#- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
 desc 'runs the unit and integration tests'
 task 'cruise' => ['clobber', 'rspec:all']
 

@@ -1,4 +1,3 @@
-require 'rake/clean'
 require 'spec'
 require 'spec/rake/spectask'
 
