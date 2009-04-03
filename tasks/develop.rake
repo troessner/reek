@@ -21,9 +21,7 @@ end
 
 task CONFIG_FILE => FileList['lib/reek/smells/*.rb']
 
-desc 'runs the unit and integration tests'
-task 'cruise' => ['clobber', 'rspec:all']
-
 task 'rspec:fast' => [CONFIG_FILE]
 task 'rspec:all' => [CONFIG_FILE]
 task 'reek' => [CONFIG_FILE]
+task 'check_manifest' => [CONFIG_FILE]

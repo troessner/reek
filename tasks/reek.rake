@@ -5,16 +5,3 @@ Reek::RakeTask.new do |t|
   t.verbose = false
 #  t.reek_opts = '-f "Smell: %s: %c %w"'
 end
-
-begin
-  require 'flay'
-
-  desc 'Check for code duplication'
-  task 'flay' do
-    files = FileList['lib/**/*.rb']
-    flayer = Flay.new(16)
-    flayer.process(*files)
-    flayer.report
-  end
-rescue LoadError
-end

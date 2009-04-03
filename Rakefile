@@ -1,7 +1,16 @@
 require 'rake'
+require 'rake/clean'
 
 $:.unshift File.dirname(__FILE__) + '/lib'
 
 PROJECT_NAME = 'reek'
+
+BUILD_DIR = 'build'; directory BUILD_DIR
+PKG_DIR = "#{BUILD_DIR}/pkg"; directory PKG_DIR
+RDOC_DIR = "#{BUILD_DIR}/rdoc"; directory RDOC_DIR
+
+GEM_MANIFEST = "Manifest.txt"
+
+CLOBBER.include("#{BUILD_DIR}/*")
 
 Dir['tasks/**/*.rake'].each { |t| load t }
