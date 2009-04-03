@@ -35,6 +35,6 @@ describe 'sample gem source code' do
     ruby.should reek_of(:UncommunicativeName, /Inline::C#module_name/, /'x'/)
     ruby.should reek_of(:UncommunicativeName, /Inline::C#parse_signature/, /'x'/)
     ruby.should reek_of(:UtilityFunction, /Inline::C#strip_comments/)
-    ruby.report.length.should == 32
+    ruby.report.should have_at_most(32).smells
   end
 end

@@ -95,6 +95,6 @@ describe 'sample gem source code' do
     ruby.should reek_of(:UncommunicativeName, /OptionParser#summarize/, /'l'/)
     ruby.should reek_of(:UncommunicativeName, /OptionParser#ver/, /'v'/)
     ruby.should reek_of(:UncommunicativeName, /block/, /'q'/)
-    ruby.report.length.should == 92
+    ruby.report.should have_at_most(92).smells
   end
 end

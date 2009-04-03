@@ -88,6 +88,6 @@ describe 'sample gem source code' do
     ruby.should reek_of(:UtilityFunction, /RedCloth#incoming_entities/)
     ruby.should reek_of(:UtilityFunction, /RedCloth#no_textile/)
     ruby.should reek_of(:UtilityFunction, /RedCloth#v_align/)
-    ruby.report.length.should == 85
+    ruby.report.should have_at_most(85).smells
   end
 end
