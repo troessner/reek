@@ -42,6 +42,6 @@ namespace :rubyforge do
     proj = Description.new
     rf = RubyForge.new.configure
     rf.login
-    puts "rf.post_news(#{PROJECT_NAME}, #{proj.subject}, #{proj.news})"
+    rf.post_news(PROJECT_NAME, proj.subject, proj.news)
   end
 end

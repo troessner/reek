@@ -12,7 +12,6 @@ end
 GEMSPEC = "#{PROJECT_NAME}.$gemspec"
 HISTORY_FILE = 'History.txt'
 
-NEWS_FILE = "#{BUILD_DIR}/news.txt"
 RELEASE_TIMESTAMP = "#{BUILD_DIR}/.last-release"
 MANIFEST_CHECKED = "#{BUILD_DIR}/.manifest-checked"
 
@@ -84,44 +83,21 @@ EOR
 
   def news
     news = <<-EOM
-    #{title}
+#{title}
 
-    #{description}
+#{description}
 
-    ## Changes in this release:
+## Changes in this release:
 
-    #{changes.rdoc_to_markdown}
+#{changes.rdoc_to_markdown}
 
-    ## More information:
+## More information:
 
-    #{urls}
-    EOM
+#{urls}
+EOM
     return news
   end
-
-  def email
-    result = <<EOM
-"Subject: [ANN] #{subject}"
-
-"#{title}"
-
-"#{urls}"
-
-"#{body}"
-
-"#{urls}"
-EOM
-    result
-  end
 end
-
-file NEWS_FILE => [HISTORY_FILE] do
-  NEWS_FILE.touch(Description.new.news)
-end
-#
-#file VERSION_FILE => [RELEASE_TIMESTAMP] do
-#  abort "Version #{::Reek::VERSION} has already been released!"
-#end
 
 class ::Rake::SshDirPublisher
   attr_reader :host, :remote_dir, :local_dir
@@ -145,7 +121,7 @@ namespace :release do
   end
 
   desc 'Major release (github+rubyforge) with news'
-  task :major => ['release:minor', NEWS_FILE, 'rubyforge:news'] do
+  task :major => ['release:minor', 'rubyforge:gem', 'rubyforge:news'] do
     
   end
 end
@@ -180,6 +156,11 @@ namespace :test do
   desc 'Show the gemspec'
   task :gemspec do
     puts $gemspec.to_ruby
+  end
+
+  desc 'Show the announcement email to be sent'
+  task :email do
+    puts Description.new.news
   end
 end
 
