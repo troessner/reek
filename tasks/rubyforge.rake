@@ -28,7 +28,7 @@ namespace :rubyforge do
     c["release_notes"] = proj.description
     c["release_changes"] = proj.changes
     c["preformatted"] = true
-    files = ["#{pkg}.tgz", "#{pkg}.gem"].compact
+    files = ["#{pkg}.tgz", "#{pkg}.gem"]
     rf.add_release(PROJECT_NAME, PROJECT_NAME, ::Reek::VERSION, *files)
   end
 

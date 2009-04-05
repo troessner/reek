@@ -134,7 +134,7 @@ end
 namespace :release do
 
   desc 'Minor release on github only'
-  task :minor => [VERSION_FILE, 'build:package', 'rubyforge:rdoc'] do
+  task :minor => ['build:all', 'rubyforge:rdoc'] do
     puts <<-EOS
       1) git commit -a -m "Release #{Reek::VERSION}"
       2) git tag -a "v#{Reek::VERSION}" -m "Release #{Reek::VERSION}"
