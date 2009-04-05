@@ -9,7 +9,7 @@ begin
 rescue Gem::LoadError
 end
 
-GEMSPEC = "#{PROJECT_NAME}.$gemspec"
+GEMSPEC = "#{PROJECT_NAME}.gemspec"
 HISTORY_FILE = 'History.txt'
 
 RELEASE_TIMESTAMP = "#{BUILD_DIR}/.last-release"
