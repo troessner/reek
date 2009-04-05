@@ -2,7 +2,7 @@
 
 === Major enhancements:
 
-* Place *.reek files in source folder to configure smell detection behaviour
+* Use *.reek files in source tree to configure Reek's behaviour
 * Added -f option to configure report format
 * --sort_order replaced by -f, -c and -s
 * Matchers provided for rspec; eg. foo.should_not reek
@@ -17,7 +17,6 @@
 
 * Corrected false reports of long arg lists to yield
 * A method can now be a UtilityFunction only when it includes a call
-* Removed the website from the gem [#12]
 
 == 0.3.1 2008-11-17
 

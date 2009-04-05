@@ -9,6 +9,13 @@ begin
 rescue Gem::LoadError
 end
 
+GEMSPEC = "#{PROJECT_NAME}.$gemspec"
+HISTORY_FILE = 'History.txt'
+
+NEWS_FILE = "#{BUILD_DIR}/news.txt"
+RELEASE_TIMESTAMP = "#{BUILD_DIR}/.last-release"
+MANIFEST_CHECKED = "#{BUILD_DIR}/.manifest-checked"
+
 $gemspec = Gem::Specification.new do |s|
   s.name = PROJECT_NAME
   s.version = ::Reek::VERSION
@@ -31,108 +38,136 @@ For more information on reek, see http://wiki.github.com/kevinrutherford/reek
 '
 end
 
+class File
+  def self.touch(path, text)
+    File.open(path, 'w') { |ios| ios.puts text }
+  end
+end
+
 class String
   def rdoc_to_markdown
     self.gsub(/^(=+)/) { "#" * $1.size }
   end
+
+  def touch(text = DateTime.now)
+    File.touch(self, text)
+  end
 end
 
-def changes
-  File.read("History.txt").split(/^(== .*)/)[2].strip
-end
+class Description
 
-def announcement
-  subject = "#{PROJECT_NAME} #{::Reek::VERSION} Released"
-  title   = "#{PROJECT_NAME} version #{::Reek::VERSION} has been released!"
-  body    = "#{$gemspec.description}\n\nChanges:\n\n#{changes}".rdoc_to_markdown
-  urls    = <<EOU
-* http://wiki.github.com/kevinrutherford/reek
-* http://reek.rubyforge.org/rdoc/
-EOU
-  return subject, title, body, urls
-end
+  def description
+    "Reek detects smells in Ruby code. It can be used as a stand-alone
+command, or as a Rake task, or as an expectation in Rspec examples."
+  end
 
-desc 'Post announcement to rubyforge'
-task :post_news do
-  subject, title, body, urls = announcement
-  rf = RubyForge.new.configure
-  rf.login
-  rf.post_news(PROJECT_NAME, subject, "#{title}\n\n#{body}")
-  puts "Posted to rubyforge"
-end
+  def changes
+    File.read("History.txt").split(/^(== .*)/)[2].strip
+  end
 
-desc 'Generate email announcement'
-task :email do
-  subject, title, body, urls = announcement
-  email = <<EOM
-Subject: [ANN] #{subject}
+  def subject
+    "#{PROJECT_NAME} #{::Reek::VERSION} released"
+  end
+  def title
+    "#{PROJECT_NAME} version #{::Reek::VERSION} has been released!"
+  end
+  def body
+    "#{$gemspec.description}\n\n## Changes:\n\n#{changes}".rdoc_to_markdown
+  end
+  def urls
+    result = <<EOR
+* http://wiki.github.com/kevinrutherford/#{PROJECT_NAME}
+* http://#{PROJECT_NAME}.rubyforge.org/rdoc/
+EOR
+    result
+  end
 
-#{title}
+  def news
+    news = <<-EOM
+    #{title}
 
-#{urls}
+    #{description}
 
-#{body}
+    ## Changes in this release:
 
-#{urls}
+    #{changes.rdoc_to_markdown}
+
+    ## More information:
+
+    #{urls}
+    EOM
+    return news
+  end
+
+  def email
+    result = <<EOM
+"Subject: [ANN] #{subject}"
+
+"#{title}"
+
+"#{urls}"
+
+"#{body}"
+
+"#{urls}"
 EOM
-  puts email
+    result
+  end
 end
+
+file NEWS_FILE => [HISTORY_FILE] do
+  NEWS_FILE.touch(Description.new.news)
+end
+#
+#file VERSION_FILE => [RELEASE_TIMESTAMP] do
+#  abort "Version #{::Reek::VERSION} has already been released!"
+#end
 
 class ::Rake::SshDirPublisher
   attr_reader :host, :remote_dir, :local_dir
 end
 
-GEMSPEC = "#{PROJECT_NAME}.$gemspec"
-
-file GEMSPEC => [GEM_MANIFEST, 'lib/reek.rb', __FILE__] do
-  puts "Generating #{GEMSPEC}"
-  File.open(GEMSPEC, 'w') do |file|
-    file.puts $gemspec.to_ruby
-  end
-end
-
-namespace :build do
-  Rake::GemPackageTask.new($gemspec) do |task|
-    task.package_dir = PKG_DIR
-    task.need_tar = true
-    task.need_zip = false
-  end
-
-  task :gem => ['rspec:all']
-
-  Rake::RDocTask.new do |rd|
-    rd.main = 'README.txt'
-    rd.rdoc_dir = RDOC_DIR
-    files = $gemspec.files.grep(/^(lib|bin|ext)|txt|rdoc$/)
-    files -= [GEM_MANIFEST]
-    rd.rdoc_files.push(*files)
-    title = "#{PROJECT_NAME}-#{::Reek::VERSION} Documentation"
-    rd.options << "-t #{title}"
-  end
-
-  task :rdoc => [RDOC_DIR]
-  task :all => ['build:package', 'build:rdoc']
+file GEMSPEC => [GEM_MANIFEST, VERSION_FILE, __FILE__] do
+  GEMSPEC.touch($gemspec.to_ruby)
 end
 
 namespace :release do
-  task :version_bumped do
-    #abort 'Version not bumped!'
-  end
 
   desc 'Minor release on github only'
-  task :minor => ['version_bumped', 'build:package', 'rubyforge:rdoc'] do
+  task :minor => [VERSION_FILE, 'build:package', 'rubyforge:rdoc'] do
     puts <<-EOS
       1) git commit -a -m "Release #{Reek::VERSION}"
       2) git tag -a "v#{Reek::VERSION}" -m "Release #{Reek::VERSION}"
       3) git push
       4) git push --tags
     EOS
+    RELEASE_TIMESTAMP.touch(::Reek::VERSION)
   end
 
   desc 'Major release (github+rubyforge) with news'
-  task :major do
+  task :major => ['release:minor', NEWS_FILE, 'rubyforge:news'] do
     
   end
+end
+
+def pkg_files
+  require 'find'
+  result = []
+  Find.find '.' do |path|
+    next unless File.file? path
+    next if path =~ /\.git|build/
+    result << path[2..-1]
+  end
+  result
+end
+
+$package_files = pkg_files
+
+def display_manifest_diff
+  f = "Manifest.tmp"
+  f.touch(pkg_files.sort.join("\n"))
+  system "diff -du #{GEM_MANIFEST} #{f}"
+  rm f
 end
 
 namespace :test do
@@ -142,24 +177,22 @@ namespace :test do
     sh "sudo gem install --local #{gem}"
   end
 
-  desc 'Verify the manifest'
-  task :manifest => [:clobber] do
-    f = "Manifest.tmp"
-    require 'find'
-    files = []
-    Find.find '.' do |path|
-      next unless File.file? path
-      next if path =~ /\.git|build/
-      files << path[2..-1]
-    end
-    files = files.sort.join "\n"
-    File.open(f, 'w') do |fp| fp.puts files end
-    system "diff -du #{GEM_MANIFEST} #{f}"
-    rm f
-  end
-
   desc 'Show the gemspec'
   task :gemspec do
     puts $gemspec.to_ruby
+  end
+end
+
+def query(msg)
+  print msg
+  $stdin.gets
+end
+
+file MANIFEST_CHECKED => $package_files do
+  display_manifest_diff
+  if query('Is this manifest good to go? [yN]') =~ /y/i
+    MANIFEST_CHECKED.touch
+  else
+    abort 'Check the manifest and try again'
   end
 end

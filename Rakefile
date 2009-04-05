@@ -10,6 +10,7 @@ PKG_DIR = "#{BUILD_DIR}/pkg"; directory PKG_DIR
 RDOC_DIR = "#{BUILD_DIR}/rdoc"; directory RDOC_DIR
 
 GEM_MANIFEST = "Manifest.txt"
+VERSION_FILE = 'lib/reek.rb'
 
 CLOBBER.include("#{BUILD_DIR}/*")
 

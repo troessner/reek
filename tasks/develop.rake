@@ -9,7 +9,6 @@ CLOBBER.include(CONFIG_DIR)
 
 directory CONFIG_DIR
 
-desc 'creates the default config file'
 file CONFIG_FILE => [CONFIG_DIR] do
   config = {}
   Reek::SmellConfig::SMELL_CLASSES.each do |klass|
