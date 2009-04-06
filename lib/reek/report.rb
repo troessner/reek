@@ -9,6 +9,9 @@ module Reek
       @report = SortedSet.new
     end
 
+    #
+    # Yields, in turn, each SmellWarning in this report.
+    #
     def each
       @report.each { |smell| yield smell }
     end
@@ -18,11 +21,11 @@ module Reek
       true
     end
     
-    def empty?  # :nodoc:
+    def empty?
       @report.empty?
     end
 
-    def length  # :nodoc:
+    def length
       @report.length
     end
     
@@ -39,4 +42,33 @@ module Reek
     end
   end
 
+  class ReportList
+    include Enumerable
+
+    def initialize(sources)
+      @sources = sources
+    end
+
+    #
+    # Yields, in turn, each SmellWarning in every report in this report.
+    #
+    def each(&blk)
+      @sources.each {|src| src.report.each(&blk) }
+    end
+
+    def empty?
+      length == 0
+    end
+
+    def length
+      @sources.inject(0) {|sum, src| sum + src.report.length }
+    end
+
+    def to_s
+      @sources.select {|src| src.smelly? }.map do |src|
+        warnings = src.report
+        "\"#{src}\" -- #{warnings.length} warnings:\n#{warnings.to_s}\n"
+      end.join("\n")
+    end
+  end
 end

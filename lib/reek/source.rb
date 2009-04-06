@@ -107,10 +107,7 @@ module Reek
     end
 
     def report
-      @sources.select {|src| src.smelly? }.map do |src|
-        warnings = src.report
-        "\"#{src}\" -- #{warnings.length} warnings:\n#{warnings.to_s}\n"
-      end.join("\n")
+      ReportList.new(@sources)
     end
   end
 end
