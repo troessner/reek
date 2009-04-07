@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../spec_helper.rb'
 
 describe 'sample gem source code' do
   it "reports the correct smells in inline.rb" do
-    ruby = File.new('spec/samples/inline.rb').to_source
+    ruby = File.new("#{SAMPLES_DIR}/inline.rb").to_source
     ruby.should reek_of(:ControlCouple, /Inline::C#parse_signature/, /raw/)
     ruby.should reek_of(:ControlCouple, /Module#inline/, /options/)
     ruby.should reek_of(:Duplication, /Inline::C#build/, /\$\?\.==\(0\)/)

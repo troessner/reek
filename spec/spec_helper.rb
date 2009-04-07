@@ -9,3 +9,5 @@ rescue LoadError
 end
 
 require 'reek/spec'
+
+SAMPLES_DIR = 'spec/slow/samples' unless Object.const_defined?('SAMPLES_DIR')

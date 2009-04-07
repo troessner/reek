@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../spec_helper.rb'
 
 describe 'sample gem source code' do
   it "reports the correct smells in redcloth.rb" do
-    ruby = File.new('spec/samples/redcloth.rb').to_source
+    ruby = File.new("#{SAMPLES_DIR}/redcloth.rb").to_source
     ruby.should reek_of(:ControlCouple, /RedCloth#blocks\/block/, /deep_code/)
     ruby.should reek_of(:ControlCouple, /RedCloth#check_refs/, /text/)
     ruby.should reek_of(:ControlCouple, /RedCloth#pba/, /text_in/)

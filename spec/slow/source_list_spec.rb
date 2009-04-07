@@ -4,7 +4,7 @@ require 'reek/source'
 
 include Reek
 
-describe SourceList do
+describe SourceList, 'from_pathlist' do
 
   describe 'with no smells in any source' do
     before :each do
@@ -22,7 +22,7 @@ describe SourceList do
 
   describe 'with smells in one source' do
     before :each do
-      @src = Source.from_pathlist(['spec/samples/inline.rb', 'lib/reek.rb'])
+      @src = Source.from_pathlist(["#{SAMPLES_DIR}/inline.rb", 'lib/reek.rb'])
     end
 
     it 'reports some smells in the samples' do
