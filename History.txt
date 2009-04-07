@@ -1,44 +1,47 @@
+== 1.0.1 2009-04-06
+
+=== Fixes
+* Dir[...].to_source now creates a Report that can be browsed (#36)
+
 == 1.0.0 2009-04-05
 
-=== Major enhancements:
-
+=== Major enhancements
 * Use *.reek files in source tree to configure Reek's behaviour
 * Added -f option to configure report format
 * --sort_order replaced by -f, -c and -s
 * Matchers provided for rspec; eg. foo.should_not reek
 
-=== Minor enhancements:
-
+=== Minor enhancements
 * Smells in singleton methods are now analysed
 * Uncommunicative parameter names in blocks now reported
 * Modules and blocks now reflected in scope of smell reports
 
-=== Fixes:
-
+=== Fixes
 * Corrected false reports of long arg lists to yield
 * A method can now be a UtilityFunction only when it includes a call
 
 == 0.3.1 2008-11-17
 
-* Minor enhancements:
-  * Uncommunicative Name now checks instance variables more thoroughly
-  * Uncommunicative Name now warns about names of the form 'x2'
-  * Added check for duplicated calls within a method
-  * Reduced scope of Feature Envy warnings to cover only overuse of lvars
-  * Added rdoc comments explaining what each smell is about
-  * Chained iterators are no longer mis-reported as nested
+=== Minor enhancements
+* Uncommunicative Name now checks instance variables more thoroughly
+* Uncommunicative Name now warns about names of the form 'x2'
+* Added check for duplicated calls within a method
+* Reduced scope of Feature Envy warnings to cover only overuse of lvars
+* Added rdoc comments explaining what each smell is about
+* Chained iterators are no longer mis-reported as nested
 
 == 0.3.0 2008-11-02
 
-* Minor enhancements:
-  * New smell: first naive checks for Control Couple
-  * reek now only checks sources passed on the command line
-  * Code snippets can be supplied on the commandline
-  * Added headings and warnings count when smells in multiple files
-  * Added Reek::RakeTask to run reek from rakefiles
-* Tweaks:
-  * Fixed: Returns exit status 2 when smells are reported
-  * Fixed: no longer claims an empty method is a Utility Function
+=== Minor enhancements
+* New smell: first naive checks for Control Couple
+* reek now only checks sources passed on the command line
+* Code snippets can be supplied on the commandline
+* Added headings and warnings count when smells in multiple files
+* Added Reek::RakeTask to run reek from rakefiles
+
+=== Fixes
+* Fixed: Returns exit status 2 when smells are reported
+* Fixed: no longer claims an empty method is a Utility Function
 
 == 0.2.3 2008-09-22
 

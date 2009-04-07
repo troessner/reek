@@ -107,6 +107,10 @@ file GEMSPEC => [GEM_MANIFEST, VERSION_FILE, __FILE__] do
   GEMSPEC.touch($gemspec.to_ruby)
 end
 
+file HISTORY_FILE => [RELEASE_TIMESTAMP] do
+  abort "Update #{HISTORY_FILE} before attempting to release"
+end
+
 namespace :release do
 
   desc 'Minor release on github only'
