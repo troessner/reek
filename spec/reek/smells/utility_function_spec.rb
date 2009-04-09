@@ -16,8 +16,7 @@ describe UtilityFunction do
     class Fred
       attr_writer :xyz
     end
-    @cchk.check_object(Fred)
-    @rpt.should be_empty
+    Fred.should_not reek
   end
 
   it 'should count usages of self'do
@@ -43,8 +42,7 @@ describe UtilityFunction do
     class Son < Father
       def thing(ff); ff; end
     end
-    @cchk.check_object(Son)
-    @rpt.should be_empty
+    Son.should_not reek
   end
 
   it 'should not report class method' do

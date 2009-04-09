@@ -22,7 +22,6 @@ describe LargeClass do
   end
 
   it 'should not report short class' do
-    pending('to do')
     class ShortClass
       def method1() @var1; end
       def method2() @var2; end
@@ -35,13 +34,7 @@ describe LargeClass do
   end
 
   it 'should report large class' do
-    @cchk.check_object(BigOne)
-    @rpt.length.should == 1
-  end
-
-  it 'should report class name' do
-    @cchk.check_object(BigOne)
-    @rpt[0].report.should match(/BigOne/)
+    BigOne.should reek_only_of(:LargeClass, /BigOne/)
   end
 
   describe 'when exceptions are listed' do

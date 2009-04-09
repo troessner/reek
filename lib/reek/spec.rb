@@ -113,6 +113,12 @@ module Reek
   end
 end
 
+class Object
+  def to_source
+    Reek::Source.from_object(self)
+  end
+end
+
 class File
   def to_source
     Reek::Source.from_f(self)

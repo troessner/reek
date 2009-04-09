@@ -57,20 +57,13 @@ describe CodeParser, "(Long Parameter List)" do
     end
     
     describe 'in a class' do
-      before(:each) do
-        @rpt = Report.new
-        @cchk = CodeParser.new(@rpt, SmellConfig.new.smell_listeners)
-      end
-
       class InnerTest
         def xyzero(arga,argb) f(3);true end
         def abc(argx,yep,zero,argm) f(3);false end
       end
 
       it 'should only report long param list' do
-        @cchk.check_object(InnerTest)
-        @rpt.length.should == 1
-        @rpt[0].report.should match(/Long Parameter List/)
+        InnerTest.should reek_only_of(:LongParameterList, /abc/)
       end
     end
   end

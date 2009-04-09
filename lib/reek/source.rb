@@ -13,6 +13,14 @@ module Reek
   class Source
 
     #
+    # Factory method: creates a +Source+ from obj.
+    # The code is not parsed until +report+ is called.
+    #
+    def self.from_object(obj)
+      return ObjectSource.new(obj, obj.to_s)
+    end
+
+    #
     # Factory method: creates a +Source+ object by reading Ruby code from
     # the +IO+ stream. The stream is consumed upto end-of-file, but the
     # source code is not parsed until +report+ is called. +desc+ provides
@@ -64,6 +72,10 @@ module Reek
       @cf = @cf.load_local(dir) if dir
     end
 
+    def check(parser) # :nodoc:
+      parser.check_source(@source)
+    end
+
     #
     # Returns a +Report+ listing the smells found in this source. The first
     # call to +report+ parses the source code and constructs a list of
@@ -72,7 +84,7 @@ module Reek
     def report
       unless @report
         @report = Report.new
-        CodeParser.new(@report, @cf.smell_listeners).check_source(@source)
+        check(CodeParser.new(@report, @cf.smell_listeners))
       end
       @report
     end
@@ -108,6 +120,15 @@ module Reek
 
     def report
       ReportList.new(@sources)
+    end
+  end
+
+  #
+  # Represents an in-memory object that will be checked for smells.
+  #
+  class ObjectSource < Source
+    def check(parser) # :nodoc:
+      parser.check_object(@source)
     end
   end
 end

@@ -21,12 +21,8 @@ describe CodeParser, 'with a global method definition' do
 end
 
 describe CodeParser, 'when given a C extension' do
-  before(:each) do
-    @cchk = CodeParser.new(Report.new, SmellConfig.new.smell_listeners)
-  end
-
-  it 'should ignore :cfunc' do
-    @cchk.check_object(Enumerable)
+  it 'ignores :cfunc' do
+    Enumerable.should_not reek
   end
 end
 
