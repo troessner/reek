@@ -6,7 +6,6 @@ module Reek
   class ObjectRefs  # :nodoc:
     def initialize
       @refs = Hash.new(0)
-      record_reference_to_self
     end
     
     def record_reference_to_self
@@ -34,8 +33,8 @@ module Reek
     end
 
     # TODO
-    # Should be moved to Hash; but Hash has 58 methods, and there's currently
-    # no way to turn off that report; which would therefore make the tests fail
+    # Should be moved to Hash
+    #
     def max_keys
       max = max_refs
       @refs.reject {|key,val| val != max}.keys

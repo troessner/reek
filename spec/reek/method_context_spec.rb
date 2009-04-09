@@ -49,4 +49,11 @@ describe MethodContext do
     mctx.record_call_to([:call, [:ivar, :@cow], :feed_to])
     mctx.envious_receivers.should == []
   end
+
+  it 'should count calls to self' do
+    mctx = MethodContext.new(StopContext.new, [:defn, :equals])
+    mctx.refs.record_ref([:lvar, :other])
+    mctx.record_call_to([:call, [:self], :thing])
+    mctx.envious_receivers.should be_empty
+  end
 end

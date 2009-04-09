@@ -45,7 +45,7 @@ module Reek
     end
 
     def process_default(exp)
-      exp[1..-1].each { |sub| process(sub) if Array === sub }
+      exp[0..-1].each { |sub| process(sub) if Array === sub }
       s(exp)
     end
 
@@ -91,7 +91,7 @@ module Reek
 
     def process_iter(exp)
       process(exp[1])
-      handle_context(BlockContext, :iter, exp[1..-1])
+      handle_context(BlockContext, :iter, exp[2..-1])
     end
     
     def process_dasgn_curr(exp)
@@ -128,6 +128,14 @@ module Reek
       @element.record_depends_on_self
       @element.refs.record_reference_to_self
       s(exp)
+    end
+
+    def process_attrasgn(exp)
+      process_call(exp)
+    end
+
+    def process_op_asgn1(exp)
+      process_call(exp)
     end
 
     def process_if(exp)

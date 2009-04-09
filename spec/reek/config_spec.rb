@@ -17,7 +17,7 @@ describe 'Config' do
     other = Hash.new {|hash,key| hash[key] = {} }
     other['one']['gunk'] = 45
     other['two']['four'] = false
-    @first.value_merge!(other).to_yaml
+    other.push_keys(@first)
     @first['two']['four'].should == false
     @first['one'].keys.length.should == 3
   end
@@ -36,7 +36,7 @@ describe Config, 'merging arrays' do
   it 'should merge array values' do
     first = {'key' => {'one' => [1,2,3]}}
     second = {'key' => {'one' => [4,5]}}
-    first.value_merge!(second)
+    second.push_keys(first)
     first['key']['one'].should == [1,2,3,4,5]
   end
 end

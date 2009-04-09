@@ -28,4 +28,5 @@ describe SexpFormatter do
   should_print '"-#{q}xxx#{z.size}"'
   should_print '0..5'
   should_print '0..temp'
+  should_print 'result[opt] = false'
 end

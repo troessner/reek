@@ -1,3 +1,8 @@
+== 1.0.2 (pending)
+
+=== Fixes
+* Now counts attr assignments ([]= etc) in feature envy calculations
+
 == 1.0.1 2009-04-06
 
 === Fixes

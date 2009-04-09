@@ -22,6 +22,7 @@ describe LargeClass do
   end
 
   it 'should not report short class' do
+    pending('to do')
     class ShortClass
       def method1() @var1; end
       def method2() @var2; end
@@ -30,8 +31,7 @@ describe LargeClass do
       def method5() @var5; end
       def method6() @var6; end
     end
-    @cchk.check_object(ShortClass)
-    @rpt.should be_empty
+    ShortClass.should_not reek
   end
 
   it 'should report large class' do

@@ -32,7 +32,7 @@ module Reek
     def has_parameter(sym)
       @parameters.include?(sym.to_s)
     end
-    
+
     def record_call_to(exp)
       @calls[exp] += 1
       receiver, meth = exp[1..2]
@@ -42,11 +42,17 @@ module Reek
         case receiver[0]
         when :lvar
           @refs.record_ref(receiver) unless meth == :new
-        when :ivar
+        when :self
           record_depends_on_self
           @refs.record_reference_to_self
         end
       end
+    end
+
+    def record_instance_variable(sym)
+      record_depends_on_self
+      @refs.record_reference_to_self
+      @outer.record_instance_variable(sym)
     end
     
     def record_depends_on_self

@@ -28,7 +28,7 @@ describe Report, "to_s" do
   end
 
   it 'should place each detailed report on a separate line' do
-    @report.length.should == 2
+    @report.should have_at_least(2).lines
   end
 
   it 'should mention every smell name' do

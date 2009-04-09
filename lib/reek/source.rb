@@ -57,10 +57,11 @@ module Reek
       SourceList.new(sources)
     end
 
-    def initialize(code, desc, dir = '.')     # :nodoc:
+    def initialize(code, desc, dir = nil)     # :nodoc:
       @source = code
-      @dir = dir
       @desc = desc
+      @cf = SmellConfig.new
+      @cf = @cf.load_local(dir) if dir
     end
 
     #
@@ -71,8 +72,7 @@ module Reek
     def report
       unless @report
         @report = Report.new
-        smells = SmellConfig.new.load_local(@dir).smell_listeners
-        CodeParser.new(@report, smells).check_source(@source)
+        CodeParser.new(@report, @cf.smell_listeners).check_source(@source)
       end
       @report
     end

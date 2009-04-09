@@ -21,6 +21,7 @@ describe 'sample gem source code' do
     ruby.should reek_of(:Duplication, /OptionParser#Switch#summarize/, /left.shift/)
     ruby.should reek_of(:Duplication, /OptionParser#Switch#summarize/, /left\[-1\]/)
     ruby.should reek_of(:Duplication, /OptionParser#Switch#summarize/, /s.length/)
+    ruby.should reek_of(:Duplication, /OptionParser#getopts/, /result\[opt\] = false/)
     ruby.should reek_of(:Duplication, /OptionParser#make_switch/, /default_style.guess\(arg=a\)/)
     ruby.should reek_of(:Duplication, /OptionParser#make_switch/, /long.<<\(o=q.downcase\)/)
     ruby.should reek_of(:Duplication, /OptionParser#make_switch/, /pattern.method\(convert\)/)
@@ -95,6 +96,6 @@ describe 'sample gem source code' do
     ruby.should reek_of(:UncommunicativeName, /OptionParser#summarize/, /'l'/)
     ruby.should reek_of(:UncommunicativeName, /OptionParser#ver/, /'v'/)
     ruby.should reek_of(:UncommunicativeName, /block/, /'q'/)
-    ruby.report.should have_at_most(92).smells
+    ruby.report.should have_at_most(93).smells
   end
 end

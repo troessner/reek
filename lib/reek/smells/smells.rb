@@ -11,13 +11,10 @@ require 'reek/smells/utility_function'
 require 'yaml'
 
 class Hash
-  def value_merge!(other)
-    other.keys.each do |key|
-      self[key].adopt!(other[key])
-    end
-    self
+  def push_keys(hash)
+    keys.each {|key| hash[key].adopt!(self[key]) }
   end
-  
+
   def adopt!(other)
     other.keys.each do |key|
       ov = other[key]
@@ -69,8 +66,7 @@ module Reek
     def load_local(file)
       path = File.expand_path(file)
       all_reekfiles(path).each do |rfile|
-        cf = YAML.load_file(rfile)
-        @config.value_merge!(cf)
+        YAML.load_file(rfile).push_keys(@config)
       end
       self
     end
