@@ -196,3 +196,14 @@ describe CodeContext, 'find class' do
     end
   end
 end
+
+describe ClassContext do
+  it 'should not report empty class in another module' do
+    'class Treetop::Runtime::SyntaxNode; end'.should_not reek
+  end
+
+  it 'should deal with :: scoped names' do
+    element = ClassContext.create(StopContext.new, [:colon2, [:colon2, [:const, :Treetop], :Runtime], :SyntaxNode])
+    element.num_methods.should == 0
+  end
+end

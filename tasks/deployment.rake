@@ -111,6 +111,10 @@ file HISTORY_FILE => [RELEASE_TIMESTAMP] do
   abort "Update #{HISTORY_FILE} before attempting to release"
 end
 
+file VERSION_FILE => [RELEASE_TIMESTAMP] do
+  abort "Update #{VERSION_FILE} before attempting to release"
+end
+
 namespace :release do
 
   desc 'Minor release on github only'
@@ -165,6 +169,10 @@ namespace :test do
   desc 'Show the announcement email to be sent'
   task :email do
     puts Description.new.news
+  end
+
+  task :manifest do
+    display_manifest_diff
   end
 end
 

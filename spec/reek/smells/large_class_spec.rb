@@ -8,18 +8,19 @@ include Reek::Smells
 
 describe LargeClass do
 
-  class BigOne
-    26.times do |i|
-      define_method "method#{i}".to_sym do
-        @melting
+  it 'should report large class' do
+    class BigOne
+      26.times do |i|
+        define_method "method#{i}".to_sym do
+          @melting
+        end
       end
     end
+    BigOne.should reek_only_of(:LargeClass, /BigOne/)
   end
+end
 
-  before(:each) do
-    @rpt = Report.new
-    @cchk = CodeParser.new(@rpt, SmellConfig.new.smell_listeners)
-  end
+describe LargeClass do
 
   it 'should not report short class' do
     class ShortClass
@@ -32,48 +33,35 @@ describe LargeClass do
     end
     ShortClass.should_not reek
   end
-
-  it 'should report large class' do
-    BigOne.should reek_only_of(:LargeClass, /BigOne/)
-  end
-
-  describe 'when exceptions are listed' do
-    before :each do
-      @ctx = ClassContext.create(StopContext.new, [0, :Humungous])
-      30.times { |num| @ctx.record_method("method#{num}") }
-      @config = LargeClass.default_config
-    end
-
-    it 'should ignore first excepted name' do
-      @config[LargeClass::EXCLUDE_KEY] = ['Humungous']
-      lc = LargeClass.new(@config)
-      lc.examine(@ctx, @rpt).should == false
-      @rpt.length.should == 0
-    end
-
-    it 'should ignore second excepted name' do
-      @config[LargeClass::EXCLUDE_KEY] = ['Oversized', 'Humungous']
-      lc = LargeClass.new(@config)
-      lc.examine(@ctx, @rpt).should == false
-      @rpt.length.should == 0
-    end
-
-    it 'should report non-excepted name' do
-      @config[LargeClass::EXCLUDE_KEY] = ['SmellMe']
-      lc = LargeClass.new(@config)
-      lc.examine(@ctx, @rpt).should == true
-      @rpt.length.should == 1
-    end
-  end
 end
 
-describe LargeClass do
-  it 'should not report empty class in another module' do
-    'class Treetop::Runtime::SyntaxNode; end'.should_not reek
+describe LargeClass, 'when exceptions are listed' do
+
+  before(:each) do
+    @rpt = Report.new
+    @ctx = ClassContext.create(StopContext.new, [0, :Humungous])
+    30.times { |num| @ctx.record_method("method#{num}") }
+    @config = LargeClass.default_config
   end
 
-  it 'should deal with :: scoped names' do
-    element = ClassContext.create(StopContext.new, [:colon2, [:colon2, [:const, :Treetop], :Runtime], :SyntaxNode])
-    element.num_methods.should == 0
+  it 'should ignore first excepted name' do
+    @config[LargeClass::EXCLUDE_KEY] = ['Humungous']
+    lc = LargeClass.new(@config)
+    lc.examine(@ctx, @rpt).should == false
+    @rpt.length.should == 0
+  end
+
+  it 'should ignore second excepted name' do
+    @config[LargeClass::EXCLUDE_KEY] = ['Oversized', 'Humungous']
+    lc = LargeClass.new(@config)
+    lc.examine(@ctx, @rpt).should == false
+    @rpt.length.should == 0
+  end
+
+  it 'should report non-excepted name' do
+    @config[LargeClass::EXCLUDE_KEY] = ['SmellMe']
+    lc = LargeClass.new(@config)
+    lc.examine(@ctx, @rpt).should == true
+    @rpt.length.should == 1
   end
 end

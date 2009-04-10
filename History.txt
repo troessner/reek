@@ -1,7 +1,7 @@
-== 1.0.2 (in the works)
+== 1.1.0 2009-04-10
 
 === Minor enhancements
-* Now the "should reek" matchers apply to any object (#33)
+* Now possible to write 'MyClass.should_not reek' (#33)
 
 === Fixes
 * Now counts attr assignments ([]= etc) in feature envy calculations
