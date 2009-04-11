@@ -9,8 +9,9 @@ module Reek
     # instance variables, methods or lines of code.
     # 
     # Currently +LargeClass+ only reports classes having more than a
-    # configurable number of methods. This includes public, protected and
-    # private methods, but excludes methods inherited from superclasses or
+    # configurable number of methods or instance variables. The method count
+    # includes public, protected and
+    # private methods, and excludes methods inherited from superclasses or
     # included modules.
     #
     class LargeClass < SmellDetector
@@ -43,14 +44,14 @@ module Reek
 
       def check_num_methods(klass, report)  # :nodoc:
         count = klass.num_methods
-        return false if count <= @max_methods
+        return if count <= @max_methods
         report << SmellWarning.new(self, klass,
                     "has at least #{count} methods")
       end
 
       def check_num_ivars(klass, report)  # :nodoc:
         count = klass.variable_names.length
-        return false if count <= @max_instance_variables
+        return if count <= @max_instance_variables
         report << SmellWarning.new(self, klass,
                     "has at least #{count} instance variables")
       end
