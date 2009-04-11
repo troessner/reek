@@ -5,6 +5,10 @@ module Reek
       @refs = ObjectRefs.new
       @myself = Object
     end
+    def method_missing(method, *args)
+      nil
+    end
+
 
     def count_statements(num)
       0
@@ -37,22 +41,6 @@ module Reek
     
     def record_depends_on_self
       false
-    end
-    
-    def record_call_to(exp)
-      nil
-    end
-
-    def record_method(name)
-    end
-
-    def record_parameter(sym)
-    end
-
-    def record_instance_variable(sym)
-    end
-
-    def record_local_variable(sym)
     end
     
     def outer_name

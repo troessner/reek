@@ -65,3 +65,23 @@ describe LargeClass, 'when exceptions are listed' do
     @rpt.length.should == 1
   end
 end
+
+describe LargeClass, 'counting instance variables' do
+  it 'warns about class with 10 ivars' do
+    class ManyIvars
+      def method
+        @vara = @varb = @varc = @vard = @vare
+        @varf = @varg = @varh = @vari = @varj
+      end
+    end
+    ManyIvars.should reek_of(:LargeClass, /10/)
+  end
+
+  it 'ignores class with only a couple of ivars' do
+    LargeClass.should_not reek_of(:LargeClass)
+  end
+
+  it 'ignores fq class with only a couple of ivars' do
+    Reek::Smells::LargeClass.should_not reek_of(:LargeClass)
+  end
+end

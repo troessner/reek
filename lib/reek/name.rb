@@ -3,7 +3,9 @@ module Reek
     include Comparable
 
     def self.resolve(exp, context)
-      return [context, new(exp)] unless Array === exp
+      unless Array === exp
+        return resolve_string(exp.to_s, context)
+      end
       name = exp[1]
       case exp[0]
       when :colon2
@@ -15,6 +17,11 @@ module Reek
       else
         return [context, new(name)]
       end
+    end
+
+    def self.resolve_string(str, context)
+      return [context, new(str)] unless str =~ /::/
+      resolve(ParseTree.new.parse_tree_for_string(str)[0], context)
     end
 
     def initialize(sym)

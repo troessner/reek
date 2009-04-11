@@ -44,6 +44,7 @@ spec/reek/config_spec.rb
 spec/reek/if_context_spec.rb
 spec/reek/method_context_spec.rb
 spec/reek/module_context_spec.rb
+spec/reek/name_spec.rb
 spec/reek/object_refs_spec.rb
 spec/reek/options_spec.rb
 spec/reek/report_spec.rb

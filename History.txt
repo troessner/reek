@@ -1,3 +1,8 @@
+== 1.2.0 (in the works)
+
+=== Minor enhancements
+* LargeClass now also warns about any class with > 9 instance variables (#6)
+
 == 1.1.0 2009-04-10
 
 === Minor enhancements

@@ -26,7 +26,7 @@ describe SourceList, 'from_pathlist' do
     end
 
     it 'reports some smells in the samples' do
-      @src.report.length.should == 32
+      @src.report.should have_at_least(30).smells
     end
 
     it 'is smelly' do

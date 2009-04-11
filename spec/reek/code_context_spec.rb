@@ -45,7 +45,8 @@ describe CodeContext, 'instance variables' do
     element = MethodContext.new(class_element, [0, :bad])
     element = BlockContext.new(element, nil)
     element.record_instance_variable(:fred)
-    class_element.variable_names.should == [Name.new(:fred)]
+    class_element.variable_names.size.should == 1
+    class_element.variable_names.should include(Name.new(:fred))
   end
 end
 

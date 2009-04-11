@@ -1,3 +1,4 @@
+require 'set'
 require 'reek/code_context'
 
 class Class
@@ -23,7 +24,7 @@ module Reek
       @name = name
       @superclass = superclass
       @parsed_methods = []
-      @instance_variables = []
+      @instance_variables = Set.new
     end
 
     def myself

@@ -18,7 +18,8 @@ describe 'sample gem source code' do
     ruby.should reek_of(:Duplication, /Inline::self.rootdir/, /env.nil?/)
     ruby.should reek_of(:Duplication, /Module#inline/, /Inline.const_get\(lang\)/)
     ruby.should reek_of(:FeatureEnvy, /Inline::C#strip_comments/, /src/)
-    ruby.should reek_of(:LargeClass, /Inline::C/)
+    ruby.should reek_of(:LargeClass, /Inline::C/, /methods/)
+    ruby.should reek_of(:LargeClass, /Inline::C/, /instance variables/)
     ruby.should reek_of(:LongMethod, /File#self.write_with_backup/)
     ruby.should reek_of(:LongMethod, /Inline::C#build/)
     ruby.should reek_of(:LongMethod, /Inline::C#generate/)
@@ -35,6 +36,6 @@ describe 'sample gem source code' do
     ruby.should reek_of(:UncommunicativeName, /Inline::C#module_name/, /'x'/)
     ruby.should reek_of(:UncommunicativeName, /Inline::C#parse_signature/, /'x'/)
     ruby.should reek_of(:UtilityFunction, /Inline::C#strip_comments/)
-    ruby.report.should have_at_most(32).smells
+    ruby.report.should have_at_most(33).smells
   end
 end

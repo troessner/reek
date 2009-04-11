@@ -117,14 +117,17 @@ end
 
 namespace :release do
 
-  desc 'Minor release on github only'
-  task :minor => ['build:all', 'rubyforge:rdoc'] do
+  task :tag do
     puts <<-EOS
       1) git commit -a -m "Release #{Reek::VERSION}"
       2) git tag -a "v#{Reek::VERSION}" -m "Release #{Reek::VERSION}"
       3) git push
       4) git push --tags
     EOS
+  end
+
+  desc 'Minor release on github only'
+  task :minor => ['build:all', 'rubyforge:rdoc', 'release:tag'] do
     RELEASE_TIMESTAMP.touch(::Reek::VERSION)
   end
 
