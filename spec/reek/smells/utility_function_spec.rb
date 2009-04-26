@@ -7,11 +7,6 @@ include Reek::Smells
 
 describe UtilityFunction do
 
-  before(:each) do
-    @rpt = Report.new
-    @cchk = CodeParser.new(@rpt, SmellConfig.new.smell_listeners)
-  end
-
   it 'should not report attrset' do
     class Fred
       attr_writer :xyz

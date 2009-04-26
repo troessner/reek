@@ -7,7 +7,7 @@ require 'reek/report'
 include Reek
 include Reek::Smells
 
-describe CodeParser, "(Long Parameter List)" do
+describe LongParameterList do
   
   describe 'for methods with few parameters' do
     it 'should report nothing for no parameters' do
