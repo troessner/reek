@@ -36,6 +36,12 @@ module Reek
     end
 
     # Creates a formatted report of all the +Smells::SmellWarning+ objects recorded in
+    # this report, with a heading.
+    def full_report(desc)
+      "\"#{desc}\" -- #{length} warnings:\n#{to_s}\n"
+    end
+
+    # Creates a formatted report of all the +Smells::SmellWarning+ objects recorded in
     # this report.
     def to_s
       @report.map {|smell| smell.report}.join("\n")
@@ -64,11 +70,12 @@ module Reek
       @sources.inject(0) {|sum, src| sum + src.report.length }
     end
 
+    def smelly_sources
+      @sources.select {|src| src.smelly? }
+    end
+
     def to_s
-      @sources.select {|src| src.smelly? }.map do |src|
-        warnings = src.report
-        "\"#{src}\" -- #{warnings.length} warnings:\n#{warnings.to_s}\n"
-      end.join("\n")
+      smelly_sources.map { |src| src.full_report }.join("\n")
     end
   end
 end

@@ -25,7 +25,7 @@ describe LongParameterList do
     it 'should not report inner block with too many parameters' do
       'def simple(yep,zero); m[3]; rand(34); f.each { |arga, argb, argc, argd| true}; end'.should_not reek
     end
-    
+
     describe 'and default values' do
       it 'should report nothing for 1 parameter' do
         'def simple(zero=nil) f(3);false end'.should_not reek
@@ -76,7 +76,7 @@ describe LongParameterList do
       'def simple(arga, argb, &blk) f(3);yield a,b; end'.should_not reek
     end
     it 'should report yield with many parameters' do
-      'def simple(arga, argb, &blk) f(3);yield a,b,a,b; end'.should reek_only_of(:LongYieldList, /simple/, /yields/, /4/)
+      'def simple(arga, argb, &blk) f(3);yield arga,argb,arga,argb; end'.should reek_only_of(:LongYieldList, /simple/, /yields/, /4/)
     end
     it 'should not report yield of a long expression' do
       'def simple(arga, argb, &blk) f(3);yield(if @dec then argb else 5+3 end); end'.should_not reek

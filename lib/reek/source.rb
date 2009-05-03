@@ -101,6 +101,12 @@ module Reek
       report.any? { |smell| smell.matches?(smell_class, patterns) }
     end
 
+    # Creates a formatted report of all the +Smells::SmellWarning+ objects recorded in
+    # this report, with a heading.
+    def full_report
+      report.full_report(@desc)
+    end
+
     def to_s
       @desc
     end

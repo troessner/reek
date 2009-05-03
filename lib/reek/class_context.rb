@@ -34,12 +34,12 @@ module Reek
     def find_module(modname)
       sym = modname.to_s
       return nil unless myself
-      myself.const_defined?(sym) ? myself.const_get(sym) : nil
+      @myself.const_defined?(sym) ? @myself.const_get(sym) : nil
     end
 
     def is_overriding_method?(name)
       return false unless myself
-      myself.is_overriding_method?(name.to_s)
+      @myself.is_overriding_method?(name.to_s)
     end
     
     def is_struct?
@@ -47,7 +47,7 @@ module Reek
     end
 
     def num_methods
-      meths = myself ? myself.non_inherited_methods : @parsed_methods
+      meths = myself ? @myself.non_inherited_methods : @parsed_methods
       meths.length
     end
 

@@ -27,7 +27,7 @@ module Reek
         @max_params = config['max_params']
         @action = 'has'
       end
-      
+
       #
       # Checks the number of parameters in the given scope.
       # Any smells found are added to the +report+.

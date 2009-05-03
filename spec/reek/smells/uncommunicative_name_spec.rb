@@ -64,7 +64,7 @@ describe UncommunicativeName, "block parameter name" do
   it "should report parameter's name" do
     'def help() @stuff.each {|x|} end'.should reek_only_of(:UncommunicativeName, /x/, /block/, /variable name/)
   end
-  
+
   it "should report method name via if context" do
     src = <<EOS
 def bad

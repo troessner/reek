@@ -171,7 +171,7 @@ describe FeatureEnvy do
        other.a
        other.b
        nother.c
-     end'.should_not reek
+     end'.should_not reek_of(:FeatureEnvy)
   end
 
   it 'counts self references correctly' do

@@ -14,8 +14,16 @@ module Reek
 
   class CodeParser < SexpProcessor
 
+    def self.unify(sexp)   # :nodoc:
+      unifier = Unifier.new
+      unifier.processors.each do |proc|
+        proc.unsupported.delete :cfunc # HACK
+      end
+      return unifier.process(sexp[0])
+    end
+
     def self.parse_tree_for(code)   # :nodoc:
-      ParseTree.new.parse_tree_for_string(code)
+      unify(ParseTree.new.parse_tree_for_string(code))
     end
 
     # Creates a new Ruby code checker. Any smells discovered by
@@ -41,7 +49,8 @@ module Reek
     # Any smells found are saved in the +Report+ object that
     # was passed to this object's constructor.
     def check_object(obj)
-      check_parse_tree(ParseTree.new.parse_tree(obj))
+      sexp = CodeParser.unify(ParseTree.new.parse_tree(obj))
+      check_parse_tree(sexp)
     end
 
     def process_default(exp)
@@ -114,8 +123,7 @@ module Reek
     end
 
     def process_fcall(exp)
-      @element.record_depends_on_self
-      @element.refs.record_reference_to_self
+      @element.record_use_of_self
       process_default(exp)
     end
 
@@ -125,8 +133,7 @@ module Reek
     end
 
     def process_vcall(exp)
-      @element.record_depends_on_self
-      @element.refs.record_reference_to_self
+      @element.record_use_of_self
       s(exp)
     end
 
@@ -206,7 +213,7 @@ module Reek
     end
 
     def check_parse_tree(sexp)  # :nodoc:
-      sexp.each { |exp| process(exp) }
+      process(sexp)
     end
   end
 end

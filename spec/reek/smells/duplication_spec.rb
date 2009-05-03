@@ -13,7 +13,7 @@ describe Duplication, "repeated method calls" do
   end
 
   it 'should report repeated call to lvar' do
-    'def double_thing() other[@thing] + other[@thing] end'.should reek_only_of(:Duplication, /other\[@thing\]/)
+    'def double_thing(other) other[@thing] + other[@thing] end'.should reek_only_of(:Duplication, /other\[@thing\]/)
   end
 
   it 'should report call parameters' do
@@ -50,7 +50,7 @@ describe Duplication, '#examine' do
   end
 
   it 'should return true when reporting a smell' do
-    @mc.calls = {'x' => 47}
+    @mc.calls = {s(:call, nil, :other, s(:arglist)) => 47}
     @dup.examine(@mc, []).should == true
   end
   

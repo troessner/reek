@@ -20,7 +20,7 @@ module Reek
     def find_module(modname)
       return nil unless myself
       sym = modname.to_s
-      myself.const_defined?(sym) ? myself.const_get(sym) : nil
+      @myself.const_defined?(sym) ? @myself.const_get(sym) : nil
     end
 
     def outer_name

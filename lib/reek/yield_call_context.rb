@@ -6,9 +6,7 @@ module Reek
 
     def initialize(outer, exp)
       super
-      @parameters = []
-      args = exp[1]
-      @parameters = args[0...-1] if args
+      @parameters = exp[1..-1]
     end
   end
 end

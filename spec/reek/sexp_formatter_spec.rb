@@ -7,7 +7,7 @@ include Reek
 
 def should_print(example)
   it "should format #{example} correctly" do
-    sexp = CodeParser.parse_tree_for(example)[0]
+    sexp = CodeParser.parse_tree_for(example)
     SexpFormatter.format(sexp).should == example
   end
 end
@@ -23,10 +23,10 @@ describe SexpFormatter do
   should_print 'obj.method(arg1, arg2)'
   should_print 'obj.method'
   should_print '$1'
-  should_print 'o=q.downcase'
+  should_print 'o = q.downcase'
   should_print 'true'
   should_print '"-#{q}xxx#{z.size}"'
-  should_print '0..5'
-  should_print '0..temp'
+  should_print '(0..5)'
+  should_print '(0..temp)'
   should_print 'result[opt] = false'
 end

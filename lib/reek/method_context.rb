@@ -36,22 +36,22 @@ module Reek
     def record_call_to(exp)
       @calls[exp] += 1
       receiver, meth = exp[1..2]
-      if receiver.nil?
-        record_depends_on_self
-      else
-        case receiver[0]
-        when :lvar
-          @refs.record_ref(receiver) unless meth == :new
-        when :self
-          record_depends_on_self
-          @refs.record_reference_to_self
-        end
+      receiver ||= [:self]
+      case receiver[0]
+      when :lvar
+        @refs.record_ref(receiver) unless meth == :new
+      when :self
+        record_use_of_self
       end
     end
 
-    def record_instance_variable(sym)
+    def record_use_of_self
       record_depends_on_self
       @refs.record_reference_to_self
+    end
+
+    def record_instance_variable(sym)
+      record_use_of_self
       @outer.record_instance_variable(sym)
     end
     
@@ -64,7 +64,7 @@ module Reek
     end
 
     def self.is_block_arg?(param)
-      Array === param and param[0] == :block
+      (Array === param and param[0] == :block) or (param.to_s =~ /^\&/)
     end
 
     def record_parameter(param)

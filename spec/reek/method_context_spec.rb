@@ -56,4 +56,11 @@ describe MethodContext do
     mctx.record_call_to([:call, [:self], :thing])
     mctx.envious_receivers.should be_empty
   end
+
+  it 'should recognise a call on self' do
+    mc = MethodContext.new(StopContext.new, s(:defn, :deep))
+    mc.record_call_to(s(:call, s(:lvar, :text), :each, s(:arglist)))
+    mc.record_call_to(s(:call, nil, :shelve, s(:arglist)))
+    mc.envious_receivers.should be_empty
+  end
 end
