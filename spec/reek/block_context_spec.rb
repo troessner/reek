@@ -31,4 +31,10 @@ describe BlockContext do
     element = BlockContext.new(mc, s(s(:lasgn, :x)))
     mc.variable_names.should be_empty
   end
+
+  it 'records local variables' do
+    bctx = BlockContext.new(StopContext.new, nil)
+    bctx.record_local_variable(:q2)
+    bctx.variable_names.should include(Name.new(:q2))
+  end
 end

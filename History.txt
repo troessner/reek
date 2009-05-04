@@ -2,6 +2,7 @@
 
 === Minor enhancements
 * LargeClass now also warns about any class with > 9 instance variables (#6)
+* Uses ruby2ruby to display code better
 
 == 1.1.0 2009-04-10
 

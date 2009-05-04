@@ -86,4 +86,8 @@ describe UtilityFunction, 'should only report a method containing a call' do
   it 'should not report references to self' do
     'def into; self; end'.should_not reek
   end
+
+  it 'should recognise an ivar reference within a block' do
+    'def clean(text) text.each { @fred = 3} end'.should_not reek
+  end
 end

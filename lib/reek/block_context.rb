@@ -1,3 +1,4 @@
+require 'set'
 require 'reek/code_context'
 
 module Reek
@@ -28,6 +29,7 @@ module Reek
       @parameters = exp[0] if exp
       @parameters ||= []
       @parameters.extend(ParameterSet)
+      @local_variables = Set.new
     end
 
     def inside_a_block?
@@ -43,6 +45,7 @@ module Reek
     end
     
     def record_local_variable(sym)
+      @local_variables << Name.new(sym)
     end
 
     def outer_name
@@ -50,7 +53,7 @@ module Reek
     end
     
     def variable_names
-      @parameters.names
+      @parameters.names + @local_variables.to_a
     end
   end
 end

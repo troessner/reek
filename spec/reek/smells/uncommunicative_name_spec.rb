@@ -46,6 +46,11 @@ describe UncommunicativeName, "local variable name" do
   it 'should report variable name only once' do
     'def simple(fred) x = jim(45); x = y end'.should reek_only_of(:UncommunicativeName, /x/)
   end
+
+  it 'should report a bad name inside a block' do
+    src = 'def clean(text) text.each { q2 = 3 } end'
+    src.should reek_of(:UncommunicativeName, /q2/)
+  end
 end
 
 describe UncommunicativeName, "parameter name" do
