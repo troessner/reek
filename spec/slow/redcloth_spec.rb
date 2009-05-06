@@ -23,11 +23,14 @@ describe 'sample gem source code' do
     ruby.should reek_of(:Duplication, /RedCloth#rip_offtags/, /\(codepre - used_offtags.length\)/)
     ruby.should reek_of(:Duplication, /RedCloth#rip_offtags/, /\(\(codepre - used_offtags.length\) > 0\)/)
     ruby.should reek_of(:Duplication, /RedCloth#rip_offtags/, /codepre.zero?/)
+    ruby.should reek_of(:Duplication, /RedCloth#rip_offtags/, /htmlesc\(line, :NoQuotes\)/)
     ruby.should reek_of(:Duplication, /RedCloth#rip_offtags/, /used_offtags.length/)
     ruby.should reek_of(:Duplication, /RedCloth#rip_offtags/, /used_offtags\["notextile"\]/)
     ruby.should reek_of(:FeatureEnvy, /RedCloth#block_markdown_atx/, /text/)
     ruby.should reek_of(:FeatureEnvy, /RedCloth#block_markdown_rule/, /text/)
     ruby.should reek_of(:FeatureEnvy, /RedCloth#block_markdown_setext/, /text/)
+    ruby.should reek_of(:FeatureEnvy, /RedCloth#block_textile_lists/, /depth/)
+    ruby.should reek_of(:FeatureEnvy, /RedCloth#clean_html/, /raw/)
     ruby.should reek_of(:FeatureEnvy, /RedCloth#clean_html/, /tags/)
     ruby.should reek_of(:FeatureEnvy, /RedCloth#clean_white_space/, /text/)
     ruby.should reek_of(:FeatureEnvy, /RedCloth#flush_left/, /indt/)
@@ -93,6 +96,6 @@ describe 'sample gem source code' do
     ruby.should reek_of(:UtilityFunction, /RedCloth#incoming_entities/)
     ruby.should reek_of(:UtilityFunction, /RedCloth#no_textile/)
     ruby.should reek_of(:UtilityFunction, /RedCloth#v_align/)
-    ruby.report.should have_at_most(90).smells
+    ruby.report.should have_at_most(93).smells
   end
 end

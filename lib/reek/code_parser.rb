@@ -170,8 +170,6 @@ module Reek
       s(exp)
     end
 
-  private
-
     def self.count_statements(exp)
       stmts = exp[1..-1]
       ignore = 0
@@ -179,6 +177,8 @@ module Reek
       ignore += 1 if stmts[1] == s(:nil)
       stmts.length - ignore
     end
+
+  private
 
     def self.is_expr?(exp, type)
       Array === exp and exp[0] == type

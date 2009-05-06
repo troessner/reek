@@ -10,6 +10,10 @@ describe 'sample gem source code' do
     ruby.should reek_of(:ControlCouple, /OptionParser#Switch#NoArgument#parse/, /arg/)
     ruby.should reek_of(:ControlCouple, /OptionParser#Switch#OptionalArgument#parse/, /arg/)
     ruby.should reek_of(:ControlCouple, /OptionParser#Switch#RequiredArgument#parse/, /arg/)
+    ruby.should reek_of(:ControlCouple, /OptionParser#block/, /o/)
+    ruby.should reek_of(:ControlCouple, /OptionParser#block/, /s/)
+    ruby.should reek_of(:ControlCouple, /OptionParser#block\/block/, /pkg/)
+    ruby.should reek_of(:ControlCouple, /OptionParser#getopts\/block/, /val/)
     ruby.should reek_of(:ControlCouple, /OptionParser#parse_in_order/, /setter/)
     ruby.should reek_of(:Duplication, /OptionParser#Completion::complete/, /candidates.size/)
     ruby.should reek_of(:Duplication, /OptionParser#Completion::complete/, /k.id2name/)
@@ -24,10 +28,14 @@ describe 'sample gem source code' do
     ruby.should reek_of(:Duplication, /OptionParser#getopts/, /result\[opt\] = false/)
     ruby.should reek_of(:Duplication, /OptionParser#make_switch/, /default_style.guess\(arg = a\)/)
     ruby.should reek_of(:Duplication, /OptionParser#make_switch/, /\(long << o = q.downcase\)/)
+    ruby.should reek_of(:Duplication, /OptionParser#make_switch/, /notwice\(a \? \(Object\) : \(TrueClass\), klass, "type"\)/)
+    ruby.should reek_of(:Duplication, /OptionParser#make_switch/, /notwice\(NilClass, klass, "type"\)/)
     ruby.should reek_of(:Duplication, /OptionParser#make_switch/, /pattern.method\(:convert\)/)
     ruby.should reek_of(:Duplication, /OptionParser#make_switch/, /pattern.method\(:convert\).to_proc/)
     ruby.should reek_of(:Duplication, /OptionParser#make_switch/, /pattern.respond_to\?\(:convert\)/)
     ruby.should reek_of(:Duplication, /OptionParser#make_switch/, /q.downcase/)
+    ruby.should reek_of(:Duplication, /OptionParser#make_switch/, /search\(:atype, o\)/)
+    ruby.should reek_of(:Duplication, /OptionParser#make_switch/, /search\(:atype, FalseClass\)/)
     ruby.should reek_of(:Duplication, /OptionParser#make_switch/, /\(sdesc << "-\#\{q\}"\)/)
     ruby.should reek_of(:Duplication, /OptionParser#order/, /argv\[0\]/)
     ruby.should reek_of(:Duplication, /OptionParser#parse/, /argv\[0\]/)
@@ -46,7 +54,6 @@ describe 'sample gem source code' do
     ruby.should reek_of(:LargeClass, /OptionParser/)
     ruby.should reek_of(:LongMethod, /OptionParser#Completion::complete/)
     ruby.should reek_of(:LongMethod, /OptionParser#List#update/)
-#    ruby.should reek_of(:LongMethod, /OptionParser#Switch#PlacedArgument#parse/)
     ruby.should reek_of(:LongMethod, /OptionParser#Switch#parse_arg/)
     ruby.should reek_of(:LongMethod, /OptionParser#Switch#summarize/)
     ruby.should reek_of(:LongMethod, /OptionParser#getopts/)
@@ -96,6 +103,6 @@ describe 'sample gem source code' do
     ruby.should reek_of(:UncommunicativeName, /OptionParser#summarize/, /'l'/)
     ruby.should reek_of(:UncommunicativeName, /OptionParser#ver/, /'v'/)
     ruby.should reek_of(:UncommunicativeName, /block/, /'q'/)
-    ruby.report.should have_at_most(93).smells
+    ruby.report.should have_at_most(116).smells
   end
 end
