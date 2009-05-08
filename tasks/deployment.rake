@@ -24,7 +24,7 @@ $gemspec = Gem::Specification.new do |s|
   s.homepage = 'http://wiki.github.com/kevinrutherford/reek'
   s.rubyforge_project = PROJECT_NAME
   s.add_dependency('ParseTree', '~> 3.0')
-  s.add_dependency('ruby2ruby', '~> 1.2.2')
+  s.add_dependency('ruby2ruby', '~> 1.2')
   s.add_dependency('sexp_processor', '~> 3.0')
   s.files = File.read(GEM_MANIFEST).delete("\r").split(/\n/)
   s.executables = s.files.grep(/^bin/) { |f| File.basename(f) }

@@ -37,6 +37,7 @@ lib/reek/spec.rb
 lib/reek/stop_context.rb
 lib/reek/yield_call_context.rb
 reek.gemspec
+spec/reek/block_context_spec.rb
 spec/reek/class_context_spec.rb
 spec/reek/code_context_spec.rb
 spec/reek/code_parser_spec.rb

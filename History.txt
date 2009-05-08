@@ -1,8 +1,8 @@
-== 1.2.0 (in the works)
+== 1.1.1 2009-05-08
 
 === Minor enhancements
 * LargeClass now also warns about any class with > 9 instance variables (#6)
-* Uses ruby2ruby to display code better
+* Now depends on ruby2ruby, to display code better
 * Duplication notices more repeated method calls
 * Smells within blocks are now reported better
 
