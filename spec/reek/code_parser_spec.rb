@@ -20,12 +20,6 @@ describe CodeParser, 'with a global method definition' do
   end
 end
 
-describe CodeParser, 'when given a C extension' do
-  it 'ignores :cfunc' do
-    Enumerable.should_not reek
-  end
-end
-
 describe CodeParser, 'when a yield is the receiver' do
   it 'should report no problems' do
     source = 'def values(*args)
