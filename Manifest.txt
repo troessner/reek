@@ -14,6 +14,7 @@ lib/reek/method_context.rb
 lib/reek/module_context.rb
 lib/reek/name.rb
 lib/reek/object_refs.rb
+lib/reek/object_source.rb
 lib/reek/options.rb
 lib/reek/rake_task.rb
 lib/reek/report.rb

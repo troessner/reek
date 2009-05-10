@@ -128,13 +128,6 @@ module Reek
       ReportList.new(@sources)
     end
   end
-
-  #
-  # Represents an in-memory object that will be checked for smells.
-  #
-  class ObjectSource < Source
-    def check(parser) # :nodoc:
-      parser.check_object(@source)
-    end
-  end
 end
+
+require 'reek/object_source'
