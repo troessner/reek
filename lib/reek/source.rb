@@ -13,14 +13,6 @@ module Reek
   class Source
 
     #
-    # Factory method: creates a +Source+ from obj.
-    # The code is not parsed until +report+ is called.
-    #
-    def self.from_object(obj)
-      return ObjectSource.new(obj, obj.to_s)
-    end
-
-    #
     # Factory method: creates a +Source+ object by reading Ruby code from
     # the +IO+ stream. The stream is consumed upto end-of-file, but the
     # source code is not parsed until +report+ is called. +desc+ provides
