@@ -73,7 +73,8 @@ module Reek
     end
 
     def check(parser) # :nodoc:
-      parser.check_source(@source)
+      sexp = CodeParser.unify(ParseTree.new.parse_tree_for_string(@source))
+      parser.process(sexp)
     end
 
     #

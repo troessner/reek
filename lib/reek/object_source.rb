@@ -25,7 +25,8 @@ if Reek.can_parse_objects?
 
     class ObjectSource < Source   # :nodoc:
       def check(parser) # :nodoc:
-        parser.check_object(@source)
+        sexp = CodeParser.unify(ParseTree.new.parse_tree(@source))
+        parser.process(sexp)
       end
     end
   end

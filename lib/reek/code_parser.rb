@@ -22,10 +22,6 @@ module Reek
       return unifier.process(sexp[0])
     end
 
-    def self.parse_tree_for(code)   # :nodoc:
-      unify(ParseTree.new.parse_tree_for_string(code))
-    end
-
     # Creates a new Ruby code checker. Any smells discovered by
     # +check_source+ or +check_object+ will be stored in +report+.
     def initialize(report, smells, ctx = StopContext.new)
@@ -36,21 +32,6 @@ module Reek
       @unsupported -= [:cfunc]
       @default_method = :process_default
       @require_empty = @warn_on_default = false
-    end
-
-    # Analyses the given Ruby source +code+ looking for smells.
-    # Any smells found are saved in the +Report+ object that
-    # was passed to this object's constructor.
-    def check_source(code)
-      check_parse_tree(CodeParser.parse_tree_for(code))
-    end
-
-    # Analyses the given Ruby object +obj+ looking for smells.
-    # Any smells found are saved in the +Report+ object that
-    # was passed to this object's constructor.
-    def check_object(obj)
-      sexp = CodeParser.unify(ParseTree.new.parse_tree(obj))
-      check_parse_tree(sexp)
     end
 
     def process_default(exp)
@@ -210,10 +191,6 @@ module Reek
     def pop(exp)
       @element = @element.outer
       s(exp)
-    end
-
-    def check_parse_tree(sexp)  # :nodoc:
-      process(sexp)
     end
   end
 end
