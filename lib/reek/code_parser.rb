@@ -13,14 +13,6 @@ module Reek
 
   class CodeParser < SexpProcessor
 
-    def self.unify(sexp)   # :nodoc:
-      unifier = Unifier.new
-      unifier.processors.each do |proc|
-        proc.unsupported.delete :cfunc # HACK
-      end
-      return unifier.process(sexp[0])
-    end
-
     # Creates a new Ruby code checker. Any smells discovered by
     # +check_source+ or +check_object+ will be stored in +report+.
     def initialize(report, smells, ctx = StopContext.new)

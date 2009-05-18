@@ -11,6 +11,15 @@ module Reek
   end
 
   class ObjectSource < Source   # :nodoc:
+
+    def self.unify(sexp)   # :nodoc:
+      unifier = Unifier.new
+      unifier.processors.each do |proc|
+        proc.unsupported.delete :cfunc # HACK
+      end
+      return unifier.process(sexp[0])
+    end
+
     def can_parse_objects?
       return true if Object.const_defined?(:ParseTree)
       begin
@@ -21,10 +30,9 @@ module Reek
       end
     end
 
-    def check(parser) # :nodoc:
+    def generate_syntax_tree
       if can_parse_objects?
-        sexp = CodeParser.unify(ParseTree.new.parse_tree(@source))
-        parser.process(sexp)
+        ObjectSource.unify(ParseTree.new.parse_tree(@source))
       else
         throw ArgumentError.new('You must install the ParseTree gem to use this feature')
       end

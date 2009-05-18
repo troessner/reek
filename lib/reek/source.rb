@@ -65,9 +65,8 @@ module Reek
       @cf = @cf.load_local(dir) if dir
     end
 
-    def check(parser) # :nodoc:
-      sexp = RubyParser.new.parse(@source, @desc)
-      parser.process(sexp)
+    def generate_syntax_tree
+      RubyParser.new.parse(@source, @desc)
     end
 
     #
@@ -78,7 +77,8 @@ module Reek
     def report
       unless @report
         @report = Report.new
-        check(CodeParser.new(@report, @cf.smell_listeners))
+        parser = CodeParser.new(@report, @cf.smell_listeners)
+        parser.process(generate_syntax_tree)
       end
       @report
     end
