@@ -1,5 +1,8 @@
 == 1.2.0 (In progress)
 
+== Fixes
+* LargeClass now relies only on the given source code (#26)
+
 == 1.1.2 2009-05-18
 
 === Major Enhancements
