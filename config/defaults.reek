@@ -1,11 +1,8 @@
 --- 
 LargeClass: 
   max_methods: 25
-  exclude: 
-  - Array
-  - Hash
-  - Module
-  - String
+  exclude: []
+
   enabled: true
   max_instance_variables: 9
 LongParameterList: 

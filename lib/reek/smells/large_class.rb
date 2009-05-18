@@ -32,7 +32,7 @@ module Reek
         super.adopt(
           MAX_ALLOWED_METHODS_KEY => 25,
           MAX_ALLOWED_IVARS_KEY => 9,
-          EXCLUDE_KEY => ['Array', 'Hash', 'Module', 'String']
+          EXCLUDE_KEY => []
           )
       end
 

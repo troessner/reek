@@ -2,10 +2,6 @@ require 'set'
 require 'reek/code_context'
 
 class Class
-  def non_inherited_methods
-    instance_methods(false) + private_instance_methods(false)
-  end
-
   def is_overriding_method?(sym)
     instance_methods(false).include?(sym) and superclass.instance_methods(true).include?(sym)
   end
@@ -47,8 +43,7 @@ module Reek
     end
 
     def num_methods
-      meths = myself ? @myself.non_inherited_methods : @parsed_methods
-      meths.length
+      @parsed_methods.length
     end
 
     def record_instance_variable(sym)

@@ -104,7 +104,7 @@ class ::Rake::SshDirPublisher
   attr_reader :host, :remote_dir, :local_dir
 end
 
-file GEMSPEC => [GEM_MANIFEST, VERSION_FILE, __FILE__] do
+file GEMSPEC => [GEM_MANIFEST, HISTORY_FILE, VERSION_FILE, __FILE__] do
   GEMSPEC.touch($gemspec.to_ruby)
 end
 

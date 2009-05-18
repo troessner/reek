@@ -39,46 +39,6 @@ EOEX
   end
 end
 
-describe Class do
-  
-  module Insert
-    def meth_a() end
-  private
-    def meth_b() end
-  protected
-    def meth_c() end
-  end
-
-  class Parent
-    def meth1() end
-  private
-    def meth2() end
-  protected
-    def meth3() end
-  end
-  
-  class FullChild < Parent
-    include Insert
-    def meth7() end
-  private
-    def meth8() end
-  protected
-    def meth6() end
-  end
-
-  describe 'with no superclass or modules' do
-    it 'should report correct number of methods' do
-      Parent.non_inherited_methods.length.should == 3
-    end
-  end
-
-  describe 'with superclass and modules' do
-    it 'should report correct number of methods' do
-      FullChild.non_inherited_methods.length.should == 3
-    end
-  end
-end
-
 describe ClassContext, 'overridden methods' do
   class Above
     def above() end
