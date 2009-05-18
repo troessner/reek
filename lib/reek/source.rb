@@ -1,6 +1,7 @@
 require 'reek/code_parser'
 require 'reek/report'
 require 'reek/smells/smells'
+require 'ruby_parser'
 
 module Reek
 
@@ -65,7 +66,7 @@ module Reek
     end
 
     def check(parser) # :nodoc:
-      sexp = CodeParser.unify(ParseTree.new.parse_tree_for_string(@source))
+      sexp = RubyParser.new.parse(@source, @desc)
       parser.process(sexp)
     end
 

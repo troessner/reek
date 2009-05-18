@@ -1,3 +1,9 @@
+== 1.2.0 (In progress)
+
+=== Major Enhancements
+* Switched from ParseTree to ruby_parser for source code parsing
+* 'MyClass.should_not reek' now only possible if ParseTree gem installed
+
 == 1.1.1 2009-05-08
 
 === Minor enhancements

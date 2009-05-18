@@ -1,5 +1,4 @@
 require 'rubygems'
-require 'parse_tree'
 require 'sexp_processor'
 require 'reek/block_context'
 require 'reek/class_context'

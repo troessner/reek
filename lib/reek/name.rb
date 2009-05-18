@@ -21,7 +21,7 @@ module Reek
 
     def self.resolve_string(str, context)
       return [context, new(str)] unless str =~ /::/
-      resolve(ParseTree.new.parse_tree_for_string(str)[0], context)
+      resolve(RubyParser.new.parse(str), context)
     end
 
     def initialize(sym)

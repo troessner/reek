@@ -23,7 +23,7 @@ $gemspec = Gem::Specification.new do |s|
   s.email = ['kevin@rutherford-software.com']
   s.homepage = 'http://wiki.github.com/kevinrutherford/reek'
   s.rubyforge_project = PROJECT_NAME
-  s.add_dependency('ParseTree', '~> 3.0')
+  s.add_dependency('ruby_parser', '~> 2.0')
   s.add_dependency('ruby2ruby', '~> 1.2')
   s.add_dependency('sexp_processor', '~> 3.0')
   s.files = File.read(GEM_MANIFEST).delete("\r").split(/\n/)
