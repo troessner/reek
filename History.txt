@@ -1,6 +1,9 @@
-== 1.2.0 (In progress)
+== 1.1.3 2009-05-19
 
-== Fixes
+=== Minor Changes
+* No longer depends directly on the sexp_processor gem
+
+=== Fixes
 * LargeClass now relies only on the given source code (#26)
 
 == 1.1.2 2009-05-18
