@@ -66,7 +66,7 @@ module Reek
     end
 
     def generate_syntax_tree
-      RubyParser.new.parse(@source, @desc)
+      RubyParser.new.parse(@source, @desc) || s()
     end
 
     #

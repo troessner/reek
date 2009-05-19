@@ -1,5 +1,5 @@
 require 'rubygems'
-require 'sexp_processor'
+require 'sexp'
 require 'reek/block_context'
 require 'reek/class_context'
 require 'reek/module_context'
@@ -11,23 +11,24 @@ require 'reek/yield_call_context'
 
 module Reek
 
-  class CodeParser < SexpProcessor
+  class CodeParser
 
-    # Creates a new Ruby code checker. Any smells discovered by
-    # +check_source+ or +check_object+ will be stored in +report+.
+    # Creates a new Ruby code checker. Any smells discovered
+    # will be stored in +report+.
     def initialize(report, smells, ctx = StopContext.new)
-      super()
       @report = report
       @smells = smells
       @element = ctx
-      @unsupported -= [:cfunc]
-      @default_method = :process_default
-      @require_empty = @warn_on_default = false
+    end
+
+    def process(exp)
+      meth = "process_#{exp[0]}"
+      meth = :process_default unless self.respond_to?(meth)
+      self.send(meth, exp)
     end
 
     def process_default(exp)
       exp[0..-1].each { |sub| process(sub) if Array === sub }
-      s(exp)
     end
 
     def process_module(exp)
@@ -35,7 +36,6 @@ module Reek
         process_default(exp)
         check_smells(:module)
       end
-      s(exp)
     end
 
     def process_class(exp)
@@ -43,7 +43,6 @@ module Reek
         process_default(exp) unless @element.is_struct?
         check_smells(:class)
       end
-      s(exp)
     end
 
     def process_defn(exp)
@@ -56,18 +55,15 @@ module Reek
 
     def process_args(exp)
       exp[1..-1].each {|sym| @element.record_parameter(sym) }
-      s(exp)
     end
 
     def process_attrset(exp)
       @element.record_depends_on_self if /^@/ === exp[1].to_s
-      s(exp)
     end
 
     def process_lit(exp)
       val = exp[1]
       @element.record_depends_on_self if val == :self
-      s(exp)
     end
 
     def process_iter(exp)
@@ -101,12 +97,10 @@ module Reek
 
     def process_cfunc(exp)
       @element.record_depends_on_self
-      s(exp)
     end
 
     def process_vcall(exp)
       @element.record_use_of_self
-      s(exp)
     end
 
     def process_attrasgn(exp)
@@ -127,8 +121,7 @@ module Reek
 
     def process_lasgn(exp)
       @element.record_local_variable(exp[1])
-      process(exp[2])
-      s(exp)
+      process_default(exp)
     end
 
     def process_iasgn(exp)
@@ -139,7 +132,6 @@ module Reek
 
     def process_self(exp)
       @element.record_depends_on_self
-      s(exp)
     end
 
     def self.count_statements(exp)
@@ -165,7 +157,6 @@ module Reek
         process_default(exp)
         check_smells(type)
       end
-      s(exp)
     end
 
     def check_smells(type)
@@ -181,7 +172,6 @@ module Reek
     
     def pop(exp)
       @element = @element.outer
-      s(exp)
     end
   end
 end
