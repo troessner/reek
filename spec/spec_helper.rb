@@ -1,11 +1,11 @@
 $:.unshift File.dirname(__FILE__) + '/../lib'
 
 begin
-  require 'spec'
+  require 'spec/expectations'
 rescue LoadError
   require 'rubygems'
   gem 'rspec'
-  require 'spec'
+  require 'spec/expectations'
 end
 
 require 'reek/spec'

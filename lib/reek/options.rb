@@ -44,8 +44,8 @@ EOB
     def self.parse(args)
       begin
         @@opts = parse_args(args)
-        if ARGV.length > 0
-          return Source.from_pathlist(ARGV)
+        if args.length > 0
+          return Source.from_pathlist(args)
         else
           return Source.from_io($stdin, 'stdin')
         end

@@ -13,7 +13,8 @@ namespace 'rspec' do
 
   Spec::Rake::SpecTask.new('all') do |t|
     t.spec_files = FAST + SLOW
-    t.rcov = false
+    t.rcov = true
+    t.rcov_dir = 'build/coverage'
   end
 end
 

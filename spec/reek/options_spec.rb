@@ -7,7 +7,7 @@ include Reek
 describe Options, ' when given no arguments' do
   it "should retain the default sort order" do
     default_order = Options[:format]
-    Options.parse ['nosuchfile.rb']
+    Options.parse_args(['nosuchfile.rb'])
     Options[:format].should == default_order
   end
 end
