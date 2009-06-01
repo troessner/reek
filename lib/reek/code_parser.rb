@@ -90,17 +90,8 @@ module Reek
       process_default(exp)
     end
 
-    def process_fcall(exp)
-      @element.record_use_of_self
-      process_default(exp)
-    end
-
     def process_cfunc(exp)
       @element.record_depends_on_self
-    end
-
-    def process_vcall(exp)
-      @element.record_use_of_self
     end
 
     def process_attrasgn(exp)
@@ -148,10 +139,6 @@ module Reek
       Array === exp and exp[0] == type
     end
 
-    def self.is_global_variable?(exp)
-      is_expr?(exp, :gvar)
-    end
-
     def handle_context(klass, type, exp)
       push(klass.new(@element, exp)) do
         process_default(exp)
@@ -168,10 +155,6 @@ module Reek
       @element = context
       yield
       @element = orig
-    end
-    
-    def pop(exp)
-      @element = @element.outer
     end
   end
 end
