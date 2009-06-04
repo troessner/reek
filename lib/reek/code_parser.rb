@@ -9,6 +9,20 @@ require 'reek/method_context'
 require 'reek/singleton_method_context'
 require 'reek/yield_call_context'
 
+class Sexp
+  def children
+    find_all { |item| Sexp === item }
+  end
+
+  def is_language_node?
+    first.class == Symbol
+  end
+
+  def has_type?(type)
+    is_language_node? and first == type
+  end
+end
+
 module Reek
 
   class CodeParser
@@ -104,38 +118,38 @@ module Reek
     end
 
     def process_if(exp)
-      @element.count_statements(1) unless CodeParser.is_expr?(exp[2], :block)
-      @element.count_statements(1) unless CodeParser.is_expr?(exp[3], :block)
+      count_clause(exp[2])
+      count_clause(exp[3])
       handle_context(IfContext, :if, exp)
       @element.count_statements(-1)
     end
 
     def process_while(exp)
-      @element.count_statements(1) unless CodeParser.is_expr?(exp[2], :block)
+      count_clause(exp[2])
       process_default(exp)
       @element.count_statements(-1)
     end
 
     def process_until(exp)
-      @element.count_statements(1) unless CodeParser.is_expr?(exp[2], :block)
+      count_clause(exp[2])
       process_default(exp)
       @element.count_statements(-1)
     end
 
     def process_for(exp)
-      @element.count_statements(1) unless CodeParser.is_expr?(exp[3], :block)
+      count_clause(exp[3])
       process_default(exp)
       @element.count_statements(-1)
     end
 
     def process_rescue(exp)
-      @element.count_statements(1) unless CodeParser.is_expr?(exp[1], :block)
+      count_clause(exp[1])
       process_default(exp)
       @element.count_statements(-1)
     end
 
     def process_resbody(exp)
-      @element.count_statements(1) unless CodeParser.is_expr?(exp[2], :block)
+      count_clause(exp[2])
       process_default(exp)
     end
 
@@ -145,7 +159,7 @@ module Reek
     end
 
     def process_when(exp)
-      @element.count_statements(1) unless CodeParser.is_expr?(exp[2], :block)
+      count_clause(exp[2])
       process_default(exp)
     end
 
@@ -168,20 +182,20 @@ module Reek
       @element.record_depends_on_self
     end
 
+    def count_clause(sexp)
+      if sexp and !sexp.has_type?(:block)
+        @element.count_statements(1)
+      end
+    end
+
     def self.count_statements(exp)
       stmts = exp[1..-1]
       ignore = 0
-#      ignore = 1 if is_expr?(stmts[0], :args)
       ignore += 1 if stmts[1] == s(:nil)
       stmts.length - ignore
     end
 
   private
-
-    def self.is_expr?(exp, type)
-      return true unless exp
-      Array === exp and exp[0] == type
-    end
 
     def handle_context(klass, type, exp)
       scope = klass.new(@element, exp)

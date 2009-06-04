@@ -54,6 +54,7 @@ describe 'sample gem source code' do
     ruby.should reek_of(:LargeClass, /OptionParser/)
     ruby.should reek_of(:LongMethod, /OptionParser#Completion::complete/)
     ruby.should reek_of(:LongMethod, /OptionParser#List#update/)
+    ruby.should reek_of(:LongMethod, /OptionParser#Switch#PlacedArgument#parse/)
     ruby.should reek_of(:LongMethod, /OptionParser#Switch#parse_arg/)
     ruby.should reek_of(:LongMethod, /OptionParser#Switch#summarize/)
     ruby.should reek_of(:LongMethod, /OptionParser#getopts/)
@@ -103,6 +104,6 @@ describe 'sample gem source code' do
     ruby.should reek_of(:UncommunicativeName, /OptionParser#summarize/, /'l'/)
     ruby.should reek_of(:UncommunicativeName, /OptionParser#ver/, /'v'/)
     ruby.should reek_of(:UncommunicativeName, /block/, /'q'/)
-    ruby.report.should have_at_most(116).smells
+    ruby.report.should have_at_most(117).smells
   end
 end
