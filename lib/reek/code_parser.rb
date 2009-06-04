@@ -107,31 +107,41 @@ module Reek
       @element.count_statements(1) unless CodeParser.is_expr?(exp[2], :block)
       @element.count_statements(1) unless CodeParser.is_expr?(exp[3], :block)
       handle_context(IfContext, :if, exp)
+      @element.count_statements(-1)
     end
 
     def process_while(exp)
       @element.count_statements(1) unless CodeParser.is_expr?(exp[2], :block)
       process_default(exp)
+      @element.count_statements(-1)
     end
 
     def process_until(exp)
       @element.count_statements(1) unless CodeParser.is_expr?(exp[2], :block)
       process_default(exp)
+      @element.count_statements(-1)
     end
 
     def process_for(exp)
       @element.count_statements(1) unless CodeParser.is_expr?(exp[3], :block)
       process_default(exp)
+      @element.count_statements(-1)
     end
 
     def process_rescue(exp)
       @element.count_statements(1) unless CodeParser.is_expr?(exp[1], :block)
       process_default(exp)
+      @element.count_statements(-1)
     end
 
     def process_resbody(exp)
       @element.count_statements(1) unless CodeParser.is_expr?(exp[2], :block)
       process_default(exp)
+    end
+
+    def process_case(exp)
+      process_default(exp)
+      @element.count_statements(-1)
     end
 
     def process_when(exp)

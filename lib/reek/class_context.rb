@@ -28,9 +28,8 @@ module Reek
     end
 
     def find_module(modname)
-      sym = modname.to_s
       return nil unless myself
-      @myself.const_defined?(sym) ? @myself.const_get(sym) : nil
+      @myself.const_or_nil(modname.to_s)
     end
 
     def is_overriding_method?(name)

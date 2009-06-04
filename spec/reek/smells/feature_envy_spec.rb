@@ -198,7 +198,7 @@ def report
   @report
 end
 EOS
-    ruby.should reek_only_of(:LongMethod)
+    ruby.should_not reek
   end
 end
 
