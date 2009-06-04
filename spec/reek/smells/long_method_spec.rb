@@ -2,8 +2,10 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 require 'reek/code_parser'
 require 'reek/report'
+require 'reek/smells/long_method'
 
 include Reek
+include Reek::Smells
 
 describe LongMethod do
   it 'should not report short methods' do
@@ -55,5 +57,168 @@ def long(arga)
 end
 EOS
     src.should reek_only_of(:LongMethod)
+  end
+end
+
+describe LongMethod do
+  it 'counts 1 assignment' do
+    src = 'def one() val = 4; end'
+    source = Source.from_s(src)
+    method = CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+    method.num_statements.should == 1
+  end
+
+  it 'counts 3 assignments' do
+    src = 'def one() val = 4; val = 4; val = 4; end'
+    source = Source.from_s(src)
+    method = CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+    method.num_statements.should == 3
+  end
+
+  it 'counts 1 attr assignment' do
+    src = 'def one() val[0] = 4; end'
+    source = Source.from_s(src)
+    method = CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+    method.num_statements.should == 1
+  end
+
+  it 'counts 1 assignment in a conditional expression' do
+    src = 'def one() if val = 4; callee(); end; end'
+    source = Source.from_s(src)
+    method = CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+    method.num_statements.should == 2
+  end
+
+  it 'counts 1 attr assignment in a conditional expression' do
+    src = 'def one() if val[0] = 4; callee(); end; end'
+    source = Source.from_s(src)
+    method = CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+    method.num_statements.should == 2
+  end
+
+  it 'counts 1 assignment in a while loop' do
+    src = 'def one() while val < 4; callee(); end; end'
+    source = Source.from_s(src)
+    method = CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+    method.num_statements.should == 2
+  end
+
+  it 'counts 1 assignment in a until loop' do
+    src = 'def one() until val < 4; callee(); end; end'
+    source = Source.from_s(src)
+    method = CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+    method.num_statements.should == 2
+  end
+
+  it 'counts 1 assignment in a for loop' do
+    src = 'def one() for i in 0..4; callee(); end; end'
+    source = Source.from_s(src)
+    method = CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+    method.num_statements.should == 2
+  end
+
+  it 'counts 3 statements in a conditional expression' do
+    src = 'def one() if val == 4; callee(); callee(); callee(); end; end'
+    source = Source.from_s(src)
+    method = CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+    method.num_statements.should == 4
+  end
+
+  it 'counts 3 statements in a while loop' do
+    src = 'def one() while val < 4; callee(); callee(); callee(); end; end'
+    source = Source.from_s(src)
+    method = CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+    method.num_statements.should == 4
+  end
+
+  it 'counts 3 statements in a until loop' do
+    src = 'def one() until val < 4; callee(); callee(); callee(); end; end'
+    source = Source.from_s(src)
+    method = CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+    method.num_statements.should == 4
+  end
+
+  it 'counts 3 statements in a for loop' do
+    src = 'def one() for i in 0..4; callee(); callee(); callee(); end; end'
+    source = Source.from_s(src)
+    method = CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+    method.num_statements.should == 4
+  end
+
+  it 'counts 1 statement in a rescue' do
+    src = 'def one() begin; callee(); rescue; callee(); end; end'
+    source = Source.from_s(src)
+    method = CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+    method.num_statements.should == 3
+  end
+
+  it 'counts 3 statements in a rescue' do
+    src = 'def one() begin; callee(); callee(); callee(); rescue; callee(); callee(); callee(); end; end'
+    source = Source.from_s(src)
+    method = CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+    method.num_statements.should == 7
+  end
+
+  it 'counts 1 statement in a when' do
+    src = 'def one() case fred; when "hi"; callee(); end; end'
+    source = Source.from_s(src)
+    method = CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+    method.num_statements.should == 2
+  end
+
+  it 'counts 3 statements in a when' do
+    src = 'def one() case fred; when "hi"; callee(); callee(); end; end'
+    source = Source.from_s(src)
+    method = CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+    method.num_statements.should == 3
+  end
+
+  it 'counts 1 increment assignment' do
+    src = 'def one() val += 4; end'
+    source = Source.from_s(src)
+    method = CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+    method.num_statements.should == 1
+  end
+
+  it 'counts 1 increment attr assignment' do
+    src = 'def one() val[0] += 4; end'
+    source = Source.from_s(src)
+    method = CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+    method.num_statements.should == 1
+  end
+
+  it 'counts 1 nested assignment' do
+    src = 'def one() val = fred = 4; end'
+    source = Source.from_s(src)
+    method = CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+    method.num_statements.should == 1
+  end
+
+  it 'counts returns' do
+    src = 'def one() val = 4; true; end'
+    source = Source.from_s(src)
+    method = CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+    method.num_statements.should == 2
+  end
+
+  it 'counts if as a statement' do
+    src = <<EOS
+def parse(arg, argv, &error)
+  if !(val = arg) and (argv.empty? or /\A-/ =~ (val = argv[0]))
+    return nil, block, nil
+  end
+  opt = (val = parse_arg(val, &error))[1]
+  val = conv_arg(*val)
+  if opt and !arg
+    argv.shift
+  else
+    val[0] = nil
+  end
+  val
+end
+EOS
+    source = Source.from_s(src)
+    method = CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+    method.num_statements.should == 8
   end
 end

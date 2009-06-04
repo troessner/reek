@@ -25,6 +25,7 @@ module Reek
       meth = "process_#{exp[0]}"
       meth = :process_default unless self.respond_to?(meth)
       self.send(meth, exp)
+      @element
     end
 
     def process_default(exp)
@@ -103,7 +104,39 @@ module Reek
     end
 
     def process_if(exp)
+      @element.count_statements(1) unless CodeParser.is_expr?(exp[2], :block)
+      @element.count_statements(1) unless CodeParser.is_expr?(exp[3], :block)
       handle_context(IfContext, :if, exp)
+    end
+
+    def process_while(exp)
+      @element.count_statements(1) unless CodeParser.is_expr?(exp[2], :block)
+      process_default(exp)
+    end
+
+    def process_until(exp)
+      @element.count_statements(1) unless CodeParser.is_expr?(exp[2], :block)
+      process_default(exp)
+    end
+
+    def process_for(exp)
+      @element.count_statements(1) unless CodeParser.is_expr?(exp[3], :block)
+      process_default(exp)
+    end
+
+    def process_rescue(exp)
+      @element.count_statements(1) unless CodeParser.is_expr?(exp[1], :block)
+      process_default(exp)
+    end
+
+    def process_resbody(exp)
+      @element.count_statements(1) unless CodeParser.is_expr?(exp[2], :block)
+      process_default(exp)
+    end
+
+    def process_when(exp)
+      @element.count_statements(1) unless CodeParser.is_expr?(exp[2], :block)
+      process_default(exp)
     end
 
     def process_ivar(exp)
@@ -128,7 +161,7 @@ module Reek
     def self.count_statements(exp)
       stmts = exp[1..-1]
       ignore = 0
-      ignore = 1 if is_expr?(stmts[0], :args)
+#      ignore = 1 if is_expr?(stmts[0], :args)
       ignore += 1 if stmts[1] == s(:nil)
       stmts.length - ignore
     end
@@ -136,18 +169,22 @@ module Reek
   private
 
     def self.is_expr?(exp, type)
+      return true unless exp
       Array === exp and exp[0] == type
     end
 
     def handle_context(klass, type, exp)
-      push(klass.new(@element, exp)) do
+      scope = klass.new(@element, exp)
+      push(scope) do
         process_default(exp)
         check_smells(type)
       end
+      scope
     end
 
     def check_smells(type)
-      @smells[type].each {|smell| smell.examine(@element, @report) }
+      listeners = @smells[type]
+      listeners.each {|smell| smell.examine(@element, @report) } if listeners
     end
 
     def push(context)

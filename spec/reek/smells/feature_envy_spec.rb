@@ -177,12 +177,8 @@ describe FeatureEnvy do
   it 'counts self references correctly' do
     'def adopt!(other)
       other.keys.each do |key|
-        ov = other[key]
-        if Array === ov and has_key?(key)
-          self[key] += ov
-        else
-          self[key] = ov
-        end
+        self[key] += 3
+        self[key] = o4
       end
       self
     end'.should_not reek
