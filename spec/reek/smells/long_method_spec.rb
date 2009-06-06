@@ -7,6 +7,11 @@ require 'reek/smells/long_method'
 include Reek
 include Reek::Smells
 
+def process_method(src)
+  source = Source.from_s(src)
+  CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+end
+
 describe LongMethod do
   it 'should not report short methods' do
     'def short(arga) alf = f(1);@bet = 2;@cut = 3;@dit = 4; @emp = 5;end'.should_not reek
@@ -62,151 +67,109 @@ end
 
 describe LongMethod do
   it 'counts 1 assignment' do
-    src = 'def one() val = 4; end'
-    source = Source.from_s(src)
-    method = CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+    method = process_method('def one() val = 4; end')
     method.num_statements.should == 1
   end
 
   it 'counts 3 assignments' do
-    src = 'def one() val = 4; val = 4; val = 4; end'
-    source = Source.from_s(src)
-    method = CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+    method = process_method('def one() val = 4; val = 4; val = 4; end')
     method.num_statements.should == 3
   end
 
   it 'counts 1 attr assignment' do
-    src = 'def one() val[0] = 4; end'
-    source = Source.from_s(src)
-    method = CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+    method = process_method('def one() val[0] = 4; end')
     method.num_statements.should == 1
   end
 
   it 'counts 1 increment assignment' do
-    src = 'def one() val += 4; end'
-    source = Source.from_s(src)
-    method = CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+    method = process_method('def one() val += 4; end')
     method.num_statements.should == 1
   end
 
   it 'counts 1 increment attr assignment' do
-    src = 'def one() val[0] += 4; end'
-    source = Source.from_s(src)
-    method = CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+    method = process_method('def one() val[0] += 4; end')
     method.num_statements.should == 1
   end
 
   it 'counts 1 nested assignment' do
-    src = 'def one() val = fred = 4; end'
-    source = Source.from_s(src)
-    method = CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+    method = process_method('def one() val = fred = 4; end')
     method.num_statements.should == 1
   end
 
   it 'counts returns' do
-    src = 'def one() val = 4; true; end'
-    source = Source.from_s(src)
-    method = CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+    method = process_method('def one() val = 4; true; end')
     method.num_statements.should == 2
   end
 end
 
 describe LongMethod, 'does not count control statements' do
   it 'counts 1 statement in a conditional expression' do
-    src = 'def one() if val == 4; callee(); end; end'
-    source = Source.from_s(src)
-    method = CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+    method = process_method('def one() if val == 4; callee(); end; end')
     method.num_statements.should == 1
   end
 
   it 'counts 3 statements in a conditional expression' do
-    src = 'def one() if val == 4; callee(); callee(); callee(); end; end'
-    source = Source.from_s(src)
-    method = CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+    method = process_method('def one() if val == 4; callee(); callee(); callee(); end; end')
     method.num_statements.should == 3
   end
 
   it 'does not count empty conditional expression' do
-    src = 'def one() if val == 4; ; end; end'
-    source = Source.from_s(src)
-    method = CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+    method = process_method('def one() if val == 4; ; end; end')
     method.num_statements.should == 0
   end
 
   it 'counts 1 statement in a while loop' do
-    src = 'def one() while val < 4; callee(); end; end'
-    source = Source.from_s(src)
-    method = CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+    method = process_method('def one() while val < 4; callee(); end; end')
     method.num_statements.should == 1
   end
 
   it 'counts 3 statements in a while loop' do
-    src = 'def one() while val < 4; callee(); callee(); callee(); end; end'
-    source = Source.from_s(src)
-    method = CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+    method = process_method('def one() while val < 4; callee(); callee(); callee(); end; end')
     method.num_statements.should == 3
   end
 
   it 'counts 1 statement in a until loop' do
-    src = 'def one() until val < 4; callee(); end; end'
-    source = Source.from_s(src)
-    method = CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+    method = process_method('def one() until val < 4; callee(); end; end')
     method.num_statements.should == 1
   end
 
   it 'counts 3 statements in a until loop' do
-    src = 'def one() until val < 4; callee(); callee(); callee(); end; end'
-    source = Source.from_s(src)
-    method = CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+    method = process_method('def one() until val < 4; callee(); callee(); callee(); end; end')
     method.num_statements.should == 3
   end
 
   it 'counts 1 statement in a for loop' do
-    src = 'def one() for i in 0..4; callee(); end; end'
-    source = Source.from_s(src)
-    method = CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+    method = process_method('def one() for i in 0..4; callee(); end; end')
     method.num_statements.should == 1
   end
 
   it 'counts 3 statements in a for loop' do
-    src = 'def one() for i in 0..4; callee(); callee(); callee(); end; end'
-    source = Source.from_s(src)
-    method = CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+    method = process_method('def one() for i in 0..4; callee(); callee(); callee(); end; end')
     method.num_statements.should == 3
   end
 
   it 'counts 1 statement in a rescue' do
-    src = 'def one() begin; callee(); rescue; callee(); end; end'
-    source = Source.from_s(src)
-    method = CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+    method = process_method('def one() begin; callee(); rescue; callee(); end; end')
     method.num_statements.should == 2
   end
 
   it 'counts 3 statements in a rescue' do
-    src = 'def one() begin; callee(); callee(); callee(); rescue; callee(); callee(); callee(); end; end'
-    source = Source.from_s(src)
-    method = CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+    method = process_method('def one() begin; callee(); callee(); callee(); rescue; callee(); callee(); callee(); end; end')
     method.num_statements.should == 6
   end
 
   it 'counts 1 statement in a when' do
-    src = 'def one() case fred; when "hi"; callee(); end; end'
-    source = Source.from_s(src)
-    method = CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+    method = process_method('def one() case fred; when "hi"; callee(); end; end')
     method.num_statements.should == 1
   end
 
   it 'counts 3 statements in a when' do
-    src = 'def one() case fred; when "hi"; callee(); callee(); when "lo"; callee(); end; end'
-    source = Source.from_s(src)
-    method = CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+    method = process_method('def one() case fred; when "hi"; callee(); callee(); when "lo"; callee(); end; end')
     method.num_statements.should == 3
   end
 
   it 'does not count empty case' do
-    src = 'def one() case fred; when "hi"; ; when "lo"; ; end; end'
-    source = Source.from_s(src)
-    method = CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+    method = process_method('def one() case fred; when "hi"; ; when "lo"; ; end; end')
     method.num_statements.should == 0
   end
 
@@ -226,8 +189,7 @@ def parse(arg, argv, &error)
   val
 end
 EOS
-    source = Source.from_s(src)
-    method = CodeParser.new(nil, {}).process_defn(source.generate_syntax_tree)
+    method = process_method(src)
     method.num_statements.should == 6
   end
 end
