@@ -54,10 +54,12 @@ module Reek
     end
 
     def process_class(exp)
-      push(ClassContext.create(@element, exp)) do
+      scope = ClassContext.create(@element, exp)
+      push(scope) do
         process_default(exp) unless @element.is_struct?
         check_smells(:class)
       end
+      scope
     end
 
     def process_defn(exp)
