@@ -77,5 +77,9 @@ module Reek
       return [] if path == parent
       all_reekfiles(parent) + Dir["#{path}/*.reek"]
     end
+
+    def disable(smell)
+      @config[smell].adopt!({'enabled' => false})
+    end
   end
 end

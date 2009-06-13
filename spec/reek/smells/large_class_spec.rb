@@ -8,7 +8,7 @@ include Reek::Smells
 
 describe LargeClass, 'checking Class objects' do
 
-  it 'should report large class' do
+  it 'should not report class with 26 methods' do
     class BigOne
       26.times do |i|
         define_method "method#{i}".to_sym do
@@ -16,7 +16,7 @@ describe LargeClass, 'checking Class objects' do
         end
       end
     end
-    BigOne.should reek_only_of(:LargeClass, /BigOne/)
+    BigOne.should_not reek
   end
 
   it 'should not report short class' do
@@ -32,14 +32,14 @@ describe LargeClass, 'checking Class objects' do
   end
 
   describe LargeClass, 'counting instance variables' do
-    it 'warns about class with 10 ivars' do
+    it 'should not report class with 10 ivars' do
       class ManyIvars
         def method
           @vara = @varb = @varc = @vard = @vare
           @varf = @varg = @varh = @vari = @varj
         end
       end
-      ManyIvars.should reek_of(:LargeClass, /10/)
+      ManyIvars.should_not reek
     end
 
     it 'ignores class with only a couple of ivars' do

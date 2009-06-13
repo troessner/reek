@@ -20,6 +20,11 @@ module Reek
       return unifier.process(sexp[0])
     end
 
+    def initialize(code, desc)     # :nodoc:
+      super
+      @cf.disable('LargeClass')
+    end
+
     def can_parse_objects?
       return true if Object.const_defined?(:ParseTree)
       begin
