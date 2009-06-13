@@ -133,22 +133,6 @@ describe FeatureEnvy do
      end'.should_not reek
   end
 
-  it 'reports the most-used ivar' do
-    pending('bug')
-    'def func
-       @other.a
-       @other.b
-       @nother.c
-     end'.should reek_of(:FeatureEnvy, /@other/)
-    #
-    # def other.func(me)
-    #   a
-    #   b
-    #   me.nother_c
-    # end
-    #
-  end
-
   it 'ignores multiple ivars' do
     'def func
        @other.a

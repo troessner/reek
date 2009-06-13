@@ -79,7 +79,7 @@ module Reek
     end
 
     def disable(smell)
-      @config[smell].adopt!({'enabled' => false})
+      @config[smell].adopt!({Reek::Smells::SmellDetector::ENABLED_KEY => false})
     end
   end
 end

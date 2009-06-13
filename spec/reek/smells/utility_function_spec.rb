@@ -39,20 +39,6 @@ describe UtilityFunction do
     end
     Son.should_not reek
   end
-
-  it 'should not report class method' do
-    pending('bug')
-    source = <<EOS
-class Cache
-  class << self
-    def create_unless_known(attributes)
-      Cache.create(attributes) unless Cache.known?
-    end
-  end
-end
-EOS
-    source.should_not reek
-  end
   
   it 'should recognise a deep call' do
     src = <<EOS
