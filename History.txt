@@ -1,9 +1,9 @@
 == 1.1.4 (in git)
 
 === Minor Changes
-* LongMethod now counts statements deeper into each method (#25)
+* LongMethod now counts statements deeper into each method (fixed #25)
 * LongMethod no longer counts control structures, only their contained stmts
-* LargeClass is disabled when checking in-memory classes
+* LargeClass is disabled when checking in-memory classes (fixed #28)
 
 == 1.1.3 2009-05-19
 
@@ -11,7 +11,7 @@
 * No longer depends directly on the sexp_processor gem
 
 === Fixes
-* LargeClass now relies only on the given source code (#26)
+* LargeClass now relies only on the given source code (fixed #26)
 
 == 1.1.2 2009-05-18
 
@@ -22,7 +22,7 @@
 == 1.1.1 2009-05-08
 
 === Minor enhancements
-* LargeClass now also warns about any class with > 9 instance variables (#6)
+* LargeClass now also warns about any class with > 9 instance variables (fixed #6)
 * Now depends on ruby2ruby, to display code better
 * Duplication notices more repeated method calls
 * Smells within blocks are now reported better
@@ -30,7 +30,7 @@
 == 1.1.0 2009-04-10
 
 === Minor enhancements
-* Now possible to write 'MyClass.should_not reek' (#33)
+* Now possible to write 'MyClass.should_not reek' (fixed #33)
 
 === Fixes
 * Now counts attr assignments ([]= etc) in feature envy calculations
@@ -39,7 +39,7 @@
 == 1.0.1 2009-04-06
 
 === Fixes
-* Dir[...].to_source now creates a Report that can be browsed (#36)
+* Dir[...].to_source now creates a Report that can be browsed (fixed #36)
 
 == 1.0.0 2009-04-05
 

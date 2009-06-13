@@ -85,22 +85,17 @@ end
 
 describe LargeClass, 'checking source code' do
 
-  def process_class(src)
-    source = Source.from_s(src)
-    CodeParser.new(nil, {}).process_class(source.generate_syntax_tree)
-  end
-
   describe 'counting instance variables' do
     it 'should not report empty class' do
-      process_class('class Empty;end').variable_names.length.should == 0
+      ClassContext.from_s('class Empty;end').should have(0).variable_names
     end
 
     it 'should count ivars in one method' do
-      process_class('class Empty;def ivars() @aa=@ab=@ac=@ad; end;end').variable_names.length.should == 4
+      ClassContext.from_s('class Empty;def ivars() @aa=@ab=@ac=@ad; end;end').should have(4).variable_names
     end
 
     it 'should count ivars in 2 methods' do
-      process_class('class Empty;def iv1() @aa=@ab; end;def iv2() @aa=@ac; end;end').variable_names.length.should == 3
+      ClassContext.from_s('class Empty;def iv1() @aa=@ab; end;def iv2() @aa=@ac; end;end').should have(3).variable_names
     end
 
     it 'should not report 9 ivars' do
@@ -122,15 +117,15 @@ EOS
 
   describe 'counting methods' do
     it 'should not report empty class' do
-      process_class('class Empty;end').num_methods.should == 0
+      ClassContext.from_s('class Empty;end').num_methods.should == 0
     end
 
     it 'should count 1 method' do
-      process_class('class Empty;def ivars() @aa=@ab; end;end').num_methods.should == 1
+      ClassContext.from_s('class Empty;def ivars() @aa=@ab; end;end').num_methods.should == 1
     end
 
     it 'should count 2 methods' do
-      process_class('class Empty;def meth1() @aa=@ab;end;def meth2() @aa=@ab;end;end').num_methods.should == 2
+      ClassContext.from_s('class Empty;def meth1() @aa=@ab;end;def meth2() @aa=@ab;end;end').num_methods.should == 2
     end
 
     it 'should not report 25 methods' do
