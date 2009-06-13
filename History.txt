@@ -3,6 +3,7 @@
 === Minor Changes
 * LongMethod now counts statements deeper into each method (#25)
 * LongMethod no longer counts control structures, only their contained stmts
+* LargeClass is disabled when checking in-memory classes
 
 == 1.1.3 2009-05-19
 
