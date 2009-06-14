@@ -45,15 +45,13 @@ module Reek
       def check_num_methods(klass, report)  # :nodoc:
         count = klass.num_methods
         return if count <= @max_methods
-        report << SmellWarning.new(self, klass,
-                    "has at least #{count} methods")
+        report << found(klass, "has at least #{count} methods")
       end
 
       def check_num_ivars(klass, report)  # :nodoc:
         count = klass.variable_names.length
         return if count <= @max_instance_variables
-        report << SmellWarning.new(self, klass,
-                    "has at least #{count} instance variables")
+        report << found(klass, "has at least #{count} instance variables")
       end
 
       #

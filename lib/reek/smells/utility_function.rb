@@ -26,8 +26,7 @@ module Reek
         return false if method.calls.keys.length == 0 or
           method.num_statements == 0 or
           method.depends_on_instance?
-        report << SmellWarning.new(self, method,
-                      "doesn't depend on instance state")
+        report << found(method, "doesn't depend on instance state")
       end
     end
   end

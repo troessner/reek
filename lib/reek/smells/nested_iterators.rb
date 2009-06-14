@@ -21,7 +21,7 @@ module Reek
       #
       def examine_context(block, report)
         return false unless block.nested_block?
-        report << SmellWarning.new(self, block, 'is nested')
+        report << found(block, 'is nested')
       end
     end
   end

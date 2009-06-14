@@ -42,6 +42,7 @@ module Reek
       def initialize(config)
         @enabled = config[ENABLED_KEY]
         @exceptions = config[EXCLUDE_KEY]
+        @smells_found = []
       end
 
       def examine(context, report)
@@ -56,6 +57,12 @@ module Reek
       def exception?(context)
         return false if @exceptions.nil? or @exceptions.length == 0
         context.matches?(@exceptions)
+      end
+
+      def found(scope, warning)
+        smell = SmellWarning.new(self, scope, warning)
+        @smells_found << smell
+        smell
       end
 
       def smell_name

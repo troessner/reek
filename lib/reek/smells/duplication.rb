@@ -35,8 +35,7 @@ module Reek
 
       def examine_context(method, report)
         smelly_calls(method).each do |call|
-          report << SmellWarning.new(self, method,
-                      "calls #{SexpFormatter.format(call)} multiple times")
+          report << found(method, "calls #{SexpFormatter.format(call)} multiple times")
         end
       end
       

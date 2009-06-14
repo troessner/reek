@@ -53,8 +53,7 @@ module Reek
       #
       def examine_context(cond, report)
         return unless cond.tests_a_parameter?
-        report << SmellWarning.new(self, cond,
-                    "is controlled by argument #{SexpFormatter.format(cond.if_expr)}")
+        report << found(cond, "is controlled by argument #{SexpFormatter.format(cond.if_expr)}")
       end
     end
   end

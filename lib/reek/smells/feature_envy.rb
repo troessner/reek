@@ -49,8 +49,7 @@ module Reek
       #
       def examine_context(context, report)
         context.envious_receivers.each do |ref|
-          report << SmellWarning.new(self, context,
-                      "refers to #{SexpFormatter.format(ref)} more than self")
+          report << found(context, "refers to #{SexpFormatter.format(ref)} more than self")
         end
       end
     end
