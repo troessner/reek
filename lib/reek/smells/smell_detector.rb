@@ -48,7 +48,7 @@ module Reek
       def examine(context, report)
         before = @smells_found.size
         examine_context(context, report) if @enabled and !exception?(context)
-        @smells_found.size > before
+        @smells_found.length > before
       end
 
       def examine_context(context, report)

@@ -76,9 +76,8 @@ module Reek
     #
     def report
       unless @report
-        @report = Report.new
         detectors = @cf.smell_listeners
-        parser = CodeParser.new(@report, detectors)
+        parser = CodeParser.new(nil, detectors)
         parser.process(generate_syntax_tree)
         @report = Report.new(detectors)
       end
