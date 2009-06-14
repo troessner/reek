@@ -53,7 +53,7 @@ module Reek
       #
       def examine_context(cond, report)
         return unless cond.tests_a_parameter?
-        report << found(cond, "is controlled by argument #{SexpFormatter.format(cond.if_expr)}")
+        found(cond, "is controlled by argument #{SexpFormatter.format(cond.if_expr)}")
       end
     end
   end

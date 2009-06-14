@@ -65,6 +65,7 @@ describe LargeClass, 'when exceptions are listed' do
     @config[LargeClass::EXCLUDE_KEY] = ['Humungous']
     lc = LargeClass.new(@config)
     lc.examine(@ctx, @rpt).should == false
+    lc.report_on(@rpt)
     @rpt.length.should == 0
   end
 
@@ -72,6 +73,7 @@ describe LargeClass, 'when exceptions are listed' do
     @config[LargeClass::EXCLUDE_KEY] = ['Oversized', 'Humungous']
     lc = LargeClass.new(@config)
     lc.examine(@ctx, @rpt).should == false
+    lc.report_on(@rpt)
     @rpt.length.should == 0
   end
 
@@ -79,6 +81,7 @@ describe LargeClass, 'when exceptions are listed' do
     @config[LargeClass::EXCLUDE_KEY] = ['SmellMe']
     lc = LargeClass.new(@config)
     lc.examine(@ctx, @rpt).should == true
+    lc.report_on(@rpt)
     @rpt.length.should == 1
   end
 end

@@ -35,7 +35,7 @@ module Reek
       def examine_context(method, report)
         num = method.num_statements
         return false if num <= @max_statements
-        report << found(method, "has approx #{num} statements")
+        found(method, "has approx #{num} statements")
       end
     end
   end

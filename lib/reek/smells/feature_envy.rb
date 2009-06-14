@@ -49,7 +49,7 @@ module Reek
       #
       def examine_context(context, report)
         context.envious_receivers.each do |ref|
-          report << found(context, "refers to #{SexpFormatter.format(ref)} more than self")
+          found(context, "refers to #{SexpFormatter.format(ref)} more than self")
         end
       end
     end

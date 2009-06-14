@@ -57,7 +57,7 @@ module Reek
       def consider_variables(context, report) # :nodoc:
         context.variable_names.each do |name|
           next unless is_bad_name?(name)
-          report << found(context, "has the variable name '#{name}'")
+          found(context, "has the variable name '#{name}'")
         end
       end
 
@@ -65,7 +65,7 @@ module Reek
         name = context.name
         return false if @accept.include?(context.to_s)  # TODO: fq_name() ?
         return false unless is_bad_name?(name)
-        report << found(context, "has the name '#{name}'")
+        found(context, "has the name '#{name}'")
       end
 
       def is_bad_name?(name)  # :nodoc:

@@ -35,7 +35,7 @@ module Reek
       def examine_context(ctx, report)
         num_params = ctx.parameters.length
         return false if num_params <= @max_params
-        report << found(ctx, "#{@action} #{num_params} parameters")
+        found(ctx, "#{@action} #{num_params} parameters")
       end
     end
   end

@@ -21,7 +21,7 @@ module Reek
       #
       def examine_context(block, report)
         return false unless block.nested_block?
-        report << found(block, 'is nested')
+        found(block, 'is nested')
       end
     end
   end

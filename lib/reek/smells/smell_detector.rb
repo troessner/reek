@@ -46,9 +46,9 @@ module Reek
       end
 
       def examine(context, report)
-        before = report.size
+        before = @smells_found.size
         examine_context(context, report) if @enabled and !exception?(context)
-        report.length > before
+        @smells_found.size > before
       end
 
       def examine_context(context, report)
@@ -63,6 +63,10 @@ module Reek
         smell = SmellWarning.new(self, scope, warning)
         @smells_found << smell
         smell
+      end
+
+      def report_on(report)
+        @smells_found.each {|smell| report << smell}
       end
 
       def smell_name

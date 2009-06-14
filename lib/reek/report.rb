@@ -5,8 +5,13 @@ module Reek
   class Report
     include Enumerable
 
-    def initialize  # :nodoc:
+    def initialize(detectors = nil)  # :nodoc:
       @report = SortedSet.new
+      if detectors
+        detectors.each_value do |group|
+          group.each {|smell| smell.report_on(self)}
+        end
+      end
     end
 
     #
