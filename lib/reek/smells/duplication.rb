@@ -33,7 +33,7 @@ module Reek
         @max_calls = config[MAX_ALLOWED_CALLS_KEY]
       end
 
-      def examine_context(method, report)
+      def examine_context(method)
         smelly_calls(method).each do |call|
           found(method, "calls #{SexpFormatter.format(call)} multiple times")
         end

@@ -17,9 +17,9 @@ module Reek
 
       #
       # Checks whether the given +block+ is inside another.
-      # Any smells found are added to the +report+.
+      # Remembers any smells found.
       #
-      def examine_context(block, report)
+      def examine_context(block)
         return false unless block.nested_block?
         found(block, 'is nested')
       end

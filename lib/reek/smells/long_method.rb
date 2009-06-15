@@ -30,9 +30,9 @@ module Reek
 
       #
       # Checks the length of the given +method+.
-      # Any smells found are added to the +report+.
+      # Remembers any smells found.
       #
-      def examine_context(method, report)
+      def examine_context(method)
         num = method.num_statements
         return false if num <= @max_statements
         found(method, "has approx #{num} statements")

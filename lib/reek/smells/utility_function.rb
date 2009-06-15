@@ -20,9 +20,9 @@ module Reek
 
       #
       # Checks whether the given +method+ is a utility function.
-      # Any smells found are added to the +report+.
+      # Remembers any smells found.
       #
-      def examine_context(method, report)
+      def examine_context(method)
         return false if method.calls.keys.length == 0 or
           method.num_statements == 0 or
           method.depends_on_instance?

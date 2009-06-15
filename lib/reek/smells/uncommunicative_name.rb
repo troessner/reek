@@ -47,21 +47,21 @@ module Reek
 
       #
       # Checks the given +context+ for uncommunicative names.
-      # Any smells found are added to the +report+.
+      # Remembers any smells found.
       #
-      def examine_context(context, report)
-        consider_name(context, report)
-        consider_variables(context, report)
+      def examine_context(context)
+        consider_name(context)
+        consider_variables(context)
       end
 
-      def consider_variables(context, report) # :nodoc:
+      def consider_variables(context) # :nodoc:
         context.variable_names.each do |name|
           next unless is_bad_name?(name)
           found(context, "has the variable name '#{name}'")
         end
       end
 
-      def consider_name(context, report)  # :nodoc:
+      def consider_name(context)  # :nodoc:
         name = context.name
         return false if @accept.include?(context.to_s)  # TODO: fq_name() ?
         return false unless is_bad_name?(name)

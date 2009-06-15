@@ -49,9 +49,9 @@ module Reek
 
       #
       # Checks whether the given conditional statement relies on a control couple.
-      # Any smells found are added to the +report+.
+      # Remembers any smells found.
       #
-      def examine_context(cond, report)
+      def examine_context(cond)
         return unless cond.tests_a_parameter?
         found(cond, "is controlled by argument #{SexpFormatter.format(cond.if_expr)}")
       end

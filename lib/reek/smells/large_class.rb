@@ -42,13 +42,13 @@ module Reek
         @max_instance_variables = config[MAX_ALLOWED_IVARS_KEY]
       end
 
-      def check_num_methods(klass, report)  # :nodoc:
+      def check_num_methods(klass)  # :nodoc:
         count = klass.num_methods
         return if count <= @max_methods
         found(klass, "has at least #{count} methods")
       end
 
-      def check_num_ivars(klass, report)  # :nodoc:
+      def check_num_ivars(klass)  # :nodoc:
         count = klass.variable_names.length
         return if count <= @max_instance_variables
         found(klass, "has at least #{count} instance variables")
@@ -56,11 +56,11 @@ module Reek
 
       #
       # Checks +klass+ for too many methods or too many instance variables.
-      # Any smells found are added to the +report+.
+      # Remembers any smells found.
       #
-      def examine_context(klass, report)
-        check_num_methods(klass, report)
-        check_num_ivars(klass, report)
+      def examine_context(klass)
+        check_num_methods(klass)
+        check_num_ivars(klass)
       end
     end
   end

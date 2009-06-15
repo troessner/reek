@@ -30,9 +30,9 @@ module Reek
 
       #
       # Checks the number of parameters in the given scope.
-      # Any smells found are added to the +report+.
+      # Remembers any smells found.
       #
-      def examine_context(ctx, report)
+      def examine_context(ctx)
         num_params = ctx.parameters.length
         return false if num_params <= @max_params
         found(ctx, "#{@action} #{num_params} parameters")

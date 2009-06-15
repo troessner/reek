@@ -45,9 +45,9 @@ module Reek
       #
       # Checks whether the given +context+ includes any code fragment that
       # might "belong" on another class.
-      # Any smells found are added to the +report+.
+      # Remembers any smells found.
       #
-      def examine_context(context, report)
+      def examine_context(context)
         context.envious_receivers.each do |ref|
           found(context, "refers to #{SexpFormatter.format(ref)} more than self")
         end
