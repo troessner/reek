@@ -46,7 +46,8 @@ module Reek
     #
     def self.from_path(filename)
       code = IO.readlines(filename).join
-      return new(code, filename, File.dirname(filename))
+      sniffer = Sniffer.new.configure_using(filename)
+      return new(code, filename, sniffer)
     end
 
     #
@@ -58,11 +59,10 @@ module Reek
       SourceList.new(sources)
     end
 
-    def initialize(code, desc, dir = nil)     # :nodoc:
+    def initialize(code, desc, sniffer = Sniffer.new)     # :nodoc:
       @source = code
       @desc = desc
-      @sniffer = Sniffer.new
-      @sniffer = @sniffer.load_local(dir) if dir
+      @sniffer = sniffer
     end
 
     def generate_syntax_tree

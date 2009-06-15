@@ -67,8 +67,8 @@ module Reek
       @detectors
     end
 
-    def load_local(file)
-      path = File.expand_path(file)
+    def configure_using(filename)
+      path = File.expand_path(File.dirname(filename))
       all_reekfiles(path).each do |rfile|
         YAML.load_file(rfile).push_keys(@config)
       end
