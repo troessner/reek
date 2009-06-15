@@ -27,10 +27,11 @@ module Reek
 
   class CodeParser
 
-    # Creates a new Ruby code checker. Any smells discovered
-    # will be stored in +report+.
-    def initialize(smells, ctx = StopContext.new)
-      @smells = smells
+    #
+    # Creates a new Ruby code checker.
+    #
+    def initialize(sniffer, ctx = StopContext.new)
+      @sniffer = sniffer
       @element = ctx
     end
 
@@ -203,8 +204,7 @@ module Reek
     end
 
     def check_smells(type)
-      listeners = @smells[type]
-      listeners.each {|smell| smell.examine(@element) } if listeners
+      @sniffer.examine(@element, type)
     end
 
     def push(context)

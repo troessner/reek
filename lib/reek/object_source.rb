@@ -22,7 +22,7 @@ module Reek
 
     def initialize(code, desc)     # :nodoc:
       super
-      @cf.disable('LargeClass')
+      @sniffer.disable('LargeClass')
     end
 
     def can_parse_objects?

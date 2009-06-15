@@ -55,12 +55,15 @@ module Reek
     def initialize
       defaults_file = File.join(File.dirname(__FILE__), '..', '..', 'config', 'defaults.reek')
       @config = YAML.load_file(defaults_file)
+      @listeners = nil
     end
 
     def smell_listeners()
-      result = Hash.new {|hash,key| hash[key] = [] }
-      SMELL_CLASSES.each { |smell| smell.listen(result, @config) }
-      return result
+      unless @listeners
+        @listeners = Hash.new {|hash,key| hash[key] = [] }
+        SMELL_CLASSES.each { |smell| smell.listen(@listeners, @config) }
+      end
+      @listeners
     end
 
     def load_local(file)
@@ -80,6 +83,22 @@ module Reek
 
     def disable(smell)
       @config[smell].adopt!({Reek::Smells::SmellDetector::ENABLED_KEY => false})
+    end
+
+    def report_on(report)
+      smell_listeners.each_value do |group|
+        report_group(group, report)
+      end
+    end
+
+    def report_group(group, report)
+      group.each {|smell| smell.report_on(report)}
+      @listeners       # BUG -- this line only needed to shut up FeatureEnvy
+    end
+
+    def examine(scope, type)
+      listeners = smell_listeners[type]
+      listeners.each {|smell| smell.examine(scope) } if listeners
     end
   end
 end

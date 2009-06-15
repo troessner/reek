@@ -61,8 +61,8 @@ module Reek
     def initialize(code, desc, dir = nil)     # :nodoc:
       @source = code
       @desc = desc
-      @cf = Sniffer.new
-      @cf = @cf.load_local(dir) if dir
+      @sniffer = Sniffer.new
+      @sniffer = @sniffer.load_local(dir) if dir
     end
 
     def generate_syntax_tree
@@ -76,10 +76,9 @@ module Reek
     #
     def report
       unless @report
-        detectors = @cf.smell_listeners
-        parser = CodeParser.new(detectors)
+        parser = CodeParser.new(@sniffer)
         parser.process(generate_syntax_tree)
-        @report = Report.new(detectors)
+        @report = Report.new(@sniffer)
       end
       @report
     end

@@ -1,22 +1,14 @@
 require 'set'
+require 'reek/sniffer'
 require 'reek/smells/smell_detector'
 
 module Reek
   class Report
     include Enumerable
 
-    def initialize(detectors = nil)  # :nodoc:
+    def initialize(sniffer = nil)  # :nodoc:
       @report = SortedSet.new
-      if detectors
-        detectors.each_value do |group|   # move to Config
-          report_group(group)
-        end
-      end
-    end
-
-    def report_group(group)
-      group.each {|smell| smell.report_on(self)}
-      @report       # BUG -- this line only needed to shut up FeatureEnvy
+      sniffer.report_on(self) if sniffer
     end
 
     #

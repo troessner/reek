@@ -27,11 +27,8 @@ describe Report, "to_s" do
     @report = rpt.to_s.split("\n")
   end
 
-  it 'should place each detailed report on a separate line' do
-    @report.should have_at_least(2).lines
-  end
-
   it 'should mention every smell name' do
+    @report.should have_at_least(2).lines
     @report[0].should match(/[Utility Function]/)
     @report[1].should match(/[Feature Envy]/)
   end
