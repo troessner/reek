@@ -51,17 +51,17 @@ describe Duplication, '#examine' do
 
   it 'should return true when reporting a smell' do
     @mc.calls = {s(:call, nil, :other, s(:arglist)) => 47}
-    @dup.examine(@mc, []).should == true
+    @dup.examine(@mc).should == true
   end
   
   it 'should return false when not reporting a smell' do
     @mc.calls = []
-    @dup.examine(@mc, []).should == false
+    @dup.examine(@mc).should == false
   end
   
   it 'should return false when not reporting calls to new' do
     @mc.calls = {[:call, :Set, :new] => 4}
-    @dup.examine(@mc, []).should == false
+    @dup.examine(@mc).should == false
   end
 end
 
@@ -69,13 +69,11 @@ describe Duplication, 'when disabled' do
   before :each do
     @ctx = MethodContext.new(StopContext.new, [0, :double_thing])
     @dup = Duplication.new({SmellDetector::ENABLED_KEY => false})
-    @rpt = Report.new
   end
 
   it 'should not report repeated call' do
     @ctx.record_call_to([:fred])
     @ctx.record_call_to([:fred])
-    @dup.examine(@ctx, @rpt).should == false
-    @rpt.length.should == 0
+    @dup.examine(@ctx).should == false
   end
 end

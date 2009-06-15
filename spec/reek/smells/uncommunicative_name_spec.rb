@@ -107,17 +107,16 @@ end
 
 describe UncommunicativeName, '#examine' do
   before :each do
-    @report = Report.new
     @uc = UncommunicativeName.new
   end
   
   it 'should return true when reporting a smell' do
     mc = MethodContext.new(StopContext.new, [:defn, :x, nil])
-    @uc.examine(mc, @report).should == true
+    @uc.examine(mc).should == true
   end
   
   it 'should return false when not reporting a smell' do
     mc = MethodContext.new(StopContext.new, [:defn, :not_bad, nil])
-    @uc.examine(mc, @report).should == false
+    @uc.examine(mc).should == false
   end
 end

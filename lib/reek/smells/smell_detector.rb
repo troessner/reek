@@ -45,9 +45,9 @@ module Reek
         @smells_found = []
       end
 
-      def examine(context, report)
+      def examine(context)
         before = @smells_found.size
-        examine_context(context, report) if @enabled and !exception?(context)
+        examine_context(context, nil) if @enabled and !exception?(context)
         @smells_found.length > before
       end
 

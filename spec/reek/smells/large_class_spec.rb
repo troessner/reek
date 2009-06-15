@@ -55,7 +55,6 @@ end
 describe LargeClass, 'when exceptions are listed' do
 
   before(:each) do
-    @rpt = Report.new
     @ctx = ClassContext.create(StopContext.new, [0, :Humungous])
     30.times { |num| @ctx.record_method("method#{num}") }
     @config = LargeClass.default_config
@@ -64,25 +63,19 @@ describe LargeClass, 'when exceptions are listed' do
   it 'should ignore first excepted name' do
     @config[LargeClass::EXCLUDE_KEY] = ['Humungous']
     lc = LargeClass.new(@config)
-    lc.examine(@ctx, @rpt).should == false
-    lc.report_on(@rpt)
-    @rpt.length.should == 0
+    lc.examine(@ctx).should == false
   end
 
   it 'should ignore second excepted name' do
     @config[LargeClass::EXCLUDE_KEY] = ['Oversized', 'Humungous']
     lc = LargeClass.new(@config)
-    lc.examine(@ctx, @rpt).should == false
-    lc.report_on(@rpt)
-    @rpt.length.should == 0
+    lc.examine(@ctx).should == false
   end
 
   it 'should report non-excepted name' do
     @config[LargeClass::EXCLUDE_KEY] = ['SmellMe']
     lc = LargeClass.new(@config)
-    lc.examine(@ctx, @rpt).should == true
-    lc.report_on(@rpt)
-    @rpt.length.should == 1
+    lc.examine(@ctx).should == true
   end
 end
 

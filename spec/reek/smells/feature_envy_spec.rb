@@ -196,10 +196,10 @@ describe FeatureEnvy, '#examine' do
   it 'should return true when reporting a smell' do
     @context.refs.record_ref([:lvar, :thing])
     @context.refs.record_ref([:lvar, :thing])
-    @fe.examine(@context, []).should == true
+    @fe.examine(@context).should == true
   end
 
   it 'should return false when not reporting a smell' do
-    @fe.examine(@context, []).should == false
+    @fe.examine(@context).should == false
   end
 end
