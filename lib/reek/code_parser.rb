@@ -29,8 +29,7 @@ module Reek
 
     # Creates a new Ruby code checker. Any smells discovered
     # will be stored in +report+.
-    def initialize(report, smells, ctx = StopContext.new)
-      @report = nil
+    def initialize(smells, ctx = StopContext.new)
       @smells = smells
       @element = ctx
     end

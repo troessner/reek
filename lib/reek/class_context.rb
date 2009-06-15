@@ -17,7 +17,7 @@ module Reek
 
     def ClassContext.from_s(src)
       source = Source.from_s(src)
-      CodeParser.new(nil, {}).process_class(source.generate_syntax_tree)
+      CodeParser.new({}).process_class(source.generate_syntax_tree)
     end
 
     def initialize(outer, name, superclass = nil)
