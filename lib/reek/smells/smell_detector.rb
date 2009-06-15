@@ -37,6 +37,7 @@ module Reek
       def self.listen(hooks, config)
         detector = new(config[class_name])
         contexts.each { |ctx| hooks[ctx] << detector }
+        detector
       end
 
       def initialize(config)

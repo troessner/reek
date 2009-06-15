@@ -30,9 +30,9 @@ lib/reek/smells/long_parameter_list.rb
 lib/reek/smells/long_yield_list.rb
 lib/reek/smells/nested_iterators.rb
 lib/reek/smells/smell_detector.rb
-lib/reek/smells/smells.rb
 lib/reek/smells/uncommunicative_name.rb
 lib/reek/smells/utility_function.rb
+lib/reek/sniffer.rb
 lib/reek/source.rb
 lib/reek/spec.rb
 lib/reek/stop_context.rb
