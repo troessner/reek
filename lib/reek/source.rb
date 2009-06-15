@@ -1,6 +1,6 @@
 require 'reek/code_parser'
 require 'reek/report'
-require 'reek/smells/smells'
+require 'reek/sniffer'
 require 'ruby_parser'
 
 module Reek
@@ -61,7 +61,7 @@ module Reek
     def initialize(code, desc, dir = nil)     # :nodoc:
       @source = code
       @desc = desc
-      @cf = SmellConfig.new
+      @cf = Sniffer.new
       @cf = @cf.load_local(dir) if dir
     end
 

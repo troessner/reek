@@ -37,7 +37,7 @@ class Hash
 end
 
 module Reek
-  class SmellConfig
+  class Sniffer
 
     SMELL_CLASSES = [
       Smells::ControlCouple,
@@ -53,7 +53,7 @@ module Reek
     ]
 
     def initialize
-      defaults_file = File.join(File.dirname(__FILE__), '..', '..', '..', 'config', 'defaults.reek')
+      defaults_file = File.join(File.dirname(__FILE__), '..', '..', 'config', 'defaults.reek')
       @config = YAML.load_file(defaults_file)
     end
 

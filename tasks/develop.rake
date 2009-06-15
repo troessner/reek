@@ -1,5 +1,5 @@
 require 'rake/clean'
-require 'reek/smells/smells'
+require 'reek/sniffer'
 require 'yaml'
 
 CONFIG_DIR = 'config'
@@ -11,7 +11,7 @@ directory CONFIG_DIR
 
 file CONFIG_FILE => [CONFIG_DIR] do
   config = {}
-  Reek::SmellConfig::SMELL_CLASSES.each do |klass|
+  Reek::Sniffer::SMELL_CLASSES.each do |klass|
     config[klass.name.split(/::/)[-1]] = klass.default_config
   end
   $stderr.puts "Creating #{CONFIG_FILE}"
