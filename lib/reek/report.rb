@@ -49,13 +49,22 @@ module Reek
     # Creates a formatted report of all the +Smells::SmellWarning+ objects recorded in
     # this report, with a heading.
     def full_report(desc)
-      "\"#{desc}\" -- #{length} warnings:\n#{to_s}\n"
+      result = header(desc, @report.length)
+      result += ":\n#{to_s}\n" if length > 0
+      result
+    end
+
+    def header(desc, num_smells)
+      result = "\"#{desc}\" -- #{num_smells} warning"
+      result += 's' unless num_smells == 1
+      result += " (+#{@masked_smells} masked)" if @masked_smells > 0
+      result
     end
 
     # Creates a formatted report of all the +Smells::SmellWarning+ objects recorded in
     # this report.
     def to_s
-      @report.map {|smell| smell.report}.join("\n")
+      @report.map {|smell| "  #{smell.report}"}.join("\n")
     end
   end
 
@@ -86,7 +95,7 @@ module Reek
     end
 
     def to_s
-      smelly_sources.map { |src| src.full_report }.join("\n")
+      @sources.map { |src| src.full_report }.join("\n")
     end
   end
 end

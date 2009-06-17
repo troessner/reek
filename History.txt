@@ -4,6 +4,8 @@
 * LongMethod now counts statements deeper into each method (fixed #25)
 * LongMethod no longer counts control structures, only their contained stmts
 * LargeClass is disabled when checking in-memory classes (fixed #28)
+* Output now reports on all files examined, even if they have no smells
+* Smell warnings are indented in the report to distinguish them from file headers
 
 == 1.1.3 2009-05-19
 
