@@ -59,27 +59,12 @@ module Reek
       @listeners = []
     end
 
-    def smell_listeners()
-      unless @detectors
-        @detectors = Hash.new {|hash,key| hash[key] = [] }
-        SMELL_CLASSES.each { |smell| @listeners << smell.listen(@detectors, @config) }
-      end
-      @detectors
-    end
-
     def configure_using(filename)
       path = File.expand_path(File.dirname(filename))
       all_reekfiles(path).each do |rfile|
         YAML.load_file(rfile).push_keys(@config)
       end
       self
-    end
-
-    def all_reekfiles(path)
-      return [] unless File.exist?(path)
-      parent = File.dirname(path)
-      return [] if path == parent
-      all_reekfiles(parent) + Dir["#{path}/*.reek"]
     end
 
     def disable(smell)
@@ -93,6 +78,23 @@ module Reek
     def examine(scope, type)
       listeners = smell_listeners[type]
       listeners.each {|smell| smell.examine(scope) } if listeners
+    end
+
+private
+
+    def smell_listeners()
+      unless @detectors
+        @detectors = Hash.new {|hash,key| hash[key] = [] }
+        SMELL_CLASSES.each { |smell| @listeners << smell.listen(@detectors, @config) }
+      end
+      @detectors
+    end
+
+    def all_reekfiles(path)
+      return [] unless File.exist?(path)
+      parent = File.dirname(path)
+      return [] if path == parent
+      all_reekfiles(parent) + Dir["#{path}/*.reek"]
     end
   end
 end
