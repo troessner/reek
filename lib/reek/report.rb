@@ -7,6 +7,7 @@ module Reek
     include Enumerable
 
     def initialize(sniffer = nil)  # :nodoc:
+      @masked_smells = 0
       @report = SortedSet.new
       sniffer.report_on(self) if sniffer
     end
@@ -21,6 +22,14 @@ module Reek
     def <<(smell)  # :nodoc:
       @report << smell
       true
+    end
+
+    def record_masked_smell(smell)
+      @masked_smells += 1
+    end
+
+    def num_masked_smells
+      @masked_smells
     end
     
     def empty?

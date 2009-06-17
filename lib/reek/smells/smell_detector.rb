@@ -44,6 +44,11 @@ module Reek
         @enabled = config[ENABLED_KEY]
         @exceptions = config[EXCLUDE_KEY]
         @smells_found = []
+        @masked = false
+      end
+
+      def be_masked
+        @masked = true
       end
 
       def examine(context)
@@ -67,7 +72,13 @@ module Reek
       end
 
       def report_on(report)
-        @smells_found.each {|smell| report << smell}
+        @smells_found.each do |smell|
+          if @masked
+            report.record_masked_smell(smell)
+          else
+            report << smell
+          end
+        end
       end
 
       def smell_name
