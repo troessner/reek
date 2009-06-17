@@ -46,7 +46,7 @@ module Reek
     #
     def self.from_path(filename)
       code = IO.readlines(filename).join
-      sniffer = Sniffer.new.configure_using(filename)
+      sniffer = Sniffer.new.configure_along_path(filename)
       return new(code, filename, sniffer)
     end
 

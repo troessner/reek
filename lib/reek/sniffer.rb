@@ -59,12 +59,24 @@ module Reek
       @listeners = []
     end
 
-    def configure_using(filename)
+    #
+    # Configures this sniffer using any *.reek config files found
+    # on the path to the named file. Config files are applied in order,
+    # "root-first", so that config files closer to the named file override
+    # those further up the path.
+    #
+    def configure_along_path(filename)
       path = File.expand_path(File.dirname(filename))
-      all_reekfiles(path).each do |rfile|
-        YAML.load_file(rfile).push_keys(@config)
-      end
+      all_reekfiles(path).each { |rfile| configure_with(rfile) }
       self
+    end
+
+    #
+    # Overrides this sniffer's current settings with those in the named
+    # +config_file+.
+    #
+    def configure_with(config_file)
+      YAML.load_file(config_file).push_keys(@config)
     end
 
     def disable(smell)
