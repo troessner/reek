@@ -7,7 +7,7 @@ module Reek
     include Enumerable
 
     def initialize(sniffer = nil)  # :nodoc:
-      @masked_smells = 0
+      @masked_smells = SortedSet.new
       @report = SortedSet.new
       sniffer.report_on(self) if sniffer
     end
@@ -25,11 +25,11 @@ module Reek
     end
 
     def record_masked_smell(smell)
-      @masked_smells += 1
+      @masked_smells << smell
     end
 
     def num_masked_smells
-      @masked_smells
+      @masked_smells.length
     end
     
     def empty?
@@ -57,7 +57,7 @@ module Reek
     def header(desc, num_smells)
       result = "\"#{desc}\" -- #{num_smells} warning"
       result += 's' unless num_smells == 1
-      result += " (+#{@masked_smells} masked)" if @masked_smells > 0
+      result += " (+#{@masked_smells.length} masked)" unless @masked_smells.empty?
       result
     end
 
