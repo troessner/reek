@@ -51,6 +51,7 @@ spec/reek/object_refs_spec.rb
 spec/reek/options_spec.rb
 spec/reek/report_spec.rb
 spec/reek/singleton_method_context_spec.rb
+spec/reek/smell_warning_spec.rb
 spec/reek/smells/control_couple_spec.rb
 spec/reek/smells/duplication_spec.rb
 spec/reek/smells/feature_envy_spec.rb
@@ -61,7 +62,6 @@ spec/reek/smells/nested_iterators_spec.rb
 spec/reek/smells/smell_detector_spec.rb
 spec/reek/smells/uncommunicative_name_spec.rb
 spec/reek/smells/utility_function_spec.rb
-spec/reek/smell_warning_spec.rb
 spec/slow/inline_spec.rb
 spec/slow/optparse_spec.rb
 spec/slow/redcloth_spec.rb
