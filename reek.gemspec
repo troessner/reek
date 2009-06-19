@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{reek}
-  s.version = "1.1.3.3"
+  s.version = "1.1.3.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Kevin Rutherford"]
-  s.date = %q{2009-06-17}
+  s.date = %q{2009-06-19}
   s.default_executable = %q{reek}
   s.description = %q{Code smell detector for Ruby}
   s.email = ["kevin@rutherford-software.com"]
