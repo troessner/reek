@@ -1,3 +1,4 @@
+require 'rubygems'
 
 namespace :build do
   Rake::GemPackageTask.new($gemspec) do |task|

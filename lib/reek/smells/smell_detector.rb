@@ -34,8 +34,12 @@ module Reek
         }
       end
 
+      def self.create(config)
+        new(config[class_name])
+      end
+
       def self.listen(hooks, config)
-        detector = new(config[class_name])
+        detector = create(config)
         contexts.each { |ctx| hooks[ctx] << detector }
         detector
       end
@@ -49,6 +53,20 @@ module Reek
 
       def be_masked
         @masked = true
+      end
+
+      def enabled?
+        @enabled
+      end
+
+      def configure(config)
+        my_part = config[self.class.name.split(/::/)[-1]]
+        return unless my_part
+        configure_with(my_part)
+      end
+
+      def configure_with(config)
+        @enabled = config[ENABLED_KEY]  # if config.has_key?(ENABLED_KEY)
       end
 
       def examine(context)
