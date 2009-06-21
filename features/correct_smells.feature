@@ -5,8 +5,8 @@ Feature: Basic smell detection
 
   Scenario: Correct smells from inline.rb
     When I run reek spec/samples/inline.rb
-    Then it should fail with exit status 2
-    And it should report:
+    Then it fails with exit status 2
+    And it reports:
     """
     "spec/samples/inline.rb" -- 32 warnings:
       Inline::C has at least 13 instance variables (Large Class)
@@ -46,8 +46,8 @@ Feature: Basic smell detection
 
   Scenario: Correct smells from optparse.rb
     When I run reek spec/samples/optparse.rb
-    Then it should fail with exit status 2
-    And it should report:
+    Then it fails with exit status 2
+    And it reports:
     """
     "spec/samples/optparse.rb" -- 117 warnings:
       OptionParser has at least 59 methods (Large Class)
@@ -172,8 +172,8 @@ Feature: Basic smell detection
 
   Scenario: Correct smells from redcloth.rb
     When I run reek spec/samples/redcloth.rb
-    Then it should fail with exit status 2
-    And it should report:
+    Then it fails with exit status 2
+    And it reports:
     """
     "spec/samples/redcloth.rb" -- 93 warnings:
       RedCloth has at least 44 methods (Large Class)

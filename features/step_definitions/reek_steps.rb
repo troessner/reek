@@ -3,10 +3,10 @@ When /^I run reek (.*)$/ do |args|
   @last_exit_status = $?.exitstatus
 end
 
-Then /^it should fail with exit status (\d+)$/ do |status|
+Then /^it fails with exit status (\d+)$/ do |status|
   @last_exit_status.should == status.to_i
 end
 
-Then /^it should report:$/ do |report|
+Then /^it reports:$/ do |report|
   @last_output.should == report
 end
