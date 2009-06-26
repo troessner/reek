@@ -22,20 +22,12 @@ Feature: Masking smells using config files
   Scenario: corrupt config file prevents normal output
     When I run reek spec/samples/corrupt_config_file/dirty.rb
     Then it fails with exit status 1
-    And it displays the error message:
-      """
-      Error: invalid configuration file "corrupt.reek"
-
-      """
+    And it reports the error 'Error: invalid configuration file "corrupt.reek"'
 
   Scenario: missing source file is an error
     When I run reek no_such_file.rb
     Then it fails with exit status 1
-    And it displays the error message:
-      """
-      Error: No such file or directory - no_such_file.rb
-
-      """
+    And it reports the error "Error: No such file or directory - no_such_file.rb"
 
   Scenario: switch off one smell
     When I run reek spec/samples/masked/dirty.rb

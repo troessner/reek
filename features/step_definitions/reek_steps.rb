@@ -14,8 +14,8 @@ Then /^it reports:$/ do |report|
   @last_stdout.should == report
 end
 
-Then /^it displays the error message:$/ do |string|
-  @last_stderr.should == string
+Then /^it reports the error ['"](.*)['"]$/ do |string|
+  @last_stderr.chomp.should == string
 end
 
 Then /^it reports the current version$/ do
