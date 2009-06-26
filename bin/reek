@@ -10,10 +10,18 @@ require 'reek'
 require 'reek/source'
 require 'reek/options'
 
-exitstatus = 0
-source = Reek::Options.parse(ARGV)
-if source.smelly?
-  puts source.report
-  exitstatus = 2
+def reek(args)
+  begin
+    source = Reek::Options.parse(args)
+    if source.smelly?
+      puts source.report
+      return 2
+    end
+    return 0
+  rescue RuntimeError => error
+    $stderr.puts "Error: #{error}"
+    return 1
+  end
 end
-exit(exitstatus)
+
+exit reek(ARGV)

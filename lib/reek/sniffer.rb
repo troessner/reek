@@ -76,7 +76,10 @@ module Reek
     # +config_file+.
     #
     def configure_with(config_file)
-      YAML.load_file(config_file).push_keys(@config)
+      hash = YAML.load_file(config_file)
+      return unless hash
+      raise "invalid configuration file \"#{File.basename(config_file)}\"" unless Hash === hash
+      hash.push_keys(@config)
     end
 
     def disable(smell)

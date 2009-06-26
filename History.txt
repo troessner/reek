@@ -6,6 +6,8 @@
 * LargeClass is disabled when checking in-memory classes (fixed #28)
 * Output now reports on all files examined, even if they have no smells
 * Smell warnings are indented in the report to distinguish them from file headers
+* Now reports an error for corrupt config files
+* Empty config files are ignored
 
 == 1.1.3 2009-05-19
 

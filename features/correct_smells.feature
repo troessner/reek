@@ -1,3 +1,4 @@
+@samples
 Feature: Basic smell detection
   In order to write better software
   As a developer

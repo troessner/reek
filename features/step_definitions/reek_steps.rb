@@ -1,6 +1,5 @@
 When /^I run reek (.*)$/ do |args|
-  @last_output = `ruby -Ilib bin/reek #{args}`
-  @last_exit_status = $?.exitstatus
+  run args
 end
 
 Then /^it fails with exit status (\d+)$/ do |status|
@@ -8,5 +7,9 @@ Then /^it fails with exit status (\d+)$/ do |status|
 end
 
 Then /^it reports:$/ do |report|
-  @last_output.should == report
+  @last_stdout.should == report
+end
+
+Then /^it displays the error message:$/ do |string|
+  @last_stderr.should == string
 end
