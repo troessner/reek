@@ -18,7 +18,9 @@ def reek(args)
       return 2
     end
     return 0
-  rescue RuntimeError => error
+  rescue SystemExit => ex
+    return ex.status
+  rescue Exception => error
     $stderr.puts "Error: #{error}"
     return 1
   end

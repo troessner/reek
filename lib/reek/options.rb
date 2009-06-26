@@ -42,15 +42,11 @@ EOB
     end
 
     def self.parse(args)
-      begin
-        @@opts = parse_args(args)
-        if args.length > 0
-          return Source.from_pathlist(args)
-        else
-          return Source.from_io($stdin, 'stdin')
-        end
-      rescue OptionParser::ParseError, SystemCallError => err
-        fatal_error(err)
+      @@opts = parse_args(args)
+      if args.length > 0
+        return Source.from_pathlist(args)
+      else
+        return Source.from_io($stdin, 'stdin')
       end
     end
 
@@ -81,12 +77,5 @@ EOB
         config[:format] = SMELL_SORT
       end
     end
-    
-    def self.fatal_error(err) # :nodoc:
-      puts "Error: #{err}"
-      puts "Use '-h' for help."
-      exit(1)
-    end
-    
   end
 end

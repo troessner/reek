@@ -15,11 +15,6 @@ describe 'exit status', 'when reek is used incorrectly' do
     $?.exitstatus.should == 1
   end
 
-  it 'should complain about missing file' do
-    `ruby -Ilib bin/reek nosuchfile.rb`
-    $?.exitstatus.should == 1
-  end
-
   it 'should return non-zero status on missing argument' do
     `ruby -Ilib bin/reek -f 2>/dev/null`
     $?.exitstatus.should == 1
