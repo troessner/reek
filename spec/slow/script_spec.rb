@@ -1,26 +1,5 @@
 require 'reek'
 
-describe 'version number' do
-  it 'should report the correct value' do
-    actual = `ruby -Ilib bin/reek --version`.split
-    $?.exitstatus.should == 0
-    actual[0].should == 'reek'
-    actual[1].should == Reek::VERSION
-  end
-end
-
-describe 'exit status', 'when reek is used incorrectly' do
-  it 'should return non-zero status on bad option' do
-    `ruby -Ilib bin/reek --no-such-option`
-    $?.exitstatus.should == 1
-  end
-
-  it 'should return non-zero status on missing argument' do
-    `ruby -Ilib bin/reek -f 2>/dev/null`
-    $?.exitstatus.should == 1
-  end
-end
-
 describe 'exit status', 'when reek is used correctly' do
   it 'should return non-zero status when smells are reported' do
     `echo "def x() 3; end" | ruby -Ilib bin/reek`
