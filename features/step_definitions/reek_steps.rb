@@ -6,6 +6,10 @@ When /^I pass "([^\"]*)" to reek$/ do |stdin|
   run_with_pipe stdin
 end
 
+When /^I run rake reek$/ do
+  rake
+end
+
 Then /^stdout equals "([^\"]*)"$/ do |report|
   @last_stdout.should == report
 end

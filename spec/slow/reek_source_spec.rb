@@ -11,10 +11,3 @@ describe 'Reek source code:' do
     Dir['lib/**/*.rb'].should_not reek
   end
 end
-
-describe 'RakeTask' do
-  it 'should report no duplication' do
-    report = `rake reek`.split("\n")
-    $?.exitstatus.should == 0
-  end
-end
