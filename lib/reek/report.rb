@@ -95,7 +95,7 @@ module Reek
     end
 
     def full_report
-      @sources.map { |src| src.full_report }.join("\n")
+      @sources.map { |src| src.full_report }.join
     end
   end
 end
