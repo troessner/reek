@@ -2,6 +2,14 @@ When /^I run reek (.*)$/ do |args|
   run args
 end
 
+When /^I pass "([^\"]*)" to reek$/ do |stdin|
+  run_with_pipe stdin
+end
+
+Then /^stdout equals "([^\"]*)"$/ do |report|
+  @last_stdout.should == report
+end
+
 Then /^it succeeds$/ do
   @last_exit_status.should == 0
 end

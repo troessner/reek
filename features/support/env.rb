@@ -15,6 +15,14 @@ class CucumberWorld
     @last_exit_status = $?.exitstatus
     @last_stderr = IO.read(stderr_file.path)
   end
+
+  def run_with_pipe(stdin)
+    stderr_file = Tempfile.new('cucumber')
+    stderr_file.close
+    @last_stdout = `echo \"#{stdin}\" | ruby -Ilib bin/reek 2> #{stderr_file.path}`
+    @last_exit_status = $?.exitstatus
+    @last_stderr = IO.read(stderr_file.path)
+  end
 end
 
 World do
