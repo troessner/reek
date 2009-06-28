@@ -15,6 +15,6 @@ end
 describe 'RakeTask' do
   it 'should report no duplication' do
     report = `rake reek`.split("\n")
-    report.length.should == 1
+    $?.exitstatus.should == 0
   end
 end

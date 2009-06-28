@@ -9,7 +9,7 @@ Feature: Basic smell detection
     Then it fails with exit status 2
     And it reports:
     """
-    "spec/samples/inline.rb" -- 32 warnings:
+    spec/samples/inline.rb -- 32 warnings:
       Inline::C has at least 13 instance variables (Large Class)
       Inline::C#build calls ($? == 0) multiple times (Duplication)
       Inline::C#build calls Inline.directory multiple times (Duplication)
@@ -50,7 +50,7 @@ Feature: Basic smell detection
     Then it fails with exit status 2
     And it reports:
     """
-    "spec/samples/optparse.rb" -- 117 warnings:
+    spec/samples/optparse.rb -- 117 warnings:
       OptionParser has at least 59 methods (Large Class)
       OptionParser#CompletingHash#match/block/block is nested (Nested Iterators)
       OptionParser#Completion::complete calls candidates.size multiple times (Duplication)
@@ -176,7 +176,7 @@ Feature: Basic smell detection
     Then it fails with exit status 2
     And it reports:
     """
-    "spec/samples/redcloth.rb" -- 93 warnings:
+    spec/samples/redcloth.rb -- 93 warnings:
       RedCloth has at least 44 methods (Large Class)
       RedCloth#block has the variable name 'a' (Uncommunicative Name)
       RedCloth#block has the variable name 'b' (Uncommunicative Name)

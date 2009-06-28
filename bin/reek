@@ -13,11 +13,8 @@ require 'reek/options'
 def reek(args)
   begin
     source = Reek::Options.parse(args)
-    if source.smelly?
-      puts source.report
-      return 2
-    end
-    return 0
+    puts source.full_report
+    return source.smelly? ? 2 : 0
   rescue SystemExit => ex
     return ex.status
   rescue Exception => error

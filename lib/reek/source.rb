@@ -118,6 +118,10 @@ module Reek
       @sources.any? {|source| source.smelly? }
     end
 
+    def full_report
+      ReportList.new(@sources).full_report
+    end
+
     def report
       ReportList.new(@sources)
     end

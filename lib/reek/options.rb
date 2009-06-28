@@ -46,7 +46,7 @@ EOB
       if args.length > 0
         return Source.from_pathlist(args)
       else
-        return Source.from_io($stdin, 'stdin')
+        return Source.from_io($stdin, '$stdin')
       end
     end
 

@@ -9,7 +9,7 @@ Feature: Masking smells using config files
     Then it fails with exit status 2
     And it reports:
       """
-      "spec/samples/empty_config_file/dirty.rb" -- 6 warnings:
+      spec/samples/empty_config_file/dirty.rb -- 6 warnings:
         Dirty has the variable name '@s' (Uncommunicative Name)
         Dirty#a calls @s.title multiple times (Duplication)
         Dirty#a calls puts(@s.title) multiple times (Duplication)
@@ -34,7 +34,7 @@ Feature: Masking smells using config files
     Then it fails with exit status 2
     And it reports:
       """
-      "spec/samples/masked/dirty.rb" -- 3 warnings:
+      spec/samples/masked/dirty.rb -- 3 warnings:
         Dirty#a calls @s.title multiple times (Duplication)
         Dirty#a calls puts(@s.title) multiple times (Duplication)
         Dirty#a/block/block is nested (Nested Iterators)

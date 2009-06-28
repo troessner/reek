@@ -55,7 +55,7 @@ module Reek
     end
 
     def header(desc, num_smells)
-      result = "\"#{desc}\" -- #{num_smells} warning"
+      result = "#{desc} -- #{num_smells} warning"
       result += 's' unless num_smells == 1
       result += " (+#{@masked_smells.length} masked)" unless @masked_smells.empty?
       result
@@ -94,7 +94,7 @@ module Reek
       @sources.select {|src| src.smelly? }
     end
 
-    def to_s
+    def full_report
       @sources.map { |src| src.full_report }.join("\n")
     end
   end
