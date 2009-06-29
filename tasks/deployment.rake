@@ -204,7 +204,7 @@ namespace :build do
     task.need_zip = false
   end
 
-  task :gem => [MANIFEST_CHECKED, 'rspec:all']
+  task :gem => [MANIFEST_CHECKED, 'test:all']
 
   Rake::RDocTask.new do |rd|
     rd.main = 'README.txt'

@@ -89,4 +89,4 @@ spec/slow/source_list_spec.rb
 spec/spec.opts
 spec/spec_helper.rb
 tasks/reek.rake
-tasks/rspec.rake
+tasks/test.rake

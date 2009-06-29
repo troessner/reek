@@ -20,7 +20,9 @@ end
 
 task CONFIG_FILE => FileList['lib/reek/smells/*.rb']
 
-task 'rspec:fast' => [CONFIG_FILE]
-task 'rspec:all' => [CONFIG_FILE]
+task 'test:spec' => [CONFIG_FILE]
+task 'test:slow' => [CONFIG_FILE]
+task 'test:rcov' => [CONFIG_FILE]
+task 'test:features' => [CONFIG_FILE]
 task 'reek' => [CONFIG_FILE]
-task 'check_manifest' => [CONFIG_FILE]
+task 'check:manifest' => [CONFIG_FILE]
