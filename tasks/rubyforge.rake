@@ -34,11 +34,6 @@ begin
       rf.add_release(PROJECT_NAME, PROJECT_NAME, ::Reek::VERSION, *files)
     end
 
-    desc 'Upload the rdoc to rubyforge'
-    task :rdoc => ['build:rdoc'] do
-      rsync(RDOC_DIR, "#{REMOTE_PROJECT_DIR}/rdoc")
-    end
-
     desc 'Post news announcement to rubyforge'
     task :news do
       proj = Description.new

@@ -1,13 +1,7 @@
 require 'rubygems'
 require 'rake/gempackagetask'
-require 'rake/rdoctask'
 require 'yaml'
 require 'reek'
-
-begin
-  gem 'rdoc'
-rescue Gem::LoadError
-end
 
 GEMSPEC = "#{PROJECT_NAME}.gemspec"
 HISTORY_FILE = 'History.txt'
@@ -32,7 +26,6 @@ $gemspec = Gem::Specification.new do |s|
   s.require_paths = ['lib']
   s.rdoc_options = ['--main', 'README.txt']
   s.extra_rdoc_files = s.files.grep(/(txt|rdoc)$/)
-  s.has_rdoc = true
   s.post_install_message = '
 For more information on reek, see http://wiki.github.com/kevinrutherford/reek
 '
@@ -45,7 +38,7 @@ class File
 end
 
 class String
-  def rdoc_to_markdown
+  def to_markdown
     self.gsub(/^(=+)/) { "#" * $1.size }
   end
 
@@ -72,12 +65,11 @@ command, or as a Rake task, or as an expectation in Rspec examples."
     "#{PROJECT_NAME} version #{::Reek::VERSION} has been released!"
   end
   def body
-    "#{$gemspec.description}\n\n## Changes:\n\n#{changes}".rdoc_to_markdown
+    "#{$gemspec.description}\n\n## Changes:\n\n#{changes}".to_markdown
   end
   def urls
     result = <<EOR
 * http://wiki.github.com/kevinrutherford/#{PROJECT_NAME}
-* http://#{PROJECT_NAME}.rubyforge.org/rdoc/
 EOR
     result
   end
@@ -90,7 +82,7 @@ EOR
 
 ## Changes in this release:
 
-#{changes.rdoc_to_markdown}
+#{changes.to_markdown}
 
 ## More information:
 
@@ -130,7 +122,7 @@ begin
     end
 
     desc 'Minor release on github only'
-    task :minor => ['build:all', 'rubyforge:rdoc', 'release:tag'] do
+    task :minor => ['build:all', 'release:tag'] do
       RELEASE_TIMESTAMP.touch(::Reek::VERSION)
     end
 
@@ -206,16 +198,5 @@ namespace :build do
 
   task :gem => [MANIFEST_CHECKED, 'test:all']
 
-  Rake::RDocTask.new do |rd|
-    rd.main = 'README.txt'
-    rd.rdoc_dir = RDOC_DIR
-    files = $gemspec.files.grep(/^(lib|bin|ext)|txt|rdoc$/)
-    files -= [GEM_MANIFEST]
-    rd.rdoc_files.push(*files)
-    title = "#{PROJECT_NAME}-#{::Reek::VERSION} Documentation"
-    rd.options << "-t #{title}"
-  end
-
-  task :rdoc => [RDOC_DIR, MANIFEST_CHECKED]
-  task :all => ['build:package', 'build:rdoc']
+  task :all => ['build:package']
 end

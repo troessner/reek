@@ -1,6 +1,7 @@
 == 1.2 (in git)
 
 === Major Changes
+* Reek's RDoc is now hosted at http://rdoc.info/projects/kevinrutherford/reek
 * Reek's output reports are now formatted differently:
 ** Reek is no longer silent about smell-free source code
 ** Output now reports on all files examined, even if they have no smells
