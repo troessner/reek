@@ -161,7 +161,7 @@ def display_manifest_diff
   rm f
 end
 
-namespace :test do
+namespace :check do
   desc 'Install the gem locally'
   task :install => [:clean, 'build:all'] do
     gem = Dir["#{PKG_DIR}/*.gem"].first

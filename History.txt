@@ -1,11 +1,18 @@
-== 1.1.4 (in git)
+== 1.2 (in git)
+
+=== Major Changes
+* Reek's output reports are now formatted differently:
+** Reek is no longer silent about smell-free source code
+** Output now reports on all files examined, even if they have no smells
+** Smell warnings are indented in the report; file summary headers are not
+** Reports for multiple sources are run together; no more blank lines
 
 === Minor Changes
-* LongMethod now counts statements deeper into each method (fixed #25)
-* LongMethod no longer counts control structures, only their contained stmts
+* Several changes to the LongMethod counting algorithm:
+** LongMethod now counts statements deeper into each method (fixed #25)
+** LongMethod no longer counts control structures, only their contained stmts
+** See http://wiki.github.com/kevinrutherford/reek/long-method for details
 * LargeClass is disabled when checking in-memory classes (fixed #28)
-* Output now reports on all files examined, even if they have no smells
-* Smell warnings are indented in the report to distinguish them from file headers
 * Now reports an error for corrupt config files
 * Empty config files are ignored
 
