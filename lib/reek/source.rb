@@ -92,7 +92,7 @@ module Reek
     # only if one of them has a report string matching all of the +patterns+.
     #
     def has_smell?(smell_class, patterns)
-      report.any? { |smell| smell.matches?(smell_class, patterns) }
+      report.has_smell?(smell_class, patterns)
     end
 
     # Creates a formatted report of all the +Smells::SmellWarning+ objects recorded in
@@ -112,6 +112,14 @@ module Reek
   class SourceList
     def initialize(sources)
       @sources = sources
+    end
+
+    #
+    # Checks this source for instances of +smell_class+, and returns +true+
+    # only if one of them has a report string matching all of the +patterns+.
+    #
+    def has_smell?(smell_class, patterns=[])
+      report.has_smell?(smell_class, patterns)
     end
 
     def smelly?

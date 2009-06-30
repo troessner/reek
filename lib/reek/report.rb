@@ -19,6 +19,14 @@ module Reek
       @report.each { |smell| yield smell }
     end
 
+    #
+    # Checks this report for instances of +smell_class+, and returns +true+
+    # only if one of them has a report string matching all of the +patterns+.
+    #
+    def has_smell?(smell_class, patterns)
+      @report.any? { |smell| smell.matches?(smell_class, patterns) }
+    end
+
     def <<(smell)  # :nodoc:
       @report << smell
       true
@@ -90,12 +98,16 @@ module Reek
       @sources.inject(0) {|sum, src| sum + src.report.length }
     end
 
-    def smelly_sources
-      @sources.select {|src| src.smelly? }
-    end
-
     def full_report
       @sources.map { |src| src.full_report }.join
+    end
+
+    #
+    # Checks this report for instances of +smell_class+, and returns +true+
+    # only if one of them has a report string matching all of the +patterns+.
+    #
+    def has_smell?(smell_class, patterns)
+      @sources.any? { |smell| smell.has_smell?(smell_class, patterns) }
     end
   end
 end
