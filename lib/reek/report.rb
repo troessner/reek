@@ -58,7 +58,8 @@ module Reek
     # this report, with a heading.
     def full_report(desc)
       result = header(desc, @report.length)
-      result += ":\n#{to_s}\n" if length > 0
+      result += ":\n#{to_s}" if length > 0
+      result += "\n"
       result
     end
 
