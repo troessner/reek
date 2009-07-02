@@ -49,7 +49,7 @@ module Reek
         "Expected source to reek, but it didn't"
       end
       def failure_message_for_should_not
-        "Expected no smells, but got:\n#{@source.report}"
+        "Expected no smells, but got:\n#{@source.full_report}"
       end
     end
 
@@ -73,7 +73,7 @@ module Reek
         "Expected #{@source} to reek of #{@klass}, but it didn't"
       end
       def failure_message_for_should_not
-        "Expected #{@source} not to reek of #{@klass}, but got:\n#{@source.report}"
+        "Expected #{@source} not to reek of #{@klass}, but got:\n#{@source.freport}"
       end
     end
 
