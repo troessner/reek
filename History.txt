@@ -1,4 +1,4 @@
-== 1.2 (in git)
+== 1.2 (in progress -- see github)
 
 === Major Changes
 * Reek's RDoc is now hosted at http://rdoc.info/projects/kevinrutherford/reek

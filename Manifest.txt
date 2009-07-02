@@ -81,6 +81,9 @@ spec/samples/masked/dirty.rb
 spec/samples/masked/masked.reek
 spec/samples/optparse.rb
 spec/samples/redcloth.rb
+spec/samples/three_clean_files/clean_one.rb
+spec/samples/three_clean_files/clean_three.rb
+spec/samples/three_clean_files/clean_two.rb
 spec/samples/two_smelly_files/dirty_one.rb
 spec/samples/two_smelly_files/dirty_two.rb
 spec/slow/inline_spec.rb

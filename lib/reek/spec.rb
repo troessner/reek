@@ -73,7 +73,7 @@ module Reek
         "Expected #{@source} to reek of #{@klass}, but it didn't"
       end
       def failure_message_for_should_not
-        "Expected #{@source} not to reek of #{@klass}, but got:\n#{@source.freport}"
+        "Expected #{@source} not to reek of #{@klass}, but got:\n#{@source.full_report}"
       end
     end
 
@@ -96,7 +96,7 @@ module Reek
         @source.report.length == 1 and @source.has_smell?(@klass, @patterns)
       end
       def failure_message_for_should
-        "Expected source to reek only of #{@klass}, but got:\n#{@source.report}"
+        "Expected source to reek only of #{@klass}, but got:\n#{@source.full_report}"
       end
       def failure_message_for_should_not
         "Expected source not to reek only of #{@klass}, but it did"
