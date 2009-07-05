@@ -29,8 +29,7 @@ module Reek
       end
 
       def initialize(config = Duplication.default_config)
-        super
-        @max_calls = config[MAX_ALLOWED_CALLS_KEY]
+        super(config)
       end
 
       def examine_context(method)
@@ -41,7 +40,7 @@ module Reek
       
       def smelly_calls(method)   # :nodoc:
         method.calls.select do |key,val|
-          val > @max_calls and key[2] != :new
+          val > @config[MAX_ALLOWED_CALLS_KEY] and key[2] != :new
         end.map { |call_exp| call_exp[0] }
       end
     end

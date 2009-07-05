@@ -40,9 +40,7 @@ module Reek
       end
 
       def initialize(config = UncommunicativeName.default_config)
-        super
-        @reject = config[REJECT_KEY]
-        @accept = config[ACCEPT_KEY]
+        super(config)
       end
 
       #
@@ -63,15 +61,15 @@ module Reek
 
       def consider_name(context)  # :nodoc:
         name = context.name
-        return false if @accept.include?(context.to_s)  # TODO: fq_name() ?
+        return false if @config[ACCEPT_KEY].include?(context.to_s)  # TODO: fq_name() ?
         return false unless is_bad_name?(name)
         found(context, "has the name '#{name}'")
       end
 
       def is_bad_name?(name)  # :nodoc:
         var = name.effective_name
-        return false if var == '*' or @accept.include?(var)
-        @reject.detect {|patt| patt === var}
+        return false if var == '*' or @config[ACCEPT_KEY].include?(var)
+        @config[REJECT_KEY].detect {|patt| patt === var}
       end
     end
   end

@@ -23,8 +23,7 @@ module Reek
       end
 
       def initialize(config)
-        super
-        @max_params = config['max_params']
+        super(config)
         @action = 'has'
       end
 
@@ -34,7 +33,7 @@ module Reek
       #
       def examine_context(ctx)
         num_params = ctx.parameters.length
-        return false if num_params <= @max_params
+        return false if num_params <= @config['max_params']
         found(ctx, "#{@action} #{num_params} parameters")
       end
     end

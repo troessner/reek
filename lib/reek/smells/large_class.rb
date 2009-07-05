@@ -37,20 +37,18 @@ module Reek
       end
 
       def initialize(config = LargeClass.default_config)
-        super
-        @max_methods = config[MAX_ALLOWED_METHODS_KEY]
-        @max_instance_variables = config[MAX_ALLOWED_IVARS_KEY]
+        super(config)
       end
 
       def check_num_methods(klass)  # :nodoc:
         count = klass.num_methods
-        return if count <= @max_methods
+        return if count <= @config[MAX_ALLOWED_METHODS_KEY]
         found(klass, "has at least #{count} methods")
       end
 
       def check_num_ivars(klass)  # :nodoc:
         count = klass.variable_names.length
-        return if count <= @max_instance_variables
+        return if count <= @config[MAX_ALLOWED_IVARS_KEY]
         found(klass, "has at least #{count} instance variables")
       end
 
