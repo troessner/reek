@@ -41,26 +41,23 @@ describe Duplication, "non-repeated method calls" do
   end
 end
 
-require 'ostruct'
-
 describe Duplication, '#examine' do
   before :each do
-    @mc = OpenStruct.new
+    @mc = MethodContext.new(StopContext.new, s(:defn, :fred))
     @dup = Duplication.new
   end
 
   it 'should return true when reporting a smell' do
-    @mc.calls = {s(:call, nil, :other, s(:arglist)) => 47}
+    3.times { @mc.record_call_to(s(:call, nil, :other, s(:arglist)))}
     @dup.examine(@mc).should == true
   end
-  
+
   it 'should return false when not reporting a smell' do
-    @mc.calls = []
     @dup.examine(@mc).should == false
   end
-  
+
   it 'should return false when not reporting calls to new' do
-    @mc.calls = {[:call, :Set, :new] => 4}
+    4.times { @mc.record_call_to(s(:call, s(:Set), :new, s(:arglist)))}
     @dup.examine(@mc).should == false
   end
 end

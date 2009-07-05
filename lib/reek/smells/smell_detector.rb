@@ -46,8 +46,6 @@ module Reek
 
       def initialize(config)
         @config = config
-        @enabled = config[ENABLED_KEY]
-        @exceptions = config[EXCLUDE_KEY]
         @smells_found = []
         @masked = false
       end
@@ -57,7 +55,7 @@ module Reek
       end
 
       def enabled?
-        @enabled
+        @config[ENABLED_KEY]
       end
 
       def configure(config)
@@ -68,7 +66,6 @@ module Reek
 
       def configure_with(config)
         @config.adopt!(config)
-        @enabled = config[ENABLED_KEY]  # if config.has_key?(ENABLED_KEY)
       end
 
       def copy
@@ -77,7 +74,7 @@ module Reek
 
       def examine(context)
         before = @smells_found.size
-        examine_context(context) if @enabled and !exception?(context)
+        examine_context(context) if enabled? and !exception?(context)
         @smells_found.length > before
       end
 
@@ -85,8 +82,7 @@ module Reek
       end
       
       def exception?(context)
-        return false if @exceptions.nil? or @exceptions.length == 0
-        context.matches?(@exceptions)
+        context.matches?(@config[EXCLUDE_KEY])
       end
 
       def found(scope, warning)
