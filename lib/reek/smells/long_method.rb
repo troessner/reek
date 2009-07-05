@@ -23,9 +23,14 @@ module Reek
         )
       end
 
+      attr_reader :max_statements
+
       def initialize(config = LongMethod.default_config)
-        super
-        @max_statements = config[MAX_ALLOWED_STATEMENTS_KEY]
+        super(config)
+      end
+
+      def max_statements
+        @config['max_statements']
       end
 
       #
@@ -34,7 +39,7 @@ module Reek
       #
       def examine_context(method)
         num = method.num_statements
-        return false if num <= @max_statements
+        return false if num <= max_statements
         found(method, "has approx #{num} statements")
       end
     end

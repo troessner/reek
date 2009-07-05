@@ -45,6 +45,7 @@ module Reek
       end
 
       def initialize(config)
+        @config = config
         @enabled = config[ENABLED_KEY]
         @exceptions = config[EXCLUDE_KEY]
         @smells_found = []
@@ -66,7 +67,12 @@ module Reek
       end
 
       def configure_with(config)
+        @config.adopt!(config)
         @enabled = config[ENABLED_KEY]  # if config.has_key?(ENABLED_KEY)
+      end
+
+      def copy
+        self.class.new(@config.deep_copy)
       end
 
       def examine(context)

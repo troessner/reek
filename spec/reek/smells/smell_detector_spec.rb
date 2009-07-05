@@ -7,6 +7,34 @@ require 'reek/smells/large_class'
 include Reek
 include Reek::Smells
 
+describe SmellDetector, 'configuration' do
+  before:each do
+    @detector = LongMethod.new
+  end
+
+  it 'adopts new max_statements value' do
+    @detector.configure_with('max_statements' => 25)
+    @detector.max_statements.should == 25
+  end
+end
+
+describe SmellDetector, 'when copied' do
+  before :each do
+    @detector = LongMethod.new
+    @copy = @detector.copy
+  end
+
+  it 'should have the same state' do
+    @copy.max_statements.should == @detector.max_statements
+  end
+
+  it 'should change independently of its parent' do
+    default_max = @detector.max_statements
+    @copy.configure_with('max_statements' => 25)
+    @detector.max_statements.should == default_max
+  end
+end
+
 describe SmellDetector, 'when masked' do
   before(:each) do
     @detector = Duplication.new
