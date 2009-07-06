@@ -11,7 +11,8 @@ module Reek
     def self.default_options
       {
         :format => CTX_SORT,
-        :show_all => false
+        :show_all => false,
+        :quiet => false
       }
     end
     
@@ -68,6 +69,9 @@ EOB
     def self.set_show_all_option(opts, config)
       opts.on("-a", "--[no-]show-all", "Show all smells, including those masked by config settings") do |opt|
         config[:show_all] = opt
+      end
+      opts.on("-q", "--quiet", "Suppress headings for smell-free source files") do
+        config[:quiet] = true
       end
     end
 
