@@ -31,10 +31,11 @@ Feature: Reek can be controlled using command-line options
 
 
       Options:
+          -a, --[no-]show-all              Show all smells, including those masked by config settings
           -h, --help                       Show this message
           -f, --format FORMAT              Specify the format of smell warnings
-          -c, --context-first              Sort by context; sets the format string to "%c %w (%s)"
-          -s, --smell-first                Sort by smell; sets the format string to "[%s] %c %w"
+          -c, --context-first              Sort by context; sets the format string to "%m%c %w (%s)"
+          -s, --smell-first                Sort by smell; sets the format string to "%m[%s] %c %w"
           -v, --version                    Show version
 
       """

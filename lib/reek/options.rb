@@ -5,12 +5,13 @@ module Reek
     
   class Options
 
-    CTX_SORT = '%c %w (%s)'
-    SMELL_SORT = '[%s] %c %w'
+    CTX_SORT = '%m%c %w (%s)'
+    SMELL_SORT = '%m[%s] %c %w'
 
     def self.default_options
       {
-        :format => CTX_SORT
+        :format => CTX_SORT,
+        :show_all => false
       }
     end
     
@@ -26,7 +27,7 @@ module Reek
       parser.parse!(args)
       result
     end
-    
+
     def self.set_options(opts, config)
       opts.banner = <<EOB
 Usage: #{opts.program_name} [options] files...
@@ -36,9 +37,7 @@ See http://wiki.github.com/kevinrutherford/reek for detailed help.
 EOB
       
       opts.separator "\nOptions:"
-      set_help_option(opts)
-      set_sort_option(config, opts)
-      set_version_option(opts)
+      set_all_options(opts, config)
     end
 
     def self.parse(args)
@@ -51,11 +50,24 @@ EOB
     end
 
   private
+
+    def self.set_all_options(opts, config)
+      set_show_all_option(opts, config)
+      set_help_option(opts)
+      set_sort_option(config, opts)
+      set_version_option(opts)
+    end
     
     def self.set_version_option(opts)
       opts.on("-v", "--version", "Show version") do
         puts "#{opts.program_name} #{Reek::VERSION}"
         exit(0)
+      end
+    end
+
+    def self.set_show_all_option(opts, config)
+      opts.on("-a", "--[no-]show-all", "Show all smells, including those masked by config settings") do |opt|
+        config[:show_all] = opt
       end
     end
 

@@ -40,3 +40,30 @@ Feature: Masking smells using config files
         Dirty#a/block/block is nested (Nested Iterators)
 
       """
+
+  Scenario: switch off one smell but show all in the report
+    When I run reek --show-all spec/samples/masked/dirty.rb
+    Then it fails with exit status 2
+    And it reports:
+      """
+      spec/samples/masked/dirty.rb -- 3 warnings (+3 masked):
+        (masked) Dirty has the variable name '@s' (Uncommunicative Name)
+        Dirty#a calls @s.title multiple times (Duplication)
+        Dirty#a calls puts(@s.title) multiple times (Duplication)
+        (masked) Dirty#a has the name 'a' (Uncommunicative Name)
+        (masked) Dirty#a/block has the variable name 'x' (Uncommunicative Name)
+        Dirty#a/block/block is nested (Nested Iterators)
+
+      """
+
+  Scenario: switch off one smell and show hide them in the report
+    When I run reek --no-show-all spec/samples/masked/dirty.rb
+    Then it fails with exit status 2
+    And it reports:
+      """
+      spec/samples/masked/dirty.rb -- 3 warnings (+3 masked):
+        Dirty#a calls @s.title multiple times (Duplication)
+        Dirty#a calls puts(@s.title) multiple times (Duplication)
+        Dirty#a/block/block is nested (Nested Iterators)
+
+      """

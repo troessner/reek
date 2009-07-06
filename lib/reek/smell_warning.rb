@@ -8,18 +8,19 @@ module Reek
   class SmellWarning
     include Comparable
 
-    def initialize(smell, context, warning)
+    def initialize(smell, context, warning, is_masked = false)
       @smell = smell
       @context = context
       @warning = warning
+      @is_masked = is_masked
     end
 
     def hash  # :nodoc:
-      report.hash
+      basic_report.hash
     end
 
     def <=>(other)
-      report <=> other.report
+      basic_report <=> other.basic_report
     end
 
     alias eql? <=>  # :nodoc:
@@ -34,16 +35,21 @@ module Reek
       return patterns.all? {|exp| exp === rpt}
     end
 
+    def basic_report
+      Options[:format].gsub(/\%s/, @smell.smell_name).gsub(/\%c/, @context.to_s).gsub(/\%w/, @warning)
+    end
+
     #
     # Returns a copy of the current report format (see +Options+)
     # in which the following magic tokens have been substituted:
     #
-    # * %s <-- the name of the smell that was detected
     # * %c <-- a description of the +CodeContext+ containing the smell
+    # * %m <-- "(is_masked) " if this is a is_masked smell
+    # * %s <-- the name of the smell that was detected
     # * %w <-- the specific problem that was detected
     #
     def report
-      Options[:format].gsub(/\%s/, @smell.smell_name).gsub(/\%c/, @context.to_s).gsub(/\%w/, @warning)
+      basic_report.gsub(/\%m/, @is_masked ? '(masked) ' : '')
     end
   end
 end

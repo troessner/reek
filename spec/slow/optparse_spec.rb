@@ -62,7 +62,6 @@ describe 'sample gem source code' do
     ruby.should reek_of(:LongMethod, /OptionParser#parse_in_order/)
     ruby.should reek_of(:LongParameterList, /OptionParser#List#complete/)
     ruby.should reek_of(:LongParameterList, /OptionParser#List#update/)
-    ruby.should reek_of(:LongParameterList, /OptionParser#Switch#initialize/)
     ruby.should reek_of(:LongParameterList, /OptionParser#Switch#summarize/)
     ruby.should reek_of(:LongParameterList, /OptionParser#complete/)
     ruby.should reek_of(:LongParameterList, /OptionParser#summarize/)

@@ -7,8 +7,8 @@ module Reek
     include Enumerable
 
     def initialize(sniffer = nil)  # :nodoc:
-      @masked_smells = SortedSet.new
-      @report = SortedSet.new
+      @masked_warnings = SortedSet.new
+      @warnings = SortedSet.new
       sniffer.report_on(self) if sniffer
     end
 
@@ -16,7 +16,7 @@ module Reek
     # Yields, in turn, each SmellWarning in this report.
     #
     def each
-      @report.each { |smell| yield smell }
+      @warnings.each { |smell| yield smell }
     end
 
     #
@@ -24,56 +24,58 @@ module Reek
     # only if one of them has a report string matching all of the +patterns+.
     #
     def has_smell?(smell_class, patterns)
-      @report.any? { |smell| smell.matches?(smell_class, patterns) }
+      @warnings.any? { |smell| smell.matches?(smell_class, patterns) }
     end
 
     def <<(smell)  # :nodoc:
-      @report << smell
+      @warnings << smell
       true
     end
 
     def record_masked_smell(smell)
-      @masked_smells << smell
+      @masked_warnings << smell
     end
 
     def num_masked_smells
-      @masked_smells.length
+      @masked_warnings.length
     end
     
     def empty?
-      @report.empty?
+      @warnings.empty?
     end
 
     def length
-      @report.length
+      @warnings.length
     end
     
     alias size length
 
-    def [](index)  # :nodoc:
-      @report.to_a[index]
-    end
-
     # Creates a formatted report of all the +Smells::SmellWarning+ objects recorded in
     # this report, with a heading.
     def full_report(desc)
-      result = header(desc, @report.length)
-      result += ":\n#{to_s}" if length > 0
+      result = header(desc, @warnings.length)
+      result += ":\n#{to_s}" if should_report
       result += "\n"
       result
+    end
+
+    def should_report
+      @warnings.length > 0 or (Options[:show_all] and @masked_warnings.length > 0)
     end
 
     def header(desc, num_smells)
       result = "#{desc} -- #{num_smells} warning"
       result += 's' unless num_smells == 1
-      result += " (+#{@masked_smells.length} masked)" unless @masked_smells.empty?
+      result += " (+#{@masked_warnings.length} masked)" unless @masked_warnings.empty?
       result
     end
 
     # Creates a formatted report of all the +Smells::SmellWarning+ objects recorded in
     # this report.
     def to_s
-      @report.map {|smell| "  #{smell.report}"}.join("\n")
+      all = SortedSet.new(@warnings)
+      all.merge(@masked_warnings) if Options[:show_all]
+      all.map {|smell| "  #{smell.report}"}.join("\n")
     end
   end
 
