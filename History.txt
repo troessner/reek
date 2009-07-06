@@ -7,6 +7,8 @@
 ** Output now reports on all files examined, even if they have no smells
 ** Smell warnings are indented in the report; file summary headers are not
 ** Reports for multiple sources are run together; no more blank lines
+* The smells masked by *.reek config files can now be seen:
+** The header for each source file now counts masked smells
 
 === Minor Changes
 * Several changes to the LongMethod counting algorithm:
