@@ -40,14 +40,18 @@ module Reek
 
       def self.listen(hooks, config)
         detector = create(config)
-        contexts.each { |ctx| hooks[ctx] << detector }
+        detector.listen_to(hooks)
         detector
       end
 
-      def initialize(config)
+      def initialize(config = SmellDetector.default_config)
         @config = config
         @smells_found = []
         @masked = false
+      end
+
+      def listen_to(hooks)
+        self.class.contexts.each { |ctx| hooks[ctx] << self }
       end
 
       def be_masked

@@ -16,6 +16,8 @@ lib/reek/block_context.rb
 lib/reek/class_context.rb
 lib/reek/code_context.rb
 lib/reek/code_parser.rb
+lib/reek/config_file.rb
+lib/reek/detector_stack.rb
 lib/reek/exceptions.reek
 lib/reek/if_context.rb
 lib/reek/method_context.rb

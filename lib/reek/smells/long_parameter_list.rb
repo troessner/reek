@@ -22,7 +22,7 @@ module Reek
         super.adopt(MAX_ALLOWED_PARAMS_KEY => 3)
       end
 
-      def initialize(config)
+      def initialize(config = LongParameterList.default_config)
         super(config)
         @action = 'has'
       end

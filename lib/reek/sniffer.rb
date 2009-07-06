@@ -1,3 +1,4 @@
+require 'reek/detector_stack'
 require 'reek/smells/control_couple'
 require 'reek/smells/duplication'
 require 'reek/smells/feature_envy'
@@ -8,6 +9,7 @@ require 'reek/smells/long_yield_list'
 require 'reek/smells/nested_iterators'
 require 'reek/smells/uncommunicative_name'
 require 'reek/smells/utility_function'
+require 'reek/config_file'
 require 'yaml'
 
 class Hash
@@ -55,7 +57,9 @@ module Reek
     def initialize
       defaults_file = File.join(File.dirname(__FILE__), '..', '..', 'config', 'defaults.reek')
       @config = YAML.load_file(defaults_file)
-      @detectors = nil
+      @typed_detectors = nil
+      @detectors = Hash.new
+      SMELL_CLASSES.each { |klass| @detectors[klass] = DetectorStack.new(klass.new) }
       @listeners = []
     end
 
@@ -67,27 +71,21 @@ module Reek
     #
     def configure_along_path(filename)
       path = File.expand_path(File.dirname(filename))
-      all_reekfiles(path).each { |rfile| configure_with(rfile) }
+      all_reekfiles(path).each { |config_file| ConfigFile.new(config_file).configure(self) }
       self
     end
 
-    #
-    # Overrides this sniffer's current settings with those in the named
-    # +config_file+.
-    #
-    def configure_with(config_file)
-      hash = YAML.load_file(config_file)
-      return unless hash
-      raise "invalid configuration file \"#{File.basename(config_file)}\"" unless Hash === hash
-      hash.push_keys(@config)
+    def configure(klass, config)
+      @detectors[klass].push(config)
     end
 
-    def disable(smell)
-      @config[smell].adopt!({Reek::Smells::SmellDetector::ENABLED_KEY => false})
+    def disable(klass)
+      disabled_config = {Reek::Smells::SmellDetector::ENABLED_KEY => false}
+      @detectors[klass].push(disabled_config)
     end
 
     def report_on(report)
-      @listeners.each {|smell| smell.report_on(report)}
+      @detectors.each_value { |stack| stack.report_on(report) }
     end
 
     def examine(scope, type)
@@ -98,11 +96,11 @@ module Reek
 private
 
     def smell_listeners()
-      unless @detectors
-        @detectors = Hash.new {|hash,key| hash[key] = [] }
-        SMELL_CLASSES.each { |smell| @listeners << smell.listen(@detectors, @config) }
+      unless @typed_detectors
+        @typed_detectors = Hash.new {|hash,key| hash[key] = [] }
+        @detectors.each_value { |stack| stack.listen_to(@typed_detectors) }
       end
-      @detectors
+      @typed_detectors
     end
 
     def all_reekfiles(path)

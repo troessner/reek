@@ -9,7 +9,7 @@ module Reek
         [:yield]
       end
 
-      def initialize(config)
+      def initialize(config = LongYieldList.default_config)
         super
         @action = 'yields'
       end

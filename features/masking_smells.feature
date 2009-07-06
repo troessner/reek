@@ -22,7 +22,7 @@ Feature: Masking smells using config files
   Scenario: corrupt config file prevents normal output
     When I run reek spec/samples/corrupt_config_file/dirty.rb
     Then it fails with exit status 1
-    And it reports the error 'Error: invalid configuration file "corrupt.reek"'
+    And it reports the error 'Error: Invalid configuration file "corrupt.reek" -- not a Hash'
 
   Scenario: missing source file is an error
     When I run reek no_such_file.rb
@@ -34,7 +34,7 @@ Feature: Masking smells using config files
     Then it fails with exit status 2
     And it reports:
       """
-      spec/samples/masked/dirty.rb -- 3 warnings:
+      spec/samples/masked/dirty.rb -- 3 warnings (+3 masked):
         Dirty#a calls @s.title multiple times (Duplication)
         Dirty#a calls puts(@s.title) multiple times (Duplication)
         Dirty#a/block/block is nested (Nested Iterators)
