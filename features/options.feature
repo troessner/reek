@@ -18,3 +18,23 @@ Feature: Reek can be controlled using command-line options
     When I run reek --version
     Then it succeeds
     And it reports the current version
+
+  Scenario: display the help information
+    When I run reek --help
+    Then it succeeds
+    And it reports:
+      """
+      Usage: reek [options] files...
+
+      If no files are given, Reek reads source code from standard input.
+      See http://wiki.github.com/kevinrutherford/reek for detailed help.
+
+
+      Options:
+          -h, --help                       Show this message
+          -f, --format FORMAT              Specify the format of smell warnings
+          -c, --context-first              Sort by context; sets the format string to "%c %w (%s)"
+          -s, --smell-first                Sort by smell; sets the format string to "[%s] %c %w"
+          -v, --version                    Show version
+
+      """
