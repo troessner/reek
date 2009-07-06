@@ -9,6 +9,7 @@
 ** Reports for multiple sources are run together; no more blank lines
 * The smells masked by *.reek config files can now be seen:
 ** The header for each source file now counts masked smells
+** The --show-all (-a) option shows masked warnings in the report
 
 === Minor Changes
 * Several changes to the LongMethod counting algorithm:

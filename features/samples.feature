@@ -50,7 +50,7 @@ Feature: Basic smell detection
     Then it fails with exit status 2
     And it reports:
     """
-    spec/samples/optparse.rb -- 116 warnings:
+    spec/samples/optparse.rb -- 117 warnings:
       OptionParser has at least 59 methods (Large Class)
       OptionParser#CompletingHash#match/block/block is nested (Nested Iterators)
       OptionParser#Completion::complete calls candidates.size multiple times (Duplication)
@@ -81,6 +81,7 @@ Feature: Basic smell detection
       OptionParser#Switch#RequiredArgument#parse is controlled by argument arg (Control Couple)
       OptionParser#Switch#add_banner has the variable name 's' (Uncommunicative Name)
       OptionParser#Switch#conv_arg calls conv multiple times (Duplication)
+      OptionParser#Switch#initialize has 7 parameters (Long Parameter List)
       OptionParser#Switch#parse_arg calls pattern multiple times (Duplication)
       OptionParser#Switch#parse_arg calls s.length multiple times (Duplication)
       OptionParser#Switch#parse_arg has approx 11 statements (Long Method)

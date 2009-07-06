@@ -8,11 +8,11 @@ module Reek
   class SmellWarning
     include Comparable
 
-    def initialize(smell, context, warning, is_masked = false)
-      @smell = smell
+    def initialize(smell, context, warning)
+      @detector = smell
       @context = context
       @warning = warning
-      @is_masked = is_masked
+      @is_masked = smell.masked?
     end
 
     def hash  # :nodoc:
@@ -30,13 +30,13 @@ module Reek
     # +smell_class+ and its report string matches all of the +patterns+.
     #
     def matches?(smell_class, patterns)
-      return false unless smell_class.to_s == @smell.class.class_name
+      return false unless smell_class.to_s == @detector.class.class_name
       rpt = report
       return patterns.all? {|exp| exp === rpt}
     end
 
     def basic_report
-      Options[:format].gsub(/\%s/, @smell.smell_name).gsub(/\%c/, @context.to_s).gsub(/\%w/, @warning)
+      Options[:format].gsub(/\%s/, @detector.smell_name).gsub(/\%c/, @context.to_s).gsub(/\%w/, @warning)
     end
 
     #

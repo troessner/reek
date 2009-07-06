@@ -19,10 +19,7 @@ module Reek
       MAX_ALLOWED_PARAMS_KEY = 'max_params'
 
       def self.default_config
-        super.adopt(
-          MAX_ALLOWED_PARAMS_KEY => 3,
-          EXCLUDE_KEY => ['initialize']
-        )
+        super.adopt(MAX_ALLOWED_PARAMS_KEY => 3)
       end
 
       def initialize(config = LongParameterList.default_config)

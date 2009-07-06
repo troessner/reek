@@ -58,6 +58,10 @@ module Reek
         @masked = true
       end
 
+      def masked?
+        @masked
+      end
+
       def enabled?
         @config[ENABLED_KEY]
       end
@@ -90,7 +94,7 @@ module Reek
       end
 
       def found(scope, warning)
-        smell = SmellWarning.new(self, scope, warning, @masked)
+        smell = SmellWarning.new(self, scope, warning)
         @smells_found << smell
         smell
       end
