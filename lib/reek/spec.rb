@@ -53,13 +53,6 @@ module Reek
       end
     end
 
-    #
-    # Returns +true+ if and only if the target source code contains smells.
-    #
-    def reek
-      ShouldReek.new
-    end
-
     class ShouldReekOf        # :nodoc:
       def initialize(klass, patterns)
         @klass = klass
@@ -77,15 +70,6 @@ module Reek
       end
     end
 
-    #
-    # Checks the target source code for instances of +smell_class+,
-    # and returns +true+ only if one of them has a report string matching
-    # all of the +patterns+.
-    #
-    def reek_of(smell_class, *patterns)
-      ShouldReekOf.new(smell_class, patterns)
-    end
-
     class ShouldReekOnlyOf        # :nodoc:
       def initialize(klass, patterns)
         @klass = klass
@@ -101,6 +85,22 @@ module Reek
       def failure_message_for_should_not
         "Expected source not to reek only of #{@klass}, but it did"
       end
+    end
+
+    #
+    # Returns +true+ if and only if the target source code contains smells.
+    #
+    def reek
+      ShouldReek.new
+    end
+
+    #
+    # Checks the target source code for instances of +smell_class+,
+    # and returns +true+ only if one of them has a report string matching
+    # all of the +patterns+.
+    #
+    def reek_of(smell_class, *patterns)
+      ShouldReekOf.new(smell_class, patterns)
     end
 
     #
