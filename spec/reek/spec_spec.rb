@@ -66,3 +66,24 @@ describe ShouldReek, 'checking code in a File' do
     @matcher.failure_message_for_should_not.should include(@smelly_file.to_source.full_report)
   end
 end
+
+describe ShouldReek, 'report formatting' do
+  before :each do
+    @smelly_dir = Dir['spec/samples/mixed_results/*.rb']
+    @matcher = ShouldReek.new
+    @matcher.matches?(@smelly_dir)
+    @lines = @matcher.failure_message_for_should_not.split("\n").map {|str| str.chomp}
+    @error_message = @lines.shift
+    @smells = @lines.grep(/^  /)
+    @headers = (@lines - @smells)
+  end
+
+  it 'mentions every smell in the report' do
+    @smells.should have(12).warnings
+  end
+
+  it 'doesnt mention the clean files' do
+    @headers.should have(2).headers
+    @headers.should_not include('clean')
+  end
+end

@@ -60,6 +60,14 @@ module Reek
       result
     end
 
+    def quiet_report(desc)
+      return if @warnings.empty?
+      result = header(desc, @warnings.length)
+      result += ":\n#{to_s}" if should_report
+      result += "\n"
+      result
+    end
+
     def should_report
       @warnings.length > 0 or (Options[:show_all] and @masked_warnings.length > 0)
     end
@@ -104,6 +112,10 @@ module Reek
 
     def full_report
       @sources.map { |src| src.full_report }.join
+    end
+
+    def quiet_report
+      @sources.map { |src| src.quiet_report }.join
     end
 
     #

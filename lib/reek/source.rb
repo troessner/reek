@@ -101,6 +101,10 @@ module Reek
       report.full_report(@desc)
     end
 
+    def quiet_report
+      report.quiet_report(@desc)
+    end
+
     def to_s
       @desc
     end
@@ -128,6 +132,10 @@ module Reek
 
     def full_report
       ReportList.new(@sources).full_report
+    end
+
+    def quiet_report
+      ReportList.new(@sources).quiet_report
     end
 
     def report
