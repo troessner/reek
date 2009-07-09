@@ -9,6 +9,10 @@ require 'reek/method_context'
 require 'reek/singleton_method_context'
 require 'reek/yield_call_context'
 
+#
+# Extensions to +Sexp+ to allow +CodeParser+ to navigate the abstract
+# syntax tree more easily.
+#
 class Sexp
   def children
     find_all { |item| Sexp === item }

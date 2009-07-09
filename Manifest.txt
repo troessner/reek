@@ -1,4 +1,5 @@
 History.txt
+License.txt
 README.txt
 Rakefile
 bin/reek
