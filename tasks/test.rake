@@ -35,6 +35,8 @@ namespace 'test' do
   task 'all' => ['test:spec', 'test:slow', 'test:features']
 end
 
+task 'clobber_rcov' => 'test:clobber_rcov'
+
 desc 'synonym for test:spec'
 task 'spec' => 'test:spec'
 
