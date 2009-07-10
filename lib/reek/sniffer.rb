@@ -103,6 +103,22 @@ module Reek
       @source.quiet_report
     end
 
+    def desc
+      @source.desc
+    end
+
+    #
+    # Checks for instances of +smell_class+, and returns +true+
+    # only if one of them has a report string matching all of the +patterns+.
+    #
+    def has_smell?(smell_class, patterns=[])
+      @source.has_smell?(smell_class, patterns)
+    end
+
+    def smells_only_of?(klass, patterns)
+      @source.report.length == 1 and has_smell?(klass, patterns)
+    end
+
 private
 
     def smell_listeners()
@@ -123,14 +139,28 @@ private
 
   class SnifferSet
 
-    attr_reader :sniffers
+    attr_reader :sniffers, :desc
 
-    def initialize(sniffers)
+    def initialize(sniffers, desc)
       @sniffers = sniffers
+      @desc = desc
     end
 
     def smelly?
       @sniffers.any? {|sniffer| sniffer.smelly? }
+    end
+
+    #
+    # Checks for instances of +smell_class+, and returns +true+
+    # only if one of them has a report string matching all of the +patterns+.
+    #
+    def has_smell?(smell_class, patterns=[])
+      @sniffers.any? {|sniffer| sniffer.has_smell?(smell_class, patterns)}
+    end
+
+    def smells_only_of?(klass, patterns)
+      sources = @sniffers.map {|sniffer| sniffer.source}
+      ReportList.new(sources).length == 1 and has_smell?(klass, patterns)
     end
 
     def quiet_report

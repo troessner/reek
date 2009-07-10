@@ -59,7 +59,7 @@ module Reek
       SourceList.new(sources)
     end
 
-    attr_reader :sniffer
+    attr_reader :sniffer, :desc
 
     def initialize(code, desc, sniffer = Sniffer.new)     # :nodoc:
       @source = code

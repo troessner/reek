@@ -1,4 +1,4 @@
-require 'reek/source'
+require 'reek/sniffer'
 
 module Reek
 
@@ -59,14 +59,14 @@ module Reek
         @patterns = patterns
       end
       def matches?(actual)
-        @source = actual.to_source
-        @source.has_smell?(@klass, @patterns)
+        @sniffer = actual.sniff
+        @sniffer.has_smell?(@klass, @patterns)
       end
       def failure_message_for_should
-        "Expected #{@source} to reek of #{@klass}, but it didn't"
+        "Expected #{@sniffer.desc} to reek of #{@klass}, but it didn't"
       end
       def failure_message_for_should_not
-        "Expected #{@source} not to reek of #{@klass}, but got:\n#{@source.quiet_report}"
+        "Expected #{@sniffer.desc} not to reek of #{@klass}, but got:\n#{@sniffer.quiet_report}"
       end
     end
 
@@ -76,14 +76,14 @@ module Reek
         @patterns = patterns
       end
       def matches?(actual)
-        @source = actual.to_source
-        @source.report.length == 1 and @source.has_smell?(@klass, @patterns)
+        @sniffer = actual.sniff
+        @sniffer.smells_only_of?(@klass, @patterns)
       end
       def failure_message_for_should
-        "Expected source to reek only of #{@klass}, but got:\n#{@source.quiet_report}"
+        "Expected #{@sniffer.desc} to reek only of #{@klass}, but got:\n#{@sniffer.quiet_report}"
       end
       def failure_message_for_should_not
-        "Expected source not to reek only of #{@klass}, but it did"
+        "Expected #{@sniffer.desc} not to reek only of #{@klass}, but it did"
       end
     end
 
@@ -139,8 +139,8 @@ class Array
   end
 
   def sniff
-    sniffers = self.map {|path| Source.from_path(path).sniffer }
-    SnifferSet.new(sniffers)
+    sniffers = self.map {|path| Reek::Source.from_path(path).sniffer }
+    Reek::SnifferSet.new(sniffers, 'dir')
   end
 end
 
