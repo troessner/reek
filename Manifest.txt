@@ -74,6 +74,7 @@ spec/reek/smells/nested_iterators_spec.rb
 spec/reek/smells/smell_detector_spec.rb
 spec/reek/smells/uncommunicative_name_spec.rb
 spec/reek/smells/utility_function_spec.rb
+spec/reek/sniffer_spec.rb
 spec/reek/spec_spec.rb
 spec/samples/corrupt_config_file/corrupt.reek
 spec/samples/corrupt_config_file/dirty.rb

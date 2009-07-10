@@ -55,4 +55,8 @@ class Object
   def to_source
     Reek::Source.from_object(self)
   end
+
+  def sniff
+    self.to_source.sniffer
+  end
 end

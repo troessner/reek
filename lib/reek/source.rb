@@ -59,10 +59,13 @@ module Reek
       SourceList.new(sources)
     end
 
+    attr_reader :sniffer
+
     def initialize(code, desc, sniffer = Sniffer.new)     # :nodoc:
       @source = code
       @desc = desc
       @sniffer = sniffer
+      @sniffer.source = self
     end
 
     def generate_syntax_tree

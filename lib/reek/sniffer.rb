@@ -54,6 +54,8 @@ module Reek
       Smells::UtilityFunction,
     ]
 
+    attr_accessor :source
+
     def initialize
       defaults_file = File.join(File.dirname(__FILE__), '..', '..', 'config', 'defaults.reek')
       @config = YAML.load_file(defaults_file)
@@ -93,6 +95,14 @@ module Reek
       listeners.each {|smell| smell.examine(scope) } if listeners
     end
 
+    def smelly?
+      @source.smelly?
+    end
+
+    def quiet_report
+      @source.quiet_report
+    end
+
 private
 
     def smell_listeners()
@@ -108,6 +118,24 @@ private
       parent = File.dirname(path)
       return [] if path == parent
       all_reekfiles(parent) + Dir["#{path}/*.reek"]
+    end
+  end
+
+  class SnifferSet
+
+    attr_reader :sniffers
+
+    def initialize(sniffers)
+      @sniffers = sniffers
+    end
+
+    def smelly?
+      @sniffers.any? {|sniffer| sniffer.smelly? }
+    end
+
+    def quiet_report
+      sources = @sniffers.map {|sniffer| sniffer.source}
+      ReportList.new(sources).quiet_report
     end
   end
 end

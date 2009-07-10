@@ -42,14 +42,14 @@ module Reek
   module Spec
     class ShouldReek        # :nodoc:
       def matches?(actual)
-        @source = actual.to_source
-        @source.smelly?
+        @sniffer = actual.sniff
+        @sniffer.smelly?
       end
       def failure_message_for_should
         "Expected source to reek, but it didn't"
       end
       def failure_message_for_should_not
-        "Expected no smells, but got:\n#{@source.quiet_report}"
+        "Expected no smells, but got:\n#{@sniffer.quiet_report}"
       end
     end
 
@@ -117,17 +117,30 @@ class File
   def to_source
     Reek::Source.from_f(self)
   end
+
+  def sniff
+    self.to_source.sniffer
+  end
 end
 
 class String
   def to_source
     Reek::Source.from_s(self)
   end
+
+  def sniff
+    self.to_source.sniffer
+  end
 end
 
 class Array
   def to_source
     Reek::Source.from_pathlist(self)
+  end
+
+  def sniff
+    sniffers = self.map {|path| Source.from_path(path).sniffer }
+    SnifferSet.new(sniffers)
   end
 end
 
