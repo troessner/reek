@@ -4,6 +4,22 @@ require 'reek/spec'
 
 include Reek::Spec
 
+describe ShouldReekOf, 'rdoc demo example' do
+  it 'works on a common source' do
+    ruby = 'def double_thing() @other.thing.foo + @other.thing.foo end'.to_source
+    ruby.should reek_of(:Duplication, /@other.thing[^\.]/)
+    ruby.should reek_of(:Duplication, /@other.thing.foo/)
+    ruby.should_not reek_of(:FeatureEnvy)
+  end
+
+  it 'works on a common sniffer' do
+    ruby = 'def double_thing() @other.thing.foo + @other.thing.foo end'.sniff
+    ruby.should reek_of(:Duplication, /@other.thing[^\.]/)
+    ruby.should reek_of(:Duplication, /@other.thing.foo/)
+    ruby.should_not reek_of(:FeatureEnvy)
+  end
+end
+
 describe ShouldReekOf, 'checking code in a string' do
   before :each do
     @clean_code = 'def good() true; end'
