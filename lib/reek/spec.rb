@@ -34,7 +34,7 @@ module Reek
   # And a more complex example, making use of one of the factory methods for
   # +Source+ so that the code is parsed and analysed only once:
   # 
-  #   ruby = 'def double_thing() @other.thing.foo + @other.thing.foo end'.to_source
+  #   ruby = 'def double_thing() @other.thing.foo + @other.thing.foo end'.sniff
   #   ruby.should reek_of(:Duplication, /@other.thing[^\.]/)
   #   ruby.should reek_of(:Duplication, /@other.thing.foo/)
   #   ruby.should_not reek_of(:FeatureEnvy)
@@ -141,14 +141,6 @@ class Array
   def sniff
     sniffers = self.map {|path| Reek::Source.from_path(path).sniffer }
     Reek::SnifferSet.new(sniffers, 'dir')
-  end
-end
-
-module Reek
-  class Source
-    def to_source
-      self
-    end
   end
 end
 

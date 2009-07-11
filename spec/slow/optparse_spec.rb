@@ -1,8 +1,12 @@
 require File.dirname(__FILE__) + '/../spec_helper.rb'
 
+require 'reek/report'
+
+include Reek
+
 describe 'sample gem source code' do
   it "reports the correct smells in optparse.rb" do
-    ruby = File.new("#{SAMPLES_DIR}/optparse.rb").to_source
+    ruby = File.new("#{SAMPLES_DIR}/optparse.rb").sniff
     ruby.should reek_of(:ControlCouple, /OptionParser#List#accept/, /pat/)
     ruby.should reek_of(:ControlCouple, /OptionParser#List#update/, /lopts/)
     ruby.should reek_of(:ControlCouple, /OptionParser#List#update/, /sopts/)
@@ -103,6 +107,6 @@ describe 'sample gem source code' do
     ruby.should reek_of(:UncommunicativeName, /OptionParser#summarize/, /'l'/)
     ruby.should reek_of(:UncommunicativeName, /OptionParser#ver/, /'v'/)
     ruby.should reek_of(:UncommunicativeName, /block/, /'q'/)
-    ruby.report.should have_at_most(117).smells
+    Report.new(ruby).length.should == 117
   end
 end

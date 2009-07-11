@@ -21,7 +21,7 @@ describe Duplication, "repeated method calls" do
   end
 
   it 'should report nested calls' do
-    ruby = 'def double_thing() @other.thing.foo + @other.thing.foo end'.to_source
+    ruby = 'def double_thing() @other.thing.foo + @other.thing.foo end'.sniff
     ruby.should reek_of(:Duplication, /@other.thing[^\.]/)
     ruby.should reek_of(:Duplication, /@other.thing.foo/)
   end

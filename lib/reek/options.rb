@@ -1,4 +1,5 @@
 require 'optparse'
+require 'reek'
 require 'reek/source'
 
 module Reek

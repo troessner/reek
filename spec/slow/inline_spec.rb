@@ -1,8 +1,12 @@
 require File.dirname(__FILE__) + '/../spec_helper.rb'
 
+require 'reek/report'
+
+include Reek
+
 describe 'sample gem source code' do
   it "reports the correct smells in inline.rb" do
-    ruby = File.new("#{SAMPLES_DIR}/inline.rb").to_source
+    ruby = File.new("#{SAMPLES_DIR}/inline.rb").sniff
     ruby.should reek_of(:ControlCouple, /Inline::C#parse_signature/, /raw/)
     ruby.should reek_of(:ControlCouple, /Module#inline/, /options/)
     ruby.should reek_of(:Duplication, /Inline::C#build/, /\(\$\?\ == 0\)/)
@@ -35,6 +39,6 @@ describe 'sample gem source code' do
     ruby.should reek_of(:UncommunicativeName, /Inline::C#module_name/, /'x'/)
     ruby.should reek_of(:UncommunicativeName, /Inline::C#parse_signature/, /'x'/)
     ruby.should reek_of(:UtilityFunction, /Inline::C#strip_comments/)
-    ruby.report.should have_at_most(32).smells
+    Report.new(ruby).length.should == 32
   end
 end

@@ -6,8 +6,6 @@
 # Author: Kevin Rutherford
 #
 
-require 'reek'
-require 'reek/source'
 require 'reek/options'
 
 def reek(args)

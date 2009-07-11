@@ -1,8 +1,12 @@
 require File.dirname(__FILE__) + '/../spec_helper.rb'
 
+require 'reek/report'
+
+include Reek
+
 describe 'sample gem source code' do
   it "reports the correct smells in redcloth.rb" do
-    ruby = File.new("#{SAMPLES_DIR}/redcloth.rb").to_source
+    ruby = File.new("#{SAMPLES_DIR}/redcloth.rb").sniff
     ruby.should reek_of(:ControlCouple, /RedCloth#blocks\/block/, /deep_code/)
     ruby.should reek_of(:ControlCouple, /RedCloth#check_refs/, /text/)
     ruby.should reek_of(:ControlCouple, /RedCloth#pba/, /text_in/)
@@ -96,6 +100,6 @@ describe 'sample gem source code' do
     ruby.should reek_of(:UtilityFunction, /RedCloth#incoming_entities/)
     ruby.should reek_of(:UtilityFunction, /RedCloth#no_textile/)
     ruby.should reek_of(:UtilityFunction, /RedCloth#v_align/)
-    ruby.report.should have_at_most(93).smells
+    Report.new(ruby).length.should == 93
   end
 end

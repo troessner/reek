@@ -9,8 +9,8 @@ describe Dir do
   end
 
   it 'reports correct smells via SourceList' do
-    src = Dir['spec/samples/two_smelly_files/*.rb'].to_source
-    src.has_smell?(:UncommunicativeName).should be_true
+    sniffer = Dir['spec/samples/two_smelly_files/*.rb'].sniff
+    sniffer.has_smell?(:UncommunicativeName).should be_true
   end
 
   it 'copes with daft file specs' do

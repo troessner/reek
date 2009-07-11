@@ -6,7 +6,7 @@ include Reek::Spec
 
 describe ShouldReekOf, 'rdoc demo example' do
   it 'works on a common source' do
-    ruby = 'def double_thing() @other.thing.foo + @other.thing.foo end'.to_source
+    ruby = 'def double_thing() @other.thing.foo + @other.thing.foo end'
     ruby.should reek_of(:Duplication, /@other.thing[^\.]/)
     ruby.should reek_of(:Duplication, /@other.thing.foo/)
     ruby.should_not reek_of(:FeatureEnvy)
@@ -37,7 +37,7 @@ describe ShouldReekOf, 'checking code in a string' do
 
   it 'reports the smells when should_not fails' do
     @matcher.matches?(@smelly_code).should be_true
-    @matcher.failure_message_for_should_not.should include(@smelly_code.to_source.quiet_report)
+    @matcher.failure_message_for_should_not.should include(@smelly_code.sniff.quiet_report)
   end
 end
 
@@ -58,7 +58,7 @@ describe ShouldReekOf, 'checking code in a Dir' do
 
   it 'reports the smells when should_not fails' do
     @matcher.matches?(@smelly_dir).should be_true
-    @matcher.failure_message_for_should_not.should include(@smelly_dir.to_source.quiet_report)
+    @matcher.failure_message_for_should_not.should include(@smelly_dir.sniff.quiet_report)
   end
 end
 
@@ -79,7 +79,7 @@ describe ShouldReekOf, 'checking code in a File' do
 
   it 'reports the smells when should_not fails' do
     @matcher.matches?(@smelly_file).should be_true
-    @matcher.failure_message_for_should_not.should include(@smelly_file.to_source.quiet_report)
+    @matcher.failure_message_for_should_not.should include(@smelly_file.sniff.quiet_report)
   end
 end
 

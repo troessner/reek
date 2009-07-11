@@ -85,7 +85,7 @@ end
 describe UncommunicativeName, "several names" do
 
   it 'should report all bad names' do
-    ruby = Source.from_s('class Oof; def y(x) @z = x end end')
+    ruby = 'class Oof; def y(x) @z = x end end'.sniff
     ruby.should reek_of(:UncommunicativeName, /'x'/)
     ruby.should reek_of(:UncommunicativeName, /'y'/)
     ruby.should reek_of(:UncommunicativeName, /'@z'/)
