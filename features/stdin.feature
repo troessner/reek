@@ -13,12 +13,21 @@ Feature: Reek reads from $stdin when no files are given
 
       """
 
-  Scenario: outputs nothing on empty stdin
+  Scenario: outputs header only on empty stdin
     When I pass "" to reek
     Then it succeeds
     And it reports:
       """
       $stdin -- 0 warnings
+
+      """
+
+  Scenario: outputs nothing on empty stdin in quiet mode
+    When I pass "" to reek --quiet
+    Then it succeeds
+    And it reports:
+      """
+
 
       """
 

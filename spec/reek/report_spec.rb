@@ -19,6 +19,10 @@ describe Report, " when empty" do
   it 'should claim to be empty' do
     @rpt.should be_empty
   end
+
+  it 'has an empty quiet_report' do
+    @rpt.quiet_report('nothing').should == ''
+  end
 end
 
 describe Report, "to_s" do

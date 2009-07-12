@@ -53,7 +53,7 @@ module Reek
     # Creates a formatted report of all the +Smells::SmellWarning+ objects recorded in
     # this report, with a heading.
     def full_report(desc)
-      return if @warnings.empty? and Options[:quiet]
+      return quiet_report(desc) if Options[:quiet]
       result = header(desc, @warnings.length)
       result += ":\n#{to_s}" if should_report
       result += "\n"
@@ -61,7 +61,7 @@ module Reek
     end
 
     def quiet_report(desc)
-      return if @warnings.empty?
+      return '' if @warnings.empty?
       result = header(desc, @warnings.length)
       result += ":\n#{to_s}" if should_report
       result += "\n"

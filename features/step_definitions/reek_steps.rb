@@ -2,8 +2,8 @@ When /^I run reek (.*)$/ do |args|
   run args
 end
 
-When /^I pass "([^\"]*)" to reek$/ do |stdin|
-  run_with_pipe stdin
+When /^I pass "([^\"]*)" to reek *(.*)$/ do |stdin, args|
+  run_with_pipe(stdin, args)
 end
 
 When /^I run rake reek$/ do

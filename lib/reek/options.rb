@@ -26,6 +26,10 @@ module Reek
     def self.parse_args(args)
       result = default_options
       parser = OptionParser.new { |opts| set_options(opts, result) }
+      # SMELL: Greedy Module
+      # This creates the command-line parser AND invokes it. And for the
+      # -v and -h options it also executes them. And it holds the config
+      # options for the rest of the application.
       parser.parse!(args)
       result
     end

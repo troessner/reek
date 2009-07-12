@@ -11,6 +11,8 @@ require 'reek/options'
 def reek(args)
   begin
     source = Reek::Options.parse(args)
+    # SMELL:
+    # This should use the actual type of report selected by the user's options
     puts source.full_report
     return source.smelly? ? 2 : 0
   rescue SystemExit => ex
