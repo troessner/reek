@@ -46,11 +46,14 @@ module Reek
     #
     def self.from_path(filename)
       code = IO.readlines(filename).join
+      # SMELL: Greedy Method
+      # Someone else should create the Sniffer; the Sniffer should then ask
+      # this source to configure it.
       sniffer = Sniffer.new.configure_along_path(filename)
       return new(code, filename, sniffer)
     end
 
-    attr_reader :sniffer, :desc
+    attr_reader :sniffer, :desc       # SMELL
 
     def initialize(code, desc, sniffer = Sniffer.new)     # :nodoc:
       @source = code
@@ -62,6 +65,10 @@ module Reek
     def generate_syntax_tree
       RubyParser.new.parse(@source, @desc) || s()
     end
+
+    # SMELL: Greedy Module
+    # None of the following methods is a natural responsibility
+    # for a Source.
 
     #
     # Returns a +Report+ listing the smells found in this source. The first

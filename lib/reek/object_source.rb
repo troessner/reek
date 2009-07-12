@@ -1,10 +1,5 @@
 module Reek
   class Source
-    #
-    # Factory method: creates a +Source+ from obj.
-    # The code is not parsed until +report+ is called.
-    # (This feature is only enabled if you have the ParseTree gem installed.)
-    #
     def self.from_object(obj)
       return ObjectSource.new(obj, obj.to_s)
     end
@@ -47,16 +42,10 @@ end
 
 class Object
   #
-  # Constructs a Source representing this object; the source can then be used
-  # to generate an abstract syntax tree for the object, which can in turn then
-  # be examined for code smells.
+  # Constructs a Sniffer which examines this object for code smells.
   # (This feature is only enabled if you have the ParseTree gem installed.)
   #
-  def to_source
-    Reek::Source.from_object(self)
-  end
-
   def sniff
-    self.to_source.sniffer
+    Reek::Source.from_object(self).sniffer
   end
 end

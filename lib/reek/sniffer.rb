@@ -126,8 +126,8 @@ module Reek
       @source.report.length == 1 and has_smell?(klass, patterns)
     end
 
-    def to_source
-      @source
+    def sniff
+      self
     end
 
 private

@@ -1,5 +1,6 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 require 'ostruct'
+require 'reek/core_extras'
 require 'reek/method_context'
 require 'reek/smells/uncommunicative_name'
 

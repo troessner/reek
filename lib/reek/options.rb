@@ -1,7 +1,7 @@
 require 'optparse'
 require 'reek'
 require 'reek/source'
-require 'reek/spec'       # SMELL
+require 'reek/core_extras'       # SMELL
 
 module Reek
     

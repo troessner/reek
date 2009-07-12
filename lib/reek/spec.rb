@@ -113,33 +113,6 @@ module Reek
   end
 end
 
-class File
-  def to_source
-    Reek::Source.from_f(self)
-  end
-
-  def sniff
-    self.to_source.sniffer
-  end
-end
-
-class String
-  def to_source
-    Reek::Source.from_s(self)
-  end
-
-  def sniff
-    self.to_source.sniffer
-  end
-end
-
-class Array
-  def sniff
-    sniffers = self.map {|path| Reek::Source.from_path(path).sniffer }
-    Reek::SnifferSet.new(sniffers, 'dir')
-  end
-end
-
 if Object.const_defined?(:Spec)
   Spec::Runner.configure do |config|
     config.include(Reek::Spec)
