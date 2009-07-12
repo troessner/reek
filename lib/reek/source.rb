@@ -50,15 +50,6 @@ module Reek
       return new(code, filename, sniffer)
     end
 
-    #
-    # Factory method: creates a +Source+ object from an array of file paths.
-    # No source code is actually parsed until the report is accessed.
-    #
-    def self.from_pathlist(paths)
-      sources = paths.map {|path| Source.from_path(path) }
-      SourceList.new(sources)
-    end
-
     attr_reader :sniffer, :desc
 
     def initialize(code, desc, sniffer = Sniffer.new)     # :nodoc:
@@ -112,39 +103,8 @@ module Reek
       @desc
     end
   end
-
-  #
-  # Represents a list of Sources as if they were a single source.
-  #
-  class SourceList
-    def initialize(sources)
-      @sources = sources
-    end
-
-    #
-    # Checks this source for instances of +smell_class+, and returns +true+
-    # only if one of them has a report string matching all of the +patterns+.
-    #
-    def has_smell?(smell_class, patterns=[])
-      report.has_smell?(smell_class, patterns)
-    end
-
-    def smelly?
-      @sources.any? {|source| source.smelly? }
-    end
-
-    def full_report
-      ReportList.new(@sources).full_report
-    end
-
-    def quiet_report
-      ReportList.new(@sources).quiet_report
-    end
-
-    def report
-      ReportList.new(@sources)
-    end
-  end
 end
 
+# SMELL: Runaway Dependencies
+# Surely this should only be required from reek/spec ?
 require 'reek/object_source'

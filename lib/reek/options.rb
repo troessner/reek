@@ -1,6 +1,7 @@
 require 'optparse'
 require 'reek'
 require 'reek/source'
+require 'reek/spec'       # SMELL
 
 module Reek
     
@@ -26,10 +27,6 @@ module Reek
     def self.parse_args(args)
       result = default_options
       parser = OptionParser.new { |opts| set_options(opts, result) }
-      # SMELL: Greedy Module
-      # This creates the command-line parser AND invokes it. And for the
-      # -v and -h options it also executes them. And it holds the config
-      # options for the rest of the application.
       parser.parse!(args)
       result
     end
@@ -46,12 +43,16 @@ EOB
       set_all_options(opts, config)
     end
 
+    # SMELL: Greedy Module
+    # This creates the command-line parser AND invokes it. And for the
+    # -v and -h options it also executes them. And it holds the config
+    # options for the rest of the application.
     def self.parse(args)
       @@opts = parse_args(args)
       if args.length > 0
-        return Source.from_pathlist(args)
+        return args.sniff
       else
-        return Source.from_io($stdin, '$stdin')
+        return Source.from_io($stdin, '$stdin').sniffer
       end
     end
 

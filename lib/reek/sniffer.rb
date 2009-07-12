@@ -103,6 +103,13 @@ module Reek
       @source.quiet_report
     end
 
+    # SMELL: Shotgun Surgery
+    # This and the above method will need to be replicated for every new
+    # kind of report.
+    def full_report
+      @source.full_report
+    end
+
     def desc
       @source.desc
     end
@@ -170,6 +177,15 @@ private
     def quiet_report
       sources = @sniffers.map {|sniffer| sniffer.source}
       ReportList.new(sources).quiet_report
+    end
+
+
+    # SMELL: Shotgun Surgery
+    # This and the above method will need to be replicated for every new
+    # kind of report.
+    def full_report
+      sources = @sniffers.map {|sniffer| sniffer.source}
+      ReportList.new(sources).full_report
     end
   end
 end

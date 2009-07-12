@@ -8,7 +8,7 @@ describe Dir do
     Dir['spec/samples/two_smelly_files/*.rb'].should reek_of(:UncommunicativeName)
   end
 
-  it 'reports correct smells via SourceList' do
+  it 'reports correct smells via Dir' do
     sniffer = Dir['spec/samples/two_smelly_files/*.rb'].sniff
     sniffer.has_smell?(:UncommunicativeName).should be_true
   end

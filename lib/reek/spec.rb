@@ -134,10 +134,6 @@ class String
 end
 
 class Array
-  def to_source
-    Reek::Source.from_pathlist(self)
-  end
-
   def sniff
     sniffers = self.map {|path| Reek::Source.from_path(path).sniffer }
     Reek::SnifferSet.new(sniffers, 'dir')
