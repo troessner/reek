@@ -2,7 +2,7 @@ require 'reek/source'         # SMELL: should refer to Sniffer
 
 class File
   def sniff
-    Reek::Source.from_f(self).sniffer
+    Reek::Source.from_path(self.path).sniffer
   end
 end
 

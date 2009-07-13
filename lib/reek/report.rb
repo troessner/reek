@@ -1,6 +1,5 @@
 require 'set'
 require 'reek/sniffer'
-require 'reek/smells/smell_detector'
 
 module Reek
   class Report
@@ -11,13 +10,6 @@ module Reek
       @warnings = SortedSet.new
       @desc = sniffer.desc
       sniffer.report_on(self)
-    end
-
-    #
-    # Yields, in turn, each SmellWarning in this report.
-    #
-    def each
-      @warnings.each { |smell| yield smell }
     end
 
     #
@@ -89,16 +81,8 @@ module Reek
   class ReportList
     include Enumerable
 
-    def initialize(sources, sniffers)
-      @sources = sources
+    def initialize(sniffers)
       @sniffers = sniffers
-    end
-
-    #
-    # Yields, in turn, each SmellWarning in every report in this report.
-    #
-    def each(&blk)
-      @sources.each {|src| src.report.each(&blk) }
     end
 
     def empty?
@@ -106,15 +90,18 @@ module Reek
     end
 
     def length
-      @sources.inject(0) {|sum, src| sum + src.report.length }
+      @sniffers.inject(0) {|sum, sniffer| sum + sniffer.num_smells }
     end
 
+    # SMELL: Shotgun Surgery
+    # This method and the next will have to be repeated for every new
+    # kind of report.
     def full_report
-      @sniffers.map { |src| src.full_report }.join
+      @sniffers.map { |sniffer| sniffer.full_report }.join
     end
 
     def quiet_report
-      @sniffers.map { |src| src.quiet_report }.join
+      @sniffers.map { |sniffer| sniffer.quiet_report }.join
     end
 
     #
@@ -122,7 +109,7 @@ module Reek
     # only if one of them has a report string matching all of the +patterns+.
     #
     def has_smell?(smell_class, patterns)
-      @sniffers.any? { |smell| smell.has_smell?(smell_class, patterns) }
+      @sniffers.any? { |sniffer| sniffer.has_smell?(smell_class, patterns) }
     end
   end
 end

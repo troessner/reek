@@ -1,7 +1,4 @@
-require 'reek/code_parser'
-require 'reek/report'
 require 'reek/sniffer'
-require 'ruby_parser'
 
 module Reek
 
@@ -34,14 +31,6 @@ module Reek
 
     #
     # Factory method: creates a +Source+ object by reading Ruby code from
-    # File +file+. The source code is not parsed until +report+ is called.
-    #
-    def self.from_f(file)
-      from_path(file.path)
-    end
-
-    #
-    # Factory method: creates a +Source+ object by reading Ruby code from
     # the named file. The source code is not parsed until +report+ is called.
     #
     def self.from_path(filename)
@@ -53,7 +42,8 @@ module Reek
       return new(code, filename, sniffer)
     end
 
-    attr_reader :sniffer, :desc       # SMELL
+    attr_reader :desc
+    attr_reader :sniffer          # SMELL
 
     def initialize(code, desc, sniffer = Sniffer.new)     # :nodoc:
       @source = code
@@ -64,27 +54,6 @@ module Reek
 
     def generate_syntax_tree
       RubyParser.new.parse(@source, @desc) || s()
-    end
-
-    # SMELL: Greedy Module
-    # None of the following methods is a natural responsibility
-    # for a Source.
-
-    #
-    # Returns a +Report+ listing the smells found in this source. The first
-    # call to +report+ parses the source code and constructs a list of
-    # +SmellWarning+s found; subsequent calls simply return this same list.
-    #
-    def report
-      unless @report
-        CodeParser.new(@sniffer).process(generate_syntax_tree)
-        @report = Report.new(@sniffer)
-      end
-      @report
-    end
-
-    def quiet_report
-      report.quiet_report
     end
   end
 end

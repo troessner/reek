@@ -10,6 +10,8 @@ require 'reek/smells/nested_iterators'
 require 'reek/smells/uncommunicative_name'
 require 'reek/smells/utility_function'
 require 'reek/config_file'
+require 'reek/code_parser'
+require 'reek/report'
 require 'yaml'
 
 class Hash
@@ -41,6 +43,8 @@ end
 module Reek
   class Sniffer
 
+    # SMELL: Duplication
+    # This list should be calculated by looking in the source folder.
     SMELL_CLASSES = [
       Smells::ControlCouple,
       Smells::Duplication,
@@ -57,12 +61,9 @@ module Reek
     attr_accessor :source
 
     def initialize
-      defaults_file = File.join(File.dirname(__FILE__), '..', '..', 'config', 'defaults.reek')
-      @config = YAML.load_file(defaults_file)
       @typed_detectors = nil
       @detectors = Hash.new
       SMELL_CLASSES.each { |klass| @detectors[klass] = DetectorStack.new(klass.new) }
-      @listeners = []
     end
 
     #
@@ -95,19 +96,36 @@ module Reek
       listeners.each {|smell| smell.examine(scope) } if listeners
     end
 
+    #
+    # Returns a +Report+ listing the smells found in this source. The first
+    # call to +report+ parses the source code and constructs a list of
+    # +SmellWarning+s found; subsequent calls simply return this same list.
+    #
+    def report
+      unless @report
+        CodeParser.new(self).process(@source.generate_syntax_tree)
+        @report = Report.new(self)
+      end
+      @report
+    end
+
     def smelly?
-      @source.report.length > 0
+      report.length > 0
     end
 
     def quiet_report
-      @source.report.quiet_report
+      report.quiet_report
     end
 
     # SMELL: Shotgun Surgery
     # This and the above method will need to be replicated for every new
     # kind of report.
     def full_report
-      @source.report.full_report
+      report.full_report
+    end
+
+    def num_smells
+      report.length
     end
 
     def desc
@@ -121,11 +139,11 @@ module Reek
     # only if one of them has a report string matching all of the +patterns+.
     #
     def has_smell?(smell_class, patterns=[])
-      @source.report.has_smell?(smell_class, patterns)
+      report.has_smell?(smell_class, patterns)
     end
 
     def smells_only_of?(klass, patterns)
-      @source.report.length == 1 and has_smell?(klass, patterns)
+      report.length == 1 and has_smell?(klass, patterns)
     end
 
     def sniff
@@ -172,13 +190,11 @@ private
     end
 
     def smells_only_of?(klass, patterns)
-      sources = @sniffers.map {|sniffer| sniffer.source}
-      ReportList.new(sources, @sniffers).length == 1 and has_smell?(klass, patterns)
+      ReportList.new(@sniffers).length == 1 and has_smell?(klass, patterns)
     end
 
     def quiet_report
-      sources = @sniffers.map {|sniffer| sniffer.source}
-      ReportList.new(sources, @sniffers).quiet_report
+      ReportList.new(@sniffers).quiet_report
     end
 
 
@@ -186,8 +202,7 @@ private
     # This and the above method will need to be replicated for every new
     # kind of report.
     def full_report
-      sources = @sniffers.map {|sniffer| sniffer.source}
-      ReportList.new(sources, @sniffers).full_report
+      ReportList.new(@sniffers).full_report
     end
   end
 end

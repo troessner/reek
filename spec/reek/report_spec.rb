@@ -27,7 +27,7 @@ end
 
 describe Report, "smell_list" do
   before(:each) do
-    rpt = Source.from_s('def simple(a) a[3] end').report
+    rpt = 'def simple(a) a[3] end'.sniff.report
     @report = rpt.smell_list.split("\n")
   end
 
