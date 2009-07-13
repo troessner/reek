@@ -8,8 +8,8 @@ include Reek
 include Reek::Smells
 
 def process_method(src)
-  source = Source.from_s(src)
-  CodeParser.new(Sniffer.new).process_defn(source.generate_syntax_tree)
+  sniffer = src.sniff
+  CodeParser.new(sniffer).process_defn(sniffer.source.syntax_tree)
 end
 
 describe LongMethod do
@@ -26,7 +26,7 @@ describe LongMethod do
   end
 
   it 'should only report a long method once' do
-    source =<<EOS
+    src = <<EOS
 def standard_entries(rbconfig)
   @abc = rbconfig
   rubypath = File.join(@abc['bindir'], @abcf['ruby_install_name'] + cff['EXEEXT'])
@@ -44,7 +44,7 @@ def standard_entries(rbconfig)
   end
 end
 EOS
-    source.should reek_only_of(:LongMethod)
+    src.should reek_only_of(:LongMethod)
   end
 
   it 'should report long inner block' do

@@ -1,6 +1,7 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 require 'reek/code_parser'
 require 'reek/report'
+require 'reek/object_source'
 require 'reek/smells/large_class'
 
 include Reek

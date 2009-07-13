@@ -24,7 +24,7 @@ module Reek
       end
     end
 
-    def generate_syntax_tree
+    def syntax_tree
       if can_parse_objects?
         ObjectSource.unify(ParseTree.new.parse_tree(@source))
       else

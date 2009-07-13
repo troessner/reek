@@ -23,14 +23,6 @@ module Reek
 
     #
     # Factory method: creates a +Source+ object by reading Ruby code from
-    # the +code+ string. The code is not parsed until +report+ is called.
-    #
-    def self.from_s(code)
-      return new(code, 'string')
-    end
-
-    #
-    # Factory method: creates a +Source+ object by reading Ruby code from
     # the named file. The source code is not parsed until +report+ is called.
     #
     def self.from_path(filename)
@@ -43,7 +35,7 @@ module Reek
     end
 
     attr_reader :desc
-    attr_reader :sniffer          # SMELL
+    attr_reader :sniffer          # SMELL -- bidirectional link
 
     def initialize(code, desc, sniffer = Sniffer.new)     # :nodoc:
       @source = code
@@ -52,12 +44,8 @@ module Reek
       @sniffer.source = self
     end
 
-    def generate_syntax_tree
+    def syntax_tree
       RubyParser.new.parse(@source, @desc) || s()
     end
   end
 end
-
-# SMELL: Runaway Dependencies
-# Surely this should only be required from reek/spec ?
-require 'reek/object_source'

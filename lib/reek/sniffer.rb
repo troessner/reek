@@ -103,7 +103,7 @@ module Reek
     #
     def report
       unless @report
-        CodeParser.new(self).process(@source.generate_syntax_tree)
+        CodeParser.new(self).process(@source.syntax_tree)
         @report = Report.new(self)
       end
       @report
