@@ -7,7 +7,22 @@ class File
   # code and examines that code for smells.
   #
   def sniff
-    Reek::Source.from_path(self.path).sniffer
+    result = Reek::Sniffer.new
+    Reek::Source.from_path(self.path, result)
+    result
+  end
+end
+
+class IO
+  #
+  # Creates a new +Sniffer+ that assumes this IO stream contains Ruby source
+  # code and examines that code for smells.
+  #
+  def sniff(description = 'io')
+    code = self.readlines.join
+    result = Reek::Sniffer.new
+    Reek::Source.new(code, description, result)
+    result
   end
 end
 
@@ -17,7 +32,7 @@ class String
   # code and examines that code for smells.
   #
   def sniff
-    result = Sniffer.new
+    result = Reek::Sniffer.new
     Reek::Source.new(self, 'string', result)
     result
   end
@@ -29,7 +44,7 @@ class Array
   # of Ruby source files and examines those files for smells.
   #
   def sniff
-    sniffers = self.map {|path| Reek::Source.from_path(path).sniffer }
+    sniffers = self.map {|path| File.new(path).sniff }
     Reek::SnifferSet.new(sniffers, 'dir')
   end
 end

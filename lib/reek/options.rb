@@ -52,7 +52,7 @@ EOB
       if args.length > 0
         return args.sniff
       else
-        return Source.from_io($stdin, '$stdin').sniffer
+        return $stdin.sniff('$stdin')
       end
     end
 
