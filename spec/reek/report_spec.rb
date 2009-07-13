@@ -9,7 +9,7 @@ include Reek
 
 describe Report, " when empty" do
   before(:each) do
-    @rpt = Report.new
+    @rpt = Report.new(Sniffer.new)
   end
 
   it 'should have zero length' do
@@ -21,7 +21,7 @@ describe Report, " when empty" do
   end
 
   it 'has an empty quiet_report' do
-    @rpt.quiet_report('nothing').should == ''
+    @rpt.quiet_report.should == ''
   end
 end
 
@@ -40,7 +40,7 @@ end
 
 describe Report, " as a SortedSet" do
   it 'should only add a smell once' do
-    rpt = Report.new
+    rpt = Report.new(Sniffer.new)
     rpt << SmellWarning.new(Smells::FeatureEnvy.new, "self", 'too many!')
     rpt.length.should == 1
     rpt << SmellWarning.new(Smells::FeatureEnvy.new, "self", 'too many!')

@@ -99,15 +99,11 @@ module Reek
     # Creates a formatted report of all the +Smells::SmellWarning+ objects recorded in
     # this report, with a heading.
     def full_report
-      report.full_report(@desc)
+      report.full_report
     end
 
     def quiet_report
-      report.quiet_report(@desc)
-    end
-
-    def to_s
-      @desc
+      report.quiet_report
     end
   end
 end

@@ -1,0 +1,7 @@
+---
+Duplication:
+  enabled: false
+NestedIterators:
+  enabled: false
+UncommunicativeName:
+  enabled: false

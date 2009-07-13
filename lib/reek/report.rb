@@ -6,10 +6,11 @@ module Reek
   class Report
     include Enumerable
 
-    def initialize(sniffer = nil)  # :nodoc:
+    def initialize(sniffer)  # :nodoc:
       @masked_warnings = SortedSet.new
       @warnings = SortedSet.new
-      sniffer.report_on(self) if sniffer
+      @desc = sniffer.desc
+      sniffer.report_on(self)
     end
 
     #
@@ -52,18 +53,18 @@ module Reek
 
     # Creates a formatted report of all the +Smells::SmellWarning+ objects recorded in
     # this report, with a heading.
-    def full_report(desc)
-      return quiet_report(desc) if Options[:quiet]
-      result = header(desc, @warnings.length)
+    def full_report
+      return quiet_report if Options[:quiet]
+      result = header(@warnings.length)
       result += ":\n#{to_s}" if should_report
       result += "\n"
       result
     end
 
-    def quiet_report(desc)
-      return '' if @warnings.empty?
-      result = header(desc, @warnings.length)
-      result += ":\n#{to_s}" if should_report
+    def quiet_report
+      return '' unless should_report
+      result = header(@warnings.length)
+      result += ":\n#{to_s}"
       result += "\n"
       result
     end
@@ -72,8 +73,8 @@ module Reek
       @warnings.length > 0 or (Options[:show_all] and @masked_warnings.length > 0)
     end
 
-    def header(desc, num_smells)
-      result = "#{desc} -- #{num_smells} warning"
+    def header(num_smells)
+      result = "#{@desc} -- #{num_smells} warning"
       result += 's' unless num_smells == 1
       result += " (+#{@masked_warnings.length} masked)" unless @masked_warnings.empty?
       result

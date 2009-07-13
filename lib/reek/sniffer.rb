@@ -111,7 +111,9 @@ module Reek
     end
 
     def desc
-      @source.desc
+      # SMELL: Special Case
+      # Only used in the Report tests, because they don't always create a Source.
+      @source ? @source.desc : "unknown"
     end
 
     #

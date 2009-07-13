@@ -38,7 +38,7 @@ Feature: Correctly formatted reports
       """
 
   Scenario Outline: --quiet turns off headers for fragrant files
-    When I run reek --quiet spec/samples/three_clean_files/*.rb
+    When I run reek <option> spec/samples/three_clean_files/*.rb
     Then it succeeds
     And it reports:
       """
@@ -51,3 +51,30 @@ Feature: Correctly formatted reports
       | -q      |
       | --quiet |
 
+
+  Scenario Outline: -a turns on details in presence of -q
+    When I run reek <options> spec/samples/clean_due_to_masking/*.rb
+    Then it succeeds
+    And it reports:
+      """
+      spec/samples/clean_due_to_masking/dirty_one.rb -- 0 warnings (+6 masked):
+        (masked) Dirty has the variable name '@s' (Uncommunicative Name)
+        (masked) Dirty#a calls @s.title multiple times (Duplication)
+        (masked) Dirty#a calls puts(@s.title) multiple times (Duplication)
+        (masked) Dirty#a has the name 'a' (Uncommunicative Name)
+        (masked) Dirty#a/block has the variable name 'x' (Uncommunicative Name)
+        (masked) Dirty#a/block/block is nested (Nested Iterators)
+      spec/samples/clean_due_to_masking/dirty_two.rb -- 0 warnings (+6 masked):
+        (masked) Dirty has the variable name '@s' (Uncommunicative Name)
+        (masked) Dirty#a calls @s.title multiple times (Duplication)
+        (masked) Dirty#a calls puts(@s.title) multiple times (Duplication)
+        (masked) Dirty#a has the name 'a' (Uncommunicative Name)
+        (masked) Dirty#a/block has the variable name 'x' (Uncommunicative Name)
+        (masked) Dirty#a/block/block is nested (Nested Iterators)
+
+      """
+
+    Examples:
+      | options  |
+      | -q -a    |
+      | -a -q    |
