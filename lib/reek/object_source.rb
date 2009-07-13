@@ -1,10 +1,4 @@
 module Reek
-  class Source
-    def self.from_object(obj)
-      return ObjectSource.new(obj, obj.to_s)
-    end
-  end
-
   class ObjectSource < Source   # :nodoc:
 
     def self.unify(sexp)   # :nodoc:
@@ -15,7 +9,7 @@ module Reek
       return unifier.process(sexp[0])
     end
 
-    def initialize(code, desc)     # :nodoc:
+    def initialize(code, desc, sniffer)     # :nodoc:
       super
       @sniffer.disable(LargeClass)
     end
@@ -46,6 +40,8 @@ class Object
   # (This feature is only enabled if you have the ParseTree gem installed.)
   #
   def sniff
-    Reek::Source.from_object(self).sniffer
+    result = Sniffer.new
+    ObjectSource.new(self, self.to_s, result)
+    result
   end
 end
