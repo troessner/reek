@@ -25,10 +25,10 @@ describe Report, " when empty" do
   end
 end
 
-describe Report, "to_s" do
+describe Report, "smell_list" do
   before(:each) do
     rpt = Source.from_s('def simple(a) a[3] end').report
-    @report = rpt.to_s.split("\n")
+    @report = rpt.smell_list.split("\n")
   end
 
   it 'should mention every smell name' do

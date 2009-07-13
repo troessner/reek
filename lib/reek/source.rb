@@ -77,29 +77,10 @@ module Reek
     #
     def report
       unless @report
-        parser = CodeParser.new(@sniffer)
-        parser.process(generate_syntax_tree)
+        CodeParser.new(@sniffer).process(generate_syntax_tree)
         @report = Report.new(@sniffer)
       end
       @report
-    end
-
-    def smelly?
-      report.length > 0
-    end
-
-    #
-    # Checks this source for instances of +smell_class+, and returns +true+
-    # only if one of them has a report string matching all of the +patterns+.
-    #
-    def has_smell?(smell_class, patterns)
-      report.has_smell?(smell_class, patterns)
-    end
-
-    # Creates a formatted report of all the +Smells::SmellWarning+ objects recorded in
-    # this report, with a heading.
-    def full_report
-      report.full_report
     end
 
     def quiet_report

@@ -96,18 +96,18 @@ module Reek
     end
 
     def smelly?
-      @source.smelly?
+      @source.report.length > 0
     end
 
     def quiet_report
-      @source.quiet_report
+      @source.report.quiet_report
     end
 
     # SMELL: Shotgun Surgery
     # This and the above method will need to be replicated for every new
     # kind of report.
     def full_report
-      @source.full_report
+      @source.report.full_report
     end
 
     def desc
@@ -121,7 +121,7 @@ module Reek
     # only if one of them has a report string matching all of the +patterns+.
     #
     def has_smell?(smell_class, patterns=[])
-      @source.has_smell?(smell_class, patterns)
+      @source.report.has_smell?(smell_class, patterns)
     end
 
     def smells_only_of?(klass, patterns)
@@ -173,12 +173,12 @@ private
 
     def smells_only_of?(klass, patterns)
       sources = @sniffers.map {|sniffer| sniffer.source}
-      ReportList.new(sources).length == 1 and has_smell?(klass, patterns)
+      ReportList.new(sources, @sniffers).length == 1 and has_smell?(klass, patterns)
     end
 
     def quiet_report
       sources = @sniffers.map {|sniffer| sniffer.source}
-      ReportList.new(sources).quiet_report
+      ReportList.new(sources, @sniffers).quiet_report
     end
 
 
@@ -187,7 +187,7 @@ private
     # kind of report.
     def full_report
       sources = @sniffers.map {|sniffer| sniffer.source}
-      ReportList.new(sources).full_report
+      ReportList.new(sources, @sniffers).full_report
     end
   end
 end

@@ -56,17 +56,14 @@ module Reek
     def full_report
       return quiet_report if Options[:quiet]
       result = header(@warnings.length)
-      result += ":\n#{to_s}" if should_report
+      result += ":\n#{smell_list}" if should_report
       result += "\n"
       result
     end
 
     def quiet_report
       return '' unless should_report
-      result = header(@warnings.length)
-      result += ":\n#{to_s}"
-      result += "\n"
-      result
+      "#{header(@warnings.length)}:\n#{smell_list}\n"
     end
 
     def should_report
@@ -82,7 +79,7 @@ module Reek
 
     # Creates a formatted report of all the +Smells::SmellWarning+ objects recorded in
     # this report.
-    def to_s
+    def smell_list
       all = SortedSet.new(@warnings)
       all.merge(@masked_warnings) if Options[:show_all]
       all.map {|smell| "  #{smell.report}"}.join("\n")
@@ -92,8 +89,9 @@ module Reek
   class ReportList
     include Enumerable
 
-    def initialize(sources)
+    def initialize(sources, sniffers)
       @sources = sources
+      @sniffers = sniffers
     end
 
     #
@@ -112,11 +110,11 @@ module Reek
     end
 
     def full_report
-      @sources.map { |src| src.full_report }.join
+      @sniffers.map { |src| src.full_report }.join
     end
 
     def quiet_report
-      @sources.map { |src| src.quiet_report }.join
+      @sniffers.map { |src| src.quiet_report }.join
     end
 
     #
@@ -124,7 +122,7 @@ module Reek
     # only if one of them has a report string matching all of the +patterns+.
     #
     def has_smell?(smell_class, patterns)
-      @sources.any? { |smell| smell.has_smell?(smell_class, patterns) }
+      @sniffers.any? { |smell| smell.has_smell?(smell_class, patterns) }
     end
   end
 end
