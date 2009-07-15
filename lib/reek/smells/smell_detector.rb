@@ -46,7 +46,7 @@ module Reek
 
       def initialize(config = SmellDetector.default_config)
         @config = config
-        @smells_found = []
+        @smells_found = SortedSet.new
         @masked = false
       end
 
@@ -99,6 +99,12 @@ module Reek
         smell
       end
 
+    def has_smell?(patterns)
+      return false if @masked
+      @smells_found.each { |warning| return true if warning.contains_all?(patterns) }
+      false
+    end
+
       def report_on(report)
         @smells_found.each do |smell|
           if @masked
@@ -107,6 +113,14 @@ module Reek
             report << smell
           end
         end
+      end
+
+      def num_smells
+        @masked ? 0 : @smells_found.length
+      end
+
+      def smelly?
+        (not @masked) and (@smells_found.length > 0)
       end
 
       def smell_name

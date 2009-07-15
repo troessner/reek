@@ -13,7 +13,8 @@ module Reek
 
     def configure(sniffer)
       super
-      sniffer.disable(LargeClass)
+      disabled_config = {Reek::Smells::SmellDetector::ENABLED_KEY => false}
+      sniffer.configure(LargeClass, disabled_config)
     end
 
     def can_parse_objects?

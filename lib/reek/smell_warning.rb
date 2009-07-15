@@ -31,6 +31,10 @@ module Reek
     #
     def matches?(smell_class, patterns)
       return false unless smell_class.to_s == @detector.class.class_name
+      contains_all?(patterns)
+    end
+
+    def contains_all?(patterns)
       rpt = report
       return patterns.all? {|exp| exp === rpt}
     end

@@ -47,7 +47,7 @@ module Reek
         @sniffer.smelly?
       end
       def failure_message_for_should
-        "Expected source to reek, but it didn't"
+        "Expected #{@sniffer.desc} to reek, but it didn't"
       end
       def failure_message_for_should_not
         "Expected no smells, but got:\n#{@sniffer.quiet_report}"

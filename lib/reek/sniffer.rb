@@ -59,6 +59,7 @@ module Reek
     ]
 
     def initialize(src)
+      @already_checked_for_smells = false
       @typed_detectors = nil
       @detectors = Hash.new
       SMELL_CLASSES.each { |klass| @detectors[klass] = DetectorStack.new(klass.new) }
@@ -66,28 +67,18 @@ module Reek
       src.configure(self)
     end
 
-    #
-    # Configures this sniffer using any *.reek config files found
-    # on the path to the named file. Config files are applied in order,
-    # "root-first", so that config files closer to the named file override
-    # those further up the path.
-    #
-    def configure_along_path(filename)
-      path = File.expand_path(File.dirname(filename))
-      all_reekfiles(path).each { |config_file| ConfigFile.new(config_file).configure(self) }
-      self
+    def check_for_smells
+      return if @already_checked_for_smells
+      CodeParser.new(self).process(@source.syntax_tree)
+      @already_checked_for_smells = true
     end
 
     def configure(klass, config)
       @detectors[klass].push(config)
     end
 
-    def disable(klass)
-      disabled_config = {Reek::Smells::SmellDetector::ENABLED_KEY => false}
-      @detectors[klass].push(disabled_config)
-    end
-
     def report_on(report)
+      check_for_smells
       @detectors.each_value { |stack| stack.report_on(report) }
     end
 
@@ -96,36 +87,39 @@ module Reek
       listeners.each {|smell| smell.examine(scope) } if listeners
     end
 
+    def smelly?
+      check_for_smells
+      @detectors.each_value { |stack| return true if stack.smelly? }
+      false
+    end
+
     #
     # Returns a +Report+ listing the smells found in this source. The first
     # call to +report+ parses the source code and constructs a list of
     # +SmellWarning+s found; subsequent calls simply return this same list.
     #
-    def report
-      unless @report
-        CodeParser.new(self).process(@source.syntax_tree)
-        @report = Report.new(self)
-      end
-      @report
-    end
-
-    def smelly?
-      report.length > 0
-    end
-
     def quiet_report
-      report.quiet_report
+      Report.new(self).quiet_report
     end
 
     # SMELL: Shotgun Surgery
     # This and the above method will need to be replicated for every new
     # kind of report.
+
+    #
+    # Returns a +Report+ listing the smells found in this source. The first
+    # call to +report+ parses the source code and constructs a list of
+    # +SmellWarning+s found; subsequent calls simply return this same list.
+    #
     def full_report
-      report.full_report
+      Report.new(self).full_report
     end
 
     def num_smells
-      report.length
+      check_for_smells
+      total = 0
+      @detectors.each_value { |stack| total += stack.num_smells }
+      total
     end
 
     def desc
@@ -139,11 +133,13 @@ module Reek
     # only if one of them has a report string matching all of the +patterns+.
     #
     def has_smell?(smell_class, patterns=[])
-      report.has_smell?(smell_class, patterns)
+      check_for_smells
+      stack = @detectors[Reek::Smells.const_get(smell_class)]      # SMELL: Duplication of code in ConfigFile
+      stack.has_smell?(patterns)
     end
 
     def smells_only_of?(klass, patterns)
-      report.length == 1 and has_smell?(klass, patterns)
+      num_smells == 1 and has_smell?(klass, patterns)
     end
 
     def sniff
@@ -158,13 +154,6 @@ private
         @detectors.each_value { |stack| stack.listen_to(@typed_detectors) }
       end
       @typed_detectors
-    end
-
-    def all_reekfiles(path)
-      return [] unless File.exist?(path)
-      parent = File.dirname(path)
-      return [] if path == parent
-      all_reekfiles(parent) + Dir["#{path}/*.reek"]
     end
   end
 
@@ -189,8 +178,14 @@ private
       @sniffers.any? {|sniffer| sniffer.has_smell?(smell_class, patterns)}
     end
 
+    def num_smells
+      total = 0
+      @sniffers.each {|sniffer| total += sniffer.num_smells}
+      total
+    end
+
     def smells_only_of?(klass, patterns)
-      ReportList.new(@sniffers).length == 1 and has_smell?(klass, patterns)
+      num_smells == 1 and has_smell?(klass, patterns)
     end
 
     def quiet_report
