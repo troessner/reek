@@ -82,6 +82,10 @@ module Reek
       @element.record_depends_on_self if /^@/ === exp[1].to_s
     end
 
+    def process_zsuper(exp)
+      @element.record_depends_on_self
+    end
+
     def process_lit(exp)
       val = exp[1]
       @element.record_depends_on_self if val == :self

@@ -6,7 +6,7 @@
 ** Output now reports on all files examined, even if they have no smells
 ** Smell warnings are indented in the report; file summary headers are not
 ** Reports for multiple sources are run together; no more blank lines
-** Reports in spec matcher failures are quiet
+** Reports in spec matcher failures are quiet (fixed #38)
 * The smells masked by *.reek config files can now be seen:
 ** The header for each source file now counts masked smells
 ** The --show-all (-a) option shows masked warnings in the report
@@ -18,6 +18,7 @@
 ** LongMethod no longer counts control structures, only their contained stmts
 ** See http://wiki.github.com/kevinrutherford/reek/long-method for details
 * LargeClass is disabled when checking in-memory classes (fixed #28)
+* UtilityFunction no longer reports methods that call 'super' (fixed #39)
 * Now reports an error for corrupt config files
 * Empty config files are ignored
 

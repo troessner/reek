@@ -39,6 +39,10 @@ describe UtilityFunction do
     end
     Son.should_not reek
   end
+
+  it 'does not report a method that calls super' do
+    'def child(arg) super; arg.to_s; end'.should_not reek_of(:UtilityFunction, /child/)
+  end
   
   it 'should recognise a deep call' do
     src = <<EOS
