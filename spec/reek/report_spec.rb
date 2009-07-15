@@ -46,4 +46,11 @@ describe Report, " as a SortedSet" do
     rpt << SmellWarning.new(Smells::FeatureEnvy.new, "self", 'too many!')
     rpt.length.should == 1
   end
+
+  it 'should not count an identical masked smell' do
+    rpt = Report.new(Sniffer.new)
+    rpt << SmellWarning.new(Smells::FeatureEnvy.new, "self", 'too many!')
+    rpt.record_masked_smell(SmellWarning.new(Smells::FeatureEnvy.new, "self", 'too many!'))
+    rpt.header.should == 'unknown -- 1 warning'
+  end
 end

@@ -67,3 +67,17 @@ Feature: Masking smells using config files
         Dirty#a/block/block is nested (Nested Iterators)
 
       """
+
+  Scenario: non-masked smells are only counted once
+    When I run reek spec/samples/not_quite_masked/dirty.rb
+    Then it fails with exit status 2
+    And it reports:
+      """
+      spec/samples/not_quite_masked/dirty.rb -- 5 warnings (+1 masked):
+        Dirty has the variable name '@s' (Uncommunicative Name)
+        Dirty#a calls @s.title multiple times (Duplication)
+        Dirty#a calls puts(@s.title) multiple times (Duplication)
+        Dirty#a has the name 'a' (Uncommunicative Name)
+        Dirty#a/block/block is nested (Nested Iterators)
+
+      """

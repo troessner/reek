@@ -20,7 +20,7 @@ module Reek
     class UncommunicativeName < SmellDetector
 
       # The name of the config field that lists the regexps of
-      # smelly names to be rejected.
+      # smelly names to be reported.
       REJECT_KEY = 'reject'
       
       # The name of the config field that lists the specific names that are
