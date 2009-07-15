@@ -16,8 +16,9 @@ module Reek
     end
 
     def ClassContext.from_s(src)
-      sniffer = src.sniff
-      CodeParser.new(sniffer).process_class(sniffer.source.syntax_tree)
+      source = src.to_reek_source
+      sniffer = Sniffer.new(source)
+      CodeParser.new(sniffer).process_class(source.syntax_tree)
     end
 
     def initialize(outer, name, superclass = nil)

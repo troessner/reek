@@ -8,7 +8,6 @@ module Reek
   class Source
 
     attr_reader :desc
-    attr_reader :sniffer          # SMELL -- bidirectional link
 
     def initialize(code, desc)
       @source = code
@@ -27,9 +26,6 @@ module Reek
   # for code smells.
   #
   class SourceFile < Source
-
-    attr_reader :desc
-    attr_reader :sniffer          # SMELL -- bidirectional link
 
     def initialize(file)
       @file = file

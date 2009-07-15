@@ -8,9 +8,7 @@ class Object
   # to obtain the +Source+ object wrapper.
   #
   def sniff
-    result = Reek::Sniffer.new
-    result.source = self.to_reek_source
-    result
+    Reek::Sniffer.new(self.to_reek_source)
   end
 end
 

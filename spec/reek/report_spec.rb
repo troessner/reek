@@ -9,7 +9,7 @@ include Reek
 
 describe Report, " when empty" do
   before(:each) do
-    @rpt = Report.new(Sniffer.new)
+    @rpt = Report.new(''.sniff)
   end
 
   it 'should have zero length' do
@@ -40,7 +40,7 @@ end
 
 describe Report, " as a SortedSet" do
   it 'should only add a smell once' do
-    rpt = Report.new(Sniffer.new)
+    rpt = Report.new(''.sniff)
     rpt << SmellWarning.new(Smells::FeatureEnvy.new, "self", 'too many!')
     rpt.length.should == 1
     rpt << SmellWarning.new(Smells::FeatureEnvy.new, "self", 'too many!')
@@ -48,9 +48,9 @@ describe Report, " as a SortedSet" do
   end
 
   it 'should not count an identical masked smell' do
-    rpt = Report.new(Sniffer.new)
+    rpt = Report.new(''.sniff)
     rpt << SmellWarning.new(Smells::FeatureEnvy.new, "self", 'too many!')
     rpt.record_masked_smell(SmellWarning.new(Smells::FeatureEnvy.new, "self", 'too many!'))
-    rpt.header.should == 'unknown -- 1 warning'
+    rpt.header.should == 'string -- 1 warning'
   end
 end

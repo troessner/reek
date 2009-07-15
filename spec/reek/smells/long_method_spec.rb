@@ -8,8 +8,9 @@ include Reek
 include Reek::Smells
 
 def process_method(src)
-  sniffer = src.sniff
-  CodeParser.new(sniffer).process_defn(sniffer.source.syntax_tree)
+  source = src.to_reek_source
+  sniffer = Sniffer.new(source)
+  CodeParser.new(sniffer).process_defn(source.syntax_tree)
 end
 
 describe LongMethod do
