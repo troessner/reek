@@ -1,40 +1,46 @@
-require 'reek/source'         # SMELL: should refer to Sniffer
+require 'reek/source'
 require 'reek/sniffer'
 
-class File
+class Object
   #
-  # Creates a new +Sniffer+ that assumes this File contains Ruby source
-  # code and examines that code for smells.
+  # Creates a new +Sniffer+ that assumes this object contains Ruby source
+  # code and examines that code for smells. Calls +to_reek_source+ on self
+  # to obtain the +Source+ object wrapper.
   #
   def sniff
     result = Reek::Sniffer.new
-    Reek::Source.from_path(self.path, result)
+    result.source = self.to_reek_source
     result
+  end
+end
+
+class File
+  #
+  # Creates a new +Source+ that assumes this File contains Ruby source
+  # code and prepares it to be examined for code smells.
+  #
+  def to_reek_source
+    Reek::SourceFile.new(self)
   end
 end
 
 class IO
   #
-  # Creates a new +Sniffer+ that assumes this IO stream contains Ruby source
-  # code and examines that code for smells.
+  # Creates a new +Source+ that assumes this IO stream contains Ruby source
+  # code and prepares it to be examined for code smells.
   #
-  def sniff(description = 'io')
-    code = self.readlines.join
-    result = Reek::Sniffer.new
-    Reek::Source.new(code, description, result)
-    result
+  def to_reek_source(description = 'io')
+    Reek::Source.new(self.readlines.join, description)
   end
 end
 
 class String
   #
-  # Creates a new +Sniffer+ that assumes this String contains Ruby source
-  # code and examines that code for smells.
+  # Creates a new +Source+ that assumes this string contains Ruby source
+  # code and prepares it to be examined for code smells.
   #
-  def sniff
-    result = Reek::Sniffer.new
-    Reek::Source.new(self, 'string', result)
-    result
+  def to_reek_source
+    Reek::Source.new(self, 'string')
   end
 end
 

@@ -7,34 +7,37 @@ module Reek
   #
   class Source
 
-    #
-    # Factory method: creates a +Source+ object by reading Ruby code from
-    # the named file. The source code is not parsed until +report+ is called.
-    #
-    def self.from_path(filename, sniffer)
-      code = IO.readlines(filename).join
-      # SMELL: Greedy Method
-      # The Sniffer should ask this source to configure it.
-      sniffer.configure_along_path(filename)
-      return new(code, filename, sniffer)
+    attr_reader :desc
+    attr_reader :sniffer          # SMELL -- bidirectional link
+
+    def initialize(code, desc)
+      @source = code
+      @desc = desc
     end
+
+    def configure(sniffer) end
+
+    def syntax_tree
+      RubyParser.new.parse(@source, @desc) || s()
+    end
+  end
+
+  #
+  # Represents a file of Ruby source, whose contents will be examined
+  # for code smells.
+  #
+  class SourceFile < Source
 
     attr_reader :desc
     attr_reader :sniffer          # SMELL -- bidirectional link
 
-    def initialize(code, desc, sniffer)     # :nodoc:
-      @source = code
-      @desc = desc
-      @sniffer = sniffer
-      @sniffer.source = self
+    def initialize(file)
+      @file = file
+      super(@file.lines.to_a.join, @file.path)
     end
 
     def configure(sniffer)
-      
-    end
-
-    def syntax_tree
-      RubyParser.new.parse(@source, @desc) || s()
+      sniffer.configure_along_path(@file.path)
     end
   end
 end

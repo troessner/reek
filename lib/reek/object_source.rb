@@ -11,10 +11,6 @@ module Reek
       return unifier.process(sexp[0])
     end
 
-    def initialize(code, desc, sniffer)     # :nodoc:
-      super
-    end
-
     def configure(sniffer)
       super
       sniffer.disable(LargeClass)
@@ -45,9 +41,7 @@ class Object
   # Constructs a Sniffer which examines this object for code smells.
   # (This feature is only enabled if you have the ParseTree gem installed.)
   #
-  def sniff
-    result = Sniffer.new
-    ObjectSource.new(self, self.to_s, result)
-    result
+  def to_reek_source
+    ObjectSource.new(self, self.to_s)
   end
 end

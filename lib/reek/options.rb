@@ -52,7 +52,9 @@ EOB
       if args.length > 0
         return args.sniff
       else
-        return $stdin.sniff('$stdin')
+        result = Reek::Sniffer.new
+        result.source = $stdin.to_reek_source('$stdin')   # SMELL: Duplication
+        return result
       end
     end
 
