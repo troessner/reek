@@ -29,6 +29,10 @@ module Reek
       @sniffer.source = self
     end
 
+    def configure(sniffer)
+      
+    end
+
     def syntax_tree
       RubyParser.new.parse(@source, @desc) || s()
     end

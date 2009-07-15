@@ -58,12 +58,17 @@ module Reek
       Smells::UtilityFunction,
     ]
 
-    attr_accessor :source
+    attr_reader :source
 
     def initialize
       @typed_detectors = nil
       @detectors = Hash.new
       SMELL_CLASSES.each { |klass| @detectors[klass] = DetectorStack.new(klass.new) }
+    end
+
+    def source=(src)
+      @source = src
+      src.configure(self)
     end
 
     #

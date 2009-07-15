@@ -1,3 +1,5 @@
+require 'reek/source'
+
 module Reek
   class ObjectSource < Source   # :nodoc:
 
@@ -11,7 +13,11 @@ module Reek
 
     def initialize(code, desc, sniffer)     # :nodoc:
       super
-      @sniffer.disable(LargeClass)
+    end
+
+    def configure(sniffer)
+      super
+      sniffer.disable(LargeClass)
     end
 
     def can_parse_objects?
