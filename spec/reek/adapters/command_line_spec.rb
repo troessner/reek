@@ -1,6 +1,6 @@
-require File.dirname(__FILE__) + '/../spec_helper.rb'
+require File.dirname(__FILE__) + '/../../spec_helper.rb'
  
-require 'reek/options'
+require 'reek/adapters/command_line'
 
 include Reek
 

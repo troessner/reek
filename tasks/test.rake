@@ -5,24 +5,24 @@ require 'spec'
 require 'spec/rake/spectask'
 
 namespace 'test' do
-  FAST = FileList['spec/reek/**/*_spec.rb']
-  SLOW = FileList['spec/slow/**/*_spec.rb']
+  UNIT_TESTS = FileList['spec/reek/**/*_spec.rb']
+  QUALITY_TESTS = FileList['spec/quality/**/*_spec.rb']
 
   Spec::Rake::SpecTask.new('spec') do |t|
-    t.spec_files = FAST
+    t.spec_files = UNIT_TESTS
     t.ruby_opts = ['-Ilib']
     t.rcov = false
   end
 
-  Spec::Rake::SpecTask.new('slow') do |t|
-    t.spec_files = SLOW
+  Spec::Rake::SpecTask.new('quality') do |t|
+    t.spec_files = QUALITY_TESTS
     t.ruby_opts = ['-Ilib']
     t.rcov = false
   end
 
   desc 'Runs all unit tests under RCov'
   Spec::Rake::SpecTask.new('rcov') do |t|
-    t.spec_files = FAST + SLOW
+    t.spec_files = UNIT_TESTS + QUALITY_TESTS
     t.rcov = true
     t.rcov_dir = 'build/coverage'
   end
@@ -32,7 +32,7 @@ namespace 'test' do
   end
 
   desc 'Runs all unit tests and acceptance tests'
-  task 'all' => ['test:spec', 'test:slow', 'test:features']
+  task 'all' => ['test:spec', 'test:features', 'test:quality']
 end
 
 task 'clobber_rcov' => 'test:clobber_rcov'

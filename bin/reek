@@ -6,21 +6,6 @@
 # Author: Kevin Rutherford
 #
 
-require 'reek/options'
+require 'reek/adapters/application'
 
-def reek(args)
-  begin
-    sniffer = Reek::Options.parse(args)
-    # SMELL:
-    # This should use the actual type of report selected by the user's options
-    puts sniffer.full_report
-    return sniffer.smelly? ? 2 : 0
-  rescue SystemExit => ex
-    return ex.status
-  rescue Exception => error
-    $stderr.puts "Error: #{error}"
-    return 1
-  end
-end
-
-exit reek(ARGV)
+exit Reek::Application.new(ARGV).execute
