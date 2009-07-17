@@ -33,6 +33,7 @@ module Reek
     end
 
     def smelly?
+      # SMELL: Duplication: look at al those loops!
       @detectors.each { |det| return true if det.smelly? }
       false
     end

@@ -11,7 +11,7 @@ module Reek
       case slice(0)
       when :masgn
         @names = arg[1..-1].map {|lasgn| Name.new(lasgn[1]) }
-      when :lasgn
+      when :lasgn, :iasgn
         @names = [Name.new(arg)]
       end
     end

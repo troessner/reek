@@ -37,4 +37,10 @@ describe BlockContext do
     bctx.record_local_variable(:q2)
     bctx.variable_names.should include(Name.new(:q2))
   end
+
+  it 'copes with a yield to an ivar' do
+    scope = BlockContext.new(StopContext.new, [s(:iasgn, :@list), s(:self)])
+    scope.record_instance_variable(:@list)
+    scope.variable_names.should == [:@list]
+  end
 end

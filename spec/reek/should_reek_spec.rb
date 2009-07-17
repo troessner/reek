@@ -69,9 +69,11 @@ end
 
 describe ShouldReek, 'report formatting' do
   before :each do
-    @smelly_dir = Dir['spec/samples/mixed_results/*.rb']
+    sn_clean = 'def clean() @thing = 4; end'.sniff
+    sn_dirty = 'def dirty() thing.cool + thing.cool; end'.sniff
+    sniffers = SnifferSet.new([sn_clean, sn_dirty], '')
     @matcher = ShouldReek.new
-    @matcher.matches?(@smelly_dir)
+    @matcher.matches?(sniffers)
     @lines = @matcher.failure_message_for_should_not.split("\n").map {|str| str.chomp}
     @error_message = @lines.shift
     @smells = @lines.grep(/^  /)
@@ -79,11 +81,10 @@ describe ShouldReek, 'report formatting' do
   end
 
   it 'mentions every smell in the report' do
-    @smells.should have(12).warnings
+    @smells.should have(2).warnings
   end
 
   it 'doesnt mention the clean files' do
-    @headers.should have(2).headers
-    @headers.should_not include('clean')
+    @headers.should have(1).headers
   end
 end

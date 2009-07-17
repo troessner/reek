@@ -71,11 +71,7 @@ module Reek
       end
     end
 
-    class ShouldReekOnlyOf        # :nodoc:
-      def initialize(klass, patterns)
-        @klass = klass
-        @patterns = patterns
-      end
+    class ShouldReekOnlyOf < ShouldReekOf        # :nodoc:
       def matches?(actual)
         @sniffer = actual.sniff
         @sniffer.smells_only_of?(@klass, @patterns)

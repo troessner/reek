@@ -192,6 +192,10 @@ private
       ReportList.new(@sniffers).quiet_report
     end
 
+    def sniff
+      self
+    end
+
 
     # SMELL: Shotgun Surgery
     # This and the above method will need to be replicated for every new
