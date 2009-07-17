@@ -1,10 +1,12 @@
 require 'optparse'
 require 'reek'
-require 'reek/source'
-require 'reek/core_extras'       # SMELL
 
 module Reek
     
+  # SMELL: Greedy Module
+  # This creates the command-line parser AND invokes it. And for the
+  # -v and -h options it also executes them. And it holds the config
+  # options for the rest of the application.
   class Options
 
     CTX_SORT = '%m%c %w (%s)'
@@ -17,86 +19,57 @@ module Reek
         :quiet => false
       }
     end
-    
+
+    # SMELL: Global Variable
     @@opts = default_options
 
     def self.[](key)
       @@opts[key]
     end
 
-    def self.parse_args(args)
-      result = default_options
-      parser = OptionParser.new { |opts| set_options(opts, result) }
-      parser.parse!(args)
-      result
+    def initialize(argv)
+      @argv = argv
+      @parser = OptionParser.new
+      set_options
     end
 
-    def self.set_options(opts, config)
-      opts.banner = <<EOB
-Usage: #{opts.program_name} [options] files...
+    def parse
+      @parser.parse!(@argv)
+      @argv
+    end
+
+    def set_options
+      @parser.banner = <<EOB
+Usage: #{@parser.program_name} [options] files...
 
 If no files are given, Reek reads source code from standard input.
 See http://wiki.github.com/kevinrutherford/reek for detailed help.
 EOB
       
-      opts.separator "\nOptions:"
-      set_all_options(opts, config)
-    end
+      @parser.separator "\nOptions:"
 
-    # SMELL: Greedy Module
-    # This creates the command-line parser AND invokes it. And for the
-    # -v and -h options it also executes them. And it holds the config
-    # options for the rest of the application.
-    def self.parse(args)
-      @@opts = parse_args(args)
-      if args.length > 0
-        return args.sniff
-      else
-        return Reek::Sniffer.new($stdin.to_reek_source('$stdin'))
+      @parser.on("-a", "--[no-]show-all", "Show all smells, including those masked by config settings") do |opt|
+        @@opts[:show_all] = opt
       end
-    end
-
-  private
-
-    def self.set_all_options(opts, config)
-      set_show_all_option(opts, config)
-      set_help_option(opts)
-      set_sort_option(config, opts)
-      set_version_option(opts)
-    end
-    
-    def self.set_version_option(opts)
-      opts.on("-v", "--version", "Show version") do
-        puts "#{opts.program_name} #{Reek::VERSION}"
+      @parser.on("-q", "--quiet", "Suppress headings for smell-free source files") do
+        @@opts[:quiet] = true
+      end
+      @parser.on("-h", "--help", "Show this message") do
+        puts @parser
         exit(0)
       end
-    end
-
-    def self.set_show_all_option(opts, config)
-      opts.on("-a", "--[no-]show-all", "Show all smells, including those masked by config settings") do |opt|
-        config[:show_all] = opt
+      @parser.on('-f', "--format FORMAT", 'Specify the format of smell warnings') do |arg|
+        @@opts[:format] = arg unless arg.nil?
       end
-      opts.on("-q", "--quiet", "Suppress headings for smell-free source files") do
-        config[:quiet] = true
+      @parser.on('-c', '--context-first', "Sort by context; sets the format string to \"#{CTX_SORT}\"") do
+        @@opts[:format] = CTX_SORT
       end
-    end
-
-    def self.set_help_option(opts)
-      opts.on("-h", "--help", "Show this message") do
-        puts opts
+      @parser.on('-s', '--smell-first', "Sort by smell; sets the format string to \"#{SMELL_SORT}\"") do
+        @@opts[:format] = SMELL_SORT
+      end
+      @parser.on("-v", "--version", "Show version") do
+        puts "#{@parser.program_name} #{Reek::VERSION}"
         exit(0)
-      end
-    end
-
-    def self.set_sort_option(config, opts)
-      opts.on('-f', "--format FORMAT", 'Specify the format of smell warnings') do |arg|
-        config[:format] = arg unless arg.nil?
-      end
-      opts.on('-c', '--context-first', "Sort by context; sets the format string to \"#{CTX_SORT}\"") do
-        config[:format] = CTX_SORT
-      end
-      opts.on('-s', '--smell-first', "Sort by smell; sets the format string to \"#{SMELL_SORT}\"") do
-        config[:format] = SMELL_SORT
       end
     end
   end

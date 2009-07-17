@@ -1,4 +1,6 @@
 require 'reek/adapters/command_line'
+require 'reek/source'
+require 'reek/core_extras'       # SMELL
 
 module Reek
   #
@@ -15,7 +17,12 @@ module Reek
       begin
         # SMELL: Greedy Method
         # Options.parse executes the -v and -h commands and throws a SystemExit
-        @sniffer = Reek::Options.parse(@argv)
+        args = Options.new(@argv).parse
+        if args.length > 0
+          @sniffer = args.sniff
+        else
+          @sniffer = Reek::Sniffer.new($stdin.to_reek_source('$stdin'))
+        end
         # SMELL:
         # This should use the actual type of report selected by the user's options
         puts @sniffer.full_report
