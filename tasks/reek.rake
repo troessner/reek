@@ -1,10 +1,10 @@
 begin
-  require 'reek/rake_task'
+  require 'reek/adapters/rake_task'
 
   Reek::RakeTask.new do |t|
     t.fail_on_error = true
     t.verbose = false
-  #  t.reek_opts = '-f "Smell: %s: %c %w"'
+    t.reek_opts = '--quiet --show-all'
   end
 rescue Gem::LoadError
 end

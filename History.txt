@@ -10,6 +10,7 @@
 * The smells masked by *.reek config files can now be seen:
 ** The header for each source file now counts masked smells
 ** The --show-all (-a) option shows masked warnings in the report
+* The spec matchers are now accessed by requiring 'reek/adapters/spec'
 
 === Minor Changes
 * Reek's RDoc is now hosted at http://rdoc.info/projects/kevinrutherford/reek

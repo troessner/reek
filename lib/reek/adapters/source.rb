@@ -1,4 +1,4 @@
-require 'reek/sniffer'
+require 'reek/adapters/config_file'
 
 module Reek
 

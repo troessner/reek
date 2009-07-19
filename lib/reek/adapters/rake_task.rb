@@ -59,7 +59,7 @@ module Reek
     # Defines a new task, using the name +name+.
     def initialize(name = :reek)
       @name = name
-      @libs = [File.expand_path(File.dirname(__FILE__) + '/../../lib')]
+      @libs = [File.expand_path(File.dirname(__FILE__) + '/../../../lib')]
       @source_files = nil
       @ruby_opts = []
       @reek_opts = ''
@@ -87,7 +87,7 @@ private
     end
 
     def self.reek_script
-      File.expand_path(File.dirname(__FILE__) + '/../../bin/reek')
+      File.expand_path(File.dirname(__FILE__) + '/../../../bin/reek')
     end
 
     def self.ruby_exe
