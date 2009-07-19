@@ -1,6 +1,6 @@
-require File.dirname(__FILE__) + '/../spec_helper.rb'
+require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
-require 'reek/spec'
+require 'reek/adapters/spec'
 
 include Reek::Spec
 

@@ -8,6 +8,6 @@ rescue LoadError
   require 'spec/expectations'
 end
 
-require 'reek/spec'
+require 'reek/adapters/spec'
 
 SAMPLES_DIR = 'spec/samples' unless Object.const_defined?('SAMPLES_DIR')

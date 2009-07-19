@@ -1,5 +1,5 @@
 require 'reek/sniffer'
-require 'reek/core_extras'
+require 'reek/adapters/core_extras'
 
 module Reek
 

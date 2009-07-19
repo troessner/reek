@@ -1,6 +1,6 @@
 require 'reek/adapters/command_line'
-require 'reek/source'
-require 'reek/core_extras'       # SMELL
+require 'reek/adapters/source'
+require 'reek/adapters/core_extras'
 
 module Reek
   #

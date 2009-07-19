@@ -1,14 +1,14 @@
-require File.dirname(__FILE__) + '/../spec_helper.rb'
+require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
-require 'reek/spec'
+require 'reek/adapters/spec'
 
 include Reek::Spec
 
-describe ShouldReek, 'checking code in a string' do
+describe ShouldReekOnlyOf, 'checking code in a string' do
   before :each do
     @clean_code = 'def good() true; end'
-    @smelly_code = 'def x() y = 4; end'
-    @matcher = ShouldReek.new
+    @smelly_code = 'def fine() y = 4; end'
+    @matcher = ShouldReekOnlyOf.new(:UncommunicativeName, [/y/])
   end
 
   it 'matches a smelly String' do
@@ -21,15 +21,15 @@ describe ShouldReek, 'checking code in a string' do
 
   it 'reports the smells when should_not fails' do
     @matcher.matches?(@smelly_code).should be_true
-    @matcher.failure_message_for_should_not.should include(@smelly_code.sniff.quiet_report)
+    @matcher.failure_message_for_should_not.should include('UncommunicativeName')
   end
 end
 
-describe ShouldReek, 'checking code in a Dir' do
+describe ShouldReekOnlyOf, 'checking code in a Dir' do
   before :each do
     @clean_dir = Dir['spec/samples/three_clean_files/*.rb']
-    @smelly_dir = Dir['spec/samples/two_smelly_files/*.rb']
-    @matcher = ShouldReek.new
+    @smelly_dir = Dir['spec/samples/all_but_one_masked/*.rb']
+    @matcher = ShouldReekOnlyOf.new(:NestedIterators, [/Dirty\#a/])
   end
 
   it 'matches a smelly String' do
@@ -42,15 +42,15 @@ describe ShouldReek, 'checking code in a Dir' do
 
   it 'reports the smells when should_not fails' do
     @matcher.matches?(@smelly_dir).should be_true
-    @matcher.failure_message_for_should_not.should include(@smelly_dir.sniff.quiet_report)
+    @matcher.failure_message_for_should.should include(@smelly_dir.sniff.quiet_report)
   end
 end
 
-describe ShouldReek, 'checking code in a File' do
+describe ShouldReekOnlyOf, 'checking code in a File' do
   before :each do
     @clean_file = File.new(Dir['spec/samples/three_clean_files/*.rb'][0])
-    @smelly_file = File.new(Dir['spec/samples/two_smelly_files/*.rb'][0])
-    @matcher = ShouldReek.new
+    @smelly_file = File.new(Dir['spec/samples/all_but_one_masked/d*.rb'][0])
+    @matcher = ShouldReekOnlyOf.new(:NestedIterators, [/Dirty\#a/])
   end
 
   it 'matches a smelly String' do
@@ -63,28 +63,23 @@ describe ShouldReek, 'checking code in a File' do
 
   it 'reports the smells when should_not fails' do
     @matcher.matches?(@smelly_file).should be_true
-    @matcher.failure_message_for_should_not.should include(@smelly_file.sniff.quiet_report)
+    @matcher.failure_message_for_should.should include(@smelly_file.sniff.quiet_report)
   end
 end
 
-describe ShouldReek, 'report formatting' do
+describe ShouldReekOnlyOf, 'report formatting' do
   before :each do
-    sn_clean = 'def clean() @thing = 4; end'.sniff
-    sn_dirty = 'def dirty() thing.cool + thing.cool; end'.sniff
-    sniffers = SnifferSet.new([sn_clean, sn_dirty], '')
-    @matcher = ShouldReek.new
-    @matcher.matches?(sniffers)
-    @lines = @matcher.failure_message_for_should_not.split("\n").map {|str| str.chomp}
+    @smelly_dir = Dir['spec/samples/all_but_one_masked/*.rb']
+    @matcher = ShouldReekOnlyOf.new(:NestedIterators, [/Dirty\#a/])
+    @matcher.matches?(@smelly_dir)
+    @lines = @matcher.failure_message_for_should.split("\n").map {|str| str.chomp}
     @error_message = @lines.shift
     @smells = @lines.grep(/^  /)
     @headers = (@lines - @smells)
   end
 
-  it 'mentions every smell in the report' do
-    @smells.should have(2).warnings
-  end
-
   it 'doesnt mention the clean files' do
-    @headers.should have(1).headers
+    @headers.should have(1).header
+    @headers.should_not include('clean')
   end
 end

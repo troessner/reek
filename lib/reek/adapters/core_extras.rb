@@ -1,4 +1,4 @@
-require 'reek/source'
+require 'reek/adapters/source'
 require 'reek/sniffer'
 
 class Object
