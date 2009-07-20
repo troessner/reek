@@ -46,7 +46,7 @@ module Reek
 
       def initialize(config = SmellDetector.default_config)
         @config = config
-        @smells_found = SortedSet.new
+        @smells_found = Set.new
         @masked = false
       end
 

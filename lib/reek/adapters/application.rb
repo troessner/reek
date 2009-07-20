@@ -1,6 +1,7 @@
 require 'reek/adapters/command_line'
 require 'reek/adapters/source'
 require 'reek/adapters/core_extras'
+require 'reek/report'
 
 module Reek
   #
@@ -25,7 +26,7 @@ module Reek
         end
         # SMELL:
         # This should use the actual type of report selected by the user's options
-        puts @sniffer.full_report
+        puts ReportList.new(@sniffer.sniffers).full_report
         return @sniffer.smelly? ? 2 : 0
       rescue SystemExit => ex
         return ex.status

@@ -92,28 +92,6 @@ module Reek
       false
     end
 
-    #
-    # Returns a +Report+ listing the smells found in this source. The first
-    # call to +report+ parses the source code and constructs a list of
-    # +SmellWarning+s found; subsequent calls simply return this same list.
-    #
-    def quiet_report
-      Report.new(self).quiet_report
-    end
-
-    # SMELL: Shotgun Surgery
-    # This and the above method will need to be replicated for every new
-    # kind of report.
-
-    #
-    # Returns a +Report+ listing the smells found in this source. The first
-    # call to +report+ parses the source code and constructs a list of
-    # +SmellWarning+s found; subsequent calls simply return this same list.
-    #
-    def full_report
-      Report.new(self).full_report
-    end
-
     def num_smells
       check_for_smells
       total = 0
@@ -145,6 +123,10 @@ module Reek
       self
     end
 
+    def sniffers
+      [self]
+    end
+
 private
 
     def smell_listeners()
@@ -158,7 +140,7 @@ private
 
   class SnifferSet
 
-    attr_reader :desc
+    attr_reader :desc, :sniffers
 
     def initialize(sniffers, desc)
       @sniffers = sniffers
@@ -187,20 +169,9 @@ private
       num_smells == 1 and has_smell?(klass, patterns)
     end
 
-    def quiet_report
-      ReportList.new(@sniffers).quiet_report
-    end
-
     def sniff
       self
     end
 
-
-    # SMELL: Shotgun Surgery
-    # This and the above method will need to be replicated for every new
-    # kind of report.
-    def full_report
-      ReportList.new(@sniffers).full_report
-    end
   end
 end

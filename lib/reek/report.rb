@@ -93,6 +93,7 @@ module Reek
 
     def initialize(sniffers)
       @sniffers = sniffers
+      @partials = sniffers.map {|sn| Report.new(sn)}
     end
 
     def empty?
@@ -107,11 +108,11 @@ module Reek
     # This method and the next will have to be repeated for every new
     # kind of report.
     def full_report
-      @sniffers.map { |sniffer| sniffer.full_report }.join
+      @partials.map { |rpt| rpt.full_report }.join
     end
 
     def quiet_report
-      @sniffers.map { |sniffer| sniffer.quiet_report }.join
+      @partials.map { |rpt| rpt.quiet_report }.join
     end
 
     #
