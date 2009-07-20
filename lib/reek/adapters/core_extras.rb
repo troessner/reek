@@ -43,12 +43,22 @@ class String
 end
 
 class Array
+  def paths
+    self.map do |path|
+      if test 'd', path
+        Dir["#{path}/**/*.rb"].paths
+      else
+        path
+      end
+    end.flatten.sort
+  end
+
   #
   # Creates a new +Sniffer+ that assumes this Array contains the names
   # of Ruby source files and examines those files for smells.
   #
   def sniff
-    sniffers = self.map {|path| File.new(path).sniff }
+    sniffers = paths.map {|path| File.new(path).sniff}
     Reek::SnifferSet.new(sniffers, 'dir')
   end
 end

@@ -41,7 +41,15 @@ module Reek
   #   ruby.should_not reek_of(:FeatureEnvy)
   #
   module Spec
+    module ReekMatcher
+      def report
+        @sniffer.quiet_report
+      end
+    end
+
     class ShouldReek        # :nodoc:
+      include ReekMatcher
+
       def matches?(actual)
         @sniffer = actual.sniff
         @sniffer.smelly?
@@ -50,11 +58,13 @@ module Reek
         "Expected #{@sniffer.desc} to reek, but it didn't"
       end
       def failure_message_for_should_not
-        "Expected no smells, but got:\n#{@sniffer.quiet_report}"
+        "Expected no smells, but got:\n#{report}"
       end
     end
 
     class ShouldReekOf        # :nodoc:
+      include ReekMatcher
+
       def initialize(klass, patterns)
         @klass = klass
         @patterns = patterns
@@ -67,17 +77,19 @@ module Reek
         "Expected #{@sniffer.desc} to reek of #{@klass}, but it didn't"
       end
       def failure_message_for_should_not
-        "Expected #{@sniffer.desc} not to reek of #{@klass}, but got:\n#{@sniffer.quiet_report}"
+        "Expected #{@sniffer.desc} not to reek of #{@klass}, but got:\n#{report}"
       end
     end
 
     class ShouldReekOnlyOf < ShouldReekOf        # :nodoc:
+      include ReekMatcher
+
       def matches?(actual)
         @sniffer = actual.sniff
         @sniffer.smells_only_of?(@klass, @patterns)
       end
       def failure_message_for_should
-        "Expected #{@sniffer.desc} to reek only of #{@klass}, but got:\n#{@sniffer.quiet_report}"
+        "Expected #{@sniffer.desc} to reek only of #{@klass}, but got:\n#{report}"
       end
       def failure_message_for_should_not
         "Expected #{@sniffer.desc} not to reek only of #{@klass}, but it did"

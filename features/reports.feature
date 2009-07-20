@@ -4,8 +4,8 @@ Feature: Correctly formatted reports
   As a developer
   I want to be able to parse reek's output simply and consistently
 
-  Scenario: two reports run together with indented smells
-    When I run reek spec/samples/two_smelly_files/*.rb
+  Scenario Outline: two reports run together with indented smells
+    When I run reek <args>
     Then it fails with exit status 2
     And it reports:
       """
@@ -26,8 +26,13 @@ Feature: Correctly formatted reports
 
       """
 
-  Scenario: good files show headers consecutively
-    When I run reek spec/samples/three_clean_files/*.rb
+    Examples:
+      | args                               |
+      | spec/samples/two_smelly_files/*.rb |
+      | spec/samples/two_smelly_files      |
+
+  Scenario Outline: good files show headers consecutively
+    When I run reek <args>
     Then it succeeds
     And it reports:
       """
@@ -36,6 +41,11 @@ Feature: Correctly formatted reports
       spec/samples/three_clean_files/clean_two.rb -- 0 warnings
 
       """
+
+    Examples:
+      | args |
+      | spec/samples/three_clean_files/*.rb |
+      | spec/samples/three_clean_files      |
 
   Scenario Outline: --quiet turns off headers for fragrant files
     When I run reek <option> spec/samples/three_clean_files/*.rb
