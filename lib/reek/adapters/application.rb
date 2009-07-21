@@ -1,7 +1,7 @@
 require 'reek/adapters/command_line'
 require 'reek/adapters/source'
 require 'reek/adapters/core_extras'
-require 'reek/report'
+require 'reek/adapters/report'
 
 module Reek
   #

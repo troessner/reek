@@ -1,4 +1,4 @@
-require 'reek/source'
+require 'reek/adapters/source'
 
 module Reek
   class ObjectSource < Source   # :nodoc:

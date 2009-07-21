@@ -10,7 +10,6 @@ require 'reek/smells/nested_iterators'
 require 'reek/smells/uncommunicative_name'
 require 'reek/smells/utility_function'
 require 'reek/code_parser'
-require 'reek/report'
 require 'yaml'
 
 class Hash

@@ -1,11 +1,11 @@
 require File.dirname(__FILE__) + '/../spec_helper.rb'
 
-require 'reek/smells/smells'
+require 'reek/sniffer'
 require 'yaml'
 
 include Reek
 
-describe 'Config' do
+describe Hash do
   before :each do
     @first = {
       'one' => {'two' => 3, 'three' => 4},
@@ -32,7 +32,7 @@ describe 'Config' do
   end
 end
 
-describe Config, 'merging arrays' do
+describe Hash, 'merging arrays' do
   it 'should merge array values' do
     first = {'key' => {'one' => [1,2,3]}}
     second = {'key' => {'one' => [4,5]}}

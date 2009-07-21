@@ -1,8 +1,9 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
-require 'reek/report'
+require 'reek/adapters/report'
 require 'reek/smells/duplication'
 require 'reek/smells/large_class'
+require 'reek/smells/long_method'
 
 include Reek
 include Reek::Smells

@@ -1,7 +1,9 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
+require 'reek/adapters/report'
 require 'reek/adapters/spec'
 
+include Reek
 include Reek::Spec
 
 describe ShouldReekOnlyOf, 'checking code in a string' do

@@ -1,8 +1,8 @@
-require File.dirname(__FILE__) + '/../spec_helper.rb'
+require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
-require 'reek/smells/smell_detector'
-require 'reek/report'
-require 'reek/source'
+require 'reek/adapters/core_extras'
+require 'reek/adapters/report'
+require 'reek/adapters/source'
 require 'reek/smells/feature_envy'
 
 include Reek

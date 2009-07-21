@@ -1,5 +1,5 @@
 require 'set'
-require 'reek/sniffer'
+require 'reek/adapters/command_line'
 
 module Reek
   class Report
