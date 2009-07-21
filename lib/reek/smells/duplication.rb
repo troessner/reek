@@ -33,15 +33,17 @@ module Reek
       end
 
       def examine_context(method)
-        smelly_calls(method).each do |call|
-          found(method, "calls #{SexpFormatter.format(call)} multiple times")
+        smelly_calls(method).each do |call_data|
+          num = call_data[1]
+          multiple = num == 2 ? 'twice' : "#{num} times"
+          found(method, "calls #{SexpFormatter.format(call_data[0])} #{multiple}")
         end
       end
       
       def smelly_calls(method)   # :nodoc:
         method.calls.select do |key,val|
           val > @config[MAX_ALLOWED_CALLS_KEY] and key[2] != :new
-        end.map { |call_exp| call_exp[0] }
+        end
       end
     end
   end

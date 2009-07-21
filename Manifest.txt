@@ -18,6 +18,7 @@ lib/reek/adapters/config_file.rb
 lib/reek/adapters/core_extras.rb
 lib/reek/adapters/object_source.rb
 lib/reek/adapters/rake_task.rb
+lib/reek/adapters/report.rb
 lib/reek/adapters/source.rb
 lib/reek/adapters/spec.rb
 lib/reek/block_context.rb
@@ -31,7 +32,6 @@ lib/reek/method_context.rb
 lib/reek/module_context.rb
 lib/reek/name.rb
 lib/reek/object_refs.rb
-lib/reek/report.rb
 lib/reek/sexp_formatter.rb
 lib/reek/singleton_method_context.rb
 lib/reek/smell_warning.rb
@@ -51,6 +51,7 @@ lib/reek/stop_context.rb
 lib/reek/yield_call_context.rb
 reek.gemspec
 spec/quality/reek_source_spec.rb
+spec/reek/adapters/report_spec.rb
 spec/reek/adapters/should_reek_of_spec.rb
 spec/reek/adapters/should_reek_only_of_spec.rb
 spec/reek/adapters/should_reek_spec.rb
@@ -65,7 +66,6 @@ spec/reek/module_context_spec.rb
 spec/reek/name_spec.rb
 spec/reek/object_refs_spec.rb
 spec/reek/object_source_spec.rb
-spec/reek/report_spec.rb
 spec/reek/singleton_method_context_spec.rb
 spec/reek/smell_warning_spec.rb
 spec/reek/smells/control_couple_spec.rb

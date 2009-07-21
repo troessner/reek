@@ -11,8 +11,8 @@ Feature: Masking smells using config files
       """
       spec/samples/empty_config_file/dirty.rb -- 6 warnings:
         Dirty has the variable name '@s' (Uncommunicative Name)
-        Dirty#a calls @s.title multiple times (Duplication)
-        Dirty#a calls puts(@s.title) multiple times (Duplication)
+        Dirty#a calls @s.title twice (Duplication)
+        Dirty#a calls puts(@s.title) twice (Duplication)
         Dirty#a has the name 'a' (Uncommunicative Name)
         Dirty#a/block has the variable name 'x' (Uncommunicative Name)
         Dirty#a/block/block is nested (Nested Iterators)
@@ -35,8 +35,8 @@ Feature: Masking smells using config files
     And it reports:
       """
       spec/samples/masked/dirty.rb -- 3 warnings (+3 masked):
-        Dirty#a calls @s.title multiple times (Duplication)
-        Dirty#a calls puts(@s.title) multiple times (Duplication)
+        Dirty#a calls @s.title twice (Duplication)
+        Dirty#a calls puts(@s.title) twice (Duplication)
         Dirty#a/block/block is nested (Nested Iterators)
 
       """
@@ -48,8 +48,8 @@ Feature: Masking smells using config files
       """
       spec/samples/masked/dirty.rb -- 3 warnings (+3 masked):
         (masked) Dirty has the variable name '@s' (Uncommunicative Name)
-        Dirty#a calls @s.title multiple times (Duplication)
-        Dirty#a calls puts(@s.title) multiple times (Duplication)
+        Dirty#a calls @s.title twice (Duplication)
+        Dirty#a calls puts(@s.title) twice (Duplication)
         (masked) Dirty#a has the name 'a' (Uncommunicative Name)
         (masked) Dirty#a/block has the variable name 'x' (Uncommunicative Name)
         Dirty#a/block/block is nested (Nested Iterators)
@@ -62,8 +62,8 @@ Feature: Masking smells using config files
     And it reports:
       """
       spec/samples/masked/dirty.rb -- 3 warnings (+3 masked):
-        Dirty#a calls @s.title multiple times (Duplication)
-        Dirty#a calls puts(@s.title) multiple times (Duplication)
+        Dirty#a calls @s.title twice (Duplication)
+        Dirty#a calls puts(@s.title) twice (Duplication)
         Dirty#a/block/block is nested (Nested Iterators)
 
       """
@@ -75,8 +75,8 @@ Feature: Masking smells using config files
       """
       spec/samples/not_quite_masked/dirty.rb -- 5 warnings (+1 masked):
         Dirty has the variable name '@s' (Uncommunicative Name)
-        Dirty#a calls @s.title multiple times (Duplication)
-        Dirty#a calls puts(@s.title) multiple times (Duplication)
+        Dirty#a calls @s.title twice (Duplication)
+        Dirty#a calls puts(@s.title) twice (Duplication)
         Dirty#a has the name 'a' (Uncommunicative Name)
         Dirty#a/block/block is nested (Nested Iterators)
 
