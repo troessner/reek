@@ -14,7 +14,7 @@
 
 === Minor Changes
 * Reek's RDoc is now hosted at http://rdoc.info/projects/kevinrutherford/reek
-* If a dir is passed on the command-line all **/*.rb files below it are examined
+* If a dir is passed on the command-line all **/*.rb files below it are examined (fixed #41)
 * Several changes to the LongMethod counting algorithm:
 ** LongMethod now counts statements deeper into each method (fixed #25)
 ** LongMethod no longer counts control structures, only their contained stmts

@@ -12,14 +12,6 @@ module Reek
       sniffer.report_on(self)
     end
 
-    #
-    # Checks this report for instances of +smell_class+, and returns +true+
-    # only if one of them has a report string matching all of the +patterns+.
-    #
-    def has_smell?(smell_class, patterns)
-      @warnings.any? { |smell| smell.matches?(smell_class, patterns) }
-    end
-
     def <<(smell)  # :nodoc:
       @warnings << smell
       true
@@ -40,8 +32,6 @@ module Reek
     def length
       @warnings.length
     end
-    
-    alias size length
 
     # Creates a formatted report of all the +Smells::SmellWarning+ objects recorded in
     # this report, with a heading.
@@ -58,14 +48,23 @@ module Reek
       "#{header}:\n#{smell_list}\n"
     end
 
-    def should_report
-      @warnings.length > 0 or (Options[:show_all] and @masked_warnings.length > 0)
-    end
-
     def header
       @all_warnings = SortedSet.new(@warnings)      # SMELL: Temporary Field
       @all_warnings.merge(@masked_warnings)
       "#{@desc} -- #{visible_header}#{masked_header}"
+    end
+
+    # Creates a formatted report of all the +Smells::SmellWarning+ objects recorded in
+    # this report.
+    def smell_list
+      smells = Options[:show_all] ? @all_warnings : @warnings
+      smells.map {|smell| "  #{smell.report}"}.join("\n")
+    end
+
+  private
+
+    def should_report
+      @warnings.length > 0 or (Options[:show_all] and @masked_warnings.length > 0)
     end
 
     def visible_header
@@ -79,29 +78,12 @@ module Reek
       num_masked_warnings = @all_warnings.length - @warnings.length
       num_masked_warnings == 0 ? '' : " (+#{num_masked_warnings} masked)"
     end
-
-    # Creates a formatted report of all the +Smells::SmellWarning+ objects recorded in
-    # this report.
-    def smell_list
-      smells = Options[:show_all] ? @all_warnings : @warnings
-      smells.map {|smell| "  #{smell.report}"}.join("\n")
-    end
   end
 
   class ReportList
-    include Enumerable
 
     def initialize(sniffers)
-      @sniffers = sniffers
       @partials = sniffers.map {|sn| Report.new(sn)}
-    end
-
-    def empty?
-      length == 0
-    end
-
-    def length
-      @sniffers.inject(0) {|sum, sniffer| sum + sniffer.num_smells }
     end
 
     # SMELL: Shotgun Surgery
@@ -113,14 +95,6 @@ module Reek
 
     def quiet_report
       @partials.map { |rpt| rpt.quiet_report }.join
-    end
-
-    #
-    # Checks this report for instances of +smell_class+, and returns +true+
-    # only if one of them has a report string matching all of the +patterns+.
-    #
-    def has_smell?(smell_class, patterns)
-      @sniffers.any? { |sniffer| sniffer.has_smell?(smell_class, patterns) }
     end
   end
 end
