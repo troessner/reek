@@ -3,7 +3,6 @@ require 'reek/adapters/command_line'
 
 module Reek
   class ReportSection
-    include Enumerable
 
     def initialize(sniffer)  # :nodoc:
       @masked_warnings = SortedSet.new
