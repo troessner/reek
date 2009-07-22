@@ -2,7 +2,7 @@ require 'set'
 require 'reek/adapters/command_line'
 
 module Reek
-  class Report
+  class ReportSection
     include Enumerable
 
     def initialize(sniffer)  # :nodoc:
@@ -80,10 +80,10 @@ module Reek
     end
   end
 
-  class ReportList
+  class Report
 
     def initialize(sniffers)
-      @partials = sniffers.map {|sn| Report.new(sn)}
+      @partials = sniffers.map {|sn| ReportSection.new(sn)}
     end
 
     # SMELL: Shotgun Surgery

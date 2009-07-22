@@ -44,7 +44,7 @@ describe ShouldReekOnlyOf, 'checking code in a Dir' do
 
   it 'reports the smells when should_not fails' do
     @matcher.matches?(@smelly_dir).should be_true
-    @matcher.failure_message_for_should.should include(ReportList.new(@smelly_dir.sniff.sniffers).quiet_report)
+    @matcher.failure_message_for_should.should include(Report.new(@smelly_dir.sniff.sniffers).quiet_report)
   end
 end
 
@@ -65,7 +65,7 @@ describe ShouldReekOnlyOf, 'checking code in a File' do
 
   it 'reports the smells when should_not fails' do
     @matcher.matches?(@smelly_file).should be_true
-    @matcher.failure_message_for_should.should include(ReportList.new([@smelly_file.sniff]).quiet_report)
+    @matcher.failure_message_for_should.should include(Report.new([@smelly_file.sniff]).quiet_report)
   end
 end
 

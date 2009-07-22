@@ -45,7 +45,7 @@ module Reek
   module Spec
     module ReekMatcher
       def report
-        ReportList.new(@sniffer.sniffers).quiet_report
+        Report.new(@sniffer.sniffers).quiet_report
       end
     end
 

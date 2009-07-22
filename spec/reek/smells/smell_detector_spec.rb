@@ -44,7 +44,7 @@ describe SmellDetector, 'when masked' do
   end
 
   it 'reports smells as masked' do
-    rpt = Report.new(''.sniff)
+    rpt = ReportSection.new(''.sniff)
     @detector.report_on(rpt)
     rpt.length.should == 0
     rpt.num_masked_smells.should == 1

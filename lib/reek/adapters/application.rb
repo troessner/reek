@@ -26,7 +26,7 @@ module Reek
         end
         # SMELL:
         # This should use the actual type of report selected by the user's options
-        puts ReportList.new(@sniffer.sniffers).full_report
+        puts Report.new(@sniffer.sniffers).full_report
         return @sniffer.smelly? ? 2 : 0
       rescue SystemExit => ex
         return ex.status
