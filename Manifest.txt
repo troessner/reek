@@ -13,7 +13,6 @@ features/step_definitions/reek_steps.rb
 features/support/env.rb
 lib/reek.rb
 lib/reek/adapters/application.rb
-lib/reek/adapters/command_line.rb
 lib/reek/adapters/config_file.rb
 lib/reek/adapters/core_extras.rb
 lib/reek/adapters/object_source.rb
@@ -25,6 +24,7 @@ lib/reek/block_context.rb
 lib/reek/class_context.rb
 lib/reek/code_context.rb
 lib/reek/code_parser.rb
+lib/reek/command_line.rb
 lib/reek/detector_stack.rb
 lib/reek/exceptions.reek
 lib/reek/if_context.rb

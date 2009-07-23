@@ -23,7 +23,7 @@ describe ShouldReek, 'checking code in a string' do
 
   it 'reports the smells when should_not fails' do
     @matcher.matches?(@smelly_code).should be_true
-    @matcher.failure_message_for_should_not.should include(Report.new([@smelly_code.sniff]).quiet_report)
+    @matcher.failure_message_for_should_not.should include(Report.new(@smelly_code.sniff).quiet_report)
   end
 end
 
@@ -65,7 +65,7 @@ describe ShouldReek, 'checking code in a File' do
 
   it 'reports the smells when should_not fails' do
     @matcher.matches?(@smelly_file).should be_true
-    @matcher.failure_message_for_should_not.should include(Report.new([@smelly_file.sniff]).quiet_report)
+    @matcher.failure_message_for_should_not.should include(Report.new(@smelly_file.sniff).quiet_report)
   end
 end
 

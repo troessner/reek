@@ -36,21 +36,6 @@ describe SmellDetector, 'when copied' do
   end
 end
 
-describe SmellDetector, 'when masked' do
-  before(:each) do
-    @detector = Duplication.new
-    @detector.be_masked
-    @detector.found(nil, 'help')
-  end
-
-  it 'reports smells as masked' do
-    rpt = ReportSection.new(''.sniff)
-    @detector.report_on(rpt)
-    rpt.length.should == 0
-    rpt.num_masked_smells.should == 1
-  end
-end
-
 describe SmellDetector, 'configuration' do
 #  it 'stays enabled when not disabled' do
 #    @detector = LargeClass.new

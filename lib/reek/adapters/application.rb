@@ -1,4 +1,4 @@
-require 'reek/adapters/command_line'
+require 'reek/command_line'
 require 'reek/adapters/source'
 require 'reek/adapters/core_extras'
 require 'reek/adapters/report'

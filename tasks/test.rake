@@ -31,7 +31,7 @@ namespace 'test' do
     t.cucumber_opts = "features --format progress --no-color"
   end
 
-  desc 'Runs all unit tests and acceptance tests'
+  desc 'Runs all unit tests, acceptance tests and quality checks'
   task 'all' => ['test:spec', 'test:features', 'test:quality']
 end
 

@@ -1,5 +1,5 @@
 require 'set'
-require 'reek/adapters/command_line'
+require 'reek/command_line'   # SMELL: Global Variable
 
 module Reek
   class ReportSection
@@ -20,16 +20,8 @@ module Reek
       @masked_warnings << smell
     end
 
-    def num_masked_smells
+    def num_masked_smells       # SMELL: getter
       @masked_warnings.length
-    end
-    
-    def empty?
-      @warnings.empty?
-    end
-
-    def length
-      @warnings.length
     end
 
     # Creates a formatted report of all the +Smells::SmellWarning+ objects recorded in
@@ -82,7 +74,7 @@ module Reek
   class Report
 
     def initialize(sniffers)
-      @partials = sniffers.map {|sn| ReportSection.new(sn)}
+      @partials = Array(sniffers).map {|sn| ReportSection.new(sn)}
     end
 
     # SMELL: Shotgun Surgery
