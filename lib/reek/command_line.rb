@@ -44,9 +44,9 @@ Usage: #{@parser.program_name} [options] [files]
 
 Examples:
 
-reek lib/*.rb
-reek -q -a lib
-cat my_class.rb | reek
+#{@parser.program_name} lib/*.rb
+#{@parser.program_name} -q -a lib
+cat my_class.rb | #{@parser.program_name}
 
 See http://wiki.github.com/kevinrutherford/reek for detailed help.
 

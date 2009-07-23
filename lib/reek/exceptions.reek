@@ -1,4 +1,7 @@
---- 
+---
+Duplication:
+  exclude:
+  - Reek::Options#set_options
 FeatureEnvy:
   exclude:
   - examine_context
@@ -8,6 +11,7 @@ LargeClass:
 LongMethod:
   exclude:
   - Reek::SexpFormatter#self.format
+  - Reek::Options#set_options
 UtilityFunction:
   exclude:
   - Reek::Spec
