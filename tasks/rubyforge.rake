@@ -42,5 +42,5 @@ begin
       rf.post_news(PROJECT_NAME, proj.subject, proj.news)
     end
   end
-rescue Gem::LoadError
+rescue LoadError
 end

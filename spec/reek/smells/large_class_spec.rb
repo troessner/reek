@@ -11,6 +11,7 @@ include Reek::Smells
 describe LargeClass, 'checking Class objects' do
 
   it 'should not report class with 26 methods' do
+    pending('test requires ParseTree') unless ObjectSource.can_parse_objects?
     class BigOne
       26.times do |i|
         define_method "method#{i}".to_sym do
@@ -22,6 +23,7 @@ describe LargeClass, 'checking Class objects' do
   end
 
   it 'should not report short class' do
+    pending('test requires ParseTree') unless ObjectSource.can_parse_objects?
     class ShortClass
       def method1() @var1; end
       def method2() @var2; end
@@ -35,6 +37,7 @@ describe LargeClass, 'checking Class objects' do
 
   describe LargeClass, 'counting instance variables' do
     it 'should not report class with 10 ivars' do
+      pending('test requires ParseTree') unless ObjectSource.can_parse_objects?
       class ManyIvars
         def method
           @vara = @varb = @varc = @vard = @vare
@@ -45,10 +48,12 @@ describe LargeClass, 'checking Class objects' do
     end
 
     it 'ignores class with only a couple of ivars' do
+      pending('test requires ParseTree') unless ObjectSource.can_parse_objects?
       LargeClass.should_not reek_of(:LargeClass)
     end
 
     it 'ignores fq class with only a couple of ivars' do
+    pending('test requires ParseTree') unless ObjectSource.can_parse_objects?
       Reek::Smells::LargeClass.should_not reek_of(:LargeClass)
     end
   end

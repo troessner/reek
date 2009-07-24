@@ -130,7 +130,7 @@ begin
     task :major => ['release:minor', 'rubyforge:gem', 'rubyforge:news'] do
     end
   end
-rescue Gem::LoadError
+rescue LoadError
 end
 
 def pkg_files

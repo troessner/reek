@@ -7,13 +7,6 @@ include Reek::Smells
 
 describe UtilityFunction do
 
-  it 'should not report attrset' do
-    class Fred
-      attr_writer :xyz
-    end
-    Fred.should_not reek
-  end
-
   it 'should count usages of self'do
     'def <=>(other) Options[:sort_order].compare(self, other) end'.should_not reek
   end
@@ -28,16 +21,6 @@ describe UtilityFunction do
   end
   it 'should report message chain' do
     'def simple(arga) arga.b.c end'.should reek_of(:UtilityFunction, /simple/)
-  end
-  
-  it 'should not report overriding methods' do
-    class Father
-      def thing(ff); @kids = 0; end
-    end
-    class Son < Father
-      def thing(ff); ff; end
-    end
-    Son.should_not reek
   end
 
   it 'does not report a method that calls super' do
@@ -79,5 +62,26 @@ describe UtilityFunction, 'should only report a method containing a call' do
 
   it 'should recognise an ivar reference within a block' do
     'def clean(text) text.each { @fred = 3} end'.should_not reek
+  end
+end
+
+describe UtilityFunction do
+  it 'should not report attrset' do
+    pending('test requires ParseTree') unless ObjectSource.can_parse_objects?
+    class Fred
+      attr_writer :xyz
+    end
+    Fred.should_not reek
+  end
+  
+  it 'should not report overriding methods' do
+    pending('test requires ParseTree') unless ObjectSource.can_parse_objects?
+    class Father
+      def thing(ff); @kids = 0; end
+    end
+    class Son < Father
+      def thing(ff); ff; end
+    end
+    Son.should_not reek
   end
 end

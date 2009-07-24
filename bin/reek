@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Reek examines Ruby source code for smells.
-# Visit http://reek.rubyforge.org/ for docs etc.
+# Visit http://wiki.github.com/kevinrutherford/reek for docs etc.
 #
 # Author: Kevin Rutherford
 #

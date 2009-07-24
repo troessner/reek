@@ -17,7 +17,7 @@ module Reek
       sniffer.configure(LargeClass, disabled_config)
     end
 
-    def can_parse_objects?
+    def self.can_parse_objects?
       return true if Object.const_defined?(:ParseTree)
       begin
         require 'parse_tree'
@@ -28,7 +28,7 @@ module Reek
     end
 
     def syntax_tree
-      if can_parse_objects?
+      if ObjectSource.can_parse_objects?
         ObjectSource.unify(ParseTree.new.parse_tree(@source))
       else
         throw ArgumentError.new('You must install the ParseTree gem to use this feature')
