@@ -61,6 +61,7 @@ describe LongParameterList do
       end
 
       it 'should only report long param list' do
+        pending('test requires ParseTree') unless ObjectSource.can_parse_objects?
         InnerTest.should reek_only_of(:LongParameterList, /abc/)
       end
     end

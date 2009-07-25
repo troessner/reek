@@ -1,5 +1,5 @@
 $:.unshift File.dirname(__FILE__)
 
 module Reek # :doc:
-  VERSION = '1.1.3.11'
+  VERSION = '1.1.3.12'
 end

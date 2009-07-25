@@ -25,6 +25,7 @@
 * Now reports an error for corrupt config files
 * Empty config files are ignored
 
+
 == 1.1.3 2009-05-19
 
 === Minor Changes

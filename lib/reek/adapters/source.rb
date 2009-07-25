@@ -27,9 +27,13 @@ module Reek
   #
   class SourceFile < Source
 
+    def self.lines(file)
+      IO.readlines(file.path)
+    end
+
     def initialize(file)
       @file = file
-      super(@file.lines.to_a.join, @file.path)
+      super(SourceFile.lines(@file).join, @file.path)
     end
 
     def configure(sniffer)
