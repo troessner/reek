@@ -182,7 +182,7 @@ end
 
 file MANIFEST_CHECKED => $package_files do
   display_manifest_diff
-  if query('Is this manifest good to go? [yN]') =~ /y/i
+  if query('Is this manifest good to go? [Ny] ') =~ /y/i
     MANIFEST_CHECKED.touch
   else
     abort 'Check the manifest and try again'

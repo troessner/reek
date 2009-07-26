@@ -1,6 +1,7 @@
 == 1.2 (in progress -- see github)
 
 === Major Changes
+* Reek passes all its tests under ruby 1.8.6, 1.8.7 and 1.9.1 (fixed #16)
 * Reek's output reports are now formatted differently:
 ** Reek is no longer silent about smell-free source code
 ** Output now reports on all files examined, even if they have no smells
