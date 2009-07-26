@@ -20,6 +20,7 @@ class Fred
   def simply(arga, argb, argc, argd) f(3);false end
 end
 EOEX
+
     src.should reek_of(:LongParameterList, /Fred/, /simple/)
     src.should reek_of(:LongParameterList, /Fred/, /simply/)
   end
@@ -33,23 +34,24 @@ class Fred
     def textile_popup_help(name, windowW, windowH) f(3);end
 end
 EOEX
+    
     src.should reek_of(:LongParameterList, /Fred/, /textile_bq/)
     src.should reek_of(:LongParameterList, /Fred/, /textile_fn_/)
     src.should reek_of(:LongParameterList, /Fred/, /textile_p/)
   end
 end
 
+class Above
+  def above() end
+  def both() end
+end
+
+class Below < Above
+  def both() end
+  def below() end
+end
+
 describe ClassContext, 'overridden methods' do
-  class Above
-    def above() end
-    def both() end
-  end
-  
-  class Below < Above
-    def both() end
-    def below() end
-  end
-  
   describe 'of loaded class' do
     before :each do
       @ctx = ClassContext.create(StopContext.new, [0, :Below])
@@ -97,16 +99,16 @@ describe 'Integration defect:' do
   end
 end
 
-describe CodeContext, 'find class' do
-  module Mod1
-    class Klass1
-      module Mod2
-        class Klass2
-        end
+module Mod1
+  class Klass1
+    module Mod2
+      class Klass2
       end
     end
   end
+end
 
+describe CodeContext, 'find class' do
   before :each do
     @stop = StopContext.new
     @mod1 = ModuleContext.create(@stop, [0, :Mod1])

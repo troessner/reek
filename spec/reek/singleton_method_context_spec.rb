@@ -10,7 +10,7 @@ describe SingletonMethodContext, 'outer_name' do
 
   it "should report full context" do
     element = StopContext.new
-    element = ModuleContext.new(element, [0, :mod])
+    element = ModuleContext.new(element, Name.new(:mod))
     element = SingletonMethodContext.new(element,  [:defs, [:call, nil, :a, [:arglist]], :b, nil])
     element.outer_name.should match(/mod::a\.b/)
   end

@@ -23,6 +23,7 @@ module Reek
       @myself = nil
     end
 
+    # SMELL: Temporary Field -- @name isn't always initialized
     def matches?(strings)
       me = @name.to_s
       strings.any? do |str|

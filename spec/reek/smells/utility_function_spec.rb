@@ -73,7 +73,7 @@ describe UtilityFunction do
     end
     Fred.should_not reek
   end
-  
+
   it 'should not report overriding methods' do
     pending('test requires ParseTree') unless ObjectSource.can_parse_objects?
     class Father

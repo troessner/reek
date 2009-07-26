@@ -13,7 +13,7 @@ describe CodeContext, 'to_s' do
 
   it "should report full context" do
     element = StopContext.new
-    element = ModuleContext.new(element, [0, :mod])
+    element = ModuleContext.new(element, Name.new(:mod))
     element = ClassContext.new(element, [0, :klass])
     element = MethodContext.new(element, [0, :bad])
     element = BlockContext.new(element, nil)
@@ -40,7 +40,7 @@ end
 describe CodeContext, 'instance variables' do
   it 'should pass instance variables down to the first class' do
     element = StopContext.new
-    element = ModuleContext.new(element, [0, :mod])
+    element = ModuleContext.new(element, Name.new(:mod))
     class_element = ClassContext.new(element, [0, :klass])
     element = MethodContext.new(class_element, [0, :bad])
     element = BlockContext.new(element, nil)
@@ -54,7 +54,7 @@ describe CodeContext, 'generics' do
   it 'should pass unknown method calls down the stack' do
     stop = StopContext.new
     def stop.bananas(arg1, arg2) arg1 + arg2 + 43 end
-    element = ModuleContext.new(stop, [0, :mod])
+    element = ModuleContext.new(stop, Name.new(:mod))
     class_element = ClassContext.new(element, [0, :klass])
     element = MethodContext.new(class_element, [0, :bad])
     element = BlockContext.new(element, nil)
@@ -65,19 +65,19 @@ end
 describe CodeContext do
   it 'should recognise itself in a collection of names' do
     element = StopContext.new
-    element = ModuleContext.new(element, [0, :mod])
+    element = ModuleContext.new(element, Name.new(:mod))
     element.matches?(['banana', 'mod']).should == true
   end
 
   it 'should recognise itself in a collection of REs' do
     element = StopContext.new
-    element = ModuleContext.new(element, [0, :mod])
+    element = ModuleContext.new(element, Name.new(:mod))
     element.matches?([/banana/, /mod/]).should == true
   end
 
   it 'should recognise its fq name in a collection of names' do
     element = StopContext.new
-    element = ModuleContext.new(element, [0, :mod])
+    element = ModuleContext.new(element, Name.new(:mod))
     element = ClassContext.create(element, [0, :klass])
     element.matches?(['banana', 'mod']).should == true
     element.matches?(['banana', 'mod::klass']).should == true
@@ -85,7 +85,7 @@ describe CodeContext do
 
   it 'should recognise its fq name in a collection of names' do
     element = StopContext.new
-    element = ModuleContext.new(element, [0, :mod])
+    element = ModuleContext.new(element, Name.new(:mod))
     element = ClassContext.create(element, [0, :klass])
     element.matches?([/banana/, /mod/]).should == true
     element.matches?([/banana/, /mod::klass/]).should == true
