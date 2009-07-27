@@ -14,7 +14,7 @@ describe LargeClass, 'checking Class objects' do
     pending('test requires ParseTree') unless ObjectSource.can_parse_objects?
     class BigOne
       26.times do |i|
-        define_method "method#{i}".to_sym do
+        define_method "method#{i}x".to_sym do
           @melting
         end
       end
@@ -25,12 +25,12 @@ describe LargeClass, 'checking Class objects' do
   it 'should not report short class' do
     pending('test requires ParseTree') unless ObjectSource.can_parse_objects?
     class ShortClass
-      def method1() @var1; end
-      def method2() @var2; end
-      def method3() @var3; end
-      def method4() @var4; end
-      def method5() @var5; end
-      def method6() @var6; end
+      def method_a() @var_a; end
+      def method_b() @var_b; end
+      def method_c() @var_c; end
+      def method_d() @var_d; end
+      def method_e() @var_e; end
+      def method_f() @var_f; end
     end
     ShortClass.should_not reek
   end
@@ -111,9 +111,10 @@ describe LargeClass, 'checking source code' do
 
     it 'should not report 10 ivars in 2 extensions' do
       src = <<EOS
-class Full;def ivars1() @aa=@ab=@ac=@ad=@ae; end;end
-class Full;def ivars2() @af=@ag=@ah=@ai=@aj; end;end
+class Full;def ivars_a() @aa=@ab=@ac=@ad=@ae; end;end
+class Full;def ivars_b() @af=@ag=@ah=@ai=@aj; end;end
 EOS
+
       src.should_not reek
     end
   end
@@ -134,11 +135,11 @@ EOS
     it 'should not report 25 methods' do
       src = <<EOS
 class Full
-  def me01()3 end;def me02()3 end;def me03()3 end;def me04()3 end;def me05()3 end
-  def me11()3 end;def me12()3 end;def me13()3 end;def me14()3 end;def me15()3 end
-  def me21()3 end;def me22()3 end;def me23()3 end;def me24()3 end;def me25()3 end
-  def me31()3 end;def me32()3 end;def me33()3 end;def me34()3 end;def me35()3 end
-  def me41()3 end;def me42()3 end;def me43()3 end;def me44()3 end;def me45()3 end
+  def me01x()3 end;def me02x()3 end;def me03x()3 end;def me04x()3 end;def me05x()3 end
+  def me11x()3 end;def me12x()3 end;def me13x()3 end;def me14x()3 end;def me15x()3 end
+  def me21x()3 end;def me22x()3 end;def me23x()3 end;def me24x()3 end;def me25x()3 end
+  def me31x()3 end;def me32x()3 end;def me33x()3 end;def me34x()3 end;def me35x()3 end
+  def me41x()3 end;def me42x()3 end;def me43x()3 end;def me44x()3 end;def me45x()3 end
 end
 EOS
       src.should_not reek
@@ -147,12 +148,12 @@ EOS
     it 'should report 26 methods' do
       src = <<EOS
 class Full
-  def me01()3 end;def me02()3 end;def me03()3 end;def me04()3 end;def me05()3 end
-  def me11()3 end;def me12()3 end;def me13()3 end;def me14()3 end;def me15()3 end
-  def me21()3 end;def me22()3 end;def me23()3 end;def me24()3 end;def me25()3 end
-  def me31()3 end;def me32()3 end;def me33()3 end;def me34()3 end;def me35()3 end
-  def me41()3 end;def me42()3 end;def me43()3 end;def me44()3 end;def me45()3 end
-  def me51()3 end
+  def me01x()3 end;def me02x()3 end;def me03x()3 end;def me04x()3 end;def me05x()3 end
+  def me11x()3 end;def me12x()3 end;def me13x()3 end;def me14x()3 end;def me15x()3 end
+  def me21x()3 end;def me22x()3 end;def me23x()3 end;def me24x()3 end;def me25x()3 end
+  def me31x()3 end;def me32x()3 end;def me33x()3 end;def me34x()3 end;def me35x()3 end
+  def me41x()3 end;def me42x()3 end;def me43x()3 end;def me44x()3 end;def me45x()3 end
+  def me51x()3 end
 end
 EOS
       src.should reek_of(:LargeClass)

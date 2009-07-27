@@ -9,7 +9,7 @@ Feature: Basic smell detection
     Then it fails with exit status 2
     And it reports:
     """
-    spec/samples/inline.rb -- 32 warnings:
+    spec/samples/inline.rb -- 32 warnings (+1 masked):
       Inline::C has at least 13 instance variables (Large Class)
       Inline::C#build calls ($? == 0) twice (Duplication)
       Inline::C#build calls Inline.directory 5 times (Duplication)
@@ -176,7 +176,7 @@ Feature: Basic smell detection
     Then it fails with exit status 2
     And it reports:
     """
-    spec/samples/redcloth.rb -- 93 warnings:
+    spec/samples/redcloth.rb -- 95 warnings:
       RedCloth has at least 44 methods (Large Class)
       RedCloth#block has the variable name 'a' (Uncommunicative Name)
       RedCloth#block has the variable name 'b' (Uncommunicative Name)
@@ -235,6 +235,8 @@ Feature: Basic smell detection
       RedCloth#inline_markdown_reflink/block has the variable name 'm' (Uncommunicative Name)
       RedCloth#inline_textile_code/block has the variable name 'm' (Uncommunicative Name)
       RedCloth#inline_textile_image has approx 17 statements (Long Method)
+      RedCloth#inline_textile_image/block has the variable name 'href_a1' (Uncommunicative Name)
+      RedCloth#inline_textile_image/block has the variable name 'href_a2' (Uncommunicative Name)
       RedCloth#inline_textile_image/block has the variable name 'm' (Uncommunicative Name)
       RedCloth#inline_textile_link has approx 9 statements (Long Method)
       RedCloth#inline_textile_link/block has the variable name 'm' (Uncommunicative Name)

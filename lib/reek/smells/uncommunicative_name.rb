@@ -15,7 +15,7 @@ module Reek
     #
     # Currently +UncommunicativeName+ checks for
     # * 1-character names
-    # * names consisting of a single character followed by a number
+    # * names ending with a number
     #
     class UncommunicativeName < SmellDetector
 
@@ -30,7 +30,7 @@ module Reek
 
       def self.default_config
         super.adopt(
-          REJECT_KEY => [/^.[0-9]*$/],
+          REJECT_KEY => [/^.$/, /[0-9]$/],
           ACCEPT_KEY => ['Inline::C']
         )
       end

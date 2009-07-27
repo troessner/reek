@@ -16,6 +16,9 @@ describe UncommunicativeName, "method name" do
   it 'should report name of the form "x2"' do
     'def x2(fred) basics(17) end'.should reek_only_of(:UncommunicativeName, /x2/)
   end
+  it 'should report long name ending in a number' do
+    'def method2(fred) basics(17) end'.should reek_only_of(:UncommunicativeName, /method2/)
+  end
 end
 
 describe UncommunicativeName, "field name" do
@@ -27,6 +30,9 @@ describe UncommunicativeName, "field name" do
   end
   it 'should report name of the form "x2"' do
     'class Thing; def simple(fred) @x2 end end'.should reek_only_of(:UncommunicativeName, /@x2/, /Thing/, /variable name/)
+  end
+  it 'should report long name ending in a number' do
+    'class Thing; def simple(fred) @field12 end end'.should reek_only_of(:UncommunicativeName, /@field12/, /Thing/, /variable name/)
   end
   it 'should report one-letter fieldname in assignment' do
     'class Thing; def simple(fred) @x = fred end end'.should reek_only_of(:UncommunicativeName, /@x/, /Thing/, /variable name/)
@@ -42,6 +48,9 @@ describe UncommunicativeName, "local variable name" do
   end
   it 'should report name of the form "x2"' do
     'def simple(fred) x2 = jim(45) end'.should reek_only_of(:UncommunicativeName, /x2/, /variable name/)
+  end
+  it 'should report long name ending in a number' do
+    'def simple(fred) var123 = jim(45) end'.should reek_only_of(:UncommunicativeName, /var123/, /variable name/)
   end
   it 'should report variable name only once' do
     'def simple(fred) x = jim(45); x = y end'.should reek_only_of(:UncommunicativeName, /x/)
@@ -63,6 +72,9 @@ describe UncommunicativeName, "parameter name" do
   it 'should report name of the form "x2"' do
     'def help(x2) basics(17) end'.should reek_only_of(:UncommunicativeName, /x2/, /variable name/)
   end
+  it 'should report long name ending in a number' do
+    'def help(param1) basics(17) end'.should reek_only_of(:UncommunicativeName, /param1/, /variable name/)
+  end
 end
 
 describe UncommunicativeName, "block parameter name" do
@@ -78,6 +90,7 @@ def bad
   end
 end
 EOS
+
     src.should reek_only_of(:UncommunicativeName, /'x'/)
   end
 end
@@ -100,6 +113,7 @@ class Thing
   end
 end
 EOS
+
     source.should reek_of(:UncommunicativeName, /'x'/)
     source.should reek_of(:UncommunicativeName, /'y'/)
   end

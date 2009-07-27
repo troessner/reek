@@ -21,7 +21,8 @@ UncommunicativeName:
 
   enabled: true
   reject: 
-  - !ruby/regexp /^.[0-9]*$/
+  - !ruby/regexp /^.$/
+  - !ruby/regexp /[0-9]$/
 NestedIterators: 
   exclude: []
 

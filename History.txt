@@ -23,6 +23,7 @@
 * LargeClass is disabled when checking in-memory classes (fixed #28)
 * UtilityFunction no longer reports methods that call 'super' (fixed #39)
 * Duplication warnings now report the number of identical calls
+* UncommunicativeName warns about any name ending in a number (fixed #18)
 * Now reports an error for corrupt config files
 * Empty config files are ignored
 

@@ -12,6 +12,9 @@ LongMethod:
   exclude:
   - Reek::SexpFormatter#self.format
   - Reek::Options#set_options
+UncommunicativeName:
+  accept:
+  - process_op_asgn1
 UtilityFunction:
   exclude:
   - Reek::Spec
