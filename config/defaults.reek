@@ -45,6 +45,7 @@ SimulatedPolymorphism:
   exclude: []
 
   enabled: true
+  max_ifs: 2
 ControlCouple: 
   exclude: 
   - initialize
