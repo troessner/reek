@@ -168,4 +168,25 @@ describe ClassContext do
     element = ClassContext.create(StopContext.new, [:colon2, [:colon2, [:const, :Treetop], :Runtime], :SyntaxNode])
     element.num_methods.should == 0
   end
+
+  it 'counts conditionals correctly' do
+    src = <<EOS
+class Scrunch
+  def first
+    return @field == :sym ? 0 : 3;
+  end
+  def second
+    if @field == :sym
+      @other += " quarts"
+    end
+  end
+  def third
+    raise 'flu!' unless @field == :sym
+  end
+end
+EOS
+
+    ctx = ClassContext.from_s(src)
+    ctx.conditionals.length.should == 3
+  end
 end

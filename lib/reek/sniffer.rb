@@ -7,6 +7,7 @@ require 'reek/smells/long_method'
 require 'reek/smells/long_parameter_list'
 require 'reek/smells/long_yield_list'
 require 'reek/smells/nested_iterators'
+require 'reek/smells/simulated_polymorphism'
 require 'reek/smells/uncommunicative_name'
 require 'reek/smells/utility_function'
 require 'reek/code_parser'
@@ -52,6 +53,7 @@ module Reek
       Smells::LongParameterList,
       Smells::LongYieldList,
       Smells::NestedIterators,
+      Smells::SimulatedPolymorphism,
       Smells::UncommunicativeName,
       Smells::UtilityFunction,
     ]

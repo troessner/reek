@@ -24,6 +24,8 @@ module Reek
       CodeParser.new(sniffer).process_class(source.syntax_tree)
     end
 
+    attr_reader :conditionals
+
     # SMELL: inconsistent with other contexts (not linked to the sexp)
     def initialize(outer, name, superclass = nil)
       super(outer, nil)
@@ -31,6 +33,7 @@ module Reek
       @superclass = superclass
       @parsed_methods = []
       @instance_variables = Set.new
+      @conditionals = []
     end
 
     def myself
@@ -73,6 +76,10 @@ module Reek
 
     def variable_names
       @instance_variables
+    end
+
+    def record_conditional(exp)
+      @conditionals << exp
     end
   end
 end

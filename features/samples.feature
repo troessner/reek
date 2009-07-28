@@ -9,8 +9,11 @@ Feature: Basic smell detection
     Then it fails with exit status 2
     And it reports:
     """
-    spec/samples/inline.rb -- 32 warnings (+1 masked):
+    spec/samples/inline.rb -- 35 warnings (+1 masked):
       Inline::C has at least 13 instance variables (Large Class)
+      Inline::C tests $DEBUG at least 7 times (Simulated Polymorphism)
+      Inline::C tests $TESTING at least 4 times (Simulated Polymorphism)
+      Inline::C tests @@type_map.has_key?(type) at least 3 times (Simulated Polymorphism)
       Inline::C#build calls ($? == 0) twice (Duplication)
       Inline::C#build calls Inline.directory 5 times (Duplication)
       Inline::C#build calls io.puts 6 times (Duplication)
@@ -50,8 +53,13 @@ Feature: Basic smell detection
     Then it fails with exit status 2
     And it reports:
     """
-    spec/samples/optparse.rb -- 117 warnings:
+    spec/samples/optparse.rb -- 122 warnings:
       OptionParser has at least 59 methods (Large Class)
+      OptionParser tests ((argv.size == 1) and Array.===(argv[0])) at least 3 times (Simulated Polymorphism)
+      OptionParser tests a at least 7 times (Simulated Polymorphism)
+      OptionParser tests default_pattern at least 7 times (Simulated Polymorphism)
+      OptionParser tests not_style at least 3 times (Simulated Polymorphism)
+      OptionParser tests s at least 7 times (Simulated Polymorphism)
       OptionParser#CompletingHash#match/block/block is nested (Nested Iterators)
       OptionParser#Completion::complete calls candidates.size twice (Duplication)
       OptionParser#Completion::complete calls k.id2name twice (Duplication)
@@ -176,8 +184,12 @@ Feature: Basic smell detection
     Then it fails with exit status 2
     And it reports:
     """
-    spec/samples/redcloth.rb -- 95 warnings:
+    spec/samples/redcloth.rb -- 99 warnings:
       RedCloth has at least 44 methods (Large Class)
+      RedCloth tests atts at least 6 times (Simulated Polymorphism)
+      RedCloth tests codepre.zero? at least 3 times (Simulated Polymorphism)
+      RedCloth tests href at least 3 times (Simulated Polymorphism)
+      RedCloth tests title at least 4 times (Simulated Polymorphism)
       RedCloth#block has the variable name 'a' (Uncommunicative Name)
       RedCloth#block has the variable name 'b' (Uncommunicative Name)
       RedCloth#block_markdown_atx refers to text more than self (Feature Envy)

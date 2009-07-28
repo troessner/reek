@@ -41,6 +41,10 @@ UtilityFunction:
   exclude: []
 
   enabled: true
+SimulatedPolymorphism: 
+  exclude: []
+
+  enabled: true
 ControlCouple: 
   exclude: 
   - initialize

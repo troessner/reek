@@ -128,6 +128,7 @@ module Reek
     end
 
     def process_if(exp)
+      @element.record_conditional(exp[1])
       count_clause(exp[2])
       count_clause(exp[3])
       handle_context(IfContext, :if, exp)
