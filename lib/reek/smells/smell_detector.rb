@@ -18,24 +18,26 @@ module Reek
       # The name fo the config field that specifies whether a smell is
       # enabled. Set to +true+ or +false+.
       ENABLED_KEY = 'enabled'
-      
-      def self.class_name
-        self.name.split(/::/)[-1]
-      end
 
-      def self.contexts      # :nodoc:
-        [:defn, :defs]
-      end
-      
-      def self.default_config
-        {
-          ENABLED_KEY => true,
-          EXCLUDE_KEY => []
-        }
-      end
+      class << self
+        def class_name
+          self.name.split(/::/)[-1]
+        end
 
-      def self.create(config)
-        new(config[class_name])
+        def contexts      # :nodoc:
+          [:defn, :defs]
+        end
+
+        def default_config
+          {
+            ENABLED_KEY => true,
+            EXCLUDE_KEY => []
+          }
+        end
+
+        def create(config)
+          new(config[class_name])
+        end
       end
 
       def self.listen(hooks, config)
@@ -99,11 +101,11 @@ module Reek
         smell
       end
 
-    def has_smell?(patterns)
-      return false if @masked
-      @smells_found.each { |warning| return true if warning.contains_all?(patterns) }
-      false
-    end
+      def has_smell?(patterns)
+        return false if @masked
+        @smells_found.each { |warning| return true if warning.contains_all?(patterns) }
+        false
+      end
 
       def report_on(report)
         @smells_found.each do |smell|

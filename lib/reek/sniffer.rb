@@ -1,4 +1,6 @@
 require 'reek/detector_stack'
+
+# SMELL: Duplication -- all these should be found automagically
 require 'reek/smells/control_couple'
 require 'reek/smells/duplication'
 require 'reek/smells/feature_envy'

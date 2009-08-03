@@ -56,7 +56,7 @@ Feature: Masking smells using config files
 
       """
 
-  Scenario: switch off one smell and show hide them in the report
+  Scenario: switch off one smell and hide them in the report
     When I run reek --no-show-all spec/samples/masked/dirty.rb
     Then it fails with exit status 2
     And it reports:
@@ -79,5 +79,31 @@ Feature: Masking smells using config files
         Dirty#a calls puts(@s.title) twice (Duplication)
         Dirty#a has the name 'a' (Uncommunicative Name)
         Dirty#a/block/block is nested (Nested Iterators)
+
+      """
+
+  Scenario: lower overrides upper
+    When I run reek spec/samples/overrides
+    Then it fails with exit status 2
+    And it reports:
+      """
+      spec/samples/overrides/masked/dirty.rb -- 2 warnings (+4 masked):
+        Dirty#a calls @s.title twice (Duplication)
+        Dirty#a calls puts(@s.title) twice (Duplication)
+
+      """
+
+  Scenario: all show up masked even when overridden
+    When I run reek --show-all spec/samples/overrides
+    Then it fails with exit status 2
+    And it reports:
+      """
+      spec/samples/overrides/masked/dirty.rb -- 2 warnings (+4 masked):
+        (masked) Dirty has the variable name '@s' (Uncommunicative Name)
+        Dirty#a calls @s.title twice (Duplication)
+        Dirty#a calls puts(@s.title) twice (Duplication)
+        (masked) Dirty#a has the name 'a' (Uncommunicative Name)
+        (masked) Dirty#a/block has the variable name 'x' (Uncommunicative Name)
+        (masked) Dirty#a/block/block is nested (Nested Iterators)
 
       """
