@@ -82,6 +82,7 @@ Feature: Masking smells using config files
 
       """
 
+  @overrides
   Scenario: lower overrides upper
     When I run reek spec/samples/overrides
     Then it fails with exit status 2
@@ -93,6 +94,7 @@ Feature: Masking smells using config files
 
       """
 
+  @overrides
   Scenario: all show up masked even when overridden
     When I run reek --show-all spec/samples/overrides
     Then it fails with exit status 2

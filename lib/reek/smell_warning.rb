@@ -8,11 +8,11 @@ module Reek
   class SmellWarning
     include Comparable
 
-    def initialize(smell, context, warning)
+    def initialize(smell, context, warning, masked)
       @detector = smell
       @context = context
       @warning = warning
-      @is_masked = smell.masked?
+      @is_masked = masked
     end
 
     def hash  # :nodoc:

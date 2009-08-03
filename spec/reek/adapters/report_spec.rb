@@ -33,16 +33,17 @@ end
 describe ReportSection, " as a SortedSet" do
   it 'should only add a smell once' do
     rpt = ReportSection.new(''.sniff)
-    rpt << SmellWarning.new(Smells::FeatureEnvy.new, "self", 'too many!')
-    rpt << SmellWarning.new(Smells::FeatureEnvy.new, "self", 'too many!')
+    rpt << SmellWarning.new(Smells::FeatureEnvy.new, "self", 'too many!', false)
+    rpt << SmellWarning.new(Smells::FeatureEnvy.new, "self", 'too many!', false)
     lines = rpt.smell_list.split("\n")
     lines.should have(1).lines
   end
 
   it 'should not count an identical masked smell' do
     rpt = ReportSection.new(''.sniff)
-    rpt << SmellWarning.new(Smells::FeatureEnvy.new, "self", 'too many!')
-    rpt.record_masked_smell(SmellWarning.new(Smells::FeatureEnvy.new, "self", 'too many!'))
+    # SMELL: Duplication -- the SmellWarning knows whether to call << or record_masked_smell
+    rpt << SmellWarning.new(Smells::FeatureEnvy.new, "self", 'too many!', false)
+    rpt.record_masked_smell(SmellWarning.new(Smells::FeatureEnvy.new, "self", 'too many!', true))
     rpt.header.should == 'string -- 1 warning'
   end
 end
