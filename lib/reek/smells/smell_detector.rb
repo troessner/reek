@@ -56,10 +56,7 @@ module Reek
         self.class.contexts.each { |ctx| hooks[ctx] << self }
       end
 
-      def be_masked
-        @masked = true
-      end
-
+      # SMELL: Getter
       def enabled?
         @config[ENABLED_KEY]
       end
@@ -76,6 +73,13 @@ module Reek
 
       def copy
         self.class.new(@config.deep_copy)
+      end
+
+      def supersede_with(config)
+        clone = self.copy
+        @masked = true
+        clone.configure_with(config)
+        clone
       end
 
       def examine(context)

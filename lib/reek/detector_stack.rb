@@ -7,9 +7,7 @@ module Reek
     end
 
     def push(config)
-      clone = @detectors[0].copy
-      clone.configure_with(config)
-      @detectors.each {|det| det.be_masked}
+      clone = @detectors[-1].supersede_with(config)
       @detectors << clone
     end
 
