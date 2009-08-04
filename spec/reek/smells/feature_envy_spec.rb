@@ -182,6 +182,21 @@ def report
   @report
 end
 EOS
+
+    ruby.should_not reek
+  end
+
+  it 'interprets << correctly' do
+    ruby = <<EOS
+def report_on(report)
+  if @is_masked
+    report.record_masked_smell(self)
+  else
+    report << self
+  end
+end
+EOS
+
     ruby.should_not reek
   end
 end

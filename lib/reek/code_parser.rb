@@ -185,7 +185,7 @@ module Reek
     end
 
     def process_self(exp)
-      @element.record_depends_on_self
+      @element.record_use_of_self
     end
 
     def count_clause(sexp)

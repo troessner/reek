@@ -53,7 +53,7 @@ Feature: Basic smell detection
     Then it fails with exit status 2
     And it reports:
     """
-    spec/samples/optparse.rb -- 122 warnings:
+    spec/samples/optparse.rb -- 121 warnings:
       OptionParser has at least 59 methods (Large Class)
       OptionParser tests ((argv.size == 1) and Array.===(argv[0])) at least 3 times (Simulated Polymorphism)
       OptionParser tests a at least 7 times (Simulated Polymorphism)
@@ -110,7 +110,6 @@ Feature: Basic smell detection
       OptionParser#Switch#summarize has the variable name 'l' (Uncommunicative Name)
       OptionParser#Switch#summarize has the variable name 'r' (Uncommunicative Name)
       OptionParser#Switch#summarize has the variable name 's' (Uncommunicative Name)
-      OptionParser#Switch#summarize refers to left more than self (Feature Envy)
       OptionParser#Switch#summarize/block has the variable name 's' (Uncommunicative Name)
       OptionParser#Switch#summarize/block/block is nested (Nested Iterators)
       OptionParser#block has the variable name 'f' (Uncommunicative Name)
