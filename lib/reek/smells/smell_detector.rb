@@ -108,13 +108,7 @@ module Reek
       end
 
       def report_on(report)
-        @smells_found.each do |smell|
-          if @masked
-            report.record_masked_smell(smell)
-          else
-            report << smell
-          end
-        end
+        @smells_found.each { |smell| smell.report_on(report) }
       end
 
       def num_smells

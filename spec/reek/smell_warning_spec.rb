@@ -22,4 +22,32 @@ describe SmellWarning, 'equality' do
   it 'should compare equal when using <=>' do
     (@first <=> @second).should == 0
   end
+  
+  class CountingReport
+    attr_reader :masked, :non_masked
+    def initialize
+      @masked = @non_masked = 0
+    end
+    def <<(sw)
+      @non_masked += 1
+    end
+    
+    def record_masked_smell(sw)
+      @masked += 1
+    end
+  end
+
+  it 'reports as masked when masked' do
+    rpt = CountingReport.new
+    @first.report_on(rpt)
+    rpt.masked.should == 1
+    rpt.non_masked.should == 0
+  end
+
+  it 'reports as non-masked when non-masked' do
+    rpt = CountingReport.new
+    @second.report_on(rpt)
+    rpt.masked.should == 0
+    rpt.non_masked.should == 1
+  end
 end

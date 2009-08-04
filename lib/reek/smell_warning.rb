@@ -55,5 +55,13 @@ module Reek
     def report
       basic_report.gsub(/\%m/, @is_masked ? '(masked) ' : '')
     end
+
+    def report_on(report)
+      if @is_masked
+        report.record_masked_smell(self)
+      else
+        report << self
+      end
+    end
   end
 end
