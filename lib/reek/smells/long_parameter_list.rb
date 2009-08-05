@@ -1,5 +1,4 @@
 require 'reek/smells/smell_detector'
-require 'reek/smell_warning'
 
 module Reek
   module Smells
@@ -19,12 +18,30 @@ module Reek
       MAX_ALLOWED_PARAMS_KEY = 'max_params'
 
       def self.default_config
-        super.adopt(MAX_ALLOWED_PARAMS_KEY => 3)
+        super.adopt(
+          MAX_ALLOWED_PARAMS_KEY => 3,
+          "exceptions" => {
+            "initialize" => {MAX_ALLOWED_PARAMS_KEY => 5}
+            }
+        )
       end
 
       def initialize(config = LongParameterList.default_config)
         super(config)
         @action = 'has'
+      end
+
+      def value(key, ctx)
+        if @config.has_key?('exceptions')
+          exc = @config['exceptions'].select {|hk,hv| ctx.matches?(hk)}
+          if exc.length > 0
+            conf = exc[0][1]
+            if conf.has_key?(key)
+              return conf[key]
+            end
+          end
+        end
+        return @config[key]
       end
 
       #
@@ -33,7 +50,7 @@ module Reek
       #
       def examine_context(ctx)
         num_params = ctx.parameters.length
-        return false if num_params <= @config['max_params']
+        return false if num_params <= value(MAX_ALLOWED_PARAMS_KEY, ctx)
         found(ctx, "#{@action} #{num_params} parameters")
       end
     end
