@@ -54,22 +54,22 @@ module Reek
 
       def consider_variables(context) # :nodoc:
         context.variable_names.each do |name|
-          next unless is_bad_name?(name)
+          next unless is_bad_name?(name, context)
           found(context, "has the variable name '#{name}'")
         end
       end
 
       def consider_name(context)  # :nodoc:
         name = context.name
-        return false if @config[ACCEPT_KEY].include?(context.to_s)  # TODO: fq_name() ?
-        return false unless is_bad_name?(name)
+        return false if value(ACCEPT_KEY, context).include?(context.to_s)  # TODO: fq_name() ?
+        return false unless is_bad_name?(name, context)
         found(context, "has the name '#{name}'")
       end
 
-      def is_bad_name?(name)  # :nodoc:
+      def is_bad_name?(name, context)  # :nodoc:
         var = name.effective_name
-        return false if var == '*' or @config[ACCEPT_KEY].include?(var)
-        @config[REJECT_KEY].detect {|patt| patt === var}
+        return false if var == '*' or value(ACCEPT_KEY, context).include?(var)
+        value(REJECT_KEY, context).detect {|patt| patt === var}
       end
     end
   end

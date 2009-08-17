@@ -21,7 +21,7 @@ module Reek
 
       # The name of the config field that sets scope-specific overrides
       # for other values in the current smell detector's configuration.
-      EXCEPTIONS_KEY = 'exceptions'
+      OVERRIDES_KEY = 'overrides'
 
       class << self
         def class_name
@@ -42,12 +42,12 @@ module Reek
         def create(config)
           new(config[class_name])
         end
-      end
 
-      def self.listen(hooks, config)
-        detector = create(config)
-        detector.listen_to(hooks)
-        detector
+        def listen(hooks, config)
+          detector = create(config)
+          detector.listen_to(hooks)
+          detector
+        end
       end
 
       def initialize(config = SmellDetector.default_config)
@@ -96,7 +96,7 @@ module Reek
       end
       
       def exception?(context)
-        context.matches?(@config[EXCLUDE_KEY])
+        context.matches?(value(EXCLUDE_KEY, context))
       end
 
       def found(scope, warning)
@@ -128,8 +128,8 @@ module Reek
       end
 
       def value(key, ctx)
-        if @config.has_key?(EXCEPTIONS_KEY)
-          exc = @config[EXCEPTIONS_KEY].select {|hk,hv| ctx.matches?(hk)}
+        if @config.has_key?(OVERRIDES_KEY)
+          exc = @config[OVERRIDES_KEY].select {|hk,hv| ctx.matches?([hk])}
           if exc.length > 0
             conf = exc[0][1]
             if conf.has_key?(key)

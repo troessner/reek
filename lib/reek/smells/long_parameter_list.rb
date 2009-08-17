@@ -20,7 +20,7 @@ module Reek
       def self.default_config
         super.adopt(
           MAX_ALLOWED_PARAMS_KEY => 3,
-          EXCEPTIONS_KEY => {
+          OVERRIDES_KEY => {
             "initialize" => {MAX_ALLOWED_PARAMS_KEY => 5}
             }
         )

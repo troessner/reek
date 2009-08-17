@@ -10,7 +10,7 @@ LongParameterList:
   exclude: []
 
   enabled: true
-  exceptions: 
+  overrides: 
     initialize: 
       max_params: 5
 FeatureEnvy: 
@@ -58,6 +58,6 @@ LongYieldList:
   exclude: []
 
   enabled: true
-  exceptions: 
+  overrides: 
     initialize: 
       max_params: 5

@@ -48,7 +48,7 @@ module Reek
         counts = Hash.new(0)
         klass.conditionals.each {|cond| counts[cond] += 1}
         counts.each do |key, val|
-          found(klass, "tests #{SexpFormatter.format(key)} at least #{val} times") if val > @config[MAX_IDENTICAL_IFS_KEY]
+          found(klass, "tests #{SexpFormatter.format(key)} at least #{val} times") if val > value(MAX_IDENTICAL_IFS_KEY, klass)
         end
       end
     end

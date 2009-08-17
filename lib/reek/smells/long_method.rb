@@ -29,17 +29,13 @@ module Reek
         super(config)
       end
 
-      def max_statements
-        @config['max_statements']
-      end
-
       #
       # Checks the length of the given +method+.
       # Remembers any smells found.
       #
       def examine_context(method)
         num = method.num_statements
-        return false if num <= max_statements
+        return false if num <= value(MAX_ALLOWED_STATEMENTS_KEY, method)
         found(method, "has approx #{num} statements")
       end
     end

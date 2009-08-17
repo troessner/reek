@@ -42,7 +42,7 @@ module Reek
       
       def smelly_calls(method)   # :nodoc:
         method.calls.select do |key,val|
-          val > @config[MAX_ALLOWED_CALLS_KEY] and key[2] != :new
+          val > value(MAX_ALLOWED_CALLS_KEY, method) and key[2] != :new
         end
       end
     end

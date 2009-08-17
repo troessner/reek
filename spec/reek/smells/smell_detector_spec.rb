@@ -14,8 +14,8 @@ describe SmellDetector, 'configuration' do
   end
 
   it 'adopts new max_statements value' do
-    @detector.configure_with('max_statements' => 25)
-    @detector.max_statements.should == 25
+    @detector.configure_with(LongMethod::MAX_ALLOWED_STATEMENTS_KEY => 25)
+    @detector.value(LongMethod::MAX_ALLOWED_STATEMENTS_KEY, nil).should == 25
   end
 end
 
@@ -31,7 +31,7 @@ describe SmellDetector, 'when copied' do
 
   it 'should change independently of its parent' do
     default_max = @detector.max_statements
-    @copy.configure_with('max_statements' => 25)
+    @copy.configure_with(LongMethod::MAX_ALLOWED_STATEMENTS_KEY => 25)
     @detector.max_statements.should == default_max
   end
 end
@@ -47,7 +47,7 @@ describe SmellDetector, 'configuration' do
   it 'becomes disabled when disabled' do
     @detector = LargeClass.new
     @detector.should be_enabled
-    @detector.configure({'LargeClass' => {'enabled' => false}})
+    @detector.configure({'LargeClass' => {LargeClass::ENABLED_KEY => false}})
     @detector.should_not be_enabled
   end
 end
