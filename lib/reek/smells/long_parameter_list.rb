@@ -20,7 +20,7 @@ module Reek
       def self.default_config
         super.adopt(
           MAX_ALLOWED_PARAMS_KEY => 3,
-          "exceptions" => {
+          EXCEPTIONS_KEY => {
             "initialize" => {MAX_ALLOWED_PARAMS_KEY => 5}
             }
         )
@@ -29,19 +29,6 @@ module Reek
       def initialize(config = LongParameterList.default_config)
         super(config)
         @action = 'has'
-      end
-
-      def value(key, ctx)
-        if @config.has_key?('exceptions')
-          exc = @config['exceptions'].select {|hk,hv| ctx.matches?(hk)}
-          if exc.length > 0
-            conf = exc[0][1]
-            if conf.has_key?(key)
-              return conf[key]
-            end
-          end
-        end
-        return @config[key]
       end
 
       #

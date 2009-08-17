@@ -160,6 +160,7 @@ module Reek
     end
 
     def process_case(exp)
+      @element.record_conditional(exp[1])
       process_default(exp)
       @element.count_statements(-1)
     end

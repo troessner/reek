@@ -18,17 +18,19 @@
 === Minor Changes
 * Reek's RDoc is now hosted at http://rdoc.info/projects/kevinrutherford/reek
 * If a dir is passed on the command-line all **/*.rb files below it are examined (fixed #41)
+* Duplication warnings now report the number of identical calls
+* FeatureEnvy no longer ignores :self when passed as a method parameter
+* LargeClass is disabled when checking in-memory classes (fixed #28)
+* LongParameterList accepts upto 5 parameters for #initialize methods
 * Several changes to the LongMethod counting algorithm:
 ** LongMethod now counts statements deeper into each method (fixed #25)
 ** LongMethod no longer counts control structures, only their contained stmts
 ** See http://wiki.github.com/kevinrutherford/reek/long-method for details
-* LargeClass is disabled when checking in-memory classes (fixed #28)
-* UtilityFunction no longer reports methods that call 'super' (fixed #39)
-* Duplication warnings now report the number of identical calls
 * UncommunicativeName warns about any name ending in a number (fixed #18)
-* FeatureEnvy no longer ignores :self when passed as a method parameter
+* UtilityFunction no longer reports methods that call 'super' (fixed #39)
 * Now reports an error for corrupt config files
 * Empty config files are ignored
+* Smells can be configured with scope-specific overrides for any config item
 
 
 == 1.1.3 2009-05-19

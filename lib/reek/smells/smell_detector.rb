@@ -19,6 +19,10 @@ module Reek
       # enabled. Set to +true+ or +false+.
       ENABLED_KEY = 'enabled'
 
+      # The name of the config field that sets scope-specific overrides
+      # for other values in the current smell detector's configuration.
+      EXCEPTIONS_KEY = 'exceptions'
+
       class << self
         def class_name
           self.name.split(/::/)[-1]
@@ -121,6 +125,19 @@ module Reek
 
       def smell_name
         self.class.name_words.join(' ')
+      end
+
+      def value(key, ctx)
+        if @config.has_key?(EXCEPTIONS_KEY)
+          exc = @config[EXCEPTIONS_KEY].select {|hk,hv| ctx.matches?(hk)}
+          if exc.length > 0
+            conf = exc[0][1]
+            if conf.has_key?(key)
+              return conf[key]
+            end
+          end
+        end
+        return @config[key]
       end
     end
   end
