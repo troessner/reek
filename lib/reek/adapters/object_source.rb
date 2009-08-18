@@ -1,4 +1,5 @@
 require 'reek/adapters/source'
+require 'reek/configuration'
 
 module Reek
   class ObjectSource < Source   # :nodoc:
@@ -13,7 +14,7 @@ module Reek
 
     def configure(sniffer)
       super
-      disabled_config = {Reek::Smells::SmellDetector::ENABLED_KEY => false}
+      disabled_config = {Reek::Configuration::ENABLED_KEY => false}
       sniffer.configure(LargeClass, disabled_config)
     end
 

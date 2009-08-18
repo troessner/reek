@@ -1,5 +1,6 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
+require 'reek/configuration'
 require 'reek/method_context'
 require 'reek/stop_context'
 require 'reek/smells/duplication'
@@ -65,7 +66,7 @@ end
 describe Duplication, 'when disabled' do
   before :each do
     @ctx = MethodContext.new(StopContext.new, [0, :double_thing])
-    @dup = Duplication.new({SmellDetector::ENABLED_KEY => false})
+    @dup = Duplication.new({Configuration::ENABLED_KEY => false})
   end
 
   it 'should not report repeated call' do

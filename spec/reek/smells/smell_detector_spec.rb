@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
-require 'reek/adapters/report'
+require 'reek/configuration'
 require 'reek/smells/duplication'
 require 'reek/smells/large_class'
 require 'reek/smells/long_method'
@@ -47,7 +47,7 @@ describe SmellDetector, 'configuration' do
   it 'becomes disabled when disabled' do
     @detector = LargeClass.new
     @detector.should be_enabled
-    @detector.configure({'LargeClass' => {LargeClass::ENABLED_KEY => false}})
+    @detector.configure({'LargeClass' => {Configuration::ENABLED_KEY => false}})
     @detector.should_not be_enabled
   end
 end

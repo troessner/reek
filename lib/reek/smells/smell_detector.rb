@@ -1,3 +1,5 @@
+require 'reek/configuration'
+
 class Class
   def name_words
     class_name = name.split(/::/)[-1]
@@ -15,14 +17,6 @@ module Reek
       # smell that should ignore this code element.
       EXCLUDE_KEY = 'exclude'
 
-      # The name fo the config field that specifies whether a smell is
-      # enabled. Set to +true+ or +false+.
-      ENABLED_KEY = 'enabled'
-
-      # The name of the config field that sets scope-specific overrides
-      # for other values in the current smell detector's configuration.
-      OVERRIDES_KEY = 'overrides'
-
       class << self
         def class_name
           self.name.split(/::/)[-1]
@@ -34,7 +28,7 @@ module Reek
 
         def default_config
           {
-            ENABLED_KEY => true,
+            Configuration::ENABLED_KEY => true,
             EXCLUDE_KEY => []
           }
         end
@@ -51,7 +45,7 @@ module Reek
       end
 
       def initialize(config = SmellDetector.default_config)
-        @config = config
+        @config = Configuration.new(config)
         @smells_found = Set.new
         @masked = false
       end
@@ -62,7 +56,7 @@ module Reek
 
       # SMELL: Getter
       def enabled?
-        @config[ENABLED_KEY]
+        @config.enabled?
       end
 
       def configure(config)
@@ -72,11 +66,11 @@ module Reek
       end
 
       def configure_with(config)
-        @config.adopt!(config)
+        @config.hash.adopt!(config)
       end
 
       def copy
-        self.class.new(@config.deep_copy)
+        self.class.new(@config.hash.deep_copy)
       end
 
       def supersede_with(config)
@@ -128,16 +122,7 @@ module Reek
       end
 
       def value(key, ctx)
-        if @config.has_key?(OVERRIDES_KEY)
-          exc = @config[OVERRIDES_KEY].select {|hk,hv| ctx.matches?([hk])}
-          if exc.length > 0
-            conf = exc[0][1]
-            if conf.has_key?(key)
-              return conf[key]
-            end
-          end
-        end
-        return @config[key]
+        @config.value(key, ctx)
       end
     end
   end
