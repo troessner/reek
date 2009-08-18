@@ -27,12 +27,17 @@ namespace 'test' do
     t.rcov_dir = 'build/coverage'
   end
 
+  desc 'Checks all supported versions of Ruby'
+  task :multiruby do
+    sh "multiruby -S rake spec"
+  end
+
   Cucumber::Rake::Task.new(:features) do |t|
     t.cucumber_opts = "features --format progress --no-color"
   end
 
   desc 'Runs all unit tests, acceptance tests and quality checks'
-  task 'all' => ['test:spec', 'test:features', 'test:quality']
+  task 'all' => ['test:spec', 'test:features', 'test:quality', 'test:multiruby']
 end
 
 task 'clobber_rcov' => 'test:clobber_rcov'
