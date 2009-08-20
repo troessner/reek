@@ -25,6 +25,7 @@ lib/reek/class_context.rb
 lib/reek/code_context.rb
 lib/reek/code_parser.rb
 lib/reek/command_line.rb
+lib/reek/configuration.rb
 lib/reek/detector_stack.rb
 lib/reek/exceptions.reek
 lib/reek/if_context.rb
@@ -43,6 +44,7 @@ lib/reek/smells/long_method.rb
 lib/reek/smells/long_parameter_list.rb
 lib/reek/smells/long_yield_list.rb
 lib/reek/smells/nested_iterators.rb
+lib/reek/smells/simulated_polymorphism.rb
 lib/reek/smells/smell_detector.rb
 lib/reek/smells/uncommunicative_name.rb
 lib/reek/smells/utility_function.rb
@@ -60,6 +62,7 @@ spec/reek/class_context_spec.rb
 spec/reek/code_context_spec.rb
 spec/reek/code_parser_spec.rb
 spec/reek/config_spec.rb
+spec/reek/configuration_spec.rb
 spec/reek/if_context_spec.rb
 spec/reek/method_context_spec.rb
 spec/reek/module_context_spec.rb
@@ -75,6 +78,7 @@ spec/reek/smells/large_class_spec.rb
 spec/reek/smells/long_method_spec.rb
 spec/reek/smells/long_parameter_list_spec.rb
 spec/reek/smells/nested_iterators_spec.rb
+spec/reek/smells/simulated_polymorphism_spec.rb
 spec/reek/smells/smell_detector_spec.rb
 spec/reek/smells/uncommunicative_name_spec.rb
 spec/reek/smells/utility_function_spec.rb
@@ -92,6 +96,7 @@ spec/samples/corrupt_config_file/corrupt.reek
 spec/samples/corrupt_config_file/dirty.rb
 spec/samples/empty_config_file/dirty.rb
 spec/samples/empty_config_file/empty.reek
+spec/samples/exceptions.reek
 spec/samples/inline.rb
 spec/samples/masked/dirty.rb
 spec/samples/masked/masked.reek
@@ -103,6 +108,9 @@ spec/samples/mixed_results/dirty_two.rb
 spec/samples/not_quite_masked/dirty.rb
 spec/samples/not_quite_masked/masked.reek
 spec/samples/optparse.rb
+spec/samples/overrides/masked/dirty.rb
+spec/samples/overrides/masked/lower.reek
+spec/samples/overrides/upper.reek
 spec/samples/redcloth.rb
 spec/samples/three_clean_files/clean_one.rb
 spec/samples/three_clean_files/clean_three.rb
