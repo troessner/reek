@@ -15,7 +15,7 @@ describe SmellDetector, 'configuration' do
 
   it 'adopts new max_statements value' do
     @detector.configure_with(LongMethod::MAX_ALLOWED_STATEMENTS_KEY => 25)
-    @detector.value(LongMethod::MAX_ALLOWED_STATEMENTS_KEY, nil).should == 25
+    @detector.value(LongMethod::MAX_ALLOWED_STATEMENTS_KEY, nil, 0).should == 25
   end
 end
 

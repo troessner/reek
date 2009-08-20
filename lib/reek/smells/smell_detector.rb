@@ -17,6 +17,10 @@ module Reek
       # smell that should ignore this code element.
       EXCLUDE_KEY = 'exclude'
 
+      # The default value for the +EXCLUDE_KEY+ if it isn't specified
+      # in any configuration file.
+      DEFAULT_EXCLUDE_SET = []
+
       class << self
         def class_name
           self.name.split(/::/)[-1]
@@ -29,7 +33,7 @@ module Reek
         def default_config
           {
             Configuration::ENABLED_KEY => true,
-            EXCLUDE_KEY => []
+            EXCLUDE_KEY => DEFAULT_EXCLUDE_SET
           }
         end
 
@@ -54,7 +58,7 @@ module Reek
         self.class.contexts.each { |ctx| hooks[ctx] << self }
       end
 
-      # SMELL: Getter
+      # SMELL: Getter (only used in 1 test)
       def enabled?
         @config.enabled?
       end
@@ -82,7 +86,7 @@ module Reek
 
       def examine(context)
         before = @smells_found.size
-        examine_context(context) if enabled? and !exception?(context)
+        examine_context(context) if @config.enabled? and !exception?(context)
         @smells_found.length > before
       end
 
@@ -90,7 +94,7 @@ module Reek
       end
       
       def exception?(context)
-        context.matches?(value(EXCLUDE_KEY, context))
+        context.matches?(value(EXCLUDE_KEY, context, DEFAULT_EXCLUDE_SET))
       end
 
       def found(scope, warning)
@@ -121,8 +125,8 @@ module Reek
         self.class.name_words.join(' ')
       end
 
-      def value(key, ctx)
-        @config.value(key, ctx)
+      def value(key, ctx, fall_back)
+        @config.value(key, ctx, fall_back)
       end
     end
   end

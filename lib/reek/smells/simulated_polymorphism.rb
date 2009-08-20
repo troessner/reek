@@ -32,8 +32,10 @@ module Reek
       # identical conditionals permitted within any single class.
       MAX_IDENTICAL_IFS_KEY = 'max_ifs'
 
+      DEFAULT_MAX_IFS = 2
+
       def self.default_config
-        super.adopt(MAX_IDENTICAL_IFS_KEY => 2)
+        super.adopt(MAX_IDENTICAL_IFS_KEY => DEFAULT_MAX_IFS)
       end
 
       def initialize(config = SimulatedPolymorphism.default_config)
@@ -48,7 +50,7 @@ module Reek
         counts = Hash.new(0)
         klass.conditionals.each {|cond| counts[cond] += 1}
         counts.each do |key, val|
-          found(klass, "tests #{SexpFormatter.format(key)} at least #{val} times") if val > value(MAX_IDENTICAL_IFS_KEY, klass)
+          found(klass, "tests #{SexpFormatter.format(key)} at least #{val} times") if val > value(MAX_IDENTICAL_IFS_KEY, klass, DEFAULT_MAX_IFS)
         end
       end
     end

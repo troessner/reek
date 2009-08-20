@@ -20,9 +20,13 @@ module Reek
       # permitted in a class.
       MAX_ALLOWED_METHODS_KEY = 'max_methods'
 
+      DEFAULT_MAX_METHODS = 25
+
       # The name of the config field that sets the maximum number of instance
       # variables permitted in a class.
       MAX_ALLOWED_IVARS_KEY = 'max_instance_variables'
+
+      DEFAULT_MAX_IVARS = 9
 
       def self.contexts      # :nodoc:
         [:class]
@@ -30,8 +34,8 @@ module Reek
 
       def self.default_config
         super.adopt(
-          MAX_ALLOWED_METHODS_KEY => 25,
-          MAX_ALLOWED_IVARS_KEY => 9,
+          MAX_ALLOWED_METHODS_KEY => DEFAULT_MAX_METHODS,
+          MAX_ALLOWED_IVARS_KEY => DEFAULT_MAX_IVARS,
           EXCLUDE_KEY => []
           )
       end
@@ -42,13 +46,13 @@ module Reek
 
       def check_num_methods(klass)  # :nodoc:
         count = klass.num_methods
-        return if count <= value(MAX_ALLOWED_METHODS_KEY, klass)
+        return if count <= value(MAX_ALLOWED_METHODS_KEY, klass, DEFAULT_MAX_METHODS)
         found(klass, "has at least #{count} methods")
       end
 
       def check_num_ivars(klass)  # :nodoc:
         count = klass.variable_names.length
-        return if count <= value(MAX_ALLOWED_IVARS_KEY, klass)
+        return if count <= value(MAX_ALLOWED_IVARS_KEY, klass, DEFAULT_MAX_IVARS)
         found(klass, "has at least #{count} instance variables")
       end
 

@@ -22,16 +22,20 @@ module Reek
       # The name of the config field that lists the regexps of
       # smelly names to be reported.
       REJECT_KEY = 'reject'
+
+      DEFAULT_REJECT_SET = [/^.$/, /[0-9]$/]
       
       # The name of the config field that lists the specific names that are
       # to be treated as exceptions; these names will not be reported as
       # uncommunicative.
       ACCEPT_KEY = 'accept'
 
+      DEFAULT_ACCEPT_SET = ['Inline::C']
+
       def self.default_config
         super.adopt(
-          REJECT_KEY => [/^.$/, /[0-9]$/],
-          ACCEPT_KEY => ['Inline::C']
+          REJECT_KEY => DEFAULT_REJECT_SET,
+          ACCEPT_KEY => DEFAULT_ACCEPT_SET
         )
       end
 
@@ -61,15 +65,15 @@ module Reek
 
       def consider_name(context)  # :nodoc:
         name = context.name
-        return false if value(ACCEPT_KEY, context).include?(context.to_s)  # TODO: fq_name() ?
+        return false if value(ACCEPT_KEY, context, DEFAULT_ACCEPT_SET).include?(context.to_s)  # TODO: fq_name() ?
         return false unless is_bad_name?(name, context)
         found(context, "has the name '#{name}'")
       end
 
       def is_bad_name?(name, context)  # :nodoc:
         var = name.effective_name
-        return false if var == '*' or value(ACCEPT_KEY, context).include?(var)
-        value(REJECT_KEY, context).detect {|patt| patt === var}
+        return false if var == '*' or value(ACCEPT_KEY, context, DEFAULT_ACCEPT_SET).include?(var)
+        value(REJECT_KEY, context, DEFAULT_REJECT_SET).detect {|patt| patt === var}
       end
     end
   end

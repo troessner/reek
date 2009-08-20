@@ -17,9 +17,13 @@ module Reek
       # parameters permitted in any method or block.
       MAX_ALLOWED_PARAMS_KEY = 'max_params'
 
+      # The default value of the +MAX_ALLOWED_PARAMS_KEY+ configuration
+      # value.
+      DEFAULT_MAX_ALLOWED_PARAMS = 3
+
       def self.default_config
         super.adopt(
-          MAX_ALLOWED_PARAMS_KEY => 3,
+          MAX_ALLOWED_PARAMS_KEY => DEFAULT_MAX_ALLOWED_PARAMS,
           Configuration::OVERRIDES_KEY => {
             "initialize" => {MAX_ALLOWED_PARAMS_KEY => 5}
             }
@@ -37,7 +41,7 @@ module Reek
       #
       def examine_context(ctx)
         num_params = ctx.parameters.length
-        return false if num_params <= value(MAX_ALLOWED_PARAMS_KEY, ctx)
+        return false if num_params <= value(MAX_ALLOWED_PARAMS_KEY, ctx, DEFAULT_MAX_ALLOWED_PARAMS)
         found(ctx, "#{@action} #{num_params} parameters")
       end
     end

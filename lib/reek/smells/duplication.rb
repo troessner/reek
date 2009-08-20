@@ -24,8 +24,10 @@ module Reek
       # identical calls to be permitted within any single method.
       MAX_ALLOWED_CALLS_KEY = 'max_calls'
 
+      DEFAULT_MAX_CALLS = 1
+
       def self.default_config
-        super.adopt(MAX_ALLOWED_CALLS_KEY => 1)
+        super.adopt(MAX_ALLOWED_CALLS_KEY => DEFAULT_MAX_CALLS)
       end
 
       def initialize(config = Duplication.default_config)
@@ -42,7 +44,7 @@ module Reek
       
       def smelly_calls(method)   # :nodoc:
         method.calls.select do |key,val|
-          val > value(MAX_ALLOWED_CALLS_KEY, method) and key[2] != :new
+          val > value(MAX_ALLOWED_CALLS_KEY, method, DEFAULT_MAX_CALLS) and key[2] != :new
         end
       end
     end

@@ -16,9 +16,11 @@ module Reek
       # statements permitted in any method.
       MAX_ALLOWED_STATEMENTS_KEY = 'max_statements'
 
+      DEFAULT_MAX_STATEMENTS = 5
+
       def self.default_config
         super.adopt(
-          MAX_ALLOWED_STATEMENTS_KEY => 5,
+          MAX_ALLOWED_STATEMENTS_KEY => DEFAULT_MAX_STATEMENTS,
           EXCLUDE_KEY => ['initialize']
         )
       end
@@ -35,7 +37,7 @@ module Reek
       #
       def examine_context(method)
         num = method.num_statements
-        return false if num <= value(MAX_ALLOWED_STATEMENTS_KEY, method)
+        return false if num <= value(MAX_ALLOWED_STATEMENTS_KEY, method, DEFAULT_MAX_STATEMENTS)
         found(method, "has approx #{num} statements")
       end
     end
