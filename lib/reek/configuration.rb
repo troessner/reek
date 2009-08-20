@@ -3,7 +3,7 @@ module Reek
   #
   # Represents a single set of configuration options for a smell detector
   #
-  class Configuration
+  class SmellConfiguration
 
     # The name of the config field that specifies whether a smell is
     # enabled. Set to +true+ or +false+.
@@ -25,9 +25,7 @@ module Reek
     end
 
     def overrides_for(context)
-      overrides = @hash.fetch(OVERRIDES_KEY, {})
-      configs = overrides.keys.select {|ckey| context.matches?(ckey)}
-      configs.map { |exc| overrides[exc] }
+      Overrides.new(@hash.fetch(OVERRIDES_KEY, {})).for_context(context)
     end
 
     # Retrieves the value, if any, for the given +key+.
@@ -37,6 +35,17 @@ module Reek
     def value(key, context, fall_back)
       overrides_for(context).each { |conf| return conf[key] if conf.has_key?(key) }
       return @hash.fetch(key, fall_back)
+    end
+  end
+
+  class Overrides
+    def initialize(hash)
+      @hash = hash
+    end
+
+    def for_context(context)
+      contexts = @hash.keys.select {|ckey| context.matches?([ckey])}
+      contexts.map { |exc| @hash[exc] }
     end
   end
 end

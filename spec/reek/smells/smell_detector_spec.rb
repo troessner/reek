@@ -47,7 +47,7 @@ describe SmellDetector, 'configuration' do
   it 'becomes disabled when disabled' do
     @detector = LargeClass.new
     @detector.should be_enabled
-    @detector.configure({'LargeClass' => {Configuration::ENABLED_KEY => false}})
+    @detector.configure({'LargeClass' => {SmellConfiguration::ENABLED_KEY => false}})
     @detector.should_not be_enabled
   end
 end

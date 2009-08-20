@@ -32,7 +32,7 @@ module Reek
 
         def default_config
           {
-            Configuration::ENABLED_KEY => true,
+            SmellConfiguration::ENABLED_KEY => true,
             EXCLUDE_KEY => DEFAULT_EXCLUDE_SET
           }
         end
@@ -49,7 +49,7 @@ module Reek
       end
 
       def initialize(config = SmellDetector.default_config)
-        @config = Configuration.new(config)
+        @config = SmellConfiguration.new(config)
         @smells_found = Set.new
         @masked = false
       end

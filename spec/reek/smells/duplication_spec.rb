@@ -66,7 +66,7 @@ end
 describe Duplication, 'when disabled' do
   before :each do
     @ctx = MethodContext.new(StopContext.new, [0, :double_thing])
-    @dup = Duplication.new({Configuration::ENABLED_KEY => false})
+    @dup = Duplication.new({SmellConfiguration::ENABLED_KEY => false})
   end
 
   it 'should not report repeated call' do

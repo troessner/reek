@@ -24,7 +24,7 @@ module Reek
       def self.default_config
         super.adopt(
           MAX_ALLOWED_PARAMS_KEY => DEFAULT_MAX_ALLOWED_PARAMS,
-          Configuration::OVERRIDES_KEY => {
+          SmellConfiguration::OVERRIDES_KEY => {
             "initialize" => {MAX_ALLOWED_PARAMS_KEY => 5}
             }
         )

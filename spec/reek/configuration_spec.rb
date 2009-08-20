@@ -4,9 +4,9 @@ require 'reek/configuration'
 
 include Reek
 
-describe Configuration do
+describe SmellConfiguration do
   it 'returns the default value when key not found' do
-    cf = Configuration.new({})
+    cf = SmellConfiguration.new({})
     cf.value('fred', nil, 27).should == 27
   end
 end
