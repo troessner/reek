@@ -128,6 +128,9 @@ begin
 
     desc 'Major release (github+rubyforge) with news'
     task :major => ['release:minor', 'rubyforge:gem', 'rubyforge:news'] do
+      puts <<-EOS
+        1) gem push #{PKG_DIR}/#{PROJECT_NAME}-#{Reek::VERSION}.gem"
+      EOS
     end
   end
 rescue LoadError
