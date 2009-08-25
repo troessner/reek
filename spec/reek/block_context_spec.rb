@@ -27,7 +27,7 @@ describe BlockContext do
   end
 
   it "should not pass parameters upward" do
-    mc = MethodContext.new(StopContext.new, s(:defn, :help))
+    mc = MethodContext.new(StopContext.new, s(:defn, :help, s(:args)))
     element = BlockContext.new(mc, s(s(:lasgn, :x)))
     mc.variable_names.should be_empty
   end

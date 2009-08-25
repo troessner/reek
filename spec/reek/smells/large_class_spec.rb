@@ -39,7 +39,7 @@ describe LargeClass, 'checking Class objects' do
     it 'should not report class with 10 ivars' do
       pending('test requires ParseTree') unless ObjectSource.can_parse_objects?
       class ManyIvars
-        def method
+        def meth
           @vara = @varb = @varc = @vard = @vare
           @varf = @varg = @varh = @vari = @varj
         end

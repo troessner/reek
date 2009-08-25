@@ -3,6 +3,42 @@ require 'reek/code_context'
 require 'reek/object_refs'
 
 module Reek
+
+  module MethodParameters
+    def is_arg?(param)
+      return false if (Array === param and param[0] == :block)
+      return !(param.to_s =~ /^\&/)
+    end
+
+    def names
+      return @names if @names
+      @names = self[1..-1].select {|arg| is_arg?(arg)}.map {|arg| Name.new(arg)}
+    end
+
+    def length
+      names.length
+    end
+
+    def include?(name)
+      names.include?(name)
+    end
+
+    def power_set
+      names.inject([[]]) do |cum, element|
+        power = []
+        cum.each do |set|
+          power << set
+          power << (set + [element]).sort
+        end
+        power.sort
+      end
+    end
+
+    def to_s
+      "[#{names.map{|nm| nm.to_s}.join(', ')}]"
+    end
+  end
+
   class MethodContext < CodeContext
     attr_reader :parameters
     attr_reader :calls
@@ -11,14 +47,16 @@ module Reek
 
     def initialize(outer, exp, record = true)
       super(outer, exp)
-      @parameters = []
+      @parameters = exp[exp[0] == :defn ? 2 : 3]  # SMELL: SimulatedPolymorphism
+      @parameters ||= []
+      @parameters.extend(MethodParameters)
       @local_variables = []
       @name = Name.new(exp[1])
       @num_statements = 0
       @calls = Hash.new(0)
       @depends_on_self = false
       @refs = ObjectRefs.new
-      @outer.record_method(@name)    # TODO: should be children of outer?
+      @outer.record_method(self)
     end
 
     def count_statements(num)
@@ -63,14 +101,6 @@ module Reek
       @local_variables << Name.new(sym)
     end
 
-    def self.is_block_arg?(param)
-      (Array === param and param[0] == :block) or (param.to_s =~ /^\&/)
-    end
-
-    def record_parameter(param)
-      @parameters << Name.new(param) unless MethodContext.is_block_arg?(param)
-    end
-
     def outer_name
       "#{@outer.outer_name}#{@name}/"
     end
@@ -85,7 +115,7 @@ module Reek
     end
 
     def variable_names
-      @parameters + @local_variables
+      @parameters.names + @local_variables
     end
   end
 end

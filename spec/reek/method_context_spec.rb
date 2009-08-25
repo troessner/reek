@@ -64,3 +64,23 @@ describe MethodContext do
     mc.envious_receivers.should be_empty
   end
 end
+
+describe MethodParameters, 'power_set' do
+  it 'creates an empty power set for no elements' do
+    arr = s(:args)
+    arr.extend(MethodParameters)
+    arr.power_set.should == [[]]
+  end
+
+  it 'creates the right power set for 2 elements' do
+    arr = [:args, :n1, :n2]
+    arr.extend(MethodParameters)
+    arr.power_set.should == [[], [Name.new(:n1)], [Name.new(:n1), Name.new(:n2)], [Name.new(:n2)]]
+  end
+
+  it 'sorts power set for 2 elements' do
+    arr = [:args, :n2, :n1]
+    arr.extend(MethodParameters)
+    arr.power_set.should == [[], [Name.new(:n1)], [Name.new(:n1), Name.new(:n2)], [Name.new(:n2)]]
+  end
+end

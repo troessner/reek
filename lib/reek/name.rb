@@ -42,6 +42,10 @@ module Reek
       @name.gsub(/^@*/, '')
     end
 
+    def inspect
+      @name
+    end
+
     def to_s
       @name
     end

@@ -48,6 +48,12 @@ SimulatedPolymorphism:
 
   enabled: true
   max_ifs: 2
+DataClump: 
+  exclude: []
+
+  enabled: true
+  max_clumps: 2
+  min_clump_size: 2
 ControlCouple: 
   exclude: 
   - initialize

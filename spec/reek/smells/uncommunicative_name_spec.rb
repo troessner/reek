@@ -125,12 +125,12 @@ describe UncommunicativeName, '#examine' do
   end
   
   it 'should return true when reporting a smell' do
-    mc = MethodContext.new(StopContext.new, [:defn, :x, nil])
+    mc = MethodContext.new(StopContext.new, s(:defn, :x, s(:args)))
     @uc.examine(mc).should == true
   end
   
   it 'should return false when not reporting a smell' do
-    mc = MethodContext.new(StopContext.new, [:defn, :not_bad, nil])
+    mc = MethodContext.new(StopContext.new, s(:defn, :not_bad, s(:args)))
     @uc.examine(mc).should == false
   end
 end

@@ -2,6 +2,7 @@ require 'reek/detector_stack'
 
 # SMELL: Duplication -- all these should be found automagically
 require 'reek/smells/control_couple'
+require 'reek/smells/data_clump'
 require 'reek/smells/duplication'
 require 'reek/smells/feature_envy'
 require 'reek/smells/large_class'
@@ -44,27 +45,29 @@ end
 module Reek
   class Sniffer
 
-    # SMELL: Duplication
-    # This list should be calculated by looking in the source folder.
-    SMELL_CLASSES = [
-      Smells::ControlCouple,
-      Smells::Duplication,
-      Smells::FeatureEnvy,
-      Smells::LargeClass,
-      Smells::LongMethod,
-      Smells::LongParameterList,
-      Smells::LongYieldList,
-      Smells::NestedIterators,
-      Smells::SimulatedPolymorphism,
-      Smells::UncommunicativeName,
-      Smells::UtilityFunction,
-    ]
+    def self.smell_classes
+      # SMELL: Duplication -- these should be loaded by listing the files
+      [
+        Smells::ControlCouple,
+        Smells::DataClump,
+        Smells::Duplication,
+        Smells::FeatureEnvy,
+        Smells::LargeClass,
+        Smells::LongMethod,
+        Smells::LongParameterList,
+        Smells::LongYieldList,
+        Smells::NestedIterators,
+        Smells::SimulatedPolymorphism,
+        Smells::UncommunicativeName,
+        Smells::UtilityFunction,
+      ]
+    end
 
     def initialize(src)
       @already_checked_for_smells = false
       @typed_detectors = nil
       @detectors = Hash.new
-      SMELL_CLASSES.each { |klass| @detectors[klass] = DetectorStack.new(klass.new) }
+      Sniffer.smell_classes.each { |klass| @detectors[klass] = DetectorStack.new(klass.new) }
       @source = src
       src.configure(self)
     end

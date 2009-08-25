@@ -74,9 +74,7 @@ module Reek
       handle_context(SingletonMethodContext, :defs, exp)
     end
 
-    def process_args(exp)
-      exp[1..-1].each {|sym| @element.record_parameter(sym) }
-    end
+    def process_args(exp) end
 
     def process_attrset(exp)
       @element.record_depends_on_self if /^@/ === exp[1].to_s
@@ -94,11 +92,6 @@ module Reek
     def process_iter(exp)
       process(exp[1])
       handle_context(BlockContext, :iter, exp[2..-1])
-    end
-    
-    def process_dasgn_curr(exp)
-      @element.record_parameter(exp[1])
-      process_default(exp)
     end
 
     def process_block(exp)
