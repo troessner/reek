@@ -32,18 +32,20 @@ module Reek
       @name.hash
     end
 
+    def eql?(other)
+      self == other
+    end
+
     def <=>(other)  # :nodoc:
       @name <=> other.to_s
     end
-
-    alias eql? <=>
 
     def effective_name
       @name.gsub(/^@*/, '')
     end
 
     def inspect
-      @name
+      @name.inspect
     end
 
     def to_s

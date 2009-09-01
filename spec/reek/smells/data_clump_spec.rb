@@ -32,9 +32,9 @@ EOS
   it 'should report 3 swapped pairs in a class' do
     src = <<EOS
 class Scrunch
-  def first(pa, pb) @field == :sym ? 0 : 3; end
-  def second(pb, pa) @field == :sym; end
-  def third(pa, pb) pa - pb + @fred; end
+  def one(pa, pb) @field == :sym ? 0 : 3; end
+  def two(pb, pa) @field == :sym; end
+  def tri(pa, pb) pa - pb + @fred; end
 end
 EOS
 
@@ -51,9 +51,9 @@ end
 EOS
 
     src.should reek_of(:DataClump, /\[pa, pb, pc\]/, /3 methods/)
-    src.should reek_of(:DataClump, /\[pa, pb\]/, /3 methods/)
-    src.should reek_of(:DataClump, /\[pa, pc\]/, /3 methods/)
-    src.should reek_of(:DataClump, /\[pb, pc\]/, /3 methods/)
+    src.should_not reek_of(:DataClump, /\[pa, pb\]/, /3 methods/)
+    src.should_not reek_of(:DataClump, /\[pa, pc\]/, /3 methods/)
+    src.should_not reek_of(:DataClump, /\[pb, pc\]/, /3 methods/)
   end
 
   it 'should recognise re-ordered identical parameter sets' do
@@ -66,9 +66,21 @@ end
 EOS
 
     src.should reek_of(:DataClump, /\[pa, pb, pc\]/, /3 methods/)
-    src.should reek_of(:DataClump, /\[pa, pb\]/, /3 methods/)
-    src.should reek_of(:DataClump, /\[pa, pc\]/, /3 methods/)
-    src.should reek_of(:DataClump, /\[pb, pc\]/, /3 methods/)
+    src.should_not reek_of(:DataClump, /\[pa, pb\]/, /3 methods/)
+    src.should_not reek_of(:DataClump, /\[pa, pc\]/, /3 methods/)
+    src.should_not reek_of(:DataClump, /\[pb, pc\]/, /3 methods/)
+  end
+
+  it 'should count only identical parameter sets' do
+    src = <<EOS
+class RedCloth
+  def fa(p1, p2, p3, conten) end
+  def fb(p1, p2, p3, conten) end
+  def fc(name, windowW, windowH) end
+end
+EOS
+
+    src.should_not reek_of(:DataClump)
   end
 
   # TODO: include singleton methods in the calcs

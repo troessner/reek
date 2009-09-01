@@ -2,17 +2,32 @@ require 'reek/name'
 require 'reek/code_context'
 require 'reek/object_refs'
 
+class Array
+  def power_set
+    self.inject([[]]) { |cum, element| cum.cross(element) }
+  end
+
+  def cross(element)
+    result = []
+    self.each do |set|
+      result << set
+      result << (set + [element])
+    end
+    result
+  end
+end
+
 module Reek
 
   module MethodParameters
-    def is_arg?(param)
+    def self.is_arg?(param)
       return false if (Array === param and param[0] == :block)
       return !(param.to_s =~ /^\&/)
     end
 
     def names
       return @names if @names
-      @names = self[1..-1].select {|arg| is_arg?(arg)}.map {|arg| Name.new(arg)}
+      @names = self[1..-1].select {|arg| MethodParameters.is_arg?(arg)}.map {|arg| Name.new(arg)}
     end
 
     def length
@@ -21,17 +36,6 @@ module Reek
 
     def include?(name)
       names.include?(name)
-    end
-
-    def power_set
-      names.inject([[]]) do |cum, element|
-        power = []
-        cum.each do |set|
-          power << set
-          power << (set + [element]).sort
-        end
-        power.sort
-      end
     end
 
     def to_s

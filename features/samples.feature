@@ -9,8 +9,9 @@ Feature: Basic smell detection
     Then it fails with exit status 2
     And it reports:
     """
-    spec/samples/inline.rb -- 35 warnings (+1 masked):
+    spec/samples/inline.rb -- 36 warnings (+1 masked):
       Inline::C has at least 13 instance variables (Large Class)
+      Inline::C takes parameters [options, src] to 5 methods (Data Clump)
       Inline::C tests $DEBUG at least 7 times (Simulated Polymorphism)
       Inline::C tests $TESTING at least 4 times (Simulated Polymorphism)
       Inline::C tests @@type_map.has_key?(type) at least 3 times (Simulated Polymorphism)
@@ -183,8 +184,9 @@ Feature: Basic smell detection
     Then it fails with exit status 2
     And it reports:
     """
-    spec/samples/redcloth.rb -- 99 warnings:
+    spec/samples/redcloth.rb -- 100 warnings:
       RedCloth has at least 44 methods (Large Class)
+      RedCloth takes parameters [atts, cite, content, tag] to 3 methods (Data Clump)
       RedCloth tests atts at least 6 times (Simulated Polymorphism)
       RedCloth tests codepre.zero? at least 3 times (Simulated Polymorphism)
       RedCloth tests href at least 3 times (Simulated Polymorphism)

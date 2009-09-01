@@ -14,7 +14,7 @@ module Reek
     # spread around to handle them. There may be an abstraction missing
     # from the code, making the system harder to understand.
     #
-    # Currently Reek looks for a group of three or more parameters with
+    # Currently Reek looks for a group of two or more parameters with
     # the same names that are expected by three or more methods of a class.
     #
     class DataClump < SmellDetector
@@ -25,16 +25,16 @@ module Reek
 
       # The name of the config field that sets the maximum allowed
       # copies of any clump.
-      MAX_CLUMPS_KEY = 'max_clumps'
+      MAX_COPIES_KEY = 'max_copies'
 
-      DEFAULT_MAX_CLUMPS = 2
+      DEFAULT_MAX_COPIES = 2
 
       MIN_CLUMP_SIZE_KEY = 'min_clump_size'
       DEFAULT_MIN_CLUMP_SIZE = 2
 
       def self.default_config
         super.adopt(
-          MAX_CLUMPS_KEY => DEFAULT_MAX_CLUMPS,
+          MAX_COPIES_KEY => DEFAULT_MAX_COPIES,
           MIN_CLUMP_SIZE_KEY => DEFAULT_MIN_CLUMP_SIZE
         )
       end
@@ -48,28 +48,24 @@ module Reek
       # Remembers any smells found.
       #
       def examine_context(klass)
-        parameter_sets = candidate_param_sets(klass)
-        power_sets = parameter_sets.map {|params| power_set(params, klass)}
-        counts = Hash.new(0)
-        power_sets.each do |power_set|
-          power_set.each {|set| counts[set] += 1}
-        end
-        counts.each_key do |key|
-          if counts[key] >= value(MIN_CLUMP_SIZE_KEY, klass, DEFAULT_MIN_CLUMP_SIZE)
-            found(klass, "takes parameters [#{key.map{|nm| nm.to_s}.join(', ')}] to #{counts[key]} methods")
-            # SMELL: same array formatting as in MethodParameters
+        max_copies = value(MAX_COPIES_KEY, klass, DEFAULT_MAX_COPIES)
+        min_clump_size = value(MIN_CLUMP_SIZE_KEY, klass, DEFAULT_MIN_CLUMP_SIZE)
+        method_sets = candidate_methods(klass, min_clump_size).power_set.select {|ps| ps.length > max_copies}
+        results = Hash.new(0)
+        method_sets.each {|set|
+          params_set = set.map {|meth| meth.parameters.names.sort}
+          clump = params_set.inject { |res, elem| elem & res }
+          if clump.length >= min_clump_size
+            results[clump] = [set.length, results[clump]].max
           end
-        end
+        }
+        results.each {|clump, occurs|
+          found(klass, "takes parameters [#{clump.map{|nm| nm.to_s}.join(', ')}] to #{occurs} methods")
+        }
       end
 
-      def candidate_param_sets(klass)
-        klass.parsed_methods.map {|meth| meth.parameters}.select do |params|
-          params.length >= value(MIN_CLUMP_SIZE_KEY, klass, DEFAULT_MIN_CLUMP_SIZE)
-        end
-      end
-
-      def power_set(params, klass)
-        params.power_set.select {|set| set.length >= value(MIN_CLUMP_SIZE_KEY, klass, DEFAULT_MIN_CLUMP_SIZE)}
+      def candidate_methods(klass, min_clump_size)
+        klass.parsed_methods.select {|meth| meth.parameters.length >= min_clump_size }
       end
     end
   end
