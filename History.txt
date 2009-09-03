@@ -2,6 +2,8 @@
 
 === Major Changes
 * Reek passes all its tests under ruby 1.8.6, 1.8.7 and 1.9.1 (fixed #16)
+* New smell -- Data Clump:
+** Looks within a class for 3 or more methods taking the same 2 or more parameters
 * New smell -- Simulated Polymorphism:
 ** Currently only performs basic check for multiple tests of same value
 * Reek's output reports are now formatted differently:
