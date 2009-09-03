@@ -81,5 +81,9 @@ module Reek
     def record_conditional(exp)
       @conditionals << exp
     end
+
+    def parameterized_methods(min_clump_size)
+      parsed_methods.select {|meth| meth.parameters.length >= min_clump_size }
+    end
   end
 end

@@ -50,23 +50,39 @@ module Reek
       def examine_context(klass)
         max_copies = value(MAX_COPIES_KEY, klass, DEFAULT_MAX_COPIES)
         min_clump_size = value(MIN_CLUMP_SIZE_KEY, klass, DEFAULT_MIN_CLUMP_SIZE)
-        method_sets = candidate_methods(klass, min_clump_size).power_set.select {|ps| ps.length > max_copies}
-        results = Hash.new(0)
-        method_sets.each {|set|
-          params_set = set.map {|meth| meth.parameters.names.sort}
-          clump = params_set.inject { |res, elem| elem & res }
-          if clump.length >= min_clump_size
-            results[clump] = [set.length, results[clump]].max
-          end
-        }
-        results.each {|clump, occurs|
-          found(klass, "takes parameters [#{clump.map{|nm| nm.to_s}.join(', ')}] to #{occurs} methods")
+        MethodGroup.new(klass, min_clump_size, max_copies).clumps.each {|clump, occurs|
+          found(klass, "takes parameters #{DataClump.print_clump(clump)} to #{occurs} methods")
         }
       end
 
-      def candidate_methods(klass, min_clump_size)
-        klass.parsed_methods.select {|meth| meth.parameters.length >= min_clump_size }
+      def self.print_clump(clump)
+        "[#{clump.map {|name| name.to_s}.join(', ')}]"
       end
+    end
+  end
+
+  # Represents a group of methods
+  class MethodGroup
+
+    def self.intersection_of_parameters_of(methods)
+      methods.map {|meth| meth.parameters.names.sort}.intersection
+    end
+
+    def initialize(klass, min_clump_size, max_copies)
+      @klass = klass
+      @min_clump_size = min_clump_size
+      @max_copies = max_copies
+    end
+
+    def clumps
+      results = Hash.new(0)
+      @klass.parameterized_methods(@min_clump_size).bounded_power_set(@max_copies).each {|methods|
+        clump = MethodGroup.intersection_of_parameters_of(methods)
+        if clump.length >= @min_clump_size
+          results[clump] = [methods.length, results[clump]].max
+        end
+      }
+      results
     end
   end
 end
