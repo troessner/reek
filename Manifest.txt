@@ -1,6 +1,6 @@
 History.txt
 License.txt
-README.txt
+README.rdoc
 Rakefile
 bin/reek
 config/defaults.reek
