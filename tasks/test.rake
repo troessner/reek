@@ -10,12 +10,14 @@ namespace 'test' do
 
   Spec::Rake::SpecTask.new('spec') do |t|
     t.spec_files = UNIT_TESTS
+    t.spec_opts = ['--color']
     t.ruby_opts = ['-Ilib']
     t.rcov = false
   end
 
   Spec::Rake::SpecTask.new('quality') do |t|
     t.spec_files = QUALITY_TESTS
+    t.spec_opts = ['--color']
     t.ruby_opts = ['-Ilib']
     t.rcov = false
   end
@@ -33,7 +35,7 @@ namespace 'test' do
   end
 
   Cucumber::Rake::Task.new(:features) do |t|
-    t.cucumber_opts = "features --format progress --no-color"
+    t.cucumber_opts = "features --format progress --color"
   end
 
   desc 'Runs all unit tests, acceptance tests and quality checks'
