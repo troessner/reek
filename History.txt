@@ -29,7 +29,10 @@
 ** LongMethod no longer counts control structures, only their contained stmts
 ** See http://wiki.github.com/kevinrutherford/reek/long-method for details
 * UncommunicativeName warns about any name ending in a number (fixed #18)
-* UtilityFunction no longer reports methods that call 'super' (fixed #39)
+* UtilityFunction has been relaxed somewhat:
+** no longer reports methods that call 'super' (fixed #39)
+** no longer reports simple helper methods
+** can be configured based on number of calls out
 * Now reports an error for corrupt config files
 * Empty config files are ignored
 * Smells can be configured with scope-specific overrides for any config item
