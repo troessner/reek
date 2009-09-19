@@ -27,9 +27,9 @@ describe FeatureEnvy do
 
   it 'should not report return value' do
     'def no_envy(arga)
-        arga.barg(@item)
-        arga
-      end'.should_not reek
+       arga.barg(@item)
+       arga
+     end'.should_not reek
   end
 
   it 'should report many calls to parameter' do

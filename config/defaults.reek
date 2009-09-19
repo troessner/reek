@@ -27,7 +27,7 @@ UncommunicativeName:
   - !ruby/regexp /^.$/
   - !ruby/regexp /[0-9]$/
 NestedIterators: 
-  exclude: &id001 []
+  exclude: []
 
   enabled: true
 LongMethod: 
@@ -41,7 +41,9 @@ Duplication:
   enabled: true
   max_calls: 1
 UtilityFunction: 
-  exclude: *id001
+  max_helper_calls: 1
+  exclude: []
+
   enabled: true
 SimulatedPolymorphism: 
   exclude: []

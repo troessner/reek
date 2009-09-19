@@ -184,7 +184,7 @@ Feature: Basic smell detection
     Then it fails with exit status 2
     And it reports:
     """
-    spec/samples/redcloth.rb -- 100 warnings:
+    spec/samples/redcloth.rb -- 95 warnings:
       RedCloth has at least 44 methods (Large Class)
       RedCloth takes parameters [atts, cite, content, tag] to 3 methods (Data Clump)
       RedCloth tests atts at least 6 times (Simulated Polymorphism)
@@ -195,7 +195,6 @@ Feature: Basic smell detection
       RedCloth#block has the variable name 'b' (Uncommunicative Name)
       RedCloth#block_markdown_atx refers to text more than self (Feature Envy)
       RedCloth#block_markdown_bq has approx 6 statements (Long Method)
-      RedCloth#block_markdown_rule doesn't depend on instance state (Utility Function)
       RedCloth#block_markdown_rule refers to text more than self (Feature Envy)
       RedCloth#block_markdown_setext refers to text more than self (Feature Envy)
       RedCloth#block_textile_lists calls (line_id - 1) twice (Duplication)
@@ -232,13 +231,10 @@ Feature: Basic smell detection
       RedCloth#flush_left doesn't depend on instance state (Utility Function)
       RedCloth#flush_left refers to indt more than self (Feature Envy)
       RedCloth#flush_left refers to text more than self (Feature Envy)
-      RedCloth#footnote_ref doesn't depend on instance state (Utility Function)
       RedCloth#footnote_ref refers to text more than self (Feature Envy)
       RedCloth#glyphs_textile has approx 10 statements (Long Method)
-      RedCloth#h_align doesn't depend on instance state (Utility Function)
       RedCloth#htmlesc doesn't depend on instance state (Utility Function)
       RedCloth#htmlesc refers to str more than self (Feature Envy)
-      RedCloth#incoming_entities doesn't depend on instance state (Utility Function)
       RedCloth#incoming_entities refers to text more than self (Feature Envy)
       RedCloth#initialize/block has the variable name 'r' (Uncommunicative Name)
       RedCloth#inline/block/block is nested (Nested Iterators)
@@ -284,6 +280,5 @@ Feature: Basic smell detection
       RedCloth#textile_p has 4 parameters (Long Parameter List)
       RedCloth#textile_p is controlled by argument atts (Control Couple)
       RedCloth#to_html has approx 24 statements (Long Method)
-      RedCloth#v_align doesn't depend on instance state (Utility Function)
 
     """

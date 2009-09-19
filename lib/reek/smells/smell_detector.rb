@@ -48,7 +48,7 @@ module Reek
         end
       end
 
-      def initialize(config = SmellDetector.default_config)
+      def initialize(config = self.class.default_config)
         @config = SmellConfiguration.new(config)
         @smells_found = Set.new
         @masked = false
