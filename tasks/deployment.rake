@@ -5,6 +5,7 @@ require 'reek'
 
 GEMSPEC = "#{PROJECT_NAME}.gemspec"
 HISTORY_FILE = 'History.txt'
+README_FILE = 'README.rdoc'
 
 RELEASE_TIMESTAMP = "#{BUILD_DIR}/.last-release"
 MANIFEST_CHECKED = "#{BUILD_DIR}/.manifest-checked"
@@ -24,7 +25,7 @@ $gemspec = Gem::Specification.new do |s|
   s.executables = s.files.grep(/^bin/) { |f| File.basename(f) }
   s.bindir = 'bin'
   s.require_paths = ['lib']
-  s.rdoc_options = ['--main', 'README.txt']
+  s.rdoc_options = ['--main', README_FILE]
   s.extra_rdoc_files = s.files.grep(/(txt|rdoc)$/)
   s.post_install_message = '
 For more information on reek, see http://wiki.github.com/kevinrutherford/reek
@@ -96,7 +97,7 @@ class ::Rake::SshDirPublisher
   attr_reader :host, :remote_dir, :local_dir
 end
 
-file GEMSPEC => [GEM_MANIFEST, HISTORY_FILE, VERSION_FILE, __FILE__] do
+file GEMSPEC => [GEM_MANIFEST, README_FILE, HISTORY_FILE, VERSION_FILE, __FILE__] do
   GEMSPEC.touch($gemspec.to_ruby)
 end
 
@@ -118,6 +119,7 @@ begin
         2) git tag -a "v#{Reek::VERSION}" -m "Release #{Reek::VERSION}"
         3) git push
         4) git push --tags
+        5) gem push "#{PKG_DIR}/#{PROJECT_NAME}-#{Reek::VERSION}.gem"
       EOS
     end
 
@@ -127,11 +129,7 @@ begin
     end
 
     desc 'Major release (github+rubyforge) with news'
-    task :major => ['release:minor', 'rubyforge:gem', 'rubyforge:news'] do
-      puts <<-EOS
-        1) gem push #{PKG_DIR}/#{PROJECT_NAME}-#{Reek::VERSION}.gem"
-      EOS
-    end
+    task :major => ['release:minor', 'rubyforge:gem', 'rubyforge:news']
   end
 rescue LoadError
 end
