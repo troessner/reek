@@ -1,4 +1,4 @@
-== 1.2 (in progress -- see github)
+== 1.2 2009-09-20
 
 === Major Changes
 * Reek passes all its tests under ruby 1.8.6, 1.8.7 and 1.9.1 (fixed #16)
