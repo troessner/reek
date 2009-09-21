@@ -11,5 +11,5 @@ end
 
 begin
   require 'metric_fu'
-rescue Gem::LoadError
+rescue LoadError
 end
