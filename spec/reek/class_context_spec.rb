@@ -116,16 +116,6 @@ describe CodeContext, 'find class' do
     @mod2 = ModuleContext.create(@klass1, [0, :Mod2])
     @klass2 = ClassContext.create(@mod2, [0, :Klass2])
   end
-
-  describe StopContext do
-    it 'should not find unqualified class' do
-      @stop.find_module('Klass2').should == nil
-    end
-
-    it 'should find unqualified module' do
-      @stop.find_module('Mod1').name.should == 'Mod1'
-    end
-  end
   
   describe ModuleContext do
     it 'should find local name' do

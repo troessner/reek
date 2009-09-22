@@ -9,7 +9,7 @@ module Reek
     class ClassVariable < SmellDetector
 
       def self.contexts      # :nodoc:
-        [:class]
+        [:class, :module]
       end
 
       #

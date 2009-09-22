@@ -9,7 +9,10 @@ Feature: Basic smell detection
     Then it fails with exit status 2
     And it reports:
     """
-    spec/samples/inline.rb -- 36 warnings (+1 masked):
+    spec/samples/inline.rb -- 39 warnings (+1 masked):
+      Inline declares the class variable @@directory (Class Variable)
+      Inline declares the class variable @@rootdir (Class Variable)
+      Inline::C declares the class variable @@type_map (Class Variable)
       Inline::C has at least 13 instance variables (Large Class)
       Inline::C takes parameters [options, src] to 5 methods (Data Clump)
       Inline::C tests $DEBUG at least 7 times (Simulated Polymorphism)

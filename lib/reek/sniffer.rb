@@ -1,6 +1,7 @@
 require 'reek/detector_stack'
 
 # SMELL: Duplication -- all these should be found automagically
+require 'reek/smells/class_variable'
 require 'reek/smells/control_couple'
 require 'reek/smells/data_clump'
 require 'reek/smells/duplication'
@@ -48,6 +49,7 @@ module Reek
     def self.smell_classes
       # SMELL: Duplication -- these should be loaded by listing the files
       [
+        Smells::ClassVariable,
         Smells::ControlCouple,
         Smells::DataClump,
         Smells::Duplication,

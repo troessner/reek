@@ -34,7 +34,7 @@ module Reek
       @parsed_methods = []
       @instance_variables = Set.new
       @conditionals = []
-      @class_variables = []
+      @class_variables = Set.new
     end
 
     def myself

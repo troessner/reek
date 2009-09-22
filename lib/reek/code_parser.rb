@@ -51,10 +51,12 @@ module Reek
     end
 
     def process_module(exp)
-      push(ModuleContext.create(@element, exp)) do
+      scope = ModuleContext.create(@element, exp)
+      push(scope) do
         process_default(exp)
         check_smells(:module)
       end
+      scope
     end
 
     def process_class(exp)
@@ -64,6 +66,18 @@ module Reek
         check_smells(:class)
       end
       scope
+    end
+
+    def process_cvar(exp)
+      @element.record_class_variable(exp[1])
+    end
+
+    def process_cvasgn(exp)
+      process_cvar(exp)
+    end
+
+    def process_cvdecl(exp)
+      process_cvar(exp)
     end
 
     def process_defn(exp)

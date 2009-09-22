@@ -17,6 +17,10 @@ FeatureEnvy:
   exclude: 
   - initialize
   enabled: true
+ClassVariable: 
+  exclude: &id001 []
+
+  enabled: true
 UncommunicativeName: 
   accept: 
   - Inline::C
@@ -27,8 +31,7 @@ UncommunicativeName:
   - !ruby/regexp /^.$/
   - !ruby/regexp /[0-9]$/
 NestedIterators: 
-  exclude: []
-
+  exclude: *id001
   enabled: true
 LongMethod: 
   max_statements: 5
