@@ -1,3 +1,10 @@
+== 1.2.1 (in progress, see github)
+
+=== Minor Changes
+* New smell: Class Variable
+
+See http://wiki.github.com/kevinrutherford/reek for details
+
 == 1.2 2009-09-20
 
 === Major Changes

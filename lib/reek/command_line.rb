@@ -1,5 +1,6 @@
 require 'optparse'
 require 'reek'
+require 'reek/adapters/report'
 
 module Reek
     
@@ -30,6 +31,7 @@ module Reek
     def initialize(argv)
       @argv = argv
       @parser = OptionParser.new
+      @quiet = false
       set_options
     end
 
@@ -69,7 +71,7 @@ EOB
         @@opts[:show_all] = opt
       end
       @parser.on("-q", "--quiet", "Suppress headings for smell-free source files") do
-        @@opts[:quiet] = true
+        @quiet = true
       end
       @parser.on('-f', "--format FORMAT", 'Specify the format of smell warnings') do |arg|
         @@opts[:format] = arg unless arg.nil?
@@ -80,6 +82,10 @@ EOB
       @parser.on('-s', '--smell-first', "Sort by smell; sets the format string to \"#{SMELL_SORT}\"") do
         @@opts[:format] = SMELL_SORT
       end
+    end
+
+    def create_report(sniffers)
+      @quiet ? QuietReport.new(sniffers) : FullReport.new(sniffers)
     end
   end
 end

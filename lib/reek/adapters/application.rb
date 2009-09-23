@@ -1,7 +1,6 @@
 require 'reek/command_line'
 require 'reek/adapters/source'
 require 'reek/adapters/core_extras'
-require 'reek/adapters/report'
 
 module Reek
   #
@@ -11,13 +10,13 @@ module Reek
   #
   class Application
     def initialize(argv)
-      @argv = argv
+      @options = Options.new(argv)
     end
 
     def examine_sources
       # SMELL: Greedy Method
       # Options.parse executes the -v and -h commands and throws a SystemExit
-      args = Options.new(@argv).parse
+      args = @options.parse
       if args.length > 0
         @sniffer = args.sniff
       else
@@ -27,9 +26,7 @@ module Reek
 
     def reek
       examine_sources
-      # SMELL:
-      # This should use the actual type of report selected by the user's options
-      puts Report.new(@sniffer.sniffers).full_report
+      puts @options.create_report(@sniffer.sniffers).report
       return @sniffer.smelly? ? 2 : 0
     end
 

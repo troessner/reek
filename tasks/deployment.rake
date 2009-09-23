@@ -113,7 +113,7 @@ begin
   require 'rubyforge'
 
   namespace :release do
-    task :tag do
+    task :patch => ['build:all'] do
       puts <<-EOS
         1) git commit -a -m "Release #{Reek::VERSION}"
         2) git tag -a "v#{Reek::VERSION}" -m "Release #{Reek::VERSION}"
@@ -121,15 +121,15 @@ begin
         4) git push --tags
         5) gem push "#{PKG_DIR}/#{PROJECT_NAME}-#{Reek::VERSION}.gem"
       EOS
-    end
-
-    desc 'Minor release on github only'
-    task :minor => ['build:all', 'release:tag'] do
       RELEASE_TIMESTAMP.touch(::Reek::VERSION)
     end
 
+    desc 'Minor release'
+    task :minor => ['release:patch', 'rubyforge:gem'] do
+    end
+
     desc 'Major release (github+rubyforge) with news'
-    task :major => ['release:minor', 'rubyforge:gem', 'rubyforge:news']
+    task :major => ['release:minor', 'rubyforge:news']
   end
 rescue LoadError
 end

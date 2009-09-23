@@ -71,20 +71,22 @@ module Reek
     end
   end
 
-  class Report
-
+  class FullReport
     def initialize(sniffers)
       @partials = Array(sniffers).map {|sn| ReportSection.new(sn)}
     end
 
-    # SMELL: Shotgun Surgery
-    # This method and the next will have to be repeated for every new
-    # kind of report.
-    def full_report
+    def report
       @partials.map { |rpt| rpt.full_report }.join
     end
+  end
 
-    def quiet_report
+  class QuietReport
+    def initialize(sniffers)
+      @partials = Array(sniffers).map {|sn| ReportSection.new(sn)}
+    end
+
+    def report
       @partials.map { |rpt| rpt.quiet_report }.join
     end
   end
