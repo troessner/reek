@@ -4,10 +4,11 @@ require 'reek/command_line'   # SMELL: Global Variable
 module Reek
   class ReportSection
 
-    def initialize(sniffer)  # :nodoc:
+    def initialize(sniffer, show_all)  # :nodoc:
       @masked_warnings = SortedSet.new
       @warnings = SortedSet.new
       @desc = sniffer.desc
+      @show_all = show_all
       sniffer.report_on(self)
     end
 
@@ -27,7 +28,6 @@ module Reek
     # Creates a formatted report of all the +Smells::SmellWarning+ objects recorded in
     # this report, with a heading.
     def full_report
-      return quiet_report if Options[:quiet]
       result = header
       result += ":\n#{smell_list}" if should_report
       result += "\n"
@@ -48,14 +48,14 @@ module Reek
     # Creates a formatted report of all the +Smells::SmellWarning+ objects recorded in
     # this report.
     def smell_list
-      smells = Options[:show_all] ? @all_warnings : @warnings
+      smells = @show_all ? @all_warnings : @warnings
       smells.map {|smell| "  #{smell.report}"}.join("\n")
     end
 
   private
 
     def should_report
-      @warnings.length > 0 or (Options[:show_all] and @masked_warnings.length > 0)
+      @warnings.length > 0 or (@show_all and @masked_warnings.length > 0)
     end
 
     def visible_header
@@ -71,21 +71,20 @@ module Reek
     end
   end
 
-  class FullReport
-    def initialize(sniffers)
-      @partials = Array(sniffers).map {|sn| ReportSection.new(sn)}
+  class Report
+    def initialize(sniffers, show_all = false)
+      @show_all = show_all
+      @partials = Array(sniffers).map {|sn| ReportSection.new(sn, show_all)}
     end
+  end
 
+  class FullReport < Report
     def report
       @partials.map { |rpt| rpt.full_report }.join
     end
   end
 
-  class QuietReport
-    def initialize(sniffers)
-      @partials = Array(sniffers).map {|sn| ReportSection.new(sn)}
-    end
-
+  class QuietReport < Report
     def report
       @partials.map { |rpt| rpt.quiet_report }.join
     end

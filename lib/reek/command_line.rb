@@ -16,8 +16,6 @@ module Reek
     def self.default_options
       {
         :format => CTX_SORT,
-        :show_all => false,
-        :quiet => false
       }
     end
 
@@ -32,6 +30,7 @@ module Reek
       @argv = argv
       @parser = OptionParser.new
       @quiet = false
+      @show_all = false
       set_options
     end
 
@@ -68,7 +67,7 @@ EOB
       @parser.separator "\nReport formatting:"
 
       @parser.on("-a", "--[no-]show-all", "Show all smells, including those masked by config settings") do |opt|
-        @@opts[:show_all] = opt
+        @show_all = opt
       end
       @parser.on("-q", "--quiet", "Suppress headings for smell-free source files") do
         @quiet = true
@@ -85,7 +84,7 @@ EOB
     end
 
     def create_report(sniffers)
-      @quiet ? QuietReport.new(sniffers) : FullReport.new(sniffers)
+      @quiet ? QuietReport.new(sniffers, @show_all) : FullReport.new(sniffers, @show_all)
     end
   end
 end
