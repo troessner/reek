@@ -1,4 +1,4 @@
-require 'reek/command_line'    # SMELL: Global Variable used for options
+require 'reek/adapters/command_line'    # SMELL: Global Variable used for options
 
 module Reek
 

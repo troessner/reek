@@ -1,14 +1,14 @@
 require 'set'
-require 'reek/command_line'   # SMELL: Global Variable
+require 'reek/adapters/command_line'   # SMELL: Global Variable
 
 module Reek
   class ReportSection
 
-    def initialize(sniffer, show_all)  # :nodoc:
+    def initialize(sniffer, display_masked_warnings)  # :nodoc:
       @masked_warnings = SortedSet.new
       @warnings = SortedSet.new
       @desc = sniffer.desc
-      @show_all = show_all
+      @display_masked_warnings = display_masked_warnings
       sniffer.report_on(self)
     end
 
@@ -48,14 +48,14 @@ module Reek
     # Creates a formatted report of all the +Smells::SmellWarning+ objects recorded in
     # this report.
     def smell_list
-      smells = @show_all ? @all_warnings : @warnings
+      smells = @display_masked_warnings ? @all_warnings : @warnings
       smells.map {|smell| "  #{smell.report}"}.join("\n")
     end
 
   private
 
     def should_report
-      @warnings.length > 0 or (@show_all and @masked_warnings.length > 0)
+      @warnings.length > 0 or (@display_masked_warnings and @masked_warnings.length > 0)
     end
 
     def visible_header
@@ -72,9 +72,8 @@ module Reek
   end
 
   class Report
-    def initialize(sniffers, show_all = false)
-      @show_all = show_all
-      @partials = Array(sniffers).map {|sn| ReportSection.new(sn, show_all)}
+    def initialize(sniffers, display_masked_warnings = false)
+      @partials = Array(sniffers).map {|sn| ReportSection.new(sn, display_masked_warnings)}
     end
   end
 

@@ -8,7 +8,7 @@ describe 'Reek source code' do
   nucleus = Dir['lib/reek/**.rb'] - Dir['lib/reek/adapters/**/*.rb']
   nucleus.each do |src|
     it "#{src} contains no references from the nucleus out to the adapters" do
-      IO.readlines(src).grep(/adapters/).should be_empty
+      IO.readlines(src).grep(/adapters/).should == []
     end
   end
 
