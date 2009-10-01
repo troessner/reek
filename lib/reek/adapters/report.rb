@@ -4,7 +4,8 @@ require 'reek/adapters/command_line'   # SMELL: Global Variable
 module Reek
   class ReportSection
 
-    def initialize(sniffer, display_masked_warnings)  # :nodoc:
+    def initialize(sniffer, display_masked_warnings, format)  # :nodoc:
+      @format = format
       @masked_warnings = SortedSet.new
       @warnings = SortedSet.new
       @desc = sniffer.desc
@@ -49,7 +50,7 @@ module Reek
     # this report.
     def smell_list
       smells = @display_masked_warnings ? @all_warnings : @warnings
-      smells.map {|smell| "  #{smell.report}"}.join("\n")
+      smells.map {|smell| "  #{smell.report(@format)}"}.join("\n")
     end
 
   private
@@ -72,8 +73,8 @@ module Reek
   end
 
   class Report
-    def initialize(sniffers, display_masked_warnings = false)
-      @partials = Array(sniffers).map {|sn| ReportSection.new(sn, display_masked_warnings)}
+    def initialize(sniffers, format, display_masked_warnings = false)
+      @partials = Array(sniffers).map {|sn| ReportSection.new(sn, display_masked_warnings, format)}
     end
   end
 

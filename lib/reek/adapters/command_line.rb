@@ -13,24 +13,12 @@ module Reek
     CTX_SORT = '%m%c %w (%s)'
     SMELL_SORT = '%m[%s] %c %w'
 
-    def self.default_options
-      {
-        :format => CTX_SORT,
-      }
-    end
-
-    # SMELL: Global Variable
-    @@opts = default_options
-
-    def self.[](key)
-      @@opts[key]
-    end
-
     def initialize(argv)
       @argv = argv
       @parser = OptionParser.new
       @quiet = false
       @show_all = false
+      @format = CTX_SORT
       set_options
     end
 
@@ -73,18 +61,18 @@ EOB
         @quiet = true
       end
       @parser.on('-f', "--format FORMAT", 'Specify the format of smell warnings') do |arg|
-        @@opts[:format] = arg unless arg.nil?
+        @format = arg unless arg.nil?
       end
       @parser.on('-c', '--context-first', "Sort by context; sets the format string to \"#{CTX_SORT}\"") do
-        @@opts[:format] = CTX_SORT
+        @format = CTX_SORT
       end
       @parser.on('-s', '--smell-first', "Sort by smell; sets the format string to \"#{SMELL_SORT}\"") do
-        @@opts[:format] = SMELL_SORT
+        @format = SMELL_SORT
       end
     end
 
     def create_report(sniffers)
-      @quiet ? QuietReport.new(sniffers, @show_all) : FullReport.new(sniffers, @show_all)
+      @quiet ? QuietReport.new(sniffers, @format, @show_all) : FullReport.new(sniffers, @format, @show_all)
     end
   end
 end

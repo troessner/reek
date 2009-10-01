@@ -45,7 +45,7 @@ module Reek
   module Spec
     module ReekMatcher
       def report
-        QuietReport.new(@sniffer.sniffers).report
+        QuietReport.new(@sniffer.sniffers, '%m%c %w (%s)').report
       end
     end
 

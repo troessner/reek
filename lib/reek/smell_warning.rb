@@ -1,5 +1,3 @@
-require 'reek/adapters/command_line'    # SMELL: Global Variable used for options
-
 module Reek
 
   #
@@ -16,11 +14,11 @@ module Reek
     end
 
     def hash  # :nodoc:
-      basic_report.hash
+      sort_key.hash
     end
 
     def <=>(other)
-      basic_report <=> other.basic_report
+      sort_key <=> other.sort_key
     end
 
     alias eql? <=>  # :nodoc:
@@ -35,25 +33,18 @@ module Reek
     end
 
     def contains_all?(patterns)
-      rpt = report
+      rpt = report('%m%c %w (%s)')
       return patterns.all? {|exp| exp === rpt}
     end
 
-    def basic_report
-      Options[:format].gsub(/\%s/, @detector.smell_name).gsub(/\%c/, @context.to_s).gsub(/\%w/, @warning)
+    def sort_key
+      [@context.to_s, @warning, @detector.smell_name]
     end
 
-    #
-    # Returns a copy of the current report format (see +Options+)
-    # in which the following magic tokens have been substituted:
-    #
-    # * %c <-- a description of the +CodeContext+ containing the smell
-    # * %m <-- "(is_masked) " if this is a is_masked smell
-    # * %s <-- the name of the smell that was detected
-    # * %w <-- the specific problem that was detected
-    #
-    def report
-      basic_report.gsub(/\%m/, @is_masked ? '(masked) ' : '')
+    protected :sort_key
+
+    def report(format) # = '%m%c %w (%s)')
+      format.gsub(/\%s/, @detector.smell_name).gsub(/\%c/, @context.to_s).gsub(/\%w/, @warning).gsub(/\%m/, @is_masked ? '(masked) ' : '')
     end
 
     def report_on(report)
