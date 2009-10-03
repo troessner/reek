@@ -8,8 +8,14 @@ include Reek::Spec
 
 # belongs in its own spec file
 describe ReekMatcher do
+  before :each do
+    smelly_code = Dir['spec/samples/two_smelly_files/*.rb']
+    @sniffers = smelly_code.sniff.sniffers
+    @full = FullReport.new(@sniffers, '%c %w (%s)', false).report
+  end
+
   it 'reports quietly' do
-    @smelly_code = 'def x() y = 4; end'
+    ReekMatcher.create_reporter(@sniffers).should_not == @full
   end
 end
 
