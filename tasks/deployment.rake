@@ -139,7 +139,7 @@ def pkg_files
   result = []
   Find.find '.' do |path|
     next unless File.file? path
-    next if path =~ /\.git|build/
+    next if path =~ /\.git|build|tmp/
     result << path[2..-1]
   end
   result

@@ -1,4 +1,4 @@
-== 1.2.1 (in progress, see github)
+== 1.2.1 (2009-10-02)
 
 === Minor Changes
 * New smell: Class Variable

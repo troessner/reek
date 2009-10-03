@@ -13,6 +13,7 @@ features/step_definitions/reek_steps.rb
 features/support/env.rb
 lib/reek.rb
 lib/reek/adapters/application.rb
+lib/reek/adapters/command_line.rb
 lib/reek/adapters/config_file.rb
 lib/reek/adapters/core_extras.rb
 lib/reek/adapters/object_source.rb
@@ -24,7 +25,6 @@ lib/reek/block_context.rb
 lib/reek/class_context.rb
 lib/reek/code_context.rb
 lib/reek/code_parser.rb
-lib/reek/command_line.rb
 lib/reek/configuration.rb
 lib/reek/detector_stack.rb
 lib/reek/exceptions.reek
@@ -36,6 +36,7 @@ lib/reek/object_refs.rb
 lib/reek/sexp_formatter.rb
 lib/reek/singleton_method_context.rb
 lib/reek/smell_warning.rb
+lib/reek/smells/class_variable.rb
 lib/reek/smells/control_couple.rb
 lib/reek/smells/data_clump.rb
 lib/reek/smells/duplication.rb
@@ -72,6 +73,7 @@ spec/reek/object_refs_spec.rb
 spec/reek/object_source_spec.rb
 spec/reek/singleton_method_context_spec.rb
 spec/reek/smell_warning_spec.rb
+spec/reek/smells/class_variable_spec.rb
 spec/reek/smells/control_couple_spec.rb
 spec/reek/smells/data_clump_spec.rb
 spec/reek/smells/duplication_spec.rb
@@ -85,6 +87,7 @@ spec/reek/smells/smell_detector_spec.rb
 spec/reek/smells/uncommunicative_name_spec.rb
 spec/reek/smells/utility_function_spec.rb
 spec/reek/sniffer_spec.rb
+spec/reek/stop_context_spec.rb
 spec/samples/all_but_one_masked/clean_one.rb
 spec/samples/all_but_one_masked/dirty.rb
 spec/samples/all_but_one_masked/masked.reek
