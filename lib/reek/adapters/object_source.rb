@@ -1,5 +1,8 @@
 require 'reek/adapters/source'
 require 'reek/configuration'
+require 'reek/smells/large_class'
+
+include Reek::Smells
 
 module Reek
   class ObjectSource < Source   # :nodoc:

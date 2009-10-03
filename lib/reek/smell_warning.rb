@@ -33,7 +33,7 @@ module Reek
     end
 
     def contains_all?(patterns)
-      rpt = report('%m%c %w (%s)')
+      rpt = sort_key.to_s
       return patterns.all? {|exp| exp === rpt}
     end
 
@@ -43,7 +43,7 @@ module Reek
 
     protected :sort_key
 
-    def report(format) # = '%m%c %w (%s)')
+    def report(format)
       format.gsub(/\%s/, @detector.smell_name).gsub(/\%c/, @context.to_s).gsub(/\%w/, @warning).gsub(/\%m/, @is_masked ? '(masked) ' : '')
     end
 

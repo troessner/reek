@@ -44,9 +44,14 @@ module Reek
   #
   module Spec
     module ReekMatcher
-      def report
-        QuietReport.new(@sniffer.sniffers, '%m%c %w (%s)').report
+      def create_reporter(sniffers)
+        QuietReport.new(sniffers, '%c %w (%s)', false)
       end
+      def report
+        create_reporter(@sniffer.sniffers).report
+      end
+
+      module_function :create_reporter
     end
 
     class ShouldReek        # :nodoc:
