@@ -85,6 +85,11 @@ module Reek
 
     def record_call_to(exp)
       @calls[exp] += 1
+      record_receiver(exp)
+      check_for_attribute_declaration(exp)
+    end
+
+    def record_receiver(exp)
       receiver, meth = exp[1..2]
       receiver ||= [:self]
       case receiver[0]

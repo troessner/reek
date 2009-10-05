@@ -1,23 +1,23 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
-require 'reek/smells/class_variable'
+require 'reek/smells/attribute'
 require 'reek/class_context'
 
 include Reek
 include Reek::Smells
 
-describe ClassVariable do
-  shared_examples_for 'a class variable container' do
-    context 'with no class variables' do
+describe Attribute do
+  shared_examples_for 'an attribute detector' do
+    context 'with no attributes' do
       it "doesn't record a smell" do
         @detector.examine_context(@ctx)
         @detector.num_smells.should == 0
       end
     end
 
-    context 'with one class variable' do
+    context 'with one attribute' do
       before :each do
-        @ctx.record_class_variable(:@@cvar)
+        @ctx.record_attribute(:property)
         @detector.examine_context(@ctx)
       end
 
@@ -25,14 +25,14 @@ describe ClassVariable do
         @detector.num_smells.should == 1
       end
       it 'mentions the variable name in the report' do
-        @detector.should have_smell([/@@cvar/])
+        @detector.should have_smell([/property/])
       end
     end
 
-    context 'with one class variable encountered twice' do
+    context 'with one attribute encountered twice' do
       before :each do
-        @ctx.record_class_variable(:@@cvar)
-        @ctx.record_class_variable(:@@cvar)
+        @ctx.record_attribute(:property)
+        @ctx.record_attribute(:property)
         @detector.examine_context(@ctx)
       end
 
@@ -40,14 +40,14 @@ describe ClassVariable do
         @detector.num_smells.should == 1
       end
       it 'mentions the variable name in the report' do
-        @detector.should have_smell([/@@cvar/])
+        @detector.should have_smell([/property/])
       end
     end
 
-    context 'with two class variables' do
+    context 'with two attributes' do
       before :each do
-        @ctx.record_class_variable(:@@cvar)
-        @ctx.record_class_variable(:@@another)
+        @ctx.record_attribute(:property)
+        @ctx.record_attribute(:another)
         @detector.examine_context(@ctx)
       end
 
@@ -55,8 +55,8 @@ describe ClassVariable do
         @detector.num_smells.should == 2
       end
       it 'mentions both variable names in the report' do
-        @detector.should have_smell([/@@cvar/])
-        @detector.should have_smell([/@@another/])
+        @detector.should have_smell([/property/])
+        @detector.should have_smell([/another/])
       end
     end
   end
@@ -64,18 +64,18 @@ describe ClassVariable do
   context 'in a class' do
     before :each do
       @ctx = ClassContext.create(StopContext.new, "Fred")
-      @detector = ClassVariable.new
+      @detector = Attribute.new
     end
 
-    it_should_behave_like 'a class variable container'
+    it_should_behave_like 'an attribute detector'
   end
 
   context 'in a module' do
     before :each do
       @ctx = ModuleContext.create(StopContext.new, "Fred")
-      @detector = ClassVariable.new
+      @detector = Attribute.new
     end
 
-    it_should_behave_like 'a class variable container'
+    it_should_behave_like 'an attribute detector'
   end
 end

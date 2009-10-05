@@ -24,7 +24,7 @@ module Reek
       CodeParser.new(sniffer).process_class(source.syntax_tree)
     end
 
-    attr_reader :conditionals, :parsed_methods, :class_variables
+    attr_reader :conditionals, :parsed_methods, :class_variables, :attributes
 
     # SMELL: inconsistent with other contexts (not linked to the sexp)
     def initialize(outer, name, superclass = nil)
@@ -34,6 +34,7 @@ module Reek
       @parsed_methods = []
       @instance_variables = Set.new
       @conditionals = []
+      @attributes = Set.new
       @class_variables = Set.new
     end
 
@@ -57,6 +58,16 @@ module Reek
 
     def num_methods
       @parsed_methods.length
+    end
+
+    def check_for_attribute_declaration(exp)
+      if [:attr, :attr_reader, :attr_writer, :attr_accessor].include? exp[2]
+        exp[3][1..-1].each {|arg| record_attribute(arg[1])}
+      end
+    end
+
+    def record_attribute(attr)
+      @attributes << Name.new(attr)
     end
 
     def record_class_variable(cvar)

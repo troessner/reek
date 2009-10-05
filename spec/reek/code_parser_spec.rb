@@ -5,22 +5,22 @@ require 'reek/code_parser'
 include Reek
 
 describe CodeParser, "with no method definitions" do
-  it 'should report no problems for empty source code' do
+  it 'reports no problems for empty source code' do
     ''.should_not reek
   end
-  it 'should report no problems for empty class' do
+  it 'reports no problems for empty class' do
     'class Fred; end'.should_not reek
   end
 end
 
 describe CodeParser, 'with a global method definition' do
-  it 'should report no problems for simple method' do
+  it 'reports no problems for simple method' do
     'def Outermost::fred() true; end'.should_not reek
   end
 end
 
 describe CodeParser, 'when a yield is the receiver' do
-  it 'should report no problems' do
+  it 'reports no problems' do
     source = 'def values(*args)
   @to_sql += case
     when block_given? then " #{yield.to_sql}"
@@ -138,6 +138,92 @@ describe CodeParser do
       end
 
       it_should_behave_like 'one variable found'
+    end
+  end
+
+  context 'with no attributes' do
+    it 'records nothing in the class' do
+      klass = ClassContext.from_s('class Fred; end')
+      klass.attributes.should be_empty
+    end
+    it 'records nothing in the module' do
+      ctx = ModuleContext.from_s('module Fred; end')
+      ctx.attributes.should be_empty
+    end
+  end
+
+  context 'with one attribute' do
+    shared_examples_for 'one attribute found' do
+      it 'records the attribute' do
+        @ctx.attributes.should include(Name.new(:property))
+      end
+      it 'records only that attribute' do
+        @ctx.attributes.length.should == 1
+      end
+    end
+
+    context 'declared in a class' do
+      before :each do
+        @ctx = ClassContext.from_s('class Fred; attr :property; end')
+      end
+
+      it_should_behave_like 'one attribute found'
+    end
+
+    context 'reader in a class' do
+      before :each do
+        @ctx = ClassContext.from_s('class Fred; attr_reader :property; end')
+      end
+
+      it_should_behave_like 'one attribute found'
+    end
+
+    context 'writer in a class' do
+      before :each do
+        @ctx = ClassContext.from_s('class Fred; attr_writer :property; end')
+      end
+
+      it_should_behave_like 'one attribute found'
+    end
+
+    context 'accessor in a class' do
+      before :each do
+        @ctx = ClassContext.from_s('class Fred; attr_accessor :property; end')
+      end
+
+      it_should_behave_like 'one attribute found'
+    end
+
+    context 'declared in a module' do
+      before :each do
+        @ctx = ModuleContext.from_s('module Fred; attr :property; end')
+      end
+
+      it_should_behave_like 'one attribute found'
+    end
+
+    context 'reader in a module' do
+      before :each do
+        @ctx = ModuleContext.from_s('module Fred; attr_reader :property; end')
+      end
+
+      it_should_behave_like 'one attribute found'
+    end
+
+    context 'writer in a module' do
+      before :each do
+        @ctx = ModuleContext.from_s('module Fred; attr_writer :property; end')
+      end
+
+      it_should_behave_like 'one attribute found'
+    end
+
+    context 'accessor in a module' do
+      before :each do
+        @ctx = ModuleContext.from_s('module Fred; attr_accessor :property; end')
+      end
+
+      it_should_behave_like 'one attribute found'
     end
   end
 end
