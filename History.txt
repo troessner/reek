@@ -1,3 +1,8 @@
+== 1.2.2 (under development in github)
+
+=== Minor Changes
+* New smell: Attribute
+
 == 1.2.1 (2009-10-02)
 
 === Minor Changes

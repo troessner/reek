@@ -6,7 +6,6 @@ require 'spec/rake/spectask'
 
 namespace 'test' do
   UNIT_TESTS = FileList['spec/reek/**/*_spec.rb']
-  QUALITY_TESTS = FileList['spec/quality/**/*_spec.rb']
 
   Spec::Rake::SpecTask.new('spec') do |t|
     t.spec_files = UNIT_TESTS
@@ -16,7 +15,7 @@ namespace 'test' do
   end
 
   Spec::Rake::SpecTask.new('quality') do |t|
-    t.spec_files = QUALITY_TESTS
+    t.spec_files = FileList['quality/**/*_spec.rb']
     t.spec_opts = ['--color']
     t.ruby_opts = ['-Ilib']
     t.rcov = false
@@ -24,7 +23,7 @@ namespace 'test' do
 
   desc 'Runs all unit tests under RCov'
   Spec::Rake::SpecTask.new('rcov') do |t|
-    t.spec_files = UNIT_TESTS + QUALITY_TESTS
+    t.spec_files = UNIT_TESTS
     t.rcov = true
     t.rcov_dir = 'build/coverage'
   end
@@ -39,7 +38,7 @@ namespace 'test' do
   end
 
   desc 'Runs all unit tests, acceptance tests and quality checks'
-  task 'all' => ['test:spec', 'test:features', 'test:quality', 'test:multiruby']
+  task 'all' => ['test:spec', 'test:features', 'test:multiruby']
 end
 
 task 'clobber_rcov' => 'test:clobber_rcov'
