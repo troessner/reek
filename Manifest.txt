@@ -35,6 +35,7 @@ lib/reek/object_refs.rb
 lib/reek/sexp_formatter.rb
 lib/reek/singleton_method_context.rb
 lib/reek/smell_warning.rb
+lib/reek/smells/attribute.rb
 lib/reek/smells/class_variable.rb
 lib/reek/smells/control_couple.rb
 lib/reek/smells/data_clump.rb
@@ -53,7 +54,6 @@ lib/reek/sniffer.rb
 lib/reek/stop_context.rb
 lib/reek/yield_call_context.rb
 reek.gemspec
-spec/quality/reek_source_spec.rb
 spec/reek/adapters/report_spec.rb
 spec/reek/adapters/should_reek_of_spec.rb
 spec/reek/adapters/should_reek_only_of_spec.rb
@@ -72,6 +72,8 @@ spec/reek/object_refs_spec.rb
 spec/reek/object_source_spec.rb
 spec/reek/singleton_method_context_spec.rb
 spec/reek/smell_warning_spec.rb
+spec/reek/smells/attribute_spec.rb
+spec/reek/smells/behaves_like_variable_detector.rb
 spec/reek/smells/class_variable_spec.rb
 spec/reek/smells/control_couple_spec.rb
 spec/reek/smells/data_clump_spec.rb
