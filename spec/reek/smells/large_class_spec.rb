@@ -8,57 +8,6 @@ require 'reek/smells/large_class'
 include Reek
 include Reek::Smells
 
-describe LargeClass, 'checking Class objects' do
-
-  it 'should not report class with 26 methods' do
-    pending('test requires ParseTree') unless ObjectSource.can_parse_objects?
-    class BigOne
-      26.times do |i|
-        define_method "method#{i}x".to_sym do
-          @melting
-        end
-      end
-    end
-    BigOne.should_not reek
-  end
-
-  it 'should not report short class' do
-    pending('test requires ParseTree') unless ObjectSource.can_parse_objects?
-    class ShortClass
-      def method_a() @var_a; end
-      def method_b() @var_b; end
-      def method_c() @var_c; end
-      def method_d() @var_d; end
-      def method_e() @var_e; end
-      def method_f() @var_f; end
-    end
-    ShortClass.should_not reek
-  end
-
-  describe LargeClass, 'counting instance variables' do
-    it 'should not report class with 10 ivars' do
-      pending('test requires ParseTree') unless ObjectSource.can_parse_objects?
-      class ManyIvars
-        def meth
-          @vara = @varb = @varc = @vard = @vare
-          @varf = @varg = @varh = @vari = @varj
-        end
-      end
-      ManyIvars.should_not reek
-    end
-
-    it 'ignores class with only a couple of ivars' do
-      pending('test requires ParseTree') unless ObjectSource.can_parse_objects?
-      LargeClass.should_not reek_of(:LargeClass)
-    end
-
-    it 'ignores fq class with only a couple of ivars' do
-    pending('test requires ParseTree') unless ObjectSource.can_parse_objects?
-      Reek::Smells::LargeClass.should_not reek_of(:LargeClass)
-    end
-  end
-end
-
 describe LargeClass, 'when exceptions are listed' do
 
   before(:each) do

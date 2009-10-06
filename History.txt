@@ -2,6 +2,7 @@
 
 === Minor Changes
 * New smell: Attribute
+* Removed support for MyClass.should_not reek due to ParseTree EOL
 
 == 1.2.1 (2009-10-02)
 

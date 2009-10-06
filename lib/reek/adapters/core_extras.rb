@@ -10,14 +10,6 @@ class Object
   def sniff
     Reek::Sniffer.new(self.to_reek_source)
   end
-
-  #
-  # Constructs a Sniffer which examines this object for code smells.
-  # (This feature is only enabled if you have the ParseTree gem installed.)
-  #
-  def to_reek_source
-    ObjectSource.new(self, self.to_s)
-  end
 end
 
 class File

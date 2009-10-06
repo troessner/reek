@@ -53,18 +53,6 @@ describe LongParameterList do
         'def simple(aarg, polly=2, yep=true, zero=nil) f(3);false end'.should reek_only_of(:LongParameterList, /4 parameters/)
       end
     end
-    
-    describe 'in a class' do
-      class InnerTest
-        def xyzero(arga,argb) f(3);true end
-        def abc(argx,yep,zero,argm) f(3);false end
-      end
-
-      it 'should only report long param list' do
-        pending('test requires ParseTree') unless ObjectSource.can_parse_objects?
-        InnerTest.should reek_only_of(:LongParameterList, /abc/)
-      end
-    end
   end
   
   describe 'yield' do

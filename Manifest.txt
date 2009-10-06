@@ -16,7 +16,6 @@ lib/reek/adapters/application.rb
 lib/reek/adapters/command_line.rb
 lib/reek/adapters/config_file.rb
 lib/reek/adapters/core_extras.rb
-lib/reek/adapters/object_source.rb
 lib/reek/adapters/rake_task.rb
 lib/reek/adapters/report.rb
 lib/reek/adapters/source.rb

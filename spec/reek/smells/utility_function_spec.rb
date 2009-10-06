@@ -79,24 +79,3 @@ EOS
     end
   end
 end
-
-describe UtilityFunction do
-  it 'should not report attrset' do
-    pending('test requires ParseTree') unless ObjectSource.can_parse_objects?
-    class Fred
-      attr_writer :xyz
-    end
-    Fred.should_not reek
-  end
-
-  it 'should not report overriding methods' do
-    pending('test requires ParseTree') unless ObjectSource.can_parse_objects?
-    class Father
-      def thing(ff); @kids = 0; end
-    end
-    class Son < Father
-      def thing(ff); ff; end
-    end
-    Son.should_not reek
-  end
-end

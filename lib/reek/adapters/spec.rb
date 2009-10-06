@@ -1,6 +1,5 @@
 require 'reek/sniffer'
 require 'reek/adapters/core_extras'
-require 'reek/adapters/object_source'
 require 'reek/adapters/report'
 
 module Reek
