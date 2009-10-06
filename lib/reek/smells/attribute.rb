@@ -22,6 +22,14 @@ module Reek
         [:class, :module]
       end
 
+      def self.default_config
+        super.adopt(SmellConfiguration::ENABLED_KEY => false)
+      end
+
+      def initialize(config = Attribute.default_config)
+        super(config)
+      end
+
       #
       # Checks whether the given class declares any attributes.
       # Remembers any smells found.

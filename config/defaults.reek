@@ -49,8 +49,9 @@ UtilityFunction:
 
   enabled: true
 Attribute: 
-  exclude: *id001
-  enabled: true
+  exclude: []
+
+  enabled: false
 SimulatedPolymorphism: 
   exclude: []
 
