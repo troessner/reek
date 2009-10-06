@@ -47,6 +47,6 @@ describe 'Reek source code' do
   end
 
   it 'has no duplication' do
-    ['lib', 'spec/reek'].should_not duplicate(100)
+    ['lib', 'spec/reek'].should_not duplicate(40)
   end
 end

@@ -9,9 +9,15 @@ Feature: Basic smell detection
     Then it fails with exit status 2
     And it reports:
     """
-    spec/samples/inline.rb -- 39 warnings (+1 masked):
+    spec/samples/inline.rb -- 46 warnings (+1 masked):
       Inline declares the class variable @@directory (Class Variable)
       Inline declares the class variable @@rootdir (Class Variable)
+      Inline::C declares the attribute flags (Attribute)
+      Inline::C declares the attribute libs (Attribute)
+      Inline::C declares the attribute mod (Attribute)
+      Inline::C declares the attribute rb_file (Attribute)
+      Inline::C declares the attribute sig (Attribute)
+      Inline::C declares the attribute src (Attribute)
       Inline::C declares the class variable @@type_map (Class Variable)
       Inline::C has at least 13 instance variables (Large Class)
       Inline::C takes parameters [options, src] to 5 methods (Data Clump)
@@ -46,6 +52,7 @@ Feature: Basic smell detection
       Inline::C#strip_comments refers to src more than self (Feature Envy)
       Inline::self.rootdir calls env.nil? twice (Duplication)
       Inline::self.rootdir has approx 8 statements (Long Method)
+      Module declares the attribute options (Attribute)
       Module#inline calls Inline.const_get(lang) twice (Duplication)
       Module#inline has approx 11 statements (Long Method)
       Module#inline is controlled by argument options (Control Couple)
@@ -57,7 +64,14 @@ Feature: Basic smell detection
     Then it fails with exit status 2
     And it reports:
     """
-    spec/samples/optparse.rb -- 121 warnings:
+    spec/samples/optparse.rb -- 141 warnings:
+      OptionParser declares the attribute banner (Attribute)
+      OptionParser declares the attribute default_argv (Attribute)
+      OptionParser declares the attribute program_name (Attribute)
+      OptionParser declares the attribute release (Attribute)
+      OptionParser declares the attribute summary_indent (Attribute)
+      OptionParser declares the attribute summary_width (Attribute)
+      OptionParser declares the attribute version (Attribute)
       OptionParser has at least 59 methods (Large Class)
       OptionParser tests ((argv.size == 1) and Array.===(argv[0])) at least 3 times (Simulated Polymorphism)
       OptionParser tests a at least 7 times (Simulated Polymorphism)
@@ -73,6 +87,10 @@ Feature: Basic smell detection
       OptionParser#Completion::complete refers to candidates more than self (Feature Envy)
       OptionParser#Completion::complete/block has the variable name 'k' (Uncommunicative Name)
       OptionParser#Completion::complete/block has the variable name 'v' (Uncommunicative Name)
+      OptionParser#List declares the attribute atype (Attribute)
+      OptionParser#List declares the attribute list (Attribute)
+      OptionParser#List declares the attribute long (Attribute)
+      OptionParser#List declares the attribute short (Attribute)
       OptionParser#List#accept has the variable name 't' (Uncommunicative Name)
       OptionParser#List#accept is controlled by argument pat (Control Couple)
       OptionParser#List#accept refers to pat more than self (Feature Envy)
@@ -86,7 +104,16 @@ Feature: Basic smell detection
       OptionParser#List#update is controlled by argument lopts (Control Couple)
       OptionParser#List#update is controlled by argument sopts (Control Couple)
       OptionParser#List#update/block has the variable name 'o' (Uncommunicative Name)
+      OptionParser#ParseError declares the attribute args (Attribute)
+      OptionParser#ParseError declares the attribute reason (Attribute)
       OptionParser#ParseError#set_option is controlled by argument eq (Control Couple)
+      OptionParser#Switch declares the attribute arg (Attribute)
+      OptionParser#Switch declares the attribute block (Attribute)
+      OptionParser#Switch declares the attribute conv (Attribute)
+      OptionParser#Switch declares the attribute desc (Attribute)
+      OptionParser#Switch declares the attribute long (Attribute)
+      OptionParser#Switch declares the attribute pattern (Attribute)
+      OptionParser#Switch declares the attribute short (Attribute)
       OptionParser#Switch#NoArgument#parse is controlled by argument arg (Control Couple)
       OptionParser#Switch#OptionalArgument#parse is controlled by argument arg (Control Couple)
       OptionParser#Switch#PlacedArgument#parse has approx 6 statements (Long Method)
@@ -187,7 +214,13 @@ Feature: Basic smell detection
     Then it fails with exit status 2
     And it reports:
     """
-    spec/samples/redcloth.rb -- 95 warnings:
+    spec/samples/redcloth.rb -- 101 warnings:
+      RedCloth declares the attribute filter_html (Attribute)
+      RedCloth declares the attribute filter_styles (Attribute)
+      RedCloth declares the attribute hard_breaks (Attribute)
+      RedCloth declares the attribute lite_mode (Attribute)
+      RedCloth declares the attribute no_span_caps (Attribute)
+      RedCloth declares the attribute rules (Attribute)
       RedCloth has at least 44 methods (Large Class)
       RedCloth takes parameters [atts, cite, content, tag] to 3 methods (Data Clump)
       RedCloth tests atts at least 6 times (Simulated Polymorphism)
