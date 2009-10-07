@@ -6,7 +6,7 @@ Feature: Masking smells using config files
 
   Scenario: empty config file is ignored
     When I run reek spec/samples/empty_config_file/dirty.rb
-    Then it fails with exit status 2
+    Then the exit status indicates smells
     And it reports:
       """
       spec/samples/empty_config_file/dirty.rb -- 6 warnings:
@@ -21,17 +21,17 @@ Feature: Masking smells using config files
 
   Scenario: corrupt config file prevents normal output
     When I run reek spec/samples/corrupt_config_file/dirty.rb
-    Then it fails with exit status 1
+    Then the exit status indicates an error
     And it reports the error 'Error: Invalid configuration file "corrupt.reek" -- not a Hash'
 
   Scenario: missing source file is an error
     When I run reek no_such_file.rb
-    Then it fails with exit status 1
+    Then the exit status indicates an error
     And it reports the error "Error: No such file or directory - no_such_file.rb"
 
   Scenario: switch off one smell
     When I run reek spec/samples/masked/dirty.rb
-    Then it fails with exit status 2
+    Then the exit status indicates smells
     And it reports:
       """
       spec/samples/masked/dirty.rb -- 3 warnings (+3 masked):
@@ -43,7 +43,7 @@ Feature: Masking smells using config files
 
   Scenario: switch off one smell but show all in the report
     When I run reek --show-all spec/samples/masked/dirty.rb
-    Then it fails with exit status 2
+    Then the exit status indicates smells
     And it reports:
       """
       spec/samples/masked/dirty.rb -- 3 warnings (+3 masked):
@@ -58,7 +58,7 @@ Feature: Masking smells using config files
 
   Scenario: switch off one smell and hide them in the report
     When I run reek --no-show-all spec/samples/masked/dirty.rb
-    Then it fails with exit status 2
+    Then the exit status indicates smells
     And it reports:
       """
       spec/samples/masked/dirty.rb -- 3 warnings (+3 masked):
@@ -70,7 +70,7 @@ Feature: Masking smells using config files
 
   Scenario: non-masked smells are only counted once
     When I run reek spec/samples/not_quite_masked/dirty.rb
-    Then it fails with exit status 2
+    Then the exit status indicates smells
     And it reports:
       """
       spec/samples/not_quite_masked/dirty.rb -- 5 warnings (+1 masked):
@@ -85,7 +85,7 @@ Feature: Masking smells using config files
   @overrides
   Scenario: lower overrides upper
     When I run reek spec/samples/overrides
-    Then it fails with exit status 2
+    Then the exit status indicates smells
     And it reports:
       """
       spec/samples/overrides/masked/dirty.rb -- 2 warnings (+4 masked):
@@ -97,7 +97,7 @@ Feature: Masking smells using config files
   @overrides
   Scenario: all show up masked even when overridden
     When I run reek --show-all spec/samples/overrides
-    Then it fails with exit status 2
+    Then the exit status indicates smells
     And it reports:
       """
       spec/samples/overrides/masked/dirty.rb -- 2 warnings (+4 masked):

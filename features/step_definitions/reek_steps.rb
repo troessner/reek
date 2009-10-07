@@ -15,11 +15,15 @@ Then /^stdout equals "([^\"]*)"$/ do |report|
 end
 
 Then /^it succeeds$/ do
-  @last_exit_status.should == 0
+  @last_exit_status.should == Reek::EXIT_STATUS[:success]
 end
 
-Then /^it fails with exit status (\d+)$/ do |status|
-  @last_exit_status.should == status.to_i
+Then /^the exit status indicates an error$/ do
+  @last_exit_status.should == Reek::EXIT_STATUS[:error]
+end
+
+Then /^the exit status indicates smells$/ do
+  @last_exit_status.should == Reek::EXIT_STATUS[:smells]
 end
 
 Then /^it reports:$/ do |report|

@@ -6,7 +6,7 @@ Feature: Correctly formatted reports
 
   Scenario Outline: two reports run together with indented smells
     When I run reek <args>
-    Then it fails with exit status 2
+    Then the exit status indicates smells
     And it reports:
       """
       spec/samples/two_smelly_files/dirty_one.rb -- 6 warnings:

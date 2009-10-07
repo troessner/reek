@@ -3,6 +3,13 @@ require 'reek/adapters/source'
 require 'reek/adapters/core_extras'
 
 module Reek
+
+  EXIT_STATUS = {
+    :success => 0,
+    :error   => 1,
+    :smells  => 2
+  }
+
   #
   # Represents an instance of a Reek application.
   # This is the entry point for all invocations of Reek from the
@@ -27,7 +34,7 @@ module Reek
     def reek
       examine_sources
       puts @options.create_report(@sniffer.sniffers).report
-      return @sniffer.smelly? ? 2 : 0
+      return EXIT_STATUS[@sniffer.smelly? ? :smells : :success]
     end
 
     def execute
@@ -37,7 +44,7 @@ module Reek
         return ex.status
       rescue Exception => error
         $stderr.puts "Error: #{error}"
-        return 1
+        return EXIT_STATUS[:error]
       end
     end
   end

@@ -33,7 +33,7 @@ Feature: Reek reads from $stdin when no files are given
 
   Scenario: return non-zero status when there are smells
     When I pass "class Turn; def y() @x = 3; end end" to reek
-    Then it fails with exit status 2
+    Then the exit status indicates smells
     And it reports:
       """
       $stdin -- 2 warnings:

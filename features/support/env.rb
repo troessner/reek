@@ -5,6 +5,7 @@ require 'tempfile'
 require 'spec/expectations'
 require 'fileutils'
 require 'reek'
+require 'reek/adapters/application'
 
 class CucumberWorld
 

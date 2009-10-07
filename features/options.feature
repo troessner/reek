@@ -6,12 +6,12 @@ Feature: Reek can be controlled using command-line options
 
   Scenario: return non-zero status on bad option
     When I run reek --no-such-option
-    Then it fails with exit status 1
+    Then the exit status indicates an error
     And it reports the error "Error: invalid option: --no-such-option"
 
   Scenario: return non-zero status on missing argument
     When I run reek -f
-    Then it fails with exit status 1
+    Then the exit status indicates an error
     And it reports the error "Error: missing argument: -f"
 
   Scenario: display the current version number

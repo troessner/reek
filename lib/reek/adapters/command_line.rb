@@ -45,11 +45,11 @@ EOB
 
       @parser.on("-h", "--help", "Show this message") do
         puts @parser
-        exit(0)
+        exit(EXIT_STATUS[:success])
       end
       @parser.on("-v", "--version", "Show version") do
         puts "#{@parser.program_name} #{Reek::VERSION}"
-        exit(0)
+        exit(EXIT_STATUS[:success])
       end
 
       @parser.separator "\nReport formatting:"

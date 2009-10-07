@@ -6,7 +6,7 @@ Feature: Basic smell detection
 
   Scenario: Correct smells from inline.rb
     When I run reek spec/samples/inline.rb
-    Then it fails with exit status 2
+    Then the exit status indicates smells
     And it reports:
     """
     spec/samples/inline.rb -- 39 warnings (+1 masked):
@@ -54,7 +54,7 @@ Feature: Basic smell detection
 
   Scenario: Correct smells from optparse.rb
     When I run reek spec/samples/optparse.rb
-    Then it fails with exit status 2
+    Then the exit status indicates smells
     And it reports:
     """
     spec/samples/optparse.rb -- 121 warnings:
@@ -184,7 +184,7 @@ Feature: Basic smell detection
 
   Scenario: Correct smells from redcloth.rb
     When I run reek spec/samples/redcloth.rb
-    Then it fails with exit status 2
+    Then the exit status indicates smells
     And it reports:
     """
     spec/samples/redcloth.rb -- 95 warnings:
