@@ -1,4 +1,3 @@
-require 'rake'
 require 'rake/clean'
 
 $:.unshift File.dirname(__FILE__) + '/lib'
