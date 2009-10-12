@@ -6,8 +6,8 @@ When /^I pass "([^\"]*)" to reek *(.*)$/ do |stdin, args|
   reek_with_pipe(stdin, args)
 end
 
-When /^I run rake reek with:$/ do |task_def|
-  rake(task_def)
+When /^I run rake (\w*) with:$/ do |name, task_def|
+  rake(name, task_def)
 end
 
 Then /^stdout equals "([^\"]*)"$/ do |report|

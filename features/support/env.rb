@@ -24,7 +24,7 @@ class ReekWorld
     run("echo \"#{stdin}\" | ruby -Ilib bin/reek #{args}")
   end
 
-  def rake(task_def)
+  def rake(name, task_def)
     header = <<EOS
 $:.unshift('lib')
 require 'reek/adapters/rake_task'
@@ -33,7 +33,7 @@ EOS
     rakefile = Tempfile.new('rake_task', '.')
     rakefile.puts(header + task_def)
     rakefile.close
-    run("rake -f #{rakefile.path} reek")
+    run("rake -f #{rakefile.path} #{name}")
     lines = @last_stdout.split("\n")
     if lines.length > 0 and lines[0] =~ /^\(/
       @last_stdout = lines[1..-1].join("\n")
