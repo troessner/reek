@@ -1,0 +1,67 @@
+--- 
+LargeClass: 
+  max_methods: 25
+  exclude: []
+  enabled: true
+  max_instance_variables: 9
+LongParameterList: 
+  max_params: 3
+  exclude: []
+  enabled: true
+  overrides: 
+    initialize: 
+      max_params: 5
+FeatureEnvy: 
+  exclude: 
+  - initialize
+  enabled: false
+ClassVariable: 
+  exclude: &id001 []
+  enabled: true
+UncommunicativeName: 
+  accept: 
+  - Inline::C
+  exclude: []
+  enabled: true
+  reject: 
+  - !ruby/regexp /^.$/
+  - !ruby/regexp /[0-9]$/
+NestedIterators: 
+  exclude: *id001
+  enabled: false
+LongMethod: 
+  max_statements: 5
+  exclude: 
+  - initialize
+  enabled: false
+Duplication: 
+  exclude: []
+  enabled: true
+  max_calls: 1
+UtilityFunction: 
+  max_helper_calls: 1
+  exclude: []
+  enabled: true
+Attribute: 
+  exclude: []
+  enabled: true
+SimulatedPolymorphism: 
+  exclude: []
+  enabled: true
+  max_ifs: 2
+DataClump: 
+  exclude: []
+  enabled: true
+  max_copies: 2
+  min_clump_size: 2
+ControlCouple: 
+  exclude: 
+  - initialize
+  enabled: true
+LongYieldList: 
+  max_params: 2
+  exclude: []
+  enabled: true
+  overrides: 
+    initialize: 
+      max_params: 5

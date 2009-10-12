@@ -46,8 +46,8 @@ Feature: Reek can be driven through its RakeTask
     Then the exit status indicates an error
     And it reports:
       """
-        /usr/bin/ruby1.8 -I"/home/kevin/Working/git/reek/lib" "/home/kevin/Working/git/reek/bin/reek"  "spec/samples/masked/dirty.rb"
-        spec/samples/masked/dirty.rb -- 3 warnings (+3 masked):
+      /usr/bin/ruby1.8 -I"/home/kevin/Working/git/reek/lib" "/home/kevin/Working/git/reek/bin/reek"  "spec/samples/masked/dirty.rb"
+      spec/samples/masked/dirty.rb -- 3 warnings (+3 masked):
         Dirty#a calls @s.title twice (Duplication)
         Dirty#a calls puts(@s.title) twice (Duplication)
         Dirty#a/block/block is nested (Nested Iterators)

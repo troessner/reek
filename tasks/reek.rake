@@ -4,7 +4,7 @@ begin
   Reek::RakeTask.new do |t|
     t.fail_on_error = true
     t.verbose = false
-    t.reek_opts = '--quiet --show-all'
+    t.reek_opts = '--quiet'
   end
 rescue Gem::LoadError
 end
