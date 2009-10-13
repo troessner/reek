@@ -29,8 +29,30 @@ class ShouldDuplicate
   end
 end
 
-def duplicate(threshold)
+class ShouldSimian
+  def initialize(threshold)
+    @threshold = threshold
+  end
+  def matches?(actual)
+    files = Flay.expand_dirs_to_files(actual).join(' ')
+    simian_jar = Dir["#{ENV['SIMIAN_HOME']}/simian*.jar"].first
+    @simian = `java -jar #{simian_jar} -threshold=#{@threshold} #{files}`
+    !@simian.include?("Found 0 duplicate lines")
+  end
+  def failure_message_for_should
+    "Expected source to contain textual duplication, but it didn't"
+  end
+  def failure_message_for_should_not
+    "Expected source not to contain textual duplication, but got:\n#{@simian}"
+  end
+end
+
+def flay(threshold)
   ShouldDuplicate.new(threshold)
+end
+
+def simian(threshold)
+  ShouldSimian.new(threshold)
 end
 
 describe 'Reek source code' do
@@ -46,7 +68,10 @@ describe 'Reek source code' do
     end
   end
 
-  it 'has no duplication' do
-    ['lib', 'spec/reek'].should_not duplicate(40)
+  it 'has no structural duplication' do
+    ['lib', 'spec/reek'].should_not flay(40)
+  end
+  it 'has no textual duplication' do
+    ['lib', 'spec/reek'].should_not simian(4)
   end
 end
