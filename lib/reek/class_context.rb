@@ -15,7 +15,7 @@ module Reek
 
     def ClassContext.create(outer, exp)
       res = Name.resolve(exp[1], outer)
-      ClassContext.new(res[0], res[1], exp[2])
+      ClassContext.new(res[0], res[1], exp)
     end
 
     def ClassContext.from_s(src)
@@ -24,16 +24,15 @@ module Reek
       CodeParser.new(sniffer).process_class(source.syntax_tree)
     end
 
-    attr_reader :conditionals, :parsed_methods, :class_variables, :attributes
+    attr_reader :parsed_methods, :class_variables, :attributes
 
     # SMELL: inconsistent with other contexts (not linked to the sexp)
-    def initialize(outer, name, superclass = nil)
-      super(outer, nil)
+    def initialize(outer, name, exp = nil)
+      super(outer, exp)
       @name = name
-      @superclass = superclass
+      @superclass = exp[2] if exp
       @parsed_methods = []
       @instance_variables = Set.new
-      @conditionals = []
       @attributes = Set.new
       @class_variables = Set.new
     end
@@ -92,10 +91,6 @@ module Reek
 
     def variable_names
       @instance_variables
-    end
-
-    def record_conditional(exp)
-      @conditionals << exp
     end
 
     def parameterized_methods(min_clump_size)

@@ -25,6 +25,20 @@ class Sexp
   def has_type?(type)
     is_language_node? and first == type
   end
+
+  #
+  # Carries out a depth-first traversal of this syntax tree, yielding
+  # every Sexp of type +target_type+. The traversal ignores any node
+  # whose type is listed in the Array +ignoring+.
+  #
+  def look_for(target_type, ignoring, &blk)
+    each do |elem|
+      if Sexp === elem then
+        elem.look_for(target_type, ignoring, &blk) unless ignoring.include?(elem.first)
+      end
+    end
+    blk.call(self) if first == target_type
+  end
 end
 
 module Reek
@@ -136,7 +150,6 @@ module Reek
     end
 
     def process_if(exp)
-      @element.record_conditional(exp[1])
       count_clause(exp[2])
       count_clause(exp[3])
       handle_context(IfContext, :if, exp)
@@ -168,7 +181,6 @@ module Reek
     end
 
     def process_case(exp)
-      @element.record_conditional(exp[1])
       process_default(exp)
       @element.count_statements(-1)
     end

@@ -150,33 +150,12 @@ describe CodeContext, 'find class' do
 end
 
 describe ClassContext do
-  it 'should not report empty class in another module' do
+  it 'does not report empty class in another module' do
     'class Treetop::Runtime::SyntaxNode; end'.should_not reek
   end
 
-  it 'should deal with :: scoped names' do
+  it 'deals with :: scoped names' do
     element = ClassContext.create(StopContext.new, [:colon2, [:colon2, [:const, :Treetop], :Runtime], :SyntaxNode])
     element.num_methods.should == 0
-  end
-
-  it 'counts conditionals correctly' do
-    src = <<EOS
-class Scrunch
-  def first
-    return @field == :sym ? 0 : 3;
-  end
-  def second
-    if @field == :sym
-      @other += " quarts"
-    end
-  end
-  def third
-    raise 'flu!' unless @field == :sym
-  end
-end
-EOS
-
-    ctx = ClassContext.from_s(src)
-    ctx.conditionals.length.should == 3
   end
 end

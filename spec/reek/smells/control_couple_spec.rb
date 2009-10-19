@@ -6,7 +6,7 @@ include Reek::Smells
 
 describe ControlCouple do
   it 'should report a ternary check on a parameter' do
-    'def simple(arga) arga ? @ivar : 3 end'.should reek_of(:ControlCouple, /arga/)
+    'def simple(arga) arga ? @ivar : 3 end'.should reek_only_of(:ControlCouple, /arga/)
   end
 
   it 'should not report a ternary check on an ivar' do

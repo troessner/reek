@@ -23,6 +23,17 @@ module Reek
       @myself = nil
     end
 
+    def each(type, ignoring = [], &blk)
+      sexp = @exp
+      if block_given?
+        sexp.look_for(type, ignoring, &blk)
+      else
+        result = []
+        sexp.look_for(type, ignoring) {|exp| result << exp}
+        result
+      end
+    end
+
     # SMELL: Temporary Field -- @name isn't always initialized
     def matches?(strings)
       me = @name.to_s
