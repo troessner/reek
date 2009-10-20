@@ -92,7 +92,7 @@ module Reek
 
       def matches?(actual)
         @sniffer = actual.sniff
-        @sniffer.smells_only_of?(@klass, @patterns)
+        @sniffer.num_smells == 1 and @sniffer.has_smell?(@klass, @patterns)
       end
       def failure_message_for_should
         "Expected #{@sniffer.desc} to reek only of #{@klass}, but got:\n#{report}"

@@ -125,10 +125,6 @@ module Reek
       stack.has_smell?(patterns)
     end
 
-    def smells_only_of?(klass, patterns)
-      num_smells == 1 and has_smell?(klass, patterns)
-    end
-
     def sniff
       self
     end
@@ -173,10 +169,6 @@ private
       total = 0
       @sniffers.each {|sniffer| total += sniffer.num_smells}
       total
-    end
-
-    def smells_only_of?(klass, patterns)
-      num_smells == 1 and has_smell?(klass, patterns)
     end
 
     def sniff
