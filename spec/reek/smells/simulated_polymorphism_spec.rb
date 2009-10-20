@@ -50,7 +50,7 @@ EOS
       ctx = CodeContext.new(nil, ast)
       @conds = @detector.conditional_counts(ctx)
     end
-    it 'finds exactly one conditional' do
+    it 'finds one matching conditional' do
       @conds.length.should == 1
     end
     it 'returns the condition expr' do
@@ -67,13 +67,13 @@ EOS
       @cond_expr = cond.to_reek_source.syntax_tree
       src = <<EOS
 class Scrunch
-  def first
-    return #{cond} ? 0 : 3;
+  def alpha
+    return #{cond} ? 0 : 2;
   end
-  def second
+  def beta
     case #{cond}
-    when :sym
-      @other += " quarts"
+    when :symbol
+      @tother += " pints"
     end
   end
 end

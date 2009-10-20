@@ -24,12 +24,11 @@ module Reek
     end
 
     def each(type, ignoring = [], &blk)
-      sexp = @exp
       if block_given?
-        sexp.look_for(type, ignoring, &blk)
+        @exp.look_for(type, ignoring, &blk)
       else
         result = []
-        sexp.look_for(type, ignoring) {|exp| result << exp}
+        @exp.look_for(type, ignoring) {|exp| result << exp}
         result
       end
     end

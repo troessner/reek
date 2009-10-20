@@ -1,5 +1,5 @@
 require 'set'
-require 'reek/code_context'
+require 'reek/module_context'
 
 class Class
   def is_overriding_method?(name)
@@ -46,6 +46,20 @@ module Reek
       @myself.const_or_nil(modname.to_s)
     end
 
+    def record_attribute(attr)
+      @attributes << Name.new(attr)
+    end
+
+    def record_class_variable(cvar)
+      @class_variables << Name.new(cvar)
+    end
+
+    def check_for_attribute_declaration(exp)
+      if [:attr, :attr_reader, :attr_writer, :attr_accessor].include? exp[2]
+        exp[3][1..-1].each {|arg| record_attribute(arg[1])}
+      end
+    end
+
     def is_overriding_method?(name)
       return false unless myself
       @myself.is_overriding_method?(name.to_s)
@@ -57,20 +71,6 @@ module Reek
 
     def num_methods
       @parsed_methods.length
-    end
-
-    def check_for_attribute_declaration(exp)
-      if [:attr, :attr_reader, :attr_writer, :attr_accessor].include? exp[2]
-        exp[3][1..-1].each {|arg| record_attribute(arg[1])}
-      end
-    end
-
-    def record_attribute(attr)
-      @attributes << Name.new(attr)
-    end
-
-    def record_class_variable(cvar)
-      @class_variables << Name.new(cvar)
     end
 
     def record_instance_variable(sym)

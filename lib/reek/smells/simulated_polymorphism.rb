@@ -56,7 +56,7 @@ module Reek
       #
       # Returns a Hash listing all of the conditional expressions in
       # the given syntax tree together with the number of times each
-      # occurs.
+      # occurs. Ignores nested classes and modules.
       #
       def conditional_counts(exp)
         result = Hash.new(0)
