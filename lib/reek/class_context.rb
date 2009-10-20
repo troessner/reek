@@ -11,7 +11,7 @@ class Class
 end
 
 module Reek
-  class ClassContext < CodeContext
+  class ClassContext < ModuleContext
 
     def ClassContext.create(outer, exp)
       res = Name.resolve(exp[1], outer)
@@ -24,40 +24,14 @@ module Reek
       CodeParser.new(sniffer).process_class(source.syntax_tree)
     end
 
-    attr_reader :parsed_methods, :class_variables, :attributes
+    attr_reader :parsed_methods
 
     # SMELL: inconsistent with other contexts (not linked to the sexp)
     def initialize(outer, name, exp = nil)
-      super(outer, exp)
-      @name = name
+      super(outer, name, exp)
       @superclass = exp[2] if exp
       @parsed_methods = []
       @instance_variables = Set.new
-      @attributes = Set.new
-      @class_variables = Set.new
-    end
-
-    def myself
-      @myself ||= @outer.find_module(@name)
-    end
-
-    def find_module(modname)
-      return nil unless myself
-      @myself.const_or_nil(modname.to_s)
-    end
-
-    def record_attribute(attr)
-      @attributes << Name.new(attr)
-    end
-
-    def record_class_variable(cvar)
-      @class_variables << Name.new(cvar)
-    end
-
-    def check_for_attribute_declaration(exp)
-      if [:attr, :attr_reader, :attr_writer, :attr_accessor].include? exp[2]
-        exp[3][1..-1].each {|arg| record_attribute(arg[1])}
-      end
     end
 
     def is_overriding_method?(name)

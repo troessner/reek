@@ -17,7 +17,7 @@ module Reek
     attr_reader :class_variables, :attributes
 
     def initialize(outer, name, exp)
-      super(outer, nil)
+      super(outer, exp)
       @name = name
       @attributes = Set.new
       @class_variables = Set.new
