@@ -1,5 +1,5 @@
 require 'reek/name'
-require 'reek/code_context'
+require 'reek/block_context'
 require 'reek/object_refs'
 
 class Array
@@ -51,7 +51,7 @@ module Reek
     end
   end
 
-  class MethodContext < CodeContext
+  class MethodContext < VariableContainer
     attr_reader :parameters
     attr_reader :calls
     attr_reader :refs
@@ -62,7 +62,6 @@ module Reek
       @parameters = exp[exp[0] == :defn ? 2 : 3]  # SMELL: SimulatedPolymorphism
       @parameters ||= []
       @parameters.extend(MethodParameters)
-      @local_variables = []
       @name = Name.new(exp[1])
       @num_statements = 0
       @calls = Hash.new(0)
@@ -114,10 +113,6 @@ module Reek
       @depends_on_self = true
     end
 
-    def record_local_variable(sym)
-      @local_variables << Name.new(sym)
-    end
-
     def outer_name
       "#{@outer.outer_name}#{@name}/"
     end
@@ -132,7 +127,7 @@ module Reek
     end
 
     def variable_names
-      @parameters.names + @local_variables
+      @parameters.names + @local_variables.to_a
     end
   end
 end

@@ -21,7 +21,19 @@ module Reek
     end
   end
 
-  class BlockContext < CodeContext
+  class VariableContainer < CodeContext
+
+    def initialize(outer, exp)
+      super
+      @local_variables = Set.new
+    end
+
+    def record_local_variable(sym)
+      @local_variables << Name.new(sym)
+    end
+  end
+
+  class BlockContext < VariableContainer
 
     def initialize(outer, exp)
       super
@@ -29,7 +41,6 @@ module Reek
       @parameters = exp[0] if exp
       @parameters ||= []
       @parameters.extend(ParameterSet)
-      @local_variables = Set.new
     end
 
     def inside_a_block?
@@ -42,10 +53,6 @@ module Reek
 
     def nested_block?
       @outer.inside_a_block?
-    end
-    
-    def record_local_variable(sym)
-      @local_variables << Name.new(sym)
     end
 
     def outer_name
