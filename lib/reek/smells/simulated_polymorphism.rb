@@ -47,8 +47,7 @@ module Reek
       # Remembers any smells found.
       #
       def examine_context(klass)
-        counts = conditional_counts(klass)
-        counts.each do |key, val|
+        conditional_counts(klass).each do |key, val|
           found(klass, "tests #{SexpFormatter.format(key)} at least #{val} times") if val > value(MAX_IDENTICAL_IFS_KEY, klass, DEFAULT_MAX_IFS)
         end
       end
@@ -58,14 +57,14 @@ module Reek
       # the given syntax tree together with the number of times each
       # occurs. Ignores nested classes and modules.
       #
-      def conditional_counts(exp)
+      def conditional_counts(klass)
         result = Hash.new(0)
         collector = proc { |sexp|
           condition = sexp[1]
           result[condition] += 1 unless condition == s(:call, nil, :block_given?, s(:arglist))
         }
-        exp.each(:if, [:class, :module], &collector)
-        exp.each(:case, [:class, :module], &collector)
+        klass.each(:if, [:class, :module], &collector)
+        klass.each(:case, [:class, :module], &collector)
         result
       end
     end

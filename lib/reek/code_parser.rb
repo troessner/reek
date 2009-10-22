@@ -82,18 +82,6 @@ module Reek
       scope
     end
 
-    def process_cvar(exp)
-      @element.record_class_variable(exp[1])
-    end
-
-    def process_cvasgn(exp)
-      process_cvar(exp)
-    end
-
-    def process_cvdecl(exp)
-      process_cvar(exp)
-    end
-
     def process_defn(exp)
       handle_context(MethodContext, :defn, exp)
     end

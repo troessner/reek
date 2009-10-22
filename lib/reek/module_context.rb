@@ -14,13 +14,12 @@ module Reek
       CodeParser.new(sniffer).process_module(source.syntax_tree)
     end
 
-    attr_reader :class_variables, :attributes
+    attr_reader :attributes
 
     def initialize(outer, name, exp)
       super(outer, exp)
       @name = name
       @attributes = Set.new
-      @class_variables = Set.new
     end
 
     def myself
@@ -34,10 +33,6 @@ module Reek
 
     def record_attribute(attr)
       @attributes << Name.new(attr)
-    end
-
-    def record_class_variable(cvar)
-      @class_variables << Name.new(cvar)
     end
 
     def check_for_attribute_declaration(exp)
