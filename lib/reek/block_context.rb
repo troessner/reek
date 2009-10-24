@@ -38,8 +38,7 @@ module Reek
     def initialize(outer, exp)
       super
       @name = Name.new('block')
-      @parameters = exp[0] if exp
-      @parameters ||= []
+      @parameters = exp[0] || []
       @parameters.extend(ParameterSet)
     end
 

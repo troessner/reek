@@ -33,7 +33,7 @@ module Reek
       #
       def class_variables_in(mod)
         result = Set.new
-        collector = proc { |sexp| result << sexp[1] }
+        collector = proc { |cvar_node| result << cvar_node.name }
         [:cvar, :cvasgn, :cvdecl].each do |stmt_type|
           mod.each(stmt_type, [:class, :module], &collector)
         end

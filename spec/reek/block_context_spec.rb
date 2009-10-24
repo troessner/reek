@@ -33,7 +33,7 @@ describe BlockContext do
   end
 
   it 'records local variables' do
-    bctx = BlockContext.new(StopContext.new, nil)
+    bctx = BlockContext.new(StopContext.new, s(nil, nil))
     bctx.record_local_variable(:q2)
     bctx.variable_names.should include(Name.new(:q2))
   end

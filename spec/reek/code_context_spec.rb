@@ -16,7 +16,7 @@ describe CodeContext do
       element = ModuleContext.new(element, Name.new(:mod), s(:module, :mod, nil))
       element = ClassContext.new(element, [0, :klass])
       element = MethodContext.new(element, [0, :bad])
-      element = BlockContext.new(element, nil)
+      element = BlockContext.new(element, s(nil, nil))
       element.to_s.should match(/bad/)
       element.to_s.should match(/klass/)
       element.to_s.should match(/mod/)
@@ -26,14 +26,14 @@ describe CodeContext do
       element1 = StopContext.new
       element2 = MethodContext.new(element1, [0, :bad])
       element3 = IfContext.new(element2, [0,1])
-      BlockContext.new(element3, nil).to_s.should match(/bad/)
+      BlockContext.new(element3, s(nil, nil)).to_s.should match(/bad/)
     end
 
     it 'reports the method name via nested blocks' do
       element1 = StopContext.new
       element2 = MethodContext.new(element1, [0, :bad])
-      element3 = BlockContext.new(element2, nil)
-      BlockContext.new(element3, nil).to_s.should match(/bad/)
+      element3 = BlockContext.new(element2, s(nil, nil))
+      BlockContext.new(element3, s(nil, nil)).to_s.should match(/bad/)
     end
   end
 
@@ -43,7 +43,7 @@ describe CodeContext do
       element = ModuleContext.new(element, Name.new(:mod), s(:module, :mod, nil))
       class_element = ClassContext.new(element, [0, :klass])
       element = MethodContext.new(class_element, [0, :bad])
-      element = BlockContext.new(element, nil)
+      element = BlockContext.new(element, s(nil, nil))
       element.record_instance_variable(:fred)
       class_element.variable_names.size.should == 1
       class_element.variable_names.should include(Name.new(:fred))
@@ -57,7 +57,7 @@ describe CodeContext do
       element = ModuleContext.new(stop, Name.new(:mod), s(:module, :mod, nil))
       class_element = ClassContext.new(element, [0, :klass])
       element = MethodContext.new(class_element, [0, :bad])
-      element = BlockContext.new(element, nil)
+      element = BlockContext.new(element, s(nil, nil))
       element.bananas(17, -5).should == 55
     end
   end

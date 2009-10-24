@@ -1,4 +1,5 @@
 require 'reek/adapters/config_file'
+require 'reek/tree_dresser'
 
 module Reek
 
@@ -17,7 +18,8 @@ module Reek
     def configure(sniffer) end
 
     def syntax_tree
-      RubyParser.new.parse(@source, @desc) || s()
+      ast = RubyParser.new.parse(@source, @desc) || s()
+      TreeDresser.new.dress(ast)
     end
   end
 

@@ -9,45 +9,12 @@ require 'reek/method_context'
 require 'reek/singleton_method_context'
 require 'reek/yield_call_context'
 
-#
-# Extensions to +Sexp+ to allow +CodeParser+ to navigate the abstract
-# syntax tree more easily.
-#
-class Sexp
-  def children
-    find_all { |item| Sexp === item }
-  end
-
-  def is_language_node?
-    first.class == Symbol
-  end
-
-  def has_type?(type)
-    is_language_node? and first == type
-  end
-
-  #
-  # Carries out a depth-first traversal of this syntax tree, yielding
-  # every Sexp of type +target_type+. The traversal ignores any node
-  # whose type is listed in the Array +ignoring+.
-  #
-  def look_for(target_type, ignoring, &blk)
-    each do |elem|
-      if Sexp === elem then
-        elem.look_for(target_type, ignoring, &blk) unless ignoring.include?(elem.first)
-      end
-    end
-    blk.call(self) if first == target_type
-  end
-end
-
 module Reek
-
+  #
+  # Traverses a Sexp abstract syntax tree and fires events whenever
+  # it encounters specific node types.
+  #
   class CodeParser
-
-    #
-    # Creates a new Ruby code checker.
-    #
     def initialize(sniffer, ctx = StopContext.new)
       @sniffer = sniffer
       @element = ctx
@@ -156,12 +123,14 @@ module Reek
 
     def process_for(exp)
       count_clause(exp[3])
-      process_case(exp)
+      process_default(exp)
+      @element.count_statements(-1)
     end
 
     def process_rescue(exp)
       count_clause(exp[1])
-      process_case(exp)
+      process_default(exp)
+      @element.count_statements(-1)
     end
 
     def process_resbody(exp)

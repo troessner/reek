@@ -59,8 +59,8 @@ module Reek
       #
       def conditional_counts(klass)
         result = Hash.new(0)
-        collector = proc { |sexp|
-          condition = sexp[1]
+        collector = proc { |node|
+          condition = node.condition
           result[condition] += 1 unless condition == s(:call, nil, :block_given?, s(:arglist))
         }
         klass.each(:if, [:class, :module], &collector)
