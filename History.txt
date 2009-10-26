@@ -3,6 +3,7 @@
 === Minor Changes
 * New smell: Attribute (disabled by default)
 * Removed support for MyClass.should_not reek due to ParseTree EOL
+* Removed internal requiring of 'rubygems'
 
 == 1.2.1 (2009-10-02)
 

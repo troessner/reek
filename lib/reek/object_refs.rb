@@ -1,6 +1,3 @@
-require 'rubygems'
-require 'sexp_processor'
-
 module Reek
 
   class ObjectRefs  # :nodoc:

@@ -1,3 +1,4 @@
+require 'ruby_parser'
 require 'reek/adapters/config_file'
 require 'reek/tree_dresser'
 

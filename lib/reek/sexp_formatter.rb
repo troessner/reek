@@ -1,5 +1,3 @@
-require 'rubygems'
-require 'ruby_parser'
 require 'ruby2ruby'
 
 module Reek
