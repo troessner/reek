@@ -5,8 +5,7 @@ module Reek
     attr_reader :if_expr
     
     def initialize(outer, exp)
-      @outer = outer
-      @exp = exp
+      super
       @if_expr = exp[1]
     end
     

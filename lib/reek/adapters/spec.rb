@@ -88,8 +88,6 @@ module Reek
     end
 
     class ShouldReekOnlyOf < ShouldReekOf        # :nodoc:
-      include ReekMatcher
-
       def matches?(actual)
         @sniffer = actual.sniff
         @sniffer.num_smells == 1 and @sniffer.has_smell?(@klass, @patterns)
