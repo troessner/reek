@@ -70,11 +70,11 @@ module Reek
       end
 
       def configure_with(config)
-        @config.hash.adopt!(config)
+        @config.adopt!(config)
       end
 
       def copy
-        self.class.new(@config.hash.deep_copy)
+        self.class.new(@config.deep_copy)
       end
 
       def supersede_with(config)

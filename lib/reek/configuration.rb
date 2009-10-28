@@ -13,19 +13,25 @@ module Reek
     # for other values in the current smell detector's configuration.
     OVERRIDES_KEY = 'overrides'
 
-    attr_reader :hash
-
     def initialize(hash)
-      @hash = hash
+      @options = hash
+    end
+
+    def adopt!(options)
+      @options.adopt!(options)
+    end
+
+    def deep_copy
+      @options.deep_copy     # SMELL: Open Secret -- returns a Hash
     end
 
     # SMELL: Getter
     def enabled?
-      @hash[ENABLED_KEY]
+      @options[ENABLED_KEY]
     end
 
     def overrides_for(context)
-      Overrides.new(@hash.fetch(OVERRIDES_KEY, {})).for_context(context)
+      Overrides.new(@options.fetch(OVERRIDES_KEY, {})).for_context(context)
     end
 
     # Retrieves the value, if any, for the given +key+.
@@ -34,7 +40,7 @@ module Reek
     #
     def value(key, context, fall_back)
       overrides_for(context).each { |conf| return conf[key] if conf.has_key?(key) }
-      return @hash.fetch(key, fall_back)
+      return @options.fetch(key, fall_back)
     end
   end
 
