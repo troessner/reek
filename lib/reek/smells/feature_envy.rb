@@ -33,14 +33,7 @@ module Reek
     # often than it refers to (ie. send messages to) some other object.
     #
     class FeatureEnvy < SmellDetector
-
-      def self.default_config
-        super.adopt(EXCLUDE_KEY => ['initialize'])
-      end
-
-      def initialize(config = FeatureEnvy.default_config)
-        super
-      end
+      include ExcludeInitialize
 
       #
       # Checks whether the given +context+ includes any code fragment that

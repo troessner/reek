@@ -34,17 +34,10 @@ module Reek
     # because it includes at least two different code paths.
     #
     class ControlCouple < SmellDetector
+      include ExcludeInitialize
 
       def self.contexts      # :nodoc:
         [:if]
-      end
-
-      def self.default_config
-        super.adopt(EXCLUDE_KEY => ['initialize'])
-      end
-
-      def initialize(config = ControlCouple.default_config)
-        super
       end
 
       #

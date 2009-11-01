@@ -69,7 +69,7 @@ describe 'Reek source code' do
   end
 
   it 'has no structural duplication' do
-    ['lib', 'spec/reek'].should_not flay(40)
+    ['lib'].should_not flay(15)
   end
   it 'has no textual duplication' do
     ['lib'].should_not simian(2)

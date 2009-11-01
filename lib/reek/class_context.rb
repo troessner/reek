@@ -13,17 +13,6 @@ end
 module Reek
   class ClassContext < ModuleContext
 
-    def ClassContext.create(outer, exp)
-      res = Name.resolve(exp[1], outer)
-      ClassContext.new(res[0], res[1], exp)
-    end
-
-    def ClassContext.from_s(src)
-      source = src.to_reek_source
-      sniffer = Sniffer.new(source)
-      CodeParser.new(sniffer).process_class(source.syntax_tree)
-    end
-
     attr_reader :parsed_methods
 
     # SMELL: inconsistent with other contexts (not linked to the sexp)

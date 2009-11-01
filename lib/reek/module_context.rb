@@ -1,17 +1,21 @@
 require 'reek/code_context'
+require 'reek/code_parser'
+require 'reek/sniffer'
 
 module Reek
   class ModuleContext < CodeContext
 
-    def ModuleContext.create(outer, exp)
-      res = Name.resolve(exp[1], outer)
-      ModuleContext.new(res[0], res[1], exp)
-    end
+    class << self
+      def create(outer, exp)
+        res = Name.resolve(exp[1], outer)
+        new(res[0], res[1], exp)
+      end
 
-    def ModuleContext.from_s(src)
-      source = src.to_reek_source
-      sniffer = Sniffer.new(source)
-      CodeParser.new(sniffer).process_module(source.syntax_tree)
+      def from_s(src)
+        source = src.to_reek_source
+        sniffer = Sniffer.new(source)
+        CodeParser.new(sniffer).do_module_or_class(source.syntax_tree, self)
+      end
     end
 
     attr_reader :attributes

@@ -31,30 +31,29 @@ module Reek
       exp[0..-1].each { |sub| process(sub) if Array === sub }
     end
 
-    def process_module(exp)
-      scope = ModuleContext.create(@element, exp)
+    def do_module_or_class(exp, context_class)
+      scope = context_class.create(@element, exp)
       push(scope) do
-        process_default(exp)
-        check_smells(:module)
+        process_default(exp) unless @element.is_struct?
+        check_smells(exp[0])
       end
       scope
+    end
+
+    def process_module(exp)
+      do_module_or_class(exp, ModuleContext)
     end
 
     def process_class(exp)
-      scope = ClassContext.create(@element, exp)
-      push(scope) do
-        process_default(exp) unless @element.is_struct?
-        check_smells(:class)
-      end
-      scope
+      do_module_or_class(exp, ClassContext)
     end
 
     def process_defn(exp)
-      handle_context(MethodContext, :defn, exp)
+      handle_context(MethodContext, exp[0], exp)
     end
 
     def process_defs(exp)
-      handle_context(SingletonMethodContext, :defs, exp)
+      handle_context(SingletonMethodContext, exp[0], exp)
     end
 
     def process_args(exp) end
@@ -74,7 +73,7 @@ module Reek
 
     def process_iter(exp)
       process(exp[1])
-      handle_context(BlockContext, :iter, exp[2..-1])
+      handle_context(BlockContext, exp[0], exp[2..-1])
     end
 
     def process_block(exp)
@@ -83,7 +82,7 @@ module Reek
     end
 
     def process_yield(exp)
-      handle_context(YieldCallContext, :yield, exp)
+      handle_context(YieldCallContext, exp[0], exp)
     end
 
     def process_call(exp)
@@ -107,7 +106,7 @@ module Reek
     def process_if(exp)
       count_clause(exp[2])
       count_clause(exp[3])
-      handle_context(IfContext, :if, exp)
+      handle_context(IfContext, exp[0], exp)
       @element.count_statements(-1)
     end
 
