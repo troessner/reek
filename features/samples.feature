@@ -58,7 +58,7 @@ Feature: Basic smell detection
     And it reports:
     """
     spec/samples/optparse.rb -- 121 warnings:
-      OptionParser has at least 59 methods (Large Class)
+      OptionParser has at least 42 methods (Large Class)
       OptionParser tests ((argv.size == 1) and Array.===(argv[0])) at least 3 times (Simulated Polymorphism)
       OptionParser tests a at least 7 times (Simulated Polymorphism)
       OptionParser tests default_pattern at least 7 times (Simulated Polymorphism)
