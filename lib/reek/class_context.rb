@@ -19,7 +19,6 @@ module Reek
     def initialize(outer, name, exp = nil)
       super(outer, name, exp)
       @superclass = exp[2] if exp
-      @parsed_methods = []
       @instance_variables = Set.new
     end
 
@@ -40,20 +39,12 @@ module Reek
       @instance_variables << Name.new(sym)
     end
 
-    def record_method(meth)
-      @parsed_methods << meth
-    end
-
     def outer_name
       "#{@outer.outer_name}#{@name}#"
     end
 
     def variable_names
       @instance_variables
-    end
-
-    def parameterized_methods(min_clump_size)
-      parsed_methods.select {|meth| meth.parameters.length >= min_clump_size }
     end
   end
 end

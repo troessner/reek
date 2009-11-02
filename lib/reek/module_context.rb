@@ -24,6 +24,7 @@ module Reek
       super(outer, exp)
       @name = name
       @attributes = Set.new
+      @parsed_methods = []
     end
 
     def myself
@@ -35,8 +36,16 @@ module Reek
       @myself.const_or_nil(modname.to_s)
     end
 
+    def parameterized_methods(min_clump_size)
+      @parsed_methods.select {|meth| meth.parameters.length >= min_clump_size }
+    end
+
     def record_attribute(attr)
       @attributes << Name.new(attr)
+    end
+
+    def record_method(meth)
+      @parsed_methods << meth
     end
 
     def check_for_attribute_declaration(exp)

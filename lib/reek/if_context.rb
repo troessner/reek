@@ -17,7 +17,7 @@ module Reek
       @outer.outer_name
     end
 
-    def to_s
+    def to_s      # SMELL: should be unnecessary :(
       @outer.to_s
     end
   end

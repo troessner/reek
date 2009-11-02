@@ -20,7 +20,7 @@ module Reek
     class DataClump < SmellDetector
 
       def self.contexts      # :nodoc:
-        [:class]
+        [:class, :module]
       end
 
       # The name of the config field that sets the maximum allowed
@@ -44,14 +44,14 @@ module Reek
       end
 
       #
-      # Checks the given ClassContext for multiple identical conditional tests.
+      # Checks the given class or module for multiple identical parameter sets.
       # Remembers any smells found.
       #
-      def examine_context(klass)
-        max_copies = value(MAX_COPIES_KEY, klass, DEFAULT_MAX_COPIES)
-        min_clump_size = value(MIN_CLUMP_SIZE_KEY, klass, DEFAULT_MIN_CLUMP_SIZE)
-        MethodGroup.new(klass, min_clump_size, max_copies).clumps.each do |clump, occurs|
-          found(klass, "takes parameters #{DataClump.print_clump(clump)} to #{occurs} methods")
+      def examine_context(ctx)
+        max_copies = value(MAX_COPIES_KEY, ctx, DEFAULT_MAX_COPIES)
+        min_clump_size = value(MIN_CLUMP_SIZE_KEY, ctx, DEFAULT_MIN_CLUMP_SIZE)
+        MethodGroup.new(ctx, min_clump_size, max_copies).clumps.each do |clump, occurs|
+          found(ctx, "takes parameters #{DataClump.print_clump(clump)} to #{occurs} methods")
         end
       end
 
@@ -68,15 +68,15 @@ module Reek
       methods.map {|meth| meth.parameters.names.sort}.intersection
     end
 
-    def initialize(klass, min_clump_size, max_copies)
-      @klass = klass
+    def initialize(ctx, min_clump_size, max_copies)
+      @ctx = ctx
       @min_clump_size = min_clump_size
       @max_copies = max_copies
     end
 
     def clumps
       results = Hash.new(0)
-      @klass.parameterized_methods(@min_clump_size).bounded_power_set(@max_copies).each do |methods|
+      @ctx.parameterized_methods(@min_clump_size).bounded_power_set(@max_copies).each do |methods|
         clump = MethodGroup.intersection_of_parameters_of(methods)
         if clump.length >= @min_clump_size
           results[clump] = [methods.length, results[clump]].max
