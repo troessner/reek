@@ -17,7 +17,7 @@ describe Attribute do
   [ClassContext, ModuleContext].each do |klass|
     context "in a #{klass}" do
       before :each do
-        @ctx = klass.create(StopContext.new, "Fred")
+        @ctx = klass.create(StopContext.new, s(:null, :Fred))
       end
 
       it_should_behave_like 'a variable detector'

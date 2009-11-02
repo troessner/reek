@@ -49,8 +49,8 @@ module Reek
         # SMELL: Duplication
         # This smell is reported once for each conditional that tests the
         # same parameter. Which means that the same smell can recur within
-        # a single sniffer. Which in turn means that the sniffer can't count
-        # its smells without knowing which are duplicates.
+        # a single detector. Which in turn means that SmellDetector must
+        # use a Set to hold smells found.
         found(cond, "is controlled by argument #{SexpFormatter.format(cond.if_expr)}")
       end
     end

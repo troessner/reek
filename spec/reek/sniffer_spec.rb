@@ -7,4 +7,5 @@ describe Sniffer do
     dirty_file = Dir['spec/samples/two_smelly_files/*.rb'][0]
     File.new(dirty_file).sniff.should be_smelly
   end
+
 end

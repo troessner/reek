@@ -11,7 +11,7 @@ include Reek::Smells
 describe LargeClass, 'when exceptions are listed' do
 
   before(:each) do
-    @ctx = ClassContext.create(StopContext.new, [0, :Humungous])
+    @ctx = ClassContext.create(StopContext.new, s(:null, :Humungous))
     30.times { |num| @ctx.record_method("method#{num}") }
     @config = LargeClass.default_config
   end

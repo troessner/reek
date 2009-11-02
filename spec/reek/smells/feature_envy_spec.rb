@@ -204,7 +204,7 @@ end
 describe FeatureEnvy, '#examine' do
 
   before :each do
-    @context = MethodContext.new(StopContext.new, [:defn, :cool])
+    @context = MethodContext.new(StopContext.new, s(:defn, :cool))
     @fe = FeatureEnvy.new
   end
 

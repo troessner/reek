@@ -7,7 +7,7 @@ include Reek
 
 describe MethodContext, 'matching' do
   before :each do
-    @element = MethodContext.new(StopContext.new, [0, :mod], s(:module, :mod, nil))
+    @element = MethodContext.new(StopContext.new, s(0, :mod), s(:module, :mod, nil))
   end
 
   it 'should recognise itself in a collection of names' do
@@ -26,7 +26,7 @@ describe MethodContext, 'matching fq names' do
     element = StopContext.new
     element = ModuleContext.new(element, Name.new(:mod), s(:module, :mod, nil))
     element = ClassContext.new(element, Name.new(:klass))
-    @element = MethodContext.new(element, [0, :meth])
+    @element = MethodContext.new(element, s(0, :meth))
   end
 
   it 'should recognise itself in a collection of names' do

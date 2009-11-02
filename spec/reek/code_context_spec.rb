@@ -78,7 +78,7 @@ describe CodeContext do
     it 'should recognise its fq name in a collection of names' do
       element = StopContext.new
       element = ModuleContext.new(element, Name.new(:mod), s(:module, :mod, nil))
-      element = ClassContext.create(element, [0, :klass])
+      element = ClassContext.create(element, s(:class, :klass))
       element.matches?(['banana', 'mod']).should == true
       element.matches?(['banana', 'mod::klass']).should == true
     end
@@ -86,7 +86,7 @@ describe CodeContext do
     it 'should recognise its fq name in a collection of names' do
       element = StopContext.new
       element = ModuleContext.new(element, Name.new(:mod), s(:module, :mod, nil))
-      element = ClassContext.create(element, [0, :klass])
+      element = ClassContext.create(element, s(:class, :klass))
       element.matches?([/banana/, /mod/]).should == true
       element.matches?([/banana/, /mod::klass/]).should == true
     end
@@ -101,20 +101,20 @@ describe CodeContext do
         @ctx = CodeContext.new(nil, ast)
       end
       it 'yields no calls' do
-        @ctx.each(:call) {|exp| raise "#{exp} yielded by empty module!"}
+        @ctx.each(:call, []) {|exp| raise "#{exp} yielded by empty module!"}
       end
       it 'yields one module' do
         mods = 0
-        @ctx.each(:module) {|exp| mods += 1}
+        @ctx.each(:module, []) {|exp| mods += 1}
         mods.should == 1
       end
       it "yields the module's full AST" do
-        @ctx.each(:module) {|exp| exp[1].should == @module_name.to_sym}
+        @ctx.each(:module, []) {|exp| exp[1].should == @module_name.to_sym}
       end
 
       context 'with no block' do
         it 'returns an empty array of ifs' do
-          @ctx.each(:if).should be_empty
+          @ctx.each(:if, []).should be_empty
         end
       end
     end
@@ -128,19 +128,19 @@ describe CodeContext do
         @ctx = CodeContext.new(nil, ast)
       end
       it 'yields no ifs' do
-        @ctx.each(:if) {|exp| raise "#{exp} yielded by empty module!"}
+        @ctx.each(:if, []) {|exp| raise "#{exp} yielded by empty module!"}
       end
       it 'yields one module' do
-        @ctx.each(:module).length.should == 1
+        @ctx.each(:module, []).length.should == 1
       end
       it "yields the module's full AST" do
-        @ctx.each(:module) {|exp| exp[1].should == @module_name.to_sym}
+        @ctx.each(:module, []) {|exp| exp[1].should == @module_name.to_sym}
       end
       it 'yields one method' do
-        @ctx.each(:defn).length.should == 1
+        @ctx.each(:defn, []).length.should == 1
       end
       it "yields the method's full AST" do
-        @ctx.each(:defn) {|exp| exp[1].should == @method_name.to_sym}
+        @ctx.each(:defn, []) {|exp| exp[1].should == @method_name.to_sym}
       end
 
       context 'pruning the traversal' do
@@ -169,7 +169,7 @@ EOS
 
       ast = src.to_reek_source.syntax_tree
       ctx = CodeContext.new(nil, ast)
-      ctx.each(:if).length.should == 3
+      ctx.each(:if, []).length.should == 3
     end
   end
 end

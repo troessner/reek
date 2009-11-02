@@ -1,4 +1,3 @@
-require 'rubygems'
 require 'sexp'
 require 'reek/block_context'
 require 'reek/class_context'
@@ -73,7 +72,12 @@ module Reek
 
     def process_iter(exp)
       process(exp[1])
-      handle_context(BlockContext, exp[0], exp[2..-1])
+      scope = BlockContext.new(@element, exp)
+      push(scope) do
+        process_default(exp[2..-1])
+        check_smells(exp[0])
+      end
+      scope
     end
 
     def process_block(exp)

@@ -48,10 +48,6 @@ module Reek
       "#{@outer.outer_name}#{@name}#"
     end
 
-    def to_s
-      "#{@outer.outer_name}#{@name}"
-    end
-
     def variable_names
       @instance_variables
     end

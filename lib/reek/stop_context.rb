@@ -5,10 +5,10 @@ module Reek
       @refs = ObjectRefs.new
       @myself = Object
     end
+
     def method_missing(method, *args)
       nil
     end
-
 
     def count_statements(num)
       0
