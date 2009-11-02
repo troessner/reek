@@ -1,4 +1,4 @@
-== 1.2.2 (under development in github)
+== 1.2.2 (2009-11-2)
 
 === Minor Changes
 * New smell: Attribute (disabled by default)

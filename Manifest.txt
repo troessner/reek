@@ -6,6 +6,8 @@ bin/reek
 config/defaults.reek
 features/masking_smells.feature
 features/options.feature
+features/profile.feature
+features/rake_task.feature
 features/reports.feature
 features/samples.feature
 features/stdin.feature
@@ -26,7 +28,6 @@ lib/reek/code_context.rb
 lib/reek/code_parser.rb
 lib/reek/configuration.rb
 lib/reek/detector_stack.rb
-lib/reek/exceptions.reek
 lib/reek/if_context.rb
 lib/reek/method_context.rb
 lib/reek/module_context.rb
@@ -52,6 +53,7 @@ lib/reek/smells/uncommunicative_name.rb
 lib/reek/smells/utility_function.rb
 lib/reek/sniffer.rb
 lib/reek/stop_context.rb
+lib/reek/tree_dresser.rb
 lib/reek/yield_call_context.rb
 reek.gemspec
 spec/reek/adapters/report_spec.rb
