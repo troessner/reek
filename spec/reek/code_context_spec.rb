@@ -14,7 +14,7 @@ describe CodeContext do
     it "reports the full context" do
       element = StopContext.new
       element = ModuleContext.new(element, Name.new(:mod), s(:module, :mod, nil))
-      element = ClassContext.new(element, [0, :klass])
+      element = ClassContext.new(element, [0, :klass], s())
       element = MethodContext.new(element, [0, :bad])
       element = BlockContext.new(element, s(nil, nil))
       element.to_s.should match(/bad/)
@@ -41,7 +41,7 @@ describe CodeContext do
     it 'should pass instance variables down to the first class' do
       element = StopContext.new
       element = ModuleContext.new(element, Name.new(:mod), s(:module, :mod, nil))
-      class_element = ClassContext.new(element, [0, :klass])
+      class_element = ClassContext.new(element, [0, :klass], s())
       element = MethodContext.new(class_element, [0, :bad])
       element = BlockContext.new(element, s(nil, nil))
       element.record_instance_variable(:fred)
@@ -55,7 +55,7 @@ describe CodeContext do
       stop = StopContext.new
       def stop.bananas(arg1, arg2) arg1 + arg2 + 43 end
       element = ModuleContext.new(stop, Name.new(:mod), s(:module, :mod, nil))
-      class_element = ClassContext.new(element, [0, :klass])
+      class_element = ClassContext.new(element, [0, :klass], s())
       element = MethodContext.new(class_element, [0, :bad])
       element = BlockContext.new(element, s(nil, nil))
       element.bananas(17, -5).should == 55

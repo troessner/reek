@@ -15,10 +15,9 @@ module Reek
 
     attr_reader :parsed_methods
 
-    # SMELL: inconsistent with other contexts (not linked to the sexp)
-    def initialize(outer, name, exp = nil)
-      super(outer, name, exp)
-      @superclass = exp[2] if exp
+    def initialize(outer, name, exp)
+      super
+      @superclass = exp[2]
       @instance_variables = Set.new
     end
 
@@ -29,10 +28,6 @@ module Reek
     
     def is_struct?
       @superclass == [:const, :Struct]
-    end
-
-    def num_methods
-      @parsed_methods.length
     end
 
     def record_instance_variable(sym)

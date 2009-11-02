@@ -78,17 +78,6 @@ EOS
   end
 
   context 'counting methods' do
-    it 'should not report empty class' do
-      ClassContext.from_s('class Empty;end').num_methods.should == 0
-    end
-
-    it 'should count 1 method' do
-      ClassContext.from_s('class Empty;def ivars() @aa=@ab; end;end').num_methods.should == 1
-    end
-
-    it 'should count 2 methods' do
-      ClassContext.from_s('class Empty;def meth1() @aa=@ab;end;def meth2() @aa=@ab;end;end').num_methods.should == 2
-    end
 
     it 'should not report 25 methods' do
       src = <<EOS
