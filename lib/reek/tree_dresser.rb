@@ -32,43 +32,50 @@ module Reek
     end
   end
 
-  module CvarNode
-    def name
-      self[1]
+  module SexpExtensions
+    module CaseNode
+      def condition
+        self[1]
+      end
     end
-  end
 
-  module IfNode
-    def condition
-      self[1]
+    module CallNode
+      def receiver() self[1] end
+      def method_name() self[2] end
+      def args() self[3] end
+      def arg_names
+        args[1..-1].map {|arg| arg[1]}
+      end
     end
-  end
 
-  module CaseNode
-    def condition
-      self[1]
+    module CvarNode
+      def name() self[1] end
+    end
+
+    CvasgnNode = CvarNode
+    CvdeclNode = CvarNode
+
+    module IfNode
+      def condition
+        self[1]
+      end
     end
   end
 
   class TreeDresser
-    # SMELL: Duplication
-    # Put these into a new module and build the mapping automagically
-    # based on the node type
-    EXTENSIONS = {
-      :cvar => CvarNode,
-      :cvasgn => CvarNode,
-      :cvdecl => CvarNode,
-      :if => IfNode,
-      :case => CaseNode,
-    }
 
     def dress(sexp)
       sexp.extend(SexpNode)
-      if EXTENSIONS.has_key?(sexp[0])
-        sexp.extend(EXTENSIONS[sexp[0]])
+      module_name = extensions_for(sexp.sexp_type)
+      if Reek::SexpExtensions.const_defined?(module_name)
+        sexp.extend(Reek::SexpExtensions.const_get(module_name))
       end
       sexp[0..-1].each { |sub| dress(sub) if Array === sub }
       sexp
+    end
+
+    def extensions_for(node_type)
+      "#{node_type.to_s.capitalize}Node"
     end
   end
 end

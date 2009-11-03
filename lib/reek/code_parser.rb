@@ -91,7 +91,6 @@ module Reek
 
     def process_call(exp)
       @element.record_call_to(exp)
-      @element.check_for_attribute_declaration(exp)
       process_default(exp)
     end
 

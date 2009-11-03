@@ -18,6 +18,8 @@ module Reek
     #
     class Attribute < SmellDetector
 
+      ATTRIBUTE_METHODS = [:attr, :attr_reader, :attr_writer, :attr_accessor]
+
       def self.contexts      # :nodoc:
         [:class, :module]
       end
@@ -39,9 +41,24 @@ module Reek
         # MethodContext, ClassContext and ModuleContext all know which
         # calls constitute attribute declarations. Need a method on
         # ModuleContext: each_public_call.select [names] {...}
-        mod.attributes.each do |attr|
+        attributes_in(mod).each do |attr|
           found(mod, "declares the attribute #{attr}")
         end
+      end
+
+      #
+      # Collects the names of the class variables declared and/or used
+      # in the given module.
+      #
+      def attributes_in(mod)
+        result = Set.new
+        collector = proc { |call_node|
+          if ATTRIBUTE_METHODS.include?(call_node.method_name)
+            call_node.arg_names.each {|arg| result << arg }
+          end
+        }
+        mod.local_nodes(:call, &collector)
+        result
       end
     end
   end

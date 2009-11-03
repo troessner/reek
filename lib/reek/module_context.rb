@@ -18,12 +18,9 @@ module Reek
       end
     end
 
-    attr_reader :attributes
-
     def initialize(outer, name, exp)
       super(outer, exp)
       @name = name
-      @attributes = Set.new
       @parsed_methods = []
     end
 
@@ -40,18 +37,8 @@ module Reek
       @parsed_methods.select {|meth| meth.parameters.length >= min_clump_size }
     end
 
-    def record_attribute(attr)
-      @attributes << Name.new(attr)
-    end
-
     def record_method(meth)
       @parsed_methods << meth
-    end
-
-    def check_for_attribute_declaration(exp)
-      if [:attr, :attr_reader, :attr_writer, :attr_accessor].include? exp[2]
-        exp[3][1..-1].each {|arg| record_attribute(arg[1])}
-      end
     end
 
     def outer_name

@@ -35,7 +35,7 @@ module Reek
         result = Set.new
         collector = proc { |cvar_node| result << cvar_node.name }
         [:cvar, :cvasgn, :cvdecl].each do |stmt_type|
-          mod.each(stmt_type, [:class, :module], &collector)
+          mod.local_nodes(stmt_type, &collector)
         end
         result
       end

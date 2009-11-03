@@ -23,7 +23,11 @@ module Reek
       @myself = nil
     end
 
-    def each(type, ignoring, &blk)
+    def local_nodes(type, &blk)
+      each_node(type, [:class, :module], &blk)
+    end
+
+    def each_node(type, ignoring, &blk)
       if block_given?
         @exp.look_for(type, ignoring, &blk)
       else

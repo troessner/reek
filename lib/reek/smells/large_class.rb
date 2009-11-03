@@ -45,7 +45,7 @@ module Reek
       end
 
       def check_num_methods(klass)  # :nodoc:
-        actual = klass.each(:defn, [:class, :module]).length
+        actual = klass.local_nodes(:defn).length
         return if actual <= value(MAX_ALLOWED_METHODS_KEY, klass, DEFAULT_MAX_METHODS)
         found(klass, "has at least #{actual} methods")
       end
