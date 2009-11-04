@@ -25,8 +25,6 @@ module Reek
         )
       end
 
-      attr_reader :max_statements
-
       def initialize(config = LongMethod.default_config)
         super(config)
       end

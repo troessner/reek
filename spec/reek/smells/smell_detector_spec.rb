@@ -19,23 +19,6 @@ describe SmellDetector, 'configuration' do
   end
 end
 
-describe SmellDetector, 'when copied' do
-  before :each do
-    @detector = LongMethod.new
-    @copy = @detector.copy
-  end
-
-  it 'should have the same state' do
-    @copy.max_statements.should == @detector.max_statements
-  end
-
-  it 'should change independently of its parent' do
-    default_max = @detector.max_statements
-    @copy.configure_with(LongMethod::MAX_ALLOWED_STATEMENTS_KEY => 25)
-    @detector.max_statements.should == default_max
-  end
-end
-
 describe SmellDetector, 'configuration' do
 #  it 'stays enabled when not disabled' do
 #    @detector = LargeClass.new

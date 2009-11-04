@@ -52,12 +52,11 @@ module Reek
       #
       def attributes_in(mod)
         result = Set.new
-        collector = proc { |call_node|
+        mod.local_nodes(:call) do |call_node|
           if ATTRIBUTE_METHODS.include?(call_node.method_name)
             call_node.arg_names.each {|arg| result << arg }
           end
-        }
-        mod.local_nodes(:call, &collector)
+        end
         result
       end
     end

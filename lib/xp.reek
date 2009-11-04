@@ -41,7 +41,7 @@ Duplication:
 UtilityFunction: 
   max_helper_calls: 1
   exclude: []
-  enabled: true
+  enabled: false
 Attribute: 
   exclude: []
   enabled: true
