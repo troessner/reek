@@ -19,12 +19,13 @@ module Reek
       @quiet = false
       @show_all = false
       @format = CTX_SORT
+      @command = nil
       set_options
     end
 
     def parse
       @parser.parse!(@argv)
-      @argv
+      @command ||= ReekCommand.new(@argv, @quiet, @format, @show_all)
     end
 
     def set_options
@@ -44,12 +45,10 @@ EOB
       @parser.separator "Common options:"
 
       @parser.on("-h", "--help", "Show this message") do
-        puts @parser
-        exit(EXIT_STATUS[:success])
+        @command = HelpCommand.new(@parser)
       end
       @parser.on("-v", "--version", "Show version") do
-        puts "#{@parser.program_name} #{Reek::VERSION}"
-        exit(EXIT_STATUS[:success])
+        @command = VersionCommand.new(@parser)
       end
 
       @parser.separator "\nReport formatting:"
@@ -73,6 +72,46 @@ EOB
 
     def create_report(sniffers)
       @quiet ? QuietReport.new(sniffers, @format, @show_all) : FullReport.new(sniffers, @format, @show_all)
+    end
+  end
+
+  class HelpCommand
+    def initialize(parser)
+      @parser = parser
+    end
+    def execute
+      puts @parser.to_s
+      return EXIT_STATUS[:success]
+    end
+  end
+
+  class VersionCommand
+    def initialize(parser)
+      @parser = parser
+    end
+    def execute
+      puts "#{@parser.program_name} #{Reek::VERSION}"
+      return EXIT_STATUS[:success]
+    end
+  end
+
+  class ReekCommand
+    def initialize(args, quiet, format, show_all)
+      @args = args
+      @quiet = quiet
+      @format = format
+      @show_all = show_all
+    end
+
+    def execute
+      sniffer = @args.length > 0 ?
+        @args.sniff :
+        Reek::Sniffer.new($stdin.to_reek_source('$stdin'))
+      rpt = @quiet ?
+        QuietReport.new(sniffer.sniffers, @format, @show_all) :
+        FullReport.new(sniffer.sniffers, @format, @show_all)
+      puts rpt.report
+      return EXIT_STATUS[sniffer.smelly? ? :smells : :success]
     end
   end
 end
