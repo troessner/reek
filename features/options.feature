@@ -9,11 +9,6 @@ Feature: Reek can be controlled using command-line options
     Then the exit status indicates an error
     And it reports the error "Error: invalid option: --no-such-option"
 
-  Scenario: return non-zero status on missing argument
-    When I run reek -f
-    Then the exit status indicates an error
-    And it reports the error "Error: missing argument: -f"
-
   Scenario: display the current version number
     When I run reek --version
     Then it succeeds
@@ -42,8 +37,5 @@ Feature: Reek can be controlled using command-line options
       Report formatting:
           -a, --[no-]show-all              Show all smells, including those masked by config settings
           -q, --quiet                      Suppress headings for smell-free source files
-          -f, --format FORMAT              Specify the format of smell warnings
-          -c, --context-first              Sort by context; sets the format string to "%m%c %w (%s)"
-          -s, --smell-first                Sort by smell; sets the format string to "%m[%s] %c %w"
 
       """
