@@ -23,11 +23,12 @@ module Reek
     def execute
       begin
         cmd = @options.parse
-        return cmd.execute
+        status = cmd.execute
       rescue Exception => error
         $stderr.puts "Error: #{error}"
-        return EXIT_STATUS[:error]
+        status = :error
       end
+      return EXIT_STATUS[status]
     end
   end
 end

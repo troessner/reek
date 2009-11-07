@@ -9,33 +9,36 @@ module Reek
     def initialize(argv)
       @argv = argv
       @parser = OptionParser.new
-      @quiet = false
+      @report_class = FullReport
       @show_all = false
       @command = nil
       set_options
     end
 
-    def parse
-      @parser.parse!(@argv)
-      @command ||= ReekCommand.new(@argv, @quiet, @show_all)
-    end
-
-    def set_options
-      @parser.banner = <<EOB
-Usage: #{@parser.program_name} [options] [files]
+    def banner
+      progname = @parser.program_name
+      return <<EOB
+Usage: #{progname} [options] [files]
 
 Examples:
 
-#{@parser.program_name} lib/*.rb
-#{@parser.program_name} -q -a lib
-cat my_class.rb | #{@parser.program_name}
+#{progname} lib/*.rb
+#{progname} -q -a lib
+cat my_class.rb | #{progname}
 
 See http://wiki.github.com/kevinrutherford/reek for detailed help.
 
 EOB
+    end
 
+    def parse
+      @parser.parse!(@argv)
+      @command ||= ReekCommand.new(@argv, @report_class, @show_all)
+    end
+
+    def set_options
+      @parser.banner = banner
       @parser.separator "Common options:"
-
       @parser.on("-h", "--help", "Show this message") do
         @command = HelpCommand.new(@parser)
       end
@@ -44,12 +47,11 @@ EOB
       end
 
       @parser.separator "\nReport formatting:"
-
       @parser.on("-a", "--[no-]show-all", "Show all smells, including those masked by config settings") do |opt|
         @show_all = opt
       end
-      @parser.on("-q", "--quiet", "Suppress headings for smell-free source files") do
-        @quiet = true
+      @parser.on("-q", "--[no-]quiet", "Suppress headings for smell-free source files") do |opt|
+        @report_class = opt ? QuietReport : FullReport
       end
     end
   end
@@ -60,7 +62,7 @@ EOB
     end
     def execute
       puts @parser.to_s
-      return EXIT_STATUS[:success]
+      :success
     end
   end
 
@@ -70,7 +72,7 @@ EOB
     end
     def execute
       puts "#{@progname} #{Reek::VERSION}"
-      return EXIT_STATUS[:success]
+      :success
     end
   end
 
@@ -78,21 +80,20 @@ EOB
 
     SMELL_FORMAT = '%m%c %w (%s)'
 
-    def initialize(args, quiet, show_all)
-      @args = args
-      @quiet = quiet
+    def initialize(sources, report_class, show_all)
+      @sniffer = sources.length > 0 ? sources.sniff : sniff_stdin
+      @report_class = report_class
       @show_all = show_all
     end
 
+    def sniff_stdin
+      Reek::Sniffer.new($stdin.to_reek_source('$stdin'))
+    end
+
     def execute
-      sniffer = @args.length > 0 ?
-        @args.sniff :
-        Reek::Sniffer.new($stdin.to_reek_source('$stdin'))
-      rpt = @quiet ?
-        QuietReport.new(sniffer.sniffers, SMELL_FORMAT, @show_all) :
-        FullReport.new(sniffer.sniffers, SMELL_FORMAT, @show_all)
+      rpt = @report_class.new(@sniffer.sniffers, SMELL_FORMAT, @show_all)
       puts rpt.report
-      return EXIT_STATUS[sniffer.smelly? ? :smells : :success]
+      return @sniffer.smelly? ? :smells : :success
     end
   end
 end
