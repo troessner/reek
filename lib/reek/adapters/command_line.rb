@@ -1,6 +1,9 @@
 require 'optparse'
 require 'reek'
 require 'reek/adapters/report'
+require 'reek/help_command'
+require 'reek/reek_command'
+require 'reek/version_command'
 
 module Reek
 
@@ -56,44 +59,4 @@ EOB
     end
   end
 
-  class HelpCommand
-    def initialize(parser)
-      @parser = parser
-    end
-    def execute
-      puts @parser.to_s
-      :success
-    end
-  end
-
-  class VersionCommand
-    def initialize(progname)
-      @progname = progname
-    end
-    def execute
-      puts "#{@progname} #{Reek::VERSION}"
-      :success
-    end
-  end
-
-  class ReekCommand
-
-    SMELL_FORMAT = '%m%c %w (%s)'
-
-    def initialize(sources, report_class, show_all)
-      @sniffer = sources.length > 0 ? sources.sniff : sniff_stdin
-      @report_class = report_class
-      @show_all = show_all
-    end
-
-    def sniff_stdin
-      Reek::Sniffer.new($stdin.to_reek_source('$stdin'))
-    end
-
-    def execute
-      rpt = @report_class.new(@sniffer.sniffers, SMELL_FORMAT, @show_all)
-      puts rpt.report
-      return @sniffer.smelly? ? :smells : :success
-    end
-  end
 end

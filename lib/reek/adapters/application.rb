@@ -18,17 +18,30 @@ module Reek
   class Application
     def initialize(argv)
       @options = Options.new(argv)
+      @status = EXIT_STATUS[:success]
     end
 
     def execute
       begin
         cmd = @options.parse
-        status = cmd.execute
+        cmd.execute(self)
       rescue Exception => error
         $stderr.puts "Error: #{error}"
-        status = :error
+        @status = EXIT_STATUS[:error]
       end
-      return EXIT_STATUS[status]
+      return @status
+    end
+
+    def output(text)
+      puts text
+    end
+
+    def report_success
+      @status = EXIT_STATUS[:success]
+    end
+
+    def report_smells
+      @status = EXIT_STATUS[:smells]
     end
   end
 end
