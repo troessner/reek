@@ -9,6 +9,7 @@ describe VersionCommand do
     @text = 'Piece of interesting text'
     @cmd = VersionCommand.new(@text)
     @view = mock('view', :null_object => true)
+    @view.should_not_receive(:report_smells)
   end
 
   it 'displays the text on the view' do

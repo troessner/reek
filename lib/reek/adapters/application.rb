@@ -4,21 +4,20 @@ require 'reek/adapters/core_extras'
 
 module Reek
 
-  EXIT_STATUS = {
-    :success => 0,
-    :error   => 1,
-    :smells  => 2
-  }
-
   #
   # Represents an instance of a Reek application.
   # This is the entry point for all invocations of Reek from the
   # command line.
   #
   class Application
+
+    STATUS_SUCCESS = 0
+    STATUS_ERROR   = 1
+    STATUS_SMELLS  = 2
+
     def initialize(argv)
       @options = Options.new(argv)
-      @status = EXIT_STATUS[:success]
+      @status = STATUS_SUCCESS
     end
 
     def execute
@@ -27,7 +26,7 @@ module Reek
         cmd.execute(self)
       rescue Exception => error
         $stderr.puts "Error: #{error}"
-        @status = EXIT_STATUS[:error]
+        @status = STATUS_ERROR
       end
       return @status
     end
@@ -37,11 +36,11 @@ module Reek
     end
 
     def report_success
-      @status = EXIT_STATUS[:success]
+      @status = STATUS_SUCCESS
     end
 
     def report_smells
-      @status = EXIT_STATUS[:smells]
+      @status = STATUS_SMELLS
     end
   end
 end
