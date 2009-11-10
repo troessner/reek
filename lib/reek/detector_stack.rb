@@ -20,9 +20,7 @@ module Reek
     end
 
     def num_smells
-      total = 0
-      @detectors.each { |det| total += det.num_smells }
-      total
+      @detectors.inject(0) { |total, detector| total += detector.num_smells }
     end
 
     def has_smell?(patterns)
@@ -31,7 +29,7 @@ module Reek
     end
 
     def smelly?
-      # SMELL: Duplication: look at al those loops!
+      # SMELL: Duplication: look at all those loops!
       @detectors.each { |det| return true if det.smelly? }
       false
     end

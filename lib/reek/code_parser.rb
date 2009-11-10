@@ -119,20 +119,17 @@ module Reek
 
     def process_until(exp)
       count_clause(exp[2])
-      process_default(exp)
-      @element.count_statements(-1)
+      process_case(exp)
     end
 
     def process_for(exp)
       count_clause(exp[3])
-      process_default(exp)
-      @element.count_statements(-1)
+      process_case(exp)
     end
 
     def process_rescue(exp)
       count_clause(exp[1])
-      process_default(exp)
-      @element.count_statements(-1)
+      process_case(exp)
     end
 
     def process_resbody(exp)

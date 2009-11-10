@@ -166,9 +166,7 @@ private
     end
 
     def num_smells
-      total = 0
-      @sniffers.each {|sniffer| total += sniffer.num_smells}
-      total
+      @sniffers.inject(0) {|total, sniffer| total += sniffer.num_smells}
     end
 
     def sniff
