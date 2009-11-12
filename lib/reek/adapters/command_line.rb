@@ -12,7 +12,7 @@ module Reek
     def initialize(argv)
       @argv = argv
       @parser = OptionParser.new
-      @report_class = FullReport
+      @report_class = VerboseReport
       @show_all = false
       @command = nil
       set_options
@@ -69,7 +69,7 @@ EOB
         @show_all = opt
       end
       @parser.on("-q", "--[no-]quiet", "Suppress headings for smell-free source files") do |opt|
-        @report_class = opt ? QuietReport : FullReport
+        @report_class = opt ? QuietReport : VerboseReport
       end
     end
   end

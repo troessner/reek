@@ -11,7 +11,7 @@ describe ReekMatcher do
   before :each do
     smelly_code = Dir['spec/samples/two_smelly_files/*.rb']
     @sniffers = smelly_code.sniff.sniffers
-    @full = FullReport.new(@sniffers, '%c %w (%s)', false).report
+    @full = VerboseReport.new(@sniffers, '%c %w (%s)', false).report
   end
 
   it 'reports quietly' do

@@ -28,7 +28,7 @@ module Reek
 
     # Creates a formatted report of all the +Smells::SmellWarning+ objects recorded in
     # this report, with a heading.
-    def full_report
+    def verbose_report
       result = header
       result += ":\n#{smell_list}" if should_report
       result += "\n"
@@ -78,9 +78,9 @@ module Reek
     end
   end
 
-  class FullReport < Report
+  class VerboseReport < Report
     def report
-      @partials.map { |section| section.full_report }.join
+      @partials.map { |section| section.verbose_report }.join
     end
   end
 
