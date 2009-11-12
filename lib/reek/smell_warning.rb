@@ -49,9 +49,9 @@ module Reek
 
     def report_on(report)
       if @is_masked
-        report.record_masked_smell(self)
+        report.found_masked_smell(self)
       else
-        report << self
+        report.found_smell(self)
       end
     end
   end

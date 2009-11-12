@@ -13,13 +13,13 @@ module Reek
       sniffer.report_on(self)
     end
 
-    def <<(smell)  # :nodoc:
-      @warnings << smell
+    def found_smell(warning)
+      @warnings << warning
       true
     end
 
-    def record_masked_smell(smell)
-      @masked_warnings << smell
+    def found_masked_smell(warning)
+      @masked_warnings << warning
     end
 
     def num_masked_smells       # SMELL: getter
@@ -80,13 +80,13 @@ module Reek
 
   class FullReport < Report
     def report
-      @partials.map { |rpt| rpt.full_report }.join
+      @partials.map { |section| section.full_report }.join
     end
   end
 
   class QuietReport < Report
     def report
-      @partials.map { |rpt| rpt.quiet_report }.join
+      @partials.map { |section| section.quiet_report }.join
     end
   end
 end

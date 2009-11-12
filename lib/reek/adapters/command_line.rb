@@ -20,6 +20,21 @@ module Reek
 
     def banner
       progname = @parser.program_name
+      # SMELL:
+      # The following banner isn't really correct. Help, Version and Reek
+      # are really sub-commands (in the git/svn sense) and so the usage
+      # banner should show three different command-lines. The other
+      # options are all flags for the Reek sub-command.
+      #
+      # reek -h|--help           Display a help message
+      #
+      # reek -v|--version        Output the tool's version number
+      #
+      # reek [options] files     List the smells in the given files
+      #      -a|--[no-]show-all  Report masked smells
+      #      -q|-[no-]quiet      Only list files that have smells
+      #      files               Names of files or dirs to be checked
+      #
       return <<EOB
 Usage: #{progname} [options] [files]
 

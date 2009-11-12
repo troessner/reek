@@ -88,11 +88,11 @@ describe SmellWarning, 'equality' do
       def initialize
         @masked = @non_masked = 0
       end
-      def <<(sw)
+      def found_smell(sw)
         @non_masked += 1
       end
 
-      def record_masked_smell(sw)
+      def found_masked_smell(sw)
         @masked += 1
       end
     end
