@@ -22,6 +22,10 @@ describe SmellWarning, 'equality' do
       it 'should compare equal when using <=>' do
         (@first <=> @second).should == 0
       end
+      it 'matches using eql?' do
+        @first.should eql(@second)
+        @second.should eql(@first)
+      end
     end
 
     shared_examples_for 'first sorts ahead of second' do
@@ -34,12 +38,16 @@ describe SmellWarning, 'equality' do
       it 'sort correctly' do
         (@first <=> @second).should be < 0
       end
+      it 'does not match using eql?' do
+        @first.should_not eql(@second)
+        @second.should_not eql(@first)
+      end
     end
 
     context 'smells differing only by detector' do
       before :each do
-        @first = SmellWarning.new(Smells::Duplication.new, "self", "self", true)
-        @second = SmellWarning.new(Smells::FeatureEnvy.new, "self", "self", false)
+        @first = SmellWarning.new(Smells::Duplication.new, "self", "self", false)
+        @second = SmellWarning.new(Smells::FeatureEnvy.new, "self", "self", true)
       end
 
       it_should_behave_like 'first sorts ahead of second'

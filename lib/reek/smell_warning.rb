@@ -21,7 +21,9 @@ module Reek
       sort_key <=> other.sort_key
     end
 
-    alias eql? <=>  # :nodoc:
+    def eql?(other)
+      (self <=> other) == 0
+    end
 
     #
     # Returns +true+ only if this is a warning about an instance of

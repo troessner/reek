@@ -4,6 +4,7 @@ Feature: Basic smell detection
   As a developer
   I want to detect the smels in my Ruby code
 
+  @inline
   Scenario: Correct smells from inline.rb
     When I run reek spec/samples/inline.rb
     Then the exit status indicates smells
