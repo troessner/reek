@@ -4,8 +4,6 @@ module Reek
 
   class ReekCommand
 
-    SMELL_FORMAT = '%m%c %w (%s)'
-
     def initialize(sources, report_class, show_all)
       @sniffer = sources.length > 0 ? sources.sniff : sniff_stdin
       @report_class = report_class
@@ -17,7 +15,7 @@ module Reek
     end
 
     def execute(view)
-      rpt = @report_class.new(@sniffer.sniffers, SMELL_FORMAT, @show_all)
+      rpt = @report_class.new(@sniffer.sniffers, @show_all)
       view.output(rpt.report)
       if @sniffer.smelly?
         view.report_smells

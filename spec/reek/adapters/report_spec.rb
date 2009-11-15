@@ -9,7 +9,7 @@ include Reek
 
 describe ReportSection, " when empty" do
   before(:each) do
-    @rpt = ReportSection.new(''.sniff, '%m%c %w (%s)', false)
+    @rpt = ReportSection.new(''.sniff, false)
   end
 
   it 'has an empty quiet_report' do
@@ -19,7 +19,7 @@ end
 
 describe ReportSection, "smell_list" do
   before(:each) do
-    rpt = ReportSection.new('def simple(a) a[3] end'.sniff, false, '%m%c %w (%s)')
+    rpt = ReportSection.new('def simple(a) a[3] end'.sniff, false)
     @lines = rpt.smell_list.split("\n")
   end
 
@@ -32,7 +32,7 @@ end
 
 describe ReportSection, " as a SortedSet" do
   it 'should only add a smell once' do
-    rpt = ReportSection.new(''.sniff, false, '%m%c %w (%s)')
+    rpt = ReportSection.new(''.sniff, false)
     rpt.found_smell SmellWarning.new(Smells::FeatureEnvy.new, "self", 'too many!', false)
     rpt.found_smell SmellWarning.new(Smells::FeatureEnvy.new, "self", 'too many!', false)
     lines = rpt.smell_list.split("\n")
@@ -40,7 +40,7 @@ describe ReportSection, " as a SortedSet" do
   end
 
   it 'should not count an identical masked smell' do
-    rpt = ReportSection.new(''.sniff, false, '%m%c %w (%s)')
+    rpt = ReportSection.new(''.sniff, false)
     # SMELL: Duplication -- the SmellWarning knows whether to call << or record_masked_smell
     rpt.found_smell SmellWarning.new(Smells::FeatureEnvy.new, "self", 'too many!', false)
     rpt.found_masked_smell(SmellWarning.new(Smells::FeatureEnvy.new, "self", 'too many!', true))

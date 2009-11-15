@@ -5,11 +5,12 @@ require 'reek/masking_collection'
 module Reek
   class ReportSection
 
-    def initialize(sniffer, display_masked_warnings, format)  # :nodoc:
-      @format = format
+    SMELL_FORMAT = '%m%c %w (%s)'
+
+    def initialize(sniffer, display_masked_warnings)
       @cwarnings = MaskingCollection.new
       @desc = sniffer.desc
-      @display_masked_warnings = display_masked_warnings
+      @display_masked_warnings = display_masked_warnings  # SMELL: Control Couple
       sniffer.report_on(self)
     end
 
@@ -37,6 +38,7 @@ module Reek
 
     def quiet_report
       return '' unless should_report
+      # SMELL: duplicate knowledge of the header layout
       "#{header}:\n#{smell_list}\n"
     end
 
@@ -49,9 +51,9 @@ module Reek
     def smell_list
       result = []
       if @display_masked_warnings
-        @cwarnings.each_item {|smell| result << "  #{smell.report(@format)}"}
+        @cwarnings.each_item {|smell| result << "  #{smell.report(SMELL_FORMAT)}"}
       else
-        @cwarnings.each_visible_item {|smell| result << "  #{smell.report(@format)}"}
+        @cwarnings.each_visible_item {|smell| result << "  #{smell.report(SMELL_FORMAT)}"}
       end
       result.join("\n")
     end
@@ -76,18 +78,20 @@ module Reek
   end
 
   class Report
-    def initialize(sniffers, format, display_masked_warnings = false)
-      @partials = Array(sniffers).map {|sn| ReportSection.new(sn, display_masked_warnings, format)}
+    def initialize(sniffers, display_masked_warnings = false)
+      @partials = Array(sniffers).map {|sn| ReportSection.new(sn, display_masked_warnings)}
     end
   end
 
   class VerboseReport < Report
+    # SMELL: Implementation Inheritance
     def report
       @partials.map { |section| section.verbose_report }.join
     end
   end
 
   class QuietReport < Report
+    # SMELL: Implementation Inheritance
     def report
       @partials.map { |section| section.quiet_report }.join
     end
