@@ -28,11 +28,7 @@ describe MaskingCollection do
     end
   end
 
-  context 'with one visible item' do
-    before :each do
-      @item = "hello"
-      @collection.add(@item)
-    end
+  shared_examples_for 'one visible item' do
     it 'has one visible item' do
       @collection.num_visible_items.should == 1
     end
@@ -57,11 +53,7 @@ describe MaskingCollection do
     end
   end
 
-  context 'with one masked item' do
-    before :each do
-      @item = "hiding!"
-      @collection.add_masked(@item)
-    end
+  shared_examples_for 'one masked item' do
     it 'has no visible items' do
       @collection.num_visible_items.should == 0
     end
@@ -81,6 +73,22 @@ describe MaskingCollection do
       @collection.each_visible_item { |item| count+= 1 }
       count.should == 0
     end
+  end
+
+  context 'with one visible item' do
+    before :each do
+      @item = "hello"
+      @collection.add(@item)
+    end
+    it_should_behave_like 'one visible item'
+  end
+
+  context 'with one masked item' do
+    before :each do
+      @item = "hiding!"
+      @collection.add_masked(@item)
+    end
+    it_should_behave_like 'one masked item'
   end
 
   context 'with one masked and one visible' do
@@ -126,28 +134,7 @@ describe MaskingCollection do
       @collection.add(@item)
       @collection.add(@item)
     end
-    it 'has one visible item' do
-      @collection.num_visible_items.should == 1
-    end
-    it 'has no masked items' do
-      @collection.num_masked_items.should == 0
-    end
-    it 'yields one item' do
-      count = 0
-      @collection.each_item do |item|
-        item.should == @item
-        count+= 1
-      end
-      count.should == 1
-    end
-    it 'yields one visible item' do
-      count = 0
-      @collection.each_visible_item do |item|
-        item.should == @item
-        count+= 1
-      end
-      count.should == 1
-    end
+    it_should_behave_like 'one visible item'
   end
 
   context 'with one masked item added twice' do
@@ -156,25 +143,7 @@ describe MaskingCollection do
       @collection.add_masked(@item)
       @collection.add_masked(@item)
     end
-    it 'has 0 visible items' do
-      @collection.num_visible_items.should == 0
-    end
-    it 'has 1 masked item' do
-      @collection.num_masked_items.should == 1
-    end
-    it 'yields one item' do
-      count = 0
-      @collection.each_item do |item|
-        item.should == @item
-        count+= 1
-      end
-      count.should == 1
-    end
-    it 'yields no visible items' do
-      count = 0
-      @collection.each_visible_item { |item| count+= 1 }
-      count.should == 0
-    end
+    it_should_behave_like 'one masked item'
   end
 
   context 'with two different visible items' do
@@ -253,28 +222,7 @@ describe MaskingCollection do
       @collection.add_masked(@item)
       @collection.add(@item)
     end
-    it 'has 1 visible item' do
-      @collection.num_visible_items.should == 1
-    end
-    it 'has 0 masked items' do
-      @collection.num_masked_items.should == 0
-    end
-    it 'yields one item' do
-      count = 0
-      @collection.each_item do |item|
-        item.should == @item
-        count+= 1
-      end
-      count.should == 1
-    end
-    it 'yields one visible item' do
-      count = 0
-      @collection.each_visible_item do |item|
-        item.should == @item
-        count+= 1
-      end
-      count.should == 1
-    end
+    it_should_behave_like 'one visible item'
   end
 
   context 'with one visible item later masked' do
@@ -283,27 +231,6 @@ describe MaskingCollection do
       @collection.add(@item)
       @collection.add_masked(@item)
     end
-    it 'has 1 visible item' do
-      @collection.num_visible_items.should == 1
-    end
-    it 'has 0 masked items' do
-      @collection.num_masked_items.should == 0
-    end
-    it 'yields one item' do
-      count = 0
-      @collection.each_item do |item|
-        item.should == @item
-        count+= 1
-      end
-      count.should == 1
-    end
-    it 'yields one visible item' do
-      count = 0
-      @collection.each_visible_item do |item|
-        item.should == @item
-        count+= 1
-      end
-      count.should == 1
-    end
+    it_should_behave_like 'one visible item'
   end
 end
