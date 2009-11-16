@@ -55,6 +55,11 @@ module Reek
     CvasgnNode = CvarNode
     CvdeclNode = CvarNode
 
+    module DefnNode
+      def method_name() self[1] end
+      def parameters() self[2] end
+    end
+
     module IfNode
       def condition
         self[1]

@@ -50,7 +50,7 @@ describe LongParameterList do
         'def simple(polly, queue, yep, zero=nil) f(3);false end'.should reek_only_of(:LongParameterList, /4 parameters/)
       end
       it 'should report with 3 defaulted' do
-        'def simple(aarg, polly=2, yep=true, zero=nil) f(3);false end'.should reek_only_of(:LongParameterList, /4 parameters/)
+        'def simple(aarg, polly=2, yep=:truth, zero=nil) f(3);false end'.should reek_only_of(:LongParameterList, /4 parameters/)
       end
     end
   end

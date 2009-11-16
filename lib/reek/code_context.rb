@@ -15,7 +15,7 @@ module Reek
   #
   class CodeContext
 
-    attr_reader :name
+    attr_reader :name, :exp
 
     def initialize(outer, exp)
       @outer = outer

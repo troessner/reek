@@ -34,24 +34,32 @@ module Reek
     # because it includes at least two different code paths.
     #
     class ControlCouple < SmellDetector
-      include ExcludeInitialize
 
       def self.contexts      # :nodoc:
-        [:if]
+        [:if, :defn, :defs]
       end
 
       #
       # Checks whether the given conditional statement relies on a control couple.
       # Remembers any smells found.
       #
-      def examine_context(cond)
-        return unless cond.tests_a_parameter?
-        # SMELL: Duplication
-        # This smell is reported once for each conditional that tests the
-        # same parameter. Which means that the same smell can recur within
-        # a single detector. Which in turn means that SmellDetector must
-        # use a Set to hold smells found.
-        found(cond, "is controlled by argument #{SexpFormatter.format(cond.if_expr)}")
+      def examine_context(ctx)
+        case ctx
+        when IfContext
+          return unless ctx.tests_a_parameter?
+          found(ctx, "is controlled by argument #{SexpFormatter.format(ctx.if_expr)}")
+        when MethodContext
+          params = ctx.parameters
+          return unless (Sexp === params[-1] and params[-1][0] == :block)
+          params[-1][1..-1].each do |exp|
+            next unless exp[0] == :lasgn
+            next unless Sexp === exp[2]
+            value = exp[2][0]
+            next unless (value == :true or value == :false)
+            found(ctx, "is controlled by argument #{exp[1].to_s}")
+          end
+        else
+        end
       end
     end
   end

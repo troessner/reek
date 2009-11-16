@@ -54,10 +54,6 @@ DataClump:
   enabled: true
   max_copies: 2
   min_clump_size: 2
-ControlCouple: 
-  exclude: 
-  - initialize
-  enabled: true
 LongYieldList: 
   max_params: 2
   exclude: []
