@@ -9,11 +9,11 @@ class MaskingCollection
     @visible_items = SortedSet.new
     @masked_items = SortedSet.new
   end
-  def add(item)
+  def found_smell(item)
     @visible_items.add(item)
     @masked_items.delete(item) if @masked_items.include?(item)
   end
-  def add_masked(item)
+  def found_masked_smell(item)
     @masked_items.add(item) unless @visible_items.include?(item)
   end
   def num_visible_items

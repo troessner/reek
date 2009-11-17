@@ -11,16 +11,7 @@ module Reek
       @cwarnings = MaskingCollection.new
       @desc = sniffer.desc
       @display_masked_warnings = display_masked_warnings  # SMELL: Control Couple
-      sniffer.report_on(self)
-    end
-
-    def found_smell(warning)
-      @cwarnings.add(warning)
-      true
-    end
-
-    def found_masked_smell(warning)
-      @cwarnings.add_masked(warning)
+      sniffer.report_on(@cwarnings)
     end
 
     # Creates a formatted report of all the +Smells::SmellWarning+ objects recorded in

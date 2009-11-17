@@ -78,7 +78,7 @@ describe MaskingCollection do
   context 'with one visible item' do
     before :each do
       @item = "hello"
-      @collection.add(@item)
+      @collection.found_smell(@item)
     end
     it_should_behave_like 'one visible item'
   end
@@ -86,7 +86,7 @@ describe MaskingCollection do
   context 'with one masked item' do
     before :each do
       @item = "hiding!"
-      @collection.add_masked(@item)
+      @collection.found_masked_smell(@item)
     end
     it_should_behave_like 'one masked item'
   end
@@ -95,8 +95,8 @@ describe MaskingCollection do
     before :each do
       @visible = "visible"
       @masked = "masked"
-      @collection.add_masked(@masked)
-      @collection.add(@visible)
+      @collection.found_masked_smell(@masked)
+      @collection.found_smell(@visible)
     end
     it 'has one visible item' do
       @collection.num_visible_items.should == 1
@@ -131,8 +131,8 @@ describe MaskingCollection do
   context 'with one visible item added twice' do
     before :each do
       @item = "hello"
-      @collection.add(@item)
-      @collection.add(@item)
+      @collection.found_smell(@item)
+      @collection.found_smell(@item)
     end
     it_should_behave_like 'one visible item'
   end
@@ -140,8 +140,8 @@ describe MaskingCollection do
   context 'with one masked item added twice' do
     before :each do
       @item = "hello"
-      @collection.add_masked(@item)
-      @collection.add_masked(@item)
+      @collection.found_masked_smell(@item)
+      @collection.found_masked_smell(@item)
     end
     it_should_behave_like 'one masked item'
   end
@@ -150,8 +150,8 @@ describe MaskingCollection do
     before :each do
       @first_item = "hello"
       @second_item = "goodbye"
-      @collection.add(@first_item)
-      @collection.add(@second_item)
+      @collection.found_smell(@first_item)
+      @collection.found_smell(@second_item)
     end
     it 'has 2 visible items' do
       @collection.num_visible_items.should == 2
@@ -186,8 +186,8 @@ describe MaskingCollection do
     before :each do
       @first_item = "hello"
       @second_item = "goodbye"
-      @collection.add_masked(@first_item)
-      @collection.add_masked(@second_item)
+      @collection.found_masked_smell(@first_item)
+      @collection.found_masked_smell(@second_item)
     end
     it 'has 0 visible items' do
       @collection.num_visible_items.should == 0
@@ -219,8 +219,8 @@ describe MaskingCollection do
   context 'with one masked item later made visible' do
     before :each do
       @item = "hello"
-      @collection.add_masked(@item)
-      @collection.add(@item)
+      @collection.found_masked_smell(@item)
+      @collection.found_smell(@item)
     end
     it_should_behave_like 'one visible item'
   end
@@ -228,8 +228,8 @@ describe MaskingCollection do
   context 'with one visible item later masked' do
     before :each do
       @item = "hello"
-      @collection.add(@item)
-      @collection.add_masked(@item)
+      @collection.found_smell(@item)
+      @collection.found_masked_smell(@item)
     end
     it_should_behave_like 'one visible item'
   end
