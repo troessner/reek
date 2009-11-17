@@ -21,14 +21,16 @@ end
 
 describe CodeParser, 'when a yield is the receiver' do
   it 'reports no problems' do
-    source = 'def values(*args)
+    src = <<EOS
+def values(*args)
   @to_sql += case
-    when block_given? then " #{yield.to_sql}"
-    else " values (#{args.to_sql})"
+    when block_given? then yield.to_sql
+    else args.to_sql
   end
   self
-end'
-    source.should_not reek
+end
+EOS
+    src.should_not reek
   end
 end
 

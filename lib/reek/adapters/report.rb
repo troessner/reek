@@ -23,10 +23,6 @@ module Reek
       @cwarnings.add_masked(warning)
     end
 
-    def num_masked_smells       # SMELL: getter
-      @cwarnings.num_masked_items
-    end
-
     # Creates a formatted report of all the +Smells::SmellWarning+ objects recorded in
     # this report, with a heading.
     def verbose_report

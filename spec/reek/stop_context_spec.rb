@@ -12,7 +12,7 @@ describe StopContext do
 
   context 'with a module that is not loaded' do
     it 'does not find the module' do
-      @stop.find_module('CGI').should == nil
+      @stop.find_module('Nobbles').should == nil
     end
     it 'does not find an unqualified class in the module' do
       @stop.find_module('HtmlExtension').should == nil

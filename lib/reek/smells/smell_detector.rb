@@ -31,10 +31,6 @@ module Reek
       DEFAULT_EXCLUDE_SET = []
 
       class << self
-        def class_name
-          self.name.split(/::/)[-1]
-        end
-
         def contexts      # :nodoc:
           [:defn, :defs]
         end
@@ -44,16 +40,6 @@ module Reek
             SmellConfiguration::ENABLED_KEY => true,
             EXCLUDE_KEY => DEFAULT_EXCLUDE_SET
           }
-        end
-
-        def create(config)
-          new(config[class_name])
-        end
-
-        def listen(hooks, config)
-          detector = create(config)
-          detector.listen_to(hooks)
-          detector
         end
       end
 

@@ -11,23 +11,32 @@ describe NestedIterators do
   end
 
   it 'should not report method with successive iterators' do
-    'def bad(fred)
-      @fred.each {|item| item.each }
-      @jim.each {|ting| ting.each }
-    end'.should_not reek
+    src = <<EOS
+def bad(fred)
+  @fred.each {|item| item.each }
+  @jim.each {|ting| ting.each }
+end
+EOS
+    src.should_not reek
   end
 
   it 'should not report method with chained iterators' do
-    'def chained
-      @sig.keys.sort_by { |xray| xray.to_s }.each { |min| md5 << min.to_s }
-    end'.should_not reek
+    src = <<EOS
+def chained
+  @sig.keys.sort_by { |xray| xray.to_s }.each { |min| md5 << min.to_s }
+end
+EOS
+    src.should_not reek
   end
 
   it 'should report nested iterators only once per method' do
-    'def bad(fred)
-      @fred.each {|item| item.each {|part| @joe.send} }
-      @jim.each {|ting| ting.each {|piece| @hal.send} }
-    end'.should reek_only_of(:NestedIterators)
+    src = <<EOS
+def bad(fred)
+  @fred.each {|item| item.each {|part| @joe.send} }
+  @jim.each {|ting| ting.each {|piece| @hal.send} }
+end
+EOS
+    src.should reek_only_of(:NestedIterators)
   end
 end
 

@@ -48,12 +48,11 @@ module Reek
         when IfContext
           return unless ctx.tests_a_parameter?
           found(ctx, "is controlled by argument #{SexpFormatter.format(ctx.if_expr)}")
-        when MethodContext
+        else
           ctx.parameters.default_assignments.each do |param, value|
             next unless [:true, :false].include?(value[0])
             found(ctx, "is controlled by argument #{param.to_s}")
           end
-        else
         end
       end
     end

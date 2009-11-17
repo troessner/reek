@@ -29,22 +29,16 @@ describe UtilityFunction do
 
   context 'with only one call' do
     it 'does not report a call to a parameter' do
-      'def simple(arga)
-         arga.to_s
-       end'.should_not reek_of(:UtilityFunction, /simple/)
+      'def simple(arga) arga.to_s end'.should_not reek_of(:UtilityFunction, /simple/)
     end
     it 'does not report a call to a constant' do
-      'def simple(arga)
-         FIELDS[arga]
-       end'.should_not reek
+      'def simple(arga) FIELDS[arga] end'.should_not reek
     end
   end
 
   context 'with two or more calls' do
     it 'reports two calls' do
-      'def simple(arga)
-         arga.to_s + arga.to_i
-       end'.should reek_of(:UtilityFunction, /simple/)
+      'def simple(arga) arga.to_s + arga.to_i end'.should reek_of(:UtilityFunction, /simple/)
     end
     it 'should count usages of self'do
       'def <=>(other) Options[:sort_order].compare(self, other) end'.should_not reek

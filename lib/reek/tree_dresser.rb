@@ -5,10 +5,6 @@ module Reek
   # syntax tree more easily.
   #
   module SexpNode
-    def children
-      find_all { |item| Sexp === item }
-    end
-
     def is_language_node?
       first.class == Symbol
     end

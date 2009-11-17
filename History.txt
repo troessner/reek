@@ -1,3 +1,10 @@
+== 1.2.5 (under development, see github)
+
+=== Major Changes
+
+=== Minor Changes
+
+
 == 1.2.4 (2009-11-17)
 
 === Major Changes

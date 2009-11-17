@@ -20,44 +20,41 @@ describe FeatureEnvy do
   end
 
   it 'should not report single use' do
-    'def no_envy(arga)
-        arga.barg(@item)
-      end'.should_not reek
+    'def no_envy(arga) arga.barg(@item) end'.should_not reek
   end
 
   it 'should not report return value' do
-    'def no_envy(arga)
-       arga.barg(@item)
-       arga
-     end'.should_not reek
+    'def no_envy(arga) arga.barg(@item); arga end'.should_not reek
   end
 
   it 'should report many calls to parameter' do
-    'def envy(arga)
-      arga.b(arga) + arga.c(@fred)
-    end'.should reek_only_of(:FeatureEnvy, /arga/)
+    'def envy(arga) arga.b(arga) + arga.c(@fred) end'.should reek_only_of(:FeatureEnvy, /arga/)
   end
 
   it 'should report highest affinity' do
-    ruby = 'def total_envy
-      fred = @item
-      total = 0
-      total += fred.price
-      total += fred.tax
-      total *= 1.15
-    end'
-    ruby.should reek_only_of(:FeatureEnvy, /total/)
+    src = <<EOS
+def total_envy
+  fred = @item
+  total = 0
+  total += fred.price
+  total += fred.tax
+  total *= 1.15
+end
+EOS
+    src.should reek_only_of(:FeatureEnvy, /total/)
   end
 
   it 'should report multiple affinities' do
-    ruby = 'def total_envy
-      fred = @item
-      total = 0
-      total += fred.price
-      total += fred.tax
-    end'
-    ruby.should reek_of(:FeatureEnvy, /total/)
-    ruby.should reek_of(:FeatureEnvy, /fred/)
+    src = <<EOS
+def total_envy
+  fred = @item
+  total = 0
+  total += fred.price
+  total += fred.tax
+end
+EOS
+    src.should reek_of(:FeatureEnvy, /total/)
+    src.should reek_of(:FeatureEnvy, /fred/)
   end
 
   it 'should ignore global variables' do
@@ -77,45 +74,27 @@ describe FeatureEnvy do
   end
 
   it 'should not report ivar usage in a parameter' do
-    'def no_envy
-        @item.price + tax(@item) - savings(@item)
-      end'.should_not reek
+    'def no_envy() @item.price + tax(@item) - savings(@item) end'.should_not reek
   end
 
   it 'should not be fooled by duplication' do
-    'def feed(thing)
-        @cow.feed_to(thing.pig)
-        @duck.feed_to(thing.pig)
-      end'.should reek_only_of(:Duplication, /thing.pig/)
+    'def feed(thing) @cow.feed_to(thing.pig); @duck.feed_to(thing.pig) end'.should reek_only_of(:Duplication, /thing.pig/)
   end
 
   it 'should count local calls' do
-    'def feed(thing)
-        cow.feed_to(thing.pig)
-        duck.feed_to(thing.pig)
-      end'.should reek_only_of(:Duplication, /thing.pig/)
+    'def feed(thing) cow.feed_to(thing.pig); duck.feed_to(thing.pig) end'.should reek_only_of(:Duplication, /thing.pig/)
   end
 
   it 'should not report single use of an lvar' do
-    'def no_envy()
-       lv = @item
-       lv.to_a
-     end'.should_not reek
+    'def no_envy() lv = @item; lv.to_a end'.should_not reek
   end
 
   it 'should not report returning an lvar' do
-    'def no_envy()
-       lv = @item
-       lv.to_a
-       lv
-     end'.should_not reek
+    'def no_envy() lv = @item; lv.to_a; lv end'.should_not reek
   end
 
   it 'should report many calls to lvar' do
-    'def envy
-       lv = @item
-       lv.price + lv.tax
-     end'.should reek_only_of(:FeatureEnvy, /lv/)
+    'def envy() lv = @item; lv.price + lv.tax; end'.should reek_only_of(:FeatureEnvy, /lv/)
     #
     # def moved_version
     #   price + tax
@@ -127,19 +106,19 @@ describe FeatureEnvy do
   end
 
   it 'ignores lvar usage in a parameter' do
-    'def no_envy
-       lv = @item
-       lv.price + tax(lv) - savings(lv)
-     end'.should_not reek
+    'def no_envy() lv = @item; lv.price + tax(lv) - savings(lv); end'.should_not reek
   end
 
   it 'ignores multiple ivars' do
-    'def func
-       @other.a
-       @other.b
-       @nother.c
-       @nother.d
-     end'.should_not reek
+    src = <<EOS
+def func
+  @other.a
+  @other.b
+  @nother.c
+  @nother.d
+end
+EOS
+    src.should_not reek
     #
     # def other.func(me)
     #   a
@@ -151,21 +130,20 @@ describe FeatureEnvy do
   end
 
   it 'ignores frequent use of a call' do
-    'def func
-       other.a
-       other.b
-       nother.c
-     end'.should_not reek_of(:FeatureEnvy)
+    'def func() other.a; other.b; nother.c end'.should_not reek_of(:FeatureEnvy)
   end
 
   it 'counts self references correctly' do
-    'def adopt!(other)
-      other.keys.each do |key|
-        self[key] += 3
-        self[key] = o4
-      end
-      self
-    end'.should_not reek
+    src = <<EOS
+def adopt!(other)
+  other.keys.each do |key|
+    self[key] += 3
+    self[key] = o4
+  end
+  self
+end
+EOS
+    src.should_not reek
   end
 end
 
@@ -182,7 +160,6 @@ def report
   @report
 end
 EOS
-
     ruby.should_not reek
   end
 
