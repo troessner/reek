@@ -1,9 +1,10 @@
-== 1.2.4 (under development in github)
+== 1.2.4 (2009-11-17)
 
 === Major Changes
 * The -f, -c and -s options for formatting smell warnings have been removed
 
 === Minor Changes
+* ControlCouple now warns about parameters defaulted to true/false
 
 == 1.2.3 (2009-11-2)
 
