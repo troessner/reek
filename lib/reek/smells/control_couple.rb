@@ -49,14 +49,9 @@ module Reek
           return unless ctx.tests_a_parameter?
           found(ctx, "is controlled by argument #{SexpFormatter.format(ctx.if_expr)}")
         when MethodContext
-          params = ctx.parameters
-          return unless (Sexp === params[-1] and params[-1][0] == :block)
-          params[-1][1..-1].each do |exp|
-            next unless exp[0] == :lasgn
-            next unless Sexp === exp[2]
-            value = exp[2][0]
-            next unless (value == :true or value == :false)
-            found(ctx, "is controlled by argument #{exp[1].to_s}")
+          ctx.parameters.default_assignments.each do |param, value|
+            next unless [:true, :false].include?(value[0])
+            found(ctx, "is controlled by argument #{param.to_s}")
           end
         else
         end

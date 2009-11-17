@@ -28,14 +28,26 @@ end
 module Reek
 
   module MethodParameters
-    def self.is_arg?(param)
-      return false if (Array === param and param[0] == :block)
+    def default_assignments
+      assignments = self[-1]
+      result = {}
+      return result unless is_assignment_block?(assignments)
+      assignments[1..-1].each do |exp|
+        result[exp[1]] = exp[2] if exp[0] == :lasgn
+      end
+      result
+    end
+    def is_arg?(param)
+      return false if is_assignment_block?(param)
       return !(param.to_s =~ /^\&/)
+    end
+    def is_assignment_block?(param)
+      Array === param and param[0] == :block
     end
 
     def names
       return @names if @names
-      @names = self[1..-1].select {|arg| MethodParameters.is_arg?(arg)}.map {|arg| Name.new(arg)}
+      @names = self[1..-1].select {|arg| is_arg?(arg)}.map {|arg| Name.new(arg)}
     end
 
     def length
@@ -57,7 +69,8 @@ module Reek
     attr_reader :refs
     attr_reader :num_statements
 
-    def initialize(outer, exp, record = true)
+    def initialize(outer, exp)
+      # SMELL: Unused Parameter
       super(outer, exp)
       @parameters = exp[exp[0] == :defn ? 2 : 3]  # SMELL: SimulatedPolymorphism
       @parameters ||= []
@@ -67,7 +80,7 @@ module Reek
       @calls = Hash.new(0)
       @depends_on_self = false
       @refs = ObjectRefs.new
-      @outer.record_method(self)
+      @outer.record_method(self)    # SMELL: these could be found by tree walking
     end
 
     def count_statements(num)

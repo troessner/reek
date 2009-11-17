@@ -6,7 +6,7 @@ module Reek
   class SingletonMethodContext < MethodContext
 
     def initialize(outer, exp)
-      super(outer, exp, false)
+      super(outer, exp)
       @name = Name.new(exp[2])
       @receiver = SexpFormatter.format(exp[1])
       record_depends_on_self

@@ -7,7 +7,7 @@ include Reek
 
 describe MethodContext, 'matching' do
   before :each do
-    @element = MethodContext.new(StopContext.new, s(0, :mod), s(:module, :mod, nil))
+    @element = MethodContext.new(StopContext.new, s(0, :mod))
   end
 
   it 'should recognise itself in a collection of names' do
@@ -62,5 +62,47 @@ describe MethodContext do
     mc.record_call_to(s(:call, s(:lvar, :text), :each, s(:arglist)))
     mc.record_call_to(s(:call, nil, :shelve, s(:arglist)))
     mc.envious_receivers.should be_empty
+  end
+end
+
+describe MethodParameters, 'default assignments' do
+  def assignments_from(src)
+    exp = src.to_reek_source.syntax_tree
+    ctx = MethodContext.new(StopContext.new, exp)
+    return ctx.parameters.default_assignments
+  end
+
+  context 'with no defaults' do
+    it 'returns an empty hash' do
+      src = 'def meth(arga, argb, &blk) end'
+      assignments_from(src).should be_empty
+    end
+  end
+
+  context 'with 1 default' do
+    before :each do
+      src = "def meth(arga, argb=456, &blk) end"
+      @defaults = assignments_from(src)
+    end
+    it 'returns the param-value pair' do
+      @defaults[:argb].should == s(:lit, 456)
+    end
+    it 'returns the nothing else' do
+      @defaults.length.should == 1
+    end
+  end
+
+  context 'with 2 defaults' do
+    before :each do
+      src = "def meth(arga=123, argb=456, &blk) end"
+      @defaults = assignments_from(src)
+    end
+    it 'returns both param-value pairs' do
+      @defaults[:arga].should == s(:lit, 123)
+      @defaults[:argb].should == s(:lit, 456)
+    end
+    it 'returns nothing else' do
+      @defaults.length.should == 2
+    end
   end
 end
