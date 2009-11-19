@@ -11,15 +11,20 @@ module Reek
 
     attr_reader :desc
 
-    def initialize(code, desc)
+    def initialize(code, desc, parser = RubyParser.new)
       @source = code
       @desc = desc
+      @parser = parser
     end
 
     def configure(sniffer) end
 
     def syntax_tree
-      ast = RubyParser.new.parse(@source, @desc) || s()
+      begin
+        ast = @parser.parse(@source, @desc)
+      rescue Exception
+      end
+      ast ||= s()
       TreeDresser.new.dress(ast)
     end
   end
