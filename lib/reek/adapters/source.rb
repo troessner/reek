@@ -22,7 +22,8 @@ module Reek
     def syntax_tree
       begin
         ast = @parser.parse(@source, @desc)
-      rescue Exception
+      rescue Exception => error
+        $stderr.puts "#{desc}: #{error.class.name}: #{error}"
       end
       ast ||= s()
       TreeDresser.new.dress(ast)
