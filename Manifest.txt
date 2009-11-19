@@ -64,6 +64,7 @@ spec/reek/adapters/report_spec.rb
 spec/reek/adapters/should_reek_of_spec.rb
 spec/reek/adapters/should_reek_only_of_spec.rb
 spec/reek/adapters/should_reek_spec.rb
+spec/reek/adapters/source_spec.rb
 spec/reek/block_context_spec.rb
 spec/reek/class_context_spec.rb
 spec/reek/code_context_spec.rb
