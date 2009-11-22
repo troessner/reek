@@ -41,3 +41,19 @@ Feature: Reek reads from $stdin when no files are given
         Turn#y has the name 'y' (Uncommunicative Name)
 
       """
+
+  @stderr
+  Scenario: syntax error causes the source to be ignored
+    When I pass "def incomplete" to reek
+    Then it succeeds
+    And it reports:
+      """
+      $stdin -- 0 warnings
+
+      """
+    And stderr reports:
+      """
+      $stdin: Racc::ParseError: 
+      parse error on value "$end" ($end)
+
+      """

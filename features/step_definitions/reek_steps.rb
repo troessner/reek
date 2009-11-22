@@ -30,6 +30,10 @@ Then /^it reports:$/ do |report|
   @last_stdout.should == report
 end
 
+Then /^stderr reports:$/ do |report|
+  @last_stderr.should == report
+end
+
 Then /^it reports the error ['"](.*)['"]$/ do |string|
   @last_stderr.chomp.should == string
 end
