@@ -1,12 +1,5 @@
 require 'reek/configuration'
 
-class Class
-  def name_words
-    class_name = name.split(/::/)[-1]
-    class_name.gsub(/([a-z])([A-Z])/) { |sub| "#{$1} #{$2}"}.split
-  end
-end
-
 module Reek
   module Smells
 
@@ -114,10 +107,6 @@ module Reek
 
       def smelly?
         (not @masked) and (@smells_found.length > 0)
-      end
-
-      def smell_name
-        self.class.name_words.join(' ')
       end
 
       def value(key, ctx, fall_back)
