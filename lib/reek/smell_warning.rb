@@ -7,9 +7,9 @@ module Reek
     include Comparable
 
     def initialize(detector_class, context, warning, masked)
-      @detector_name = detector_class.class.name
-      @context = context
-      @warning = warning
+      @smell = detector_class.class.name.split(/::/)[-1]
+      @context = context.to_s
+      @message = warning
       @is_masked = masked
     end
 
@@ -31,13 +31,13 @@ module Reek
     end
 
     def sort_key
-      [@context.to_s, @warning, smell_name]
+      [@context, @message, smell_name]
     end
 
     protected :sort_key
 
     def report(format)
-      format.gsub(/\%s/, smell_name).gsub(/\%c/, @context.to_s).gsub(/\%w/, @warning).gsub(/\%m/, @is_masked ? '(masked) ' : '')
+      format.gsub(/\%s/, smell_name).gsub(/\%c/, @context).gsub(/\%w/, @message).gsub(/\%m/, @is_masked ? '(masked) ' : '')
     end
 
     def report_on(report)
@@ -49,8 +49,7 @@ module Reek
     end
 
     def smell_name
-      class_name = @detector_name.split(/::/)[-1]
-      class_name.gsub(/([a-z])([A-Z])/) { |sub| "#{$1} #{$2}"}.split.join(' ')
+      @smell.gsub(/([a-z])([A-Z])/) { |sub| "#{$1} #{$2}"}.split.join(' ')
     end
   end
 end

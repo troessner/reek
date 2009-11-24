@@ -5,7 +5,7 @@ require 'reek/smells/feature_envy'
 
 include Reek
 
-describe SmellWarning, 'equality' do
+describe SmellWarning do
   context 'sort order' do
     context 'smells differing only by masking' do
       before :each do
@@ -122,6 +122,27 @@ describe SmellWarning, 'equality' do
       @visible.report_on(rpt)
       rpt.masked.should == 0
       rpt.non_masked.should == 1
+    end
+  end
+
+  context 'YAML representation' do
+    before :each do
+      mod = ModuleContext.from_s('module Fred; end')
+      @message = 'message'
+      warning = SmellWarning.new(Smells::FeatureEnvy.new, mod, @message, true)
+      @yaml = warning.to_yaml
+    end
+    it 'includes the smell class' do
+      @yaml.should match(/smell:\s*FeatureEnvy/)
+    end
+    it 'includes the context' do
+      @yaml.should match(/context:\s*Fred/)
+    end
+    it 'includes the message' do
+      @yaml.should match(/message:\s*#{@message}/)
+    end
+    it 'indicates the masking' do
+      @yaml.should match(/is_masked:\s*true/)
     end
   end
 end
