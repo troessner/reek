@@ -9,8 +9,8 @@ describe SmellWarning do
   context 'sort order' do
     context 'smells differing only by masking' do
       before :each do
-        @first = SmellWarning.new(Smells::FeatureEnvy.new, "self", "self", true)
-        @second = SmellWarning.new(Smells::FeatureEnvy.new, "self", "self", false)
+        @first = SmellWarning.new(Smells::FeatureEnvy.new, "self", 27, "self", true)
+        @second = SmellWarning.new(Smells::FeatureEnvy.new, "self", 27, "self", false)
       end
 
       it 'should hash equal when the smell is the same' do
@@ -46,8 +46,8 @@ describe SmellWarning do
 
     context 'smells differing only by detector' do
       before :each do
-        @first = SmellWarning.new(Smells::Duplication.new, "self", "self", false)
-        @second = SmellWarning.new(Smells::FeatureEnvy.new, "self", "self", true)
+        @first = SmellWarning.new(Smells::Duplication.new, "self", 27, "self", false)
+        @second = SmellWarning.new(Smells::FeatureEnvy.new, "self", 27, "self", true)
       end
 
       it_should_behave_like 'first sorts ahead of second'
@@ -55,8 +55,8 @@ describe SmellWarning do
 
     context 'smells differing only by context' do
       before :each do
-        @first = SmellWarning.new(Smells::FeatureEnvy.new, "first", "self", true)
-        @second = SmellWarning.new(Smells::FeatureEnvy.new, "second", "self", false)
+        @first = SmellWarning.new(Smells::FeatureEnvy.new, "first", 27, "self", true)
+        @second = SmellWarning.new(Smells::FeatureEnvy.new, "second", 27, "self", false)
       end
 
       it_should_behave_like 'first sorts ahead of second'
@@ -64,8 +64,8 @@ describe SmellWarning do
 
     context 'smells differing only by message' do
       before :each do
-        @first = SmellWarning.new(Smells::FeatureEnvy.new, "context", "first", true)
-        @second = SmellWarning.new(Smells::FeatureEnvy.new, "context", "second", false)
+        @first = SmellWarning.new(Smells::FeatureEnvy.new, "context", 27, "first", true)
+        @second = SmellWarning.new(Smells::FeatureEnvy.new, "context", 27, "second", false)
       end
 
       it_should_behave_like 'first sorts ahead of second'
@@ -73,8 +73,8 @@ describe SmellWarning do
 
     context 'message takes precedence over smell name' do
       before :each do
-        @first = SmellWarning.new(Smells::UtilityFunction.new, "context", "first", true)
-        @second = SmellWarning.new(Smells::FeatureEnvy.new, "context", "second", false)
+        @first = SmellWarning.new(Smells::UtilityFunction.new, "context", 27, "first", true)
+        @second = SmellWarning.new(Smells::FeatureEnvy.new, "context", 27, "second", false)
       end
 
       it_should_behave_like 'first sorts ahead of second'
@@ -82,14 +82,14 @@ describe SmellWarning do
 
     context 'smells differing everywhere' do
       before :each do
-        @first = SmellWarning.new(Smells::UncommunicativeName.new, "Dirty", "has the variable name '@s'", true)
-        @second = SmellWarning.new(Smells::Duplication.new, 'Dirty#a', "calls @s.title twice", false)
+        @first = SmellWarning.new(Smells::UncommunicativeName.new, "Dirty", 27, "has the variable name '@s'", true)
+        @second = SmellWarning.new(Smells::Duplication.new, 'Dirty#a', 27, "calls @s.title twice", false)
       end
 
       it_should_behave_like 'first sorts ahead of second'
     end
   end
-  
+
   context 'masked reporting' do
     class CountingReport
       attr_reader :masked, :non_masked
@@ -106,8 +106,8 @@ describe SmellWarning do
     end
 
     before :each do
-      @masked = SmellWarning.new(Smells::FeatureEnvy.new, "self", "self", true)
-      @visible = SmellWarning.new(Smells::FeatureEnvy.new, "self", "self", false)
+      @masked = SmellWarning.new(Smells::FeatureEnvy.new, 'Fred', 27, "self", true)
+      @visible = SmellWarning.new(Smells::FeatureEnvy.new, 'Fred', 27, "self", false)
     end
 
     it 'reports as masked when masked' do
@@ -127,9 +127,9 @@ describe SmellWarning do
 
   context 'YAML representation' do
     before :each do
-      mod = ModuleContext.from_s('module Fred; end')
       @message = 'message'
-      warning = SmellWarning.new(Smells::FeatureEnvy.new, mod, @message, true)
+      # Use a random string and a random bool
+      warning = SmellWarning.new(Smells::FeatureEnvy.new, 'Fred', 27, @message, true)
       @yaml = warning.to_yaml
     end
     it 'includes the smell class' do
@@ -143,6 +143,9 @@ describe SmellWarning do
     end
     it 'indicates the masking' do
       @yaml.should match(/is_masked:\s*true/)
+    end
+    it 'includes the line number' do
+      @yaml.should match(/line:\s*27/)
     end
   end
 end

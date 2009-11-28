@@ -24,4 +24,10 @@ describe StopContext do
       @stop.find_module('Reek').name.should == 'Reek'
     end
   end
+
+  context 'full_name' do
+    it "reports full context" do
+      @stop.full_name.should == ''
+    end
+  end
 end

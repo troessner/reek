@@ -3,6 +3,7 @@ module Reek
     
     def initialize
       @refs = ObjectRefs.new
+      @name = ''
       @myself = Object
     end
 
@@ -18,6 +19,10 @@ module Reek
       sym = name.to_s
       @myself.const_defined?(sym) ? @myself.const_get(sym) : nil
     end
+
+    def full_name
+      ''
+    end
     
     def inside_a_block?
       false
@@ -25,10 +30,6 @@ module Reek
 
     def is_overriding_method?(name)
       false
-    end
-    
-    def outer_name
-      ''
     end
   end
 end

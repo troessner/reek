@@ -21,6 +21,7 @@ module Reek
     def initialize(outer, name, exp)
       super(outer, exp)
       @name = name
+      @scope_connector = '::'
       @parsed_methods = []
     end
 
@@ -39,10 +40,6 @@ module Reek
 
     def record_method(meth)
       @parsed_methods << meth
-    end
-
-    def outer_name
-      "#{@outer.outer_name}#{@name}::"
     end
 
     def variable_names

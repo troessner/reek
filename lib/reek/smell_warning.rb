@@ -6,10 +6,11 @@ module Reek
   class SmellWarning
     include Comparable
 
-    def initialize(detector_class, context, warning, masked)
+    def initialize(detector_class, context, line, message, masked)
       @smell = detector_class.class.name.split(/::/)[-1]
-      @context = context.to_s
-      @message = warning
+      @context = context
+      @line = line
+      @message = message
       @is_masked = masked
     end
 

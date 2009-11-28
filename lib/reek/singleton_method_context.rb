@@ -9,19 +9,18 @@ module Reek
       super(outer, exp)
       @name = Name.new(exp[2])
       @receiver = SexpFormatter.format(exp[1])
+      @scope_connector = ""
       record_depends_on_self
     end
 
     def envious_receivers
       []
     end
-    
-    def outer_name
-      "#{@outer.outer_name}#{@receiver}.#{@name}/"
-    end
 
-    def to_s
-      "#{@outer.outer_name}#{@receiver}.#{@name}"
+    def full_name
+      outer = @outer ? @outer.full_name : ''
+      prefix = outer == '' ? '' : "#{outer}#"
+      "#{prefix}#{@receiver}.#{@name}"
     end
   end
 end

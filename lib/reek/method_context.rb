@@ -76,6 +76,7 @@ module Reek
       @parameters ||= []
       @parameters.extend(MethodParameters)
       @name = Name.new(exp[1])
+      @scope_connector = '#'
       @num_statements = 0
       @calls = Hash.new(0)
       @depends_on_self = false
@@ -123,10 +124,6 @@ module Reek
     
     def record_depends_on_self
       @depends_on_self = true
-    end
-
-    def outer_name
-      "#{@outer.outer_name}#{@name}/"
     end
 
     def envious_receivers

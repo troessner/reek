@@ -20,6 +20,7 @@ module Reek
     def initialize(outer, exp)
       @outer = outer
       @exp = exp
+      @scope_connector = ''
       @myself = nil
     end
 
@@ -42,7 +43,7 @@ module Reek
       me = @name.to_s
       strings.any? do |str|
         re = /#{str}/
-        re === me or re === self.to_s
+        re === me or re === self.full_name
       end
     end
     
@@ -58,12 +59,10 @@ module Reek
       0
     end
 
-    def outer_name
-      "#{@name}/"
-    end
-
-    def to_s
-      "#{@outer.outer_name}#{@name}"
+    def full_name
+      outer = @outer ? @outer.full_name : ''
+      prefix = outer == '' ? '' : "#{outer}#{@scope_connector}"
+      "#{prefix}#{@name}"
     end
   end
 end

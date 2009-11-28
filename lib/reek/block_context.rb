@@ -38,6 +38,7 @@ module Reek
     def initialize(outer, exp)
       super
       @name = Name.new('block')
+      @scope_connector = '/'
       @parameters = exp[2] || []
       @parameters.extend(ParameterSet)
     end
@@ -52,10 +53,6 @@ module Reek
 
     def nested_block?
       @outer.inside_a_block?
-    end
-
-    def outer_name
-      "#{@outer.outer_name}#{@name}/"
     end
     
     def variable_names

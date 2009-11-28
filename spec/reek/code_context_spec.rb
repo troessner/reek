@@ -10,30 +10,37 @@ require 'reek/stop_context'
 include Reek
 
 describe CodeContext do
-  context 'to_s' do
+  context 'full_name' do
     it "reports the full context" do
       element = StopContext.new
       element = ModuleContext.new(element, Name.new(:mod), s(:module, :mod, nil))
       element = ClassContext.new(element, [0, :klass], s())
       element = MethodContext.new(element, [0, :bad])
       element = BlockContext.new(element, s(nil, nil))
-      element.to_s.should match(/bad/)
-      element.to_s.should match(/klass/)
-      element.to_s.should match(/mod/)
+      element.full_name.should match(/bad/)
+      element.full_name.should match(/klass/)
+      element.full_name.should match(/mod/)
     end
 
     it 'reports the method name via if context' do
       element1 = StopContext.new
       element2 = MethodContext.new(element1, [0, :bad])
       element3 = IfContext.new(element2, [0,1])
-      BlockContext.new(element3, s(nil, nil)).to_s.should match(/bad/)
+      BlockContext.new(element3, s(nil, nil)).full_name.should match(/bad/)
     end
 
     it 'reports the method name via nested blocks' do
       element1 = StopContext.new
       element2 = MethodContext.new(element1, [0, :bad])
       element3 = BlockContext.new(element2, s(nil, nil))
-      BlockContext.new(element3, s(nil, nil)).to_s.should match(/bad/)
+      BlockContext.new(element3, s(nil, nil)).full_name.should match(/bad/)
+    end
+    it 'includes the enclosing context name' do
+      outer_name = 'randomstring'
+      outer = mock('outer')
+      outer.should_receive(:full_name).and_return(outer_name)
+      ifc = IfContext.new(outer, s(:if, s()))
+      ifc.full_name.should == outer_name
     end
   end
 

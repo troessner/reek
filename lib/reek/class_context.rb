@@ -34,10 +34,6 @@ module Reek
       @instance_variables << Name.new(sym)
     end
 
-    def outer_name
-      "#{@outer.outer_name}#{@name}#"
-    end
-
     def variable_names
       @instance_variables
     end

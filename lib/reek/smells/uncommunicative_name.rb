@@ -65,9 +65,13 @@ module Reek
 
       def consider_name(context)  # :nodoc:
         name = context.name
-        return false if value(ACCEPT_KEY, context, DEFAULT_ACCEPT_SET).include?(context.to_s)  # TODO: fq_name() ?
+        return false if accept?(context)
         return false unless is_bad_name?(name, context)
         found(context, "has the name '#{name}'")
+      end
+
+      def accept?(context)
+        value(ACCEPT_KEY, context, DEFAULT_ACCEPT_SET).include?(context.full_name)
       end
 
       def is_bad_name?(name, context)  # :nodoc:

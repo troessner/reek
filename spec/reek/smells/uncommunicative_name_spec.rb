@@ -119,18 +119,28 @@ EOS
   end
 end
 
-describe UncommunicativeName, '#examine' do
+describe UncommunicativeName do
   before :each do
-    @uc = UncommunicativeName.new
+    @detector = UncommunicativeName.new
   end
-  
-  it 'should return true when reporting a smell' do
-    mc = MethodContext.new(StopContext.new, s(:defn, :x, s(:args)))
-    @uc.examine(mc).should == true
+
+  context '#examine' do
+    it 'should return true when reporting a smell' do
+      mc = MethodContext.new(StopContext.new, s(:defn, :x, s(:args)))
+      @detector.examine(mc).should == true
+    end
+
+    it 'should return false when not reporting a smell' do
+      mc = MethodContext.new(StopContext.new, s(:defn, :not_bad, s(:args)))
+      @detector.examine(mc).should == false
+    end
   end
-  
-  it 'should return false when not reporting a smell' do
-    mc = MethodContext.new(StopContext.new, s(:defn, :not_bad, s(:args)))
-    @uc.examine(mc).should == false
+
+  context 'accepting names' do
+    it 'accepts Inline::C' do
+      ctx = mock('context')
+      ctx.should_receive(:full_name).and_return('Inline::C')
+      @detector.accept?(ctx).should == true
+    end
   end
 end

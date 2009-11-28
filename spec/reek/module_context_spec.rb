@@ -35,4 +35,12 @@ describe ModuleContext do
     element = ModuleContext.create(StopContext.new, [:module, [:colon3, :GlobalTestModule], nil])
     element.myself.name.should == 'GlobalTestModule'
   end
+
+  context 'full_name' do
+    it "reports full context" do
+      element = StopContext.new
+      element = ModuleContext.new(element, Name.new(:mod), s(:module, :mod, nil))
+      element.full_name.should == 'mod'
+    end
+  end
 end
