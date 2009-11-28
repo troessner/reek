@@ -13,7 +13,11 @@ MANIFEST_CHECKED = "#{BUILD_DIR}/.manifest-checked"
 $gemspec = Gem::Specification.new do |s|
   s.name = PROJECT_NAME
   s.version = ::Reek::VERSION
-  s.summary = s.description = 'Code smell detector for Ruby'
+  s.summary = 'Code smell detector for Ruby'
+  s.description = <<-EOS
+Reek is a tool that examines Ruby classes, modules and methods
+and reports any code smells it finds.
+EOS
   s.author = 'Kevin Rutherford'
   s.email = ['kevin@rutherford-software.com']
   s.homepage = 'http://wiki.github.com/kevinrutherford/reek'

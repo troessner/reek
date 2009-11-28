@@ -1,7 +1,12 @@
+== 1.2.6 (2009-11-28)
+
+=== Minor Changes
+* Corrected display of module methods to use # (#56)
+
 == 1.2.5 (2009-11-19)
 
 === Minor Changes
-* Ignores ruby_parser errors and pretneds the offending file was empty
+* Ignores ruby_parser errors and pretends the offending file was empty
 
 == 1.2.4 (2009-11-17)
 

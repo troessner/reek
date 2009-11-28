@@ -2,13 +2,15 @@
 
 Gem::Specification.new do |s|
   s.name = %q{reek}
-  s.version = "1.2.5"
+  s.version = "1.2.6"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Kevin Rutherford"]
-  s.date = %q{2009-11-19}
+  s.date = %q{2009-11-28}
   s.default_executable = %q{reek}
-  s.description = %q{Code smell detector for Ruby}
+  s.description = %q{Reek is a tool that examines Ruby classes, modules and methods
+and reports any code smells it finds.
+}
   s.email = ["kevin@rutherford-software.com"]
   s.executables = ["reek"]
   s.extra_rdoc_files = ["History.txt", "License.txt", "README.rdoc"]
