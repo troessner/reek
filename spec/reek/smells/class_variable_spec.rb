@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 require 'reek/smells/class_variable'
 require 'reek/class_context'
-require 'reek/smells/smell_detector_shared'
+require 'spec/reek/smells/smell_detector_shared'
 
 include Reek
 include Reek::Smells

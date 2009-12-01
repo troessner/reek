@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 require 'reek/smells/feature_envy'
-require 'reek/smells/smell_detector_shared'
+require 'spec/reek/smells/smell_detector_shared'
 
 include Reek
 include Reek::Smells

@@ -41,3 +41,13 @@ describe Duplication, "non-repeated method calls" do
     'def double_thing() @other.thing(3) + @other.thing(2) end'.should_not reek
   end
 end
+
+require 'spec/reek/smells/smell_detector_shared'
+
+describe Duplication do
+  before(:each) do
+    @detector = Duplication.new
+  end
+
+  it_should_behave_like 'SmellDetector'
+end

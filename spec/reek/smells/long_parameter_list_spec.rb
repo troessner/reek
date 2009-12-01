@@ -71,7 +71,7 @@ describe LongParameterList do
   end
 end
 
-require 'reek/smells/smell_detector_shared'
+require 'spec/reek/smells/smell_detector_shared'
 
 describe LongParameterList do
   before(:each) do

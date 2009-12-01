@@ -40,7 +40,7 @@ EOS
   end
 end
 
-require 'reek/smells/smell_detector_shared'
+require 'spec/reek/smells/smell_detector_shared'
 
 describe NestedIterators do
   before(:each) do

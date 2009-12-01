@@ -97,7 +97,7 @@ describe Attribute do
   end
 end
 
-require 'reek/smells/smell_detector_shared'
+require 'spec/reek/smells/smell_detector_shared'
 
 describe Attribute do
   before(:each) do

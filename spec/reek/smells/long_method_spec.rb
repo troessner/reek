@@ -195,7 +195,7 @@ EOS
   end
 end
 
-require 'reek/smells/smell_detector_shared'
+require 'spec/reek/smells/smell_detector_shared'
 
 describe LongMethod do
   before(:each) do
