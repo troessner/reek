@@ -40,3 +40,12 @@ EOS
   end
 end
 
+require 'reek/smells/smell_detector_shared'
+
+describe NestedIterators do
+  before(:each) do
+    @detector = NestedIterators.new
+  end
+
+  it_should_behave_like 'SmellDetector'
+end

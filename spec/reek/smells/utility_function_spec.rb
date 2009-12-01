@@ -73,3 +73,13 @@ EOS
     end
   end
 end
+
+require 'reek/smells/smell_detector_shared'
+
+describe UtilityFunction do
+  before(:each) do
+    @detector = UtilityFunction.new
+  end
+
+  it_should_behave_like 'SmellDetector'
+end

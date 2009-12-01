@@ -96,3 +96,13 @@ describe Attribute do
     end
   end
 end
+
+require 'reek/smells/smell_detector_shared'
+
+describe Attribute do
+  before(:each) do
+    @detector = Attribute.new
+  end
+
+  it_should_behave_like 'SmellDetector'
+end

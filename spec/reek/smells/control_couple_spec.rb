@@ -50,3 +50,13 @@ describe ControlCouple do
     end
   end
 end
+
+require 'reek/smells/smell_detector_shared'
+
+describe ControlCouple do
+  before(:each) do
+    @detector = ControlCouple.new
+  end
+
+  it_should_behave_like 'SmellDetector'
+end

@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
+
 require 'reek/smells/feature_envy'
-require 'reek/method_context'
-require 'reek/stop_context'
+require 'reek/smells/smell_detector_shared'
 
 include Reek
 include Reek::Smells
@@ -178,20 +178,10 @@ EOS
   end
 end
 
-describe FeatureEnvy, '#examine' do
-
-  before :each do
-    @context = MethodContext.new(StopContext.new, s(:defn, :cool))
-    @fe = FeatureEnvy.new
+describe FeatureEnvy do
+  before(:each) do
+    @detector = FeatureEnvy.new
   end
 
-  it 'should return true when reporting a smell' do
-    @context.refs.record_ref([:lvar, :thing])
-    @context.refs.record_ref([:lvar, :thing])
-    @fe.examine(@context).should == true
-  end
-
-  it 'should return false when not reporting a smell' do
-    @fe.examine(@context).should == false
-  end
+  it_should_behave_like 'SmellDetector'
 end

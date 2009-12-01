@@ -73,14 +73,12 @@ module Reek
       end
 
       def examine(context)
-        before = @smells_found.size
         examine_context(context) if @config.enabled? and !exception?(context)
-        @smells_found.length > before
       end
 
       def examine_context(context)
       end
-      
+
       def exception?(context)
         context.matches?(value(EXCLUDE_KEY, context, DEFAULT_EXCLUDE_SET))
       end
@@ -95,6 +93,10 @@ module Reek
         return false if @masked
         @smells_found.each { |warning| return true if warning.contains_all?(patterns) }
         false
+      end
+
+      def smell_type
+        self.class.name.split(/::/)[-1]
       end
 
       def report_on(report)

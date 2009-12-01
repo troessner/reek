@@ -194,3 +194,13 @@ EOS
     method.num_statements.should == 6
   end
 end
+
+require 'reek/smells/smell_detector_shared'
+
+describe LongMethod do
+  before(:each) do
+    @detector = LongMethod.new
+  end
+
+  it_should_behave_like 'SmellDetector'
+end

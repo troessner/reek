@@ -2,6 +2,7 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 require 'reek/smells/simulated_polymorphism'
 require 'reek/code_context'
+require 'reek/smells/smell_detector_shared'
 
 include Reek
 include Reek::Smells
@@ -10,6 +11,9 @@ describe SimulatedPolymorphism do
   before :each do
     @detector = SimulatedPolymorphism.new
   end
+
+  it_should_behave_like 'SmellDetector'
+
   context 'with no conditionals' do
     it 'gathers an empty hash' do
       ast = 'module Stable; end'.to_reek_source.syntax_tree

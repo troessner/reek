@@ -119,22 +119,14 @@ EOS
   end
 end
 
+require 'reek/smells/smell_detector_shared'
+
 describe UncommunicativeName do
   before :each do
     @detector = UncommunicativeName.new
   end
 
-  context '#examine' do
-    it 'should return true when reporting a smell' do
-      mc = MethodContext.new(StopContext.new, s(:defn, :x, s(:args)))
-      @detector.examine(mc).should == true
-    end
-
-    it 'should return false when not reporting a smell' do
-      mc = MethodContext.new(StopContext.new, s(:defn, :not_bad, s(:args)))
-      @detector.examine(mc).should == false
-    end
-  end
+  it_should_behave_like 'SmellDetector'
 
   context 'accepting names' do
     it 'accepts Inline::C' do

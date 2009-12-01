@@ -41,37 +41,3 @@ describe Duplication, "non-repeated method calls" do
     'def double_thing() @other.thing(3) + @other.thing(2) end'.should_not reek
   end
 end
-
-describe Duplication, '#examine' do
-  before :each do
-    @mc = MethodContext.new(StopContext.new, s(:defn, :fred))
-    @dup = Duplication.new
-  end
-
-  it 'should return true when reporting a smell' do
-    3.times { @mc.record_call_to(s(:call, nil, :other, s(:arglist)))}
-    @dup.examine(@mc).should == true
-  end
-
-  it 'should return false when not reporting a smell' do
-    @dup.examine(@mc).should == false
-  end
-
-  it 'should return false when not reporting calls to new' do
-    4.times { @mc.record_call_to(s(:call, s(:Set), :new, s(:arglist)))}
-    @dup.examine(@mc).should == false
-  end
-end
-
-describe Duplication, 'when disabled' do
-  before :each do
-    @ctx = MethodContext.new(StopContext.new, [0, :double_thing])
-    @dup = Duplication.new({SmellConfiguration::ENABLED_KEY => false})
-  end
-
-  it 'should not report repeated call' do
-    @ctx.record_call_to([:fred])
-    @ctx.record_call_to([:fred])
-    @dup.examine(@ctx).should == false
-  end
-end

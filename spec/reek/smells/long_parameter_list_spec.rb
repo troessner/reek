@@ -70,3 +70,15 @@ describe LongParameterList do
     end
   end
 end
+
+require 'reek/smells/smell_detector_shared'
+
+describe LongParameterList do
+  before(:each) do
+    @detector = LongParameterList.new({})
+    # SMELL: can't use the default config, because that contains an override,
+    # which causes the mocked matches?() method to be called twice!!
+  end
+
+  it_should_behave_like 'SmellDetector'
+end

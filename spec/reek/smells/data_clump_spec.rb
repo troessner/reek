@@ -103,3 +103,13 @@ describe DataClump do
 
   # TODO: include singleton methods in the calcs
 end
+
+require 'reek/smells/smell_detector_shared'
+
+describe DataClump do
+  before(:each) do
+    @detector = DataClump.new
+  end
+
+  it_should_behave_like 'SmellDetector'
+end
