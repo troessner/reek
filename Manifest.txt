@@ -94,7 +94,7 @@ spec/reek/smells/long_method_spec.rb
 spec/reek/smells/long_parameter_list_spec.rb
 spec/reek/smells/nested_iterators_spec.rb
 spec/reek/smells/simulated_polymorphism_spec.rb
-spec/reek/smells/smell_detector_spec.rb
+spec/reek/smells/smell_detector_shared.rb
 spec/reek/smells/uncommunicative_name_spec.rb
 spec/reek/smells/utility_function_spec.rb
 spec/reek/sniffer_spec.rb

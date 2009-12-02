@@ -21,9 +21,9 @@ module Reek
       # Checks whether the given class or module declares any class variables.
       # Remembers any smells found.
       #
-      def examine_context(mod)
-        class_variables_in(mod).each do |cvar_name|
-          found(mod, "declares the class variable #{cvar_name}")
+      def examine_context(ctx)
+        class_variables_in(ctx).each do |cvar_name|
+          found(ctx, "declares the class variable #{cvar_name}")
         end
       end
 
@@ -31,11 +31,11 @@ module Reek
       # Collects the names of the class variables declared and/or used
       # in the given module.
       #
-      def class_variables_in(mod)
+      def class_variables_in(ctx)
         result = Set.new
         collector = proc { |cvar_node| result << cvar_node.name }
         [:cvar, :cvasgn, :cvdecl].each do |stmt_type|
-          mod.local_nodes(stmt_type, &collector)
+          ctx.local_nodes(stmt_type, &collector)
         end
         result
       end
