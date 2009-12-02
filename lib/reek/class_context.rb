@@ -5,7 +5,11 @@ class Class
   def is_overriding_method?(name)
     sym = name.to_sym
     mine = instance_methods(false)
-    dads = superclass.instance_methods(true)
+    if superclass
+      dads = superclass.instance_methods(true) 
+    else
+      dads = []
+    end
     (mine.include?(sym) and dads.include?(sym)) or (mine.include?(name) and dads.include?(name))
   end
 end
