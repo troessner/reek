@@ -52,9 +52,39 @@ class Below < Above
 end
 
 describe ClassContext, 'overridden methods' do
-  describe 'of loaded class' do
+  context 'of class without superclass' do
     before :each do
-      @ctx = ClassContext.create(StopContext.new, [0, :Below])
+      @ctx = ClassContext.create(StopContext.new, s(0, :Above, nil))
+    end
+
+    it 'should recognise non-overridden method' do
+      @ctx.is_overriding_method?('below').should == false
+      @ctx.is_overriding_method?('above').should == false
+    end
+
+    it 'should recognise overridden method' do
+      @ctx.is_overriding_method?('both').should == false
+    end
+  end
+
+  context 'of class with nil superclass' do
+    before :each do
+      @ctx = ClassContext.create(StopContext.new, s(0, :Object, nil))
+    end
+
+    it 'should recognise non-overridden method' do
+      @ctx.is_overriding_method?('below').should == false
+      @ctx.is_overriding_method?('above').should == false
+    end
+
+    it 'should recognise overridden method' do
+      @ctx.is_overriding_method?('both').should == false
+    end
+  end
+
+  context 'of loaded class' do
+    before :each do
+      @ctx = ClassContext.create(StopContext.new, s(0, :Below))
     end
 
     it 'should recognise non-overridden method' do
@@ -72,7 +102,7 @@ describe ClassContext, 'overridden methods' do
     end
   end
   
-  describe 'of non-loaded class' do
+  context 'of non-loaded class' do
     before :each do
       @ctx = ClassContext.create(StopContext.new, [0, :Missing])
     end

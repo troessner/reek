@@ -25,6 +25,9 @@ describe UtilityFunction do
     it 'recognises an ivar reference within a block' do
       'def clean(text) text.each { @fred = 3} end'.should_not reek
     end
+    it 'copes with nil superclass' do
+      'class Object; def is_maybe?() false end end'.should_not reek
+    end
   end
 
   context 'with only one call' do

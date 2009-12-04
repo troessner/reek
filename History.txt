@@ -1,7 +1,7 @@
 == 1.2.7 (in development)
 
 === Minor Changes
-
+* Fixed problem checking for UtilityFunction in class Object
 
 == 1.2.6 (2009-11-28)
 
