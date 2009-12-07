@@ -37,5 +37,6 @@ Feature: Reek can be controlled using command-line options
       Report formatting:
           -a, --[no-]show-all              Show all smells, including those masked by config settings
           -q, --[no-]quiet                 Suppress headings for smell-free source files
+          -y, --yaml                       Report smells in YAML format
 
       """

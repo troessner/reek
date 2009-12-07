@@ -9,6 +9,11 @@ class MaskingCollection
     @visible_items = SortedSet.new
     @masked_items = SortedSet.new
   end
+  def all_items
+    all = SortedSet.new(@visible_items)
+    all.merge(@masked_items)
+    all.to_a
+  end
   def found_smell(item)
     @visible_items.add(item)
     @masked_items.delete(item) if @masked_items.include?(item)

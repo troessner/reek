@@ -4,6 +4,7 @@ require 'reek/adapters/report'
 require 'reek/help_command'
 require 'reek/reek_command'
 require 'reek/version_command'
+require 'reek/yaml_command'
 
 module Reek
 
@@ -70,6 +71,12 @@ EOB
       end
       @parser.on("-q", "--[no-]quiet", "Suppress headings for smell-free source files") do |opt|
         @report_class = opt ? QuietReport : VerboseReport
+      end
+      @parser.on("-y", "--yaml", "Report smells in YAML format") do
+        @command = YamlCommand.create(@argv)
+        # SMELL: the args passed to the command should be tested, because it may
+        # turn out that they are passed too son, ie. before the files have been
+        # separated out from the options
       end
     end
   end
