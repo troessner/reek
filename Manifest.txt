@@ -13,6 +13,7 @@ features/samples.feature
 features/stdin.feature
 features/step_definitions/reek_steps.rb
 features/support/env.rb
+features/yaml.feature
 lib/reek.rb
 lib/reek/adapters/application.rb
 lib/reek/adapters/command_line.rb
@@ -21,6 +22,7 @@ lib/reek/adapters/core_extras.rb
 lib/reek/adapters/rake_task.rb
 lib/reek/adapters/report.rb
 lib/reek/adapters/source.rb
+lib/reek/adapters/source_file.rb
 lib/reek/adapters/spec.rb
 lib/reek/block_context.rb
 lib/reek/class_context.rb
@@ -58,6 +60,7 @@ lib/reek/sniffer.rb
 lib/reek/stop_context.rb
 lib/reek/tree_dresser.rb
 lib/reek/version_command.rb
+lib/reek/yaml_command.rb
 lib/reek/yield_call_context.rb
 reek.gemspec
 spec/reek/adapters/report_spec.rb
@@ -101,6 +104,7 @@ spec/reek/sniffer_spec.rb
 spec/reek/stop_context_spec.rb
 spec/reek/tree_dresser_spec.rb
 spec/reek/version_command_spec.rb
+spec/reek/yaml_command_spec.rb
 spec/samples/all_but_one_masked/clean_one.rb
 spec/samples/all_but_one_masked/dirty.rb
 spec/samples/all_but_one_masked/masked.reek
