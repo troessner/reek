@@ -1,4 +1,5 @@
 require 'reek/adapters/source'
+require 'reek/adapters/source_file'
 require 'reek/sniffer'
 
 class Object
@@ -58,7 +59,18 @@ class Array
   # of Ruby source files and examines those files for smells.
   #
   def sniff
-    sniffers = paths.map {|path| File.new(path).sniff}
+    sniffers = valid_paths.map {|path| File.new(path).sniff}
     Reek::SnifferSet.new(sniffers, 'dir')
+  end
+
+  def valid_paths
+    paths.select do |path|
+      if test 'f', path
+        true
+      else
+        $stderr.puts "Error: No such file - #{path}"
+        false
+      end
+    end
   end
 end
