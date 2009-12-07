@@ -6,7 +6,10 @@ module Reek
     def initialize(file_path)
       @file_path = file_path
       @hash = YAML.load_file(@file_path) || {}
-      problem('not a Hash') unless Hash === @hash
+      unless Hash === @hash
+        problem('not a Hash of smells')
+        @hash = {}
+      end
     end
 
     #
@@ -25,7 +28,8 @@ module Reek
     end
 
     def problem(reason)
-      raise "Invalid configuration file \"#{File.basename(@file_path)}\" -- #{reason}"
+      $stderr.puts "Error: Invalid configuration file \"#{File.basename(@file_path)}\" -- #{reason}"
+      # SMELL: Duplication of 'Error:'
     end
   end
 end
