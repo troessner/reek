@@ -10,7 +10,7 @@ Feature: Basic smell detection
     Then the exit status indicates smells
     And it reports:
     """
-    spec/samples/inline.rb -- 39 warnings (+1 masked):
+    spec/samples/inline.rb -- 40 warnings (+1 masked):
       Inline declares the class variable @@directory (Class Variable)
       Inline declares the class variable @@rootdir (Class Variable)
       Inline#self.rootdir calls env.nil? twice (Duplication)
@@ -43,6 +43,7 @@ Feature: Basic smell detection
       Inline::C#module_name/block has the variable name 'm' (Uncommunicative Name)
       Inline::C#module_name/block has the variable name 'x' (Uncommunicative Name)
       Inline::C#parse_signature has approx 15 statements (Long Method)
+      Inline::C#parse_signature has boolean parameter raw (Boolean Parameter)
       Inline::C#parse_signature is controlled by argument raw (Control Couple)
       Inline::C#parse_signature/block has the variable name 'x' (Uncommunicative Name)
       Inline::C#strip_comments doesn't depend on instance state (Utility Function)
@@ -66,7 +67,7 @@ Feature: Basic smell detection
       OptionParser tests not_style at least 3 times (Simulated Polymorphism)
       OptionParser tests s at least 7 times (Simulated Polymorphism)
       OptionParser#complete has 4 parameters (Long Parameter List)
-      OptionParser#complete is controlled by argument icase (Control Couple)
+      OptionParser#complete has boolean parameter icase (Boolean Parameter)
       OptionParser#complete/block/block is nested (Nested Iterators)
       OptionParser#getopts calls result[opt] = false twice (Duplication)
       OptionParser#getopts has approx 17 statements (Long Method)
@@ -132,9 +133,9 @@ Feature: Basic smell detection
       OptionParser::Completion#complete calls candidates.size twice (Duplication)
       OptionParser::Completion#complete calls k.id2name twice (Duplication)
       OptionParser::Completion#complete has approx 22 statements (Long Method)
+      OptionParser::Completion#complete has boolean parameter icase (Boolean Parameter)
       OptionParser::Completion#complete has the variable name 'k' (Uncommunicative Name)
       OptionParser::Completion#complete has the variable name 'v' (Uncommunicative Name)
-      OptionParser::Completion#complete is controlled by argument icase (Control Couple)
       OptionParser::Completion#complete refers to candidates more than self (Feature Envy)
       OptionParser::Completion#complete/block has the variable name 'k' (Uncommunicative Name)
       OptionParser::Completion#complete/block has the variable name 'v' (Uncommunicative Name)
@@ -143,7 +144,7 @@ Feature: Basic smell detection
       OptionParser::List#accept refers to pat more than self (Feature Envy)
       OptionParser::List#add_banner refers to opt more than self (Feature Envy)
       OptionParser::List#complete has 4 parameters (Long Parameter List)
-      OptionParser::List#complete is controlled by argument icase (Control Couple)
+      OptionParser::List#complete has boolean parameter icase (Boolean Parameter)
       OptionParser::List#reject has the variable name 't' (Uncommunicative Name)
       OptionParser::List#summarize refers to opt more than self (Feature Envy)
       OptionParser::List#update has 5 parameters (Long Parameter List)
@@ -219,7 +220,7 @@ Feature: Basic smell detection
       RedCloth#block_textile_table/block/block is nested (Nested Iterators)
       RedCloth#block_textile_table/block/block/block is nested (Nested Iterators)
       RedCloth#blocks has approx 18 statements (Long Method)
-      RedCloth#blocks is controlled by argument deep_code (Control Couple)
+      RedCloth#blocks has boolean parameter deep_code (Boolean Parameter)
       RedCloth#blocks/block is controlled by argument deep_code (Control Couple)
       RedCloth#blocks/block/block is nested (Nested Iterators)
       RedCloth#check_refs is controlled by argument text (Control Couple)

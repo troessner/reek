@@ -8,13 +8,13 @@ module Reek
   #
   class SourceFile < Source
 
-    def initialize(file)
-      @file = file
-      super(IO.readlines(@file.path).join, @file.path)
+    def initialize(path)
+      @path = path
+      super(IO.readlines(@path).join, @path)
     end
 
     def configure(sniffer)
-      path = File.expand_path(File.dirname(@file.path))
+      path = File.expand_path(File.dirname(@path))
       all_config_files(path).each { |cf| ConfigFile.new(cf).configure(sniffer) }
     end
 

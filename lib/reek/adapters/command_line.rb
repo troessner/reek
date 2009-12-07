@@ -75,10 +75,9 @@ EOB
       @parser.on("-y", "--yaml", "Report smells in YAML format") do
         @command = YamlCommand.create(@argv)
         # SMELL: the args passed to the command should be tested, because it may
-        # turn out that they are passed too son, ie. before the files have been
+        # turn out that they are passed too soon, ie. before the files have been
         # separated out from the options
       end
     end
   end
-
 end

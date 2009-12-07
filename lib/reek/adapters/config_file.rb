@@ -33,9 +33,9 @@ module Reek
       unless @@bad_config_files.include?(@file_path)
         begin
           return YAML.load_file(@file_path) || {}
-        rescue Exception => e
+        rescue Exception => err
           @@bad_config_files << @file_path
-          problem(e.to_s)
+          problem(err.to_s)
         end
       end
       return {}

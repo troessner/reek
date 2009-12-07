@@ -1,5 +1,4 @@
 require 'reek/smells/smell_detector'
-require 'reek/smell_warning'
 require 'reek/sexp_formatter'
 
 module Reek
@@ -36,7 +35,7 @@ module Reek
     class ControlCouple < SmellDetector
 
       def self.contexts      # :nodoc:
-        [:if, :defn, :defs]
+        [:if]
       end
 
       #
@@ -44,16 +43,8 @@ module Reek
       # Remembers any smells found.
       #
       def examine_context(ctx)
-        case ctx
-        when IfContext
-          return unless ctx.tests_a_parameter?
-          found(ctx, "is controlled by argument #{SexpFormatter.format(ctx.if_expr)}")
-        else
-          ctx.parameters.default_assignments.each do |param, value|
-            next unless [:true, :false].include?(value[0])
-            found(ctx, "is controlled by argument #{param.to_s}")
-          end
-        end
+        return unless ctx.tests_a_parameter?
+        found(ctx, "is controlled by argument #{SexpFormatter.format(ctx.if_expr)}")
       end
     end
   end

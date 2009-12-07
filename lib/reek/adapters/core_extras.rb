@@ -19,7 +19,7 @@ class File
   # code and prepares it to be examined for code smells.
   #
   def to_reek_source
-    Reek::SourceFile.new(self)
+    Reek::SourceFile.new(path)
   end
 end
 

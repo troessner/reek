@@ -1,6 +1,7 @@
 == 1.2.7 (in development)
 
 === Minor Changes
+* Split new smell BooleanParameter out of ControlCouple
 * Fixed problem checking for UtilityFunction in class Object
 * Improved detection of invalid config files
 * Invalid config files are now ignored

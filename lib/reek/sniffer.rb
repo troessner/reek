@@ -2,6 +2,7 @@ require 'reek/detector_stack'
 
 # SMELL: Duplication -- all these should be found automagically
 require 'reek/smells/attribute'
+require 'reek/smells/boolean_parameter'
 require 'reek/smells/class_variable'
 require 'reek/smells/control_couple'
 require 'reek/smells/data_clump'
@@ -51,6 +52,7 @@ module Reek
       # SMELL: Duplication -- these should be loaded by listing the files
       [
         Smells::Attribute,
+        Smells::BooleanParameter,
         Smells::ClassVariable,
         Smells::ControlCouple,
         Smells::DataClump,
