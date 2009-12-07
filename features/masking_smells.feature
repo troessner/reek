@@ -33,7 +33,7 @@ Feature: Masking smells using config files
         Dirty#a/block/block is nested (Nested Iterators)
 
       """
-    And it reports the error 'Error: Invalid configuration file "corrupt.reek" -- not a Hash of smells'
+    And it reports the error 'Error: Invalid configuration file "corrupt.reek" -- "This is not a config file" is not a code smell'
 
   Scenario: missing source file is an error
     When I run reek no_such_file.rb spec/samples/masked/dirty.rb

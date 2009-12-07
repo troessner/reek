@@ -2,6 +2,7 @@
 
 === Minor Changes
 * Fixed problem checking for UtilityFunction in class Object
+* Improved detection of invalid config files
 * Invalid config files are now ignored
 * Non-existent files are now ignored
 
