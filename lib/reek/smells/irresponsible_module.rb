@@ -1,6 +1,7 @@
 require 'reek/smells/smell_detector'
 require 'reek/code_comment'
 
+# Part of Reek's core
 module Reek
   module Smells
 
@@ -11,7 +12,7 @@ module Reek
     class IrresponsibleModule < SmellDetector
 
       def self.contexts      # :nodoc:
-        [:class, :module]
+        [:class]
       end
 
       #

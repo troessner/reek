@@ -10,7 +10,7 @@ include Reek
 include Reek::Smells
 
 describe IrresponsibleModule do
-  ['class', 'module'].each do |unit|
+  ['class'].each do |unit|
     it "does not report a #{unit} having a comment" do
       src = <<EOS
 # test #{unit}
