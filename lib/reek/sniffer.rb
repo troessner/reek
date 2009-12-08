@@ -20,6 +20,9 @@ require 'reek/smells/utility_function'
 require 'reek/code_parser'
 require 'yaml'
 
+#
+# Extensions to +Hash+ needed by Reek.
+#
 class Hash
   def push_keys(hash)
     keys.each {|key| hash[key].adopt!(self[key]) }
@@ -47,6 +50,10 @@ class Hash
 end
 
 module Reek
+
+  #
+  # Configures all available smell detectors and applies them to a source.
+  #
   class Sniffer
 
     def self.smell_classes
@@ -148,6 +155,9 @@ private
     end
   end
 
+  #
+  # A composite, making a set of +Sniffer+s behave like a single +Sniffer+.
+  #
   class SnifferSet
 
     attr_reader :desc, :sniffers
@@ -176,6 +186,5 @@ private
     def sniff
       self
     end
-
   end
 end

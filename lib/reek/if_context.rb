@@ -1,6 +1,10 @@
 require 'reek/code_context'
 
 module Reek
+
+  #
+  # A context wrapper for any +if+ statement found in a syntax tree.
+  #
   class IfContext < CodeContext
     attr_reader :if_expr
     

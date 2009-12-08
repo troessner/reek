@@ -1,6 +1,10 @@
 require 'ruby2ruby'
 
 module Reek
+
+  #
+  # Formats snippets of syntax tree back into Ruby source code.
+  #
   class SexpFormatter
     def self.format(sexp)
       sexp = YAML::load(YAML::dump(sexp))

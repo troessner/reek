@@ -3,6 +3,12 @@ require 'reek/adapters/command_line'   # SMELL: Global Variable
 require 'reek/masking_collection'
 
 module Reek
+
+  #
+  # A section of a text report; has a heading that identifies the source
+  # and summarises the smell counts, and a body listing details of all
+  # smells found.
+  #
   class ReportSection
 
     SMELL_FORMAT = '%m%c %w (%s)'
@@ -64,12 +70,18 @@ module Reek
     end
   end
 
+  #
+  # A set of sections, each of which reports the smells in a source.
+  #
   class Report
     def initialize(sniffers, display_masked_warnings = false)
       @partials = Array(sniffers).map {|sn| ReportSection.new(sn, display_masked_warnings)}
     end
   end
 
+  #
+  # A report that lists every source, including those that have no smells.
+  #
   class VerboseReport < Report
     # SMELL: Implementation Inheritance
     def report
@@ -77,6 +89,9 @@ module Reek
     end
   end
 
+  #
+  # A report that lists a section for each source that has smells.
+  #
   class QuietReport < Report
     # SMELL: Implementation Inheritance
     def report

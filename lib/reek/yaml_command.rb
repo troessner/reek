@@ -3,6 +3,10 @@ require 'reek/masking_collection'
 
 module Reek
 
+  #
+  # A command to collect smells from a set of sources and write them out in
+  # YAML format.
+  #
   class YamlCommand
     def self.create(sources)
       sniffer = sources.length > 0 ? sources.sniff : Reek::Sniffer.new($stdin.to_reek_source('$stdin'))

@@ -2,6 +2,9 @@ require 'reek/adapters/source'
 require 'reek/adapters/source_file'
 require 'reek/sniffer'
 
+#
+# Extensions to +Object+ needed by Reek.
+#
 class Object
   #
   # Creates a new +Sniffer+ that assumes this object contains Ruby source
@@ -13,6 +16,9 @@ class Object
   end
 end
 
+#
+# Extensions to +File+ needed by Reek.
+#
 class File
   #
   # Creates a new +Source+ that assumes this File contains Ruby source
@@ -23,6 +29,9 @@ class File
   end
 end
 
+#
+# Extensions to +IO+ needed by Reek.
+#
 class IO
   #
   # Creates a new +Source+ that assumes this IO stream contains Ruby source
@@ -33,6 +42,9 @@ class IO
   end
 end
 
+#
+# Extensions to +String+ needed by Reek.
+#
 class String
   #
   # Creates a new +Source+ that assumes this string contains Ruby source
@@ -43,6 +55,9 @@ class String
   end
 end
 
+#
+# Extensions to +Array+ needed by Reek.
+#
 class Array
   def paths
     self.map do |path|

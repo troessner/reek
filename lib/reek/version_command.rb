@@ -1,6 +1,9 @@
 
 module Reek
 
+  #
+  # A command to report the application's current version number.
+  #
   class VersionCommand
     def initialize(progname)
       @progname = progname

@@ -3,6 +3,9 @@ require 'reek/code_context'
 
 module Reek
 
+  #
+  # Represents a parameters in a method definition.
+  #
   module ParameterSet
     def names
       return @names if @names
@@ -21,8 +24,11 @@ module Reek
     end
   end
 
+  #
+  # A context wrapper for anything in a syntax tree that can contain variable
+  # declarations.
+  #
   class VariableContainer < CodeContext
-
     def initialize(outer, exp)
       super
       @local_variables = Set.new
@@ -33,6 +39,9 @@ module Reek
     end
   end
 
+  #
+  # A context wrapper for any block found in a syntax tree.
+  #
   class BlockContext < VariableContainer
 
     def initialize(outer, exp)

@@ -1,6 +1,9 @@
 
 module Reek
 
+  #
+  # A command to display usage information for this application.
+  #
   class HelpCommand
     def initialize(parser)
       @parser = parser

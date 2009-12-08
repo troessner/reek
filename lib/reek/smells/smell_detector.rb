@@ -12,6 +12,9 @@ module Reek
       end
     end
 
+    #
+    # Shared responsibilities of all smell detectors.
+    #
     class SmellDetector
 
       # The name of the config field that lists the names of code contexts

@@ -63,6 +63,10 @@ module Reek
     end
   end
 
+  #
+  # Adorns an abstract syntax tree with mix-in modules to make accessing
+  # the tree more understandable and less implementation-dependent.
+  #
   class TreeDresser
 
     def dress(sexp)

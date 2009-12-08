@@ -1,6 +1,9 @@
 require 'set'
 require 'reek/module_context'
 
+#
+# Extensions to +Class+ needed by Reek.
+#
 class Class
   def is_overriding_method?(name)
     sym = name.to_sym
@@ -15,6 +18,10 @@ class Class
 end
 
 module Reek
+
+  #
+  # A context wrapper for any class found in a syntax tree.
+  #
   class ClassContext < ModuleContext
 
     attr_reader :parsed_methods

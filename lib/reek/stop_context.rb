@@ -1,4 +1,8 @@
 module Reek
+
+  #
+  # A context wrapper representing the root of an abstract syntax tree.
+  #
   class StopContext
     
     def initialize

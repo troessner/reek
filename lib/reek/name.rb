@@ -1,6 +1,10 @@
 require 'ruby_parser'
 
 module Reek
+
+  #
+  # The name of a code element in an abstract syntax tree.
+  #
   class Name
     include Comparable
 

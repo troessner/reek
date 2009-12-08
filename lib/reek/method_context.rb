@@ -2,6 +2,9 @@ require 'reek/name'
 require 'reek/block_context'
 require 'reek/object_refs'
 
+#
+# Extensions to +Array+ needed by Reek.
+#
 class Array
   def power_set
     self.inject([[]]) { |cum, element| cum.cross(element) }
@@ -27,6 +30,9 @@ end
 
 module Reek
 
+  #
+  # The parameters in a method's definition.
+  #
   module MethodParameters
     def default_assignments
       assignments = self[-1]
@@ -63,6 +69,9 @@ module Reek
     end
   end
 
+  #
+  # A context wrapper for any method definition found in a syntax tree.
+  #
   class MethodContext < VariableContainer
     attr_reader :parameters
     attr_reader :calls

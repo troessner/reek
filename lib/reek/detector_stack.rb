@@ -1,5 +1,10 @@
 
 module Reek
+
+  #
+  # A list of smell detectors of the same class, but with differing
+  # configurations.
+  #
   class DetectorStack
 
     def initialize(default_detector)

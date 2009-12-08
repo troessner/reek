@@ -3,6 +3,10 @@ require 'reek/code_parser'
 require 'reek/sniffer'
 
 module Reek
+
+  #
+  # A context wrapper for any module found in a syntax tree.
+  #
   class ModuleContext < CodeContext
 
     class << self

@@ -1,5 +1,8 @@
 module Reek
 
+  #
+  # Manages and counts the references out of a method to other objects.
+  #
   class ObjectRefs  # :nodoc:
     def initialize
       @refs = Hash.new(0)

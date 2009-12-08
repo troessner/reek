@@ -2,6 +2,10 @@ require 'reek/sniffer'
 
 module Reek
 
+  #
+  # A command to collect smells from a set of sources and write them out in
+  # text report format.
+  #
   class ReekCommand
 
     def initialize(sources, report_class, show_all)

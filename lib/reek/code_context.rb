@@ -1,5 +1,8 @@
-class Module
 
+#
+# Extensions to +Module+ needed by Reek.
+#
+class Module
   def const_or_nil(sym)
     const_defined?(sym) ? const_get(sym) : nil
   end

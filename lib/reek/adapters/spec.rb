@@ -53,6 +53,9 @@ module Reek
       module_function :create_reporter
     end
 
+    #
+    # An rspec matcher that matches when the +actual+ has code smells.
+    #
     class ShouldReek        # :nodoc:
       include ReekMatcher
 
@@ -68,6 +71,10 @@ module Reek
       end
     end
 
+    #
+    # An rspec matcher that matches when the +actual+ has the specified
+    # code smell.
+    #
     class ShouldReekOf        # :nodoc:
       include ReekMatcher
 
@@ -87,6 +94,10 @@ module Reek
       end
     end
 
+    #
+    # An rspec matcher that matches when the +actual+ has the specified
+    # code smell and no others.
+    #
     class ShouldReekOnlyOf < ShouldReekOf        # :nodoc:
       def matches?(actual)
         @sniffer = actual.sniff

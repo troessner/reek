@@ -1,6 +1,11 @@
 require 'yaml'
 
 module Reek
+
+  #
+  # A file called <something>.reek containing configuration settings for
+  # any or all of the smell detectors.
+  #
   class ConfigFile
     @@bad_config_files = []
 

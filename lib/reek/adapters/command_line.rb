@@ -8,6 +8,9 @@ require 'reek/yaml_command'
 
 module Reek
 
+  #
+  # Parses the command line
+  #
   class Options
 
     def initialize(argv)

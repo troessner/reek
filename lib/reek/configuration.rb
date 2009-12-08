@@ -44,6 +44,9 @@ module Reek
     end
   end
 
+  #
+  # A set of context-specific overrides for smell detectors.
+  #
   class Overrides
     def initialize(hash)
       @hash = hash

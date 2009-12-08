@@ -3,6 +3,10 @@ require 'reek/method_context'
 require 'reek/sexp_formatter'
 
 module Reek
+
+  #
+  # A context wrapper for any singleton method definition found in a syntax tree.
+  #
   class SingletonMethodContext < MethodContext
 
     def initialize(outer, exp)
