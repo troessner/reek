@@ -9,7 +9,8 @@ describe CodeParser, "with no method definitions" do
     ''.should_not reek
   end
   it 'reports no problems for empty class' do
-    'class Fred; end'.should_not reek
+    '# clean class for testing purposes
+class Fred; end'.should_not reek
   end
 end
 

@@ -1,3 +1,4 @@
+# smelly class for testing purposes
 class Dirty
   def a
     puts @s.title

@@ -1,3 +1,4 @@
+# clean class for testing purposes
 class Clean
   def assign
     puts @sub.title

@@ -36,7 +36,8 @@ Feature: Reek reads from $stdin when no files are given
     Then the exit status indicates smells
     And it reports:
       """
-      $stdin -- 2 warnings:
+      $stdin -- 3 warnings:
+        Turn has no descriptive comment (Irresponsible Module)
         Turn has the variable name '@x' (Uncommunicative Name)
         Turn#y has the name 'y' (Uncommunicative Name)
 

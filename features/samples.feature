@@ -10,7 +10,8 @@ Feature: Basic smell detection
     Then the exit status indicates smells
     And it reports:
     """
-    spec/samples/inline.rb -- 40 warnings (+1 masked):
+    spec/samples/inline.rb -- 41 warnings (+1 masked):
+      File has no descriptive comment (Irresponsible Module)
       Inline declares the class variable @@directory (Class Variable)
       Inline declares the class variable @@rootdir (Class Variable)
       Inline#self.rootdir calls env.nil? twice (Duplication)

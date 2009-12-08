@@ -15,6 +15,7 @@ describe ClassContext do
 
   it 'should report two different methods' do
     src = <<EOEX
+# module for test
 class Fred
   def simple(arga, argb, argc, argd) f(3);true end
   def simply(arga, argb, argc, argd) f(3);false end
@@ -27,6 +28,7 @@ EOEX
 
   it 'should report many different methods' do
     src = <<EOEX
+# module for test
 class Fred
     def textile_bq(tag, atts, cite, content) f(3);end
     def textile_p(tag, atts, cite, content) f(3);end
@@ -181,7 +183,8 @@ end
 
 describe ClassContext do
   it 'does not report empty class in another module' do
-    'class Treetop::Runtime::SyntaxNode; end'.should_not reek
+    '# module for test
+class Treetop::Runtime::SyntaxNode; end'.should_not reek
   end
 
   it 'deals with :: scoped names' do

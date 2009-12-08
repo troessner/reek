@@ -26,6 +26,7 @@ lib/reek/adapters/source_file.rb
 lib/reek/adapters/spec.rb
 lib/reek/block_context.rb
 lib/reek/class_context.rb
+lib/reek/code_comment.rb
 lib/reek/code_context.rb
 lib/reek/code_parser.rb
 lib/reek/configuration.rb
@@ -48,6 +49,7 @@ lib/reek/smells/control_couple.rb
 lib/reek/smells/data_clump.rb
 lib/reek/smells/duplication.rb
 lib/reek/smells/feature_envy.rb
+lib/reek/smells/irresponsible_module.rb
 lib/reek/smells/large_class.rb
 lib/reek/smells/long_method.rb
 lib/reek/smells/long_parameter_list.rb
@@ -71,6 +73,7 @@ spec/reek/adapters/should_reek_spec.rb
 spec/reek/adapters/source_spec.rb
 spec/reek/block_context_spec.rb
 spec/reek/class_context_spec.rb
+spec/reek/code_comment_spec.rb
 spec/reek/code_context_spec.rb
 spec/reek/code_parser_spec.rb
 spec/reek/config_spec.rb
@@ -94,6 +97,7 @@ spec/reek/smells/control_couple_spec.rb
 spec/reek/smells/data_clump_spec.rb
 spec/reek/smells/duplication_spec.rb
 spec/reek/smells/feature_envy_spec.rb
+spec/reek/smells/irresponsible_module_spec.rb
 spec/reek/smells/large_class_spec.rb
 spec/reek/smells/long_method_spec.rb
 spec/reek/smells/long_parameter_list_spec.rb

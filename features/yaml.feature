@@ -18,37 +18,37 @@ Feature: Report smells using simple YAML layout
       - !ruby/object:Reek::SmellWarning 
         context: Dirty
         is_masked: true
-        line: 1
+        line: 2
         message: has the variable name '@s'
         smell: UncommunicativeName
       - !ruby/object:Reek::SmellWarning 
         context: Dirty#a
         is_masked: false
-        line: 2
+        line: 3
         message: calls @s.title twice
         smell: Duplication
       - !ruby/object:Reek::SmellWarning 
         context: Dirty#a
         is_masked: false
-        line: 2
+        line: 3
         message: calls puts(@s.title) twice
         smell: Duplication
       - !ruby/object:Reek::SmellWarning 
         context: Dirty#a
         is_masked: true
-        line: 2
+        line: 3
         message: has the name 'a'
         smell: UncommunicativeName
       - !ruby/object:Reek::SmellWarning 
         context: Dirty#a/block
         is_masked: true
-        line: 4
+        line: 5
         message: has the variable name 'x'
         smell: UncommunicativeName
       - !ruby/object:Reek::SmellWarning 
         context: Dirty#a/block/block
         is_masked: false
-        line: 4
+        line: 5
         message: is nested
         smell: NestedIterators
 

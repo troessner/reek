@@ -24,16 +24,20 @@ describe LargeClass, 'checking source code' do
     end
 
     it 'should not report 9 ivars' do
-      'class Empty;def ivars() @aa=@ab=@ac=@ad=@ae=@af=@ag=@ah=@ai; end;end'.should_not reek
+      '# clean class for testing purposes
+class Empty;def ivars() @aa=@ab=@ac=@ad=@ae=@af=@ag=@ah=@ai; end;end'.should_not reek
     end
 
     it 'should report 10 ivars' do
-      'class Empty;def ivars() @aa=@ab=@ac=@ad=@ae=@af=@ag=@ah=@ai=@aj; end;end'.should reek_of(:LargeClass)
+      '# smelly class for testing purposes
+class Empty;def ivars() @aa=@ab=@ac=@ad=@ae=@af=@ag=@ah=@ai=@aj; end;end'.should reek_of(:LargeClass)
     end
 
     it 'should not report 10 ivars in 2 extensions' do
       src = <<EOS
+# clean class for testing purposes
 class Full;def ivars_a() @aa=@ab=@ac=@ad=@ae; end;end
+# clean class for testing purposes
 class Full;def ivars_b() @af=@ag=@ah=@ai=@aj; end;end
 EOS
 
@@ -45,6 +49,7 @@ EOS
 
     it 'should not report 25 methods' do
       src = <<EOS
+# smelly class for testing purposes
 class Full
   def me01x()3 end;def me02x()3 end;def me03x()3 end;def me04x()3 end;def me05x()3 end
   def me11x()3 end;def me12x()3 end;def me13x()3 end;def me14x()3 end;def me15x()3 end

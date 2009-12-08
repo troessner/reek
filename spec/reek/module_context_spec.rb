@@ -10,7 +10,10 @@ describe ModuleContext do
   end
 
   it 'should not report module with empty class' do
-    'module Fred; class Jim; end; end'.should_not reek
+    '# module for test
+module Fred
+# module for test
+ class Jim; end; end'.should_not reek
   end
 
   it 'should handle module with empty class' do
@@ -22,7 +25,10 @@ end
 
 describe ModuleContext do
   it 'should recognise global constant' do
-    'module ::Global class Inside; end; end'.should_not reek
+    '# module for test
+module ::Global
+# module for test
+ class Inside; end; end'.should_not reek
   end
 
   it 'should not find missing global constant' do

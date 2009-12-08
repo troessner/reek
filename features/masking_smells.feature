@@ -24,7 +24,8 @@ Feature: Masking smells using config files
     Then the exit status indicates smells
     And it reports:
       """
-      spec/samples/corrupt_config_file/dirty.rb -- 6 warnings:
+      spec/samples/corrupt_config_file/dirty.rb -- 7 warnings:
+        Dirty has no descriptive comment (Irresponsible Module)
         Dirty has the variable name '@s' (Uncommunicative Name)
         Dirty#a calls @s.title twice (Duplication)
         Dirty#a calls puts(@s.title) twice (Duplication)

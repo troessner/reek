@@ -23,6 +23,9 @@ ClassVariable:
 BooleanParameter: 
   exclude: *id001
   enabled: true
+IrresponsibleModule: 
+  exclude: *id001
+  enabled: true
 UncommunicativeName: 
   accept: 
   - Inline::C

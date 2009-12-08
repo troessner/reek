@@ -7,6 +7,7 @@ include Reek::Smells
 shared_examples_for 'a data clump detector' do
   it 'does not report small parameter sets' do
     src = <<EOS
+# test module
 #{@context} Scrunch
   def first(pa) @field == :sym ? 0 : 3; end
   def second(pa) @field == :sym; end

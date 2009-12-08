@@ -23,19 +23,26 @@ end
 
 describe UncommunicativeName, "field name" do
   it 'should not report one-word field name' do
-    'class Thing; def help(fred) @simple end end'.should_not reek
+    #SMELL: shouldn't need comments, cos we're not testing that smell!
+    # But this will only be succinctly testable after the move to listeners...
+    '# class thing
+class Thing; def help(fred) @simple end end'.should_not reek
   end
   it 'should report one-letter fieldname' do
-    'class Thing; def simple(fred) @x end end'.should reek_only_of(:UncommunicativeName, /@x/, /Thing/, /variable name/)
+    '# class thing
+class Thing; def simple(fred) @x end end'.should reek_only_of(:UncommunicativeName, /@x/, /Thing/, /variable name/)
   end
   it 'should report name of the form "x2"' do
-    'class Thing; def simple(fred) @x2 end end'.should reek_only_of(:UncommunicativeName, /@x2/, /Thing/, /variable name/)
+    '# class thing
+class Thing; def simple(fred) @x2 end end'.should reek_only_of(:UncommunicativeName, /@x2/, /Thing/, /variable name/)
   end
   it 'should report long name ending in a number' do
-    'class Thing; def simple(fred) @field12 end end'.should reek_only_of(:UncommunicativeName, /@field12/, /Thing/, /variable name/)
+    '# class thing
+class Thing; def simple(fred) @field12 end end'.should reek_only_of(:UncommunicativeName, /@field12/, /Thing/, /variable name/)
   end
   it 'should report one-letter fieldname in assignment' do
-    'class Thing; def simple(fred) @x = fred end end'.should reek_only_of(:UncommunicativeName, /@x/, /Thing/, /variable name/)
+    '# class thing
+class Thing; def simple(fred) @x = fred end end'.should reek_only_of(:UncommunicativeName, /@x/, /Thing/, /variable name/)
   end
 end
 

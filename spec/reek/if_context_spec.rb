@@ -6,7 +6,8 @@ include Reek
 
 describe IfContext do
   it 'finds a class within top-level code' do
-    'unless jim; class Array; end; end'.should_not reek
+    'unless jim; # clean class for testing purposes
+class Array; end; end'.should_not reek
   end
 
   it 'finds class within top-level code' do

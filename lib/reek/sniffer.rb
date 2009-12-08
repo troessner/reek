@@ -8,6 +8,7 @@ require 'reek/smells/control_couple'
 require 'reek/smells/data_clump'
 require 'reek/smells/duplication'
 require 'reek/smells/feature_envy'
+require 'reek/smells/irresponsible_module'
 require 'reek/smells/large_class'
 require 'reek/smells/long_method'
 require 'reek/smells/long_parameter_list'
@@ -58,6 +59,7 @@ module Reek
         Smells::DataClump,
         Smells::Duplication,
         Smells::FeatureEnvy,
+        Smells::IrresponsibleModule,
         Smells::LargeClass,
         Smells::LongMethod,
         Smells::LongParameterList,

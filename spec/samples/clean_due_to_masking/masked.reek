@@ -1,6 +1,8 @@
 ---
 Duplication:
   enabled: false
+IrresponsibleModule:
+  enabled: false
 NestedIterators:
   enabled: false
 UncommunicativeName:

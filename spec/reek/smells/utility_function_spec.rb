@@ -26,7 +26,8 @@ describe UtilityFunction do
       'def clean(text) text.each { @fred = 3} end'.should_not reek
     end
     it 'copes with nil superclass' do
-      'class Object; def is_maybe?() false end end'.should_not reek
+      '# clean class for testing purposes
+class Object; def is_maybe?() false end end'.should_not reek
     end
   end
 
@@ -62,6 +63,7 @@ describe UtilityFunction do
 
     it 'should recognise a deep call' do
       src = <<EOS
+# clean class for testing purposes
   class Red
     def deep(text)
       text.each { |mod| atts = shelve(mod) }

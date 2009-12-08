@@ -63,8 +63,7 @@ module Reek
           condition = node.condition
           result[condition] += 1 unless condition == s(:call, nil, :block_given?, s(:arglist))
         }
-        klass.local_nodes(:if, &collector)
-        klass.local_nodes(:case, &collector)
+        [:if, :case].each {|stmt| klass.local_nodes(stmt, &collector) }
         result
       end
     end
