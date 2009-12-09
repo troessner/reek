@@ -1,17 +1,29 @@
+
 module Reek
 
   #
   # Reports a warning that a smell has been found.
   #
   class SmellWarning
+
     include Comparable
 
-    def initialize(detector_class, context, line, message, masked)
-      @smell = detector_class.class.name.split(/::/)[-1]
-      @context = context
-      @line = line
-      @message = message
+    CONTEXT_KEY = 'context'
+
+    def initialize(detector_class, context, lines, message, masked,
+        source = '', subclass = '', parameters = [])
+      @smell = {
+        'class' => detector_class.class.name.split(/::/)[-1],
+        'subclass' => subclass,
+        'message' => message,
+        'parameters' => parameters
+      }
       @is_masked = masked
+      @location = {
+        CONTEXT_KEY => context,
+        'lines' => lines,
+        'source' => source
+      }
     end
 
     def hash  # :nodoc:
@@ -32,13 +44,16 @@ module Reek
     end
 
     def sort_key
-      [@context, @message, smell_name]
+      [@location[CONTEXT_KEY], @smell['message'], smell_name]
     end
 
     protected :sort_key
 
     def report(format)
-      format.gsub(/\%s/, smell_name).gsub(/\%c/, @context).gsub(/\%w/, @message).gsub(/\%m/, @is_masked ? '(masked) ' : '')
+      format.gsub(/\%s/, smell_name).
+        gsub(/\%c/, @location[CONTEXT_KEY]).
+        gsub(/\%w/, @smell['message']).
+        gsub(/\%m/, @is_masked ? '(masked) ' : '')
     end
 
     def report_on(report)
@@ -50,7 +65,7 @@ module Reek
     end
 
     def smell_name
-      @smell.gsub(/([a-z])([A-Z])/) { |sub| "#{$1} #{$2}"}.split.join(' ')
+      @smell['class'].gsub(/([a-z])([A-Z])/) { |sub| "#{$1} #{$2}"}.split.join(' ')
     end
   end
 end

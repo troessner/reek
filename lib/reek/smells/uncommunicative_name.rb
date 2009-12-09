@@ -43,6 +43,14 @@ module Reek
         [:module, :class, :defn, :defs, :iter]
       end
 
+      TYPES = {
+        :module => 'Module',
+        :class => 'Class',
+        :defn => 'Method',
+        :defs => 'Method',
+        :iter => ''
+      }
+
       def initialize(config = UncommunicativeName.default_config)
         super(config)
       end
@@ -59,7 +67,7 @@ module Reek
       def consider_variables(context) # :nodoc:
         context.variable_names.each do |name|
           next unless is_bad_name?(name, context)
-          found(context, "has the variable name '#{name}'")
+          found(context, "has the variable name '#{name}'", 'UncommunicativeVariableName', [name.to_s])
         end
       end
 
@@ -67,7 +75,8 @@ module Reek
         name = context.name
         return false if accept?(context)
         return false unless is_bad_name?(name, context)
-        found(context, "has the name '#{name}'")
+        type = TYPES[context.exp[0]]
+        found(context, "has the name '#{name}'", "Uncommunicative#{type}Name", [name.to_s])
       end
 
       def accept?(context)

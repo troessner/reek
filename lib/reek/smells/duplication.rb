@@ -36,9 +36,11 @@ module Reek
 
       def examine_context(method)
         smelly_calls(method).each do |call_data|
+          call = SexpFormatter.format(call_data[0])
           num = call_data[1]
           multiple = num == 2 ? 'twice' : "#{num} times"
-          found(method, "calls #{SexpFormatter.format(call_data[0])} #{multiple}")
+          found(method, "calls #{call} #{multiple}",
+            'DuplicateMethodCall', [call])
         end
       end
       

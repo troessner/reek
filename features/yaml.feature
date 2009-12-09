@@ -16,40 +16,82 @@ Feature: Report smells using simple YAML layout
       """
       --- 
       - !ruby/object:Reek::SmellWarning 
-        context: Dirty
         is_masked: true
-        line: 2
-        message: has the variable name '@s'
-        smell: UncommunicativeName
+        location: 
+          lines: 
+          - 2
+          context: Dirty
+          source: spec/samples/masked/dirty.rb
+        smell: 
+          class: UncommunicativeName
+          parameters: 
+          - "@s"
+          subclass: UncommunicativeVariableName
+          message: has the variable name '@s'
       - !ruby/object:Reek::SmellWarning 
-        context: Dirty#a
         is_masked: false
-        line: 3
-        message: calls @s.title twice
-        smell: Duplication
+        location: 
+          lines: 
+          - 3
+          context: Dirty#a
+          source: spec/samples/masked/dirty.rb
+        smell: 
+          class: Duplication
+          parameters: 
+          - "@s.title"
+          subclass: DuplicateMethodCall
+          message: calls @s.title twice
       - !ruby/object:Reek::SmellWarning 
-        context: Dirty#a
         is_masked: false
-        line: 3
-        message: calls puts(@s.title) twice
-        smell: Duplication
+        location: 
+          lines: 
+          - 3
+          context: Dirty#a
+          source: spec/samples/masked/dirty.rb
+        smell: 
+          class: Duplication
+          parameters: 
+          - puts(@s.title)
+          subclass: DuplicateMethodCall
+          message: calls puts(@s.title) twice
       - !ruby/object:Reek::SmellWarning 
-        context: Dirty#a
         is_masked: true
-        line: 3
-        message: has the name 'a'
-        smell: UncommunicativeName
+        location: 
+          lines: 
+          - 3
+          context: Dirty#a
+          source: spec/samples/masked/dirty.rb
+        smell: 
+          class: UncommunicativeName
+          parameters: 
+          - a
+          subclass: UncommunicativeMethodName
+          message: has the name 'a'
       - !ruby/object:Reek::SmellWarning 
-        context: Dirty#a/block
         is_masked: true
-        line: 5
-        message: has the variable name 'x'
-        smell: UncommunicativeName
+        location: 
+          lines: 
+          - 5
+          context: Dirty#a/block
+          source: spec/samples/masked/dirty.rb
+        smell: 
+          class: UncommunicativeName
+          parameters: 
+          - x
+          subclass: UncommunicativeVariableName
+          message: has the variable name 'x'
       - !ruby/object:Reek::SmellWarning 
-        context: Dirty#a/block/block
         is_masked: false
-        line: 5
-        message: is nested
-        smell: NestedIterators
+        location: 
+          lines: 
+          - 5
+          context: Dirty#a/block/block
+          source: spec/samples/masked/dirty.rb
+        smell: 
+          class: NestedIterators
+          parameters: []
+
+          subclass: ""
+          message: is nested
 
       """

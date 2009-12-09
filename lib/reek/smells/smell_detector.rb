@@ -39,7 +39,8 @@ module Reek
         end
       end
 
-      def initialize(config = self.class.default_config)
+      def initialize(source = '???', config = self.class.default_config)
+        @source = source
         @config = SmellConfiguration.new(config)
         @smells_found = Set.new
         @masked = false
@@ -86,8 +87,9 @@ module Reek
         context.matches?(value(EXCLUDE_KEY, context, DEFAULT_EXCLUDE_SET))
       end
 
-      def found(context, message)
-        smell = SmellWarning.new(self, context.full_name, context.exp.line, message, @masked)
+      def found(context, message, subclass = '', parameters = [])
+        smell = SmellWarning.new(self, context.full_name, [context.exp.line], message, @masked,
+          @source, subclass, parameters)
         @smells_found << smell
         smell
       end

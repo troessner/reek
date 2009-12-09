@@ -127,25 +127,76 @@ describe SmellWarning do
 
   context 'YAML representation' do
     before :each do
-      @message = 'message'
+      @message = 'test message'
+      @lines = [24, 513]
+      @class = Smells::FeatureEnvy.new
+      @context_name = 'Module::Class#method/block'
+      @is_masked = true
       # Use a random string and a random bool
-      warning = SmellWarning.new(Smells::FeatureEnvy.new, 'Fred', 27, @message, true)
-      @yaml = warning.to_yaml
     end
-    it 'includes the smell class' do
-      @yaml.should match(/smell:\s*FeatureEnvy/)
+
+    shared_examples_for 'common fields' do
+      it 'includes the smell class' do
+        @yaml.should match(/class:\s*FeatureEnvy/)
+      end
+      it 'includes the context' do
+        @yaml.should match(/context:\s*#{@context_name}/)
+      end
+      it 'includes the message' do
+        @yaml.should match(/message:\s*#{@message}/)
+      end
+      it 'indicates the masking' do
+        @yaml.should match(/is_masked:\s*#{@is_masked}/)
+      end
+      it 'includes the line numbers' do
+        @lines.each do |line|
+          @yaml.should match(/lines:[\s\d-]*- #{line}/)
+        end
+      end
     end
-    it 'includes the context' do
-      @yaml.should match(/context:\s*Fred/)
+
+    context 'with all details specified' do
+      before :each do
+        @source = 'a/ruby/source/file.rb'
+        @subclass = 'TooManyParties'
+        @parameters = ['@first', 'second']
+        warning = SmellWarning.new(@class, @context_name, @lines, @message, @is_masked,
+          @source, @subclass, @parameters)
+        @yaml = warning.to_yaml
+      end
+
+      it_should_behave_like 'common fields'
+
+      it 'includes the subclass' do
+        @yaml.should match(/subclass:\s*#{@subclass}/)
+      end
+      it 'includes the source' do
+        @yaml.should match(/source:\s*#{@source}/)
+      end
+      it 'includes the parameters' do
+        @parameters.each do |param|
+          @yaml.should match(/#{param}/)
+        end
+      end
     end
-    it 'includes the message' do
-      @yaml.should match(/message:\s*#{@message}/)
-    end
-    it 'indicates the masking' do
-      @yaml.should match(/is_masked:\s*true/)
-    end
-    it 'includes the line number' do
-      @yaml.should match(/line:\s*27/)
+
+    context 'with all defaults used' do
+      before :each do
+        warning = SmellWarning.new(@class, @context_name, @lines, @message, @is_masked)
+        @yaml = warning.to_yaml
+      end
+
+      it_should_behave_like 'common fields'
+
+      it 'includes no subclass' do
+        @yaml.should match(/subclass:\s*""/)
+      end
+      it 'includes no source' do
+        @yaml.should match(/source:\s*""/)
+      end
+      it 'includes empty parameters' do
+        @yaml.should match(/parameters:\s*\[\]/)
+      end
     end
   end
 end

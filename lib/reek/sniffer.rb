@@ -82,7 +82,9 @@ module Reek
       @already_checked_for_smells = false
       @typed_detectors = nil
       @detectors = Hash.new
-      Sniffer.smell_classes.each { |klass| @detectors[klass] = DetectorStack.new(klass.new) }
+      Sniffer.smell_classes.each do |klass|
+        @detectors[klass] = DetectorStack.new(klass.new(src.desc))
+      end
       @source = src
       src.configure(self)
     end
