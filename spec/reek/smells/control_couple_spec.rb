@@ -29,4 +29,15 @@ describe ControlCouple do
   end
 
   it_should_behave_like 'SmellDetector'
+
+  it 'records the parameter in the YAML report' do
+    param_name = 'blah'
+    ctx = mock('method_context', :null_object => true)
+    ctx.should_receive(:tests_a_parameter?).and_return(true)
+    ctx.should_receive(:if_expr).and_return(s(:lvar, param_name))
+    @detector.examine_context(ctx)
+    @detector.smells_found.each do |warning|
+      warning.to_yaml.should match(/parameters:[\s-]*#{param_name}/)
+    end
+  end
 end

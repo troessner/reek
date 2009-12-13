@@ -18,16 +18,28 @@ EOS
     src.should_not reek
   end
 
-  it 'reports 3 identical pairs in a class' do
-    src = <<EOS
+  context 'with 3 identical pairs' do
+    before :each do
+      @src = <<EOS
 #{@context} Scrunch
   def first(pa, pb) @field == :sym ? 0 : 3; end
   def second(pa, pb) @field == :sym; end
   def third(pa, pb) pa - pb + @fred; end
 end
 EOS
-
-    src.should reek_of(:DataClump, /\[pa, pb\]/, /3 methods/)
+    end
+    it 'reports the smell' do
+      @src.should reek_of(:DataClump, /\[pa, pb\]/, /3 methods/)
+    end
+    it 'reports all params in the YAML' do
+      ctx = ModuleContext.from_s(@src)
+      detector = DataClump.new
+      detector.examine(ctx)
+      warning = detector.smells_found.to_a[0]   # SMELL: too cumbersome!
+      yaml = warning.to_yaml
+      yaml.should match(/parameters:[\s-]*pa/)
+      yaml.should match(/parameters:[\spa-]*pb/)
+    end
   end
 
   it 'reports 3 swapped pairs in a class' do

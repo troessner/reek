@@ -44,7 +44,8 @@ module Reek
       #
       def examine_context(ctx)
         return unless ctx.tests_a_parameter?
-        found(ctx, "is controlled by argument #{SexpFormatter.format(ctx.if_expr)}")
+        param = SexpFormatter.format(ctx.if_expr)
+        found(ctx, "is controlled by argument #{param}", '', param)
       end
     end
   end
