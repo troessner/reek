@@ -39,8 +39,8 @@ module Reek
         )
       end
 
-      def initialize(config = DataClump.default_config)
-        super(config)
+      def initialize(source = '???', config = DataClump.default_config)
+        super(source, config)
       end
 
       #

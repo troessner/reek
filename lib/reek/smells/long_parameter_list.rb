@@ -30,7 +30,7 @@ module Reek
         )
       end
 
-      def initialize(source = '', config = LongParameterList.default_config)
+      def initialize(source = '???', config = LongParameterList.default_config)
         super(source, config)
         @action = 'has'
       end

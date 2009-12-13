@@ -30,8 +30,8 @@ module Reek
         super.adopt(HELPER_CALLS_LIMIT_KEY => DEFAULT_HELPER_CALLS_LIMIT)
       end
 
-      def initialize(config = UtilityFunction.default_config)
-        super(config)
+      def initialize(source = '???', config = UtilityFunction.default_config)
+        super(source, config)
       end
 
       #

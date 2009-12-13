@@ -28,8 +28,8 @@ module Reek
         super.adopt(SmellConfiguration::ENABLED_KEY => false)
       end
 
-      def initialize(config = Attribute.default_config)
-        super(config)
+      def initialize(source = '???', config = Attribute.default_config)
+        super(source, config)
       end
 
       #
@@ -37,12 +37,8 @@ module Reek
       # Remembers any smells found.
       #
       def examine_context(mod)
-        # SMELL: Duplication
-        # MethodContext, ClassContext and ModuleContext all know which
-        # calls constitute attribute declarations. Need a method on
-        # ModuleContext: each_public_call.select [names] {...}
         attributes_in(mod).each do |attr|
-          found(mod, "declares the attribute #{attr}")
+          found(mod, "declares the attribute #{attr}", '', [attr.to_s])
         end
       end
 

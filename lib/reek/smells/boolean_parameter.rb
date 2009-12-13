@@ -24,7 +24,7 @@ module Reek
       def examine_context(ctx)
         ctx.parameters.default_assignments.each do |param, value|
           next unless [:true, :false].include?(value[0])
-          found(ctx, "has boolean parameter #{param.to_s}")
+          found(ctx, "has boolean parameter #{param.to_s}", '', [param.to_s])
         end
       end
     end

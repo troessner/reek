@@ -7,8 +7,8 @@ module Reek
       def self.default_config
         super.adopt(EXCLUDE_KEY => ['initialize'])
       end
-      def initialize(config = self.class.default_config)
-        super
+      def initialize(source = '???', config = self.class.default_config)
+        super(source, config)
       end
     end
 
@@ -39,6 +39,8 @@ module Reek
         end
       end
 
+      attr_reader :smells_found   # SMELL: only published for tests
+
       def initialize(source = '???', config = self.class.default_config)
         @source = source
         @config = SmellConfiguration.new(config)
@@ -66,7 +68,7 @@ module Reek
       end
 
       def copy
-        self.class.new(@config.deep_copy)
+        self.class.new(@source, @config.deep_copy)
       end
 
       def supersede_with(config)

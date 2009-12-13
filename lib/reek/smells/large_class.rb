@@ -40,8 +40,8 @@ module Reek
           )
       end
 
-      def initialize(config = LargeClass.default_config)
-        super(config)
+      def initialize(source = '???', config = LargeClass.default_config)
+        super(source, config)
       end
 
       def check_num_methods(klass)  # :nodoc:

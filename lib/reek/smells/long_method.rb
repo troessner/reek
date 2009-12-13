@@ -25,8 +25,8 @@ module Reek
         )
       end
 
-      def initialize(config = LongMethod.default_config)
-        super(config)
+      def initialize(source = '???', config = LongMethod.default_config)
+        super(source, config)
       end
 
       #

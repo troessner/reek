@@ -51,8 +51,8 @@ module Reek
         :iter => ''
       }
 
-      def initialize(config = UncommunicativeName.default_config)
-        super(config)
+      def initialize(source = '???', config = UncommunicativeName.default_config)
+        super(source, config)
       end
 
       #

@@ -31,6 +31,12 @@ describe ClassVariable do
       it 'records only that class variable' do
         @detector.class_variables_in(@ctx).length.should == 1
       end
+      it 'records the variable in the YAML report' do
+        @detector.examine_context(@ctx)
+        @detector.smells_found.each do |warning|
+          warning.to_yaml.should match(/parameters:[\s-]*"@@tools"/)
+        end
+      end
     end
 
     context 'declared in a class' do

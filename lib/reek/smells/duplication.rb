@@ -30,8 +30,8 @@ module Reek
         super.adopt(MAX_ALLOWED_CALLS_KEY => DEFAULT_MAX_CALLS)
       end
 
-      def initialize(config = Duplication.default_config)
-        super(config)
+      def initialize(source = '???', config = Duplication.default_config)
+        super(source, config)
       end
 
       def examine_context(method)

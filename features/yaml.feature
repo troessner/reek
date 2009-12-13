@@ -95,3 +95,26 @@ Feature: Report smells using simple YAML layout
           message: is nested
 
       """
+
+  @stdin
+  Scenario: return non-zero status when there are smells
+    When I pass "# test class\nclass Turn; def fred(arg = true) end end" to reek --yaml
+    Then the exit status indicates smells
+    And it reports:
+      """
+      --- 
+      - !ruby/object:Reek::SmellWarning 
+        is_masked: false
+        location: 
+          lines: 
+          - 2
+          context: Turn#fred
+          source: $stdin
+        smell: 
+          class: BooleanParameter
+          parameters: 
+          - arg
+          subclass: ""
+          message: has boolean parameter arg
+
+      """
