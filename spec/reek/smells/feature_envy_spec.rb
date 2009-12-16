@@ -27,8 +27,25 @@ describe FeatureEnvy do
     'def no_envy(arga) arga.barg(@item); arga end'.should_not reek
   end
 
-  it 'should report many calls to parameter' do
-    'def envy(arga) arga.b(arga) + arga.c(@fred) end'.should reek_only_of(:FeatureEnvy, /arga/)
+  context 'with 2 calls to a parameter' do
+    it 'reports the smell' do
+      'def envy(arga) arga.b(arga) + arga.c(@fred) end'.should reek_only_of(:FeatureEnvy, /arga/)
+    end
+  end
+
+  context 'when an envious receiver exists' do
+    before :each do
+      @receiver = 'blah'
+      @ctx = mock('method_context', :null_object => true)
+      @ctx.should_receive(:envious_receivers).and_return([s(:lvar, @receiver)])
+      @detector = FeatureEnvy.new
+    end
+    it 'reports the envious receiver' do
+      @detector.examine_context(@ctx)
+      warning = @detector.smells_found.to_a[0]   # SMELL: too cumbersome!
+      yaml = warning.to_yaml
+      yaml.should match(/parameters:[\s-]*#{@receiver}/)
+    end
   end
 
   it 'should report highest affinity' do

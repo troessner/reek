@@ -22,7 +22,7 @@ class ShouldDuplicate
     @flay.masses.each do |hash, mass|
       nodes = @flay.hashes[hash]
       match = @flay.identical[hash] ? "IDENTICAL" : "Similar"
-      lines << ("%s code found in %p" % [match, nodes.first.first])
+      lines << ("%s code found in %p (%d)" % [match, nodes.first.first, mass])
       nodes.each { |x| lines << "  #{x.file}:#{x.line}" }
     end
     lines.join("\n")
@@ -73,6 +73,9 @@ describe 'Reek source code' do
   end
   it 'has no textual duplication' do
     ['lib'].should_not simian(3)
+  end
+  it 'has no structural duplication in the tests' do
+    ['spec/reek'].should_not flay(25)
   end
   it 'has no textual duplication in the tests' do
     ['spec/reek'].should_not simian(8)

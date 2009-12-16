@@ -101,4 +101,38 @@ describe LargeClass do
   end
 
   it_should_behave_like 'SmellDetector'
+
+  context 'when the class has 50 methods' do
+    before :each do
+      @num_methods = 50
+      @ctx = mock('method_context', :null_object => true)
+      @ctx.should_receive(:local_nodes).with(:defn).and_return([0]*@num_methods)
+      @detector.examine_context(@ctx)
+      @yaml = @detector.smells_found.to_a[0].to_yaml   # SMELL: too cumbersome!
+    end
+    it 'reports the number of methods' do
+      @yaml.should match(/parameters:[\s-]*#{@num_methods}/)
+      # SMELL: many tests duplicate the names of the YAML fields
+    end
+    it 'reports the correct subclass' do
+      @yaml.should match(/subclass:[\s]*#{LargeClass::SUBCLASS_TOO_MANY_METHODS}/)
+    end
+  end
+
+  context 'when the class has 30 instance variables' do
+    before :each do
+      @num_ivars = 30
+      @ctx = mock('method_context', :null_object => true)
+      @ctx.should_receive(:variable_names).and_return([0]*@num_ivars)
+      @detector.examine_context(@ctx)
+      @yaml = @detector.smells_found.to_a[0].to_yaml   # SMELL: too cumbersome!
+    end
+    it 'reports the number of methods' do
+      @yaml.should match(/parameters:[\s-]*#{@num_ivars}/)
+      # SMELL: many tests duplicate the names of the YAML fields
+    end
+    it 'reports the correct subclass' do
+      @yaml.should match(/subclass:[\s]*#{LargeClass::SUBCLASS_TOO_MANY_IVARS}/)
+    end
+  end
 end

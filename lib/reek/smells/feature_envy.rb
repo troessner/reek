@@ -42,7 +42,8 @@ module Reek
       #
       def examine_context(context)
         context.envious_receivers.each do |ref|
-          found(context, "refers to #{SexpFormatter.format(ref)} more than self")
+          target = SexpFormatter.format(ref)
+          found(context, "refers to #{target} more than self", '', [target])
         end
       end
     end
