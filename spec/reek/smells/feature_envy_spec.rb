@@ -44,7 +44,7 @@ describe FeatureEnvy do
       @detector.examine_context(@ctx)
       warning = @detector.smells_found.to_a[0]   # SMELL: too cumbersome!
       yaml = warning.to_yaml
-      yaml.should match(/parameters:[\s-]*#{@receiver}/)
+      yaml.should match(/receiver:[\s]*#{@receiver}/)
     end
   end
 

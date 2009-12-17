@@ -159,7 +159,7 @@ describe SmellWarning do
       before :each do
         @source = 'a/ruby/source/file.rb'
         @subclass = 'TooManyParties'
-        @parameters = ['@first', 'second']
+        @parameters = {'one' => 34, 'two' => 'second'}
         warning = SmellWarning.new(@class, @context_name, @lines, @message, @is_masked,
           @source, @subclass, @parameters)
         @yaml = warning.to_yaml
@@ -174,8 +174,8 @@ describe SmellWarning do
         @yaml.should match(/source:\s*#{@source}/)
       end
       it 'includes the parameters' do
-        @parameters.each do |param|
-          @yaml.should match(/#{param}/)
+        @parameters.each do |key,value|
+          @yaml.should match(/#{key}:\s*#{value}/)
         end
       end
     end
@@ -195,7 +195,7 @@ describe SmellWarning do
         @yaml.should match(/source:\s*""/)
       end
       it 'includes empty parameters' do
-        @yaml.should match(/parameters:\s*\[\]/)
+        @yaml.should_not match(/parameter/)
       end
     end
   end

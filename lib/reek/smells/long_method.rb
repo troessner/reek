@@ -11,6 +11,7 @@ module Reek
     # 5 statements.
     #
     class LongMethod < SmellDetector
+      SUBCLASS_TOO_MANY_STATEMENTS = 'TooManyStatements'
 
       # The name of the config field that sets the maximum number of
       # statements permitted in any method.
@@ -36,7 +37,7 @@ module Reek
       def examine_context(method)
         num = method.num_statements
         return false if num <= value(MAX_ALLOWED_STATEMENTS_KEY, method, DEFAULT_MAX_STATEMENTS)
-        found(method, "has approx #{num} statements")
+        found(method, "has approx #{num} statements", SUBCLASS_TOO_MANY_STATEMENTS, {'statement_count' => num})
       end
     end
   end

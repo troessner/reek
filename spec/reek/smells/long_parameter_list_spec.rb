@@ -81,4 +81,18 @@ describe LongParameterList do
   end
 
   it_should_behave_like 'SmellDetector'
+
+  context 'when the method has 30 parameters' do
+    before :each do
+      @num_parameters = 30
+      @ctx = mock('method_context', :null_object => true)
+      @ctx.should_receive(:parameters).and_return([0]*@num_parameters)
+      @detector.examine_context(@ctx)
+      @yaml = @detector.smells_found.to_a[0].to_yaml   # SMELL: too cumbersome!
+    end
+    it 'reports the number of statements' do
+      @yaml.should match(/parameter_count:[\s]*#{@num_parameters}/)
+      # SMELL: many tests duplicate the names of the YAML fields
+    end
+  end
 end

@@ -89,7 +89,7 @@ module Reek
         context.matches?(value(EXCLUDE_KEY, context, DEFAULT_EXCLUDE_SET))
       end
 
-      def found(context, message, subclass = '', parameters = [])
+      def found(context, message, subclass = '', parameters = {})
         smell = SmellWarning.new(self, context.full_name, [context.exp.line], message, @masked,
           @source, subclass, parameters)
         @smells_found << smell

@@ -42,7 +42,7 @@ module Reek
       def examine_context(ctx)
         num_params = ctx.parameters.length
         return false if num_params <= value(MAX_ALLOWED_PARAMS_KEY, ctx, DEFAULT_MAX_ALLOWED_PARAMS)
-        found(ctx, "#{@action} #{num_params} parameters")
+        found(ctx, "#{@action} #{num_params} parameters", '', {'parameter_count' => num_params})
       end
     end
   end

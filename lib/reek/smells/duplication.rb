@@ -40,7 +40,7 @@ module Reek
           num = call_data[1]
           multiple = num == 2 ? 'twice' : "#{num} times"
           found(method, "calls #{call} #{multiple}",
-            'DuplicateMethodCall', [call])
+            'DuplicateMethodCall', {'call' => call, 'occurrences' => num})
         end
       end
       

@@ -111,7 +111,7 @@ describe LargeClass do
       @yaml = @detector.smells_found.to_a[0].to_yaml   # SMELL: too cumbersome!
     end
     it 'reports the number of methods' do
-      @yaml.should match(/parameters:[\s-]*#{@num_methods}/)
+      @yaml.should match(/method_count:[\s]*#{@num_methods}/)
       # SMELL: many tests duplicate the names of the YAML fields
     end
     it 'reports the correct subclass' do
@@ -128,7 +128,7 @@ describe LargeClass do
       @yaml = @detector.smells_found.to_a[0].to_yaml   # SMELL: too cumbersome!
     end
     it 'reports the number of methods' do
-      @yaml.should match(/parameters:[\s-]*#{@num_ivars}/)
+      @yaml.should match(/ivar_count:[\s]*#{@num_ivars}/)
       # SMELL: many tests duplicate the names of the YAML fields
     end
     it 'reports the correct subclass' do

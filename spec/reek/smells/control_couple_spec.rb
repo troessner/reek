@@ -37,7 +37,7 @@ describe ControlCouple do
     ctx.should_receive(:if_expr).and_return(s(:lvar, param_name))
     @detector.examine_context(ctx)
     @detector.smells_found.each do |warning|
-      warning.to_yaml.should match(/parameters:[\s-]*#{param_name}/)
+      warning.to_yaml.should match(/parameter:[\s]*#{param_name}/)
     end
   end
 end

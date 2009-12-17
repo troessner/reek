@@ -34,7 +34,7 @@ describe ClassVariable do
       it 'records the variable in the YAML report' do
         @detector.examine_context(@ctx)
         @detector.smells_found.each do |warning|
-          warning.to_yaml.should match(/parameters:[\s-]*"@@tools"/)
+          warning.to_yaml.should match(/variable:[\s]*"@@tools"/)
         end
       end
     end

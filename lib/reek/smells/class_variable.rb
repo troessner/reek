@@ -23,7 +23,7 @@ module Reek
       #
       def examine_context(ctx)
         class_variables_in(ctx).each do |cvar_name|
-          found(ctx, "declares the class variable #{cvar_name}", '', [cvar_name.to_s])
+          found(ctx, "declares the class variable #{cvar_name}", '', {'variable' => cvar_name.to_s})
         end
       end
 

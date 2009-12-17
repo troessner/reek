@@ -51,7 +51,7 @@ module Reek
         max_copies = value(MAX_COPIES_KEY, ctx, DEFAULT_MAX_COPIES)
         min_clump_size = value(MIN_CLUMP_SIZE_KEY, ctx, DEFAULT_MIN_CLUMP_SIZE)
         MethodGroup.new(ctx, min_clump_size, max_copies).clumps.each do |clump, occurs|
-          found(ctx, "takes parameters #{DataClump.print_clump(clump)} to #{occurs} methods", '', clump.map {|name| name.to_s})
+          found(ctx, "takes parameters #{DataClump.print_clump(clump)} to #{occurs} methods", 'DataClump', {'parameters' => clump.map {|name| name.to_s}})
           # SMELL: name.to_s is becoming a nuisance
         end
       end

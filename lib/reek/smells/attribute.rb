@@ -38,7 +38,7 @@ module Reek
       #
       def examine_context(mod)
         attributes_in(mod).each do |attr|
-          found(mod, "declares the attribute #{attr}", '', [attr.to_s])
+          found(mod, "declares the attribute #{attr}", '', {'attribute' => attr.to_s})
         end
       end
 

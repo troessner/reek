@@ -23,9 +23,8 @@ Feature: Report smells using simple YAML layout
           context: Dirty
           source: spec/samples/masked/dirty.rb
         smell: 
+          name: "@s"
           class: UncommunicativeName
-          parameters: 
-          - "@s"
           subclass: UncommunicativeVariableName
           message: has the variable name '@s'
       - !ruby/object:Reek::SmellWarning 
@@ -37,9 +36,9 @@ Feature: Report smells using simple YAML layout
           source: spec/samples/masked/dirty.rb
         smell: 
           class: Duplication
-          parameters: 
-          - "@s.title"
+          occurrences: 2
           subclass: DuplicateMethodCall
+          call: "@s.title"
           message: calls @s.title twice
       - !ruby/object:Reek::SmellWarning 
         is_masked: false
@@ -50,9 +49,9 @@ Feature: Report smells using simple YAML layout
           source: spec/samples/masked/dirty.rb
         smell: 
           class: Duplication
-          parameters: 
-          - puts(@s.title)
+          occurrences: 2
           subclass: DuplicateMethodCall
+          call: puts(@s.title)
           message: calls puts(@s.title) twice
       - !ruby/object:Reek::SmellWarning 
         is_masked: true
@@ -62,9 +61,8 @@ Feature: Report smells using simple YAML layout
           context: Dirty#a
           source: spec/samples/masked/dirty.rb
         smell: 
+          name: a
           class: UncommunicativeName
-          parameters: 
-          - a
           subclass: UncommunicativeMethodName
           message: has the name 'a'
       - !ruby/object:Reek::SmellWarning 
@@ -75,9 +73,8 @@ Feature: Report smells using simple YAML layout
           context: Dirty#a/block
           source: spec/samples/masked/dirty.rb
         smell: 
+          name: x
           class: UncommunicativeName
-          parameters: 
-          - x
           subclass: UncommunicativeVariableName
           message: has the variable name 'x'
       - !ruby/object:Reek::SmellWarning 
@@ -89,8 +86,6 @@ Feature: Report smells using simple YAML layout
           source: spec/samples/masked/dirty.rb
         smell: 
           class: NestedIterators
-          parameters: []
-
           subclass: ""
           message: is nested
 
@@ -111,9 +106,8 @@ Feature: Report smells using simple YAML layout
           context: Turn#fred
           source: $stdin
         smell: 
+          parameter: arg
           class: BooleanParameter
-          parameters: 
-          - arg
           subclass: ""
           message: has boolean parameter arg
 

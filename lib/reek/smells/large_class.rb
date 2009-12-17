@@ -49,13 +49,13 @@ module Reek
       def check_num_methods(klass)  # :nodoc:
         actual = klass.local_nodes(:defn).length
         return if actual <= value(MAX_ALLOWED_METHODS_KEY, klass, DEFAULT_MAX_METHODS)
-        found(klass, "has at least #{actual} methods", SUBCLASS_TOO_MANY_METHODS, [actual])
+        found(klass, "has at least #{actual} methods", SUBCLASS_TOO_MANY_METHODS, {'method_count' => actual})
       end
 
       def check_num_ivars(klass)  # :nodoc:
         count = klass.variable_names.length
         return if count <= value(MAX_ALLOWED_IVARS_KEY, klass, DEFAULT_MAX_IVARS)
-        found(klass, "has at least #{count} instance variables", SUBCLASS_TOO_MANY_IVARS, [count])
+        found(klass, "has at least #{count} instance variables", SUBCLASS_TOO_MANY_IVARS, {'ivar_count' => count})
       end
 
       #

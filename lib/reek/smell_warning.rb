@@ -11,13 +11,13 @@ module Reek
     CONTEXT_KEY = 'context'
 
     def initialize(detector_class, context, lines, message, masked,
-        source = '', subclass = '', parameters = [])
+        source = '', subclass = '', parameters = {})
       @smell = {
         'class' => detector_class.class.name.split(/::/)[-1],
         'subclass' => subclass,
         'message' => message,
-        'parameters' => parameters
       }
+      @smell.merge!(parameters)
       @is_masked = masked
       @location = {
         CONTEXT_KEY => context,
