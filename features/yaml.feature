@@ -23,9 +23,9 @@ Feature: Report smells using simple YAML layout
           context: Dirty
           source: spec/samples/masked/dirty.rb
         smell: 
-          name: "@s"
           class: UncommunicativeName
           subclass: UncommunicativeVariableName
+          variable_name: "@s"
           message: has the variable name '@s'
       - !ruby/object:Reek::SmellWarning 
         is_masked: false
@@ -61,7 +61,7 @@ Feature: Report smells using simple YAML layout
           context: Dirty#a
           source: spec/samples/masked/dirty.rb
         smell: 
-          name: a
+          method_name: a
           class: UncommunicativeName
           subclass: UncommunicativeMethodName
           message: has the name 'a'
@@ -73,9 +73,9 @@ Feature: Report smells using simple YAML layout
           context: Dirty#a/block
           source: spec/samples/masked/dirty.rb
         smell: 
-          name: x
           class: UncommunicativeName
           subclass: UncommunicativeVariableName
+          variable_name: x
           message: has the variable name 'x'
       - !ruby/object:Reek::SmellWarning 
         is_masked: false

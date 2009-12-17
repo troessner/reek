@@ -67,7 +67,8 @@ module Reek
       def consider_variables(context) # :nodoc:
         context.variable_names.each do |name|
           next unless is_bad_name?(name, context)
-          found(context, "has the variable name '#{name}'", 'UncommunicativeVariableName', {'name' => name.to_s})
+          found(context, "has the variable name '#{name}'", 'UncommunicativeVariableName',
+            {'variable_name' => name.to_s})
         end
       end
 
@@ -76,7 +77,8 @@ module Reek
         return false if accept?(context)
         return false unless is_bad_name?(name, context)
         type = TYPES[context.exp[0]]
-        found(context, "has the name '#{name}'", "Uncommunicative#{type}Name", {'name' => name.to_s})
+        found(context, "has the name '#{name}'", "Uncommunicative#{type}Name",
+          {"#{type.to_s.downcase}_name" => name.to_s})
       end
 
       def accept?(context)
