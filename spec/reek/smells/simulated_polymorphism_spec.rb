@@ -32,27 +32,27 @@ describe SimulatedPolymorphism do
 
   context 'with three identical conditionals' do
     before :each do
-      cond = '@field == :sym'
-      @cond_expr = cond.to_reek_source.syntax_tree
+      @cond = '@field == :sym'
+      @cond_expr = @cond.to_reek_source.syntax_tree
       src = <<EOS
 class Scrunch
   def first
-    return #{cond} ? 0 : 3;
+    return #{@cond} ? 0 : 3;
   end
   def second
-    if #{cond}
+    if #{@cond}
       @other += " quarts"
     end
   end
   def third
-    raise 'flu!' unless #{cond}
+    raise 'flu!' unless #{@cond}
   end
 end
 EOS
 
       ast = src.to_reek_source.syntax_tree
-      ctx = CodeContext.new(nil, ast)
-      @conds = @detector.conditional_counts(ctx)
+      @ctx = CodeContext.new(nil, ast)
+      @conds = @detector.conditional_counts(@ctx)
     end
     it 'finds one matching conditional' do
       @conds.length.should == 1
@@ -62,6 +62,23 @@ EOS
     end
     it 'knows there are three copies' do
       @conds[@cond_expr].should == 3
+    end
+
+    context 'looking at the YAML' do
+      before :each do
+        @detector.examine(@ctx)
+        warning = @detector.smells_found.to_a[0]   # SMELL: too cumbersome!
+        @yaml = warning.to_yaml
+      end
+      it 'reports the subclass' do
+        @yaml.should match(/subclass:\s*RepeatedConditional/)
+      end
+      it 'reports the expression' do
+        @yaml.should match(/expression:\s*\(#{@cond}\)/)
+      end
+      it 'reports the number of occurrences' do
+        @yaml.should match(/occurrences:\s*3/)
+      end
     end
   end
 

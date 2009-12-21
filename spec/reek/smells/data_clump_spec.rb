@@ -27,18 +27,18 @@ EOS
   def third(pa, pb) pa - pb + @fred; end
 end
 EOS
-    end
-    it 'reports the smell' do
-      @src.should reek_of(:DataClump, /\[pa, pb\]/, /3 methods/)
-    end
-    it 'reports all params in the YAML' do
       ctx = ModuleContext.from_s(@src)
       detector = DataClump.new
       detector.examine(ctx)
       warning = detector.smells_found.to_a[0]   # SMELL: too cumbersome!
-      yaml = warning.to_yaml
-      yaml.should match(/parameters:[\s-]*pa/)
-      yaml.should match(/parameters:[\spa-]*pb/)
+      @yaml = warning.to_yaml
+    end
+    it 'reports all parameters' do
+      @yaml.should match(/parameters:[\s-]*pa/)
+      @yaml.should match(/parameters:[\spa-]*pb/)
+    end
+    it 'reports the number of occurrences' do
+      @yaml.should match(/occurrences:\s*3/)
     end
   end
 

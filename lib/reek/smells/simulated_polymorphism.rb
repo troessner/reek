@@ -48,7 +48,11 @@ module Reek
       #
       def examine_context(klass)
         conditional_counts(klass).each do |key, val|
-          found(klass, "tests #{SexpFormatter.format(key)} at least #{val} times") if val > value(MAX_IDENTICAL_IFS_KEY, klass, DEFAULT_MAX_IFS)
+          next unless val > value(MAX_IDENTICAL_IFS_KEY, klass, DEFAULT_MAX_IFS)
+          expr = SexpFormatter.format(key)
+          found(klass, "tests #{expr} at least #{val} times",
+            'RepeatedConditional', {'expression' => expr, 'occurrences' => val})
+          # TODO: report the lines on which the expression is tested
         end
       end
 

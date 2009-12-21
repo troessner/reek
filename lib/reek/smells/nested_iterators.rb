@@ -22,6 +22,7 @@ module Reek
       def examine_context(block)
         return false unless block.nested_block?
         found(block, 'is nested')
+        # TODO: report the nesting depth and the innermost line
       end
     end
   end
