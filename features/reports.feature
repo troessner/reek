@@ -13,16 +13,16 @@ Feature: Correctly formatted reports
         Dirty has the variable name '@s' (Uncommunicative Name)
         Dirty#a calls @s.title twice (Duplication)
         Dirty#a calls puts(@s.title) twice (Duplication)
+        Dirty#a contains iterators nested 2 deep (Nested Iterators)
         Dirty#a has the name 'a' (Uncommunicative Name)
         Dirty#a/block has the variable name 'x' (Uncommunicative Name)
-        Dirty#a/block/block is nested (Nested Iterators)
       spec/samples/two_smelly_files/dirty_two.rb -- 6 warnings:
         Dirty has the variable name '@s' (Uncommunicative Name)
         Dirty#a calls @s.title twice (Duplication)
         Dirty#a calls puts(@s.title) twice (Duplication)
+        Dirty#a contains iterators nested 2 deep (Nested Iterators)
         Dirty#a has the name 'a' (Uncommunicative Name)
         Dirty#a/block has the variable name 'x' (Uncommunicative Name)
-        Dirty#a/block/block is nested (Nested Iterators)
 
       """
 
@@ -72,17 +72,17 @@ Feature: Correctly formatted reports
         (masked) Dirty has the variable name '@s' (Uncommunicative Name)
         (masked) Dirty#a calls @s.title twice (Duplication)
         (masked) Dirty#a calls puts(@s.title) twice (Duplication)
+        (masked) Dirty#a contains iterators nested 2 deep (Nested Iterators)
         (masked) Dirty#a has the name 'a' (Uncommunicative Name)
         (masked) Dirty#a/block has the variable name 'x' (Uncommunicative Name)
-        (masked) Dirty#a/block/block is nested (Nested Iterators)
       spec/samples/clean_due_to_masking/dirty_two.rb -- 0 warnings (+7 masked):
         (masked) Dirty has no descriptive comment (Irresponsible Module)
         (masked) Dirty has the variable name '@s' (Uncommunicative Name)
         (masked) Dirty#a calls @s.title twice (Duplication)
         (masked) Dirty#a calls puts(@s.title) twice (Duplication)
+        (masked) Dirty#a contains iterators nested 2 deep (Nested Iterators)
         (masked) Dirty#a has the name 'a' (Uncommunicative Name)
         (masked) Dirty#a/block has the variable name 'x' (Uncommunicative Name)
-        (masked) Dirty#a/block/block is nested (Nested Iterators)
 
       """
 

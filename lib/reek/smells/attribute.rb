@@ -36,9 +36,10 @@ module Reek
       # Checks whether the given class declares any attributes.
       # Remembers any smells found.
       #
-      def examine_context(mod)
-        attributes_in(mod).each do |attr|
-          found(mod, "declares the attribute #{attr}", '', {'attribute' => attr.to_s})
+      def examine_context(module_ctx)
+        attributes_in(module_ctx).each do |attr, line|
+          found(module_ctx, "declares the attribute #{attr}", '',
+            {'attribute' => attr.to_s}, [line])
         end
       end
 
@@ -46,11 +47,11 @@ module Reek
       # Collects the names of the class variables declared and/or used
       # in the given module.
       #
-      def attributes_in(mod)
+      def attributes_in(module_ctx)
         result = Set.new
-        mod.local_nodes(:call) do |call_node|
+        module_ctx.local_nodes(:call) do |call_node|
           if ATTRIBUTE_METHODS.include?(call_node.method_name)
-            call_node.arg_names.each {|arg| result << arg }
+            call_node.arg_names.each {|arg| result << [arg, call_node.line] }
           end
         end
         result

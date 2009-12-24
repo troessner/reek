@@ -48,4 +48,74 @@ describe NestedIterators do
   end
 
   it_should_behave_like 'SmellDetector'
+
+  context 'find_deepest_iterators' do
+    context 'with no iterators' do
+      it 'returns an empty list' do
+        src = 'def fred() nothing = true; end'
+        source = src.to_reek_source
+        sniffer = Sniffer.new(source)
+        @mctx = CodeParser.new(sniffer).process_defn(source.syntax_tree)
+        @detector.find_deepest_iterators(@mctx).should == []
+      end
+    end
+
+    context 'with one iterator' do
+      before :each do
+        src = 'def fred() nothing.each {|item| item}; end'
+        source = src.to_reek_source
+        sniffer = Sniffer.new(source)
+        mctx = CodeParser.new(sniffer).process_defn(source.syntax_tree)
+        @result = @detector.find_deepest_iterators(mctx)
+      end
+      it 'returns a depth of 1' do
+        @result.should == []
+      end
+    end
+
+    context 'with two non-nested iterators' do
+      before :each do
+        src = <<EOS
+def fred()
+  nothing.each do |item|
+    item
+  end
+  again.each {|thing| }
+end
+EOS
+        source = src.to_reek_source
+        sniffer = Sniffer.new(source)
+        mctx = CodeParser.new(sniffer).process_defn(source.syntax_tree)
+        @result = @detector.find_deepest_iterators(mctx)
+      end
+      it 'returns both iterators' do
+        @result.length.should == 0
+      end
+    end
+
+    context 'with one nested iterator' do
+      before :each do
+        src = <<EOS
+def fred()
+  nothing.each do |item|
+    again.each {|thing| item }
+  end
+end
+EOS
+        source = src.to_reek_source
+        sniffer = Sniffer.new(source)
+        mctx = CodeParser.new(sniffer).process_defn(source.syntax_tree)
+        @result = @detector.find_deepest_iterators(mctx)
+      end
+      it 'returns only the deepest iterator' do
+        @result.length.should == 1
+      end
+      it 'has depth of 2' do
+        @result[0][1].should == 2
+      end
+      it 'refers to the innermost exp' do
+        @result[0][0].line.should == 3
+      end
+    end
+  end
 end

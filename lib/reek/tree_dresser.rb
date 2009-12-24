@@ -61,6 +61,12 @@ module Reek
         self[1]
       end
     end
+
+    module IterNode
+      def call() self[1] end
+      def args() self[2] end
+      def block() self[3] end
+    end
   end
 
   #

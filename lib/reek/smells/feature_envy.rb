@@ -41,10 +41,11 @@ module Reek
       # Remembers any smells found.
       #
       def examine_context(context)
-        context.envious_receivers.each do |ref|
+        context.envious_receivers.each do |ref, occurs|
           target = SexpFormatter.format(ref)
-          found(context, "refers to #{target} more than self", '', {'receiver' => target})
-          # TODO: report the number of references to the target and the lines
+          found(context, "refers to #{target} more than self", '',
+            {'receiver' => target, 'references' => occurs})
+          # TODO: report the lines
         end
       end
     end

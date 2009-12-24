@@ -54,6 +54,17 @@ Feature: Report smells using simple YAML layout
           call: puts(@s.title)
           message: calls puts(@s.title) twice
       - !ruby/object:Reek::SmellWarning 
+        is_masked: false
+        location: 
+          lines: 
+          - 3
+          context: Dirty#a
+          source: spec/samples/masked/dirty.rb
+        smell: 
+          class: NestedIterators
+          subclass: ""
+          message: contains iterators nested 2 deep
+      - !ruby/object:Reek::SmellWarning 
         is_masked: true
         location: 
           lines: 
@@ -77,17 +88,6 @@ Feature: Report smells using simple YAML layout
           subclass: UncommunicativeVariableName
           variable_name: x
           message: has the variable name 'x'
-      - !ruby/object:Reek::SmellWarning 
-        is_masked: false
-        location: 
-          lines: 
-          - 5
-          context: Dirty#a/block/block
-          source: spec/samples/masked/dirty.rb
-        smell: 
-          class: NestedIterators
-          subclass: ""
-          message: is nested
 
       """
 

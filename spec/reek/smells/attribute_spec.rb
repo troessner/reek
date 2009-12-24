@@ -24,7 +24,7 @@ describe Attribute do
   context 'with one attribute' do
     shared_examples_for 'one attribute found' do
       it 'records the attribute' do
-        @detector.attributes_in(@ctx).should include(:property)
+        @detector.attributes_in(@ctx).should include([:property, 1])
       end
       it 'records only that attribute' do
         @detector.attributes_in(@ctx).length.should == 1
@@ -105,4 +105,25 @@ describe Attribute do
   end
 
   it_should_behave_like 'SmellDetector'
+
+  context 'when reporting a smell' do
+    before :each do
+      @attr = 'prop'
+      src = <<EOS
+module Fred
+  attr_writer :#{@attr}
+end
+EOS
+      @ctx = ModuleContext.from_s(src)
+      @detector.examine_context(@ctx)
+      warning = @detector.smells_found.to_a[0]   # SMELL: too cumbersome!
+      @yaml = warning.to_yaml
+    end
+    it 'reports the attribute' do
+      @yaml.should match(/attribute:\s*#{@attr}/)
+    end
+    it 'reports the declaration line number' do
+      @yaml.should match(/lines:[\s-]*3/)
+    end
+  end
 end

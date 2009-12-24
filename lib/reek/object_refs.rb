@@ -37,7 +37,7 @@ module Reek
     #
     def max_keys
       max = max_refs
-      @refs.reject {|key,val| val != max}.keys
+      @refs.reject {|key,val| val != max}
     end
 
     def self_is_max?

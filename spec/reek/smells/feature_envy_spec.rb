@@ -37,14 +37,17 @@ describe FeatureEnvy do
     before :each do
       @receiver = 'blah'
       @ctx = mock('method_context', :null_object => true)
-      @ctx.should_receive(:envious_receivers).and_return([s(:lvar, @receiver)])
+      @ctx.should_receive(:envious_receivers).and_return({s(:lvar, @receiver) => 4})
       @detector = FeatureEnvy.new
-    end
-    it 'reports the envious receiver' do
       @detector.examine_context(@ctx)
       warning = @detector.smells_found.to_a[0]   # SMELL: too cumbersome!
-      yaml = warning.to_yaml
-      yaml.should match(/receiver:[\s]*#{@receiver}/)
+      @yaml = warning.to_yaml
+    end
+    it 'reports the envious receiver' do
+      @yaml.should match(/receiver:[\s]*#{@receiver}/)
+    end
+    it 'reports the number of references' do
+      @yaml.should match(/references:\s*4/)
     end
   end
 
