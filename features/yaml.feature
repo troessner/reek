@@ -57,11 +57,12 @@ Feature: Report smells using simple YAML layout
         is_masked: false
         location: 
           lines: 
-          - 3
+          - 5
           context: Dirty#a
           source: spec/samples/masked/dirty.rb
         smell: 
           class: NestedIterators
+          depth: 2
           subclass: ""
           message: contains iterators nested 2 deep
       - !ruby/object:Reek::SmellWarning 

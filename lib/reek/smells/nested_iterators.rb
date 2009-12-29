@@ -10,6 +10,7 @@ module Reek
     # +NestedIterators+ reports failing methods only once.
     #
     class NestedIterators < SmellDetector
+      # SMELL: should be a subclass of UnnecessaryComplexity
 
       def self.contexts      # :nodoc:
         [:defn, :defs]
@@ -21,12 +22,15 @@ module Reek
       #
       def examine_context(method_ctx)
         find_deepest_iterators(method_ctx).each do |iter|
-          found(method_ctx, "contains iterators nested #{iter[1]} deep")
+          depth = iter[1]
+          found(method_ctx, "contains iterators nested #{depth} deep", '',
+            {'depth' => depth}, [iter[0].line])
         end
         # TODO: report the nesting depth and the innermost line
+        # BUG: no longer reports nesting outside methods (eg. in Optparse)
       end
 
-      def find_deepest_iterators(method_ctx, depth = 0)
+      def find_deepest_iterators(method_ctx)
         result = []
         find_iters(method_ctx.exp, 1, result)
         result.select {|item| item[1] >= 2}
@@ -35,12 +39,14 @@ module Reek
       def find_iters(exp, depth, result)
         exp.each do |elem|
           next unless Sexp === elem
-          next if [:class, :defn, :defs, :module].include?(elem.first)
-          if elem.first == :iter
+          case elem.first
+          when :iter
             find_iters([elem.call], depth, result)
             current = result.length
             find_iters([elem.block], depth+1, result)
             result << [elem, depth] if result.length == current
+          when :class, :defn, :defs, :module
+            next
           else
             find_iters(elem, depth, result)
           end

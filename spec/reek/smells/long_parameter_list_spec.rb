@@ -54,21 +54,6 @@ describe LongParameterList do
       end
     end
   end
-  
-  describe 'yield' do
-    it 'should not report yield with no parameters' do
-      'def simple(arga, argb, &blk) f(3);yield; end'.should_not reek
-    end
-    it 'should not report yield with few parameters' do
-      'def simple(arga, argb, &blk) f(3);yield a,b; end'.should_not reek
-    end
-    it 'should report yield with many parameters' do
-      'def simple(arga, argb, &blk) f(3);yield arga,argb,arga,argb; end'.should reek_only_of(:LongYieldList, /simple/, /yields/, /4/)
-    end
-    it 'should not report yield of a long expression' do
-      'def simple(arga, argb, &blk) f(3);yield(if @dec then argb else 5+3 end); end'.should_not reek
-    end
-  end
 end
 
 require 'spec/reek/smells/smell_detector_shared'
@@ -82,7 +67,7 @@ describe LongParameterList do
 
   it_should_behave_like 'SmellDetector'
 
-  context 'when the method has 30 parameters' do
+  context 'looking at the YAML' do
     before :each do
       @num_parameters = 30
       @ctx = mock('method_context', :null_object => true)
@@ -90,9 +75,22 @@ describe LongParameterList do
       @detector.examine_context(@ctx)
       @yaml = @detector.smells_found.to_a[0].to_yaml   # SMELL: too cumbersome!
     end
-    it 'reports the number of statements' do
+    it 'reports the source' do
+      @yaml.should match(/source:\s*???/)
+    end
+    it 'reports the class' do
+      @yaml.should match(/class:\s*LongParameterList/)
+    end
+    it 'reports the subclass' do
+      @yaml.should match(/subclass:\s*LongParameterList/)
+    end
+    it 'reports the number of parameters' do
       @yaml.should match(/parameter_count:[\s]*#{@num_parameters}/)
       # SMELL: many tests duplicate the names of the YAML fields
+    end
+    it 'reports the line number of the method' do
+      pending
+      @yaml.should match(/lines:\s*- 1/)
     end
   end
 end

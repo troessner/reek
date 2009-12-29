@@ -104,8 +104,8 @@ end
 EOS
         source = src.to_reek_source
         sniffer = Sniffer.new(source)
-        mctx = CodeParser.new(sniffer).process_defn(source.syntax_tree)
-        @result = @detector.find_deepest_iterators(mctx)
+        @mctx = CodeParser.new(sniffer).process_defn(source.syntax_tree)
+        @result = @detector.find_deepest_iterators(@mctx)
       end
       it 'returns only the deepest iterator' do
         @result.length.should == 1
@@ -115,6 +115,20 @@ EOS
       end
       it 'refers to the innermost exp' do
         @result[0][0].line.should == 3
+      end
+
+      context 'when reporting yaml' do
+        before :each do
+          @detector.examine_context(@mctx)
+          warning = @detector.smells_found.to_a[0]   # SMELL: too cumbersome!
+          @yaml = warning.to_yaml
+        end
+        it 'reports the depth' do
+          @yaml.should match(/depth:\s*2/)
+        end
+        it 'reports the deepest line number' do
+          @yaml.should match(/lines:[\s-]*3/)
+        end
       end
     end
   end

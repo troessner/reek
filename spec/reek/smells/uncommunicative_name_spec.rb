@@ -67,6 +67,43 @@ describe UncommunicativeName, "local variable name" do
     src = 'def clean(text) text.each { q2 = 3 } end'
     src.should reek_of(:UncommunicativeName, /q2/)
   end
+
+  context 'looking at the YAML' do
+    before :each do
+      src = <<EOS
+def bad
+  unless @mod then
+     x2 = xy.to_s
+     x2
+  end
+end
+EOS
+      @detector = UncommunicativeName.new
+      source = src.to_reek_source
+      sniffer = Sniffer.new(source)
+      @mctx = CodeParser.new(sniffer).process_defn(source.syntax_tree)
+      @detector.examine(@mctx)
+      warning = @detector.smells_found.to_a[0]   # SMELL: too cumbersome!
+      @yaml = warning.to_yaml
+    end
+    it 'reports the source' do
+      pending
+      @yaml.should match(/source:\s*string/)
+    end
+    it 'reports the class' do
+      @yaml.should match(/class:\s*UncommunicativeName/)
+    end
+    it 'reports the subclass' do
+      @yaml.should match(/subclass:\s*UncommunicativeVariableName/)
+    end
+    it 'reports the variable name' do
+      @yaml.should match(/variable_name:\s*x2/)
+    end
+    it 'reports the line number of the first use' do
+      pending
+      @yaml.should match(/lines:\s*- 3/)
+    end
+  end
 end
 
 describe UncommunicativeName, "parameter name" do

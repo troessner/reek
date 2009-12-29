@@ -79,6 +79,10 @@ EOS
       it 'reports the number of occurrences' do
         @yaml.should match(/occurrences:\s*3/)
       end
+      it 'reports the referring lines' do
+        pending
+        @yaml.should match(/lines:\s*- 3\s*- 6\s*- 11/)
+      end
     end
   end
 

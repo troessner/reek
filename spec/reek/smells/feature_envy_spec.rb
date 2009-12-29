@@ -204,4 +204,33 @@ describe FeatureEnvy do
   end
 
   it_should_behave_like 'SmellDetector'
+
+  context 'when reporting yaml' do
+    before :each do
+      src = <<EOS
+def envious(other)
+  other.call
+  self.do_nothing
+  other.other
+  other.fred
+end
+EOS
+      source = src.to_reek_source
+      sniffer = Sniffer.new(source)
+      @mctx = CodeParser.new(sniffer).process_defn(source.syntax_tree)
+      @detector.examine_context(@mctx)
+      warning = @detector.smells_found.to_a[0]   # SMELL: too cumbersome!
+      @yaml = warning.to_yaml
+    end
+    it 'reports the envious receiver' do
+      @yaml.should match(/receiver:\s*other/)
+    end
+    it 'reports the number of references' do
+      @yaml.should match(/references:\s*3/)
+    end
+    it 'reports the referring lines' do
+      pending
+      @yaml.should match(/lines:\s*- 2\s*- 4\s*- 5/)
+    end
+  end
 end

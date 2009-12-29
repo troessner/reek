@@ -50,4 +50,34 @@ describe Duplication do
   end
 
   it_should_behave_like 'SmellDetector'
+
+  context 'looking at the YAML' do
+    before :each do
+      src = <<EOS
+def double_thing(other)
+  other[@thing]
+  other[@thing]
+end
+EOS
+      source = src.to_reek_source
+      sniffer = Sniffer.new(source)
+      @mctx = CodeParser.new(sniffer).process_defn(source.syntax_tree)
+      @detector.examine(@mctx)
+      warning = @detector.smells_found.to_a[0]   # SMELL: too cumbersome!
+      @yaml = warning.to_yaml
+    end
+    it 'reports the class' do
+      @yaml.should match(/class:\s*Duplication/)
+    end
+    it 'reports the subclass' do
+      @yaml.should match(/subclass:\s*DuplicateMethodCall/)
+    end
+    it 'reports the call' do
+      @yaml.should match(/call:\s*other\[\@thing\]/)
+    end
+    it 'reports the correct lines' do
+      pending
+      @yaml.should match(/lines:\s*- 2\s*- 3/)
+    end
+  end
 end
