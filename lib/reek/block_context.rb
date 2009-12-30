@@ -18,10 +18,6 @@ module Reek
         @names = [Name.new(arg)]
       end
     end
-
-    def include?(name)
-      names.include?(name)
-    end
   end
 
   #
@@ -50,10 +46,6 @@ module Reek
       @scope_connector = '/'
       @parameters = exp[2] || []
       @parameters.extend(ParameterSet)
-    end
-
-    def has_parameter(name)
-      @parameters.include?(name) or @outer.has_parameter(name)
     end
     
     def variable_names
