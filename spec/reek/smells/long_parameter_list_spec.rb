@@ -60,7 +60,8 @@ require 'spec/reek/smells/smell_detector_shared'
 
 describe LongParameterList do
   before(:each) do
-    @detector = LongParameterList.new('', {})
+    @source_name = 'smokin'
+    @detector = LongParameterList.new(@source_name, {})
     # SMELL: can't use the default config, because that contains an override,
     # which causes the mocked matches?() method to be called twice!!
   end
@@ -76,7 +77,7 @@ describe LongParameterList do
       @yaml = @detector.smells_found.to_a[0].to_yaml   # SMELL: too cumbersome!
     end
     it 'reports the source' do
-      @yaml.should match(/source:\s*???/)
+      @yaml.should match(/source:\s*#{@source_name}/)
     end
     it 'reports the class' do
       @yaml.should match(/class:\s*LongParameterList/)

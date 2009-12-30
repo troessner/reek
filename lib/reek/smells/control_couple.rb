@@ -35,7 +35,7 @@ module Reek
     class ControlCouple < SmellDetector
 
       def self.contexts      # :nodoc:
-        [:if]
+        [:defn, :defs]
       end
 
       #
@@ -43,9 +43,23 @@ module Reek
       # Remembers any smells found.
       #
       def examine_context(ctx)
-        return unless ctx.tests_a_parameter?
-        param = SexpFormatter.format(ctx.if_expr)
-        found(ctx, "is controlled by argument #{param}", '', {'parameter' => param})
+        control_parameters(ctx).each do |cond, occurs|
+          param = SexpFormatter.format(cond)
+          lines = occurs.map {|exp| exp.line}
+          found(ctx, "is controlled by argument #{param}",
+            'ControlParameter', {'parameter' => param}, lines)
+        end
+      end
+
+      def control_parameters(ctx)
+        result = Hash.new {|hash,key| hash[key] = []}
+        ctx.local_nodes(:if) do |if_node|
+          cond = if_node[1]
+          if cond[0] == :lvar and ctx.has_parameter(cond[1])
+            result[cond].push(cond)
+          end
+        end
+        result
       end
     end
   end

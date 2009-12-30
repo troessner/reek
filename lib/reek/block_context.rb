@@ -52,16 +52,8 @@ module Reek
       @parameters.extend(ParameterSet)
     end
 
-    def inside_a_block?
-      true
-    end
-
     def has_parameter(name)
       @parameters.include?(name) or @outer.has_parameter(name)
-    end
-
-    def nested_block?
-      @outer.inside_a_block?
     end
     
     def variable_names

@@ -60,7 +60,7 @@ Feature: Basic smell detection
     Then the exit status indicates smells
     And it reports:
     """
-    spec/samples/optparse.rb -- 123 warnings:
+    spec/samples/optparse.rb -- 119 warnings:
       OptionParser has at least 42 methods (Large Class)
       OptionParser tests ((argv.size == 1) and Array.===(argv[0])) at least 3 times (Simulated Polymorphism)
       OptionParser tests a at least 7 times (Simulated Polymorphism)
@@ -72,7 +72,6 @@ Feature: Basic smell detection
       OptionParser#complete has boolean parameter icase (Boolean Parameter)
       OptionParser#getopts calls result[opt] = false twice (Duplication)
       OptionParser#getopts has approx 17 statements (Long Method)
-      OptionParser#getopts/block is controlled by argument val (Control Couple)
       OptionParser#load/block has the variable name 's' (Uncommunicative Name)
       OptionParser#make_switch calls (long << o = q.downcase) twice (Duplication)
       OptionParser#make_switch calls (sdesc << "-#{q}") twice (Duplication)
@@ -113,7 +112,7 @@ Feature: Basic smell detection
       OptionParser#parse_in_order contains iterators nested 2 deep (Nested Iterators)
       OptionParser#parse_in_order contains iterators nested 3 deep (Nested Iterators)
       OptionParser#parse_in_order has approx 28 statements (Long Method)
-      OptionParser#parse_in_order/block is controlled by argument setter (Control Couple)
+      OptionParser#parse_in_order is controlled by argument setter (Control Couple)
       OptionParser#permute calls argv[0] twice (Duplication)
       OptionParser#permute refers to argv more than self (Feature Envy)
       OptionParser#search/block has the variable name 'k' (Uncommunicative Name)
@@ -124,11 +123,8 @@ Feature: Basic smell detection
       OptionParser/block has the variable name 'k' (Uncommunicative Name)
       OptionParser/block has the variable name 'o' (Uncommunicative Name)
       OptionParser/block has the variable name 's' (Uncommunicative Name)
-      OptionParser/block is controlled by argument o (Control Couple)
-      OptionParser/block is controlled by argument s (Control Couple)
       OptionParser/block/block has the variable name 's' (Uncommunicative Name)
       OptionParser/block/block has the variable name 'v' (Uncommunicative Name)
-      OptionParser/block/block is controlled by argument pkg (Control Couple)
       OptionParser::CompletingHash#match contains iterators nested 2 deep (Nested Iterators)
       OptionParser::Completion#complete calls candidates.size twice (Duplication)
       OptionParser::Completion#complete calls k.id2name twice (Duplication)
@@ -221,7 +217,7 @@ Feature: Basic smell detection
       RedCloth#blocks contains iterators nested 2 deep (Nested Iterators)
       RedCloth#blocks has approx 18 statements (Long Method)
       RedCloth#blocks has boolean parameter deep_code (Boolean Parameter)
-      RedCloth#blocks/block is controlled by argument deep_code (Control Couple)
+      RedCloth#blocks is controlled by argument deep_code (Control Couple)
       RedCloth#check_refs is controlled by argument text (Control Couple)
       RedCloth#clean_html calls tags[tag] twice (Duplication)
       RedCloth#clean_html contains iterators nested 3 deep (Nested Iterators)

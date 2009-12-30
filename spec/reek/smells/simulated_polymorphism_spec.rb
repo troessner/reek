@@ -9,7 +9,8 @@ include Reek::Smells
 
 describe SimulatedPolymorphism do
   before :each do
-    @detector = SimulatedPolymorphism.new
+    @source_name = 'howdy-doody'
+    @detector = SimulatedPolymorphism.new(@source_name)
   end
 
   it_should_behave_like 'SmellDetector'
@@ -37,6 +38,7 @@ describe SimulatedPolymorphism do
       src = <<EOS
 class Scrunch
   def first
+    puts "hello" if @debug
     return #{@cond} ? 0 : 3;
   end
   def second
@@ -54,14 +56,11 @@ EOS
       @ctx = CodeContext.new(nil, ast)
       @conds = @detector.conditional_counts(@ctx)
     end
-    it 'finds one matching conditional' do
-      @conds.length.should == 1
-    end
-    it 'returns the condition expr' do
-      @conds.keys[0].should == @cond_expr
+    it 'finds both conditionals' do
+      @conds.length.should == 2
     end
     it 'knows there are three copies' do
-      @conds[@cond_expr].should == 3
+      @conds[@cond_expr].length.should == 3
     end
 
     context 'looking at the YAML' do
@@ -69,6 +68,12 @@ EOS
         @detector.examine(@ctx)
         warning = @detector.smells_found.to_a[0]   # SMELL: too cumbersome!
         @yaml = warning.to_yaml
+      end
+      it 'reports the source' do
+        @yaml.should match(/source:\s*#{@source_name}/)
+      end
+      it 'reports the class' do
+        @yaml.should match(/class:\s*SimulatedPolymorphism/)
       end
       it 'reports the subclass' do
         @yaml.should match(/subclass:\s*RepeatedConditional/)
@@ -80,8 +85,7 @@ EOS
         @yaml.should match(/occurrences:\s*3/)
       end
       it 'reports the referring lines' do
-        pending
-        @yaml.should match(/lines:\s*- 3\s*- 6\s*- 11/)
+        @yaml.should match(/lines:\s*- 4\s*- 7\s*- 12/)
       end
     end
   end
@@ -115,7 +119,7 @@ EOS
       @conds.keys[0].should == @cond_expr
     end
     it 'knows there are three copies' do
-      @conds[@cond_expr].should == 2
+      @conds[@cond_expr].length.should == 2
     end
   end
 

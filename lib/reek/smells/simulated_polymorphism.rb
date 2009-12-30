@@ -47,12 +47,12 @@ module Reek
       # Remembers any smells found.
       #
       def examine_context(klass)
-        conditional_counts(klass).each do |key, val|
-          next unless val > value(MAX_IDENTICAL_IFS_KEY, klass, DEFAULT_MAX_IFS)
+        conditional_counts(klass).each do |key, lines|
+          occurs = lines.length
+          next unless occurs > value(MAX_IDENTICAL_IFS_KEY, klass, DEFAULT_MAX_IFS)
           expr = SexpFormatter.format(key)
-          found(klass, "tests #{expr} at least #{val} times",
-            'RepeatedConditional', {'expression' => expr, 'occurrences' => val})
-          # TODO: report the lines on which the expression is tested
+          found(klass, "tests #{expr} at least #{occurs} times",
+            'RepeatedConditional', {'expression' => expr, 'occurrences' => occurs}, lines)
         end
       end
 
@@ -62,10 +62,11 @@ module Reek
       # occurs. Ignores nested classes and modules.
       #
       def conditional_counts(klass)
-        result = Hash.new(0)
+        result = Hash.new {|hash,key| hash[key] = []}
         collector = proc { |node|
           condition = node.condition
-          result[condition] += 1 unless condition == s(:call, nil, :block_given?, s(:arglist))
+          next if condition == s(:call, nil, :block_given?, s(:arglist))
+          result[condition].push(condition.line)
         }
         [:if, :case].each {|stmt| klass.local_nodes(stmt, &collector) }
         result

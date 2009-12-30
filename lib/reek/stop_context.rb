@@ -27,10 +27,6 @@ module Reek
     def full_name
       ''
     end
-    
-    def inside_a_block?
-      false
-    end
 
     def is_overriding_method?(name)
       false
