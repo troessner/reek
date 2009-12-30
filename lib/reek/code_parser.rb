@@ -3,7 +3,6 @@ require 'reek/block_context'
 require 'reek/class_context'
 require 'reek/module_context'
 require 'reek/stop_context'
-require 'reek/if_context'
 require 'reek/method_context'
 require 'reek/singleton_method_context'
 require 'reek/yield_call_context'
@@ -109,7 +108,7 @@ module Reek
     def process_if(exp)
       count_clause(exp[2])
       count_clause(exp[3])
-      handle_context(IfContext, exp[0], exp)
+      process_default(exp)
       @element.count_statements(-1)
     end
 

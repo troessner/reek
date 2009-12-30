@@ -1,7 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper.rb'
 
 require 'reek/block_context'
-require 'reek/if_context'
 require 'reek/class_context'
 require 'reek/module_context'
 require 'reek/method_context'
@@ -22,13 +21,6 @@ describe CodeContext do
       element.full_name.should match(/mod/)
     end
 
-    it 'reports the method name via if context' do
-      element1 = StopContext.new
-      element2 = MethodContext.new(element1, [0, :bad])
-      element3 = IfContext.new(element2, [0,1])
-      BlockContext.new(element3, s(nil, nil)).full_name.should match(/bad/)
-    end
-
     it 'reports the method name via nested blocks' do
       element1 = StopContext.new
       element2 = MethodContext.new(element1, [0, :bad])
@@ -39,8 +31,8 @@ describe CodeContext do
       outer_name = 'randomstring'
       outer = mock('outer')
       outer.should_receive(:full_name).and_return(outer_name)
-      ifc = IfContext.new(outer, s(:if, s()))
-      ifc.full_name.should == outer_name
+      ifc = BlockContext.new(outer, s(:if, s()))
+      ifc.full_name.should == "#{outer_name}/block"
     end
   end
 
