@@ -70,17 +70,24 @@ describe LongParameterList do
 
   context 'looking at the YAML' do
     before :each do
-      @num_parameters = 30
-      @ctx = mock('method_context', :null_object => true)
-      @ctx.should_receive(:parameters).and_return([0]*@num_parameters)
-      @detector.examine_context(@ctx)
-      @yaml = @detector.smells_found.to_a[0].to_yaml   # SMELL: too cumbersome!
+      src = <<EOS
+def badguy(arga, argb, argc, argd)
+  f(3)
+  true
+end
+EOS
+      source = src.to_reek_source
+      sniffer = Sniffer.new(source)
+      @mctx = CodeParser.new(sniffer).process_defn(source.syntax_tree)
+      @detector.examine_context(@mctx)
+      warning = @detector.smells_found.to_a[0]   # SMELL: too cumbersome!
+      @yaml = warning.to_yaml
     end
     it 'reports the source' do
       @yaml.should match(/source:\s*#{@source_name}/)
     end
     it 'reports the class' do
-      @yaml.should match(/class:\s*LongParameterList/)
+      @yaml.should match(/\sclass:\s*LongParameterList/)
     end
     it 'reports the subclass' do
       @yaml.should match(/subclass:\s*LongParameterList/)
@@ -90,7 +97,6 @@ describe LongParameterList do
       # SMELL: many tests duplicate the names of the YAML fields
     end
     it 'reports the line number of the method' do
-      pending
       @yaml.should match(/lines:\s*- 1/)
     end
   end
