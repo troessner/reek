@@ -29,7 +29,7 @@ describe YamlCommand do
 
   context 'with smells' do
     def report_on(listener)
-      @smell = SmellWarning.new(Smells::UncommunicativeName.new, "self", 27, "self", true)
+      @smell = SmellWarning.new('UncommunicativeName', "self", 27, "self", true)
       listener.found_smell(@smell)
     end
     before :each do

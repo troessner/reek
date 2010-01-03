@@ -8,7 +8,7 @@ include Reek::Smells
 
 describe LongYieldList do
   before(:each) do
-    @detector = LongYieldList.new('', {})
+    @detector = LongYieldList.new
     # SMELL: can't use the default config, because that contains an override,
     # which causes the mocked matches?() method to be called twice!!
   end
@@ -32,11 +32,18 @@ describe LongYieldList do
 
   context 'looking at the YAML' do
     before :each do
-      @num_parameters = 30
-      @ctx = mock('method_context', :null_object => true)
-      @ctx.should_receive(:parameters).and_return([0]*@num_parameters)
-      @detector.examine_context(@ctx)
-      @yaml = @detector.smells_found.to_a[0].to_yaml   # SMELL: too cumbersome!
+      src = <<EOS
+def simple(arga, argb, &blk)
+  f(3)
+  yield(arga,argb,arga,argb)
+  end
+EOS
+      source = src.to_reek_source
+      sniffer = Sniffer.new(source)
+      @mctx = CodeParser.new(sniffer).process_defn(source.syntax_tree)
+      @detector.examine_context(@mctx)
+      warning = @detector.smells_found.to_a[0]   # SMELL: too cumbersome!
+      @yaml = warning.to_yaml
     end
     it 'reports the source' do
       @yaml.should match(/source:\s*???/)
@@ -45,7 +52,6 @@ describe LongYieldList do
       @yaml.should match(/class:\s*LongParameterList/)
     end
     it 'reports the subclass' do
-      pending
       @yaml.should match(/subclass:\s*LongYieldList/)
     end
     it 'reports the number of parameters' do
@@ -53,8 +59,7 @@ describe LongYieldList do
       # SMELL: many tests duplicate the names of the YAML fields
     end
     it 'reports the line number of the method' do
-      pending
-      @yaml.should match(/lines:\s*- 1/)
+      @yaml.should match(/lines:\s*- 3/)
     end
   end
 end

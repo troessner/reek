@@ -67,6 +67,13 @@ module Reek
       def args() self[2] end
       def block() self[3] end
     end
+
+    module YieldNode
+      def args() self[1..-1] end
+      def arg_names
+        args.map {|arg| arg[1]}
+      end
+    end
   end
 
   #

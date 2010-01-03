@@ -32,7 +32,6 @@ module Reek
 
       def initialize(source = '???', config = LongParameterList.default_config)
         super(source, config)
-        @action = 'has'
       end
 
       #
@@ -42,7 +41,7 @@ module Reek
       def examine_context(ctx)
         num_params = ctx.parameters.length
         return false if num_params <= value(MAX_ALLOWED_PARAMS_KEY, ctx, DEFAULT_MAX_ALLOWED_PARAMS)
-        found(ctx, "#{@action} #{num_params} parameters",
+        found(ctx, "has #{num_params} parameters",
           'LongParameterList', {'parameter_count' => num_params})
       end
     end

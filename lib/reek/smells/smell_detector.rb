@@ -91,7 +91,7 @@ module Reek
 
       def found(context, message, subclass = '', parameters = {}, lines = nil)
         lines ||= [context.exp.line]        # SMELL: nil?!?!?! Yuk
-        smell = SmellWarning.new(self, context.full_name, lines, message, @masked,
+        smell = SmellWarning.new(self.class.name.split(/::/)[-1], context.full_name, lines, message, @masked,
           @source, subclass, parameters)
         @smells_found << smell
         smell

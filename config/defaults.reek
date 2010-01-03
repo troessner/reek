@@ -76,6 +76,3 @@ LongYieldList:
   exclude: []
 
   enabled: true
-  overrides: 
-    initialize: 
-      max_params: 5

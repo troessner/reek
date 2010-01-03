@@ -13,7 +13,7 @@ module Reek
     def initialize(detector_class, context, lines, message, masked,
         source = '', subclass = '', parameters = {})
       @smell = {
-        'class' => detector_class.class.name.split(/::/)[-1],
+        'class' => detector_class,
         'subclass' => subclass,
         'message' => message,
       }

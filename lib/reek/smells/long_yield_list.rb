@@ -7,15 +7,44 @@ module Reek
     # A variant on LongParameterList that checks the number of items
     # passed to a block by a +yield+ call.
     #
-    class LongYieldList < LongParameterList
+    class LongYieldList < SmellDetector
 
       def self.contexts      # :nodoc:
-        [:yield]
+        [:defn, :defs]
+      end
+
+      # The name of the config field that sets the maximum number of
+      # parameters permitted in any method or block.
+      MAX_ALLOWED_PARAMS_KEY = 'max_params'
+
+      # The default value of the +MAX_ALLOWED_PARAMS_KEY+ configuration
+      # value.
+      DEFAULT_MAX_ALLOWED_PARAMS = 3
+
+      def self.default_config
+        super.adopt(
+          MAX_ALLOWED_PARAMS_KEY => DEFAULT_MAX_ALLOWED_PARAMS
+        )
       end
 
       def initialize(source = '???', config = LongYieldList.default_config)
         super(source, config)
-        @action = 'yields'
+      end
+
+      #
+      # Checks the number of parameters in the given scope.
+      # Remembers any smells found.
+      #
+      def examine_context(method_ctx)
+        method_ctx.local_nodes(:yield).each do |yield_node|
+          num_params = yield_node.args.length
+          next if num_params <= value(MAX_ALLOWED_PARAMS_KEY, method_ctx, DEFAULT_MAX_ALLOWED_PARAMS)
+          smell = SmellWarning.new('LongParameterList', method_ctx.full_name, [yield_node.line],
+            "yields #{num_params} parameters", @masked,
+            @source, 'LongYieldList', {'parameter_count' => num_params})
+          @smells_found << smell
+          #SMELL: serious duplication
+        end
       end
     end
   end
