@@ -40,14 +40,18 @@ require 'spec/reek/smells/smell_detector_shared'
 
 describe BooleanParameter do
   before(:each) do
-    @detector = BooleanParameter.new
+    @source_name = 'smokin'
+    @detector = BooleanParameter.new(@source_name)
   end
 
   it_should_behave_like 'SmellDetector'
 
   context 'looking at the YAML' do
     before :each do
-      src = 'def cc(arga = true) end'
+      src = <<EOS
+def cc(arga = true)
+end
+EOS
       source = src.to_reek_source
       sniffer = Sniffer.new(source)
       @mctx = CodeParser.new(sniffer).process_defn(source.syntax_tree)
@@ -55,19 +59,19 @@ describe BooleanParameter do
       warning = @detector.smells_found.to_a[0]   # SMELL: too cumbersome!
       @yaml = warning.to_yaml
     end
+    it 'reports the source' do
+      @yaml.should match(/source:\s*#{@source_name}/)
+    end
     it 'reports the class' do
-      pending
-      @yaml.should match(/class:\s*ControlCouple/)
+      @yaml.should match(/\sclass:\s*ControlCouple/)
     end
     it 'reports the subclass' do
-      pending
       @yaml.should match(/subclass:\s*BooleanParameter/)
     end
     it 'reports the parameter name' do
       @yaml.should match(/parameter:\s*arga/)
     end
     it 'reports the correct line' do
-      pending
       @yaml.should match(/lines:\s*- 1/)
     end
   end

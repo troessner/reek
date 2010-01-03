@@ -108,8 +108,8 @@ Feature: Report smells using simple YAML layout
           source: $stdin
         smell: 
           parameter: arg
-          class: BooleanParameter
-          subclass: ""
+          class: ControlCouple
+          subclass: BooleanParameter
           message: has boolean parameter arg
 
       """

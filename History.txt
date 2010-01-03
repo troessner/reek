@@ -5,7 +5,6 @@
 
 === Minor Changes
 * New smell: Irresponsible Module (has no meaningful comment)
-* New smell: BooleanParameter (used to be part of ControlCouple)
 * ControlCouple no longer checks arguments yielded to blocks
 * NestedIterators now reports the nesting depth
 * Fixed problem checking for Utility Functions in Object

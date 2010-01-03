@@ -21,10 +21,14 @@ module Reek
       # Checks whether the given method has a Boolean parameter.
       # Remembers any smells found.
       #
-      def examine_context(ctx)
-        ctx.parameters.default_assignments.each do |param, value|
+      def examine_context(method_ctx)
+        method_ctx.parameters.default_assignments.each do |param, value|
           next unless [:true, :false].include?(value[0])
-          found(ctx, "has boolean parameter #{param.to_s}", '', {'parameter' => param.to_s})
+          smell = SmellWarning.new('ControlCouple', method_ctx.full_name, [method_ctx.exp.line],
+            "has boolean parameter #{param.to_s}", @masked,
+            @source, 'BooleanParameter', {'parameter' => param.to_s})
+          @smells_found << smell
+          #SMELL: serious duplication
         end
       end
     end
