@@ -5,7 +5,6 @@ require 'reek/module_context'
 require 'reek/stop_context'
 require 'reek/method_context'
 require 'reek/singleton_method_context'
-require 'reek/yield_call_context'
 
 module Reek
   #
@@ -56,10 +55,6 @@ module Reek
 
     def process_args(exp) end
 
-    def process_attrset(exp)
-      @element.record_depends_on_self if /^@/ === exp[1].to_s
-    end
-
     def process_zsuper(exp)
       @element.record_use_of_self
     end
@@ -84,17 +79,9 @@ module Reek
       process_default(exp)
     end
 
-    def process_yield(exp)
-      handle_context(YieldCallContext, exp[0], exp)
-    end
-
     def process_call(exp)
       @element.record_call_to(exp)
       process_default(exp)
-    end
-
-    def process_cfunc(exp)
-      @element.record_depends_on_self
     end
 
     def process_attrasgn(exp)

@@ -39,23 +39,24 @@ module Reek
       end
 
       #
-      # Checks whether the given conditional statement relies on a control couple.
+      # Checks whether the given method chooses its execution path
+      # by testing the value of one of its parameters.
       # Remembers any smells found.
       #
-      def examine_context(ctx)
-        control_parameters(ctx).each do |cond, occurs|
+      def examine_context(method_ctx)
+        control_parameters(method_ctx).each do |cond, occurs|
           param = SexpFormatter.format(cond)
           lines = occurs.map {|exp| exp.line}
-          found(ctx, "is controlled by argument #{param}",
+          found(method_ctx, "is controlled by argument #{param}",
             'ControlParameter', {'parameter' => param}, lines)
         end
       end
 
-      def control_parameters(ctx)
+      def control_parameters(method_ctx)
         result = Hash.new {|hash,key| hash[key] = []}
-        ctx.local_nodes(:if) do |if_node|
+        method_ctx.local_nodes(:if) do |if_node|
           cond = if_node[1]
-          if cond[0] == :lvar and ctx.has_parameter(cond[1])
+          if cond[0] == :lvar and method_ctx.has_parameter(cond[1])
             result[cond].push(cond)
           end
         end

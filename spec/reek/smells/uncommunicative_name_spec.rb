@@ -78,7 +78,8 @@ def bad
   end
 end
 EOS
-      @detector = UncommunicativeName.new
+      @source_name = 'wallamalloo'
+      @detector = UncommunicativeName.new(@source_name)
       source = src.to_reek_source
       sniffer = Sniffer.new(source)
       @mctx = CodeParser.new(sniffer).process_defn(source.syntax_tree)
@@ -87,8 +88,7 @@ EOS
       @yaml = warning.to_yaml
     end
     it 'reports the source' do
-      pending
-      @yaml.should match(/source:\s*string/)
+      @yaml.should match(/source:\s*#{@source_name}/)
     end
     it 'reports the class' do
       @yaml.should match(/class:\s*UncommunicativeName/)

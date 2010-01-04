@@ -30,7 +30,7 @@ module Reek
         super.adopt(MAX_ALLOWED_CALLS_KEY => DEFAULT_MAX_CALLS)
       end
 
-      def initialize(source = '???', config = Duplication.default_config)
+      def initialize(source, config = Duplication.default_config)
         super(source, config)
       end
 

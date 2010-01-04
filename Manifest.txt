@@ -32,7 +32,6 @@ lib/reek/code_parser.rb
 lib/reek/configuration.rb
 lib/reek/detector_stack.rb
 lib/reek/help_command.rb
-lib/reek/if_context.rb
 lib/reek/masking_collection.rb
 lib/reek/method_context.rb
 lib/reek/module_context.rb
@@ -64,7 +63,6 @@ lib/reek/stop_context.rb
 lib/reek/tree_dresser.rb
 lib/reek/version_command.rb
 lib/reek/yaml_command.rb
-lib/reek/yield_call_context.rb
 reek.gemspec
 spec/reek/adapters/report_spec.rb
 spec/reek/adapters/should_reek_of_spec.rb
@@ -79,7 +77,6 @@ spec/reek/code_parser_spec.rb
 spec/reek/config_spec.rb
 spec/reek/configuration_spec.rb
 spec/reek/help_command_spec.rb
-spec/reek/if_context_spec.rb
 spec/reek/masking_collection_spec.rb
 spec/reek/method_context_spec.rb
 spec/reek/module_context_spec.rb
@@ -101,6 +98,7 @@ spec/reek/smells/irresponsible_module_spec.rb
 spec/reek/smells/large_class_spec.rb
 spec/reek/smells/long_method_spec.rb
 spec/reek/smells/long_parameter_list_spec.rb
+spec/reek/smells/long_yield_list_spec.rb
 spec/reek/smells/nested_iterators_spec.rb
 spec/reek/smells/simulated_polymorphism_spec.rb
 spec/reek/smells/smell_detector_shared.rb

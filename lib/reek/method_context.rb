@@ -74,12 +74,10 @@ module Reek
   #
   class MethodContext < VariableContainer
     attr_reader :parameters
-    attr_reader :calls
     attr_reader :refs
     attr_reader :num_statements
 
     def initialize(outer, exp)
-      # SMELL: Unused Parameter
       super(outer, exp)
       @parameters = exp[exp[0] == :defn ? 2 : 3]  # SMELL: SimulatedPolymorphism
       @parameters ||= []
@@ -87,7 +85,6 @@ module Reek
       @name = Name.new(exp[1])
       @scope_connector = '#'
       @num_statements = 0
-      @calls = Hash.new(0)
       @depends_on_self = false
       @refs = ObjectRefs.new
       @outer.record_method(self)    # SMELL: these could be found by tree walking
@@ -106,7 +103,6 @@ module Reek
     end
 
     def record_call_to(exp)
-      @calls[exp] += 1
       record_receiver(exp)
     end
 

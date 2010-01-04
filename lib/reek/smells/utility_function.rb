@@ -30,7 +30,7 @@ module Reek
         super.adopt(HELPER_CALLS_LIMIT_KEY => DEFAULT_HELPER_CALLS_LIMIT)
       end
 
-      def initialize(source = '???', config = UtilityFunction.default_config)
+      def initialize(source, config = UtilityFunction.default_config)
         super(source, config)
       end
 
@@ -38,12 +38,16 @@ module Reek
       # Checks whether the given +method+ is a utility function.
       # Remembers any smells found.
       #
-      def examine_context(method)
-        return false if method.num_statements == 0 or
-          method.depends_on_instance? or
-          method.calls.keys.length <= value(HELPER_CALLS_LIMIT_KEY, method, DEFAULT_HELPER_CALLS_LIMIT)
+      def examine_context(method_ctx)
+        return false if method_ctx.num_statements == 0 or
+          method_ctx.depends_on_instance? or
+          num_helper_methods(method_ctx) <= value(HELPER_CALLS_LIMIT_KEY, method_ctx, DEFAULT_HELPER_CALLS_LIMIT)
           # SMELL: loads of calls to value{} with the above pattern
-        found(method, "doesn't depend on instance state")
+        found(method_ctx, "doesn't depend on instance state", 'UtilityFunction')
+      end
+
+      def num_helper_methods(method_ctx)
+        method_ctx.local_nodes(:call).length
       end
     end
   end

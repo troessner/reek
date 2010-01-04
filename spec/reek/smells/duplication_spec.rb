@@ -45,7 +45,8 @@ require 'spec/reek/smells/smell_detector_shared'
 
 describe Duplication do
   before(:each) do
-    @detector = Duplication.new
+    @source_name = 'copy-cat'
+    @detector = Duplication.new(@source_name)
   end
 
   it_should_behave_like 'SmellDetector'
@@ -65,6 +66,9 @@ EOS
       @detector.examine(@mctx)
       warning = @detector.smells_found.to_a[0]   # SMELL: too cumbersome!
       @yaml = warning.to_yaml
+    end
+    it 'reports the source' do
+      @yaml.should match(/source:\s*#{@source_name}/)
     end
     it 'reports the class' do
       @yaml.should match(/class:\s*Duplication/)
