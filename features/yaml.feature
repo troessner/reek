@@ -31,7 +31,8 @@ Feature: Report smells using simple YAML layout
         is_masked: false
         location: 
           lines: 
-          - 3
+          - 4
+          - 6
           context: Dirty#a
           source: spec/samples/masked/dirty.rb
         smell: 
@@ -44,7 +45,8 @@ Feature: Report smells using simple YAML layout
         is_masked: false
         location: 
           lines: 
-          - 3
+          - 5
+          - 7
           context: Dirty#a
           source: spec/samples/masked/dirty.rb
         smell: 

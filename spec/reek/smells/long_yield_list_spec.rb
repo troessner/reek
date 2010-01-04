@@ -8,7 +8,8 @@ include Reek::Smells
 
 describe LongYieldList do
   before(:each) do
-    @detector = LongYieldList.new
+    @source_name = 'oo la la'
+    @detector = LongYieldList.new(@source_name)
     # SMELL: can't use the default config, because that contains an override,
     # which causes the mocked matches?() method to be called twice!!
   end
@@ -46,7 +47,7 @@ EOS
       @yaml = warning.to_yaml
     end
     it 'reports the source' do
-      @yaml.should match(/source:\s*???/)
+      @yaml.should match(/source:\s*#{@source_name}/)
     end
     it 'reports the class' do
       @yaml.should match(/class:\s*LongParameterList/)

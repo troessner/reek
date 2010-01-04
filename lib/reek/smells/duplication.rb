@@ -34,20 +34,28 @@ module Reek
         super(source, config)
       end
 
-      def examine_context(method)
-        smelly_calls(method).each do |call_data|
-          call = SexpFormatter.format(call_data[0])
-          num = call_data[1]
-          multiple = num == 2 ? 'twice' : "#{num} times"
-          found(method, "calls #{call} #{multiple}",
-            'DuplicateMethodCall', {'call' => call, 'occurrences' => num})
+      def examine_context(method_ctx)
+        calls(method_ctx).each do |call_exp, copies|
+          occurs = copies.length
+          next if occurs <= value(MAX_ALLOWED_CALLS_KEY, method_ctx, DEFAULT_MAX_CALLS)
+          call = SexpFormatter.format(call_exp)
+          multiple = occurs == 2 ? 'twice' : "#{occurs} times"
+          found(method_ctx, "calls #{call} #{multiple}",
+            'DuplicateMethodCall', {'call' => call, 'occurrences' => occurs},
+            copies.map {|exp| exp.line})
         end
       end
-      
-      def smelly_calls(method)   # :nodoc:
-        method.calls.select do |key,val|
-          val > value(MAX_ALLOWED_CALLS_KEY, method, DEFAULT_MAX_CALLS) and key[2] != :new
+
+      def calls(method_ctx)
+        result = Hash.new {|hash,key| hash[key] = []}
+        method_ctx.local_nodes(:call) do |call_node|
+          next if call_node.method_name == :new
+          result[call_node].push(call_node)
         end
+        method_ctx.local_nodes(:attrasgn) do |asgn_node|
+          result[asgn_node].push(asgn_node)
+        end
+        result
       end
     end
   end

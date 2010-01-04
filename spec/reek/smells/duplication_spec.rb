@@ -9,26 +9,25 @@ include Reek
 include Reek::Smells
 
 describe Duplication, "repeated method calls" do
-  it 'should report repeated call' do
+  it 'reports repeated call' do
     'def double_thing() @other.thing + @other.thing end'.should reek_only_of(:Duplication, /@other.thing/)
   end
-
-  it 'should report repeated call to lvar' do
+  it 'reports repeated call to lvar' do
     'def double_thing(other) other[@thing] + other[@thing] end'.should reek_only_of(:Duplication, /other\[@thing\]/)
   end
-
-  it 'should report call parameters' do
+  it 'reports call parameters' do
     'def double_thing() @other.thing(2,3) + @other.thing(2,3) end'.should reek_only_of(:Duplication, /@other.thing\(2, 3\)/)
   end
-
   it 'should report nested calls' do
     ruby = 'def double_thing() @other.thing.foo + @other.thing.foo end'.sniff
     ruby.should reek_of(:Duplication, /@other.thing[^\.]/)
     ruby.should reek_of(:Duplication, /@other.thing.foo/)
   end
-
   it 'should ignore calls to new' do
     'def double_thing() @other.new + @other.new end'.should_not reek
+  end
+  it 'reports repeated assignment' do
+    'def double_thing(thing) @other[thing] = true; @other[thing] = true; end'.should reek_only_of(:Duplication, /@other\[thing\] = true/)
   end
 end
 
@@ -56,6 +55,7 @@ describe Duplication do
       src = <<EOS
 def double_thing(other)
   other[@thing]
+  not_the_sam(at = all)
   other[@thing]
 end
 EOS
@@ -76,8 +76,7 @@ EOS
       @yaml.should match(/call:\s*other\[\@thing\]/)
     end
     it 'reports the correct lines' do
-      pending
-      @yaml.should match(/lines:\s*- 2\s*- 3/)
+      @yaml.should match(/lines:\s*- 2\s*- 4/)
     end
   end
 end
