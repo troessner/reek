@@ -3,3 +3,5 @@ Duplication:
   enabled: false
 UncommunicativeName:
   enabled: false
+UncommunicativeMethodName:
+  enabled: false

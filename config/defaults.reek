@@ -5,6 +5,15 @@ LargeClass:
 
   enabled: true
   max_instance_variables: 9
+UncommunicativeMethodName: 
+  accept: []
+
+  exclude: []
+
+  enabled: true
+  reject: 
+  - !ruby/regexp /^.$/
+  - !ruby/regexp /[0-9]$/
 LongParameterList: 
   max_params: 3
   exclude: []

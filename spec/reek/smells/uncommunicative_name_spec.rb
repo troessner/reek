@@ -6,21 +6,6 @@ require 'reek/smells/uncommunicative_name'
 include Reek
 include Reek::Smells
 
-describe UncommunicativeName, "method name" do
-  it 'should not report one-word method name' do
-    'def help(fred) basics(17) end'.should_not reek
-  end
-  it 'should report one-letter method name' do
-    'def x(fred) basics(17) end'.should reek_only_of(:UncommunicativeName, /x/)
-  end
-  it 'should report name of the form "x2"' do
-    'def x2(fred) basics(17) end'.should reek_only_of(:UncommunicativeName, /x2/)
-  end
-  it 'should report long name ending in a number' do
-    'def method2(fred) basics(17) end'.should reek_only_of(:UncommunicativeName, /method2/)
-  end
-end
-
 describe UncommunicativeName, "field name" do
   it 'should not report one-word field name' do
     #SMELL: shouldn't need comments, cos we're not testing that smell!
@@ -144,7 +129,7 @@ describe UncommunicativeName, "several names" do
   it 'should report all bad names' do
     ruby = 'class Oof; def y(x) @z = x end end'.sniff
     ruby.should reek_of(:UncommunicativeName, /'x'/)
-    ruby.should reek_of(:UncommunicativeName, /'y'/)
+    ruby.should reek_of(:UncommunicativeMethodName, /'y'/)
     ruby.should reek_of(:UncommunicativeName, /'@z'/)
   end
 

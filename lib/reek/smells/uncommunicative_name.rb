@@ -60,7 +60,7 @@ module Reek
       # Remembers any smells found.
       #
       def examine_context(context)
-        consider_name(context)
+        consider_name(context) unless [:defn, :defs].include?(context.exp[0])
         consider_variables(context)
       end
 

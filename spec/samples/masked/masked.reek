@@ -1,3 +1,5 @@
 ---
 UncommunicativeName:
   enabled: false
+UncommunicativeMethodName:
+  enabled: false
