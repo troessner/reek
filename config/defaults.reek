@@ -35,6 +35,15 @@ BooleanParameter:
 IrresponsibleModule: 
   exclude: *id001
   enabled: true
+UncommunicativeModuleName: 
+  accept: 
+  - Inline::C
+  exclude: []
+
+  enabled: true
+  reject: 
+  - !ruby/regexp /^.$/
+  - !ruby/regexp /[0-9]$/
 UncommunicativeName: 
   accept: 
   - Inline::C

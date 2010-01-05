@@ -13,11 +13,11 @@ module Reek
     # and they hurt the flow of reading, because the reader must slow
     # down to interpret the names.
     #
-    # Currently +UncommunicativeName+ checks for
+    # Currently +UncommunicativeModuleName+ checks for
     # * 1-character names
     # * names ending with a number
     #
-    class UncommunicativeName < SmellDetector
+    class UncommunicativeModuleName < SmellDetector
 
       # The name of the config field that lists the regexps of
       # smelly names to be reported.
@@ -40,10 +40,10 @@ module Reek
       end
 
       def self.contexts      # :nodoc:
-        [:module, :class, :defn, :defs, :iter]
+        [:module, :class]
       end
 
-      def initialize(source = '???', config = UncommunicativeName.default_config)
+      def initialize(source, config = UncommunicativeModuleName.default_config)
         super(source, config)
       end
 
@@ -51,17 +51,24 @@ module Reek
       # Checks the given +context+ for uncommunicative names.
       # Remembers any smells found.
       #
-      def examine_context(context)
-        context.variable_names.each do |name|
-          next unless is_bad_name?(name, context)
-          found(context, "has the variable name '#{name}'", 'UncommunicativeVariableName',
-            {'variable_name' => name.to_s})
-        end
+      def examine_context(module_ctx)
+        name = module_ctx.name
+        return false if accept?(module_ctx)
+        return false unless is_bad_name?(name, module_ctx)
+        smell = SmellWarning.new('UncommunicativeName', module_ctx.full_name, [module_ctx.exp.line],
+          "has the name '#{name}'", @masked,
+          @source, 'UncommunicativeModuleName', {'module_name' => name.to_s})
+        @smells_found << smell
+        #SMELL: serious duplication
+      end
+
+      def accept?(context)
+        value(ACCEPT_KEY, context, DEFAULT_ACCEPT_SET).include?(context.full_name)
       end
 
       def is_bad_name?(name, context)  # :nodoc:
         var = name.effective_name
-        return false if var == '*' or value(ACCEPT_KEY, context, DEFAULT_ACCEPT_SET).include?(var)
+        return false if value(ACCEPT_KEY, context, DEFAULT_ACCEPT_SET).include?(var)
         value(REJECT_KEY, context, DEFAULT_REJECT_SET).detect {|patt| patt === var}
       end
     end

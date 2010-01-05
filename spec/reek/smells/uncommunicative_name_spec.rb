@@ -156,12 +156,4 @@ describe UncommunicativeName do
   end
 
   it_should_behave_like 'SmellDetector'
-
-  context 'accepting names' do
-    it 'accepts Inline::C' do
-      ctx = mock('context')
-      ctx.should_receive(:full_name).and_return('Inline::C')
-      @detector.accept?(ctx).should == true
-    end
-  end
 end

@@ -57,6 +57,7 @@ lib/reek/smells/nested_iterators.rb
 lib/reek/smells/simulated_polymorphism.rb
 lib/reek/smells/smell_detector.rb
 lib/reek/smells/uncommunicative_method_name.rb
+lib/reek/smells/uncommunicative_module_name.rb
 lib/reek/smells/uncommunicative_name.rb
 lib/reek/smells/utility_function.rb
 lib/reek/sniffer.rb
@@ -104,6 +105,7 @@ spec/reek/smells/nested_iterators_spec.rb
 spec/reek/smells/simulated_polymorphism_spec.rb
 spec/reek/smells/smell_detector_shared.rb
 spec/reek/smells/uncommunicative_method_name_spec.rb
+spec/reek/smells/uncommunicative_module_name_spec.rb
 spec/reek/smells/uncommunicative_name_spec.rb
 spec/reek/smells/utility_function_spec.rb
 spec/reek/sniffer_spec.rb
