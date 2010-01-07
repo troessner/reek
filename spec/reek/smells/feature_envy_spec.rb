@@ -48,7 +48,8 @@ describe FeatureEnvy do
       @yaml.should match(/source:\s*#{@source_name}/)
     end
     it 'reports the class' do
-      @yaml.should match(/class:\s*FeatureEnvy/)
+      pending
+      @yaml.should match(/\sclass:\s*LowCohesion/)
     end
     it 'reports the subclass' do
       @yaml.should match(/subclass:\s*EnviousMethod/)

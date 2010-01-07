@@ -6,7 +6,7 @@ include Reek
 
 describe ModuleContext do
   it 'should report module name for smell in method' do
-    'module Fred; def simple(x) true; end; end'.should reek_of(:UncommunicativeName, /x/, /simple/, /Fred/)
+    'module Fred; def simple(x) true; end; end'.should reek_of(:UncommunicativeParameterName, /x/, /simple/, /Fred/)
   end
 
   it 'should not report module with empty class' do

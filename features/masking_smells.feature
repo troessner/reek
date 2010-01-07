@@ -15,7 +15,7 @@ Feature: Masking smells using config files
         Dirty#a calls puts(@s.title) twice (Duplication)
         Dirty#a contains iterators nested 2 deep (Nested Iterators)
         Dirty#a has the name 'a' (Uncommunicative Name)
-        Dirty#a/block has the variable name 'x' (Uncommunicative Name)
+        Dirty#a has the variable name 'x' (Uncommunicative Name)
 
       """
 
@@ -31,7 +31,7 @@ Feature: Masking smells using config files
         Dirty#a calls puts(@s.title) twice (Duplication)
         Dirty#a contains iterators nested 2 deep (Nested Iterators)
         Dirty#a has the name 'a' (Uncommunicative Name)
-        Dirty#a/block has the variable name 'x' (Uncommunicative Name)
+        Dirty#a has the variable name 'x' (Uncommunicative Name)
 
       """
     And it reports the error 'Error: Invalid configuration file "corrupt.reek" -- "This is not a config file" is not a code smell'
@@ -72,7 +72,7 @@ Feature: Masking smells using config files
         Dirty#a calls puts(@s.title) twice (Duplication)
         Dirty#a contains iterators nested 2 deep (Nested Iterators)
         (masked) Dirty#a has the name 'a' (Uncommunicative Name)
-        (masked) Dirty#a/block has the variable name 'x' (Uncommunicative Name)
+        (masked) Dirty#a has the variable name 'x' (Uncommunicative Name)
 
       """
 
@@ -126,6 +126,6 @@ Feature: Masking smells using config files
         Dirty#a calls puts(@s.title) twice (Duplication)
         (masked) Dirty#a contains iterators nested 2 deep (Nested Iterators)
         (masked) Dirty#a has the name 'a' (Uncommunicative Name)
-        (masked) Dirty#a/block has the variable name 'x' (Uncommunicative Name)
+        (masked) Dirty#a has the variable name 'x' (Uncommunicative Name)
 
       """

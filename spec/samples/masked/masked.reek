@@ -1,5 +1,5 @@
 ---
-UncommunicativeName:
+UncommunicativeVariableName:
   enabled: false
 UncommunicativeMethodName:
   enabled: false

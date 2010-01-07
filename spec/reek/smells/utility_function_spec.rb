@@ -107,7 +107,8 @@ EOS
       @yaml.should match(/source:\s*#{@source_name}/)
     end
     it 'reports the class' do
-      @yaml.should match(/\sclass:\s*UtilityFunction/)
+      pending
+      @yaml.should match(/\sclass:\s*LowCohesion/)
     end
     it 'reports the subclass' do
       @yaml.should match(/subclass:\s*UtilityFunction/)

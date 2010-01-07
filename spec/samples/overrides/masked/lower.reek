@@ -1,7 +1,7 @@
 ---
 Duplication:
   enabled: true
-UncommunicativeName:
+UncommunicativeVariableName:
   enabled: false
 UncommunicativeMethodName:
   enabled: false

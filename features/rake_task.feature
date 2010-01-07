@@ -70,5 +70,5 @@ Feature: Reek can be driven through its RakeTask
         Dirty#a calls puts(@s.title) twice (Duplication)
         Dirty#a contains iterators nested 2 deep (Nested Iterators)
         Dirty#a has the name 'a' (Uncommunicative Name)
-        Dirty#a/block has the variable name 'x' (Uncommunicative Name)
+        Dirty#a has the variable name 'x' (Uncommunicative Name)
       """

@@ -55,7 +55,7 @@ describe ShouldReekOf do
       @clean_code = 'def good() true; end'
       @smelly_code = 'def x() y = 4; end'
       @expected_report = Reek::Spec::ReekMatcher::create_reporter(@smelly_code.sniff).report
-      @matcher = ShouldReekOf.new(:UncommunicativeName, [/x/, /y/])
+      @matcher = ShouldReekOf.new(:UncommunicativeVariableName, [/x/, /y/])
     end
 
     it 'matches a smelly String' do
@@ -76,7 +76,7 @@ describe ShouldReekOf do
     before :each do
       @clean_dir = Dir['spec/samples/three_clean_files/*.rb']
       @smelly_dir = Dir['spec/samples/two_smelly_files/*.rb']
-      @matcher = ShouldReekOf.new(:UncommunicativeName, [/Dirty/, /@s/])
+      @matcher = ShouldReekOf.new(:UncommunicativeVariableName, [/Dirty/, /@s/])
     end
 
     it 'matches a smelly String' do
@@ -97,7 +97,7 @@ describe ShouldReekOf do
     before :each do
       @clean_file = File.new(Dir['spec/samples/three_clean_files/*.rb'][0])
       @smelly_file = File.new(Dir['spec/samples/two_smelly_files/*.rb'][0])
-      @matcher = ShouldReekOf.new(:UncommunicativeName, [/Dirty/, /@s/])
+      @matcher = ShouldReekOf.new(:UncommunicativeVariableName, [/Dirty/, /@s/])
     end
 
     it 'matches a smelly String' do
@@ -119,7 +119,7 @@ describe ShouldReekOf do
       sn_clean = 'def clean() @thing = 4; end'.sniff
       sn_dirty = 'def dirty() thing.cool + thing.cool; end'.sniff
       sniffers = SnifferSet.new([sn_clean, sn_dirty], '')
-      @matcher = ShouldReekOf.new(:UncommunicativeName, [/Dirty/, /@s/])
+      @matcher = ShouldReekOf.new(:UncommunicativeVariableName, [/Dirty/, /@s/])
       @matcher.matches?(sniffers)
       @lines = @matcher.failure_message_for_should_not.split("\n").map {|str| str.chomp}
       @error_message = @lines.shift

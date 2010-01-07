@@ -5,12 +5,12 @@ include Reek
 describe Dir do
   it 'reports correct smells via the Dir matcher' do
     Dir['spec/samples/two_smelly_files/*.rb'].should reek
-    Dir['spec/samples/two_smelly_files/*.rb'].should reek_of(:UncommunicativeName)
+    Dir['spec/samples/two_smelly_files/*.rb'].should reek_of(:UncommunicativeVariableName)
   end
 
   it 'reports correct smells via Dir' do
     sniffer = Dir['spec/samples/two_smelly_files/*.rb'].sniff
-    sniffer.has_smell?(:UncommunicativeName).should be_true
+    sniffer.has_smell?(:UncommunicativeVariableName).should be_true
   end
 
   it 'copes with daft file specs' do

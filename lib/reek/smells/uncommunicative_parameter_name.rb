@@ -13,11 +13,11 @@ module Reek
     # and they hurt the flow of reading, because the reader must slow
     # down to interpret the names.
     #
-    # Currently +UncommunicativeName+ checks for
+    # Currently +UncommunicativeParameterName+ checks for
     # * 1-character names
     # * names ending with a number
     #
-    class UncommunicativeName < SmellDetector
+    class UncommunicativeParameterName < SmellDetector
 
       # The name of the config field that lists the regexps of
       # smelly names to be reported.
@@ -40,10 +40,10 @@ module Reek
       end
 
       def self.contexts      # :nodoc:
-        [:module, :class, :defn, :defs, :iter]
+        [:defn, :defs]
       end
 
-      def initialize(source = '???', config = UncommunicativeName.default_config)
+      def initialize(source, config = UncommunicativeParameterName.default_config)
         super(source, config)
       end
 
@@ -52,15 +52,18 @@ module Reek
       # Remembers any smells found.
       #
       def examine_context(context)
-        context.variable_names.each do |name|
+        context.exp.parameter_names.each do |name|
           next unless is_bad_name?(name, context)
-          found(context, "has the variable name '#{name}'", 'UncommunicativeVariableName',
-            {'variable_name' => name.to_s})
+          smell = SmellWarning.new('UncommunicativeName', context.full_name, [context.exp.line],
+            "has the parameter name '#{name}'", @masked,
+            @source, 'UncommunicativeParameterName', {'parameter_name' => name.to_s})
+          @smells_found << smell
+          #SMELL: serious duplication
         end
       end
 
       def is_bad_name?(name, context)  # :nodoc:
-        var = name.effective_name
+        var = name.to_s.gsub(/^[@\*\&]*/, '')
         return false if var == '*' or value(ACCEPT_KEY, context, DEFAULT_ACCEPT_SET).include?(var)
         value(REJECT_KEY, context, DEFAULT_REJECT_SET).detect {|patt| patt === var}
       end

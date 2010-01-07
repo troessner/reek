@@ -10,7 +10,7 @@ describe ShouldReekOnlyOf, 'checking code in a string' do
   before :each do
     @clean_code = 'def good() true; end'
     @smelly_code = 'def fine() y = 4; end'
-    @matcher = ShouldReekOnlyOf.new(:UncommunicativeName, [/y/])
+    @matcher = ShouldReekOnlyOf.new(:UncommunicativeVariableName, [/y/])
   end
 
   it 'matches a smelly String' do
@@ -23,7 +23,7 @@ describe ShouldReekOnlyOf, 'checking code in a string' do
 
   it 'reports the smells when should_not fails' do
     @matcher.matches?(@smelly_code).should be_true
-    @matcher.failure_message_for_should_not.should include('UncommunicativeName')
+    @matcher.failure_message_for_should_not.should include('UncommunicativeVariableName')
   end
 end
 

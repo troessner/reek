@@ -15,9 +15,10 @@ require 'reek/smells/long_parameter_list'
 require 'reek/smells/long_yield_list'
 require 'reek/smells/nested_iterators'
 require 'reek/smells/simulated_polymorphism'
-require 'reek/smells/uncommunicative_name'
 require 'reek/smells/uncommunicative_method_name'
 require 'reek/smells/uncommunicative_module_name'
+require 'reek/smells/uncommunicative_parameter_name'
+require 'reek/smells/uncommunicative_variable_name'
 require 'reek/smells/utility_function'
 require 'reek/code_parser'
 require 'yaml'
@@ -75,9 +76,10 @@ module Reek
         Smells::LongYieldList,
         Smells::NestedIterators,
         Smells::SimulatedPolymorphism,
-        Smells::UncommunicativeName,
         Smells::UncommunicativeMethodName,
         Smells::UncommunicativeModuleName,
+        Smells::UncommunicativeParameterName,
+        Smells::UncommunicativeVariableName,
         Smells::UtilityFunction,
       ]
     end

@@ -19,7 +19,7 @@ Feature: Report smells using simple YAML layout
         is_masked: true
         location: 
           lines: 
-          - 2
+          - 5
           context: Dirty
           source: spec/samples/masked/dirty.rb
         smell: 
@@ -84,7 +84,7 @@ Feature: Report smells using simple YAML layout
         location: 
           lines: 
           - 5
-          context: Dirty#a/block
+          context: Dirty#a
           source: spec/samples/masked/dirty.rb
         smell: 
           class: UncommunicativeName

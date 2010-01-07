@@ -53,7 +53,22 @@ module Reek
 
     module DefnNode
       def method_name() self[1] end
-      def parameters() self[2] end
+      def parameters() 
+        self[2].reject {|param| Sexp === param}
+      end
+      def parameter_names
+        parameters[1..-1]
+      end
+    end
+
+    module DefsNode
+      def method_name() self[2] end
+      def parameters
+        self[3].reject {|param| Sexp === param}
+      end
+      def parameter_names
+        parameters[1..-1]
+      end
     end
 
     module IfNode
@@ -66,6 +81,18 @@ module Reek
       def call() self[1] end
       def args() self[2] end
       def block() self[3] end
+      def parameters() self[2] || [] end
+      def parameter_names
+        result = parameters
+        return case result[0]
+        when :lasgn
+          [result[1]]
+        when :masgn
+          result[1][1..-1].map {|lasgn| lasgn[1]}
+        else
+          []
+        end
+      end
     end
 
     module YieldNode

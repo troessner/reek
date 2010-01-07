@@ -1,4 +1,13 @@
 --- 
+UncommunicativeParameterName: 
+  accept: 
+  - Inline::C
+  exclude: []
+
+  enabled: true
+  reject: 
+  - !ruby/regexp /^.$/
+  - !ruby/regexp /[0-9]$/
 LargeClass: 
   max_methods: 25
   exclude: []
@@ -44,15 +53,6 @@ UncommunicativeModuleName:
   reject: 
   - !ruby/regexp /^.$/
   - !ruby/regexp /[0-9]$/
-UncommunicativeName: 
-  accept: 
-  - Inline::C
-  exclude: []
-
-  enabled: true
-  reject: 
-  - !ruby/regexp /^.$/
-  - !ruby/regexp /[0-9]$/
 NestedIterators: 
   exclude: *id001
   enabled: true
@@ -75,6 +75,15 @@ Attribute:
   exclude: []
 
   enabled: false
+UncommunicativeVariableName: 
+  accept: 
+  - Inline::C
+  exclude: []
+
+  enabled: true
+  reject: 
+  - !ruby/regexp /^.$/
+  - !ruby/regexp /[0-9]$/
 SimulatedPolymorphism: 
   exclude: []
 

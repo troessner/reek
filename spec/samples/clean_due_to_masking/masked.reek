@@ -5,7 +5,7 @@ IrresponsibleModule:
   enabled: false
 NestedIterators:
   enabled: false
-UncommunicativeName:
+UncommunicativeVariableName:
   enabled: false
 UncommunicativeMethodName:
   enabled: false

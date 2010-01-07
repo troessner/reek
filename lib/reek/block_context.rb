@@ -49,7 +49,7 @@ module Reek
     end
     
     def variable_names
-      @parameters.names + @local_variables.to_a
+      @local_variables.to_a
     end
   end
 end
