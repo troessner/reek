@@ -40,12 +40,14 @@ module Reek
       # might "belong" on another class.
       # Remembers any smells found.
       #
-      def examine_context(context)
-        context.envious_receivers.each do |ref, occurs|
+      def examine_context(method_ctx)
+        method_ctx.envious_receivers.each do |ref, occurs|
           target = SexpFormatter.format(ref)
-          found(context, "refers to #{target} more than self", 'EnviousMethod',
-            {'receiver' => target, 'references' => occurs})
-          # TODO: report the lines
+          smell = SmellWarning.new('LowCohesion', method_ctx.full_name, [method_ctx.exp.line],
+            "refers to #{target} more than self", @masked,
+            @source, 'FeatureEnvy', {'receiver' => target, 'references' => occurs})
+          @smells_found << smell
+          #SMELL: serious duplication
         end
       end
     end

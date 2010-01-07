@@ -43,7 +43,11 @@ module Reek
           method_ctx.depends_on_instance? or
           num_helper_methods(method_ctx) <= value(HELPER_CALLS_LIMIT_KEY, method_ctx, DEFAULT_HELPER_CALLS_LIMIT)
           # SMELL: loads of calls to value{} with the above pattern
-        found(method_ctx, "doesn't depend on instance state", 'UtilityFunction')
+        smell = SmellWarning.new('LowCohesion', method_ctx.full_name, [method_ctx.exp.line],
+          "doesn't depend on instance state", @masked,
+          @source, 'UtilityFunction')
+        @smells_found << smell
+        #SMELL: serious duplication
       end
 
       def num_helper_methods(method_ctx)

@@ -48,11 +48,10 @@ describe FeatureEnvy do
       @yaml.should match(/source:\s*#{@source_name}/)
     end
     it 'reports the class' do
-      pending
       @yaml.should match(/\sclass:\s*LowCohesion/)
     end
     it 'reports the subclass' do
-      @yaml.should match(/subclass:\s*EnviousMethod/)
+      @yaml.should match(/subclass:\s*FeatureEnvy/)
     end
     it 'reports the envious receiver' do
       @yaml.should match(/receiver:[\s]*#{@receiver}/)
@@ -238,10 +237,10 @@ EOS
       @yaml.should match(/source:\s*#{@source_name}/)
     end
     it 'reports the class' do
-      @yaml.should match(/class:\s*FeatureEnvy/)
+      @yaml.should match(/class:\s*LowCohesion/)
     end
     it 'reports the subclass' do
-      @yaml.should match(/subclass:\s*EnviousMethod/)
+      @yaml.should match(/subclass:\s*FeatureEnvy/)
     end
     it 'reports the envious receiver' do
       @yaml.should match(/receiver:\s*other/)

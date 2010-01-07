@@ -6,8 +6,9 @@
 === Minor Changes
 * New smell: Irresponsible Module (has no meaningful comment)
 * ControlCouple no longer checks arguments yielded to blocks
+* FeatureEnvy and UtilityFunction are now subclasses of a new smell: LowCohesion
 * NestedIterators now reports the nesting depth
-* Fixed problem checking for Utility Functions in Object
+* Fixed problem checking for UtilityFunctions in Object
 * Improved detection of invalid config files
 * Invalid config files are now ignored
 * Non-existent files are now ignored
