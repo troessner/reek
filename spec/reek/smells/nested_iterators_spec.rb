@@ -44,7 +44,7 @@ require 'spec/reek/smells/smell_detector_shared'
 
 describe NestedIterators do
   before(:each) do
-    @detector = NestedIterators.new
+    @detector = NestedIterators.new('cuckoo')
   end
 
   it_should_behave_like 'SmellDetector'

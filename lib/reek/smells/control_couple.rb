@@ -34,10 +34,6 @@ module Reek
     #
     class ControlCouple < SmellDetector
 
-      def self.contexts      # :nodoc:
-        [:defn, :defs]
-      end
-
       #
       # Checks whether the given method chooses its execution path
       # by testing the value of one of its parameters.

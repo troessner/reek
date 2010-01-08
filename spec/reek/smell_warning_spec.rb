@@ -106,8 +106,8 @@ describe SmellWarning do
     end
 
     before :each do
-      @masked = SmellWarning.new(Smells::FeatureEnvy.new, 'Fred', 27, "self", true)
-      @visible = SmellWarning.new(Smells::FeatureEnvy.new, 'Fred', 27, "self", false)
+      @masked = SmellWarning.new('FeatureEnvy', 'Fred', 27, "self", true)
+      @visible = SmellWarning.new('FeatureEnvy', 'Fred', 27, "self", false)
     end
 
     it 'reports as masked when masked' do

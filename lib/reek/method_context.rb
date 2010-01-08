@@ -1,5 +1,4 @@
 require 'reek/name'
-require 'reek/block_context'
 require 'reek/object_refs'
 
 #
@@ -63,16 +62,12 @@ module Reek
     def include?(name)
       names.include?(name)
     end
-
-    def to_s
-      "[#{names.map{|nm| nm.to_s}.join(', ')}]"
-    end
   end
 
   #
   # A context wrapper for any method definition found in a syntax tree.
   #
-  class MethodContext < VariableContainer
+  class MethodContext < CodeContext
     attr_reader :parameters
     attr_reader :refs
     attr_reader :num_statements
@@ -124,7 +119,6 @@ module Reek
 
     def record_instance_variable(sym)
       record_use_of_self
-      @outer.record_instance_variable(sym)
     end
     
     def record_depends_on_self

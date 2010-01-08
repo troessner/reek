@@ -9,10 +9,6 @@ module Reek
     #
     class LongYieldList < SmellDetector
 
-      def self.contexts      # :nodoc:
-        [:defn, :defs]
-      end
-
       # The name of the config field that sets the maximum number of
       # parameters permitted in any method or block.
       MAX_ALLOWED_PARAMS_KEY = 'max_params'
@@ -27,7 +23,7 @@ module Reek
         )
       end
 
-      def initialize(source = '???', config = LongYieldList.default_config)
+      def initialize(source, config = LongYieldList.default_config)
         super(source, config)
       end
 

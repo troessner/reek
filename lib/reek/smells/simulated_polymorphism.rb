@@ -38,7 +38,7 @@ module Reek
         super.adopt(MAX_IDENTICAL_IFS_KEY => DEFAULT_MAX_IFS)
       end
 
-      def initialize(source = '???', config = SimulatedPolymorphism.default_config)
+      def initialize(source, config = SimulatedPolymorphism.default_config)
         super(source, config)
       end
 

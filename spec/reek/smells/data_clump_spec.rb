@@ -28,7 +28,7 @@ EOS
 end
 EOS
       ctx = ModuleContext.from_s(@src)
-      detector = DataClump.new
+      detector = DataClump.new('newt')
       detector.examine(ctx)
       warning = detector.smells_found.to_a[0]   # SMELL: too cumbersome!
       @yaml = warning.to_yaml
@@ -121,7 +121,7 @@ require 'spec/reek/smells/smell_detector_shared'
 
 describe DataClump do
   before(:each) do
-    @detector = DataClump.new
+    @detector = DataClump.new('newt')
   end
 
   it_should_behave_like 'SmellDetector'

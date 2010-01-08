@@ -35,7 +35,7 @@ end
 
 describe IrresponsibleModule do
   before(:each) do
-    @detector = IrresponsibleModule.new
+    @detector = IrresponsibleModule.new('yoof')
   end
 
   it_should_behave_like 'SmellDetector'

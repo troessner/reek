@@ -39,8 +39,5 @@ module Reek
     def is_struct?
       @superclass == [:const, :Struct]
     end
-
-    def record_instance_variable(sym)
-    end
   end
 end

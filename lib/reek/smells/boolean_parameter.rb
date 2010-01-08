@@ -13,10 +13,6 @@ module Reek
     #
     class BooleanParameter < SmellDetector
 
-      def self.contexts      # :nodoc:
-        [:defn, :defs]
-      end
-
       #
       # Checks whether the given method has a Boolean parameter.
       # Remembers any smells found.

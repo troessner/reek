@@ -28,7 +28,7 @@ module Reek
         super.adopt(SmellConfiguration::ENABLED_KEY => false)
       end
 
-      def initialize(source = '???', config = Attribute.default_config)
+      def initialize(source, config = Attribute.default_config)
         super(source, config)
       end
 

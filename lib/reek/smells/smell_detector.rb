@@ -7,7 +7,7 @@ module Reek
       def self.default_config
         super.adopt(EXCLUDE_KEY => ['initialize'])
       end
-      def initialize(source = '???', config = self.class.default_config)
+      def initialize(source, config = self.class.default_config)
         super(source, config)
       end
     end
@@ -41,7 +41,7 @@ module Reek
 
       attr_reader :smells_found   # SMELL: only published for tests
 
-      def initialize(source = '???', config = self.class.default_config)
+      def initialize(source, config = self.class.default_config)
         @source = source
         @config = SmellConfiguration.new(config)
         @smells_found = Set.new

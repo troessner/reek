@@ -3,13 +3,19 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 require 'reek/smells/attribute'
 require 'reek/class_context'
 
+require 'spec/reek/smells/smell_detector_shared'
+
 include Reek
 include Reek::Smells
 
 describe Attribute do
   before :each do
-    @detector = Attribute.new
+    @source_name = 'ticker'
+    @detector = Attribute.new(@source_name)
   end
+
+  it_should_behave_like 'SmellDetector'
+
   context 'with no attributes' do
     it 'records nothing in the class' do
       ctx = ClassContext.from_s('class Fred; end')
@@ -95,18 +101,8 @@ describe Attribute do
       it_should_behave_like 'one attribute found'
     end
   end
-end
 
-require 'spec/reek/smells/smell_detector_shared'
-
-describe Attribute do
-  before(:each) do
-    @detector = Attribute.new
-  end
-
-  it_should_behave_like 'SmellDetector'
-
-  context 'when reporting a smell' do
+  context 'looking at the YAML' do
     before :each do
       @attr = 'prop'
       src = <<EOS

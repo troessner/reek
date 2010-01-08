@@ -9,7 +9,7 @@ include Reek::Smells
 
 describe ClassVariable do
   before :each do
-    @detector = ClassVariable.new
+    @detector = ClassVariable.new('raffles')
   end
 
   context 'with no class variables' do

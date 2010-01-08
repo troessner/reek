@@ -12,10 +12,6 @@ module Reek
     class NestedIterators < SmellDetector
       # SMELL: should be a subclass of UnnecessaryComplexity
 
-      def self.contexts      # :nodoc:
-        [:defn, :defs]
-      end
-
       #
       # Checks whether the given +block+ is inside another.
       # Remembers any smells found.

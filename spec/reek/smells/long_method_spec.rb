@@ -199,7 +199,7 @@ require 'spec/reek/smells/smell_detector_shared'
 
 describe LongMethod do
   before(:each) do
-    @detector = LongMethod.new
+    @detector = LongMethod.new('silver')
   end
 
   it_should_behave_like 'SmellDetector'

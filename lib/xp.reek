@@ -18,7 +18,7 @@ FeatureEnvy:
 ClassVariable: 
   exclude: &id001 []
   enabled: true
-UncommunicativeName: 
+UncommunicativeVariableName:
   accept: 
   - Inline::C
   exclude: []

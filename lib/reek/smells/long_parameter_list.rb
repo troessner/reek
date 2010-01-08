@@ -30,7 +30,7 @@ module Reek
         )
       end
 
-      def initialize(source = '???', config = LongParameterList.default_config)
+      def initialize(source, config = LongParameterList.default_config)
         super(source, config)
       end
 
@@ -38,10 +38,10 @@ module Reek
       # Checks the number of parameters in the given scope.
       # Remembers any smells found.
       #
-      def examine_context(ctx)
-        num_params = ctx.parameters.length
-        return false if num_params <= value(MAX_ALLOWED_PARAMS_KEY, ctx, DEFAULT_MAX_ALLOWED_PARAMS)
-        found(ctx, "has #{num_params} parameters",
+      def examine_context(method_ctx)
+        num_params = method_ctx.parameters.length
+        return false if num_params <= value(MAX_ALLOWED_PARAMS_KEY, method_ctx, DEFAULT_MAX_ALLOWED_PARAMS)
+        found(method_ctx, "has #{num_params} parameters",
           'LongParameterList', {'parameter_count' => num_params})
       end
     end

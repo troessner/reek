@@ -42,7 +42,7 @@ module Reek
           )
       end
 
-      def initialize(source = '???', config = LargeClass.default_config)
+      def initialize(source, config = LargeClass.default_config)
         super(source, config)
       end
 
