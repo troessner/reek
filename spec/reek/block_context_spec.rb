@@ -6,12 +6,6 @@ require 'reek/method_context'
 include Reek
 
 describe BlockContext do
-  it 'records local variables' do
-    bctx = BlockContext.new(StopContext.new, s(nil, nil))
-    bctx.record_local_variable(:q2)
-    bctx.variable_names.should include(Name.new(:q2))
-  end
-
   context 'full_name' do
     it "reports full context" do
       bctx = BlockContext.new(StopContext.new, s(nil, nil))

@@ -53,7 +53,7 @@ module Reek
       end
 
       def check_num_ivars(klass)  # :nodoc:
-        count = klass.variable_names.length
+        count = klass.local_nodes(:iasgn).map {|iasgn| iasgn[1]}.uniq.length
         return if count <= value(MAX_ALLOWED_IVARS_KEY, klass, DEFAULT_MAX_IVARS)
         found(klass, "has at least #{count} instance variables", SUBCLASS_TOO_MANY_IVARS, {'ivar_count' => count})
       end

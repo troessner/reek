@@ -45,9 +45,5 @@ module Reek
     def record_method(meth)
       @parsed_methods << meth
     end
-
-    def variable_names
-      []
-    end
   end
 end

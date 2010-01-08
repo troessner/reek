@@ -29,7 +29,6 @@ module Reek
     def initialize(outer, name, exp)
       super
       @superclass = exp[2]
-      @instance_variables = Set.new
     end
 
     def is_overriding_method?(name)
@@ -42,11 +41,6 @@ module Reek
     end
 
     def record_instance_variable(sym)
-      @instance_variables << Name.new(sym)
-    end
-
-    def variable_names
-      @instance_variables
     end
   end
 end

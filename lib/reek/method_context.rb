@@ -135,9 +135,5 @@ module Reek
       return [] if @refs.self_is_max?
       @refs.max_keys
     end
-
-    def variable_names
-      @local_variables.to_a
-    end
   end
 end

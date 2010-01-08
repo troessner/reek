@@ -36,19 +36,6 @@ describe CodeContext do
     end
   end
 
-  context 'instance variables' do
-    it 'should pass instance variables down to the first class' do
-      element = StopContext.new
-      element = ModuleContext.new(element, Name.new(:mod), s(:module, :mod, nil))
-      class_element = ClassContext.new(element, [0, :klass], s())
-      element = MethodContext.new(class_element, [0, :bad])
-      element = BlockContext.new(element, s(nil, nil))
-      element.record_instance_variable(:fred)
-      class_element.variable_names.size.should == 1
-      class_element.variable_names.should include(Name.new(:fred))
-    end
-  end
-
   context 'generics' do
     it 'should pass unknown method calls down the stack' do
       stop = StopContext.new

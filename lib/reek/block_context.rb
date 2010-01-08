@@ -4,23 +4,6 @@ require 'reek/code_context'
 module Reek
 
   #
-  # Represents a parameters in a method definition.
-  #
-  module ParameterSet
-    def names
-      return @names if @names
-      return (@names = []) if empty?
-      arg = slice(1)
-      case slice(0)
-      when :masgn
-        @names = arg[1..-1].map {|lasgn| Name.new(lasgn[1]) }
-      when :lasgn, :iasgn
-        @names = [Name.new(arg)]
-      end
-    end
-  end
-
-  #
   # A context wrapper for anything in a syntax tree that can contain variable
   # declarations.
   #
@@ -44,12 +27,6 @@ module Reek
       super
       @name = Name.new('block')
       @scope_connector = '/'
-      @parameters = exp[2] || []
-      @parameters.extend(ParameterSet)
-    end
-    
-    def variable_names
-      @local_variables.to_a
     end
   end
 end
