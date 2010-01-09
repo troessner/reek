@@ -93,23 +93,8 @@ module Reek
       @depends_on_self || is_overriding_method?(@name)
     end
 
-    def has_parameter(sym)
-      @parameters.include?(sym.to_s)
-    end
-
     def record_call_to(exp)
       record_receiver(exp)
-    end
-
-    def record_receiver(exp)
-      receiver, meth = exp[1..2]
-      receiver ||= [:self]
-      case receiver[0]
-      when :lvar
-        @refs.record_ref(receiver) unless meth == :new
-      when :self
-        record_use_of_self
-      end
     end
 
     def record_use_of_self
@@ -128,6 +113,19 @@ module Reek
     def envious_receivers
       return [] if @refs.self_is_max?
       @refs.max_keys
+    end
+
+  private
+
+    def record_receiver(exp)
+      receiver, meth = exp[1..2]
+      receiver ||= [:self]
+      case receiver[0]
+      when :lvar
+        @refs.record_ref(receiver) unless meth == :new
+      when :self
+        record_use_of_self
+      end
     end
   end
 end

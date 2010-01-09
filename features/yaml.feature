@@ -112,6 +112,6 @@ Feature: Report smells using simple YAML layout
           parameter: arg
           class: ControlCouple
           subclass: BooleanParameter
-          message: has boolean parameter arg
+          message: has boolean parameter 'arg'
 
       """
