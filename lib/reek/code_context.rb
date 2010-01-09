@@ -24,7 +24,6 @@ module Reek
       @outer = outer
       @exp = exp
       @scope_connector = ''
-      @myself = nil
     end
 
     def local_nodes(type, &blk)

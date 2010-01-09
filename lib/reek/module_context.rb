@@ -29,15 +29,6 @@ module Reek
       @parsed_methods = []
     end
 
-    def myself
-      @myself ||= @outer.find_module(@name)
-    end
-
-    def find_module(modname)
-      return nil unless myself
-      @myself.const_or_nil(modname.to_s)
-    end
-
     def parameterized_methods(min_clump_size)
       @parsed_methods.select {|meth| meth.parameters.length >= min_clump_size }
     end

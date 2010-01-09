@@ -90,7 +90,7 @@ module Reek
     end
 
     def depends_on_instance?
-      @depends_on_self || is_overriding_method?(@name)
+      @depends_on_self
     end
 
     def record_call_to(exp)

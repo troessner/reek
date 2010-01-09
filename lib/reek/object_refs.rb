@@ -32,9 +32,6 @@ module Reek
       @refs.values.max or 0
     end
 
-    # TODO
-    # Should be moved to Hash
-    #
     def max_keys
       max = max_refs
       @refs.reject {|key,val| val != max}

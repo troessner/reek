@@ -8,7 +8,6 @@ module Reek
     def initialize
       @refs = ObjectRefs.new
       @name = ''
-      @myself = Object
     end
 
     def method_missing(method, *args)
@@ -19,17 +18,8 @@ module Reek
       0
     end
 
-    def find_module(name)
-      sym = name.to_s
-      @myself.const_defined?(sym) ? @myself.const_get(sym) : nil
-    end
-
     def full_name
       ''
-    end
-
-    def is_overriding_method?(name)
-      false
     end
   end
 end
