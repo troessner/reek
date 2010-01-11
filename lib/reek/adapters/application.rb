@@ -32,7 +32,7 @@ module Reek
     end
 
     def output(text)
-      puts text
+      print text
     end
 
     def report_success

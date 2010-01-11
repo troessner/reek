@@ -1,3 +1,4 @@
+require 'reek/adapters/source_locator'
 require 'reek/sniffer'
 
 module Reek
@@ -7,22 +8,25 @@ module Reek
   # text report format.
   #
   class ReekCommand
+    def self.create(filenames, report_class, show_all)
+      sniffers = SourceLocator.new(filenames).all_sniffers
+      new(sniffers, report_class, show_all)
+    end
 
-    def initialize(filenames, report_class, show_all)
-      @sniffer = filenames.length > 0 ? filenames.sniff : sniff_stdin
+    def initialize(sniffers, report_class, show_all)
+      @sniffers = sniffers
       @report_class = report_class
       @show_all = show_all    #SMELL: boolean parameter
     end
 
-    def sniff_stdin
-      Reek::Sniffer.new($stdin.to_reek_source('$stdin'))
-      # SMELL: duplication with YamlCommand
-    end
-
     def execute(view)
-      rpt = @report_class.new(@sniffer.sniffers, @show_all)
-      view.output(rpt.report)
-      if @sniffer.smelly?
+      had_smells = false
+      @sniffers.each do |sniffer|
+        rpt = @report_class.new(sniffer, @show_all)
+        had_smells ||= sniffer.smelly?
+        view.output(rpt.report)
+      end
+      if had_smells
         view.report_smells
       else
         view.report_success

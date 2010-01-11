@@ -59,33 +59,12 @@ end
 # Extensions to +Array+ needed by Reek.
 #
 class Array
-  def paths
-    self.map do |path|
-      if test 'd', path
-        Dir["#{path}/**/*.rb"].paths
-      else
-        path
-      end
-    end.flatten.sort
-  end
-
   #
   # Creates a new +Sniffer+ that assumes this Array contains the names
   # of Ruby source files and examines those files for smells.
   #
   def sniff
-    sniffers = valid_paths.map {|path| File.new(path).sniff}
+    sniffers = SourceLocator.new(self).all_sniffers
     Reek::SnifferSet.new(sniffers, 'dir')
-  end
-
-  def valid_paths
-    paths.select do |path|
-      if test 'f', path
-        true
-      else
-        $stderr.puts "Error: No such file - #{path}"
-        false
-      end
-    end
   end
 end

@@ -25,11 +25,7 @@ Feature: Reek reads from $stdin when no files are given
   Scenario: outputs nothing on empty stdin in quiet mode
     When I pass "" to reek --quiet
     Then it succeeds
-    And it reports:
-      """
-
-
-      """
+    And stdout equals ""
 
   Scenario: return non-zero status when there are smells
     When I pass "class Turn; def y() @x = 3; end end" to reek

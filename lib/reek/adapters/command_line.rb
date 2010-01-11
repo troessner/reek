@@ -55,7 +55,7 @@ EOB
 
     def parse
       @parser.parse!(@argv)
-      @command ||= ReekCommand.new(@argv, @report_class, @show_all)
+      @command ||= ReekCommand.create(@argv, @report_class, @show_all)
     end
 
     def set_options

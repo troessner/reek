@@ -11,8 +11,8 @@ describe ReekCommand do
 
   context 'with smells' do
     before :each do
-      src = 'def x(); end'
-      @cmd = ReekCommand.new(src, QuietReport, false)
+      sniffer = 'def x(); end'.sniff
+      @cmd = ReekCommand.new([sniffer], QuietReport, false)
     end
 
     it 'displays the correct text on the view' do
@@ -28,8 +28,8 @@ describe ReekCommand do
 
   context 'with no smells' do
     before :each do
-      src = 'def clean(); end'
-      @cmd = ReekCommand.new(src, QuietReport, false)
+      sniffer = 'def clean(); end'.sniff
+      @cmd = ReekCommand.new([sniffer], QuietReport, false)
     end
 
     it 'displays nothing on the view' do

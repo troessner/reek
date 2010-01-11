@@ -50,11 +50,7 @@ Feature: Correctly formatted reports
   Scenario Outline: --quiet turns off headers for fragrant files
     When I run reek <option> spec/samples/three_clean_files/*.rb
     Then it succeeds
-    And it reports:
-      """
-
-
-      """
+    And stdout equals ""
 
     Examples:
       | option  |

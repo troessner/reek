@@ -1,3 +1,4 @@
+require 'reek/adapters/source_locator'
 require 'reek/sniffer'
 require 'reek/masking_collection'
 
@@ -9,8 +10,8 @@ module Reek
   #
   class YamlCommand
     def self.create(filenames)
-      sniffer = filenames.length > 0 ? filenames.sniff : Reek::Sniffer.new($stdin.to_reek_source('$stdin'))
-      new(sniffer.sniffers)
+      sniffers = SourceLocator.new(filenames).all_sniffers
+      new(sniffers)
     end
 
     def initialize(sniffers)

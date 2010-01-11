@@ -71,31 +71,34 @@ module Reek
   end
 
   #
-  # A set of sections, each of which reports the smells in a source.
-  #
-  class Report
-    def initialize(sniffers, display_masked_warnings = false)
-      @partials = Array(sniffers).map {|sn| ReportSection.new(sn, display_masked_warnings)}
-    end
-  end
-
-  #
   # A report that lists every source, including those that have no smells.
   #
-  class VerboseReport < Report
-    # SMELL: Implementation Inheritance
+  class VerboseReport
+    def initialize(sniffers, display_masked_warnings = false)
+      @display_masked_warnings = display_masked_warnings
+      @sniffers = Array(sniffers)
+    end
     def report
-      @partials.map { |section| section.verbose_report }.join
+      @sniffers.map { |sniffer| print_smells(sniffer) }.join
+    end
+    def print_smells(sniffer)      #SMELL: rename
+      ReportSection.new(sniffer, @display_masked_warnings).verbose_report
     end
   end
 
   #
   # A report that lists a section for each source that has smells.
   #
-  class QuietReport < Report
-    # SMELL: Implementation Inheritance
+  class QuietReport
+    def initialize(sniffers, display_masked_warnings = false)
+      @display_masked_warnings = display_masked_warnings
+      @sniffers = Array(sniffers)
+    end
     def report
-      @partials.map { |section| section.quiet_report }.join
+      @sniffers.map { |sniffer| print_smells(sniffer) }.join
+    end
+    def print_smells(sniffer)      #SMELL: rename
+      ReportSection.new(sniffer, @display_masked_warnings).quiet_report
     end
   end
 end
