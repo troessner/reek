@@ -8,8 +8,8 @@ module Reek
   # YAML format.
   #
   class YamlCommand
-    def self.create(sources)
-      sniffer = sources.length > 0 ? sources.sniff : Reek::Sniffer.new($stdin.to_reek_source('$stdin'))
+    def self.create(filenames)
+      sniffer = filenames.length > 0 ? filenames.sniff : Reek::Sniffer.new($stdin.to_reek_source('$stdin'))
       new(sniffer.sniffers)
     end
 

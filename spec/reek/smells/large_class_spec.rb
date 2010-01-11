@@ -1,5 +1,6 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
+require 'reek/examiner'
 require 'reek/class_context'
 require 'reek/stop_context'
 require 'reek/code_parser'
@@ -107,14 +108,10 @@ class Full
   def me51x()3 end
 end
 EOS
-      source = src.to_reek_source
-      sniffer = Sniffer.new(source)
-      ctx = CodeParser.new(sniffer).process_class(source.syntax_tree)
-      @detector.examine_context(ctx)
-      @yaml = @detector.smells_found.to_a[0].to_yaml   # SMELL: too cumbersome!
+      @yaml = Examiner.new(src).all_smells[0].to_yaml
     end
     it 'reports the source' do
-      @yaml.should match(/source:\s*#{@source_name}/)
+      @yaml.should match(/source:\s*string/)
     end
     it 'reports the correct class' do
       @yaml.should match(/\sclass:\s*LargeClass/)

@@ -6,7 +6,6 @@ module Reek
   class StopContext
     
     def initialize
-      @refs = ObjectRefs.new
       @name = ''
     end
 
