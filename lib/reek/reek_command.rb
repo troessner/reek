@@ -8,8 +8,8 @@ module Reek
   # text report format.
   #
   class ReekCommand
-    def self.create(filenames, report_class, show_all)
-      sniffers = SourceLocator.new(filenames).all_sniffers
+    def self.create(sources, report_class, show_all)
+      sniffers = sources.map {|src| Reek::Sniffer.new(src)}
       new(sniffers, report_class, show_all)
     end
 

@@ -18,7 +18,7 @@ module Reek
       @parser = OptionParser.new
       @report_class = VerboseReport
       @show_all = false
-      @command = nil
+      @command_class = ReekCommand
       set_options
     end
 
@@ -53,19 +53,14 @@ See http://wiki.github.com/kevinrutherford/reek for detailed help.
 EOB
     end
 
-    def parse
-      @parser.parse!(@argv)
-      @command ||= ReekCommand.create(@argv, @report_class, @show_all)
-    end
-
     def set_options
       @parser.banner = banner
       @parser.separator "Common options:"
       @parser.on("-h", "--help", "Show this message") do
-        @command = HelpCommand.new(@parser)
+        @command_class = HelpCommand
       end
       @parser.on("-v", "--version", "Show version") do
-        @command = VersionCommand.new(@parser.program_name)
+        @command_class = VersionCommand
       end
 
       @parser.separator "\nReport formatting:"
@@ -76,10 +71,33 @@ EOB
         @report_class = opt ? QuietReport : VerboseReport
       end
       @parser.on("-y", "--yaml", "Report smells in YAML format") do
-        @command = YamlCommand.create(@argv)
+        @command_class = YamlCommand
         # SMELL: the args passed to the command should be tested, because it may
         # turn out that they are passed too soon, ie. before the files have been
         # separated out from the options
+      end
+    end
+
+    def parse
+      @parser.parse!(@argv)
+      if @command_class == HelpCommand
+        HelpCommand.new(@parser)
+      elsif @command_class == VersionCommand
+        VersionCommand.new(@parser.program_name)
+      elsif @command_class == YamlCommand
+        sources = get_sources
+        YamlCommand.create(sources)
+      else
+        sources = get_sources
+        ReekCommand.create(sources, @report_class, @show_all)
+      end
+    end
+
+    def get_sources
+      if @argv.empty?
+        return [$stdin.to_reek_source('$stdin')]
+      else
+        return SourceLocator.new(@argv).all_sources
       end
     end
   end

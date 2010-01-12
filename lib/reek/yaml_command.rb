@@ -9,8 +9,8 @@ module Reek
   # YAML format.
   #
   class YamlCommand
-    def self.create(filenames)
-      sniffers = SourceLocator.new(filenames).all_sniffers
+    def self.create(sources)
+      sniffers = sources.map {|src| Reek::Sniffer.new(src)}
       new(sniffers)
     end
 

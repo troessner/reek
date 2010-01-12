@@ -6,11 +6,7 @@ module Reek
     end
 
     def all_sources
-      if @paths.empty?
-        [$stdin.to_reek_source('$stdin')]
-      else
-        valid_paths.map {|path| File.new(path).to_reek_source }
-      end
+      valid_paths.map {|path| File.new(path).to_reek_source }
     end
 
     def all_sniffers

@@ -9,7 +9,7 @@ module Reek
       @progname = progname
     end
     def execute(view)
-      view.output("#{@progname} #{Reek::VERSION}")
+      view.output("#{@progname} #{Reek::VERSION}\n")
       view.report_success
     end
   end

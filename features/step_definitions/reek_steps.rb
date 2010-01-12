@@ -39,5 +39,5 @@ Then /^it reports the error ['"](.*)['"]$/ do |string|
 end
 
 Then /^it reports the current version$/ do
-  @last_stdout.chomp.should == "reek #{Reek::VERSION}"
+  @last_stdout.should == "reek #{Reek::VERSION}\n"
 end

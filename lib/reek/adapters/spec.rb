@@ -85,14 +85,16 @@ module Reek
         @patterns = patterns
       end
       def matches?(actual)
+        @examiner = Examiner.new(actual)
         @sniffer = actual.sniff
         @sniffer.has_smell?(@klass, @patterns)
       end
       def failure_message_for_should
-        "Expected #{@sniffer.desc} to reek of #{@klass}, but it didn't"
+        "Expected #{@examiner.description} to reek of #{@klass}, but it didn't"
       end
       def failure_message_for_should_not
-        "Expected #{@sniffer.desc} not to reek of #{@klass}, but got:\n#{report}"
+        rpt = QuietReport.new(@examiner.sniffer.sniffers, false).report
+        "Expected #{@examiner.description} not to reek of #{@klass}, but got:\n#{rpt}"
       end
     end
 
