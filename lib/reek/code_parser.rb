@@ -1,10 +1,10 @@
 require 'sexp'
-require 'reek/block_context'
-require 'reek/class_context'
-require 'reek/module_context'
-require 'reek/stop_context'
-require 'reek/method_context'
-require 'reek/singleton_method_context'
+require File.join( File.dirname( File.expand_path(__FILE__)), 'block_context')
+require File.join( File.dirname( File.expand_path(__FILE__)), 'class_context')
+require File.join( File.dirname( File.expand_path(__FILE__)), 'method_context')
+require File.join( File.dirname( File.expand_path(__FILE__)), 'module_context')
+require File.join( File.dirname( File.expand_path(__FILE__)), 'stop_context')
+require File.join( File.dirname( File.expand_path(__FILE__)), 'singleton_method_context')
 
 module Reek
   #

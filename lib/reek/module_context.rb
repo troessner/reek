@@ -1,6 +1,6 @@
-require 'reek/code_context'
-require 'reek/code_parser'
-require 'reek/sniffer'
+require File.join( File.dirname( File.expand_path(__FILE__)), 'code_context')
+require File.join( File.dirname( File.expand_path(__FILE__)), 'code_parser')
+require File.join( File.dirname( File.expand_path(__FILE__)), 'sniffer')
 
 module Reek
 

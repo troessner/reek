@@ -1,6 +1,7 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
-require 'reek/smells/data_clump'
+require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'smells', 'data_clump')
+require File.join(File.dirname(File.expand_path(__FILE__)), 'smell_detector_shared')
 
 include Reek::Smells
 
@@ -116,8 +117,6 @@ describe DataClump do
 
   # TODO: include singleton methods in the calcs
 end
-
-require 'spec/reek/smells/smell_detector_shared'
 
 describe DataClump do
   before(:each) do

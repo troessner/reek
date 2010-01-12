@@ -1,4 +1,4 @@
-require 'reek/sniffer'
+require File.join( File.dirname( File.expand_path(__FILE__)), 'masking_collection')
 
 module Reek
 

@@ -1,6 +1,5 @@
-require 'reek/adapters/command_line'
-require 'reek/adapters/source'
-require 'reek/adapters/core_extras'
+require File.join( File.dirname( File.expand_path(__FILE__)), 'command_line')
+require File.join( File.dirname( File.expand_path(__FILE__)), 'core_extras')
 
 module Reek
 

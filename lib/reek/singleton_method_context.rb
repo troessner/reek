@@ -1,6 +1,6 @@
-require 'reek/name'
-require 'reek/method_context'
-require 'reek/sexp_formatter'
+require File.join(File.dirname(File.expand_path(__FILE__)), 'name')
+require File.join(File.dirname(File.expand_path(__FILE__)), 'method_context')
+require File.join(File.dirname(File.expand_path(__FILE__)), 'sexp_formatter')
 
 module Reek
 

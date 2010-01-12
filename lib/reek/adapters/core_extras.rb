@@ -1,6 +1,7 @@
-require 'reek/adapters/source'
-require 'reek/adapters/source_file'
-require 'reek/sniffer'
+require File.join(File.dirname(File.expand_path(__FILE__)), 'source')
+require File.join(File.dirname(File.expand_path(__FILE__)), 'source_file')
+require File.join(File.dirname(File.expand_path(__FILE__)), 'source_locator')
+require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'sniffer')
 
 #
 # Extensions to +Object+ needed by Reek.

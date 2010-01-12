@@ -1,4 +1,4 @@
-require 'reek/code_context'
+require File.join(File.dirname(File.expand_path(__FILE__)), 'code_context')
 
 module Reek
 

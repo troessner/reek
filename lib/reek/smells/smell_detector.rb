@@ -1,4 +1,6 @@
-require 'reek/configuration'
+require 'set'
+require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'smell_warning')
+require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'configuration')
 
 module Reek
   module Smells

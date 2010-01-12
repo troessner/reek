@@ -1,10 +1,10 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
-require 'reek/class_context'
-require 'reek/stop_context'
-require 'reek/code_parser'
-require 'reek/smells/irresponsible_module'
-require 'spec/reek/smells/smell_detector_shared'
+require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'smells', 'irresponsible_module')
+require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'code_parser')
+require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'class_context')
+require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'stop_context')
+require File.join(File.dirname(File.expand_path(__FILE__)), 'smell_detector_shared')
 
 include Reek
 include Reek::Smells

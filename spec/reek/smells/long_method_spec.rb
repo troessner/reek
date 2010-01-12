@@ -1,8 +1,9 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
-require 'reek/code_parser'
-require 'reek/sniffer'
-require 'reek/smells/long_method'
+require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'smells', 'long_method')
+require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'code_parser')
+require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'sniffer')
+require File.join(File.dirname(File.expand_path(__FILE__)), 'smell_detector_shared')
 
 include Reek
 include Reek::Smells
@@ -194,8 +195,6 @@ EOS
     method.num_statements.should == 6
   end
 end
-
-require 'spec/reek/smells/smell_detector_shared'
 
 describe LongMethod do
   before(:each) do

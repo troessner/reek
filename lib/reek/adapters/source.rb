@@ -1,6 +1,6 @@
 require 'ruby_parser'
-require 'reek/adapters/config_file'
-require 'reek/tree_dresser'
+require File.join(File.dirname(File.expand_path(__FILE__)), 'config_file')
+require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'tree_dresser')
 
 module Reek
 

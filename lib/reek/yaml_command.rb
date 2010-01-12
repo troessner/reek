@@ -1,6 +1,5 @@
-require 'reek/adapters/source_locator'
-require 'reek/sniffer'
-require 'reek/masking_collection'
+require File.join( File.dirname( File.expand_path(__FILE__)), 'sniffer')
+require File.join( File.dirname( File.expand_path(__FILE__)), 'masking_collection')
 
 module Reek
 

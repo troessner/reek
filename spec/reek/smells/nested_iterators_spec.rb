@@ -1,6 +1,7 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
-require 'reek/smells/nested_iterators'
+require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'smells', 'nested_iterators')
+require File.join(File.dirname(File.expand_path(__FILE__)), 'smell_detector_shared')
 
 include Reek::Smells
 
@@ -39,8 +40,6 @@ EOS
     src.should reek_only_of(:NestedIterators)
   end
 end
-
-require 'spec/reek/smells/smell_detector_shared'
 
 describe NestedIterators do
   before(:each) do

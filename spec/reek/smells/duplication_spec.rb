@@ -1,9 +1,10 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
-require 'reek/configuration'
-require 'reek/method_context'
-require 'reek/stop_context'
-require 'reek/smells/duplication'
+require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'smells', 'duplication')
+require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'method_context')
+require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'stop_context')
+require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'configuration')
+require File.join(File.dirname(File.expand_path(__FILE__)), 'smell_detector_shared')
 
 include Reek
 include Reek::Smells
@@ -40,8 +41,6 @@ describe Duplication, "non-repeated method calls" do
     'def double_thing() @other.thing(3) + @other.thing(2) end'.should_not reek
   end
 end
-
-require 'spec/reek/smells/smell_detector_shared'
 
 describe Duplication do
   before(:each) do

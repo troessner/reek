@@ -1,10 +1,9 @@
 require 'optparse'
-require 'reek'
-require 'reek/adapters/report'
-require 'reek/help_command'
-require 'reek/reek_command'
-require 'reek/version_command'
-require 'reek/yaml_command'
+require File.join( File.dirname( File.expand_path(__FILE__)), 'report')
+require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'help_command')
+require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'reek_command')
+require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'version_command')
+require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'yaml_command')
 
 module Reek
 

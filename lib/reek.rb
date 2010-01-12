@@ -1,4 +1,3 @@
-$:.unshift File.dirname(__FILE__)
 
 #
 # Reek's core functionality

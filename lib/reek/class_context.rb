@@ -1,5 +1,4 @@
-require 'set'
-require 'reek/module_context'
+require File.join( File.dirname( File.expand_path(__FILE__)), 'module_context')
 
 module Reek
 

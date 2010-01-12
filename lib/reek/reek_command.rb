@@ -1,5 +1,4 @@
-require 'reek/adapters/source_locator'
-require 'reek/sniffer'
+require File.join( File.dirname( File.expand_path(__FILE__)), 'sniffer')
 
 module Reek
 

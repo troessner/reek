@@ -1,7 +1,7 @@
-require 'reek/examiner'
-require 'reek/sniffer'
-require 'reek/adapters/core_extras'
-require 'reek/adapters/report'
+require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'examiner')
+require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'sniffer')
+require File.join(File.dirname(File.expand_path(__FILE__)), 'core_extras')
+require File.join(File.dirname(File.expand_path(__FILE__)), 'report')
 
 module Reek
 

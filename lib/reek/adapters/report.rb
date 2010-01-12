@@ -1,6 +1,4 @@
-require 'set'
-require 'reek/adapters/command_line'   # SMELL: Global Variable
-require 'reek/masking_collection'
+require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'masking_collection')
 
 module Reek
 

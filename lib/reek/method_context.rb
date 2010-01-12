@@ -1,5 +1,5 @@
-require 'reek/name'
-require 'reek/object_refs'
+require File.join( File.dirname( File.expand_path(__FILE__)), 'name')
+require File.join( File.dirname( File.expand_path(__FILE__)), 'object_refs')
 
 #
 # Extensions to +Array+ needed by Reek.

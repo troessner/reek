@@ -1,6 +1,7 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
-require 'reek/smells/boolean_parameter'
+require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'smells', 'boolean_parameter')
+require File.join(File.dirname(File.expand_path(__FILE__)), 'smell_detector_shared')
 
 include Reek::Smells
 
@@ -35,8 +36,6 @@ describe BooleanParameter do
     end
   end
 end
-
-require 'spec/reek/smells/smell_detector_shared'
 
 describe BooleanParameter do
   before(:each) do

@@ -1,9 +1,8 @@
-require File.dirname(__FILE__) + '/../../spec_helper.rb'
+#require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
-require 'reek/method_context'
-require 'reek/smells/uncommunicative_parameter_name'
-
-require 'spec/reek/smells/smell_detector_shared'
+require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'smells', 'uncommunicative_parameter_name')
+require File.join(File.dirname(File.expand_path(__FILE__)), 'smell_detector_shared')
+require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'method_context')
 
 include Reek
 include Reek::Smells

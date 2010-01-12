@@ -1,6 +1,7 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
-require 'reek/smells/long_parameter_list'
+require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'smells', 'long_parameter_list')
+require File.join(File.dirname(File.expand_path(__FILE__)), 'smell_detector_shared')
 
 include Reek
 include Reek::Smells
@@ -55,8 +56,6 @@ describe LongParameterList do
     end
   end
 end
-
-require 'spec/reek/smells/smell_detector_shared'
 
 describe LongParameterList do
   before(:each) do

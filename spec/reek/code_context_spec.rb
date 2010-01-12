@@ -1,10 +1,10 @@
 require File.dirname(__FILE__) + '/../spec_helper.rb'
 
-require 'reek/block_context'
-require 'reek/class_context'
-require 'reek/module_context'
-require 'reek/method_context'
-require 'reek/stop_context'
+require File.join(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__)))), 'lib', 'reek', 'block_context')
+require File.join(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__)))), 'lib', 'reek', 'class_context')
+require File.join(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__)))), 'lib', 'reek', 'method_context')
+require File.join(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__)))), 'lib', 'reek', 'module_context')
+require File.join(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__)))), 'lib', 'reek', 'stop_context')
 
 include Reek
 
