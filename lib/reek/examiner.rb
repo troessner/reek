@@ -10,12 +10,16 @@ module Reek
 
     def initialize(source)
       @sniffer = source.sniff
+      @cwarnings = MaskingCollection.new
+      @sniffer.sniffers.each {|sniffer| sniffer.report_on(@cwarnings)}
+    end
+
+    def all_active_smells
+      @cwarnings.all_active_items.to_a
     end
 
     def all_smells
-      cwarnings = MaskingCollection.new
-      @sniffer.sniffers.each {|sniffer| sniffer.report_on(cwarnings)}
-      cwarnings.all_items
+      @cwarnings.all_items
     end
 
     def description

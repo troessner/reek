@@ -1,5 +1,4 @@
 require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'examiner')
-require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'sniffer')
 require File.join(File.dirname(File.expand_path(__FILE__)), 'core_extras')
 require File.join(File.dirname(File.expand_path(__FILE__)), 'report')
 
@@ -43,23 +42,10 @@ module Reek
   #   ruby.should_not reek_of(:FeatureEnvy)
   #
   module Spec
-    module ReekMatcher
-      def create_reporter(sniffers)
-        QuietReport.new(sniffers, false)
-      end
-      def report
-        create_reporter(@sniffer.sniffers).report
-      end
-
-      module_function :create_reporter
-    end
-
     #
     # An rspec matcher that matches when the +actual+ has code smells.
     #
     class ShouldReek        # :nodoc:
-      include ReekMatcher
-
       def matches?(actual)
         @examiner = Examiner.new(actual)
         @examiner.smelly?
@@ -78,15 +64,13 @@ module Reek
     # code smell.
     #
     class ShouldReekOf        # :nodoc:
-      include ReekMatcher
-
       def initialize(klass, patterns)
         @klass = klass
         @patterns = patterns
       end
       def matches?(actual)
         @examiner = Examiner.new(actual)
-        @all_smells = @examiner.all_smells
+        @all_smells = @examiner.all_active_smells
         @all_smells.any? {|warning| warning.matches?(@klass, @patterns)}
       end
       def failure_message_for_should
@@ -104,14 +88,16 @@ module Reek
     #
     class ShouldReekOnlyOf < ShouldReekOf        # :nodoc:
       def matches?(actual)
-        @sniffer = actual.sniff
-        @sniffer.num_smells == 1 and @sniffer.has_smell?(@klass, @patterns)
+        @examiner = Examiner.new(actual)
+        @all_smells = @examiner.all_active_smells
+        @all_smells.length == 1 and @all_smells[0].matches?(@klass, @patterns)
       end
       def failure_message_for_should
-        "Expected #{@sniffer.desc} to reek only of #{@klass}, but got:\n#{report}"
+        rpt = QuietReport.new(@examiner.sniffer.sniffers, false).report
+        "Expected #{@examiner.description} to reek only of #{@klass}, but got:\n#{rpt}"
       end
       def failure_message_for_should_not
-        "Expected #{@sniffer.desc} not to reek only of #{@klass}, but it did"
+        "Expected #{@examiner.description} not to reek only of #{@klass}, but it did"
       end
     end
 

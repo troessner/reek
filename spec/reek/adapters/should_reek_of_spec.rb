@@ -6,19 +6,6 @@ require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expan
 include Reek
 include Reek::Spec
 
-# belongs in its own spec file
-describe ReekMatcher do
-  before :each do
-    smelly_code = Dir['spec/samples/two_smelly_files/*.rb']
-    @sniffers = smelly_code.sniff.sniffers
-    @full = VerboseReport.new(@sniffers, false).report
-  end
-
-  it 'reports quietly' do
-    ReekMatcher.create_reporter(@sniffers).should_not == @full
-  end
-end
-
 describe ShouldReekOf do
   context 'rdoc demo example' do
     before :each do
@@ -54,7 +41,6 @@ describe ShouldReekOf do
     before :each do
       @clean_code = 'def good() true; end'
       @smelly_code = 'def x() y = 4; end'
-      @expected_report = Reek::Spec::ReekMatcher::create_reporter(@smelly_code.sniff).report
       @matcher = ShouldReekOf.new(:UncommunicativeVariableName, [/x/, /y/])
     end
 
@@ -68,7 +54,7 @@ describe ShouldReekOf do
 
     it 'reports the smells when should_not fails' do
       @matcher.matches?(@smelly_code).should be_true
-      @matcher.failure_message_for_should_not.should include(@expected_report)
+      @matcher.failure_message_for_should_not.should match('UncommunicativeVariableName')
     end
   end
 

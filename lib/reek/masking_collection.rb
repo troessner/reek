@@ -14,6 +14,9 @@ class MaskingCollection
     all.merge(@masked_items)
     all.to_a
   end
+  def all_active_items
+    @visible_items
+  end
   def found_smell(item)
     @visible_items.add(item)
     @masked_items.delete(item) if @masked_items.include?(item)
