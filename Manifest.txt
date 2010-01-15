@@ -23,6 +23,7 @@ lib/reek/adapters/rake_task.rb
 lib/reek/adapters/report.rb
 lib/reek/adapters/source.rb
 lib/reek/adapters/source_file.rb
+lib/reek/adapters/source_locator.rb
 lib/reek/adapters/spec.rb
 lib/reek/block_context.rb
 lib/reek/class_context.rb

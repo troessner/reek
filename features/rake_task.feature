@@ -44,14 +44,7 @@ Feature: Reek can be driven through its RakeTask
       end
       """
     Then the exit status indicates an error
-    And it reports:
-      """
-      /usr/bin/ruby1.8 -I"/home/kevin/Working/git/reek/lib" "/home/kevin/Working/git/reek/bin/reek"  "spec/samples/masked/dirty.rb"
-      spec/samples/masked/dirty.rb -- 3 warnings (+3 masked):
-        Dirty#a calls @s.title twice (Duplication)
-        Dirty#a calls puts(@s.title) twice (Duplication)
-        Dirty#a contains iterators nested 2 deep (Nested Iterators)
-      """
+    And stdout includes /spec\/samples\/masked\/dirty\.rb/
 
   Scenario: fail_on_error can hide the error status
     When I run rake reek with:

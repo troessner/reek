@@ -43,6 +43,10 @@ module Reek
       return patterns.all? {|exp| exp === rpt}
     end
 
+    def matches?(klass, patterns)
+      @smell.values.include?(klass.to_s) and contains_all?(patterns)
+    end
+
     def sort_key
       [@location[CONTEXT_KEY], @smell['message'], smell_name]
     end

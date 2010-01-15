@@ -14,7 +14,7 @@ module Reek
 
     def all_smells
       cwarnings = MaskingCollection.new
-      @sniffer.report_on(cwarnings)
+      @sniffer.sniffers.each {|sniffer| sniffer.report_on(cwarnings)}
       cwarnings.all_items
     end
 

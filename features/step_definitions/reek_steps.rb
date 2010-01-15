@@ -14,6 +14,10 @@ Then /^stdout equals "([^\"]*)"$/ do |report|
   @last_stdout.should == report
 end
 
+Then /^stdout includes \/([^\"]*)\/$/ do |report|
+  @last_stdout.should match(report)
+end
+
 Then /^it succeeds$/ do
   @last_exit_status.should == Reek::Application::STATUS_SUCCESS
 end

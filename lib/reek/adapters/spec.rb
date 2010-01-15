@@ -86,8 +86,8 @@ module Reek
       end
       def matches?(actual)
         @examiner = Examiner.new(actual)
-        @sniffer = actual.sniff
-        @sniffer.has_smell?(@klass, @patterns)
+        @all_smells = @examiner.all_smells
+        @all_smells.any? {|warning| warning.matches?(@klass, @patterns)}
       end
       def failure_message_for_should
         "Expected #{@examiner.description} to reek of #{@klass}, but it didn't"
