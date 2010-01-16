@@ -12,28 +12,14 @@ describe ShouldReekOf do
       @ruby = 'def double_thing() @other.thing.foo + @other.thing.foo end'
     end
 
-    shared_examples_for 'reek as documented' do
-      it 'reports duplicate calls to @other.thing' do
-        @ruby.should reek_of(:Duplication, /@other.thing[^\.]/)
-      end
-      it 'reports duplicate calls to @other.thing.foo' do
-        @ruby.should reek_of(:Duplication, /@other.thing.foo/)
-      end
-      it 'does not report any feature envy' do
-        @ruby.should_not reek_of(:FeatureEnvy)
-      end
+    it 'reports duplicate calls to @other.thing' do
+      @ruby.should reek_of(:Duplication, /@other.thing[^\.]/)
     end
-
-    context 'using source code' do
-      it_should_behave_like 'reek as documented'
+    it 'reports duplicate calls to @other.thing.foo' do
+      @ruby.should reek_of(:Duplication, /@other.thing.foo/)
     end
-
-    context 'using a sniffer' do
-      before :each do
-        @ruby = @ruby.sniff
-      end
-
-      it_should_behave_like 'reek as documented'
+    it 'does not report any feature envy' do
+      @ruby.should_not reek_of(:FeatureEnvy)
     end
   end
 
@@ -97,28 +83,6 @@ describe ShouldReekOf do
     it 'reports the smells when should_not fails' do
       @matcher.matches?(@smelly_file).should be_true
       @matcher.failure_message_for_should_not.should include(QuietReport.new(@smelly_file.sniff, '%m%c %w (%s)').report)
-    end
-  end
-
-  context 'report formatting' do
-    before :each do
-      sn_clean = 'def clean() @thing = 4; end'.sniff
-      sn_dirty = 'def dirty() thing.cool + thing.cool; end'.sniff
-      sniffers = SnifferSet.new([sn_clean, sn_dirty], '')
-      @matcher = ShouldReekOf.new(:UncommunicativeVariableName, [/Dirty/, /@s/])
-      @matcher.matches?(sniffers)
-      @lines = @matcher.failure_message_for_should_not.split("\n").map {|str| str.chomp}
-      @error_message = @lines.shift
-      @smells = @lines.grep(/^  /)
-      @headers = (@lines - @smells)
-    end
-
-    it 'mentions every smell in the report' do
-      @smells.should have(2).warnings
-    end
-
-    it 'doesnt mention the clean source' do
-      @headers.should have(1).headers
     end
   end
 end

@@ -68,25 +68,3 @@ describe ShouldReek, 'checking code in a File' do
     @matcher.failure_message_for_should_not.should include(QuietReport.new(@smelly_file.sniff).report)
   end
 end
-
-describe ShouldReek, 'report formatting' do
-  before :each do
-    sn_clean = 'def clean() @thing = 4; end'.sniff
-    sn_dirty = 'def dirty() thing.cool + thing.cool; end'.sniff
-    sniffers = SnifferSet.new([sn_clean, sn_dirty], '')
-    @matcher = ShouldReek.new
-    @matcher.matches?(sniffers)
-    @lines = @matcher.failure_message_for_should_not.split("\n").map {|str| str.chomp}
-    @error_message = @lines.shift
-    @smells = @lines.grep(/^  /)
-    @headers = (@lines - @smells)
-  end
-
-  it 'mentions every smell in the report' do
-    @smells.should have(2).warnings
-  end
-
-  it 'doesnt mention the clean files' do
-    @headers.should have(1).headers
-  end
-end

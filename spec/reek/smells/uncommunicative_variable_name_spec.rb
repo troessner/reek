@@ -115,7 +115,7 @@ EOS
 
   context "several names" do
     it 'should report all bad names' do
-      ruby = 'class Oof; def y(x) @z = x end end'.sniff
+      ruby = 'class Oof; def y(x) @z = x end end'
       ruby.should reek_of(:UncommunicativeParameterName, /'x'/)
       ruby.should reek_of(:UncommunicativeMethodName, /'y'/)
       ruby.should reek_of(:UncommunicativeVariableName, /'@z'/)

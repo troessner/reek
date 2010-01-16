@@ -33,10 +33,9 @@ module Reek
   #
   #  'def equals(other) other.thing == self.thing end'.should_not reek
   #
-  # And a more complex example, making use of one of the factory methods for
-  # +Source+ so that the code is parsed and analysed only once:
+  # To check for specific smells, use something like this:
   # 
-  #   ruby = 'def double_thing() @other.thing.foo + @other.thing.foo end'.sniff
+  #   ruby = 'def double_thing() @other.thing.foo + @other.thing.foo end'
   #   ruby.should reek_of(:Duplication, /@other.thing[^\.]/)
   #   ruby.should reek_of(:Duplication, /@other.thing.foo/)
   #   ruby.should_not reek_of(:FeatureEnvy)

@@ -9,7 +9,13 @@ module Reek
     attr_accessor :sniffer
 
     def initialize(source)
-      @sniffer = source.sniff
+      @sniffer = case source
+      when Array
+        sniffers = SourceLocator.new(source).all_sniffers
+        Reek::SnifferSet.new(sniffers, 'dir')
+      else
+        Reek::Sniffer.new(source.to_reek_source)
+      end
       @cwarnings = MaskingCollection.new
       @sniffer.sniffers.each {|sniffer| sniffer.report_on(@cwarnings)}
     end
