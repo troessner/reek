@@ -1,5 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper.rb'
 
+require File.join(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__)))), 'lib', 'reek', 'examiner')
 require File.join(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__)))), 'lib', 'reek', 'reek_command')
 
 include Reek
@@ -11,8 +12,8 @@ describe ReekCommand do
 
   context 'with smells' do
     before :each do
-      sniffer = 'def x(); end'.sniff
-      @cmd = ReekCommand.new([sniffer], QuietReport, false)
+      examiner = Examiner.new('def x(); end')
+      @cmd = ReekCommand.new([examiner.sniffer], QuietReport, false)
     end
 
     it 'displays the correct text on the view' do
@@ -28,8 +29,8 @@ describe ReekCommand do
 
   context 'with no smells' do
     before :each do
-      sniffer = 'def clean(); end'.sniff
-      @cmd = ReekCommand.new([sniffer], QuietReport, false)
+      examiner = Examiner.new('def clean(); end')
+      @cmd = ReekCommand.new([examiner.sniffer], QuietReport, false)
     end
 
     it 'displays nothing on the view' do

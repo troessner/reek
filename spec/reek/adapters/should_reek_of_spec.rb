@@ -60,8 +60,8 @@ describe ShouldReekOf do
     end
 
     it 'reports the smells when should_not fails' do
-      @matcher.matches?(@smelly_dir).should be_true
-      @matcher.failure_message_for_should_not.should include(QuietReport.new(@smelly_dir.sniff.sniffers, '%m%c %w (%s)').report)
+      @matcher.matches?(@smelly_dir)
+      @matcher.failure_message_for_should_not.should match('Uncommunicative Name')
     end
   end
 
@@ -81,8 +81,8 @@ describe ShouldReekOf do
     end
 
     it 'reports the smells when should_not fails' do
-      @matcher.matches?(@smelly_file).should be_true
-      @matcher.failure_message_for_should_not.should include(QuietReport.new(@smelly_file.sniff, '%m%c %w (%s)').report)
+      @matcher.matches?(@smelly_file)
+      @matcher.failure_message_for_should_not.should match('Uncommunicative Name')
     end
   end
 end

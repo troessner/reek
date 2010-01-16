@@ -22,8 +22,8 @@ describe ShouldReekOnlyOf, 'checking code in a string' do
   end
 
   it 'reports the smells when should_not fails' do
-    @matcher.matches?(@smelly_code).should be_true
-    @matcher.failure_message_for_should_not.should include('UncommunicativeVariableName')
+    @matcher.matches?(@smelly_code)
+    @matcher.failure_message_for_should_not.should match('UncommunicativeVariableName')
   end
 end
 
@@ -43,8 +43,8 @@ describe ShouldReekOnlyOf, 'checking code in a Dir' do
   end
 
   it 'reports the smells when should_not fails' do
-    @matcher.matches?(@smelly_dir).should be_true
-    @matcher.failure_message_for_should.should include(QuietReport.new(@smelly_dir.sniff.sniffers).report)
+    @matcher.matches?(@smelly_dir)
+    @matcher.failure_message_for_should.should match('Nested Iterators')
   end
 end
 
@@ -64,8 +64,8 @@ describe ShouldReekOnlyOf, 'checking code in a File' do
   end
 
   it 'reports the smells when should_not fails' do
-    @matcher.matches?(@smelly_file).should be_true
-    @matcher.failure_message_for_should.should include(QuietReport.new(@smelly_file.sniff).report)
+    @matcher.matches?(@smelly_file)
+    @matcher.failure_message_for_should.should match('Nested Iterators')
   end
 end
 

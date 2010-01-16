@@ -6,15 +6,18 @@ module Reek
   # Finds the code smells in Ruby source code
   #
   class Examiner
-    attr_accessor :sniffer
+    attr_accessor :sniffer, :description
 
     def initialize(source)
       @sniffer = case source
       when Array
         sniffers = SourceLocator.new(source).all_sniffers
+        @description = 'dir'
         Reek::SnifferSet.new(sniffers, 'dir')
       else
-        Reek::Sniffer.new(source.to_reek_source)
+        src = source.to_reek_source
+        @description = src.desc
+        Reek::Sniffer.new(src)
       end
       @cwarnings = MaskingCollection.new
       @sniffer.sniffers.each {|sniffer| sniffer.report_on(@cwarnings)}
@@ -28,12 +31,8 @@ module Reek
       @cwarnings.all_items
     end
 
-    def description
-      @sniffer.desc
-    end
-
     def smelly?
-      @sniffer.smelly?
+      not all_smells.empty?
     end
   end
 end
