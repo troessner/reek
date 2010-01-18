@@ -9,21 +9,20 @@ module Reek
     attr_accessor :description
 
     def initialize(source)
-      @sniffer = case source
+      sniffers = case source
       when Array
-        sniffers = SourceLocator.new(source).all_sniffers
         @description = 'dir'
-        Reek::SnifferSet.new(sniffers, 'dir')
+        SourceLocator.new(source).all_sniffers
       when Source
         @description = source.desc
-        Reek::Sniffer.new(source)
+        [Reek::Sniffer.new(source)]
       else
         src = source.to_reek_source
         @description = src.desc
-        Reek::Sniffer.new(src)
+        [Reek::Sniffer.new(src)]
       end
       @warnings = MaskingCollection.new
-      @sniffer.sniffers.each {|sniffer| sniffer.report_on(@warnings)}
+      sniffers.each {|sniffer| sniffer.report_on(@warnings)}
     end
 
     def all_active_smells

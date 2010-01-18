@@ -115,43 +115,6 @@ module Reek
       listeners.each {|smell| smell.examine(scope) } if listeners
     end
 
-    def smelly?
-      check_for_smells
-      @detectors.each_value { |stack| return true if stack.smelly? }
-      false
-    end
-
-    def num_smells
-      check_for_smells
-      total = 0
-      @detectors.each_value { |stack| total += stack.num_smells }
-      total
-    end
-
-    def desc
-      # SMELL: Special Case
-      # Only used in the Report tests, because they don't always create a Source.
-      @source ? @source.desc : "unknown"
-    end
-
-    #
-    # Checks for instances of +smell_class+, and returns +true+
-    # only if one of them has a report string matching all of the +patterns+.
-    #
-    def has_smell?(smell_class, patterns=[])
-      check_for_smells
-      stack = @detectors[Reek::Smells.const_get(smell_class)]      # SMELL: Duplication of code in ConfigFile
-      stack.has_smell?(patterns)
-    end
-
-    def sniff
-      self
-    end
-
-    def sniffers
-      [self]
-    end
-
 private
 
     def smell_listeners()
@@ -160,39 +123,6 @@ private
         @detectors.each_value { |stack| stack.listen_to(@typed_detectors) }
       end
       @typed_detectors
-    end
-  end
-
-  #
-  # A composite, making a set of +Sniffer+s behave like a single +Sniffer+.
-  #
-  class SnifferSet
-
-    attr_reader :desc, :sniffers
-
-    def initialize(sniffers, desc)
-      @sniffers = sniffers
-      @desc = desc
-    end
-
-    def smelly?
-      @sniffers.any? {|sniffer| sniffer.smelly? }
-    end
-
-    #
-    # Checks for instances of +smell_class+, and returns +true+
-    # only if one of them has a report string matching all of the +patterns+.
-    #
-    def has_smell?(smell_class, patterns=[])
-      @sniffers.any? {|sniffer| sniffer.has_smell?(smell_class, patterns)}
-    end
-
-    def num_smells
-      @sniffers.inject(0) {|total, sniffer| total += sniffer.num_smells}
-    end
-
-    def sniff
-      self
     end
   end
 end
