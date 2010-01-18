@@ -1,6 +1,5 @@
 require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'examiner')
 require File.join(File.dirname(File.expand_path(__FILE__)), 'core_extras')
-require File.join(File.dirname(File.expand_path(__FILE__)), 'report')
 
 module Reek
 
@@ -53,8 +52,7 @@ module Reek
         "Expected #{@examiner.description} to reek, but it didn't"
       end
       def failure_message_for_should_not
-        rpt = QuietReport.new(@examiner, false).report
-        "Expected no smells, but got:\n#{rpt}"
+        "Expected no smells, but got:\n#{list_smells(@examiner)}"
       end
     end
 
@@ -91,7 +89,7 @@ module Reek
         @all_smells.length == 1 and @all_smells[0].matches?(@klass, @patterns)
       end
       def failure_message_for_should
-        rpt = QuietReport.new(@examiner, false).report
+        rpt = list_smells(@examiner)
         "Expected #{@examiner.description} to reek only of #{@klass}, but got:\n#{rpt}"
       end
       def failure_message_for_should_not
@@ -121,6 +119,12 @@ module Reek
     #
     def reek_only_of(smell_class, *patterns)
       ShouldReekOnlyOf.new(smell_class, patterns)
+    end
+
+    def list_smells(examiner)     # :nodoc:
+      examiner.all_active_smells.map do |smell|
+        "#{smell.report('%c %w (%s)')}"
+      end.join("\n")
     end
   end
 end

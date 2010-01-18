@@ -6,6 +6,6 @@
 # Author: Kevin Rutherford
 #
 
-require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'lib', 'reek', 'adapters', 'application')
+require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'lib', 'reek', 'cli')
 
-exit Reek::Application.new(ARGV).execute
+exit Reek::Cli::Application.new(ARGV).execute

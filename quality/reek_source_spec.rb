@@ -59,15 +59,6 @@ describe 'Reek source code' do
   it 'has no smells' do
     Dir['lib/**/*.rb'].should_not reek
   end
-
-  # SMELL -- should be part of Reek
-  nucleus = Dir['lib/reek/**/*.rb'] - Dir['lib/reek/adapters/**/*.rb']
-  nucleus.each do |src|
-    it "#{src} contains no references from the nucleus out to the adapters" do
-      IO.readlines(src).grep(/adapters/).should == []
-    end
-  end
-
   it 'has no structural duplication' do
     ['lib'].should_not flay(16)
   end
