@@ -58,11 +58,6 @@ describe ShouldReekOf do
     it 'doesnt match a fragrant String' do
       @matcher.matches?(@clean_dir).should be_false
     end
-
-    it 'reports the smells when should_not fails' do
-      @matcher.matches?(@smelly_dir)
-      @matcher.failure_message_for_should_not.should match('Uncommunicative Name')
-    end
   end
 
   context 'checking code in a File' do
@@ -78,11 +73,6 @@ describe ShouldReekOf do
 
     it 'doesnt match a fragrant String' do
       @matcher.matches?(@clean_file).should be_false
-    end
-
-    it 'reports the smells when should_not fails' do
-      @matcher.matches?(@smelly_file)
-      @matcher.failure_message_for_should_not.should match('Uncommunicative Name')
     end
   end
 end

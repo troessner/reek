@@ -7,13 +7,13 @@ include Reek
 describe YamlCommand do
   before :each do
     @view = mock('view', :null_object => true)
+    @examiner = mock('examiner')
   end
 
   context 'with no smells' do
     before :each do
-      @sniffer = mock('sniffer')
-      @sniffer.should_receive(:report_on)
-      @cmd = YamlCommand.new([@sniffer])
+      @examiner.should_receive(:all_smells).and_return([])
+      @cmd = YamlCommand.new([@examiner])
     end
 
     it 'displays nothing on the view' do
@@ -28,12 +28,10 @@ describe YamlCommand do
   end
 
   context 'with smells' do
-    def report_on(listener)
-      @smell = SmellWarning.new('UncommunicativeName', "self", 27, "self", true)
-      listener.found_smell(@smell)
-    end
     before :each do
-      @cmd = YamlCommand.new([self])
+      @smell = SmellWarning.new('UncommunicativeName', "self", 27, "self", true)
+      @examiner.should_receive(:all_smells).and_return([@smell])
+      @cmd = YamlCommand.new([@examiner])
     end
 
     it 'displays the correct text on the view' do

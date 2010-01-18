@@ -11,11 +11,9 @@ module Reek
 
     SMELL_FORMAT = '%m%c %w (%s)'
 
-    def initialize(sniffer, display_masked_warnings)
-      @cwarnings = MaskingCollection.new
-      @desc = sniffer.desc
+    def initialize(examiner, display_masked_warnings)
+      @examiner = examiner
       @display_masked_warnings = display_masked_warnings  # SMELL: Control Couple
-      sniffer.report_on(@cwarnings)
     end
 
     # Creates a formatted report of all the +Smells::SmellWarning+ objects recorded in
@@ -34,17 +32,16 @@ module Reek
     end
 
     def header
-      "#{@desc} -- #{visible_header}#{masked_header}"
+      "#{@examiner.description} -- #{visible_header}#{masked_header}"
     end
 
     # Creates a formatted report of all the +Smells::SmellWarning+ objects recorded in
     # this report.
     def smell_list
-      result = []
       if @display_masked_warnings
-        @cwarnings.each_item {|smell| result << "  #{smell.report(SMELL_FORMAT)}"}
+        result = @examiner.all_smells.map {|smell| "  #{smell.report(SMELL_FORMAT)}"}
       else
-        @cwarnings.each_visible_item {|smell| result << "  #{smell.report(SMELL_FORMAT)}"}
+        result = @examiner.all_active_smells.map {|smell| "  #{smell.report(SMELL_FORMAT)}"}
       end
       result.join("\n")
     end
@@ -52,18 +49,18 @@ module Reek
   private
 
     def should_report
-      @cwarnings.num_visible_items > 0 or (@display_masked_warnings and @cwarnings.num_masked_items > 0)
+      @examiner.num_active_smells > 0 or (@display_masked_warnings and @examiner.num_masked_smells > 0)
     end
 
     def visible_header
-      num_smells = @cwarnings.num_visible_items
+      num_smells = @examiner.all_active_smells.length
       result = "#{num_smells} warning"
       result += 's' unless num_smells == 1
       result
     end
 
     def masked_header
-      num_masked_warnings = @cwarnings.num_masked_items
+      num_masked_warnings = @examiner.num_masked_smells
       num_masked_warnings == 0 ? '' : " (+#{num_masked_warnings} masked)"
     end
   end
@@ -72,15 +69,11 @@ module Reek
   # A report that lists every source, including those that have no smells.
   #
   class VerboseReport
-    def initialize(sniffers, display_masked_warnings = false)
-      @display_masked_warnings = display_masked_warnings
-      @sniffers = Array(sniffers)
+    def initialize(examiner, display_masked_warnings)
+      @reporter = ReportSection.new(examiner, display_masked_warnings)
     end
     def report
-      @sniffers.map { |sniffer| print_smells(sniffer) }.join
-    end
-    def print_smells(sniffer)      #SMELL: rename
-      ReportSection.new(sniffer, @display_masked_warnings).verbose_report
+      @reporter.verbose_report
     end
   end
 
@@ -88,15 +81,11 @@ module Reek
   # A report that lists a section for each source that has smells.
   #
   class QuietReport
-    def initialize(sniffers, display_masked_warnings = false)
-      @display_masked_warnings = display_masked_warnings
-      @sniffers = Array(sniffers)
+    def initialize(examiner, display_masked_warnings)
+      @reporter = ReportSection.new(examiner, display_masked_warnings)
     end
     def report
-      @sniffers.map { |sniffer| print_smells(sniffer) }.join
-    end
-    def print_smells(sniffer)      #SMELL: rename
-      ReportSection.new(sniffer, @display_masked_warnings).quiet_report
+      @reporter.quiet_report
     end
   end
 end

@@ -1,4 +1,4 @@
-require File.join( File.dirname( File.expand_path(__FILE__)), 'sniffer')
+require File.join( File.dirname( File.expand_path(__FILE__)), 'examiner')
 require File.join( File.dirname( File.expand_path(__FILE__)), 'masking_collection')
 
 module Reek
@@ -9,22 +9,21 @@ module Reek
   #
   class YamlCommand
     def self.create(sources)
-      sniffers = sources.map {|src| Reek::Sniffer.new(src)}
-      new(sniffers)
+      examiners = sources.map {|src| Examiner.new(src) }
+      new(examiners)
     end
 
-    def initialize(sniffers)
-      @sniffers = sniffers
-      @smells_found = MaskingCollection.new   # SMELL: indicates non-determinism in the stacks
+    def initialize(examiners)
+      @examiners = examiners
     end
 
     def execute(view)
-      @sniffers.each {|sniffer| sniffer.report_on(@smells_found)}
-      all = @smells_found.all_items
-      if all.empty?
+      smells = []
+      @examiners.each {|examiner| smells += examiner.all_smells}
+      if smells.empty?
         view.report_success
       else
-        view.output(all.to_yaml)
+        view.output(smells.to_yaml)
         view.report_smells
       end
     end

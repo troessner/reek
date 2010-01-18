@@ -53,7 +53,7 @@ module Reek
         "Expected #{@examiner.description} to reek, but it didn't"
       end
       def failure_message_for_should_not
-        rpt = QuietReport.new(@examiner.sniffer.sniffers, false).report
+        rpt = QuietReport.new(@examiner, false).report
         "Expected no smells, but got:\n#{rpt}"
       end
     end
@@ -76,8 +76,7 @@ module Reek
         "Expected #{@examiner.description} to reek of #{@klass}, but it didn't"
       end
       def failure_message_for_should_not
-        rpt = QuietReport.new(@examiner.sniffer.sniffers, false).report
-        "Expected #{@examiner.description} not to reek of #{@klass}, but got:\n#{rpt}"
+        "Expected #{@examiner.description} not to reek of #{@klass}, but it did"
       end
     end
 
@@ -92,7 +91,7 @@ module Reek
         @all_smells.length == 1 and @all_smells[0].matches?(@klass, @patterns)
       end
       def failure_message_for_should
-        rpt = QuietReport.new(@examiner.sniffer.sniffers, false).report
+        rpt = QuietReport.new(@examiner, false).report
         "Expected #{@examiner.description} to reek only of #{@klass}, but got:\n#{rpt}"
       end
       def failure_message_for_should_not
