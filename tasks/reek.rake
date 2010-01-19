@@ -1,7 +1,7 @@
 begin
-  require 'reek/adapters/rake_task'
+  require 'reek/rake/task'
 
-  Reek::RakeTask.new do |t|
+  Reek::Rake::RakeTask.new do |t|
     t.fail_on_error = true
     t.verbose = false
     t.reek_opts = '--quiet'

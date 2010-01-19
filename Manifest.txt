@@ -17,7 +17,6 @@ features/yaml.feature
 lib/reek.rb
 lib/reek/adapters/config_file.rb
 lib/reek/adapters/core_extras.rb
-lib/reek/adapters/rake_task.rb
 lib/reek/adapters/source.rb
 lib/reek/adapters/source_file.rb
 lib/reek/adapters/source_locator.rb
@@ -43,6 +42,7 @@ lib/reek/method_context.rb
 lib/reek/module_context.rb
 lib/reek/name.rb
 lib/reek/object_refs.rb
+lib/reek/rake/task.rb
 lib/reek/sexp_formatter.rb
 lib/reek/singleton_method_context.rb
 lib/reek/smell_warning.rb

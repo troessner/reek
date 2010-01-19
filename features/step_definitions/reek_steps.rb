@@ -19,15 +19,15 @@ Then /^stdout includes \/([^\"]*)\/$/ do |report|
 end
 
 Then /^it succeeds$/ do
-  @last_exit_status.should == Reek::Application::STATUS_SUCCESS
+  @last_exit_status.should == Reek::Cli::Application::STATUS_SUCCESS
 end
 
 Then /^the exit status indicates an error$/ do
-  @last_exit_status.should == Reek::Application::STATUS_ERROR
+  @last_exit_status.should == Reek::Cli::Application::STATUS_ERROR
 end
 
 Then /^the exit status indicates smells$/ do
-  @last_exit_status.should == Reek::Application::STATUS_SMELLS
+  @last_exit_status.should == Reek::Cli::Application::STATUS_SMELLS
 end
 
 Then /^it reports:$/ do |report|

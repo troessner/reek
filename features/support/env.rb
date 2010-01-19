@@ -4,7 +4,7 @@ require 'rubygems'
 require 'tempfile'
 require 'spec/expectations'
 require 'fileutils'
-require 'reek/adapters/application'
+require 'reek/cli'
 
 class ReekWorld
   def run(cmd)
@@ -26,7 +26,7 @@ class ReekWorld
   def rake(name, task_def)
     header = <<EOS
 $:.unshift('lib')
-require 'reek/adapters/rake_task'
+require 'reek/rake/task'
 
 EOS
     rakefile = Tempfile.new('rake_task', '.')

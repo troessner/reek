@@ -2,6 +2,7 @@
 
 === Major Changes
 * New option --yaml reports smells in YAML format
+* Now require 'reek/rake/task' to include the Reek Rake task
 
 === Minor Changes
 * New smell: Irresponsible Module (has no meaningful comment)
