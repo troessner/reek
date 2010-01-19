@@ -1,12 +1,12 @@
 @rake
-Feature: Reek can be driven through its RakeTask
+Feature: Reek can be driven through its Task
   Reek provides an easy way to integrate its use into Rakefiles,
-  via the RakeTask class. These scenarios test its various options.
+  via the Task class. These scenarios test its various options.
 
   Scenario: source_files points at the desired files
     When I run rake reek with:
       """
-      Reek::Rake::RakeTask.new do |t|
+      Reek::Rake::Task.new do |t|
         t.source_files = 'spec/samples/masked/dirty.rb'
       end
       """
@@ -22,7 +22,7 @@ Feature: Reek can be driven through its RakeTask
   Scenario: name changes the task name
     When I run rake silky with:
       """
-      Reek::Rake::RakeTask.new('silky') do |t|
+      Reek::Rake::Task.new('silky') do |t|
         t.source_files = 'spec/samples/masked/dirty.rb'
       end
       """
@@ -38,7 +38,7 @@ Feature: Reek can be driven through its RakeTask
   Scenario: verbose prints the reek command
     When I run rake reek with:
       """
-      Reek::Rake::RakeTask.new do |t|
+      Reek::Rake::Task.new do |t|
         t.source_files = 'spec/samples/masked/dirty.rb'
         t.verbose = true
       end
@@ -49,7 +49,7 @@ Feature: Reek can be driven through its RakeTask
   Scenario: fail_on_error can hide the error status
     When I run rake reek with:
       """
-      Reek::Rake::RakeTask.new do |t|
+      Reek::Rake::Task.new do |t|
         t.fail_on_error = false
         t.source_files = 'spec/samples/empty_config_file/dirty.rb'
       end

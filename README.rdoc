@@ -63,7 +63,7 @@ for up to date details of exactly what Reek will check in your code.
 
 Reek integrates with many of your favourite tools:
 
-* Use <tt>Reek::RakeTask</tt> to easily add Reek to your Rakefile
+* Use <tt>Reek::Rake::Task</tt> to easily add Reek to your Rakefile
 * Use <tt>Reek::Spec</tt> to add the <tt>should_not reek</tt> custom matcher to your Rspec examples
 * Reek is fully compliant with Ruby 1.8.6, 1.8.7 and 1.9.1
 

@@ -14,7 +14,7 @@ module Reek
     #
     # Example:
     #
-    #   Reek::RakeTask.new do |t|
+    #   Reek::Rake::Task.new do |t|
     #     t.fail_on_error = false
     #   end
     #
@@ -28,7 +28,7 @@ module Reek
     #   rake reek REEK_SRC=just_one_file.rb      # checks a single source file
     #   rake reek REEK_OPTS=-s                   # sorts the report by smell
     #
-    class RakeTask < ::Rake::TaskLib
+    class Task < ::Rake::TaskLib
 
       # Name of reek task.
       # Defaults to :reek.
@@ -98,9 +98,9 @@ module Reek
       end
 
       def cmd_words
-        [RakeTask.ruby_exe] +
+        [Task.ruby_exe] +
             ruby_options +
-            [ %Q|"#{RakeTask.reek_script}"| ] +
+            [ %Q|"#{Task.reek_script}"| ] +
             [sort_option] +
             source_file_list.collect { |fn| %["#{fn}"] }
       end
