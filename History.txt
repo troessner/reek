@@ -2,7 +2,8 @@
 
 === Major Changes
 * New option --yaml reports smells in YAML format
-* Now require 'reek/rake/task' to include the Reek Rake task
+* Now require 'reek/rake/task' to use the rake task
+* Now require 'reek/spec' to use the Rspec matchers
 
 === Minor Changes
 * New smell: Irresponsible Module (has no meaningful comment)

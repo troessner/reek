@@ -20,7 +20,6 @@ lib/reek/adapters/core_extras.rb
 lib/reek/adapters/source.rb
 lib/reek/adapters/source_file.rb
 lib/reek/adapters/source_locator.rb
-lib/reek/adapters/spec.rb
 lib/reek/block_context.rb
 lib/reek/class_context.rb
 lib/reek/cli.rb
@@ -66,12 +65,10 @@ lib/reek/smells/uncommunicative_parameter_name.rb
 lib/reek/smells/uncommunicative_variable_name.rb
 lib/reek/smells/utility_function.rb
 lib/reek/sniffer.rb
+lib/reek/spec.rb
 lib/reek/stop_context.rb
 lib/reek/tree_dresser.rb
 reek.gemspec
-spec/reek/adapters/should_reek_of_spec.rb
-spec/reek/adapters/should_reek_only_of_spec.rb
-spec/reek/adapters/should_reek_spec.rb
 spec/reek/adapters/source_spec.rb
 spec/reek/block_context_spec.rb
 spec/reek/class_context_spec.rb
@@ -91,6 +88,9 @@ spec/reek/method_context_spec.rb
 spec/reek/module_context_spec.rb
 spec/reek/object_refs_spec.rb
 spec/reek/object_source_spec.rb
+spec/reek/should_reek_of_spec.rb
+spec/reek/should_reek_only_of_spec.rb
+spec/reek/should_reek_spec.rb
 spec/reek/singleton_method_context_spec.rb
 spec/reek/smell_warning_spec.rb
 spec/reek/smells/attribute_spec.rb
