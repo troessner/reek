@@ -67,7 +67,7 @@ module Reek
       end
 
       def is_bad_name?(name, context)  # :nodoc:
-        var = name.effective_name
+        var = name.to_s.gsub(/^[@\*\&]*/, '')
         return false if value(ACCEPT_KEY, context, DEFAULT_ACCEPT_SET).include?(var)
         value(REJECT_KEY, context, DEFAULT_REJECT_SET).detect {|patt| patt === var}
       end

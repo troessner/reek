@@ -4,6 +4,7 @@ require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expan
 require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'cli')
 
 include Reek
+include Reek::Cli
 
 describe ReportSection, " when empty" do
   context 'empty source' do

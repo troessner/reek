@@ -1,4 +1,3 @@
-require File.join( File.dirname( File.expand_path(__FILE__)), 'name')
 require File.join( File.dirname( File.expand_path(__FILE__)), 'object_refs')
 
 #
@@ -52,7 +51,7 @@ module Reek
 
     def names
       return @names if @names
-      @names = self[1..-1].select {|arg| is_arg?(arg)}.map {|arg| Name.new(arg)}
+      @names = self[1..-1].select {|arg| is_arg?(arg)}.map {|arg| arg.to_s }
     end
 
     def length
@@ -77,7 +76,7 @@ module Reek
       @parameters = exp[exp[0] == :defn ? 2 : 3]  # SMELL: SimulatedPolymorphism
       @parameters ||= []
       @parameters.extend(MethodParameters)
-      @name = Name.new(exp[1])
+      @name = exp[1].to_s
       @scope_connector = '#'
       @num_statements = 0
       @depends_on_self = false

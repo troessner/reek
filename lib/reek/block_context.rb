@@ -9,7 +9,7 @@ module Reek
 
     def initialize(outer, exp)
       super
-      @name = Name.new('block')
+      @name = 'block'
       @scope_connector = '/'
     end
   end

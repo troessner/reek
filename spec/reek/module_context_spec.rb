@@ -29,8 +29,15 @@ module ::Global
   context 'full_name' do
     it "reports full context" do
       element = StopContext.new
-      element = ModuleContext.new(element, Name.new(:mod), s(:module, :mod, nil))
+      element = ModuleContext.new(element, 'mod', s(:module, :mod, nil))
       element.full_name.should == 'mod'
     end
+  end
+
+  it 'finds fq loaded class' do
+    exp = [:class, :"Reek::Smells::LargeClass", nil]
+    ctx = StopContext.new
+    res = ModuleContext.resolve(exp[1], ctx)
+    res[1].should == "LargeClass"
   end
 end

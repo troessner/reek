@@ -24,8 +24,8 @@ end
 describe MethodContext, 'matching fq names' do
   before :each do
     element = StopContext.new
-    element = ModuleContext.new(element, Name.new(:mod), s(:module, :mod, nil))
-    element = ClassContext.new(element, Name.new(:klass), s())
+    element = ModuleContext.new(element, 'mod', s(:module, :mod, nil))
+    element = ClassContext.new(element, 'klass', s())
     @element = MethodContext.new(element, s(0, :meth))
   end
 

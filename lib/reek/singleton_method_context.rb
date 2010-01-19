@@ -1,4 +1,3 @@
-require File.join(File.dirname(File.expand_path(__FILE__)), 'name')
 require File.join(File.dirname(File.expand_path(__FILE__)), 'method_context')
 require File.join(File.dirname(File.expand_path(__FILE__)), 'sexp_formatter')
 
@@ -11,7 +10,7 @@ module Reek
 
     def initialize(outer, exp)
       super(outer, exp)
-      @name = Name.new(exp[2])
+      @name = exp[2].to_s
       @receiver = SexpFormatter.format(exp[1])
       @scope_connector = ""
       record_depends_on_self
