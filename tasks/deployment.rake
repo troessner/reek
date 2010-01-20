@@ -43,57 +43,8 @@ class File
 end
 
 class String
-  def to_markdown
-    self.gsub(/^(=+)/) { "#" * $1.size }
-  end
-
   def touch(text = DateTime.now)
     File.touch(self, text)
-  end
-end
-
-class Description
-
-  def description
-    "Reek detects smells in Ruby code. It can be used as a stand-alone
-command, or as a Rake task, or as an expectation in Rspec examples."
-  end
-
-  def changes
-    File.read("History.txt").split(/^(== .*)/)[2].strip
-  end
-
-  def subject
-    "#{PROJECT_NAME} #{::Reek::VERSION} released"
-  end
-  def title
-    "#{PROJECT_NAME} version #{::Reek::VERSION} has been released!"
-  end
-  def body
-    "#{$gemspec.description}\n\n## Changes:\n\n#{changes}".to_markdown
-  end
-  def urls
-    result = <<EOR
-* http://wiki.github.com/kevinrutherford/#{PROJECT_NAME}
-EOR
-    result
-  end
-
-  def news
-    news = <<-EOM
-#{title}
-
-#{description}
-
-## Changes in this release:
-
-#{changes.to_markdown}
-
-## More information:
-
-#{urls}
-EOM
-    return news
   end
 end
 
@@ -113,29 +64,15 @@ file VERSION_FILE => [RELEASE_TIMESTAMP] do
   abort "Update #{VERSION_FILE} before attempting to release"
 end
 
-begin
-  require 'rubyforge'
-
-  namespace :release do
-    task :patch => ['build:all'] do
-      puts <<-EOS
-        1) git commit -a -m "Release #{Reek::VERSION}"
-        2) git tag -a "v#{Reek::VERSION}" -m "Release #{Reek::VERSION}"
-        3) git push
-        4) git push --tags
-        5) gem push "#{PKG_DIR}/#{PROJECT_NAME}-#{Reek::VERSION}.gem"
-      EOS
-      RELEASE_TIMESTAMP.touch(::Reek::VERSION)
-    end
-
-    desc 'Minor release'
-    task :minor => ['release:patch', 'rubyforge:gem'] do
-    end
-
-    desc 'Major release (github+rubyforge) with news'
-    task :major => ['release:minor', 'rubyforge:news']
-  end
-rescue LoadError
+task :release => ['build:all'] do
+  puts <<-EOS
+    1) git commit -a -m "Release #{Reek::VERSION}"
+    2) git tag -a "v#{Reek::VERSION}" -m "Release #{Reek::VERSION}"
+    3) git push
+    4) git push --tags
+    5) gem push "#{PKG_DIR}/#{PROJECT_NAME}-#{Reek::VERSION}.gem"
+  EOS
+  RELEASE_TIMESTAMP.touch(::Reek::VERSION)
 end
 
 def pkg_files
@@ -143,7 +80,7 @@ def pkg_files
   result = []
   Find.find '.' do |path|
     next unless File.file? path
-    next if path =~ /\.git|build|tmp/
+    next if path =~ /\.git|build|tmp|quality|xp.reek|Manifest.txt|develop.rake|deployment.rake/
     result << path[2..-1]
   end
   result
@@ -168,11 +105,6 @@ namespace :check do
   desc 'Show the gemspec'
   task :gemspec do
     puts $gemspec.to_ruby
-  end
-
-  desc 'Show the announcement email to be sent'
-  task :email do
-    puts Description.new.news
   end
 
   task :manifest do
