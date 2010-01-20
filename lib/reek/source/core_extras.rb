@@ -1,6 +1,4 @@
-require File.join(File.dirname(File.expand_path(__FILE__)), 'source')
-require File.join(File.dirname(File.expand_path(__FILE__)), 'source_file')
-require File.join(File.dirname(File.expand_path(__FILE__)), 'source_locator')
+require File.join(File.dirname(File.expand_path(__FILE__)), 'source_code')
 require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'sniffer')
 
 #
@@ -12,7 +10,7 @@ class File
   # code and prepares it to be examined for code smells.
   #
   def to_reek_source
-    Reek::SourceFile.new(path)
+    Reek::Source::SourceFile.new(path)
   end
 end
 
@@ -25,7 +23,7 @@ class IO
   # code and prepares it to be examined for code smells.
   #
   def to_reek_source(description = 'io')
-    Reek::Source.new(self.readlines.join, description)
+    Reek::Source::SourceCode.new(self.readlines.join, description)
   end
 end
 
@@ -38,6 +36,6 @@ class String
   # code and prepares it to be examined for code smells.
   #
   def to_reek_source
-    Reek::Source.new(self, 'string')
+    Reek::Source::SourceCode.new(self, 'string')
   end
 end

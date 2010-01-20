@@ -1,7 +1,6 @@
 #require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'configuration')
-require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'adapters', 'core_extras')
 
 include Reek
 

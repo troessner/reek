@@ -1,4 +1,6 @@
 require File.join(File.dirname(File.expand_path(__FILE__)), 'masking_collection')
+require File.join(File.dirname(File.expand_path(__FILE__)), 'sniffer')
+require File.join(File.dirname(File.expand_path(__FILE__)), 'source')
 
 module Reek
 
@@ -12,14 +14,14 @@ module Reek
       sniffers = case source
       when Array
         @description = 'dir'
-        SourceLocator.new(source).all_sources.map {|src| Reek::Sniffer.new(src)}
-      when Source
+        Source::SourceLocator.new(source).all_sources.map {|src| Sniffer.new(src)}
+      when Source::SourceCode
         @description = source.desc
-        [Reek::Sniffer.new(source)]
+        [Sniffer.new(source)]
       else
         src = source.to_reek_source
         @description = src.desc
-        [Reek::Sniffer.new(src)]
+        [Sniffer.new(src)]
       end
       @warnings = MaskingCollection.new
       sniffers.each {|sniffer| sniffer.report_on(@warnings)}

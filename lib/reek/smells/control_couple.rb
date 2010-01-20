@@ -1,6 +1,6 @@
 require File.join( File.dirname( File.expand_path(__FILE__)), 'smell_detector')
 require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'smell_warning')
-require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'sexp_formatter')
+require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'source')
 
 module Reek
   module Smells
@@ -42,7 +42,7 @@ module Reek
       #
       def examine_context(method_ctx)
         control_parameters(method_ctx).each do |cond, occurs|
-          param = SexpFormatter.format(cond)
+          param = Source::SexpFormatter.format(cond)
           lines = occurs.map {|exp| exp.line}
           found(method_ctx, "is controlled by argument #{param}",
             'ControlParameter', {'parameter' => param}, lines)

@@ -1,6 +1,6 @@
 require File.join( File.dirname( File.expand_path(__FILE__)), 'smell_detector')
 require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'smell_warning')
-require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'sexp_formatter')
+require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'source')
 
 module Reek
   module Smells
@@ -42,7 +42,7 @@ module Reek
       #
       def examine_context(method_ctx)
         method_ctx.envious_receivers.each do |ref, occurs|
-          target = SexpFormatter.format(ref)
+          target = Source::SexpFormatter.format(ref)
           smell = SmellWarning.new('LowCohesion', method_ctx.full_name, [method_ctx.exp.line],
             "refers to #{target} more than self", @masked,
             @source, 'FeatureEnvy', {'receiver' => target, 'references' => occurs})

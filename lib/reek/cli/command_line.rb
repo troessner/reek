@@ -1,5 +1,5 @@
 require 'optparse'
-require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'adapters', 'source_locator')
+require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'source')
 
 module Reek
   module Cli
@@ -93,7 +93,7 @@ EOB
         if @argv.empty?
           return [$stdin.to_reek_source('$stdin')]
         else
-          return SourceLocator.new(@argv).all_sources
+          return Source::SourceLocator.new(@argv).all_sources
         end
       end
     end

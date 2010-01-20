@@ -1,5 +1,4 @@
 require File.join(File.dirname(File.expand_path(__FILE__)), 'examiner')
-require File.join(File.dirname(File.expand_path(__FILE__)), 'adapters', 'core_extras')
 
 module Reek
 

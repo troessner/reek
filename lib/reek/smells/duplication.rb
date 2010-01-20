@@ -1,6 +1,6 @@
 require File.join( File.dirname( File.expand_path(__FILE__)), 'smell_detector')
 require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'smell_warning')
-require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'sexp_formatter')
+require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'source')
 
 module Reek
   module Smells
@@ -38,7 +38,7 @@ module Reek
         calls(method_ctx).each do |call_exp, copies|
           occurs = copies.length
           next if occurs <= value(MAX_ALLOWED_CALLS_KEY, method_ctx, DEFAULT_MAX_CALLS)
-          call = SexpFormatter.format(call_exp)
+          call = Source::SexpFormatter.format(call_exp)
           multiple = occurs == 2 ? 'twice' : "#{occurs} times"
           found(method_ctx, "calls #{call} #{multiple}",
             'DuplicateMethodCall', {'call' => call, 'occurrences' => occurs},
