@@ -8,7 +8,6 @@ HISTORY_FILE = 'History.txt'
 README_FILE = 'README.rdoc'
 
 RELEASE_TIMESTAMP = "#{BUILD_DIR}/.last-release"
-MANIFEST_CHECKED = "#{BUILD_DIR}/.manifest-checked"
 
 $gemspec = Gem::Specification.new do |s|
   s.name = PROJECT_NAME
@@ -36,94 +35,14 @@ For more information on reek, see http://wiki.github.com/kevinrutherford/reek
 '
 end
 
-class File
-  def self.touch(path, text)
-    File.open(path, 'w') { |ios| ios.puts text }
-  end
-end
-
 class String
-  def touch(text = DateTime.now)
-    File.touch(self, text)
+  def touch(text)
+    File.open(self, 'w') { |ios| ios.puts text }
   end
-end
-
-class ::Rake::SshDirPublisher
-  attr_reader :host, :remote_dir, :local_dir
 end
 
 file GEMSPEC => [GEM_MANIFEST, README_FILE, HISTORY_FILE, VERSION_FILE, __FILE__] do
   GEMSPEC.touch($gemspec.to_ruby)
-end
-
-file HISTORY_FILE => [RELEASE_TIMESTAMP] do
-  abort "Update #{HISTORY_FILE} before attempting to release"
-end
-
-file VERSION_FILE => [RELEASE_TIMESTAMP] do
-  abort "Update #{VERSION_FILE} before attempting to release"
-end
-
-task :release => ['build:all'] do
-  puts <<-EOS
-    1) git commit -a -m "Release #{Reek::VERSION}"
-    2) git tag -a "v#{Reek::VERSION}" -m "Release #{Reek::VERSION}"
-    3) git push
-    4) git push --tags
-    5) gem push "#{PKG_DIR}/#{PROJECT_NAME}-#{Reek::VERSION}.gem"
-  EOS
-  RELEASE_TIMESTAMP.touch(::Reek::VERSION)
-end
-
-def pkg_files
-  require 'find'
-  result = []
-  Find.find '.' do |path|
-    next unless File.file? path
-    next if path =~ /\.git|build|tmp|quality|xp.reek|Manifest.txt|develop.rake|deployment.rake/
-    result << path[2..-1]
-  end
-  result
-end
-
-$package_files = pkg_files
-
-def display_manifest_diff
-  f = "Manifest.tmp"
-  f.touch(pkg_files.sort.join("\n"))
-  system "diff -du #{GEM_MANIFEST} #{f}"
-  rm f
-end
-
-namespace :check do
-  desc 'Install the gem locally'
-  task :install => [:clean, 'build:all'] do
-    gem = Dir["#{PKG_DIR}/*.gem"].first
-    sh "sudo gem install --local #{gem}"
-  end
-
-  desc 'Show the gemspec'
-  task :gemspec do
-    puts $gemspec.to_ruby
-  end
-
-  task :manifest do
-    display_manifest_diff
-  end
-end
-
-def query(msg)
-  print msg
-  $stdin.gets
-end
-
-file MANIFEST_CHECKED => $package_files do
-  display_manifest_diff
-  if query('Is this manifest good to go? [Ny] ') =~ /y/i
-    MANIFEST_CHECKED.touch
-  else
-    abort 'Check the manifest and try again'
-  end
 end
 
 namespace :build do
@@ -133,7 +52,16 @@ namespace :build do
     task.need_zip = false
   end
 
-  task :gem => [MANIFEST_CHECKED, 'test:all']
+  task :package => [GEMSPEC]
+end
 
-  task :all => ['build:package']
+task :release => ['test:release', 'build:package'] do
+  puts <<-EOS
+    1) git commit -a -m "Release #{Reek::VERSION}"
+    2) git tag -a "v#{Reek::VERSION}" -m "Release #{Reek::VERSION}"
+    3) git push
+    4) git push --tags
+    5) gem push "#{PKG_DIR}/#{PROJECT_NAME}-#{Reek::VERSION}.gem"
+  EOS
+  RELEASE_TIMESTAMP.touch(::Reek::VERSION)
 end

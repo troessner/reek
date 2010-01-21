@@ -71,6 +71,8 @@ lib/reek/source/tree_dresser.rb
 lib/reek/spec.rb
 lib/reek/stop_context.rb
 reek.gemspec
+spec/gem/manifest_spec.rb
+spec/gem/updates_spec.rb
 spec/reek/block_context_spec.rb
 spec/reek/class_context_spec.rb
 spec/reek/cli/help_command_spec.rb

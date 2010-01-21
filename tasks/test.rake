@@ -14,6 +14,13 @@ namespace 'test' do
     t.rcov = false
   end
 
+  desc 'Tests various release attributes of the gem'
+  Spec::Rake::SpecTask.new('gem') do |t|
+    t.spec_files = FileList['spec/gem/**/*_spec.rb']
+    t.rcov = false
+  end
+
+  desc 'Tests code quality'
   Spec::Rake::SpecTask.new('quality') do |t|
     t.spec_files = FileList['quality/**/*_spec.rb']
     t.spec_opts = ['--color']
@@ -37,14 +44,16 @@ namespace 'test' do
     t.cucumber_opts = "features --format progress --color"
   end
 
-  desc 'Runs all unit tests, acceptance tests and quality checks'
+  desc 'Runs all unit tests and acceptance tests'
   task 'all' => ['test:spec', 'test:features', 'test:multiruby']
+
+  task 'release' => ['test:gem', 'test:all']
 end
 
 task 'clobber_rcov' => 'test:clobber_rcov'
 
-desc 'synonym for test:spec'
+desc 'Synonym for test:spec'
 task 'spec' => 'test:spec'
 
-desc 'synonym for test:all'
+desc 'Synonym for test:all'
 task 'test' => 'test:all'
