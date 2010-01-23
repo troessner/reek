@@ -10,6 +10,6 @@ end
 
 require 'spec/autorun'
 
-require 'reek/adapters/spec'
+require 'reek/spec'
 
 SAMPLES_DIR = 'spec/samples' unless Object.const_defined?('SAMPLES_DIR')
