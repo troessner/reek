@@ -39,10 +39,20 @@ module Reek
   #   ruby.should_not reek_of(:FeatureEnvy)
   #
   module Spec
+    module SpecReport
+      def list_smells(examiner)     # :nodoc:
+        examiner.all_active_smells.map do |smell|
+          "#{smell.report('%c %w (%s)')}"
+        end.join("\n")
+      end
+    end
+
     #
     # An rspec matcher that matches when the +actual+ has code smells.
     #
     class ShouldReek        # :nodoc:
+      include SpecReport
+
       def matches?(actual)
         @examiner = Examiner.new(actual)
         @examiner.smelly?
@@ -82,8 +92,13 @@ module Reek
     # code smell and no others.
     #
     class ShouldReekOnlyOf < ShouldReekOf        # :nodoc:
+      include SpecReport
+
       def matches?(actual)
-        @examiner = Examiner.new(actual)
+        matches_examiner?(Examiner.new(actual))
+      end
+      def matches_examiner?(examiner)
+        @examiner = examiner
         @all_smells = @examiner.all_active_smells
         @all_smells.length == 1 and @all_smells[0].matches?(@klass, @patterns)
       end
@@ -118,12 +133,6 @@ module Reek
     #
     def reek_only_of(smell_class, *patterns)
       ShouldReekOnlyOf.new(smell_class, patterns)
-    end
-
-    def list_smells(examiner)     # :nodoc:
-      examiner.all_active_smells.map do |smell|
-        "#{smell.report('%c %w (%s)')}"
-      end.join("\n")
     end
   end
 end
