@@ -1,3 +1,6 @@
+require File.join(File.dirname(File.expand_path(__FILE__)), 'spec', 'should_reek')
+require File.join(File.dirname(File.expand_path(__FILE__)), 'spec', 'should_reek_of')
+require File.join(File.dirname(File.expand_path(__FILE__)), 'spec', 'should_reek_only_of')
 require File.join(File.dirname(File.expand_path(__FILE__)), 'examiner')
 
 module Reek
@@ -39,101 +42,6 @@ module Reek
   #   ruby.should_not reek_of(:FeatureEnvy)
   #
   module Spec
-    module SpecReport
-      def list_smells(examiner)     # :nodoc:
-        examiner.all_active_smells.map do |smell|
-          "#{smell.report('%c %w (%s)')}"
-        end.join("\n")
-      end
-    end
-
-    #
-    # An rspec matcher that matches when the +actual+ has code smells.
-    #
-    class ShouldReek        # :nodoc:
-      include SpecReport
-
-      def matches?(actual)
-        @examiner = Examiner.new(actual)
-        @examiner.smelly?
-      end
-      def failure_message_for_should
-        "Expected #{@examiner.description} to reek, but it didn't"
-      end
-      def failure_message_for_should_not
-        "Expected no smells, but got:\n#{list_smells(@examiner)}"
-      end
-    end
-
-    #
-    # An rspec matcher that matches when the +actual+ has the specified
-    # code smell.
-    #
-    class ShouldReekOf        # :nodoc:
-      def initialize(klass, patterns)
-        @klass = klass
-        @patterns = patterns
-      end
-      def matches?(actual)
-        @examiner = Examiner.new(actual)
-        @all_smells = @examiner.all_active_smells
-        @all_smells.any? {|warning| warning.matches?(@klass, @patterns)}
-      end
-      def failure_message_for_should
-        "Expected #{@examiner.description} to reek of #{@klass}, but it didn't"
-      end
-      def failure_message_for_should_not
-        "Expected #{@examiner.description} not to reek of #{@klass}, but it did"
-      end
-    end
-
-    #
-    # An rspec matcher that matches when the +actual+ has the specified
-    # code smell and no others.
-    #
-    class ShouldReekOnlyOf < ShouldReekOf        # :nodoc:
-      include SpecReport
-
-      def matches?(actual)
-        matches_examiner?(Examiner.new(actual))
-      end
-      def matches_examiner?(examiner)
-        @examiner = examiner
-        @all_smells = @examiner.all_active_smells
-        @all_smells.length == 1 and @all_smells[0].matches?(@klass, @patterns)
-      end
-      def failure_message_for_should
-        rpt = list_smells(@examiner)
-        "Expected #{@examiner.description} to reek only of #{@klass}, but got:\n#{rpt}"
-      end
-      def failure_message_for_should_not
-        "Expected #{@examiner.description} not to reek only of #{@klass}, but it did"
-      end
-    end
-
-    #
-    # Returns +true+ if and only if the target source code contains smells.
-    #
-    def reek
-      ShouldReek.new
-    end
-
-    #
-    # Checks the target source code for instances of +smell_class+,
-    # and returns +true+ only if one of them has a report string matching
-    # all of the +patterns+.
-    #
-    def reek_of(smell_class, *patterns)
-      ShouldReekOf.new(smell_class, patterns)
-    end
-
-    #
-    # As for reek_of, but the matched smell warning must be the only warning of
-    # any kind in the target source code's Reek report.
-    #
-    def reek_only_of(smell_class, *patterns)
-      ShouldReekOnlyOf.new(smell_class, patterns)
-    end
   end
 end
 

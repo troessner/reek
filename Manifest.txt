@@ -69,6 +69,9 @@ lib/reek/source/source_file.rb
 lib/reek/source/source_locator.rb
 lib/reek/source/tree_dresser.rb
 lib/reek/spec.rb
+lib/reek/spec/should_reek.rb
+lib/reek/spec/should_reek_of.rb
+lib/reek/spec/should_reek_only_of.rb
 lib/reek/stop_context.rb
 reek.gemspec
 spec/gem/manifest_spec.rb
@@ -89,9 +92,6 @@ spec/reek/masking_collection_spec.rb
 spec/reek/method_context_spec.rb
 spec/reek/module_context_spec.rb
 spec/reek/object_refs_spec.rb
-spec/reek/should_reek_of_spec.rb
-spec/reek/should_reek_only_of_spec.rb
-spec/reek/should_reek_spec.rb
 spec/reek/singleton_method_context_spec.rb
 spec/reek/smell_warning_spec.rb
 spec/reek/smells/attribute_spec.rb
@@ -119,6 +119,9 @@ spec/reek/source/code_comment_spec.rb
 spec/reek/source/object_source_spec.rb
 spec/reek/source/source_code_spec.rb
 spec/reek/source/tree_dresser_spec.rb
+spec/reek/spec/should_reek_of_spec.rb
+spec/reek/spec/should_reek_only_of_spec.rb
+spec/reek/spec/should_reek_spec.rb
 spec/reek/stop_context_spec.rb
 spec/samples/all_but_one_masked/clean_one.rb
 spec/samples/all_but_one_masked/dirty.rb
