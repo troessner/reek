@@ -5,94 +5,85 @@ include Reek
 include Reek::Spec
 
 describe ShouldReekOnlyOf do
-  context 'checking code in a string' do
-    before :each do
-      @clean_code = 'def good() true; end'
-      @smelly_code = 'def fine() y = 4; end'
-      @matcher = ShouldReekOnlyOf.new(:UncommunicativeVariableName, [/y/])
-    end
-
-    it 'matches a smelly String' do
-      @matcher.matches?(@smelly_code).should be_true
-    end
-
-    it 'doesnt match a fragrant String' do
-      @matcher.matches?(@clean_code).should be_false
-    end
-
-    it 'reports the smells when should_not fails' do
-      @matcher.matches?(@smelly_code)
-      @matcher.failure_message_for_should_not.should match('UncommunicativeVariableName')
-    end
+  before :each do
+    @expected_smell_class = :NestedIterators
+    @expected_context_name = 'SmellyClass#big_method'
+    @matcher = ShouldReekOnlyOf.new(@expected_smell_class, [/#{@expected_context_name}/])
+    @examiner = mock('examiner', :null_object => true)
+    @examiner.should_receive(:all_active_smells).and_return {smells}
+    @match = @matcher.matches_examiner?(@examiner)
   end
 
-  context 'checking code in a Dir' do
-    before :each do
-      @clean_dir = Dir['spec/samples/three_clean_files/*.rb']
-      @smelly_dir = Dir['spec/samples/all_but_one_masked/*.rb']
-      @matcher = ShouldReekOnlyOf.new(:NestedIterators, [/Dirty\#a/])
+  shared_examples_for 'no match' do
+    it 'does not match' do
+      @match.should be_false
     end
-
-    it 'matches a smelly String' do
-      @matcher.matches?(@smelly_dir).should be_true
-    end
-
-    it 'doesnt match a fragrant String' do
-      @matcher.matches?(@clean_dir).should be_false
-    end
-
-    it 'reports the smells when should_not fails' do
-      @matcher.matches?(@smelly_dir)
-      @matcher.failure_message_for_should.should match('Nested Iterators')
-    end
-  end
-
-  context 'checking code in a File' do
-    before :each do
-      @clean_file = File.new(Dir['spec/samples/three_clean_files/*.rb'][0])
-      @smelly_file = File.new(Dir['spec/samples/all_but_one_masked/d*.rb'][0])
-      @matcher = ShouldReekOnlyOf.new(:NestedIterators, [/Dirty\#a/])
-    end
-
-    it 'matches a smelly String' do
-      @matcher.matches?(@smelly_file).should be_true
-    end
-
-    it 'doesnt match a fragrant String' do
-      @matcher.matches?(@clean_file).should be_false
-    end
-
-    it 'reports the smells when should_not fails' do
-      @matcher.matches?(@smelly_file)
-      @matcher.failure_message_for_should.should match('Nested Iterators')
-    end
-  end
-
-  context 'report formatting' do
-    before :each do
-      @smelly_dir = Dir['spec/samples/all_but_one_masked/*.rb']
-      @matcher = ShouldReekOnlyOf.new(:NestedIterators, [/Dirty\#a/])
-      @matcher.matches?(@smelly_dir)
-      @lines = @matcher.failure_message_for_should.split("\n").map {|str| str.chomp}
-      @error_message = @lines.shift
-      @smells = @lines.grep(/^  /)
-      @headers = (@lines - @smells)
-    end
-
-    it 'doesnt mention the clean files' do
-      @headers.should have(1).header
-      @headers.should_not include('clean')
-    end
-  end
-
-  context 'matching' do
-    context 'when there are no smells' do
-      it 'does not match' do
-        matcher = ShouldReekOnlyOf.new(:NestedIterators, [/Dirty\#a/])
-        examiner = mock('examiner')
-        examiner.should_receive(:all_active_smells).and_return([])
-        matcher.matches_examiner?(examiner).should be_false
+    context 'when a match was expected' do
+      before :each do
+        @source = 'the_path/to_a/source_file.rb'
+        @examiner.should_receive(:description).and_return(@source)
       end
+      it 'reports the source' do
+        @matcher.failure_message_for_should.should match(@source)
+      end
+      it 'reports the expected smell class' do
+        @matcher.failure_message_for_should.should match(@expected_smell_class.to_s)
+      end
+    end
+  end
+
+  context 'with no smells' do
+    def smells
+      []
+    end
+
+    it_should_behave_like 'no match'
+  end
+
+  context 'with 1 non-matching smell' do
+    def smells
+      [SmellWarning.new('ControlCouple', 'context', [1], 'any old message', false)]
+    end
+
+    it_should_behave_like 'no match'
+  end
+
+  context 'with 2 non-matching smells' do
+    def smells
+      [
+        SmellWarning.new('ControlCouple', 'context', [1], 'any old message', false),
+        SmellWarning.new('FeatureEnvy', 'context', [1], 'any old message', false)
+        ]
+    end
+
+    it_should_behave_like 'no match'
+  end
+
+  context 'with 1 non-matching and 1 matching smell' do
+    def smells
+      [
+        SmellWarning.new('ControlCouple', 'context', [1], 'any old message', false),
+        SmellWarning.new(@expected_smell_class.to_s, 'context', [1], "message mentioning #{@expected_context_name}", false)
+        ]
+    end
+
+    it_should_behave_like 'no match'
+  end
+
+  context 'with 1 matching smell' do
+    def smells
+      [SmellWarning.new(@expected_smell_class.to_s, nil, [1], "message mentioning #{@expected_context_name}", false)]
+    end
+    it 'matches' do
+      @match.should be_true
+    end
+    it 'reports the expected smell when no match was expected' do
+      @matcher.failure_message_for_should_not.should match(@expected_smell_class.to_s)
+    end
+    it 'reports the source when no match was expected' do
+      source = 'the_path/to_a/source_file.rb'
+      @examiner.should_receive(:description).and_return(source)
+      @matcher.failure_message_for_should_not.should match(source)
     end
   end
 end

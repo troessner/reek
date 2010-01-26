@@ -10,11 +10,11 @@ module Reek
 
     CONTEXT_KEY = 'context'
 
-    def initialize(detector_class, context, lines, message, masked,
-        source = '', subclass = '', parameters = {})
+    def initialize(class_name, context, lines, message, masked,
+        source = '', subclass_name = '', parameters = {})
       @smell = {
-        'class' => detector_class,
-        'subclass' => subclass,
+        'class' => class_name,
+        'subclass' => subclass_name,
         'message' => message,
       }
       @smell.merge!(parameters)
@@ -40,7 +40,7 @@ module Reek
 
     def contains_all?(patterns)
       rpt = sort_key.to_s
-      return patterns.all? {|exp| exp === rpt}
+      return patterns.all? {|patt| patt === rpt}
     end
 
     def matches?(klass, patterns)
