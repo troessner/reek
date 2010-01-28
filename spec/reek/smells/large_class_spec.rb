@@ -1,10 +1,7 @@
-require File.dirname(__FILE__) + '/../../spec_helper.rb'
-
+require File.join(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__)))), 'spec_helper')
 require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'smells', 'large_class')
-require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'class_context')
-require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'stop_context')
 require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'examiner')
-require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'code_parser')
+require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'core', 'code_parser')
 require File.join(File.dirname(File.expand_path(__FILE__)), 'smell_detector_shared')
 
 include Reek
@@ -138,8 +135,8 @@ class Empty
 end
 EOS
       source = src.to_reek_source
-      sniffer = Sniffer.new(source)
-      ctx = CodeParser.new(sniffer).process_class(source.syntax_tree)
+      sniffer = Core::Sniffer.new(source)
+      ctx = Core::CodeParser.new(sniffer).process_class(source.syntax_tree)
       @detector.examine_context(ctx)
       @yaml = @detector.smells_found.to_a[0].to_yaml   # SMELL: too cumbersome!
     end

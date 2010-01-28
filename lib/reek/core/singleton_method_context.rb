@@ -1,7 +1,8 @@
 require File.join(File.dirname(File.expand_path(__FILE__)), 'method_context')
-require File.join(File.dirname(File.expand_path(__FILE__)), 'source')
+require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'source')
 
 module Reek
+  module Core
 
   #
   # A context wrapper for any singleton method definition found in a syntax tree.
@@ -25,5 +26,6 @@ module Reek
       prefix = outer == '' ? '' : "#{outer}#"
       "#{prefix}#{@receiver}.#{@name}"
     end
+  end
   end
 end

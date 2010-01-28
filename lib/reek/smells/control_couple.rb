@@ -33,6 +33,15 @@ module Reek
     # method probably has more than one responsibility,
     # because it includes at least two different code paths.
     #
+    # One possible solution is to use the Strategy Pattern
+    # to pass into the callee what must be done.  This is
+    # not considered to be control coupling because the
+    # callee will do the same thing with the strategy,
+    # whatever it happens to be.  Sometimes in Ruby the
+    # strategy may actually just be a block passed in, and
+    # that remains next to where the caller invokes it in
+    # the source code.
+    #
     class ControlCouple < SmellDetector
 
       #
@@ -48,6 +57,8 @@ module Reek
             'ControlParameter', {'parameter' => param}, lines)
         end
       end
+
+    private
 
       def control_parameters(method_ctx)
         params = method_ctx.exp.parameter_names

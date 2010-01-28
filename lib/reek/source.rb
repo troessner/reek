@@ -10,7 +10,7 @@ require File.join(File.dirname(File.expand_path(__FILE__)), 'source', 'tree_dres
 module Reek
 
   #
-  # This module contains a set of classes for ineractive with Ruby
+  # This module contains a set of classes for interacting with Ruby
   # source code and abstract syntax trees.
   #
   module Source    # :nodoc: all

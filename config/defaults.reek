@@ -1,28 +1,10 @@
 --- 
-UncommunicativeParameterName: 
-  accept: 
-  - Inline::C
-  exclude: []
-
-  enabled: true
-  reject: 
-  - !ruby/regexp /^.$/
-  - !ruby/regexp /[0-9]$/
 LargeClass: 
   max_methods: 25
   exclude: []
 
   enabled: true
   max_instance_variables: 9
-UncommunicativeMethodName: 
-  accept: []
-
-  exclude: []
-
-  enabled: true
-  reject: 
-  - !ruby/regexp /^.$/
-  - !ruby/regexp /[0-9]$/
 LongParameterList: 
   max_params: 3
   exclude: []
@@ -38,13 +20,7 @@ FeatureEnvy:
 ClassVariable: 
   exclude: *id001
   enabled: true
-BooleanParameter: 
-  exclude: *id001
-  enabled: true
-IrresponsibleModule: 
-  exclude: *id001
-  enabled: true
-UncommunicativeModuleName: 
+UncommunicativeName: 
   accept: 
   - Inline::C
   exclude: []
@@ -75,15 +51,6 @@ Attribute:
   exclude: []
 
   enabled: false
-UncommunicativeVariableName: 
-  accept: 
-  - Inline::C
-  exclude: []
-
-  enabled: true
-  reject: 
-  - !ruby/regexp /^.$/
-  - !ruby/regexp /[0-9]$/
 SimulatedPolymorphism: 
   exclude: []
 

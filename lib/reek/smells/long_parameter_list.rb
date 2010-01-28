@@ -1,5 +1,6 @@
 require File.join( File.dirname( File.expand_path(__FILE__)), 'smell_detector')
 require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'smell_warning')
+require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'core', 'smell_configuration')
 
 module Reek
   module Smells
@@ -25,7 +26,7 @@ module Reek
       def self.default_config
         super.adopt(
           MAX_ALLOWED_PARAMS_KEY => DEFAULT_MAX_ALLOWED_PARAMS,
-          SmellConfiguration::OVERRIDES_KEY => {
+          Core::SmellConfiguration::OVERRIDES_KEY => {
             "initialize" => {MAX_ALLOWED_PARAMS_KEY => 5}
             }
         )

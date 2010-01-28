@@ -1,5 +1,3 @@
-require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'masking_collection')
-
 module Reek
   module Cli
 

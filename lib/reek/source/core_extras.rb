@@ -1,5 +1,4 @@
 require File.join(File.dirname(File.expand_path(__FILE__)), 'source_code')
-require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'sniffer')
 
 #
 # Extensions to +File+ needed by Reek.

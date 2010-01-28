@@ -1,8 +1,7 @@
-#require File.dirname(__FILE__) + '/../../spec_helper.rb'
+require File.join(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__)))), 'spec_helper')
+require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'core', 'smell_configuration')
 
-require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'configuration')
-
-include Reek
+include Reek::Core
 
 shared_examples_for 'SmellDetector' do
   context 'exception matching follows the context' do

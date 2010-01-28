@@ -1,4 +1,5 @@
 module Reek
+  module Core
 
   #
   # Manages and counts the references out of a method to other objects.
@@ -7,7 +8,7 @@ module Reek
     def initialize
       @refs = Hash.new(0)
     end
-    
+
     def record_reference_to_self
       record_ref(SELF_REF)
     end
@@ -42,8 +43,9 @@ module Reek
     end
 
   private
-    
+
     SELF_REF = Sexp.from_array([:lit, :self])
 
+  end
   end
 end

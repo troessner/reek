@@ -1,10 +1,9 @@
-#require File.dirname(__FILE__) + '/../../spec_helper.rb'
-
+require File.join(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__)))), 'spec_helper')
 require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'smells', 'simulated_polymorphism')
-require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'code_context')
+require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'core', 'code_context')
 require File.join(File.dirname(File.expand_path(__FILE__)), 'smell_detector_shared')
 
-include Reek
+include Reek::Core
 include Reek::Smells
 
 describe SimulatedPolymorphism do

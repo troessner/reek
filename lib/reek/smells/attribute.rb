@@ -1,5 +1,6 @@
 require File.join( File.dirname( File.expand_path(__FILE__)), 'smell_detector')
 require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'smell_warning')
+require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'core', 'smell_configuration')
 
 module Reek
   module Smells
@@ -26,7 +27,7 @@ module Reek
       end
 
       def self.default_config
-        super.adopt(SmellConfiguration::ENABLED_KEY => false)
+        super.adopt(Core::SmellConfiguration::ENABLED_KEY => false)
       end
 
       def initialize(source, config = Attribute.default_config)

@@ -10,6 +10,9 @@ module Reek
     class ConfigFile
       @@bad_config_files = []
 
+      #
+      # Load the YAML config file from the supplied +file_path+.
+      #
       def initialize(file_path)
         @file_path = file_path
         @hash = load
@@ -25,6 +28,10 @@ module Reek
         end
       end
 
+      #
+      # Find the class with this name if it exsits.
+      # If not, report the problem and return +nil+.
+      #
       def find_class(name)
         begin
           klass = Reek::Smells.const_get(name)
@@ -35,6 +42,11 @@ module Reek
         klass
       end
 
+      #
+      # Load the file path with which this was initialized,
+      # unless it is already known to be a bad configuration file.
+      # If it won't load, then it is considered a bad file.
+      #
       def load
         unless @@bad_config_files.include?(@file_path)
           begin
@@ -47,6 +59,10 @@ module Reek
         return {}
       end
 
+      #
+      # Report invalid configuration file to standard
+      # Error.
+      #
       def problem(reason)
         $stderr.puts "Error: Invalid configuration file \"#{File.basename(@file_path)}\" -- #{reason}"
         # SMELL: Duplication of 'Error:'

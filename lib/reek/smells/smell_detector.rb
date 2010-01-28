@@ -1,6 +1,6 @@
 require 'set'
 require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'smell_warning')
-require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'configuration')
+require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'core', 'smell_configuration')
 
 module Reek
   module Smells
@@ -35,7 +35,7 @@ module Reek
 
         def default_config
           {
-            SmellConfiguration::ENABLED_KEY => true,
+            Core::SmellConfiguration::ENABLED_KEY => true,
             EXCLUDE_KEY => DEFAULT_EXCLUDE_SET
           }
         end
@@ -45,7 +45,7 @@ module Reek
 
       def initialize(source, config = self.class.default_config)
         @source = source
-        @config = SmellConfiguration.new(config)
+        @config = Core::SmellConfiguration.new(config)
         @smells_found = Set.new
         @masked = false
       end

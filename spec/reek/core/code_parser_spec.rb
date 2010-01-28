@@ -1,8 +1,7 @@
-require File.dirname(__FILE__) + '/../spec_helper.rb'
+require File.join(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__)))), 'spec_helper')
+require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'core', 'code_parser')
 
-require File.join(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__)))), 'lib', 'reek', 'code_parser')
-
-include Reek
+include Reek::Core
 
 describe CodeParser, "with no method definitions" do
   it 'reports no problems for empty source code' do

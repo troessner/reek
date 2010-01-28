@@ -1,8 +1,7 @@
-require File.dirname(__FILE__) + '/../spec_helper.rb'
+require File.join(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__)))), 'spec_helper')
+require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'core', 'masking_collection')
 
-require File.join(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__)))), 'lib', 'reek', 'masking_collection')
-
-include Reek
+include Reek::Core
 
 describe MaskingCollection do
   before(:each) do

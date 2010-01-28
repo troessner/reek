@@ -1,9 +1,7 @@
-require File.dirname(__FILE__) + '/../../spec_helper.rb'
-
+require File.join(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__)))), 'spec_helper')
 require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'smells', 'duplication')
-require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'method_context')
-require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'stop_context')
-require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'configuration')
+require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'core', 'code_parser')
+require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'core', 'sniffer')
 require File.join(File.dirname(File.expand_path(__FILE__)), 'smell_detector_shared')
 
 include Reek
@@ -60,8 +58,8 @@ def double_thing(other)
 end
 EOS
       source = src.to_reek_source
-      sniffer = Sniffer.new(source)
-      @mctx = CodeParser.new(sniffer).process_defn(source.syntax_tree)
+      sniffer = Core::Sniffer.new(source)
+      @mctx = Core::CodeParser.new(sniffer).process_defn(source.syntax_tree)
       @detector.examine(@mctx)
       warning = @detector.smells_found.to_a[0]   # SMELL: too cumbersome!
       @yaml = warning.to_yaml

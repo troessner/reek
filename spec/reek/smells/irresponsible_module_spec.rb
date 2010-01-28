@@ -1,12 +1,7 @@
-require File.dirname(__FILE__) + '/../../spec_helper.rb'
-
+require File.join(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__)))), 'spec_helper')
 require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'smells', 'irresponsible_module')
-require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'code_parser')
-require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'class_context')
-require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'stop_context')
 require File.join(File.dirname(File.expand_path(__FILE__)), 'smell_detector_shared')
 
-include Reek
 include Reek::Smells
 
 describe IrresponsibleModule do

@@ -71,7 +71,7 @@ module Reek
       def variable_names(context)
         result = Hash.new {|hash,key| hash[key] = []}
         case context
-        when MethodContext
+        when Core::MethodContext
           context.local_nodes(:lasgn).each do |asgn|
             result[asgn[1]].push(asgn.line)
           end

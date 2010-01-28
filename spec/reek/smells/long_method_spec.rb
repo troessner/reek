@@ -1,8 +1,7 @@
-require File.dirname(__FILE__) + '/../../spec_helper.rb'
-
+require File.join(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__)))), 'spec_helper')
 require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'smells', 'long_method')
-require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'code_parser')
-require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'sniffer')
+require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'core', 'code_parser')
+require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'core', 'sniffer')
 require File.join(File.dirname(File.expand_path(__FILE__)), 'smell_detector_shared')
 
 include Reek
@@ -10,8 +9,8 @@ include Reek::Smells
 
 def process_method(src)
   source = src.to_reek_source
-  sniffer = Sniffer.new(source)
-  CodeParser.new(sniffer).process_defn(source.syntax_tree)
+  sniffer = Core::Sniffer.new(source)
+  Core::CodeParser.new(sniffer).process_defn(source.syntax_tree)
 end
 
 describe LongMethod do

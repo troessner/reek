@@ -1,4 +1,3 @@
-require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'sniffer')
 require File.join(File.dirname(File.expand_path(__FILE__)), 'core_extras')
 
 module Reek
