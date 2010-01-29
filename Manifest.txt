@@ -1,6 +1,7 @@
+.yardopts
 History.txt
 License.txt
-README.rdoc
+README.md
 Rakefile
 bin/reek
 config/defaults.reek
@@ -15,7 +16,6 @@ features/step_definitions/reek_steps.rb
 features/support/env.rb
 features/yaml.feature
 lib/reek.rb
-lib/reek/cli.rb
 lib/reek/cli/application.rb
 lib/reek/cli/command_line.rb
 lib/reek/cli/help_command.rb

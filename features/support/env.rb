@@ -4,7 +4,7 @@ require 'rubygems'
 require 'tempfile'
 require 'spec/expectations'
 require 'fileutils'
-require 'reek/cli'
+require 'reek/cli/application'
 
 class ReekWorld
   def run(cmd)
