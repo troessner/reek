@@ -2,21 +2,22 @@ require File.dirname(__FILE__) + '/spec_helper.rb'
 
 require 'flay'
 
-class ShouldDuplicate
-  def initialize(threshold)
+Spec::Matchers.define :flay do |threshold|
+  match do |dirs_and_files|
     @threshold = threshold
     @flay = Flay.new({:fuzzy => false, :verbose => false, :mass => @threshold})
-  end
-  def matches?(actual)
-    @flay.process(*Flay.expand_dirs_to_files(actual))
+    @flay.process(*Flay.expand_dirs_to_files(dirs_and_files))
     @flay.total > 0
   end
-  def failure_message_for_should
+  
+  failure_message_for_should do
     "Expected source to contain duplication, but it didn't"
   end
-  def failure_message_for_should_not
+  
+  failure_message_for_should_not do
     "Expected source not to contain duplication, but got:\n#{report}"
   end
+  
   def report
     lines = ["Total mass = #{@flay.total} (threshold = #{@threshold})"]
     @flay.masses.each do |hash, mass|
@@ -29,30 +30,21 @@ class ShouldDuplicate
   end
 end
 
-class ShouldSimian
-  def initialize(threshold)
-    @threshold = threshold
-  end
-  def matches?(actual)
-    files = Flay.expand_dirs_to_files(actual).join(' ')
+Spec::Matchers.define :simian do |threshold|
+  match do |dirs_and_files|
+    files = Flay.expand_dirs_to_files(dirs_and_files).join(' ')
     simian_jar = Dir["#{ENV['SIMIAN_HOME']}/simian*.jar"].first
-    @simian = `java -jar #{simian_jar} -threshold=#{@threshold} #{files}`
+    @simian = `java -jar #{simian_jar} -threshold=#{threshold} #{files}`
     !@simian.include?("Found 0 duplicate lines")
   end
-  def failure_message_for_should
+  
+  failure_message_for_should do
     "Expected source to contain textual duplication, but it didn't"
   end
-  def failure_message_for_should_not
+  
+  failure_message_for_should_not do
     "Expected source not to contain textual duplication, but got:\n#{@simian}"
   end
-end
-
-def flay(threshold)
-  ShouldDuplicate.new(threshold)
-end
-
-def simian(threshold)
-  ShouldSimian.new(threshold)
 end
 
 describe 'Reek source code' do
