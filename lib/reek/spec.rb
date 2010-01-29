@@ -13,7 +13,7 @@ module Reek
   #
   # === Examples
   #
-  # Here's a spec that ensures there are no smell warnings in the current project:
+  # Here's a spec that ensures there are no active code smells in the current project:
   #
   #  describe 'source code quality' do
   #    Dir['lib/**/*.rb'].each do |path|

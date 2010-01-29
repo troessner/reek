@@ -65,6 +65,7 @@ module Reek
   end
 
   # Represents a group of methods
+  # @private
   class MethodGroup   # :nodoc:
 
     def self.intersection_of_parameters_of(methods)
