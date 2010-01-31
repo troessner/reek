@@ -74,8 +74,6 @@ lib/reek/spec/should_reek.rb
 lib/reek/spec/should_reek_of.rb
 lib/reek/spec/should_reek_only_of.rb
 reek.gemspec
-spec/gem/manifest_spec.rb
-spec/gem/updates_spec.rb
 spec/reek/cli/help_command_spec.rb
 spec/reek/cli/reek_command_spec.rb
 spec/reek/cli/report_spec.rb

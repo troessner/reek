@@ -16,7 +16,6 @@ Feature: Report smells using simple YAML layout
       """
       --- 
       - !ruby/object:Reek::SmellWarning 
-        is_masked: true
         location: 
           lines: 
           - 5
@@ -27,8 +26,9 @@ Feature: Report smells using simple YAML layout
           subclass: UncommunicativeVariableName
           variable_name: "@s"
           message: has the variable name '@s'
+        status: 
+          is_active: false
       - !ruby/object:Reek::SmellWarning 
-        is_masked: false
         location: 
           lines: 
           - 4
@@ -41,8 +41,9 @@ Feature: Report smells using simple YAML layout
           subclass: DuplicateMethodCall
           call: "@s.title"
           message: calls @s.title twice
+        status: 
+          is_active: true
       - !ruby/object:Reek::SmellWarning 
-        is_masked: false
         location: 
           lines: 
           - 5
@@ -55,8 +56,9 @@ Feature: Report smells using simple YAML layout
           subclass: DuplicateMethodCall
           call: puts(@s.title)
           message: calls puts(@s.title) twice
+        status: 
+          is_active: true
       - !ruby/object:Reek::SmellWarning 
-        is_masked: false
         location: 
           lines: 
           - 5
@@ -67,8 +69,9 @@ Feature: Report smells using simple YAML layout
           depth: 2
           subclass: ""
           message: contains iterators nested 2 deep
+        status: 
+          is_active: true
       - !ruby/object:Reek::SmellWarning 
-        is_masked: true
         location: 
           lines: 
           - 3
@@ -79,8 +82,9 @@ Feature: Report smells using simple YAML layout
           class: UncommunicativeName
           subclass: UncommunicativeMethodName
           message: has the name 'a'
+        status: 
+          is_active: false
       - !ruby/object:Reek::SmellWarning 
-        is_masked: true
         location: 
           lines: 
           - 5
@@ -91,6 +95,8 @@ Feature: Report smells using simple YAML layout
           subclass: UncommunicativeVariableName
           variable_name: x
           message: has the variable name 'x'
+        status: 
+          is_active: false
 
       """
 
@@ -102,7 +108,6 @@ Feature: Report smells using simple YAML layout
       """
       --- 
       - !ruby/object:Reek::SmellWarning 
-        is_masked: false
         location: 
           lines: 
           - 2
@@ -113,5 +118,7 @@ Feature: Report smells using simple YAML layout
           class: ControlCouple
           subclass: BooleanParameter
           message: has boolean parameter 'arg'
+        status: 
+          is_active: true
 
       """

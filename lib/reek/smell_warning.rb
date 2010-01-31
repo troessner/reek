@@ -8,23 +8,58 @@ module Reek
 
     include Comparable
 
+    MESSAGE_KEY = 'message'
+    SUBCLASS_KEY = 'subclass'
+    CLASS_KEY = 'class'
+
     CONTEXT_KEY = 'context'
+    LINES_KEY = 'lines'
+    SOURCE_KEY = 'source'
+
+    ACTIVE_KEY = 'is_active'
 
     def initialize(class_name, context, lines, message, masked,
         source = '', subclass_name = '', parameters = {})
       @smell = {
-        'class' => class_name,
-        'subclass' => subclass_name,
-        'message' => message,
+        CLASS_KEY => class_name,
+        SUBCLASS_KEY => subclass_name,
+        MESSAGE_KEY => message,
       }
       @smell.merge!(parameters)
-      @is_masked = masked
+      @status = {
+        ACTIVE_KEY => !masked
+      }
       @location = {
         CONTEXT_KEY => context,
-        'lines' => lines,
-        'source' => source
+        LINES_KEY => lines,
+        SOURCE_KEY => source
       }
     end
+
+    #
+    # Details of the smell found, including its class ({CLASS_KEY}),
+    # subclass ({SUBCLASS_KEY}) and summary message ({MESSAGE_KEY})
+    #
+    # @return [Hash{String => String}]
+    #
+    attr_reader :smell
+
+    #
+    # Details of the smell's location, including its context ({CONTEXT_KEY}),
+    # the line numbers on which it occurs ({LINES_KEY}) and the source
+    # file ({SOURCE_KEY})
+    #
+    # @return [Hash{String => String, Array<Number>}]
+    #
+    attr_reader :location
+
+    #
+    # Details of the smell's status, including whether it is active ({ACTIVE_KEY})
+    # (as opposed to being masked by a config file)
+    #
+    # @return [Hash{String => Boolean}]
+    #
+    attr_reader :status
 
     def hash  # :nodoc:
       sort_key.hash
@@ -48,7 +83,7 @@ module Reek
     end
 
     def sort_key
-      [@location[CONTEXT_KEY], @smell['message'], smell_name]
+      [@location[CONTEXT_KEY], @smell[MESSAGE_KEY], smell_name]
     end
 
     protected :sort_key
@@ -56,20 +91,22 @@ module Reek
     def report(format)
       format.gsub(/\%s/, smell_name).
         gsub(/\%c/, @location[CONTEXT_KEY]).
-        gsub(/\%w/, @smell['message']).
-        gsub(/\%m/, @is_masked ? '(masked) ' : '')
+        gsub(/\%w/, @smell[MESSAGE_KEY]).
+        gsub(/\%m/, @status[ACTIVE_KEY] ? '' : '(masked) ')
     end
 
     def report_on(report)
-      if @is_masked
-        report.found_masked_smell(self)
-      else
+      if @status[ACTIVE_KEY]
         report.found_smell(self)
+      else
+        report.found_masked_smell(self)
       end
     end
 
+  private
+
     def smell_name
-      @smell['class'].gsub(/([a-z])([A-Z])/) { |sub| "#{$1} #{$2}"}.split.join(' ')
+      @smell[CLASS_KEY].gsub(/([a-z])([A-Z])/) { |sub| "#{$1} #{$2}"}.split.join(' ')
     end
   end
 end

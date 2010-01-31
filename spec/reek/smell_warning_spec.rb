@@ -129,7 +129,7 @@ describe SmellWarning do
       @lines = [24, 513]
       @class = 'FeatureEnvy'
       @context_name = 'Module::Class#method/block'
-      @is_masked = true
+      @is_active = true
       # Use a random string and a random bool
     end
 
@@ -144,7 +144,7 @@ describe SmellWarning do
         @yaml.should match(/message:\s*#{@message}/)
       end
       it 'indicates the masking' do
-        @yaml.should match(/is_masked:\s*#{@is_masked}/)
+        @yaml.should match(/is_active:\s*#{@is_active}/)
       end
       it 'includes the line numbers' do
         @lines.each do |line|
