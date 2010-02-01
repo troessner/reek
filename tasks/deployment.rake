@@ -5,7 +5,7 @@ require 'reek'
 
 GEMSPEC = "#{PROJECT_NAME}.gemspec"
 HISTORY_FILE = 'History.txt'
-README_FILE = 'README.rdoc'
+README_FILE = 'README.md'
 
 RELEASE_TIMESTAMP = "#{BUILD_DIR}/.last-release"
 
