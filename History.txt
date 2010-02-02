@@ -1,4 +1,6 @@
-== 1.2.7 (in development)
+== 1.2.7.1 (in development)
+
+== 1.2.7 (2010-02-01)
 
 === Major Changes
 * New option --yaml reports smells in YAML format
