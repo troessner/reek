@@ -30,6 +30,14 @@ describe SimulatedPolymorphism do
     end
   end
 
+  context 'with an empty condition' do
+    it 'does not record the condition' do
+      ast = 'def fred() case; when 3; end; end'.to_reek_source.syntax_tree
+      ctx = CodeContext.new(nil, ast)
+      @detector.conditional_counts(ctx).length.should == 0
+    end
+  end
+
   context 'with three identical conditionals' do
     before :each do
       @cond = '@field == :sym'

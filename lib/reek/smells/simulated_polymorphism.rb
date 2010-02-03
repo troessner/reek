@@ -61,14 +61,14 @@ module Reek
       # the given syntax tree together with the number of times each
       # occurs. Ignores nested classes and modules.
       #
-      def conditional_counts(klass)
+      def conditional_counts(sexp)
         result = Hash.new {|hash,key| hash[key] = []}
         collector = proc { |node|
           condition = node.condition
-          next if condition == s(:call, nil, :block_given?, s(:arglist))
+          next if condition.nil? or condition == s(:call, nil, :block_given?, s(:arglist))
           result[condition].push(condition.line)
         }
-        [:if, :case].each {|stmt| klass.local_nodes(stmt, &collector) }
+        [:if, :case].each {|stmt| sexp.local_nodes(stmt, &collector) }
         result
       end
     end

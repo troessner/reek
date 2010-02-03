@@ -63,6 +63,7 @@ module Reek
       def control_parameters(method_ctx)
         params = method_ctx.exp.parameter_names
         result = Hash.new {|hash,key| hash[key] = []}
+        return result if params.empty?
         method_ctx.local_nodes(:if) do |if_node|
           cond = if_node[1]
           if cond[0] == :lvar and params.include?(cond[1])

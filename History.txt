@@ -1,5 +1,8 @@
 == 1.2.7.1 (in development)
 
+=== Minor Changes
+* Fixed crash on a case statement with no condition (#58)
+
 == 1.2.7 (2010-02-01)
 
 === Major Changes
