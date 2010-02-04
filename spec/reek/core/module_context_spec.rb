@@ -24,11 +24,4 @@ module ::Global
 # module for test
  class Inside; end; end'.should_not reek
   end
-
-  it 'finds fq loaded class' do
-    exp = [:class, :"Reek::Smells::LargeClass", nil]
-    ctx = StopContext.new
-    res = ModuleContext.resolve(exp[1], ctx)
-    res[1].should == "LargeClass"
-  end
 end
