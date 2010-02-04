@@ -46,9 +46,8 @@ module Reek
       end
 
       def initialize(outer, name, exp)
-        super(outer, exp)
+        super(outer, exp, '::')
         @name = name
-        @scope_connector = '::'
         @parsed_methods = []
       end
 

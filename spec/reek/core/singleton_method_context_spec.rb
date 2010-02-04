@@ -6,10 +6,4 @@ require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expan
 include Reek::Core
 
 describe SingletonMethodContext do
-  it "reports full context" do
-    element = StopContext.new
-    element = ModuleContext.new(element, 'mod', s(:module, :mod, nil))
-    element = SingletonMethodContext.new(element, s(:defs, s(:call, nil, :a, s(:arglist)), :b, s(:args)))
-    element.full_name.should match(/mod#a\.b/)
-  end
 end

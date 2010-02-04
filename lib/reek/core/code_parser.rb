@@ -1,5 +1,4 @@
 require 'sexp'
-require File.join(File.dirname(File.expand_path(__FILE__)), 'block_context')
 require File.join(File.dirname(File.expand_path(__FILE__)), 'class_context')
 require File.join(File.dirname(File.expand_path(__FILE__)), 'method_context')
 require File.join(File.dirname(File.expand_path(__FILE__)), 'module_context')
@@ -64,16 +63,6 @@ module Reek
       def process_lit(exp)
         val = exp[1]
         @element.record_depends_on_self if val == :self
-      end
-
-      def process_iter(exp)
-        process(exp[1])
-        scope = BlockContext.new(@element, exp)
-        push(scope) do
-          process_default(exp[2..-1])
-          check_smells(exp[0])
-        end
-        scope
       end
 
       def process_block(exp)

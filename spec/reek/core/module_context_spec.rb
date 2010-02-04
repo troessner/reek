@@ -25,14 +25,6 @@ module ::Global
  class Inside; end; end'.should_not reek
   end
 
-  context 'full_name' do
-    it "reports full context" do
-      element = StopContext.new
-      element = ModuleContext.new(element, 'mod', s(:module, :mod, nil))
-      element.full_name.should == 'mod'
-    end
-  end
-
   it 'finds fq loaded class' do
     exp = [:class, :"Reek::Smells::LargeClass", nil]
     ctx = StopContext.new

@@ -10,12 +10,16 @@ module Reek
     #
     class CodeContext
 
-      attr_reader :name, :exp
+      attr_reader :exp
 
-      def initialize(outer, exp)
+      def initialize(outer, exp, scope_connector = '')
         @outer = outer
         @exp = exp
-        @scope_connector = ''
+        @scope_connector = scope_connector
+      end
+
+      def name
+        @exp.name
       end
 
       def local_nodes(type, &blk)
@@ -27,12 +31,10 @@ module Reek
       end
 
       # SMELL: Temporary Field -- @name isn't always initialized
-      def matches?(strings)
-        me = @name.to_s
-        strings.any? do |str|
-          re = /#{str}/
-          re === me or re === self.full_name
-        end
+      def matches?(candidates)
+        my_short_name = name.to_s
+        return true if candidates.any? {|str| /#{str}/ === my_short_name }
+        return candidates.any? {|str| /#{str}/ === full_name }
       end
 
       #
@@ -50,7 +52,7 @@ module Reek
       def full_name
         outer = @outer ? @outer.full_name : ''
         prefix = outer == '' ? '' : "#{outer}#{@scope_connector}"
-        "#{prefix}#{@name}"
+        "#{prefix}#{name}"
       end
     end
   end

@@ -6,7 +6,9 @@ include Reek::Core
 
 describe MethodContext, 'matching' do
   before :each do
-    @element = MethodContext.new(StopContext.new, s(0, :mod))
+    exp = mock('exp', :null_object => true)
+    exp.should_receive(:name).at_least(:once).and_return(:mod)
+    @element = MethodContext.new(StopContext.new, exp)
   end
 
   it 'should recognise itself in a collection of names' do
@@ -16,27 +18,6 @@ describe MethodContext, 'matching' do
 
   it 'should recognise itself in a collection of REs' do
     @element.matches?([/banana/, /mod/]).should == true
-    @element.matches?([/banana/]).should == false
-  end
-end
-
-describe MethodContext, 'matching fq names' do
-  before :each do
-    element = StopContext.new
-    element = ModuleContext.new(element, 'mod', s(:module, :mod, nil))
-    element = ClassContext.new(element, 'klass', s())
-    @element = MethodContext.new(element, s(0, :meth))
-  end
-
-  it 'should recognise itself in a collection of names' do
-    @element.matches?(['banana', 'meth']).should == true
-    @element.matches?(['banana', 'klass#meth']).should == true
-    @element.matches?(['banana']).should == false
-  end
-
-  it 'should recognise itself in a collection of names' do
-    @element.matches?([/banana/, /meth/]).should == true
-    @element.matches?([/banana/, /klass#meth/]).should == true
     @element.matches?([/banana/]).should == false
   end
 end

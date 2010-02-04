@@ -55,6 +55,10 @@ module Reek
         end
       end
 
+      module ClassNode
+        def name() self[1] end
+      end
+
       module CvarNode
         def name() self[1] end
       end
@@ -63,7 +67,7 @@ module Reek
       CvdeclNode = CvarNode
 
       module DefnNode
-        def method_name() self[1] end
+        def name() self[1] end
         def parameters()
           self[2].reject {|param| Sexp === param}
         end
@@ -73,7 +77,7 @@ module Reek
       end
 
       module DefsNode
-        def method_name() self[2] end
+        def name() self[2] end
         def parameters
           self[3].reject {|param| Sexp === param}
         end
@@ -104,6 +108,10 @@ module Reek
             []
           end
         end
+      end
+
+      module ModuleNode
+        def name() self[1] end
       end
 
       module YieldNode

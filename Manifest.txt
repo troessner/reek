@@ -7,7 +7,6 @@ bin/reek
 config/defaults.reek
 features/masking_smells.feature
 features/options.feature
-features/profile.feature
 features/rake_task.feature
 features/reports.feature
 features/samples.feature
@@ -23,7 +22,6 @@ lib/reek/cli/reek_command.rb
 lib/reek/cli/report.rb
 lib/reek/cli/version_command.rb
 lib/reek/cli/yaml_command.rb
-lib/reek/core/block_context.rb
 lib/reek/core/class_context.rb
 lib/reek/core/code_context.rb
 lib/reek/core/code_parser.rb
@@ -79,7 +77,6 @@ spec/reek/cli/reek_command_spec.rb
 spec/reek/cli/report_spec.rb
 spec/reek/cli/version_command_spec.rb
 spec/reek/cli/yaml_command_spec.rb
-spec/reek/core/block_context_spec.rb
 spec/reek/core/class_context_spec.rb
 spec/reek/core/code_context_spec.rb
 spec/reek/core/code_parser_spec.rb

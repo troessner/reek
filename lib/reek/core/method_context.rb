@@ -73,12 +73,10 @@ module Reek
       attr_reader :num_statements
 
       def initialize(outer, exp)
-        super(outer, exp)
+        super(outer, exp, '#')
         @parameters = exp[exp[0] == :defn ? 2 : 3]  # SMELL: SimulatedPolymorphism
         @parameters ||= []
         @parameters.extend(MethodParameters)
-        @name = exp[1].to_s
-        @scope_connector = '#'
         @num_statements = 0
         @depends_on_self = false
         @refs = ObjectRefs.new

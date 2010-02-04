@@ -11,7 +11,6 @@ module Reek
 
     def initialize(outer, exp)
       super(outer, exp)
-      @name = exp[2].to_s
       @receiver = Source::SexpFormatter.format(exp[1])
       @scope_connector = ""
       record_depends_on_self
@@ -24,7 +23,7 @@ module Reek
     def full_name
       outer = @outer ? @outer.full_name : ''
       prefix = outer == '' ? '' : "#{outer}#"
-      "#{prefix}#{@receiver}.#{@name}"
+      "#{prefix}#{@receiver}.#{name}"
     end
   end
   end

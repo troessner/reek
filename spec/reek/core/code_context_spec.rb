@@ -1,5 +1,4 @@
 require File.join(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__)))), 'spec_helper')
-require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'core', 'block_context')
 require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'core', 'class_context')
 require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'core', 'method_context')
 require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'core', 'module_context')
@@ -8,30 +7,46 @@ require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expan
 include Reek::Core
 
 describe CodeContext do
-  context 'full_name' do
-    it "reports the full context" do
-      element = StopContext.new
-      element = ModuleContext.new(element, 'mod', s(:module, :mod, nil))
-      element = ClassContext.new(element, [0, :klass], s())
-      element = MethodContext.new(element, [0, :bad])
-      element = BlockContext.new(element, s(nil, nil))
-      element.full_name.should match(/bad/)
-      element.full_name.should match(/klass/)
-      element.full_name.should match(/mod/)
+  context 'name recognition' do
+    before :each do
+      @exp_name = 'random_name'    # SMELL: could use a String.random here
+      @exp = mock('exp')
+      @exp.should_receive(:name).at_least(:once).and_return(@exp_name)
+      @ctx = CodeContext.new(nil, @exp)
+    end
+    it 'gets its short name from the exp' do
+      @ctx.name.should == @exp_name
+    end
+    it 'does not match an empty list' do
+      @ctx.matches?([]).should == false
+    end
+    it 'does not match when its own short name is not given' do
+      @ctx.matches?(['banana']).should == false
+    end
+    it 'recognises its own short name' do
+      @ctx.matches?(['banana', @exp_name]).should == true
+    end
+    it 'recognises its short name as a regex' do
+      @ctx.matches?([/banana/, /#{@exp_name}/]).should == true
     end
 
-    it 'reports the method name via nested blocks' do
-      element1 = StopContext.new
-      element2 = MethodContext.new(element1, [0, :bad])
-      element3 = BlockContext.new(element2, s(nil, nil))
-      BlockContext.new(element3, s(nil, nil)).full_name.should match(/bad/)
-    end
-    it 'includes the enclosing context name' do
-      outer_name = 'randomstring'
-      outer = mock('outer')
-      outer.should_receive(:full_name).and_return(outer_name)
-      ifc = BlockContext.new(outer, s(:if, s()))
-      ifc.full_name.should == "#{outer_name}/block"
+    context 'when there is an outer' do
+      before :each do
+        @connector = 'yet another random string'
+        @outer_name = 'another_random sting'
+        outer = mock('outer')
+        outer.should_receive(:full_name).at_least(:once).and_return(@outer_name)
+        @ctx = CodeContext.new(outer, @exp, @connector)
+      end
+      it 'creates the correct full name' do
+        @ctx.full_name.should == "#{@outer_name}#{@connector}#{@exp_name}"
+      end
+      it 'recognises its own full name' do
+        @ctx.matches?(['banana', @outer_name]).should == true
+      end
+      it 'recognises its full name as a regex' do
+        @ctx.matches?([/banana/, /#{@outer_name}/]).should == true
+      end
     end
   end
 
@@ -42,38 +57,7 @@ describe CodeContext do
       element = ModuleContext.new(stop, 'mod', s(:module, :mod, nil))
       class_element = ClassContext.new(element, [0, :klass], s())
       element = MethodContext.new(class_element, [0, :bad])
-      element = BlockContext.new(element, s(nil, nil))
       element.bananas(17, -5).should == 55
-    end
-  end
-
-  context 'name matching' do
-    it 'should recognise itself in a collection of names' do
-      element = StopContext.new
-      element = ModuleContext.new(element, 'mod', s(:module, :mod, nil))
-      element.matches?(['banana', 'mod']).should == true
-    end
-
-    it 'should recognise itself in a collection of REs' do
-      element = StopContext.new
-      element = ModuleContext.new(element, 'mod', s(:module, :mod, nil))
-      element.matches?([/banana/, /mod/]).should == true
-    end
-
-    it 'should recognise its fq name in a collection of names' do
-      element = StopContext.new
-      element = ModuleContext.new(element, 'mod', s(:module, :mod, nil))
-      element = ClassContext.create(element, s(:class, :klass))
-      element.matches?(['banana', 'mod']).should == true
-      element.matches?(['banana', 'mod::klass']).should == true
-    end
-
-    it 'should recognise its fq name in a collection of names' do
-      element = StopContext.new
-      element = ModuleContext.new(element, 'mod', s(:module, :mod, nil))
-      element = ClassContext.create(element, s(:class, :klass))
-      element.matches?([/banana/, /mod/]).should == true
-      element.matches?([/banana/, /mod::klass/]).should == true
     end
   end
 

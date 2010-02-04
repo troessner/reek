@@ -51,7 +51,7 @@ describe Attribute do
         @smells[0].smell_class.should == Attribute::SMELL_CLASS
       end
       it 'reports the context fq name' do
-        @smells[0].context.should == ''
+        @smells[0].context.should == 'Fred'
       end
     end
 
