@@ -14,6 +14,16 @@ module Reek
         is_language_node? and first == type
       end
 
+      def each_node(type, ignoring, &blk)
+        if block_given?
+          look_for(type, ignoring, &blk)
+        else
+          result = []
+          look_for(type, ignoring) {|exp| result << exp}
+          result
+        end
+      end
+
       #
       # Carries out a depth-first traversal of this syntax tree, yielding
       # every Sexp of type +target_type+. The traversal ignores any node

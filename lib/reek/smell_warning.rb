@@ -44,6 +44,10 @@ module Reek
     #
     attr_reader :smell
 
+    def smell_class() @smell[CLASS_KEY] end
+    def subclass() @smell[SUBCLASS_KEY] end
+    def message() @smell[MESSAGE_KEY] end
+
     #
     # Details of the smell's location, including its context ({CONTEXT_KEY}),
     # the line numbers on which it occurs ({LINES_KEY}) and the source
@@ -52,6 +56,10 @@ module Reek
     # @return [Hash{String => String, Array<Number>}]
     #
     attr_reader :location
+
+    def context() @location[CONTEXT_KEY] end
+    def lines() @location[LINES_KEY] end
+    def source() @location[SOURCE_KEY] end
 
     #
     # Details of the smell's status, including whether it is active ({ACTIVE_KEY})

@@ -1,13 +1,4 @@
 
-#
-# Extensions to +Module+ needed by Reek.
-#
-class Module
-  def const_or_nil(sym)
-    const_defined?(sym) ? const_get(sym) : nil
-  end
-end
-
 module Reek
   module Core
 
@@ -32,13 +23,7 @@ module Reek
       end
 
       def each_node(type, ignoring, &blk)
-        if block_given?
-          @exp.look_for(type, ignoring, &blk)
-        else
-          result = []
-          @exp.look_for(type, ignoring) {|exp| result << exp}
-          result
-        end
+        @exp.each_node(type, ignoring, &blk)
       end
 
       # SMELL: Temporary Field -- @name isn't always initialized
