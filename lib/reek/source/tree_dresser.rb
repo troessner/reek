@@ -64,6 +64,7 @@ module Reek
 
       module ClassNode
         def name() self[1] end
+        def superclass() self[2] end
         def full_name(outer)
           prefix = outer == '' ? '' : "#{outer}::"
           "#{prefix}#{name}"

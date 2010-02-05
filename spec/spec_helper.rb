@@ -14,8 +14,8 @@ require File.join((File.dirname(File.dirname(File.expand_path(__FILE__)))), 'lib
 
 SAMPLES_DIR = 'spec/samples' unless Object.const_defined?('SAMPLES_DIR')
 
-def ast(args)
-  result = Reek::Source::TreeDresser.new.dress(s(args))
+def ast(*args)
+  result = Reek::Source::TreeDresser.new.dress(s(*args))
   result.line = 1
   result
 end

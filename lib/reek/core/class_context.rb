@@ -12,11 +12,10 @@ module Reek
 
       def initialize(outer, name, exp)
         super
-        @superclass = exp[2]
       end
 
       def is_struct?
-        @superclass == [:const, :Struct]
+        exp.superclass == [:const, :Struct]
       end
     end
   end

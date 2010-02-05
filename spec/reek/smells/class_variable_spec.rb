@@ -13,37 +13,37 @@ describe ClassVariable do
     @class_variable = '@@things'
   end
 
+  it_should_behave_like 'SmellDetector'
+
   context 'with no class variables' do
     it 'records nothing in the class' do
-      ctx = ClassContext.from_s('class Fred; end')
-      @detector.class_variables_in(ctx).should be_empty
+      exp = ast(:class, :Fred)
+      @detector.class_variables_in(exp).should be_empty
     end
     it 'records nothing in the module' do
-      ctx = ModuleContext.from_s('module Fred; end')
-      @detector.class_variables_in(ctx).should be_empty
+      exp = ast(:module, :Fred)
+      @detector.class_variables_in(exp).should be_empty
     end
   end
 
   context 'with one class variable' do
     shared_examples_for 'one variable found' do
       before :each do
-        @detector.examine_context(@ctx)
-        @smells = @detector.smells_found
+        ast = @src.to_reek_source.syntax_tree
+        @cvars = @detector.class_variables_in(ast).to_a
       end
       it 'records only that class variable' do
-        @smells.length.should == 1
+        @cvars.length.should == 1
       end
       it 'records the variable name' do
-        @smells.each do |warning|
-          warning.smell['variable'].should == @class_variable
-        end
+        @cvars[0].to_s.should == @class_variable
       end
     end
 
     ['class', 'module'].each do |scope|
       context "declared in a #{scope}" do
         before :each do
-          @ctx = ClassContext.from_s("#{scope} Fred; #{@class_variable} = {}; end")
+          @src = "#{scope} Fred; #{@class_variable} = {}; end"
         end
 
         it_should_behave_like 'one variable found'
@@ -51,7 +51,7 @@ describe ClassVariable do
 
       context "used in a #{scope}" do
         before :each do
-          @ctx = ClassContext.from_s("#{scope} Fred; def jim() #{@class_variable} = {}; end; end")
+          @src = "#{scope} Fred; def jim() #{@class_variable} = {}; end; end"
         end
 
         it_should_behave_like 'one variable found'
@@ -59,7 +59,7 @@ describe ClassVariable do
 
       context "indexed in a #{scope}" do
         before :each do
-          @ctx = ClassContext.from_s("#{scope} Fred; def jim() #{@class_variable}[mash] = {}; end; end")
+          @src = "#{scope} Fred; def jim() #{@class_variable}[mash] = {}; end; end"
         end
 
         it_should_behave_like 'one variable found'
@@ -67,7 +67,7 @@ describe ClassVariable do
 
       context "declared and used in a #{scope}" do
         before :each do
-          @ctx = ClassContext.from_s("#{scope} Fred; #{@class_variable} = {}; def jim() #{@class_variable} = {}; end; end")
+          @src = "#{scope} Fred; #{@class_variable} = {}; def jim() #{@class_variable} = {}; end; end"
         end
 
         it_should_behave_like 'one variable found'
@@ -75,14 +75,11 @@ describe ClassVariable do
 
       context "used twice in a #{scope}" do
         before :each do
-          @ctx = ClassContext.from_s("#{scope} Fred; def jeff() #{@class_variable} = {}; end; def jim() #{@class_variable} = {}; end; end")
+          @src = "#{scope} Fred; def jeff() #{@class_variable} = {}; end; def jim() #{@class_variable} = {}; end; end"
         end
 
         it_should_behave_like 'one variable found'
       end
     end
-
   end
-
-  it_should_behave_like 'SmellDetector'
 end
