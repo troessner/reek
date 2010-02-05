@@ -25,7 +25,7 @@ module Reek
       end
 
       def initialize(outer, name, exp)
-        super(outer, exp, '::')
+        super(outer, exp)
         @name = name
         @parsed_methods = []
       end

@@ -12,10 +12,9 @@ module Reek
 
       attr_reader :exp
 
-      def initialize(outer, exp, scope_connector = '')
+      def initialize(outer, exp)
         @outer = outer
         @exp = exp
-        @scope_connector = scope_connector
       end
 
       def name
@@ -30,11 +29,9 @@ module Reek
         @exp.each_node(type, ignoring, &blk)
       end
 
-      # SMELL: Temporary Field -- @name isn't always initialized
       def matches?(candidates)
-        my_short_name = name.to_s
-        return true if candidates.any? {|str| /#{str}/ === my_short_name }
-        return candidates.any? {|str| /#{str}/ === full_name }
+        my_fq_name = full_name
+        candidates.any? {|str| /#{str}/ === my_fq_name }
       end
 
       #
@@ -51,8 +48,7 @@ module Reek
 
       def full_name
         outer = @outer ? @outer.full_name : ''
-        prefix = outer == '' ? '' : "#{outer}#{@scope_connector}"
-        "#{prefix}#{name}"
+        exp.full_name(outer)
       end
     end
   end

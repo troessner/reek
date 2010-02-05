@@ -73,7 +73,7 @@ module Reek
       attr_reader :num_statements
 
       def initialize(outer, exp)
-        super(outer, exp, '#')
+        super(outer, exp)
         @parameters = exp[exp[0] == :defn ? 2 : 3]  # SMELL: SimulatedPolymorphism
         @parameters ||= []
         @parameters.extend(MethodParameters)

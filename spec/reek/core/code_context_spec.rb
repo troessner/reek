@@ -10,8 +10,10 @@ describe CodeContext do
   context 'name recognition' do
     before :each do
       @exp_name = 'random_name'    # SMELL: could use a String.random here
+      @full_name = "::::::::::::::::::::#{@exp_name}"
       @exp = mock('exp')
-      @exp.should_receive(:name).at_least(:once).and_return(@exp_name)
+      @exp.should_receive(:name).any_number_of_times.and_return(@exp_name)
+      @exp.should_receive(:full_name).any_number_of_times.and_return(@full_name)
       @ctx = CodeContext.new(nil, @exp)
     end
     it 'gets its short name from the exp' do
@@ -32,20 +34,19 @@ describe CodeContext do
 
     context 'when there is an outer' do
       before :each do
-        @connector = 'yet another random string'
         @outer_name = 'another_random sting'
         outer = mock('outer')
         outer.should_receive(:full_name).at_least(:once).and_return(@outer_name)
-        @ctx = CodeContext.new(outer, @exp, @connector)
+        @ctx = CodeContext.new(outer, @exp)
       end
       it 'creates the correct full name' do
-        @ctx.full_name.should == "#{@outer_name}#{@connector}#{@exp_name}"
+        @ctx.full_name.should == "#{@full_name}"
       end
       it 'recognises its own full name' do
-        @ctx.matches?(['banana', @outer_name]).should == true
+        @ctx.matches?(['banana', @full_name]).should == true
       end
       it 'recognises its full name as a regex' do
-        @ctx.matches?([/banana/, /#{@outer_name}/]).should == true
+        @ctx.matches?([/banana/, /#{@full_name}/]).should == true
       end
     end
   end

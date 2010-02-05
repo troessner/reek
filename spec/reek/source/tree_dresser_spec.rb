@@ -15,6 +15,16 @@ describe TreeDresser do
   end
 end
 
+describe SexpNode do
+  context 'format' do
+    it 'formats self' do
+      @node = s(:self)
+      @node.extend(SexpNode)
+      @node.format.should == 'self'
+    end
+  end
+end
+
 describe SexpExtensions::DefnNode do
   context 'with no parameters' do
     before :each do

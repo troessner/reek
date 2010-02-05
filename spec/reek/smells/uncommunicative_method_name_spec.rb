@@ -51,33 +51,9 @@ describe UncommunicativeMethodName do
       it 'reports the context fq name' do
         @smells[0].context.should == @full_name
       end
-    end
-  end
-
-  context 'looking at the YAML' do
-    before :each do
-      src = 'def bad3() end'
-      source = src.to_reek_source
-      sniffer = Core::Sniffer.new(source)
-      @mctx = Core::CodeParser.new(sniffer).process_defn(source.syntax_tree)
-      @detector.examine(@mctx)
-      warning = @detector.smells_found.to_a[0]   # SMELL: too cumbersome!
-      @yaml = warning.to_yaml
-    end
-    it 'reports the source' do
-      @yaml.should match(/source:\s*#{@source_name}/)
-    end
-    it 'reports the class' do
-      @yaml.should match(/\sclass:\s*UncommunicativeName/)
-    end
-    it 'reports the subclass' do
-      @yaml.should match(/subclass:\s*UncommunicativeMethodName/)
-    end
-    it 'reports the variable name' do
-      @yaml.should match(/method_name:\s*bad3/)
-    end
-    it 'reports the line number of the method def' do
-      @yaml.should match(/lines:\s*- 1/)
+      it 'reports the source name' do
+        @smells[0].source.should == @source_name
+      end
     end
   end
 end

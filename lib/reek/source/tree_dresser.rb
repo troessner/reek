@@ -37,6 +37,13 @@ module Reek
         end
         blk.call(self) if first == target_type
       end
+      def format
+        return self[0].to_s unless Array === self
+        Ruby2Ruby.new.process(deep_copy)
+      end
+      def deep_copy
+        YAML::load(YAML::dump(self))
+      end
     end
 
     module SexpExtensions
@@ -57,6 +64,10 @@ module Reek
 
       module ClassNode
         def name() self[1] end
+        def full_name(outer)
+          prefix = outer == '' ? '' : "#{outer}::"
+          "#{prefix}#{name}"
+        end
       end
 
       module CvarNode
@@ -74,15 +85,24 @@ module Reek
         def parameter_names
           parameters[1..-1]
         end
+        def full_name(outer)
+          prefix = outer == '' ? '' : "#{outer}#"
+          "#{prefix}#{name}"
+        end
       end
 
       module DefsNode
+        def receiver() self[1] end
         def name() self[2] end
         def parameters
           self[3].reject {|param| Sexp === param}
         end
         def parameter_names
           parameters[1..-1]
+        end
+        def full_name(outer)
+          prefix = outer == '' ? '' : "#{outer}#"
+          "#{prefix}#{receiver.format}.#{name}"
         end
       end
 
@@ -112,6 +132,10 @@ module Reek
 
       module ModuleNode
         def name() self[1] end
+        def full_name(outer)
+          prefix = outer == '' ? '' : "#{outer}::"
+          "#{prefix}#{name}"
+        end
       end
 
       module YieldNode
