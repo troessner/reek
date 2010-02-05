@@ -19,11 +19,15 @@ module Reek
     #
     class UncommunicativeMethodName < SmellDetector
 
+      SMELL_CLASS = 'UncommunicativeName'
+      SMELL_SUBCLASS = self.name.split(/::/)[-1]
+      METHOD_NAME_KEY = 'method_name'
+
       # The name of the config field that lists the regexps of
       # smelly names to be reported.
       REJECT_KEY = 'reject'
 
-      DEFAULT_REJECT_SET = [/^.$/, /[0-9]$/]
+      DEFAULT_REJECT_SET = [/^[a-z]$/, /[0-9]$/]
       
       # The name of the config field that lists the specific names that are
       # to be treated as exceptions; these names will not be reported as
@@ -57,10 +61,12 @@ module Reek
         return false unless is_bad_name?(name, method_ctx)
         smell = SmellWarning.new('UncommunicativeName', method_ctx.full_name, [method_ctx.exp.line],
           "has the name '#{name}'", @masked,
-          @source, 'UncommunicativeMethodName', {'method_name' => name.to_s})
+          @source, 'UncommunicativeMethodName', {METHOD_NAME_KEY => name.to_s})
         @smells_found << smell
         #SMELL: serious duplication
       end
+
+    private
 
       def accept?(context)
         value(ACCEPT_KEY, context, DEFAULT_ACCEPT_SET).include?(context.full_name)

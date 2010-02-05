@@ -21,7 +21,7 @@ UncommunicativeMethodName:
 
   enabled: true
   reject: 
-  - !ruby/regexp /^.$/
+  - !ruby/regexp /^[a-z]$/
   - !ruby/regexp /[0-9]$/
 LongParameterList: 
   max_params: 3

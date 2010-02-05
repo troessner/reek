@@ -1,5 +1,8 @@
 == 1.2.8 (in development)
 
+=== Minor Changes
+* UncommunicativeMethodName now accepts operator names (+, -, ...)
+
 == 1.2.7.1 (2010-02-03)
 
 === Minor Changes

@@ -15,17 +15,43 @@ describe UncommunicativeMethodName do
 
   it_should_behave_like 'SmellDetector'
 
-  it 'should not report one-word method name' do
-    'def help(fred) basics(17) end'.should_not reek
+  ['help', '+', '-', '/', '*'].each do |method_name|
+    it "accepts the method name '#{method_name}'" do
+      "def #{method_name}(fred) basics(17) end".should_not reek
+    end
   end
-  it 'should report one-letter method name' do
-    'def x(fred) basics(17) end'.should reek_only_of(:UncommunicativeMethodName, /x/)
-  end
-  it 'should report name of the form "x2"' do
-    'def x2(fred) basics(17) end'.should reek_only_of(:UncommunicativeMethodName, /x2/)
-  end
-  it 'should report long name ending in a number' do
-    'def method2(fred) basics(17) end'.should reek_only_of(:UncommunicativeMethodName, /method2/)
+
+  ['x', 'x2', 'method2'].each do |method_name|
+    context 'with a bad name' do
+      before :each do
+        @full_name = 'anything you like'
+        ctx = mock('method', :null_object => true)
+        ctx.should_receive(:name).and_return(method_name)
+        ctx.should_receive(:full_name).at_least(:once).and_return(@full_name)
+        ctx.should_receive(:exp).and_return(ast(:defn))
+        @detector.examine_context(ctx)
+        @smells = @detector.smells_found.to_a
+      end
+
+      it 'records only that attribute' do
+        @smells.length.should == 1
+      end
+      it 'reports the attribute name' do
+        @smells[0].smell[UncommunicativeMethodName::METHOD_NAME_KEY].should == method_name
+      end
+      it 'reports the declaration line number' do
+        @smells[0].lines.should == [1]
+      end
+      it 'reports the correct smell class' do
+        @smells[0].smell_class.should == UncommunicativeMethodName::SMELL_CLASS
+      end
+      it 'reports the correct smell subclass' do
+        @smells[0].subclass.should == UncommunicativeMethodName::SMELL_SUBCLASS
+      end
+      it 'reports the context fq name' do
+        @smells[0].context.should == @full_name
+      end
+    end
   end
 
   context 'looking at the YAML' do
