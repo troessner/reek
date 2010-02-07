@@ -8,6 +8,7 @@ UncommunicativeParameterName:
   reject: 
   - !ruby/regexp /^.$/
   - !ruby/regexp /[0-9]$/
+  - !ruby/regexp /[A-Z]/
 LargeClass: 
   max_methods: 25
   exclude: []
@@ -23,6 +24,7 @@ UncommunicativeMethodName:
   reject: 
   - !ruby/regexp /^[a-z]$/
   - !ruby/regexp /[0-9]$/
+  - !ruby/regexp /[A-Z]/
 LongParameterList: 
   max_params: 3
   exclude: []
@@ -84,6 +86,7 @@ UncommunicativeVariableName:
   reject: 
   - !ruby/regexp /^.$/
   - !ruby/regexp /[0-9]$/
+  - !ruby/regexp /[A-Z]/
 SimulatedPolymorphism: 
   exclude: []
 

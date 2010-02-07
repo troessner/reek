@@ -27,7 +27,7 @@ module Reek
       # smelly names to be reported.
       REJECT_KEY = 'reject'
 
-      DEFAULT_REJECT_SET = [/^[a-z]$/, /[0-9]$/]
+      DEFAULT_REJECT_SET = [/^[a-z]$/, /[0-9]$/, /[A-Z]/]
       
       # The name of the config field that lists the specific names that are
       # to be treated as exceptions; these names will not be reported as

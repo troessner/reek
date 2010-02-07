@@ -2,6 +2,7 @@
 
 === Minor Changes
 * UncommunicativeMethodName now accepts operator names (+, -, ...)
+* Uncommunicative Name now warns about uppercase letters in method & var names
 
 == 1.2.7.1 (2010-02-03)
 

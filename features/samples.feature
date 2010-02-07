@@ -178,7 +178,7 @@ Feature: Basic smell detection
     Then the exit status indicates smells
     And it reports:
     """
-    spec/samples/redcloth.rb -- 94 warnings:
+    spec/samples/redcloth.rb -- 97 warnings:
       RedCloth has at least 44 methods (Large Class)
       RedCloth has the variable name 'a' (Uncommunicative Name)
       RedCloth has the variable name 'b' (Uncommunicative Name)
@@ -245,6 +245,7 @@ Feature: Basic smell detection
       RedCloth#inline_textile_span contains iterators nested 2 deep (Nested Iterators)
       RedCloth#inline_textile_span has approx 8 statements (Long Method)
       RedCloth#inline_textile_span has the variable name 'm' (Uncommunicative Name)
+      RedCloth#lT has the name 'lT' (Uncommunicative Name)
       RedCloth#no_textile doesn't depend on instance state (Low Cohesion)
       RedCloth#no_textile refers to text more than self (Low Cohesion)
       RedCloth#pba calls $1.length twice (Duplication)
@@ -272,6 +273,8 @@ Feature: Basic smell detection
       RedCloth#textile_fn_ is controlled by argument atts (Control Couple)
       RedCloth#textile_p has 4 parameters (Long Parameter List)
       RedCloth#textile_p is controlled by argument atts (Control Couple)
+      RedCloth#textile_popup_help has the parameter name 'windowH' (Uncommunicative Name)
+      RedCloth#textile_popup_help has the parameter name 'windowW' (Uncommunicative Name)
       RedCloth#to_html has approx 24 statements (Long Method)
 
     """
