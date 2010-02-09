@@ -60,11 +60,6 @@ module Reek
         @element.record_use_of_self
       end
 
-      def process_lit(exp)
-        val = exp[1]
-        @element.record_depends_on_self if val == :self
-      end
-
       def process_block(exp)
         @element.count_statements(CodeParser.count_statements(exp))
         process_default(exp)
@@ -133,8 +128,7 @@ module Reek
       end
 
       def process_iasgn(exp)
-        @element.record_instance_variable(exp[1])
-        @element.record_depends_on_self
+        @element.record_use_of_self
         process_default(exp)
       end
 

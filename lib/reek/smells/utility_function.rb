@@ -1,5 +1,6 @@
 require File.join( File.dirname( File.expand_path(__FILE__)), 'smell_detector')
 require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'smell_warning')
+require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'source', 'reference_collector')
 
 module Reek
   module Smells
@@ -42,8 +43,13 @@ module Reek
 
       DEFAULT_HELPER_CALLS_LIMIT = 1
 
-      def self.default_config
-        super.adopt(HELPER_CALLS_LIMIT_KEY => DEFAULT_HELPER_CALLS_LIMIT)
+      class << self
+        def contexts      # :nodoc:
+          [:defn]
+        end
+        def default_config
+          super.adopt(HELPER_CALLS_LIMIT_KEY => DEFAULT_HELPER_CALLS_LIMIT)
+        end
       end
 
       def initialize(source, config = UtilityFunction.default_config)
@@ -55,15 +61,21 @@ module Reek
       # Remembers any smells found.
       #
       def examine_context(method_ctx)
-        return false if method_ctx.num_statements == 0 or
-          method_ctx.depends_on_instance? or
-          num_helper_methods(method_ctx) <= value(HELPER_CALLS_LIMIT_KEY, method_ctx, DEFAULT_HELPER_CALLS_LIMIT)
+        return false if method_ctx.num_statements == 0
+        return false if depends_on_instance?(method_ctx.exp.body)
+        return false if num_helper_methods(method_ctx) <= value(HELPER_CALLS_LIMIT_KEY, method_ctx, DEFAULT_HELPER_CALLS_LIMIT)
           # SMELL: loads of calls to value{} with the above pattern
         smell = SmellWarning.new('LowCohesion', method_ctx.full_name, [method_ctx.exp.line],
           "doesn't depend on instance state", @masked,
           @source, 'UtilityFunction')
         @smells_found << smell
         #SMELL: serious duplication
+      end
+
+    private
+
+      def depends_on_instance?(exp)
+        Reek::Source::ReferenceCollector.new(exp).num_refs_to_self > 0
       end
 
       def num_helper_methods(method_ctx)

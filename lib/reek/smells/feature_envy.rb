@@ -35,6 +35,12 @@ module Reek
     class FeatureEnvy < SmellDetector
       include ExcludeInitialize
 
+      SMELL_CLASS = 'LowCohesion'
+      SMELL_SUBCLASS = self.name.split(/::/)[-1]
+
+      RECEIVER_KEY = 'receiver'
+      REFERENCES_KEY = 'references'
+
       #
       # Checks whether the given +context+ includes any code fragment that
       # might "belong" on another class.
@@ -43,9 +49,9 @@ module Reek
       def examine_context(method_ctx)
         method_ctx.envious_receivers.each do |ref, occurs|
           target = Source::SexpFormatter.format(ref)
-          smell = SmellWarning.new('LowCohesion', method_ctx.full_name, [method_ctx.exp.line],
+          smell = SmellWarning.new(SMELL_CLASS, method_ctx.full_name, [method_ctx.exp.line],
             "refers to #{target} more than self", @masked,
-            @source, 'FeatureEnvy', {'receiver' => target, 'references' => occurs})
+            @source, SMELL_SUBCLASS, {RECEIVER_KEY => target, REFERENCES_KEY => occurs})
           @smells_found << smell
           #SMELL: serious duplication
         end

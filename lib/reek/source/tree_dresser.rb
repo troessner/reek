@@ -86,6 +86,7 @@ module Reek
         def parameter_names
           parameters[1..-1]
         end
+        def body() self[3] end
         def full_name(outer)
           prefix = outer == '' ? '' : "#{outer}#"
           "#{prefix}#{name}"
@@ -101,6 +102,7 @@ module Reek
         def parameter_names
           parameters[1..-1]
         end
+        def body() self[4] end
         def full_name(outer)
           prefix = outer == '' ? '' : "#{outer}#"
           "#{prefix}#{receiver.format}.#{name}"
@@ -108,9 +110,7 @@ module Reek
       end
 
       module IfNode
-        def condition
-          self[1]
-        end
+        def condition() self[1] end
       end
 
       module IterNode
@@ -129,6 +129,10 @@ module Reek
             []
           end
         end
+      end
+
+      module LitNode
+        def value() self[1] end
       end
 
       module ModuleNode

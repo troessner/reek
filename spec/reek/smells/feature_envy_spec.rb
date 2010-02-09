@@ -6,24 +6,65 @@ include Reek
 include Reek::Smells
 
 describe FeatureEnvy do
-  it 'should not report use of self' do
-    'def simple() self.to_s + self.to_i end'.should_not reek
+  context 'with no smell' do
+    it 'should not report use of self' do
+      'def simple() self.to_s + self.to_i end'.should_not reek
+    end
+    it 'should not report vcall with no argument' do
+      'def simple() func; end'.should_not reek
+    end
+    it 'should not report vcall with argument' do
+      'def simple(arga) func(17); end'.should_not reek
+    end
+    it 'should not report single use' do
+      'def no_envy(arga) arga.barg(@item) end'.should_not reek
+    end
+    it 'should not report return value' do
+      'def no_envy(arga) arga.barg(@item); arga end'.should_not reek
+    end
+    it 'should ignore global variables' do
+      'def no_envy() $s2.to_a; $s2[@item] end'.should_not reek
+    end
+    it 'should not report class methods' do
+      'def simple() self.class.new.flatten_merge(self) end'.should_not reek
+    end
+    it 'should not report single use of an ivar' do
+      'def no_envy() @item.to_a end'.should_not reek
+    end
+    it 'should not report returning an ivar' do
+      'def no_envy() @item.to_a; @item end'.should_not reek
+    end
+    it 'should not report ivar usage in a parameter' do
+      'def no_envy() @item.price + tax(@item) - savings(@item) end'.should_not reek
+    end
+    it 'should not report single use of an lvar' do
+      'def no_envy() lv = @item; lv.to_a end'.should_not reek
+    end
+    it 'should not report returning an lvar' do
+      'def no_envy() lv = @item; lv.to_a; lv end'.should_not reek
+    end
+    it 'ignores lvar usage in a parameter' do
+      'def no_envy() lv = @item; lv.price + tax(lv) - savings(lv); end'.should_not reek
+    end
+    it 'ignores multiple ivars' do
+      src = <<EOS
+  def func
+    @other.a
+    @other.b
+    @nother.c
+    @nother.d
   end
-
-  it 'should not report vcall with no argument' do
-    'def simple() func; end'.should_not reek
-  end
-
-  it 'should not report vcall with argument' do
-    'def simple(arga) func(17); end'.should_not reek
-  end
-
-  it 'should not report single use' do
-    'def no_envy(arga) arga.barg(@item) end'.should_not reek
-  end
-
-  it 'should not report return value' do
-    'def no_envy(arga) arga.barg(@item); arga end'.should_not reek
+EOS
+      src.should_not reek
+      #
+      # def other.func(me)
+      #   a
+      #   b
+      #   me.nother_c
+      #   me.nother_d
+      # end
+      #
+    end
   end
 
   context 'with 2 calls to a parameter' do
@@ -40,23 +81,25 @@ describe FeatureEnvy do
       @ctx.should_receive(:envious_receivers).and_return({s(:lvar, @receiver) => 4})
       @detector = FeatureEnvy.new(@source_name)
       @detector.examine_context(@ctx)
-      warning = @detector.smells_found.to_a[0]   # SMELL: too cumbersome!
-      @yaml = warning.to_yaml
+      @smells = @detector.smells_found.to_a
+    end
+    it 'reports only that smell' do
+      @smells.length.should == 1
     end
     it 'reports the source' do
-      @yaml.should match(/source:\s*#{@source_name}/)
+      @smells[0].source.should == @source_name
     end
     it 'reports the class' do
-      @yaml.should match(/\sclass:\s*LowCohesion/)
+      @smells[0].smell_class.should == FeatureEnvy::SMELL_CLASS
     end
     it 'reports the subclass' do
-      @yaml.should match(/subclass:\s*FeatureEnvy/)
+      @smells[0].subclass.should == FeatureEnvy::SMELL_SUBCLASS
     end
     it 'reports the envious receiver' do
-      @yaml.should match(/receiver:[\s]*#{@receiver}/)
+      @smells[0].smell[FeatureEnvy::RECEIVER_KEY].should == @receiver
     end
     it 'reports the number of references' do
-      @yaml.should match(/references:\s*4/)
+      @smells[0].smell[FeatureEnvy::REFERENCES_KEY].should == 4
     end
   end
 
@@ -86,40 +129,12 @@ EOS
     src.should reek_of(:FeatureEnvy, /fred/)
   end
 
-  it 'should ignore global variables' do
-    'def no_envy() $s2.to_a; $s2[@item] end'.should_not reek
-  end
-
-  it 'should not report class methods' do
-    'def simple() self.class.new.flatten_merge(self) end'.should_not reek
-  end
-
-  it 'should not report single use of an ivar' do
-    'def no_envy() @item.to_a end'.should_not reek
-  end
-
-  it 'should not report returning an ivar' do
-    'def no_envy() @item.to_a; @item end'.should_not reek
-  end
-
-  it 'should not report ivar usage in a parameter' do
-    'def no_envy() @item.price + tax(@item) - savings(@item) end'.should_not reek
-  end
-
   it 'should not be fooled by duplication' do
     'def feed(thing) @cow.feed_to(thing.pig); @duck.feed_to(thing.pig) end'.should reek_only_of(:Duplication, /thing.pig/)
   end
 
   it 'should count local calls' do
     'def feed(thing) cow.feed_to(thing.pig); duck.feed_to(thing.pig) end'.should reek_only_of(:Duplication, /thing.pig/)
-  end
-
-  it 'should not report single use of an lvar' do
-    'def no_envy() lv = @item; lv.to_a end'.should_not reek
-  end
-
-  it 'should not report returning an lvar' do
-    'def no_envy() lv = @item; lv.to_a; lv end'.should_not reek
   end
 
   it 'should report many calls to lvar' do
@@ -132,30 +147,6 @@ EOS
     # def envy
     #   @item.moved_version
     # end
-  end
-
-  it 'ignores lvar usage in a parameter' do
-    'def no_envy() lv = @item; lv.price + tax(lv) - savings(lv); end'.should_not reek
-  end
-
-  it 'ignores multiple ivars' do
-    src = <<EOS
-def func
-  @other.a
-  @other.b
-  @nother.c
-  @nother.d
-end
-EOS
-    src.should_not reek
-    #
-    # def other.func(me)
-    #   a
-    #   b
-    #   me.nother_c
-    #   me.nother_d
-    # end
-    #
   end
 
   it 'ignores frequent use of a call' do
@@ -217,39 +208,42 @@ describe FeatureEnvy do
 
   context 'when reporting yaml' do
     before :each do
+      @receiver = 'other'
       src = <<EOS
 def envious(other)
-  other.call
+  #{@receiver}.call
   self.do_nothing
-  other.other
-  other.fred
+  #{@receiver}.other
+  #{@receiver}.fred
 end
 EOS
       source = src.to_reek_source
       sniffer = Sniffer.new(source)
       @mctx = CodeParser.new(sniffer).process_defn(source.syntax_tree)
       @detector.examine_context(@mctx)
-      warning = @detector.smells_found.to_a[0]   # SMELL: too cumbersome!
-      @yaml = warning.to_yaml
+      @smells = @detector.smells_found.to_a
+    end
+    it 'reports only that smell' do
+      @smells.length.should == 1
     end
     it 'reports the source' do
-      @yaml.should match(/source:\s*#{@source_name}/)
+      @smells[0].source.should == @source_name
     end
     it 'reports the class' do
-      @yaml.should match(/class:\s*LowCohesion/)
+      @smells[0].smell_class.should == FeatureEnvy::SMELL_CLASS
     end
     it 'reports the subclass' do
-      @yaml.should match(/subclass:\s*FeatureEnvy/)
+      @smells[0].subclass.should == FeatureEnvy::SMELL_SUBCLASS
     end
     it 'reports the envious receiver' do
-      @yaml.should match(/receiver:\s*other/)
+      @smells[0].smell[FeatureEnvy::RECEIVER_KEY].should == @receiver
     end
     it 'reports the number of references' do
-      @yaml.should match(/references:\s*3/)
+      @smells[0].smell[FeatureEnvy::REFERENCES_KEY].should == 3
     end
     it 'reports the referring lines' do
       pending
-      @yaml.should match(/lines:\s*- 2\s*- 4\s*- 5/)
+      @smells[0].lines.should == [2, 4, 5]
     end
   end
 end

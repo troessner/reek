@@ -6,6 +6,13 @@ include Reek
 include Reek::Smells
 
 describe UtilityFunction do
+  context 'with a singleton method' do
+    ['self', 'local_call', '$global'].each do |receiver|
+      it 'ignores the receiver' do
+        "def #{receiver}.simple(arga) arga.to_s + arga.to_i end".should_not reek
+      end
+    end
+  end
   context 'with no calls' do
     it 'does not report empty method' do
       'def simple(arga) end'.should_not reek

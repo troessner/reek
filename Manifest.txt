@@ -62,6 +62,8 @@ lib/reek/source.rb
 lib/reek/source/code_comment.rb
 lib/reek/source/config_file.rb
 lib/reek/source/core_extras.rb
+lib/reek/source/core_extras.rb
+lib/reek/source/reference_collector.rb
 lib/reek/source/sexp_formatter.rb
 lib/reek/source/source_code.rb
 lib/reek/source/source_file.rb
@@ -113,6 +115,7 @@ spec/reek/smells/uncommunicative_variable_name_spec.rb
 spec/reek/smells/utility_function_spec.rb
 spec/reek/source/code_comment_spec.rb
 spec/reek/source/object_source_spec.rb
+spec/reek/source/reference_collector_spec.rb
 spec/reek/source/source_code_spec.rb
 spec/reek/source/tree_dresser_spec.rb
 spec/reek/spec/should_reek_of_spec.rb

@@ -78,7 +78,6 @@ module Reek
         @parameters ||= []
         @parameters.extend(MethodParameters)
         @num_statements = 0
-        @depends_on_self = false
         @refs = ObjectRefs.new
         @outer.record_method(self)    # SMELL: these could be found by tree walking
       end
@@ -87,35 +86,7 @@ module Reek
         @num_statements += num
       end
 
-      def depends_on_instance?
-        @depends_on_self
-      end
-
       def record_call_to(exp)
-        record_receiver(exp)
-      end
-
-      def record_use_of_self
-        record_depends_on_self
-        @refs.record_reference_to_self
-      end
-
-      def record_instance_variable(sym)
-        record_use_of_self
-      end
-
-      def record_depends_on_self
-        @depends_on_self = true
-      end
-
-      def envious_receivers
-        return [] if @refs.self_is_max?
-        @refs.max_keys
-      end
-
-    private
-
-      def record_receiver(exp)
         receiver, meth = exp[1..2]
         receiver ||= [:self]
         case receiver[0]
@@ -124,6 +95,15 @@ module Reek
         when :self
           record_use_of_self
         end
+      end
+
+      def record_use_of_self
+        @refs.record_reference_to_self
+      end
+
+      def envious_receivers
+        return [] if @refs.self_is_max?
+        @refs.max_keys
       end
     end
   end

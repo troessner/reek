@@ -12,7 +12,6 @@ module Reek
       def initialize(outer, exp)
         super(outer, exp)
         @receiver = Source::SexpFormatter.format(exp[1])
-        record_depends_on_self
       end
 
       def envious_receivers
