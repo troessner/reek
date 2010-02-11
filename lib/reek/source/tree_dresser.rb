@@ -47,10 +47,12 @@ module Reek
     end
 
     module SexpExtensions
+      module AttrasgnNode
+        def args() self[3] end
+      end
+
       module CaseNode
-        def condition
-          self[1]
-        end
+        def condition() self[1] end
       end
 
       module CallNode

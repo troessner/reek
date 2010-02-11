@@ -52,7 +52,7 @@ module Reek
           result[call_node].push(call_node)
         end
         method_ctx.local_nodes(:attrasgn) do |asgn_node|
-          result[asgn_node].push(asgn_node)
+          result[asgn_node].push(asgn_node) unless asgn_node.args.length < 2
         end
         result
       end
