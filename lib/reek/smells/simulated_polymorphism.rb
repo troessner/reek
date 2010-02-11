@@ -1,6 +1,5 @@
 require File.join( File.dirname( File.expand_path(__FILE__)), 'smell_detector')
 require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'smell_warning')
-require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'source')
 
 module Reek
   module Smells
@@ -50,7 +49,7 @@ module Reek
         conditional_counts(klass).each do |key, lines|
           occurs = lines.length
           next unless occurs > value(MAX_IDENTICAL_IFS_KEY, klass, DEFAULT_MAX_IFS)
-          expr = Source::SexpFormatter.format(key)
+          expr = key.format
           found(klass, "tests #{expr} at least #{occurs} times",
             'RepeatedConditional', {'expression' => expr, 'occurrences' => occurs}, lines)
         end

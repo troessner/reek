@@ -1,5 +1,4 @@
 require File.join(File.dirname(File.expand_path(__FILE__)), 'method_context')
-require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'source')
 
 module Reek
   module Core
@@ -11,7 +10,6 @@ module Reek
 
       def initialize(outer, exp)
         super(outer, exp)
-        @receiver = Source::SexpFormatter.format(exp[1])
       end
 
       def envious_receivers

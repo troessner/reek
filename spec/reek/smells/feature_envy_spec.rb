@@ -78,7 +78,7 @@ EOS
       @source_name = 'green as a cucumber'
       @receiver = 'blah'
       @ctx = mock('method_context', :null_object => true)
-      @ctx.should_receive(:envious_receivers).and_return({s(:lvar, @receiver) => 4})
+      @ctx.should_receive(:envious_receivers).and_return({ast(:lvar, @receiver) => 4})
       @detector = FeatureEnvy.new(@source_name)
       @detector.examine_context(@ctx)
       @smells = @detector.smells_found.to_a

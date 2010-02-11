@@ -1,6 +1,5 @@
 require File.join( File.dirname( File.expand_path(__FILE__)), 'smell_detector')
 require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'smell_warning')
-require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'source')
 
 module Reek
   module Smells
@@ -48,7 +47,7 @@ module Reek
       #
       def examine_context(method_ctx)
         method_ctx.envious_receivers.each do |ref, occurs|
-          target = Source::SexpFormatter.format(ref)
+          target = ref.format
           smell = SmellWarning.new(SMELL_CLASS, method_ctx.full_name, [method_ctx.exp.line],
             "refers to #{target} more than self", @masked,
             @source, SMELL_SUBCLASS, {RECEIVER_KEY => target, REFERENCES_KEY => occurs})
