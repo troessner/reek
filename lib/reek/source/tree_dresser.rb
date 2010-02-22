@@ -82,8 +82,17 @@ module Reek
 
       module DefnNode
         def name() self[1] end
+        def arg_names
+          unless @args
+            @args = self[2][1..-1].reject {|param| Sexp === param or param.to_s =~ /^&/}
+          end
+          @args
+        end
         def parameters()
-          self[2].reject {|param| Sexp === param}
+          unless @params
+            @params = self[2].reject {|param| Sexp === param}
+          end
+          @params
         end
         def parameter_names
           parameters[1..-1]

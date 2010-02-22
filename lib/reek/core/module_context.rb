@@ -30,10 +30,6 @@ module Reek
         @parsed_methods = []
       end
 
-      def parameterized_methods(min_clump_size)
-        @parsed_methods.select {|meth| meth.parameters.length >= min_clump_size }
-      end
-
       def record_method(meth)
         @parsed_methods << meth
       end

@@ -2,6 +2,32 @@ require File.join( File.dirname( File.expand_path(__FILE__)), 'smell_detector')
 require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'smell_warning')
 require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'source')
 
+#
+# Extensions to +Array+ needed by Reek.
+#
+class Array
+  def power_set
+    self.inject([[]]) { |cum, element| cum.cross(element) }
+  end
+
+  def bounded_power_set(lower_bound)
+    power_set.select {|ps| ps.length > lower_bound}
+  end
+
+  def cross(element)
+    result = []
+    self.each do |set|
+      result << set
+      result << (set + [element])
+    end
+    result
+  end
+
+  def intersection
+    self.inject { |res, elem| elem & res }
+  end
+end
+
 module Reek
   module Smells
 
@@ -69,7 +95,7 @@ module Reek
   class MethodGroup   # :nodoc:
 
     def self.intersection_of_parameters_of(methods)
-      methods.map {|meth| meth.parameters.names.sort}.intersection
+      methods.map {|meth| meth.arg_names.sort {|a,b| a.to_s <=> b.to_s}}.intersection
     end
 
     def initialize(ctx, min_clump_size, max_copies)
@@ -80,13 +106,19 @@ module Reek
 
     def clumps
       results = Hash.new(0)
-      @ctx.parameterized_methods(@min_clump_size).bounded_power_set(@max_copies).each do |methods|
+      parameterized_methods.bounded_power_set(@max_copies).each do |methods|
         clump = MethodGroup.intersection_of_parameters_of(methods)
         if clump.length >= @min_clump_size
           results[clump] = [methods.length, results[clump]].max
         end
       end
       results
+    end
+
+    def parameterized_methods
+      @ctx.local_nodes(:defn).select do |meth|
+        meth.arg_names.length >= @min_clump_size
+      end
     end
   end
 end

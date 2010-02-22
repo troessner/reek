@@ -1,31 +1,5 @@
 require File.join(File.dirname(File.expand_path(__FILE__)), 'object_refs')
 
-#
-# Extensions to +Array+ needed by Reek.
-#
-class Array
-  def power_set
-    self.inject([[]]) { |cum, element| cum.cross(element) }
-  end
-
-  def bounded_power_set(lower_bound)
-    power_set.select {|ps| ps.length > lower_bound}
-  end
-
-  def cross(element)
-    result = []
-    self.each do |set|
-      result << set
-      result << (set + [element])
-    end
-    result
-  end
-
-  def intersection
-    self.inject { |res, elem| elem & res }
-  end
-end
-
 module Reek
   module Core
 
