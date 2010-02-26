@@ -17,6 +17,10 @@ module Reek
         @detectors << clone
       end
 
+      def adopt(config)
+        @detectors[-1].configure_with(config)
+      end
+
       def listen_to(hooks)
         @detectors.each { |det| det.listen_to(hooks) }
       end
