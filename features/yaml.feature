@@ -18,19 +18,6 @@ Feature: Report smells using simple YAML layout
       - !ruby/object:Reek::SmellWarning 
         location: 
           lines: 
-          - 5
-          context: Dirty
-          source: spec/samples/masked/dirty.rb
-        smell: 
-          class: UncommunicativeName
-          subclass: UncommunicativeVariableName
-          variable_name: "@s"
-          message: has the variable name '@s'
-        status: 
-          is_active: false
-      - !ruby/object:Reek::SmellWarning 
-        location: 
-          lines: 
           - 4
           - 6
           context: Dirty#a
@@ -71,32 +58,6 @@ Feature: Report smells using simple YAML layout
           message: contains iterators nested 2 deep
         status: 
           is_active: true
-      - !ruby/object:Reek::SmellWarning 
-        location: 
-          lines: 
-          - 3
-          context: Dirty#a
-          source: spec/samples/masked/dirty.rb
-        smell: 
-          method_name: a
-          class: UncommunicativeName
-          subclass: UncommunicativeMethodName
-          message: has the name 'a'
-        status: 
-          is_active: false
-      - !ruby/object:Reek::SmellWarning 
-        location: 
-          lines: 
-          - 5
-          context: Dirty#a
-          source: spec/samples/masked/dirty.rb
-        smell: 
-          class: UncommunicativeName
-          subclass: UncommunicativeVariableName
-          variable_name: x
-          message: has the variable name 'x'
-        status: 
-          is_active: false
 
       """
 

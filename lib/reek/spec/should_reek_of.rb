@@ -14,7 +14,7 @@ module Reek
       end
       def matches?(actual)
         @examiner = Examiner.new(actual)
-        @all_smells = @examiner.all_active_smells
+        @all_smells = @examiner.smells
         @all_smells.any? {|warning| warning.matches?(@klass, @patterns)}
       end
       def failure_message_for_should

@@ -104,7 +104,7 @@ class Full
   def me51x()3 end
 end
 EOS
-      @yaml = Examiner.new(src).all_smells[0].to_yaml
+      @yaml = Examiner.new(src).smells[0].to_yaml
     end
     it 'reports the source' do
       @yaml.should match(/source:\s*string/)

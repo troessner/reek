@@ -14,7 +14,7 @@ describe ReekCommand do
   context 'with smells' do
     before :each do
       examiner = Examiner.new('def x(); end')
-      @cmd = ReekCommand.new([examiner], QuietReport, false)
+      @cmd = ReekCommand.new([examiner], QuietReport)
     end
 
     it 'displays the correct text on the view' do
@@ -31,7 +31,7 @@ describe ReekCommand do
   context 'with no smells' do
     before :each do
       examiner = Examiner.new('def clean(); end')
-      @cmd = ReekCommand.new([examiner], QuietReport, false)
+      @cmd = ReekCommand.new([examiner], QuietReport)
     end
 
     it 'displays nothing on the view' do

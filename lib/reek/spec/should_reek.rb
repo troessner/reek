@@ -18,7 +18,7 @@ module Reek
         "Expected no smells, but got:\n#{list_smells(@examiner)}"
       end
       def list_smells(examiner)
-        examiner.all_active_smells.map do |smell|
+        examiner.smells.map do |smell|
           "#{smell.report('%c %w (%s)')}"
         end.join("\n")
       end

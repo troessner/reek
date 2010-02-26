@@ -60,10 +60,10 @@ Feature: Correctly formatted reports
 
   Scenario Outline: -a turns on details in presence of -q
     When I run reek <options> spec/samples/clean_due_to_masking/*.rb
-    Then it succeeds
+    Then the exit status indicates smells
     And it reports:
       """
-      spec/samples/clean_due_to_masking/dirty_one.rb -- 0 warnings (+7 masked):
+      spec/samples/clean_due_to_masking/dirty_one.rb -- 7 warnings:
         (masked) Dirty has no descriptive comment (Irresponsible Module)
         (masked) Dirty has the variable name '@s' (Uncommunicative Name)
         (masked) Dirty#a calls @s.title twice (Duplication)
@@ -71,7 +71,7 @@ Feature: Correctly formatted reports
         (masked) Dirty#a contains iterators nested 2 deep (Nested Iterators)
         (masked) Dirty#a has the name 'a' (Uncommunicative Name)
         (masked) Dirty#a has the variable name 'x' (Uncommunicative Name)
-      spec/samples/clean_due_to_masking/dirty_two.rb -- 0 warnings (+7 masked):
+      spec/samples/clean_due_to_masking/dirty_two.rb -- 7 warnings:
         (masked) Dirty has no descriptive comment (Irresponsible Module)
         (masked) Dirty has the variable name '@s' (Uncommunicative Name)
         (masked) Dirty#a calls @s.title twice (Duplication)

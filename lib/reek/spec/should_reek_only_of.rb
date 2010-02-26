@@ -13,7 +13,7 @@ module Reek
       end
       def matches_examiner?(examiner)
         @examiner = examiner
-        @all_smells = @examiner.all_active_smells
+        @all_smells = @examiner.smells
         @all_smells.length == 1 and @all_smells[0].matches?(@klass, @patterns)
       end
       def failure_message_for_should

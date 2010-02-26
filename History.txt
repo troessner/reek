@@ -1,6 +1,8 @@
 == 1.2.8 (in development)
 
 === Minor Changes
+* Number of masked smells is no longer shown in report headers
+* Masked smells are no longer listed in --yaml reports
 * UncommunicativeMethodName now accepts operator names (+, -, ...)
 * Uncommunicative Name now warns about uppercase letters in method & var names
 

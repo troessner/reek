@@ -41,7 +41,7 @@ Feature: Masking smells using config files
     Then the exit status indicates smells
     And it reports:
       """
-      spec/samples/masked/dirty.rb -- 3 warnings (+3 masked):
+      spec/samples/masked/dirty.rb -- 3 warnings:
         Dirty#a calls @s.title twice (Duplication)
         Dirty#a calls puts(@s.title) twice (Duplication)
         Dirty#a contains iterators nested 2 deep (Nested Iterators)
@@ -54,7 +54,7 @@ Feature: Masking smells using config files
     Then the exit status indicates smells
     And it reports:
       """
-      spec/samples/masked/dirty.rb -- 3 warnings (+3 masked):
+      spec/samples/masked/dirty.rb -- 3 warnings:
         Dirty#a calls @s.title twice (Duplication)
         Dirty#a calls puts(@s.title) twice (Duplication)
         Dirty#a contains iterators nested 2 deep (Nested Iterators)
@@ -66,7 +66,7 @@ Feature: Masking smells using config files
     Then the exit status indicates smells
     And it reports:
       """
-      spec/samples/masked/dirty.rb -- 3 warnings (+3 masked):
+      spec/samples/masked/dirty.rb -- 6 warnings:
         (masked) Dirty has the variable name '@s' (Uncommunicative Name)
         Dirty#a calls @s.title twice (Duplication)
         Dirty#a calls puts(@s.title) twice (Duplication)
@@ -81,7 +81,7 @@ Feature: Masking smells using config files
     Then the exit status indicates smells
     And it reports:
       """
-      spec/samples/masked/dirty.rb -- 3 warnings (+3 masked):
+      spec/samples/masked/dirty.rb -- 3 warnings:
         Dirty#a calls @s.title twice (Duplication)
         Dirty#a calls puts(@s.title) twice (Duplication)
         Dirty#a contains iterators nested 2 deep (Nested Iterators)
@@ -93,7 +93,7 @@ Feature: Masking smells using config files
     Then the exit status indicates smells
     And it reports:
       """
-      spec/samples/not_quite_masked/dirty.rb -- 5 warnings (+1 masked):
+      spec/samples/not_quite_masked/dirty.rb -- 5 warnings:
         Dirty has the variable name '@s' (Uncommunicative Name)
         Dirty#a calls @s.title twice (Duplication)
         Dirty#a calls puts(@s.title) twice (Duplication)
@@ -108,7 +108,7 @@ Feature: Masking smells using config files
     Then the exit status indicates smells
     And it reports:
       """
-      spec/samples/overrides/masked/dirty.rb -- 2 warnings (+4 masked):
+      spec/samples/overrides/masked/dirty.rb -- 2 warnings:
         Dirty#a calls @s.title twice (Duplication)
         Dirty#a calls puts(@s.title) twice (Duplication)
 
@@ -120,7 +120,7 @@ Feature: Masking smells using config files
     Then the exit status indicates smells
     And it reports:
       """
-      spec/samples/overrides/masked/dirty.rb -- 2 warnings (+4 masked):
+      spec/samples/overrides/masked/dirty.rb -- 6 warnings:
         (masked) Dirty has the variable name '@s' (Uncommunicative Name)
         Dirty#a calls @s.title twice (Duplication)
         Dirty#a calls puts(@s.title) twice (Duplication)

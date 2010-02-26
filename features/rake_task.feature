@@ -13,7 +13,7 @@ Feature: Reek can be driven through its Task
     Then the exit status indicates an error
     And it reports:
       """
-      spec/samples/masked/dirty.rb -- 3 warnings (+3 masked):
+      spec/samples/masked/dirty.rb -- 3 warnings:
         Dirty#a calls @s.title twice (Duplication)
         Dirty#a calls puts(@s.title) twice (Duplication)
         Dirty#a contains iterators nested 2 deep (Nested Iterators)
@@ -29,7 +29,7 @@ Feature: Reek can be driven through its Task
     Then the exit status indicates an error
     And it reports:
       """
-      spec/samples/masked/dirty.rb -- 3 warnings (+3 masked):
+      spec/samples/masked/dirty.rb -- 3 warnings:
         Dirty#a calls @s.title twice (Duplication)
         Dirty#a calls puts(@s.title) twice (Duplication)
         Dirty#a contains iterators nested 2 deep (Nested Iterators)

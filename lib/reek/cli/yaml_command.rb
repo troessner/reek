@@ -19,7 +19,7 @@ module Reek
 
       def execute(view)
         smells = []
-        @examiners.each {|examiner| smells += examiner.all_smells}
+        @examiners.each {|examiner| smells += examiner.smells}
         if smells.empty?
           view.report_success
         else

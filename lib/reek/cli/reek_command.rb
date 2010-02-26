@@ -9,20 +9,20 @@ module Reek
     #
     class ReekCommand
       def self.create(sources, report_class, show_all)
-        examiners = sources.map {|src| Examiner.new(src) }
-        new(examiners, report_class, show_all)
+        klass = show_all ? FullExaminer : Examiner
+        examiners = sources.map { |src| klass.new(src) }
+        new(examiners, report_class)
       end
 
-      def initialize(examiners, report_class, show_all)
+      def initialize(examiners, report_class)
         @examiners = examiners
         @report_class = report_class
-        @show_all = show_all    #SMELL: boolean parameter
       end
 
       def execute(view)
         had_smells = false
         @examiners.each do |examiner|
-          rpt = @report_class.new(examiner, @show_all)
+          rpt = @report_class.new(examiner)
           had_smells ||= examiner.smelly?
           view.output(rpt.report)
         end

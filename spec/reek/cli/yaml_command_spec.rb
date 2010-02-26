@@ -12,7 +12,7 @@ describe YamlCommand do
 
   context 'with no smells' do
     before :each do
-      @examiner.should_receive(:all_smells).and_return([])
+      @examiner.should_receive(:smells).and_return([])
       @cmd = YamlCommand.new([@examiner])
     end
 
@@ -30,7 +30,7 @@ describe YamlCommand do
   context 'with smells' do
     before :each do
       @smell = SmellWarning.new('UncommunicativeName', "self", 27, "self", true)
-      @examiner.should_receive(:all_smells).and_return([@smell])
+      @examiner.should_receive(:smells).and_return([@smell])
       @cmd = YamlCommand.new([@examiner])
     end
 
