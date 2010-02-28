@@ -40,9 +40,9 @@ module Reek
         @description = src.desc
         [src]
       end
-      sniffers = sources.map {|src| Core::Sniffer.new(src)}
+      sniffers = sources.map {|src| Core::Sniffer.new(src, :adopt)}
       @warnings = Core::MaskingCollection.new
-      sniffers.each {|sniffer| sniffer.find_active_smells(@warnings)}
+      sniffers.each {|sniffer| sniffer.report_on(@warnings)}
     end
 
     #
@@ -106,7 +106,7 @@ module Reek
         @description = src.desc
         [src]
       end
-      sniffers = sources.map {|src| Core::FullSniffer.new(src)}
+      sniffers = sources.map {|src| Core::Sniffer.new(src, :push)}
       @warnings = Core::MaskingCollection.new
       sniffers.each {|sniffer| sniffer.report_on(@warnings)}
     end

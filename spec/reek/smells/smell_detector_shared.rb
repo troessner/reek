@@ -21,7 +21,7 @@ shared_examples_for 'SmellDetector' do
 
   context 'configuration' do
     it 'becomes disabled when disabled' do
-      @detector.configure({@detector.smell_type => {SmellConfiguration::ENABLED_KEY => false}})
+      @detector.configure_with({SmellConfiguration::ENABLED_KEY => false})
       @detector.should_not be_enabled
     end
   end

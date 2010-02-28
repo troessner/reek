@@ -59,12 +59,6 @@ module Reek
         @config.enabled?
       end
 
-      def configure(config)
-        my_part = config[self.class.name.split(/::/)[-1]]
-        return unless my_part
-        configure_with(my_part)
-      end
-
       def configure_with(config)
         @config.adopt!(config)
       end
