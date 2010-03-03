@@ -18,7 +18,7 @@ module Reek
         @argv = argv
         @parser = OptionParser.new
         @report_class = VerboseReport
-        @show_all = false
+        @collection_strategy = ActiveSmellsOnly
         @command_class = ReekCommand
         set_options
       end
@@ -66,7 +66,7 @@ EOB
 
         @parser.separator "\nReport formatting:"
         @parser.on("-a", "--[no-]show-all", "Show all smells, including those masked by config settings") do |opt|
-          @show_all = opt
+          @collection_strategy = opt ? ActiveAndMaskedSmells : ActiveSmellsOnly
         end
         @parser.on("-q", "--[no-]quiet", "Suppress headings for smell-free source files") do |opt|
           @report_class = opt ? QuietReport : VerboseReport
@@ -90,7 +90,7 @@ EOB
           YamlCommand.create(sources)
         else
           sources = get_sources
-          ReekCommand.create(sources, @report_class, @show_all)
+          ReekCommand.create(sources, @report_class, @collection_strategy)
         end
       end
 

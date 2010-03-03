@@ -8,9 +8,8 @@ module Reek
     # text report format.
     #
     class ReekCommand
-      def self.create(sources, report_class, show_all)
-        klass = show_all ? FullExaminer : Examiner
-        examiners = sources.map { |src| klass.new(src) }
+      def self.create(sources, report_class, strategy = ActiveSmellsOnly)
+        examiners = sources.map { |src| Examiner.new(src, strategy.new) }
         new(examiners, report_class)
       end
 

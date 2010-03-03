@@ -12,6 +12,7 @@ module Reek
         @visible_items = SortedSet.new
         @masked_items = SortedSet.new
       end
+
       def all_items
         all = SortedSet.new(@visible_items)
         all.merge(@masked_items)
