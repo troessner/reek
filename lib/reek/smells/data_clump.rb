@@ -45,6 +45,12 @@ module Reek
     #
     class DataClump < SmellDetector
 
+      SMELL_CLASS = self.name.split(/::/)[-1]
+
+      METHODS_KEY = 'methods'
+      OCCURRENCES_KEY = 'occurrences'
+      PARAMETERS_KEY = 'parameters'
+
       def self.contexts      # :nodoc:
         [:class, :module]
       end
@@ -76,11 +82,18 @@ module Reek
       def examine_context(ctx)
         max_copies = value(MAX_COPIES_KEY, ctx, DEFAULT_MAX_COPIES)
         min_clump_size = value(MIN_CLUMP_SIZE_KEY, ctx, DEFAULT_MIN_CLUMP_SIZE)
-        MethodGroup.new(ctx, min_clump_size, max_copies).clumps.each do |clump, occurs|
-          found(ctx, "takes parameters #{DataClump.print_clump(clump)} to #{occurs} methods",
-            'DataClump', {'parameters' => clump.map {|name| name.to_s}, 'occurrences' => occurs})
+        MethodGroup.new(ctx, min_clump_size, max_copies).clumps.each do |clump, methods|
+          smell = SmellWarning.new('DataClump', ctx.full_name,
+            methods.map {|meth| meth.line},
+            "takes parameters #{DataClump.print_clump(clump)} to #{methods.length} methods", @masked,
+            @source, 'DataClump', {
+              PARAMETERS_KEY => clump.map {|name| name.to_s},
+              OCCURRENCES_KEY => methods.length,
+              METHODS_KEY => methods.map {|meth| meth.name}
+            })
+          @smells_found << smell
+          #SMELL: serious duplication
           # SMELL: name.to_s is becoming a nuisance
-          # TODO: record the methods in [lines] and in the hash
         end
       end
 
@@ -99,26 +112,58 @@ module Reek
     end
 
     def initialize(ctx, min_clump_size, max_copies)
-      @ctx = ctx
       @min_clump_size = min_clump_size
       @max_copies = max_copies
+      @candidate_methods = ctx.local_nodes(:defn).select do |meth|
+        meth.arg_names.length >= @min_clump_size
+      end.map {|defn_node| CandidateMethod.new(defn_node)}
+      prune_candidates
     end
 
     def clumps
-      results = Hash.new(0)
-      parameterized_methods.bounded_power_set(@max_copies).each do |methods|
+      results = Hash.new([])
+      @candidate_methods.bounded_power_set(@max_copies).each do |methods|
         clump = MethodGroup.intersection_of_parameters_of(methods)
         if clump.length >= @min_clump_size
-          results[clump] = [methods.length, results[clump]].max
+          results[clump] = methods if methods.length > results[clump].length
         end
       end
       results
     end
 
-    def parameterized_methods
-      @ctx.local_nodes(:defn).select do |meth|
+    def prune_candidates
+      @candidate_methods.each do |meth|
+        meth.arg_names.each do |param|
+          count = @candidate_methods.select {|cm| cm.arg_names.include?(param)}.length
+          meth.delete(param) if count <= @max_copies
+        end
+      end
+      @candidate_methods = @candidate_methods.select do |meth|
         meth.arg_names.length >= @min_clump_size
       end
+    end
+  end
+
+  class CandidateMethod
+    def initialize(defn_node)
+      @defn = defn_node
+      @params = defn_node.arg_names.clone
+    end
+
+    def arg_names
+      @params
+    end
+
+    def delete(param)
+      @params.delete(param)
+    end
+
+    def line
+      @defn.line
+    end
+
+    def name
+      @defn.name.to_s     # BUG: should report the symbols!
     end
   end
 end

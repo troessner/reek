@@ -20,8 +20,9 @@ EOS
 
   context 'with 3 identical pairs' do
     before :each do
+      @module_name = 'Scrunch'
       @src = <<EOS
-#{@context} Scrunch
+#{@context} #{@module_name}
   def first(pa, pb) @field == :sym ? 0 : 3; end
   def second(pa, pb) @field == :sym; end
   def third(pa, pb) pa - pb + @fred; end
@@ -30,15 +31,30 @@ EOS
       ctx = ModuleContext.from_s(@src)
       detector = DataClump.new('newt')
       detector.examine(ctx)
-      warning = detector.smells_found.to_a[0]   # SMELL: too cumbersome!
-      @yaml = warning.to_yaml
+      @smells = detector.smells_found.to_a
+      @warning = @smells[0]   # SMELL: too cumbersome!
+      @yaml = @warning.to_yaml
+    end
+    it 'records only the one smell' do
+      @smells.length.should == 1
     end
     it 'reports all parameters' do
-      @yaml.should match(/parameters:[\s-]*pa/)
-      @yaml.should match(/parameters:[\spa-]*pb/)
+      @smells[0].smell[DataClump::PARAMETERS_KEY].should == ['pa', 'pb']
     end
     it 'reports the number of occurrences' do
-      @yaml.should match(/occurrences:\s*3/)
+      @smells[0].smell['occurrences'].should == 3
+    end
+    it 'reports all parameters' do
+      @smells[0].smell[DataClump::METHODS_KEY].should == ['first', 'second', 'third']
+    end
+    it 'reports the declaration line numbers' do
+      @smells[0].lines.should == [2,3,4]
+    end
+    it 'reports the correct smell class' do
+      @smells[0].smell_class.should == DataClump::SMELL_CLASS
+    end
+    it 'reports the context fq name' do
+      @smells[0].context.should == @module_name
     end
   end
 
