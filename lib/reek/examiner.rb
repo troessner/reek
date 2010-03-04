@@ -10,10 +10,7 @@ module Reek
     end
 
     def smells_in(sources)
-      warnings = Core::MaskingCollection.new
-      sniffers = sources.map {|src| Core::Sniffer.new(src, self)}
-      sniffers.each {|sniffer| sniffer.report_on(warnings)}
-      return warnings.all_active_items.to_a
+      Core::MaskingCollection.new.collect_from(sources, self).all_active_items.to_a
     end
   end
 
@@ -23,10 +20,7 @@ module Reek
     end
 
     def smells_in(sources)
-      warnings = Core::MaskingCollection.new
-      sniffers = sources.map {|src| Core::Sniffer.new(src, self)}
-      sniffers.each {|sniffer| sniffer.report_on(warnings)}
-      return warnings.all_items
+      Core::MaskingCollection.new.collect_from(sources, self).all_items
     end
   end
 

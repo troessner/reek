@@ -13,6 +13,11 @@ module Reek
         @masked_items = SortedSet.new
       end
 
+      def collect_from(sources, config)
+        sources.each { |src| Core::Sniffer.new(src, config).report_on(self) }
+        self
+      end
+
       def all_items
         all = SortedSet.new(@visible_items)
         all.merge(@masked_items)
