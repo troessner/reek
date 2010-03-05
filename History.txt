@@ -1,8 +1,12 @@
 == 1.2.8 (in development)
 
+== 1.2.7.2 (2010-03-05)
+
 === Minor Changes
 * Number of masked smells is no longer shown in report headers
 * Masked smells are no longer listed in --yaml reports
+* DataClump no longer needs infinite memory for large classes (#57)
+* DataClump reports the names of the offending methods in the YAML report
 * UncommunicativeMethodName now accepts operator names (+, -, ...)
 * Uncommunicative Name now warns about uppercase letters in method & var names
 
