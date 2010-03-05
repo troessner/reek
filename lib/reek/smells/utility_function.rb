@@ -62,7 +62,7 @@ module Reek
       #
       def examine_context(method_ctx)
         return false if method_ctx.num_statements == 0
-        return false if depends_on_instance?(method_ctx.exp.body)
+        return false if depends_on_instance?(method_ctx.exp)
         return false if num_helper_methods(method_ctx) <= value(HELPER_CALLS_LIMIT_KEY, method_ctx, DEFAULT_HELPER_CALLS_LIMIT)
           # SMELL: loads of calls to value{} with the above pattern
         smell = SmellWarning.new('LowCohesion', method_ctx.full_name, [method_ctx.exp.line],

@@ -51,6 +51,9 @@ class Object; def is_maybe?() false end end'.should_not reek
     it 'reports two calls' do
       'def simple(arga) arga.to_s + arga.to_i end'.should reek_of(:UtilityFunction, /simple/)
     end
+    it 'counts a local call in a param initializer' do
+      'def simple(arga=local) arga.to_s end'.should_not reek_of(:UtilityFunction)
+    end
     it 'should count usages of self'do
       'def <=>(other) Options[:sort_order].compare(self, other) end'.should_not reek
     end
