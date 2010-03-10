@@ -2,6 +2,10 @@ require File.join(File.dirname(File.expand_path(__FILE__)), 'core_extras')
 
 module Reek
   module Source
+
+    #
+    # Finds Ruby source files in a filesystem.
+    #
     class SourceLocator
       def initialize(paths)
         @paths = paths
@@ -10,6 +14,8 @@ module Reek
       def all_sources
         valid_paths.map {|path| File.new(path).to_reek_source }
       end
+
+    private
 
       def all_ruby_source_files(paths)
         paths.map do |path|

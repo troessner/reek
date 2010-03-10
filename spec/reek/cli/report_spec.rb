@@ -5,20 +5,24 @@ require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expan
 include Reek
 include Reek::Cli
 
-describe ReportSection, " when empty" do
+describe QuietReport, " when empty" do
   context 'empty source' do
     it 'has an empty quiet_report' do
       examiner = Examiner.new('')
-      ReportSection.new(examiner).quiet_report.should == ''
+      QuietReport.new(examiner).report.should == ''
     end
   end
 
   context 'with a couple of smells' do
-    it 'should mention every smell name' do
+    before :each do
       examiner = Examiner.new('def simple(a) a[3] end')
-      rpt = ReportSection.new(examiner)
-      @lines = rpt.smell_list.split("\n")
-      @lines.should have_at_least(2).lines
+      rpt = QuietReport.new(examiner)
+      @lines = rpt.report.split("\n")
+    end
+    it 'has a header and a list of smells' do
+      @lines.should have_at_least(3).lines
+    end
+    it 'should mention every smell name' do
       @lines[0].should match('[Utility Function]')
       @lines[1].should match('[Feature Envy]')
     end

@@ -7,7 +7,7 @@ include Reek::Core
 describe ClassContext do
   it 'should report Long Parameter List' do
     ruby = 'class Inner; def simple(arga, argb, argc, argd) f(3);true end end'
-    ruby.should reek_of(:LongParameterList, /Inner/, /simple/, /4 parameters/)
+    ruby.should reek_of(:LongParameterList, /simple/, /4 parameters/)
   end
 
   it 'should report two different methods' do
@@ -19,8 +19,8 @@ class Fred
 end
 EOEX
 
-    src.should reek_of(:LongParameterList, /Fred/, /simple/)
-    src.should reek_of(:LongParameterList, /Fred/, /simply/)
+    src.should reek_of(:LongParameterList, /simple/)
+    src.should reek_of(:LongParameterList, /simply/)
   end
 
   it 'should report many different methods' do
@@ -34,9 +34,9 @@ class Fred
 end
 EOEX
     
-    src.should reek_of(:LongParameterList, /Fred/, /textile_bq/)
-    src.should reek_of(:LongParameterList, /Fred/, /textile_fn_/)
-    src.should reek_of(:LongParameterList, /Fred/, /textile_p/)
+    src.should reek_of(:LongParameterList, /textile_bq/)
+    src.should reek_of(:LongParameterList, /textile_fn_/)
+    src.should reek_of(:LongParameterList, /textile_p/)
   end
 end
 

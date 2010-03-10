@@ -158,9 +158,9 @@ describe SmellWarning do
         @source = 'a/ruby/source/file.rb'
         @subclass = 'TooManyParties'
         @parameters = {'one' => 34, 'two' => 'second'}
-        warning = SmellWarning.new(@class, @context_name, @lines, @message, @is_masked,
+        @warning = SmellWarning.new(@class, @context_name, @lines, @message, @is_masked,
           @source, @subclass, @parameters)
-        @yaml = warning.to_yaml
+        @yaml = @warning.to_yaml
       end
 
       it_should_behave_like 'common fields'
@@ -174,6 +174,18 @@ describe SmellWarning do
       it 'includes the parameters' do
         @parameters.each do |key,value|
           @yaml.should match(/#{key}:\s*#{value}/)
+        end
+      end
+
+      context 'text formatting' do
+        it 'lists the lines' do
+          @warning.report('%l').should == '24,513'
+        end
+        it 'says not masked' do
+          @warning.report('%m').should == ''
+        end
+        it 'lists the source' do
+          @warning.report('%f').should == @source
         end
       end
     end

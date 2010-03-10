@@ -30,7 +30,7 @@ module Reek
         ACTIVE_KEY => !masked
       }
       @location = {
-        CONTEXT_KEY => context,
+        CONTEXT_KEY => context.to_s,
         LINES_KEY => lines,
         SOURCE_KEY => source
       }
@@ -69,6 +69,8 @@ module Reek
     #
     attr_reader :status
 
+    def is_active() @status[ACTIVE_KEY] end
+
     def hash  # :nodoc:
       sort_key.hash
     end
@@ -99,6 +101,8 @@ module Reek
     def report(format)
       format.gsub(/\%s/, smell_name).
         gsub(/\%c/, @location[CONTEXT_KEY]).
+        gsub(/\%f/, @location[SOURCE_KEY]).
+        gsub(/\%l/, @location[LINES_KEY].join(',')).
         gsub(/\%w/, @smell[MESSAGE_KEY]).
         gsub(/\%m/, @status[ACTIVE_KEY] ? '' : '(masked) ')
     end

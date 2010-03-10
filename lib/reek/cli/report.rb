@@ -1,55 +1,22 @@
 module Reek
   module Cli
 
-    #
-    # A section of a text report; has a heading that identifies the source
-    # and summarises the smell counts, and a body listing details of all
-    # smells found.
-    #
-    class ReportSection
-
-      SMELL_FORMAT = '%m%c %w (%s)'
-
-      def initialize(examiner)
-        @examiner = examiner
-      end
-
-      # Creates a formatted report of all the +Smells::SmellWarning+ objects recorded in
-      # this report, with a heading.
-      def verbose_report
-        result = header
-        result += ":\n#{smell_list}" if should_report
-        result += "\n"
+    module ReportFormatter
+      def header(desc, count)
+        result = "#{desc} -- #{count} warning"
+        result += 's' unless count == 1
         result
       end
 
-      def quiet_report
-        return '' unless should_report
-        # SMELL: duplicate knowledge of the header layout
-        "#{header}:\n#{smell_list}\n"
+      def format(warning)
+#        subclass = (warning.subclass.nil? or warning.subclass == '' or warning.smell_class == warning.subclass) ? '' : "/#{warning.subclass}"
+#        masked = warning.is_active ? '' : ' (masked)'
+#        "#{warning.smell_class}#{subclass}#{masked}: #{warning.context} #{warning.message} (#{warning.lines.join(',')})"
+        warning.report('%m%c %w (%s)')
       end
 
-      def header
-        "#{@examiner.description} -- #{visible_header}"
-      end
-
-      # Creates a formatted report of all the +Smells::SmellWarning+ objects recorded in
-      # this report.
-      def smell_list
-        @examiner.smells.map {|smell| "  #{smell.report(SMELL_FORMAT)}"}.join("\n")
-      end
-
-    private
-
-      def should_report
-        @examiner.num_smells > 0
-      end
-
-      def visible_header
-        num_smells = @examiner.smells.length
-        result = "#{num_smells} warning"
-        result += 's' unless num_smells == 1
-        result
+      def smell_list(warnings)
+        warnings.map {|warning| "  #{format(warning)}"}.join("\n")
       end
     end
 
@@ -57,11 +24,19 @@ module Reek
     # A report that lists every source, including those that have no smells.
     #
     class VerboseReport
+
+      include ReportFormatter
+
       def initialize(examiner)
-        @reporter = ReportSection.new(examiner)
+        @examiner = examiner
       end
+
       def report
-        @reporter.verbose_report
+        smells = @examiner.smells
+        smell_count = smells.length
+        result = header(@examiner.description, smell_count)
+        result += ":\n#{smell_list(smells)}" if smell_count > 0
+        result + "\n"
       end
     end
 
@@ -69,11 +44,17 @@ module Reek
     # A report that lists a section for each source that has smells.
     #
     class QuietReport
+
+      include ReportFormatter
+
       def initialize(examiner)
-        @reporter = ReportSection.new(examiner)
+        @smells = examiner.smells
+        @smell_count = @smells.length
+        @desc = examiner.description
       end
+
       def report
-        @reporter.quiet_report
+        @smell_count > 0 ? "#{header(@desc, @smell_count)}:\n#{smell_list(@smells)}\n" : ''
       end
     end
   end
