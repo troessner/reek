@@ -46,7 +46,7 @@ Usage: #{progname} [options] [files]
 Examples:
 
 #{progname} lib/*.rb
-#{progname} -q -a lib
+#{progname} -q lib
 cat my_class.rb | #{progname}
 
 See http://wiki.github.com/kevinrutherford/reek for detailed help.
@@ -65,9 +65,6 @@ EOB
         end
 
         @parser.separator "\nReport formatting:"
-        @parser.on("-a", "--[no-]show-all", "Show all smells, including those masked by config settings") do |opt|
-          @collection_strategy = opt ? ActiveAndMaskedSmells : ActiveSmellsOnly
-        end
         @parser.on("-q", "--[no-]quiet", "Suppress headings for smell-free source files") do |opt|
           @report_class = opt ? QuietReport : VerboseReport
         end

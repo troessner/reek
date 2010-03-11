@@ -14,16 +14,6 @@ module Reek
     end
   end
 
-  class ActiveAndMaskedSmells
-    def configure(detectors, config)
-      detectors.push(config)
-    end
-
-    def smells_in(sources)
-      Core::MaskingCollection.new.collect_from(sources, self).all_items
-    end
-  end
-
   #
   # Finds the active code smells in Ruby source code.
   #

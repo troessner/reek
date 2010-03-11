@@ -9,9 +9,8 @@ module Reek
       end
 
       def format(warning)
-        masked = warning.is_active ? '' : '(masked) '
 #        "#{warning.smell_class}#{subclass}#{masked}: #{warning.context} #{warning.message} (#{warning.lines.join(',')})"
-        "#{masked}#{warning.context} #{warning.message} (#{warning.smell_class})"
+        "#{warning.context} #{warning.message} (#{warning.smell_class})"
       end
 
       def smell_list(warnings)

@@ -25,7 +25,7 @@ Feature: Reek can be controlled using command-line options
       Examples:
 
       reek lib/*.rb
-      reek -q -a lib
+      reek -q lib
       cat my_class.rb | reek
 
       See http://wiki.github.com/kevinrutherford/reek for detailed help.
@@ -36,7 +36,6 @@ Feature: Reek can be controlled using command-line options
 
 
       Report formatting:
-          -a, --[no-]show-all              Show all smells, including those masked by config settings
           -q, --[no-]quiet                 Suppress headings for smell-free source files
           -y, --yaml                       Report smells in YAML format
 

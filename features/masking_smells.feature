@@ -61,33 +61,6 @@ Feature: Masking smells using config files
 
       """
 
-  Scenario: switch off one smell but show all in the report
-    When I run reek --show-all spec/samples/masked/dirty.rb
-    Then the exit status indicates smells
-    And it reports:
-      """
-      spec/samples/masked/dirty.rb -- 6 warnings:
-        (masked) Dirty has the variable name '@s' (UncommunicativeName)
-        Dirty#a calls @s.title twice (Duplication)
-        Dirty#a calls puts(@s.title) twice (Duplication)
-        Dirty#a contains iterators nested 2 deep (NestedIterators)
-        (masked) Dirty#a has the name 'a' (UncommunicativeName)
-        (masked) Dirty#a has the variable name 'x' (UncommunicativeName)
-
-      """
-
-  Scenario: switch off one smell and hide them in the report
-    When I run reek --no-show-all spec/samples/masked/dirty.rb
-    Then the exit status indicates smells
-    And it reports:
-      """
-      spec/samples/masked/dirty.rb -- 3 warnings:
-        Dirty#a calls @s.title twice (Duplication)
-        Dirty#a calls puts(@s.title) twice (Duplication)
-        Dirty#a contains iterators nested 2 deep (NestedIterators)
-
-      """
-
   Scenario: non-masked smells are only counted once
     When I run reek spec/samples/not_quite_masked/dirty.rb
     Then the exit status indicates smells
@@ -111,21 +84,5 @@ Feature: Masking smells using config files
       spec/samples/overrides/masked/dirty.rb -- 2 warnings:
         Dirty#a calls @s.title twice (Duplication)
         Dirty#a calls puts(@s.title) twice (Duplication)
-
-      """
-
-  @overrides
-  Scenario: all show up masked even when overridden
-    When I run reek --show-all spec/samples/overrides
-    Then the exit status indicates smells
-    And it reports:
-      """
-      spec/samples/overrides/masked/dirty.rb -- 6 warnings:
-        (masked) Dirty has the variable name '@s' (UncommunicativeName)
-        Dirty#a calls @s.title twice (Duplication)
-        Dirty#a calls puts(@s.title) twice (Duplication)
-        (masked) Dirty#a contains iterators nested 2 deep (NestedIterators)
-        (masked) Dirty#a has the name 'a' (UncommunicativeName)
-        (masked) Dirty#a has the variable name 'x' (UncommunicativeName)
 
       """

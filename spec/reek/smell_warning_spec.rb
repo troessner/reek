@@ -181,9 +181,6 @@ describe SmellWarning do
         it 'lists the lines' do
           @warning.report('%l').should == '24,513'
         end
-        it 'says not masked' do
-          @warning.report('%m').should == ''
-        end
         it 'lists the source' do
           @warning.report('%f').should == @source
         end

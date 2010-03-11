@@ -103,8 +103,7 @@ module Reek
         gsub(/\%c/, @location[CONTEXT_KEY]).
         gsub(/\%f/, @location[SOURCE_KEY]).
         gsub(/\%l/, @location[LINES_KEY].join(',')).
-        gsub(/\%w/, @smell[MESSAGE_KEY]).
-        gsub(/\%m/, @status[ACTIVE_KEY] ? '' : '(masked) ')
+        gsub(/\%w/, @smell[MESSAGE_KEY])
     end
 
     def report_on(report)
