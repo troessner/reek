@@ -16,7 +16,7 @@ Feature: Reek can be driven through its Task
       spec/samples/masked/dirty.rb -- 3 warnings:
         Dirty#a calls @s.title twice (Duplication)
         Dirty#a calls puts(@s.title) twice (Duplication)
-        Dirty#a contains iterators nested 2 deep (Nested Iterators)
+        Dirty#a contains iterators nested 2 deep (NestedIterators)
       """
 
   Scenario: name changes the task name
@@ -32,7 +32,7 @@ Feature: Reek can be driven through its Task
       spec/samples/masked/dirty.rb -- 3 warnings:
         Dirty#a calls @s.title twice (Duplication)
         Dirty#a calls puts(@s.title) twice (Duplication)
-        Dirty#a contains iterators nested 2 deep (Nested Iterators)
+        Dirty#a contains iterators nested 2 deep (NestedIterators)
       """
 
   Scenario: verbose prints the reek command
@@ -58,10 +58,10 @@ Feature: Reek can be driven through its Task
     And it reports:
       """
       spec/samples/empty_config_file/dirty.rb -- 6 warnings:
-        Dirty has the variable name '@s' (Uncommunicative Name)
+        Dirty has the variable name '@s' (UncommunicativeName)
         Dirty#a calls @s.title twice (Duplication)
         Dirty#a calls puts(@s.title) twice (Duplication)
-        Dirty#a contains iterators nested 2 deep (Nested Iterators)
-        Dirty#a has the name 'a' (Uncommunicative Name)
-        Dirty#a has the variable name 'x' (Uncommunicative Name)
+        Dirty#a contains iterators nested 2 deep (NestedIterators)
+        Dirty#a has the name 'a' (UncommunicativeName)
+        Dirty#a has the variable name 'x' (UncommunicativeName)
       """

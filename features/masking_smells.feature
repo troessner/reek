@@ -10,12 +10,12 @@ Feature: Masking smells using config files
     And it reports:
       """
       spec/samples/empty_config_file/dirty.rb -- 6 warnings:
-        Dirty has the variable name '@s' (Uncommunicative Name)
+        Dirty has the variable name '@s' (UncommunicativeName)
         Dirty#a calls @s.title twice (Duplication)
         Dirty#a calls puts(@s.title) twice (Duplication)
-        Dirty#a contains iterators nested 2 deep (Nested Iterators)
-        Dirty#a has the name 'a' (Uncommunicative Name)
-        Dirty#a has the variable name 'x' (Uncommunicative Name)
+        Dirty#a contains iterators nested 2 deep (NestedIterators)
+        Dirty#a has the name 'a' (UncommunicativeName)
+        Dirty#a has the variable name 'x' (UncommunicativeName)
 
       """
 
@@ -25,13 +25,13 @@ Feature: Masking smells using config files
     And it reports:
       """
       spec/samples/corrupt_config_file/dirty.rb -- 7 warnings:
-        Dirty has no descriptive comment (Irresponsible Module)
-        Dirty has the variable name '@s' (Uncommunicative Name)
+        Dirty has no descriptive comment (IrresponsibleModule)
+        Dirty has the variable name '@s' (UncommunicativeName)
         Dirty#a calls @s.title twice (Duplication)
         Dirty#a calls puts(@s.title) twice (Duplication)
-        Dirty#a contains iterators nested 2 deep (Nested Iterators)
-        Dirty#a has the name 'a' (Uncommunicative Name)
-        Dirty#a has the variable name 'x' (Uncommunicative Name)
+        Dirty#a contains iterators nested 2 deep (NestedIterators)
+        Dirty#a has the name 'a' (UncommunicativeName)
+        Dirty#a has the variable name 'x' (UncommunicativeName)
 
       """
     And it reports the error 'Error: Invalid configuration file "corrupt.reek" -- "This is not a config file" is not a code smell'
@@ -44,7 +44,7 @@ Feature: Masking smells using config files
       spec/samples/masked/dirty.rb -- 3 warnings:
         Dirty#a calls @s.title twice (Duplication)
         Dirty#a calls puts(@s.title) twice (Duplication)
-        Dirty#a contains iterators nested 2 deep (Nested Iterators)
+        Dirty#a contains iterators nested 2 deep (NestedIterators)
 
       """
     And it reports the error "Error: No such file - no_such_file.rb"
@@ -57,7 +57,7 @@ Feature: Masking smells using config files
       spec/samples/masked/dirty.rb -- 3 warnings:
         Dirty#a calls @s.title twice (Duplication)
         Dirty#a calls puts(@s.title) twice (Duplication)
-        Dirty#a contains iterators nested 2 deep (Nested Iterators)
+        Dirty#a contains iterators nested 2 deep (NestedIterators)
 
       """
 
@@ -67,12 +67,12 @@ Feature: Masking smells using config files
     And it reports:
       """
       spec/samples/masked/dirty.rb -- 6 warnings:
-        (masked) Dirty has the variable name '@s' (Uncommunicative Name)
+        (masked) Dirty has the variable name '@s' (UncommunicativeName)
         Dirty#a calls @s.title twice (Duplication)
         Dirty#a calls puts(@s.title) twice (Duplication)
-        Dirty#a contains iterators nested 2 deep (Nested Iterators)
-        (masked) Dirty#a has the name 'a' (Uncommunicative Name)
-        (masked) Dirty#a has the variable name 'x' (Uncommunicative Name)
+        Dirty#a contains iterators nested 2 deep (NestedIterators)
+        (masked) Dirty#a has the name 'a' (UncommunicativeName)
+        (masked) Dirty#a has the variable name 'x' (UncommunicativeName)
 
       """
 
@@ -84,7 +84,7 @@ Feature: Masking smells using config files
       spec/samples/masked/dirty.rb -- 3 warnings:
         Dirty#a calls @s.title twice (Duplication)
         Dirty#a calls puts(@s.title) twice (Duplication)
-        Dirty#a contains iterators nested 2 deep (Nested Iterators)
+        Dirty#a contains iterators nested 2 deep (NestedIterators)
 
       """
 
@@ -94,11 +94,11 @@ Feature: Masking smells using config files
     And it reports:
       """
       spec/samples/not_quite_masked/dirty.rb -- 5 warnings:
-        Dirty has the variable name '@s' (Uncommunicative Name)
+        Dirty has the variable name '@s' (UncommunicativeName)
         Dirty#a calls @s.title twice (Duplication)
         Dirty#a calls puts(@s.title) twice (Duplication)
-        Dirty#a contains iterators nested 2 deep (Nested Iterators)
-        Dirty#a has the name 'a' (Uncommunicative Name)
+        Dirty#a contains iterators nested 2 deep (NestedIterators)
+        Dirty#a has the name 'a' (UncommunicativeName)
 
       """
 
@@ -121,11 +121,11 @@ Feature: Masking smells using config files
     And it reports:
       """
       spec/samples/overrides/masked/dirty.rb -- 6 warnings:
-        (masked) Dirty has the variable name '@s' (Uncommunicative Name)
+        (masked) Dirty has the variable name '@s' (UncommunicativeName)
         Dirty#a calls @s.title twice (Duplication)
         Dirty#a calls puts(@s.title) twice (Duplication)
-        (masked) Dirty#a contains iterators nested 2 deep (Nested Iterators)
-        (masked) Dirty#a has the name 'a' (Uncommunicative Name)
-        (masked) Dirty#a has the variable name 'x' (Uncommunicative Name)
+        (masked) Dirty#a contains iterators nested 2 deep (NestedIterators)
+        (masked) Dirty#a has the name 'a' (UncommunicativeName)
+        (masked) Dirty#a has the variable name 'x' (UncommunicativeName)
 
       """

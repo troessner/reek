@@ -33,9 +33,9 @@ Feature: Reek reads from $stdin when no files are given
     And it reports:
       """
       $stdin -- 3 warnings:
-        Turn has no descriptive comment (Irresponsible Module)
-        Turn has the variable name '@x' (Uncommunicative Name)
-        Turn#y has the name 'y' (Uncommunicative Name)
+        Turn has no descriptive comment (IrresponsibleModule)
+        Turn has the variable name '@x' (UncommunicativeName)
+        Turn#y has the name 'y' (UncommunicativeName)
 
       """
 

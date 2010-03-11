@@ -9,10 +9,9 @@ module Reek
       end
 
       def format(warning)
-#        subclass = (warning.subclass.nil? or warning.subclass == '' or warning.smell_class == warning.subclass) ? '' : "/#{warning.subclass}"
-#        masked = warning.is_active ? '' : ' (masked)'
+        masked = warning.is_active ? '' : '(masked) '
 #        "#{warning.smell_class}#{subclass}#{masked}: #{warning.context} #{warning.message} (#{warning.lines.join(',')})"
-        warning.report('%m%c %w (%s)')
+        "#{masked}#{warning.context} #{warning.message} (#{warning.smell_class})"
       end
 
       def smell_list(warnings)

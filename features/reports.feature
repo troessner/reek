@@ -10,19 +10,19 @@ Feature: Correctly formatted reports
     And it reports:
       """
       spec/samples/two_smelly_files/dirty_one.rb -- 6 warnings:
-        Dirty has the variable name '@s' (Uncommunicative Name)
+        Dirty has the variable name '@s' (UncommunicativeName)
         Dirty#a calls @s.title twice (Duplication)
         Dirty#a calls puts(@s.title) twice (Duplication)
-        Dirty#a contains iterators nested 2 deep (Nested Iterators)
-        Dirty#a has the name 'a' (Uncommunicative Name)
-        Dirty#a has the variable name 'x' (Uncommunicative Name)
+        Dirty#a contains iterators nested 2 deep (NestedIterators)
+        Dirty#a has the name 'a' (UncommunicativeName)
+        Dirty#a has the variable name 'x' (UncommunicativeName)
       spec/samples/two_smelly_files/dirty_two.rb -- 6 warnings:
-        Dirty has the variable name '@s' (Uncommunicative Name)
+        Dirty has the variable name '@s' (UncommunicativeName)
         Dirty#a calls @s.title twice (Duplication)
         Dirty#a calls puts(@s.title) twice (Duplication)
-        Dirty#a contains iterators nested 2 deep (Nested Iterators)
-        Dirty#a has the name 'a' (Uncommunicative Name)
-        Dirty#a has the variable name 'x' (Uncommunicative Name)
+        Dirty#a contains iterators nested 2 deep (NestedIterators)
+        Dirty#a has the name 'a' (UncommunicativeName)
+        Dirty#a has the variable name 'x' (UncommunicativeName)
 
       """
 
@@ -64,21 +64,21 @@ Feature: Correctly formatted reports
     And it reports:
       """
       spec/samples/clean_due_to_masking/dirty_one.rb -- 7 warnings:
-        (masked) Dirty has no descriptive comment (Irresponsible Module)
-        (masked) Dirty has the variable name '@s' (Uncommunicative Name)
+        (masked) Dirty has no descriptive comment (IrresponsibleModule)
+        (masked) Dirty has the variable name '@s' (UncommunicativeName)
         (masked) Dirty#a calls @s.title twice (Duplication)
         (masked) Dirty#a calls puts(@s.title) twice (Duplication)
-        (masked) Dirty#a contains iterators nested 2 deep (Nested Iterators)
-        (masked) Dirty#a has the name 'a' (Uncommunicative Name)
-        (masked) Dirty#a has the variable name 'x' (Uncommunicative Name)
+        (masked) Dirty#a contains iterators nested 2 deep (NestedIterators)
+        (masked) Dirty#a has the name 'a' (UncommunicativeName)
+        (masked) Dirty#a has the variable name 'x' (UncommunicativeName)
       spec/samples/clean_due_to_masking/dirty_two.rb -- 7 warnings:
-        (masked) Dirty has no descriptive comment (Irresponsible Module)
-        (masked) Dirty has the variable name '@s' (Uncommunicative Name)
+        (masked) Dirty has no descriptive comment (IrresponsibleModule)
+        (masked) Dirty has the variable name '@s' (UncommunicativeName)
         (masked) Dirty#a calls @s.title twice (Duplication)
         (masked) Dirty#a calls puts(@s.title) twice (Duplication)
-        (masked) Dirty#a contains iterators nested 2 deep (Nested Iterators)
-        (masked) Dirty#a has the name 'a' (Uncommunicative Name)
-        (masked) Dirty#a has the variable name 'x' (Uncommunicative Name)
+        (masked) Dirty#a contains iterators nested 2 deep (NestedIterators)
+        (masked) Dirty#a has the name 'a' (UncommunicativeName)
+        (masked) Dirty#a has the variable name 'x' (UncommunicativeName)
 
       """
 
