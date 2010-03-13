@@ -65,8 +65,7 @@ module Reek
         ]
       end
 
-      def initialize(src, config_strategy = ActiveSmellsOnly.new)   # SMELL: open secret -- need a Strategy
-        @config_strategy = config_strategy
+      def initialize(src)
         @already_checked_for_smells = false
         @typed_detectors = nil
         @detectors = Hash.new
@@ -84,7 +83,7 @@ module Reek
       end
 
       def configure(klass, config)
-        @config_strategy.configure(@detectors[klass], config)
+        @detectors[klass].adopt(config)
       end
 
       def report_on(report)

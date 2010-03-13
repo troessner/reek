@@ -106,8 +106,8 @@ module Reek
         gsub(/\%w/, @smell[MESSAGE_KEY])
     end
 
-    def report_on(report)
-      report.found_smell(self)
+    def report_on(listener)
+      listener.found_smell(self)
     end
 
   private

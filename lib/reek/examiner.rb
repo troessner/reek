@@ -1,18 +1,7 @@
-require File.join(File.dirname(File.expand_path(__FILE__)), 'core', 'masking_collection')
 require File.join(File.dirname(File.expand_path(__FILE__)), 'core', 'sniffer')
 require File.join(File.dirname(File.expand_path(__FILE__)), 'source')
 
 module Reek
-
-  class ActiveSmellsOnly
-    def configure(detectors, config)
-      detectors.adopt(config)
-    end
-
-    def smells_in(sources)
-      Core::MaskingCollection.new.collect_from(sources, self).all_active_items.to_a
-    end
-  end
 
   #
   # Finds the active code smells in Ruby source code.
@@ -37,13 +26,7 @@ module Reek
     #   and if it is an Array, it is assumed to be a list of file paths,
     #   each of which is opened and parsed for source code.
     #
-    # @param [#smells_in]
-    #   The +collector+ will be asked to examine the sources and report
-    #   an array of SmellWarning objects. The default collector is an
-    #   instance of ActiveSmellsOnly, which completely ignores all smells
-    #   that have been masked by configuration options.
-    #
-    def initialize(source, collector = ActiveSmellsOnly.new)
+    def initialize(source)
       sources = case source
       when Array
         @description = 'dir'
@@ -56,7 +39,13 @@ module Reek
         @description = src.desc
         [src]
       end
-      @smells = collector.smells_in(sources)
+      @visible_items = SortedSet.new
+      sources.each { |src| Core::Sniffer.new(src).report_on(self) }
+      @smells = @visible_items.to_a
+    end
+
+    def found_smell(warning)
+      @visible_items.add(warning)
     end
 
     #

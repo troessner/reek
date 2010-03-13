@@ -18,7 +18,6 @@ module Reek
         @argv = argv
         @parser = OptionParser.new
         @report_class = VerboseReport
-        @collection_strategy = ActiveSmellsOnly
         @command_class = ReekCommand
         set_options
       end
@@ -86,7 +85,7 @@ EOB
           YamlCommand.create(sources)
         else
           sources = get_sources
-          ReekCommand.create(sources, @report_class, @collection_strategy)
+          ReekCommand.create(sources, @report_class)
         end
       end
 
