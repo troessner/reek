@@ -36,7 +36,6 @@ module Reek
         # reek -v|--version        Output the tool's version number
         #
         # reek [options] files     List the smells in the given files
-        #      -a|--[no-]show-all  Report masked smells
         #      -q|-[no-]quiet      Only list files that have smells
         #      files               Names of files or dirs to be checked
         #

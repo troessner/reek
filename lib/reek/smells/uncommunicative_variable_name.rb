@@ -55,7 +55,7 @@ module Reek
         variable_names(context).each do |name, lines|
           next unless is_bad_name?(name, context)
           smell = SmellWarning.new('UncommunicativeName', context.full_name, lines,
-            "has the variable name '#{name}'", @masked,
+            "has the variable name '#{name}'",
             @source, 'UncommunicativeVariableName', {'variable_name' => name.to_s})
           @smells_found << smell
           #SMELL: serious duplication

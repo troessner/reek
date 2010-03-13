@@ -88,48 +88,12 @@ describe SmellWarning do
     end
   end
 
-  context 'masked reporting' do
-    class CountingReport
-      attr_reader :masked, :non_masked
-      def initialize
-        @masked = @non_masked = 0
-      end
-      def found_smell(sw)
-        @non_masked += 1
-      end
-
-      def found_masked_smell(sw)
-        @masked += 1
-      end
-    end
-
-    before :each do
-      @masked = SmellWarning.new('FeatureEnvy', 'Fred', 27, "self", true)
-      @visible = SmellWarning.new('FeatureEnvy', 'Fred', 27, "self", false)
-    end
-
-    it 'reports as masked when masked' do
-      rpt = CountingReport.new
-      @masked.report_on(rpt)
-      rpt.masked.should == 1
-      rpt.non_masked.should == 0
-    end
-
-    it 'reports as non-masked when non-masked' do
-      rpt = CountingReport.new
-      @visible.report_on(rpt)
-      rpt.masked.should == 0
-      rpt.non_masked.should == 1
-    end
-  end
-
   context 'YAML representation' do
     before :each do
       @message = 'test message'
       @lines = [24, 513]
       @class = 'FeatureEnvy'
       @context_name = 'Module::Class#method/block'
-      @is_active = true
       # Use a random string and a random bool
     end
 
@@ -144,7 +108,7 @@ describe SmellWarning do
         @yaml.should match(/message:\s*#{@message}/)
       end
       it 'indicates the masking' do
-        @yaml.should match(/is_active:\s*#{@is_active}/)
+        @yaml.should match(/is_active:\s*true/)
       end
       it 'includes the line numbers' do
         @lines.each do |line|
@@ -158,7 +122,7 @@ describe SmellWarning do
         @source = 'a/ruby/source/file.rb'
         @subclass = 'TooManyParties'
         @parameters = {'one' => 34, 'two' => 'second'}
-        @warning = SmellWarning.new(@class, @context_name, @lines, @message, @is_masked,
+        @warning = SmellWarning.new(@class, @context_name, @lines, @message,
           @source, @subclass, @parameters)
         @yaml = @warning.to_yaml
       end
@@ -189,7 +153,7 @@ describe SmellWarning do
 
     context 'with all defaults used' do
       before :each do
-        warning = SmellWarning.new(@class, @context_name, @lines, @message, @is_masked)
+        warning = SmellWarning.new(@class, @context_name, @lines, @message)
         @yaml = warning.to_yaml
       end
 

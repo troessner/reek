@@ -29,7 +29,7 @@ describe YamlCommand do
 
   context 'with smells' do
     before :each do
-      @smell = SmellWarning.new('UncommunicativeName', "self", 27, "self", true)
+      @smell = SmellWarning.new('UncommunicativeName', "self", 27, "self")
       @examiner.should_receive(:smells).and_return([@smell])
       @cmd = YamlCommand.new([@examiner])
     end

@@ -42,7 +42,7 @@ describe ShouldReekOnlyOf do
 
   context 'with 1 non-matching smell' do
     def smells
-      [SmellWarning.new('ControlCouple', 'context', [1], 'any old message', false)]
+      [SmellWarning.new('ControlCouple', 'context', [1], 'any old message')]
     end
 
     it_should_behave_like 'no match'
@@ -51,8 +51,8 @@ describe ShouldReekOnlyOf do
   context 'with 2 non-matching smells' do
     def smells
       [
-        SmellWarning.new('ControlCouple', 'context', [1], 'any old message', false),
-        SmellWarning.new('FeatureEnvy', 'context', [1], 'any old message', false)
+        SmellWarning.new('ControlCouple', 'context', [1], 'any old message'),
+        SmellWarning.new('FeatureEnvy', 'context', [1], 'any old message')
         ]
     end
 
@@ -62,8 +62,8 @@ describe ShouldReekOnlyOf do
   context 'with 1 non-matching and 1 matching smell' do
     def smells
       [
-        SmellWarning.new('ControlCouple', 'context', [1], 'any old message', false),
-        SmellWarning.new(@expected_smell_class.to_s, 'context', [1], "message mentioning #{@expected_context_name}", false)
+        SmellWarning.new('ControlCouple', 'context', [1], 'any old message'),
+        SmellWarning.new(@expected_smell_class.to_s, 'context', [1], "message mentioning #{@expected_context_name}")
         ]
     end
 
@@ -72,7 +72,7 @@ describe ShouldReekOnlyOf do
 
   context 'with 1 matching smell' do
     def smells
-      [SmellWarning.new(@expected_smell_class.to_s, nil, [1], "message mentioning #{@expected_context_name}", false)]
+      [SmellWarning.new(@expected_smell_class.to_s, nil, [1], "message mentioning #{@expected_context_name}")]
     end
     it 'matches' do
       @match.should be_true

@@ -18,7 +18,7 @@ module Reek
 
     ACTIVE_KEY = 'is_active'
 
-    def initialize(class_name, context, lines, message, masked,
+    def initialize(class_name, context, lines, message,
         source = '', subclass_name = '', parameters = {})
       @smell = {
         CLASS_KEY => class_name,
@@ -27,7 +27,7 @@ module Reek
       }
       @smell.merge!(parameters)
       @status = {
-        ACTIVE_KEY => !masked
+        ACTIVE_KEY => true
       }
       @location = {
         CONTEXT_KEY => context.to_s,
@@ -107,11 +107,7 @@ module Reek
     end
 
     def report_on(report)
-      if @status[ACTIVE_KEY]
-        report.found_smell(self)
-      else
-        report.found_masked_smell(self)
-      end
+      report.found_smell(self)
     end
 
   private

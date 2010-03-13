@@ -22,7 +22,7 @@ module Reek
         method_ctx.parameters.default_assignments.each do |param, value|
           next unless [:true, :false].include?(value[0])
           smell = SmellWarning.new('ControlCouple', method_ctx.full_name, [method_ctx.exp.line],
-            "has boolean parameter '#{param.to_s}'", @masked,
+            "has boolean parameter '#{param.to_s}'",
             @source, 'BooleanParameter', {'parameter' => param.to_s})
           @smells_found << smell
           #SMELL: serious duplication

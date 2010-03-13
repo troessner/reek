@@ -56,7 +56,7 @@ module Reek
         return false if accept?(module_ctx)
         return false unless is_bad_name?(name, module_ctx)
         smell = SmellWarning.new('UncommunicativeName', module_ctx.full_name, [module_ctx.exp.line],
-          "has the name '#{name}'", @masked,
+          "has the name '#{name}'",
           @source, 'UncommunicativeModuleName', {'module_name' => name.to_s})
         @smells_found << smell
         #SMELL: serious duplication

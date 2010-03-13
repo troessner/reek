@@ -47,7 +47,6 @@ module Reek
         @source = source
         @config = Core::SmellConfiguration.new(config)
         @smells_found = Set.new
-        @masked = false
       end
 
       def listen_to(hooks)
@@ -67,13 +66,6 @@ module Reek
         self.class.new(@source, @config.deep_copy)
       end
 
-      def supersede_with(config)
-        clone = self.copy
-        @masked = true
-        clone.configure_with(config)
-        clone
-      end
-
       def examine(context)
         examine_context(context) if @config.enabled? and !exception?(context)
       end
@@ -87,14 +79,14 @@ module Reek
 
       def found(context, message, subclass = '', parameters = {}, lines = nil)
         lines ||= [context.exp.line]        # SMELL: nil?!?!?! Yuk
-        smell = SmellWarning.new(self.class.name.split(/::/)[-1], context.full_name, lines, message, @masked,
+        smell = SmellWarning.new(self.class.name.split(/::/)[-1], context.full_name,
+          lines, message,
           @source, subclass, parameters)
         @smells_found << smell
         smell
       end
 
       def has_smell?(patterns)
-        return false if @masked
         @smells_found.each { |warning| return true if warning.contains_all?(patterns) }
         false
       end
@@ -108,11 +100,11 @@ module Reek
       end
 
       def num_smells
-        @masked ? 0 : @smells_found.length
+        @smells_found.length
       end
 
       def smelly?
-        (not @masked) and (@smells_found.length > 0)
+        @smells_found.length > 0
       end
 
       def value(key, ctx, fall_back)

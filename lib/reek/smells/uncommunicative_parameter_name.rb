@@ -55,7 +55,7 @@ module Reek
         context.exp.parameter_names.each do |name|
           next unless is_bad_name?(name, context)
           smell = SmellWarning.new('UncommunicativeName', context.full_name, [context.exp.line],
-            "has the parameter name '#{name}'", @masked,
+            "has the parameter name '#{name}'",
             @source, 'UncommunicativeParameterName', {'parameter_name' => name.to_s})
           @smells_found << smell
           #SMELL: serious duplication

@@ -49,7 +49,7 @@ module Reek
         method_ctx.envious_receivers.each do |ref, occurs|
           target = ref.format
           smell = SmellWarning.new(SMELL_CLASS, method_ctx.full_name, [method_ctx.exp.line],
-            "refers to #{target} more than self", @masked,
+            "refers to #{target} more than self",
             @source, SMELL_SUBCLASS, {RECEIVER_KEY => target, REFERENCES_KEY => occurs})
           @smells_found << smell
           #SMELL: serious duplication

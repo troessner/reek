@@ -37,7 +37,7 @@ module Reek
           num_params = yield_node.args.length
           next if num_params <= value(MAX_ALLOWED_PARAMS_KEY, method_ctx, DEFAULT_MAX_ALLOWED_PARAMS)
           smell = SmellWarning.new('LongParameterList', method_ctx.full_name, [yield_node.line],
-            "yields #{num_params} parameters", @masked,
+            "yields #{num_params} parameters",
             @source, 'LongYieldList', {'parameter_count' => num_params})
           @smells_found << smell
           #SMELL: serious duplication

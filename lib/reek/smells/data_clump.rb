@@ -85,7 +85,7 @@ module Reek
         MethodGroup.new(ctx, min_clump_size, max_copies).clumps.each do |clump, methods|
           smell = SmellWarning.new('DataClump', ctx.full_name,
             methods.map {|meth| meth.line},
-            "takes parameters #{DataClump.print_clump(clump)} to #{methods.length} methods", @masked,
+            "takes parameters #{DataClump.print_clump(clump)} to #{methods.length} methods",
             @source, 'DataClump', {
               PARAMETERS_KEY => clump.map {|name| name.to_s},
               OCCURRENCES_KEY => methods.length,

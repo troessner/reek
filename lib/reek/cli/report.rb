@@ -9,7 +9,7 @@ module Reek
       end
 
       def format(warning)
-#        "#{warning.smell_class}#{subclass}#{masked}: #{warning.context} #{warning.message} (#{warning.lines.join(',')})"
+#        "#{warning.smell_class}#{subclass}: #{warning.context} #{warning.message} (#{warning.lines.join(',')})"
         "#{warning.context} #{warning.message} (#{warning.smell_class})"
       end
 
