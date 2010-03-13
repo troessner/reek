@@ -62,10 +62,6 @@ module Reek
         @config.adopt!(config)
       end
 
-      def copy
-        self.class.new(@source, @config.deep_copy)
-      end
-
       def examine(context)
         examine_context(context) if @config.enabled? and !exception?(context)
       end
@@ -86,25 +82,8 @@ module Reek
         smell
       end
 
-      def has_smell?(patterns)
-        @smells_found.each { |warning| return true if warning.contains_all?(patterns) }
-        false
-      end
-
-      def smell_type
-        self.class.name.split(/::/)[-1]
-      end
-
       def report_on(report)
         @smells_found.each { |smell| smell.report_on(report) }
-      end
-
-      def num_smells
-        @smells_found.length
-      end
-
-      def smelly?
-        @smells_found.length > 0
       end
 
       def value(key, ctx, fall_back)

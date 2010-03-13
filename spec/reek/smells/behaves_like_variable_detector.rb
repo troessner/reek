@@ -2,7 +2,7 @@ shared_examples_for 'a variable detector' do
   context 'with no variables' do
     it "doesn't record a smell" do
       @detector.examine_context(@ctx)
-      @detector.num_smells.should == 0
+      @detector.smells_found.length.should == 0
     end
   end
 
@@ -14,7 +14,7 @@ shared_examples_for 'a variable detector' do
     end
 
     it 'records only one smell' do
-      @detector.num_smells.should == 1
+      @detector.smells_found.length.should == 1
     end
     it 'mentions the variable name in the report' do
       @detector.should have_smell([/something/])

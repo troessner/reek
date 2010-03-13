@@ -9,18 +9,18 @@ module Reek
     #
     class ReekCommand
       def self.create(sources, report_class)
-        examiners = sources.map { |src| Examiner.new(src) }
-        new(examiners, report_class)
+        new(report_class, sources)
       end
 
-      def initialize(examiners, report_class)
-        @examiners = examiners
+      def initialize(report_class, sources)
+        @sources = sources
         @report_class = report_class
       end
 
       def execute(view)
         had_smells = false
-        @examiners.each do |examiner|
+        @sources.each do |source|
+          examiner = Examiner.new(source)
           rpt = @report_class.new(examiner)
           had_smells ||= examiner.smelly?
           view.output(rpt.report)

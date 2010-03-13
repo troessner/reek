@@ -44,6 +44,9 @@ module Reek
       @smells = @visible_items.to_a
     end
 
+    #
+    # (Called by the smells detectors when they find a smell in  source.)
+    #
     def found_smell(warning)
       @visible_items.add(warning)
     end
@@ -56,13 +59,6 @@ module Reek
     #
     def smells
       @smells
-    end
-
-    #
-    # Returns the number of non-masked smells in the source.
-    #
-    def num_smells
-      @smells.length
     end
 
     #

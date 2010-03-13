@@ -12,11 +12,6 @@ module Reek
         @detectors = [default_detector]
       end
 
-      def push(config)
-        clone = @detectors[-1].supersede_with(config)
-        @detectors << clone
-      end
-
       def adopt(config)
         @detectors[-1].configure_with(config)
       end

@@ -22,10 +22,6 @@ module Reek
         @options.adopt!(options)
       end
 
-      def deep_copy
-        @options.deep_copy     # SMELL: Open Secret -- returns a Hash
-      end
-
       #
       # Is this smell detector active?
       #--
