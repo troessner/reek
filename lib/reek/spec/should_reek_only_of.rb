@@ -1,4 +1,5 @@
 require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'examiner')
+require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'cli', 'report')
 
 module Reek
   module Spec
@@ -13,11 +14,11 @@ module Reek
       end
       def matches_examiner?(examiner)
         @examiner = examiner
-        @all_smells = @examiner.smells
-        @all_smells.length == 1 and @all_smells[0].matches?(@klass, @patterns)
+        @warnings = @examiner.smells
+        @warnings.length == 1 and @warnings[0].matches?(@klass, @patterns)
       end
       def failure_message_for_should
-        rpt = @all_smells.map { |smell| "#{smell.report('%c %w (%s)')}" }.join("\n")
+        rpt = Cli::ReportFormatter.format_list(@warnings)
         "Expected #{@examiner.description} to reek only of #{@klass}, but got:\n#{rpt}"
       end
       def failure_message_for_should_not

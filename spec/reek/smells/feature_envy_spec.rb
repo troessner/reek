@@ -186,8 +186,8 @@ EOS
   it 'interprets << correctly' do
     ruby = <<EOS
 def report_on(report)
-  if @is_masked
-    report.record_masked_smell(self)
+  if @is_doubled
+    report.record_doubled_smell(self)
   else
     report << self
   end

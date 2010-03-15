@@ -8,14 +8,13 @@ module Reek
         result
       end
 
-      def format(warning)
-#        "#{warning.smell_class}#{subclass}: #{warning.context} #{warning.message} (#{warning.lines.join(',')})"
-        "#{warning.context} #{warning.message} (#{warning.smell_class})"
+      def format_list(warnings)
+        warnings.map do |warning|
+          "  #{warning.context} #{warning.message} (#{warning.smell_class})"
+        end.join("\n")
       end
 
-      def smell_list(warnings)
-        warnings.map {|warning| "  #{format(warning)}"}.join("\n")
-      end
+      module_function :format_list
     end
 
     #
@@ -30,10 +29,10 @@ module Reek
       end
 
       def report
-        smells = @examiner.smells
-        smell_count = smells.length
-        result = header(@examiner.description, smell_count)
-        result += ":\n#{smell_list(smells)}" if smell_count > 0
+        warnings = @examiner.smells
+        warning_count = warnings.length
+        result = header(@examiner.description, warning_count)
+        result += ":\n#{format_list(warnings)}" if warning_count > 0
         result + "\n"
       end
     end
@@ -46,13 +45,13 @@ module Reek
       include ReportFormatter
 
       def initialize(examiner)
-        @smells = examiner.smells
-        @smell_count = @smells.length
+        @warnings = examiner.smells
+        @smell_count = @warnings.length
         @desc = examiner.description
       end
 
       def report
-        @smell_count > 0 ? "#{header(@desc, @smell_count)}:\n#{smell_list(@smells)}\n" : ''
+        @smell_count > 0 ? "#{header(@desc, @smell_count)}:\n#{format_list(@warnings)}\n" : ''
       end
     end
   end

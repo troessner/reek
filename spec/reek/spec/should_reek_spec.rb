@@ -21,7 +21,7 @@ describe ShouldReek, 'checking code in a string' do
 
   it 'reports the smells when should_not fails' do
     @matcher.matches?(@smelly_code)
-    @matcher.failure_message_for_should_not.should match('Uncommunicative Name')
+    @matcher.failure_message_for_should_not.should match('UncommunicativeName')
   end
 end
 
@@ -42,7 +42,7 @@ describe ShouldReek, 'checking code in a Dir' do
 
   it 'reports the smells when should_not fails' do
     @matcher.matches?(@smelly_dir)
-    @matcher.failure_message_for_should_not.should match('Uncommunicative Name')
+    @matcher.failure_message_for_should_not.should match('UncommunicativeName')
   end
 end
 
@@ -63,6 +63,6 @@ describe ShouldReek, 'checking code in a File' do
 
   it 'reports the smells when should_not fails' do
     @matcher.matches?(@smelly_file)
-    @matcher.failure_message_for_should_not.should match('Uncommunicative Name')
+    @matcher.failure_message_for_should_not.should match('UncommunicativeName')
   end
 end

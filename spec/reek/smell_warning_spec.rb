@@ -5,27 +5,6 @@ include Reek
 
 describe SmellWarning do
   context 'sort order' do
-    context 'smells differing only by masking' do
-      before :each do
-        @first = SmellWarning.new('FeatureEnvy', "self", 27, "self", true)
-        @second = SmellWarning.new('FeatureEnvy', "self", 27, "self", false)
-      end
-
-      it 'should hash equal when the smell is the same' do
-        @first.hash.should == @second.hash
-      end
-      it 'should compare equal when the smell is the same' do
-        @first.should == @second
-      end
-      it 'should compare equal when using <=>' do
-        (@first <=> @second).should == 0
-      end
-      it 'matches using eql?' do
-        @first.should eql(@second)
-        @second.should eql(@first)
-      end
-    end
-
     shared_examples_for 'first sorts ahead of second' do
       it 'hash differently' do
         @first.hash.should_not == @second.hash
