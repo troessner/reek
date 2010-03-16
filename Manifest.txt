@@ -33,6 +33,7 @@ lib/reek/core/singleton_method_context.rb
 lib/reek/core/smell_configuration.rb
 lib/reek/core/sniffer.rb
 lib/reek/core/stop_context.rb
+lib/reek/core/warning_collector.rb
 lib/reek/examiner.rb
 lib/reek/rake/task.rb
 lib/reek/smell_warning.rb
@@ -88,6 +89,7 @@ spec/reek/core/object_refs_spec.rb
 spec/reek/core/singleton_method_context_spec.rb
 spec/reek/core/smell_configuration_spec.rb
 spec/reek/core/stop_context_spec.rb
+spec/reek/core/warning_collector_spec.rb
 spec/reek/examiner_spec.rb
 spec/reek/smell_warning_spec.rb
 spec/reek/smells/attribute_spec.rb

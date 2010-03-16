@@ -1,4 +1,5 @@
 require File.join(File.dirname(File.expand_path(__FILE__)), 'core', 'sniffer')
+require File.join(File.dirname(File.expand_path(__FILE__)), 'core', 'warning_collector')
 require File.join(File.dirname(File.expand_path(__FILE__)), 'source')
 
 module Reek
@@ -39,21 +40,13 @@ module Reek
         @description = src.desc
         [src]
       end
-      @visible_items = SortedSet.new
-      sources.each { |src| Core::Sniffer.new(src).report_on(self) }
-      @smells = @visible_items.to_a
+      collector = Core::WarningCollector.new
+      sources.each { |src| Core::Sniffer.new(src).report_on(collector) }
+      @smells = collector.warnings
     end
 
     #
-    # (Called by the smells detectors when they find a smell in  source.)
-    #
-    def found_smell(warning)
-      @visible_items.add(warning)
-    end
-
-    #
-    # Returns an Array of SmellWarning objects, one for each active smell
-    # in the source.
+    # List the smells found in the source.
     #
     # @return [Array<SmellWarning>]
     #
@@ -62,7 +55,7 @@ module Reek
     end
 
     #
-    # True if and only if there are non-masked code smells in the given source.
+    # True if and only if there are code smells in the source.
     #
     def smelly?
       not @smells.empty?

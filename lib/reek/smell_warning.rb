@@ -92,28 +92,14 @@ module Reek
       @smell.values.include?(klass.to_s) and contains_all?(patterns)
     end
 
-    def sort_key
-      [@location[CONTEXT_KEY], @smell[MESSAGE_KEY], smell_name]
-    end
-
-    protected :sort_key
-
-    def report(format)
-      format.gsub(/\%s/, smell_name).
-        gsub(/\%c/, @location[CONTEXT_KEY]).
-        gsub(/\%f/, @location[SOURCE_KEY]).
-        gsub(/\%l/, @location[LINES_KEY].join(',')).
-        gsub(/\%w/, @smell[MESSAGE_KEY])
-    end
-
     def report_on(listener)
       listener.found_smell(self)
     end
 
-  private
+  protected
 
-    def smell_name
-      @smell[CLASS_KEY].gsub(/([a-z])([A-Z])/) { |sub| "#{$1} #{$2}"}.split.join(' ')
+    def sort_key
+      [@location[CONTEXT_KEY], @smell[MESSAGE_KEY], @smell[CLASS_KEY]]
     end
   end
 end

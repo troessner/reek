@@ -119,15 +119,6 @@ describe SmellWarning do
           @yaml.should match(/#{key}:\s*#{value}/)
         end
       end
-
-      context 'text formatting' do
-        it 'lists the lines' do
-          @warning.report('%l').should == '24,513'
-        end
-        it 'lists the source' do
-          @warning.report('%f').should == @source
-        end
-      end
     end
 
     context 'with all defaults used' do
