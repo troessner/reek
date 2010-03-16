@@ -65,7 +65,6 @@ module Reek
       end
 
       def initialize(src)
-        @already_checked_for_smells = false
         @typed_detectors = nil
         @detectors = Hash.new
         Sniffer.smell_classes.each do |klass|
@@ -75,24 +74,19 @@ module Reek
         src.configure(self)
       end
 
-      def check_for_smells
-        return if @already_checked_for_smells
-        CodeParser.new(self).process(@source.syntax_tree)
-        @already_checked_for_smells = true
-      end
-
       def configure(klass, config)
         @detectors[klass].configure_with(config)
       end
 
-      def report_on(report)
-        check_for_smells
-        @detectors.each_value { |detector| detector.report_on(report) }
+      def report_on(listener)
+        CodeParser.new(self).process(@source.syntax_tree)
+        @detectors.each_value { |detector| detector.report_on(listener) }
       end
 
-      def examine(scope, type)
-        listeners = smell_listeners[type]
-        listeners.each {|smell| smell.examine(scope) } if listeners
+      def examine(scope, node_type)
+        smell_listeners[node_type].each do |detector|
+          detector.examine(scope)
+        end
       end
 
   private
@@ -100,7 +94,7 @@ module Reek
       def smell_listeners()
         unless @typed_detectors
           @typed_detectors = Hash.new {|hash,key| hash[key] = [] }
-          @detectors.each_value { |detector| detector.listen_to(@typed_detectors) }
+          @detectors.each_value { |detector| detector.register(@typed_detectors) }
         end
         @typed_detectors
       end

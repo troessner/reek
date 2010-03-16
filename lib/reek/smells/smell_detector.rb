@@ -49,7 +49,8 @@ module Reek
         @smells_found = Set.new
       end
 
-      def listen_to(hooks)
+      def register(hooks)
+        return unless @config.enabled?
         self.class.contexts.each { |ctx| hooks[ctx] << self }
       end
 
