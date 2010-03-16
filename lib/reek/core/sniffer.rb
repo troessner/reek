@@ -1,4 +1,3 @@
-require File.join(File.dirname(File.expand_path(__FILE__)), 'detector_stack')
 require File.join(File.dirname(File.expand_path(__FILE__)), 'code_parser')
 require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'smells')
 require 'yaml'
@@ -70,7 +69,7 @@ module Reek
         @typed_detectors = nil
         @detectors = Hash.new
         Sniffer.smell_classes.each do |klass|
-          @detectors[klass] = DetectorStack.new(klass.new(src.desc))
+          @detectors[klass] = klass.new(src.desc)
         end
         @source = src
         src.configure(self)
@@ -83,12 +82,12 @@ module Reek
       end
 
       def configure(klass, config)
-        @detectors[klass].adopt(config)
+        @detectors[klass].configure_with(config)
       end
 
       def report_on(report)
         check_for_smells
-        @detectors.each_value { |stack| stack.report_on(report) }
+        @detectors.each_value { |detector| detector.report_on(report) }
       end
 
       def examine(scope, type)
@@ -101,7 +100,7 @@ module Reek
       def smell_listeners()
         unless @typed_detectors
           @typed_detectors = Hash.new {|hash,key| hash[key] = [] }
-          @detectors.each_value { |stack| stack.listen_to(@typed_detectors) }
+          @detectors.each_value { |detector| detector.listen_to(@typed_detectors) }
         end
         @typed_detectors
       end

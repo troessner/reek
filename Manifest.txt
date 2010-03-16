@@ -25,7 +25,6 @@ lib/reek/cli/yaml_command.rb
 lib/reek/core/class_context.rb
 lib/reek/core/code_context.rb
 lib/reek/core/code_parser.rb
-lib/reek/core/detector_stack.rb
 lib/reek/core/method_context.rb
 lib/reek/core/module_context.rb
 lib/reek/core/object_refs.rb
