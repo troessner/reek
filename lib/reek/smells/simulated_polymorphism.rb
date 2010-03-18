@@ -42,7 +42,7 @@ module Reek
       end
 
       #
-      # Checks the given ClassContext for multiple identical conditional tests.
+      # Checks the given class for multiple identical conditional tests.
       # Remembers any smells found.
       #
       def examine_context(klass)

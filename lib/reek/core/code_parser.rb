@@ -1,5 +1,4 @@
 require 'sexp'
-require File.join(File.dirname(File.expand_path(__FILE__)), 'class_context')
 require File.join(File.dirname(File.expand_path(__FILE__)), 'method_context')
 require File.join(File.dirname(File.expand_path(__FILE__)), 'module_context')
 require File.join(File.dirname(File.expand_path(__FILE__)), 'stop_context')
@@ -26,13 +25,13 @@ module Reek
       end
 
       def process_default(exp)
-        exp[0..-1].each { |sub| process(sub) if Array === sub }
+        exp.each { |sub| process(sub) if Array === sub }
       end
 
       def do_module_or_class(exp, context_class)
         scope = context_class.create(@element, exp)
         push(scope) do
-          process_default(exp) unless @element.is_struct?
+          process_default(exp) unless exp.superclass == [:const, :Struct]
           check_smells(exp[0])
         end
         scope
@@ -43,7 +42,7 @@ module Reek
       end
 
       def process_class(exp)
-        do_module_or_class(exp, ClassContext)
+        process_module(exp)
       end
 
       def process_defn(exp)
@@ -120,11 +119,6 @@ module Reek
 
       def process_ivar(exp)
         process_iasgn(exp)
-      end
-
-      def process_lasgn(exp)
-        @element.record_local_variable(exp[1])
-        process_default(exp)
       end
 
       def process_iasgn(exp)

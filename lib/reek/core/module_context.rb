@@ -27,11 +27,6 @@ module Reek
       def initialize(outer, name, exp)
         super(outer, exp)
         @name = name
-        @parsed_methods = []
-      end
-
-      def record_method(meth)
-        @parsed_methods << meth
       end
     end
   end

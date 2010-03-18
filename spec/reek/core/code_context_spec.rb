@@ -1,5 +1,4 @@
 require File.join(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__)))), 'spec_helper')
-require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'core', 'class_context')
 require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'core', 'method_context')
 require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'core', 'module_context')
 require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'core', 'stop_context')
@@ -56,8 +55,7 @@ describe CodeContext do
       stop = StopContext.new
       def stop.bananas(arg1, arg2) arg1 + arg2 + 43 end
       element = ModuleContext.new(stop, 'mod', s(:module, :mod, nil))
-      class_element = ClassContext.new(element, [0, :klass], s())
-      element = MethodContext.new(class_element, [0, :bad])
+      element = MethodContext.new(element, [0, :bad])
       element.bananas(17, -5).should == 55
     end
   end

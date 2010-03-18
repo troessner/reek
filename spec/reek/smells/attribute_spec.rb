@@ -1,6 +1,5 @@
 require File.join(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__)))), 'spec_helper')
 require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'smells', 'attribute')
-require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'core', 'class_context')
 require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'core', 'module_context')
 require File.join(File.dirname(File.expand_path(__FILE__)), 'smell_detector_shared')
 
@@ -16,10 +15,6 @@ describe Attribute do
   it_should_behave_like 'SmellDetector'
 
   context 'with no attributes' do
-    it 'records nothing in the class' do
-      ctx = ClassContext.from_s('class Fred; end')
-      @detector.attributes_in(ctx).should be_empty
-    end
     it 'records nothing in the module' do
       ctx = ModuleContext.from_s('module Fred; end')
       @detector.attributes_in(ctx).should be_empty

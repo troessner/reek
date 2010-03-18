@@ -1,3 +1,4 @@
+require File.join(File.dirname(File.expand_path(__FILE__)), 'code_context')
 require File.join(File.dirname(File.expand_path(__FILE__)), 'object_refs')
 
 module Reek
@@ -53,7 +54,6 @@ module Reek
         @parameters.extend(MethodParameters)
         @num_statements = 0
         @refs = ObjectRefs.new
-        @outer.record_method(self)    # SMELL: these could be found by tree walking
       end
 
       def count_statements(num)
