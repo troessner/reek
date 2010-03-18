@@ -11,19 +11,6 @@ module Reek
     #
     class ModuleContext < CodeContext
 
-      class << self
-        def create(outer, exp)
-          res = Source::SexpFormatter.format(exp[1])
-          new(outer, res, exp)
-        end
-
-        def from_s(src)
-          source = src.to_reek_source
-          sniffer = Sniffer.new(source)
-          CodeParser.new(sniffer).do_module_or_class(source.syntax_tree, self)
-        end
-      end
-
       def initialize(outer, name, exp)
         super(outer, exp)
         @name = name

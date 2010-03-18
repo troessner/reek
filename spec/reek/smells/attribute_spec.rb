@@ -16,8 +16,10 @@ describe Attribute do
 
   context 'with no attributes' do
     it 'records nothing in the module' do
-      ctx = ModuleContext.from_s('module Fred; end')
-      @detector.attributes_in(ctx).should be_empty
+      src = 'module Fred; end'
+      ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+      @detector.examine_context(ctx)
+      @detector.smells_found.should be_empty
     end
   end
 

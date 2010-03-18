@@ -28,17 +28,14 @@ module Reek
         exp.each { |sub| process(sub) if Array === sub }
       end
 
-      def do_module_or_class(exp, context_class)
-        scope = context_class.create(@element, exp)
+      def process_module(exp)
+        name = Source::SexpFormatter.format(exp[1])
+        scope = ModuleContext.new(@element, name, exp)
         push(scope) do
           process_default(exp) unless exp.superclass == [:const, :Struct]
           check_smells(exp[0])
         end
         scope
-      end
-
-      def process_module(exp)
-        do_module_or_class(exp, ModuleContext)
       end
 
       def process_class(exp)
