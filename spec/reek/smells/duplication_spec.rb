@@ -62,7 +62,7 @@ describe Duplication do
 
   it_should_behave_like 'SmellDetector'
 
-  context 'looking at the YAML' do
+  context 'when a smell is reported' do
     before :each do
       src = <<EOS
 def double_thing(other)
@@ -75,23 +75,22 @@ EOS
       sniffer = Core::Sniffer.new(source)
       @mctx = Core::CodeParser.new(sniffer).process_defn(source.syntax_tree)
       @detector.examine(@mctx)
-      warning = @detector.smells_found.to_a[0]   # SMELL: too cumbersome!
-      @yaml = warning.to_yaml
+      @warning = @detector.smells_found.to_a[0]   # SMELL: too cumbersome!
     end
     it 'reports the source' do
-      @yaml.should match(/source:\s*#{@source_name}/)
+      @warning.source.should == @source_name
     end
     it 'reports the class' do
-      @yaml.should match(/class:\s*Duplication/)
+      @warning.smell_class.should == 'Duplication'
     end
     it 'reports the subclass' do
-      @yaml.should match(/subclass:\s*DuplicateMethodCall/)
+      @warning.subclass.should == 'DuplicateMethodCall'
     end
     it 'reports the call' do
-      @yaml.should match(/call:\s*other\[\@thing\]/)
+      @warning.smell['call'].should == 'other[@thing]'
     end
     it 'reports the correct lines' do
-      @yaml.should match(/lines:\s*- 2\s*- 4/)
+      @warning.lines.should == [2,4]
     end
   end
 end

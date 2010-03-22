@@ -73,36 +73,6 @@ EOS
     end
   end
 
-  context 'when an envious receiver exists' do
-    before :each do
-      @source_name = 'green as a cucumber'
-      @receiver = 'blah'
-      @ctx = mock('method_context', :null_object => true)
-      @ctx.should_receive(:envious_receivers).and_return({ast(:lvar, @receiver) => 4})
-      @detector = FeatureEnvy.new(@source_name)
-      @detector.examine_context(@ctx)
-      @smells = @detector.smells_found.to_a
-    end
-    it 'reports only that smell' do
-      @smells.length.should == 1
-    end
-    it 'reports the source' do
-      @smells[0].source.should == @source_name
-    end
-    it 'reports the class' do
-      @smells[0].smell_class.should == FeatureEnvy::SMELL_CLASS
-    end
-    it 'reports the subclass' do
-      @smells[0].subclass.should == FeatureEnvy::SMELL_SUBCLASS
-    end
-    it 'reports the envious receiver' do
-      @smells[0].smell[FeatureEnvy::RECEIVER_KEY].should == @receiver
-    end
-    it 'reports the number of references' do
-      @smells[0].smell[FeatureEnvy::REFERENCES_KEY].should == 4
-    end
-  end
-
   it 'should report highest affinity' do
     src = <<EOS
 def total_envy

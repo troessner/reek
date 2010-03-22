@@ -78,7 +78,7 @@ EOS
     end
   end
 
-  context 'looking at the YAML' do
+  context 'when a smell is reported' do
     before :each do
       src = <<EOS
 def bad
@@ -91,25 +91,24 @@ end
 EOS
       source = src.to_reek_source
       sniffer = Core::Sniffer.new(source)
-      @mctx = Core::CodeParser.new(sniffer).process_defn(source.syntax_tree)
-      @detector.examine(@mctx)
-      warning = @detector.smells_found.to_a[0]   # SMELL: too cumbersome!
-      @yaml = warning.to_yaml
+      mctx = Core::CodeParser.new(sniffer).process_defn(source.syntax_tree)
+      @detector.examine(mctx)
+      @warning = @detector.smells_found.to_a[0]   # SMELL: too cumbersome!
     end
     it 'reports the source' do
-      @yaml.should match(/source:\s*#{@source_name}/)
+      @warning.source.should == @source_name
     end
     it 'reports the class' do
-      @yaml.should match(/class:\s*UncommunicativeName/)
+      @warning.smell_class.should == 'UncommunicativeName'
     end
     it 'reports the subclass' do
-      @yaml.should match(/subclass:\s*UncommunicativeVariableName/)
+      @warning.subclass.should == 'UncommunicativeVariableName'
     end
     it 'reports the variable name' do
-      @yaml.should match(/variable_name:\s*x2/)
+      @warning.smell['variable_name'].should == 'x2'
     end
     it 'reports all line numbers' do
-      @yaml.should match(/lines:\s*- 3\s*- 5/)
+      @warning.lines.should == [3,5]
     end
   end
 

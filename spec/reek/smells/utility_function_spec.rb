@@ -97,7 +97,7 @@ describe UtilityFunction do
 
   it_should_behave_like 'SmellDetector'
 
-  context 'looking at the YAML' do
+  context 'when a smells is reported' do
     before :each do
       src = <<EOS
 def simple(arga)
@@ -106,22 +106,15 @@ end
 EOS
       source = src.to_reek_source
       sniffer = Sniffer.new(source)
-      @mctx = CodeParser.new(sniffer).process_defn(source.syntax_tree)
-      @detector.examine_context(@mctx)
-      warning = @detector.smells_found.to_a[0]   # SMELL: too cumbersome!
-      @yaml = warning.to_yaml
+      mctx = CodeParser.new(sniffer).process_defn(source.syntax_tree)
+      @detector.examine_context(mctx)
+      @warning = @detector.smells_found.to_a[0]   # SMELL: too cumbersome!
     end
-    it 'reports the source' do
-      @yaml.should match(/source:\s*#{@source_name}/)
-    end
-    it 'reports the class' do
-      @yaml.should match(/\sclass:\s*LowCohesion/)
-    end
-    it 'reports the subclass' do
-      @yaml.should match(/subclass:\s*UtilityFunction/)
-    end
+
+    it_should_behave_like 'common fields set correctly'
+
     it 'reports the line number of the method' do
-      @yaml.should match(/lines:\s*- 1/)
+      @warning.lines.should == [1]
     end
   end
 end

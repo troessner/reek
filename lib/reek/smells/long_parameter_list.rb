@@ -15,6 +15,9 @@ module Reek
     #
     class LongParameterList < SmellDetector
 
+      SMELL_CLASS = self.name.split(/::/)[-1]
+      SMELL_SUBCLASS = 'LongParameterList'
+
       # The name of the config field that sets the maximum number of
       # parameters permitted in any method or block.
       MAX_ALLOWED_PARAMS_KEY = 'max_params'
@@ -44,7 +47,7 @@ module Reek
         num_params = method_ctx.parameters.length
         return false if num_params <= value(MAX_ALLOWED_PARAMS_KEY, method_ctx, DEFAULT_MAX_ALLOWED_PARAMS)
         found(method_ctx, "has #{num_params} parameters",
-          'LongParameterList', {'parameter_count' => num_params})
+          SMELL_SUBCLASS, {'parameter_count' => num_params})
       end
     end
   end

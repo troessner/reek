@@ -43,6 +43,9 @@ module Reek
     #
     class ControlCouple < SmellDetector
 
+      SMELL_CLASS = self.name.split(/::/)[-1]
+      SMELL_SUBCLASS = 'ControlParameter'
+
       #
       # Checks whether the given method chooses its execution path
       # by testing the value of one of its parameters.
@@ -53,7 +56,7 @@ module Reek
           param = cond.format
           lines = occurs.map {|exp| exp.line}
           found(method_ctx, "is controlled by argument #{param}",
-            'ControlParameter', {'parameter' => param}, lines)
+            SMELL_SUBCLASS, {'parameter' => param}, lines)
         end
       end
 

@@ -66,7 +66,7 @@ describe LongParameterList do
 
   it_should_behave_like 'SmellDetector'
 
-  context 'looking at the YAML' do
+  context 'when a smell is reported' do
     before :each do
       src = <<EOS
 def badguy(arga, argb, argc, argd)
@@ -76,26 +76,19 @@ end
 EOS
       source = src.to_reek_source
       sniffer = Sniffer.new(source)
-      @mctx = CodeParser.new(sniffer).process_defn(source.syntax_tree)
-      @detector.examine_context(@mctx)
-      warning = @detector.smells_found.to_a[0]   # SMELL: too cumbersome!
-      @yaml = warning.to_yaml
+      mctx = CodeParser.new(sniffer).process_defn(source.syntax_tree)
+      @detector.examine_context(mctx)
+      @warning = @detector.smells_found.to_a[0]   # SMELL: too cumbersome!
     end
-    it 'reports the source' do
-      @yaml.should match(/source:\s*#{@source_name}/)
-    end
-    it 'reports the class' do
-      @yaml.should match(/\sclass:\s*LongParameterList/)
-    end
-    it 'reports the subclass' do
-      @yaml.should match(/subclass:\s*LongParameterList/)
-    end
+
+    it_should_behave_like 'common fields set correctly'
+
     it 'reports the number of parameters' do
-      @yaml.should match(/parameter_count:[\s]*#{@num_parameters}/)
+      @warning.smell['parameter_count'].should == 4
       # SMELL: many tests duplicate the names of the YAML fields
     end
     it 'reports the line number of the method' do
-      @yaml.should match(/lines:\s*- 1/)
+      @warning.lines.should == [1]
     end
   end
 end

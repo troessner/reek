@@ -26,3 +26,15 @@ shared_examples_for 'SmellDetector' do
     end
   end
 end
+
+shared_examples_for 'common fields set correctly' do
+  it 'reports the source' do
+    @warning.source.should == @source_name
+  end
+  it 'reports the class' do
+    @warning.smell_class.should == @detector.class::SMELL_CLASS
+  end
+  it 'reports the subclass' do
+    @warning.subclass.should == @detector.class::SMELL_SUBCLASS
+  end
+end

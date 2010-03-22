@@ -10,6 +10,9 @@ module Reek
     #
     class LongYieldList < SmellDetector
 
+      SMELL_SUBCLASS = self.name.split(/::/)[-1]
+      SMELL_CLASS = 'LongParameterList'
+
       # The name of the config field that sets the maximum number of
       # parameters permitted in any method or block.
       MAX_ALLOWED_PARAMS_KEY = 'max_params'
@@ -36,9 +39,9 @@ module Reek
         method_ctx.local_nodes(:yield).each do |yield_node|
           num_params = yield_node.args.length
           next if num_params <= value(MAX_ALLOWED_PARAMS_KEY, method_ctx, DEFAULT_MAX_ALLOWED_PARAMS)
-          smell = SmellWarning.new('LongParameterList', method_ctx.full_name, [yield_node.line],
+          smell = SmellWarning.new(SMELL_CLASS, method_ctx.full_name, [yield_node.line],
             "yields #{num_params} parameters",
-            @source, 'LongYieldList', {'parameter_count' => num_params})
+            @source, SMELL_SUBCLASS, {'parameter_count' => num_params})
           @smells_found << smell
           #SMELL: serious duplication
         end

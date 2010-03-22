@@ -39,25 +39,18 @@ end
 EOS
       source = src.to_reek_source
       sniffer = Sniffer.new(source)
-      @mctx = CodeParser.new(sniffer).process_defn(source.syntax_tree)
-      @detector.examine_context(@mctx)
-      warning = @detector.smells_found.to_a[0]   # SMELL: too cumbersome!
-      @yaml = warning.to_yaml
+      mctx = CodeParser.new(sniffer).process_defn(source.syntax_tree)
+      @detector.examine_context(mctx)
+      @warning = @detector.smells_found.to_a[0]   # SMELL: too cumbersome!
     end
-    it 'reports the source' do
-      @yaml.should match(/source:\s*#{@source_name}/)
-    end
-    it 'reports the class' do
-      @yaml.should match(/class:\s*ControlCouple/)
-    end
-    it 'reports the subclass' do
-      @yaml.should match(/subclass:\s*ControlParameter/)
-    end
+
+    it_should_behave_like 'common fields set correctly'
+
     it 'reports the control parameter' do
-      @yaml.should match(/parameter:\s*arg/)
+      @warning.smell['parameter'].should == 'arg'
     end
     it 'reports all conditional locations' do
-      @yaml.should match(/lines:\s*- 3\s*- 6/)
+      @warning.lines.should == [3,6]
     end
   end
 end
