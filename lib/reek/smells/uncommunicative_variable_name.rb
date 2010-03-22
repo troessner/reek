@@ -52,7 +52,7 @@ module Reek
       # Remembers any smells found.
       #
       def examine_context(context)
-        variable_names(context).each do |name, lines|
+        variable_names(context.exp).each do |name, lines|
           next unless is_bad_name?(name, context)
           smell = SmellWarning.new('UncommunicativeName', context.full_name, lines,
             "has the variable name '#{name}'",
@@ -64,25 +64,18 @@ module Reek
 
       def is_bad_name?(name, context)  # :nodoc:
         var = name.to_s.gsub(/^[@\*\&]*/, '')
-        return false if var == '*' or value(ACCEPT_KEY, context, DEFAULT_ACCEPT_SET).include?(var)
+        return false if value(ACCEPT_KEY, context, DEFAULT_ACCEPT_SET).include?(var)
         value(REJECT_KEY, context, DEFAULT_REJECT_SET).detect {|patt| patt === var}
       end
 
-      def variable_names(context)
-        result = Hash.new {|hash,key| hash[key] = []}
-        case context
-        when Core::MethodContext
-          context.local_nodes(:lasgn).each do |asgn|
-            result[asgn[1]].push(asgn.line)
-          end
-        else
-          context.local_nodes(:iasgn).each do |asgn|
-            result[asgn[1]].push(asgn.line)
-          end
-          context.each_node(:lasgn, [:class, :module, :defs, :defn]).each do |asgn|
-            result[asgn[1]].push(asgn.line)
-          end
+      def variable_names(exp)
+        assignment_nodes = exp.each_node(:lasgn, [:class, :module, :defs, :defn])
+        case exp.first
+        when :class, :module
+          assignment_nodes += exp.each_node(:iasgn, [:class, :module])
         end
+        result = Hash.new {|hash,key| hash[key] = []}
+        assignment_nodes.each {|asgn| result[asgn[1]].push(asgn.line) }
         result
       end
     end

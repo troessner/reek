@@ -144,6 +144,9 @@ module Reek
     end
   end
 
+  #
+  # A method definition and a copy of its parameters
+  #
   class CandidateMethod
     def initialize(defn_node)
       @defn = defn_node
