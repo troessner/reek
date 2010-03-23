@@ -105,10 +105,10 @@ module Reek
 
   # Represents a group of methods
   # @private
-  class MethodGroup   # :nodoc:
+  class MethodGroup
 
     def self.intersection_of_parameters_of(methods)
-      methods.map {|meth| meth.arg_names.sort {|a,b| a.to_s <=> b.to_s}}.intersection
+      methods.map {|meth| meth.arg_names}.intersection
     end
 
     def initialize(ctx, min_clump_size, max_copies)
@@ -134,7 +134,7 @@ module Reek
     def prune_candidates
       @candidate_methods.each do |meth|
         meth.arg_names.each do |param|
-          count = @candidate_methods.select {|cm| cm.arg_names.include?(param)}.length
+          count = @candidate_methods.inject(0) {|sum, cm| cm.arg_names.include?(param) ? sum+1 : sum}
           meth.delete(param) if count <= @max_copies
         end
       end
@@ -150,7 +150,7 @@ module Reek
   class CandidateMethod
     def initialize(defn_node)
       @defn = defn_node
-      @params = defn_node.arg_names.clone
+      @params = defn_node.arg_names.clone.sort {|a,b| a.to_s <=> b.to_s}
     end
 
     def arg_names

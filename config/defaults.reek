@@ -1,7 +1,7 @@
 --- 
 UncommunicativeParameterName: 
-  accept: 
-  - Inline::C
+  accept: []
+
   exclude: []
 
   enabled: true
@@ -78,8 +78,8 @@ Attribute:
 
   enabled: false
 UncommunicativeVariableName: 
-  accept: 
-  - Inline::C
+  accept: []
+
   exclude: []
 
   enabled: true

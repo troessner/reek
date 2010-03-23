@@ -30,7 +30,7 @@ module Reek
       # uncommunicative.
       ACCEPT_KEY = 'accept'
 
-      DEFAULT_ACCEPT_SET = ['Inline::C']
+      DEFAULT_ACCEPT_SET = []
 
       def self.default_config
         super.adopt(
