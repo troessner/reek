@@ -3,7 +3,9 @@
 === Minor Changes
 * UtilityFunction no longer reported when local method called in param initializer (#60)
 * Spaces removed from smell class names in report output
-* Masked smells no longer reported; -a option removed
+* Masked smells are no longer reported
+** the -a command-line option has been removed
+** some methods on Examiner are now deprecated
 
 == 1.2.7.2 (2010-03-05)
 

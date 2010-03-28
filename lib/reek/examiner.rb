@@ -60,5 +60,45 @@ module Reek
     def smelly?
       not @smells.empty?
     end
+
+    #
+    # Returns an Array of SmellWarning objects, one for each non-masked smell
+    # in the source.
+    #
+    # @deprecated Use #smells instead.
+    #
+    def all_active_smells
+      @smells
+    end
+
+    #
+    # Returns an Array of SmellWarning objects, one for each smell
+    # in the source; includes active smells and masked smells.
+    #
+    # @return [Array<SmellWarning>]
+    #
+    # @deprecated Use #smells instead.
+    #
+    def all_smells
+      @smells
+    end
+
+    #
+    # Returns the number of non-masked smells in the source.
+    #
+    # @deprecated Use #smells instead.
+    #
+    def num_active_smells
+      @smells.length
+    end
+
+    #
+    # Returns the number of masked smells in the source.
+    #
+    # @deprecated Masked smells are no longer reported; this method always returns 0.
+    #
+    def num_masked_smells
+      0
+    end
   end
 end
