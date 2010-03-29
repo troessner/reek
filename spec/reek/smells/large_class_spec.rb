@@ -104,23 +104,24 @@ class Full
   def me51x()3 end
 end
 EOS
-      @yaml = Examiner.new(src).smells[0].to_yaml
+      ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+      @detector.examine(ctx)
+      @warning = @detector.smells_found.to_a[0]
     end
     it 'reports the source' do
-      @yaml.should match(/source:\s*string/)
+      @warning.source.should == @source_name
     end
     it 'reports the correct class' do
-      @yaml.should match(/\sclass:\s*LargeClass/)
+      @warning.smell_class.should == 'LargeClass'
     end
     it 'reports the correct subclass' do
-      @yaml.should match(/\ssubclass:\s*#{LargeClass::SUBCLASS_TOO_MANY_METHODS}/)
+      @warning.subclass.should == LargeClass::SUBCLASS_TOO_MANY_METHODS
     end
     it 'reports the number of methods' do
-      @yaml.should match(/method_count:[\s]*26/)
-      # SMELL: many tests duplicate the names of the YAML fields
+      @warning.smell['method_count'].should == 26
     end
     it 'reports the line number of the declaration' do
-      @yaml.should match(/lines:\s*- 1/)
+      @warning.lines.should == [1]
     end
   end
 

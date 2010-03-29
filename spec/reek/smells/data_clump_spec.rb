@@ -111,9 +111,34 @@ EOS
 
     src.should_not reek_of(:DataClump)
   end
+
+  it 'gets a real example right' do
+    src = <<EOS
+#{@context} Inline
+  def generate(src, options) end
+  def c (src, options) end
+  def c_singleton (src, options) end
+  def c_raw (src, options) end
+  def c_raw_singleton (src, options) end
+end
+EOS
+    ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+    detector = DataClump.new('newt')
+    detector.examine(ctx)
+    smells = detector.smells_found.to_a
+    smells.length.should == 1
+    warning = smells[0]
+    warning.smell[DataClump::OCCURRENCES_KEY].should == 5
+  end
 end
 
 describe DataClump do
+  before(:each) do
+    @detector = DataClump.new('newt')
+  end
+
+  it_should_behave_like 'SmellDetector'
+
   context 'in a class' do
     before :each do
       @context = 'class'
@@ -132,95 +157,3 @@ describe DataClump do
 
   # TODO: include singleton methods in the calcs
 end
-
-describe DataClump do
-  before(:each) do
-    @detector = DataClump.new('newt')
-  end
-
-  it_should_behave_like 'SmellDetector'
-
-  it 'get a real example right' do
-    src = <<-EOS
-module Inline
-  def generate(src, options) end
-  def c (src, options) end
-  def c_singleton (src, options) end
-  def c_raw (src, options) end
-  def c_raw_singleton (src, options) end
-end
-EOS
-    ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
-    detector = DataClump.new('newt')
-    detector.examine(ctx)
-    smells = detector.smells_found.to_a
-    smells.length.should == 1
-    warning = smells[0]
-    warning.smell[DataClump::OCCURRENCES_KEY].should == 5
-  end
-end
-
-#---------------------------------------------------------------------------------
-#
-#def occurrences(potential_clump, all_methods)
-#  all_methods.select do |method|
-#    potential_clump - method == []
-#  end.length
-#end
-#
-#describe 'occurrences' do
-#  it 'counts correctly' do
-#    params = [[:a1, :a2], [:a1, :a2]]
-#    potential_clump = [:a1, :a2]
-#    occurrences(potential_clump, params).should == 2
-#  end
-#end
-#
-#def immediate_clumps(root, other_params, all_methods)
-#  result = []
-#  other_params.map do |param|
-#    potential_clump = (root + [param])
-#    if occurrences(potential_clump, all_methods) >= 2
-#      result << potential_clump
-#      result = result + immediate_clumps(potential_clump, other_params - [param], all_methods)
-#    end
-#  end.compact
-#  result
-#end
-#
-#def clumps_containing(root, other_params, all_methods)
-#  return [] unless other_params
-#  immediate_clumps(root, other_params, all_methods) + clumps_containing([other_params[0]], other_params[1..-1], all_methods)
-#end
-#
-#def clumps_in(all_methods)
-#  all_params = all_methods.flatten.sort {|a,b| a.to_s <=> b.to_s}.uniq
-#  clumps_containing([all_params[0]], all_params[1..-1], all_methods)
-#end
-#
-#describe 'set of parameters' do
-#  it 'finds the trivial clump' do
-#    params = [[:a1, :a2], [:a1, :a2]]
-#    clumps_in(params).should == [[:a1, :a2]]
-#  end
-#
-#  it 'finds the trivial size-3 clump' do
-#    params = [[:a1, :a2, :a3], [:a1, :a2, :a3]]
-#    clumps_in(params).should == [[:a1, :a2, :a3]]
-#  end
-#
-#  it 'doesnt find non clump' do
-#    params = [[:a1, :a2], [:a1, :a3]]
-#    clumps_in(params).should == []
-#  end
-#
-#  it 'finds the trivial sub-clump' do
-#    params = [[:a1, :a2], [:a3, :a1, :a2]]
-#    clumps_in(params).should == [[:a1, :a2]]
-#  end
-#
-#  it 'finds the non-a1 clump' do
-#    params = [[:a1, :a3, :a2], [:a3, :a2]]
-#    clumps_in(params).should == [[:a2, :a3]]
-#  end
-#end

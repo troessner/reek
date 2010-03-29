@@ -108,9 +108,7 @@ module Reek
       methods.each do |other_method|
         clump = [method.arg_names, other_method.arg_names].intersection
         if clump.length >= @min_clump_size
-          others = methods.select do |other|    # BUG: early ones have already been eliminated
-            clump - other.arg_names == []
-          end
+          others = methods.select { |other| clump - other.arg_names == [] }
           results[clump] += [method] + others
         end
       end
@@ -126,9 +124,7 @@ module Reek
     def clumps
       results = Hash.new([])
       collect_clumps_in(@candidate_methods, results)
-      results.each_key do |key|
-        results[key].uniq!
-      end
+      results.each_key { |key| results[key].uniq! }
       results
     end
 
@@ -148,13 +144,12 @@ module Reek
     end
   end
 
-  #
   # A method definition and a copy of its parameters
-  #
+  # @private
   class CandidateMethod
     def initialize(defn_node)
       @defn = defn_node
-      @params = defn_node.arg_names.clone.sort {|a,b| a.to_s <=> b.to_s}
+      @params = defn_node.arg_names.clone.sort {|first,second| first.to_s <=> second.to_s}
     end
 
     def arg_names

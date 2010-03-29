@@ -1,3 +1,5 @@
+== 1.2.8 (in development)
+
 == 1.2.7.3 (2010-03-29)
 
 === Minor Changes
