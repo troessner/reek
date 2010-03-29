@@ -6,23 +6,6 @@ require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'sourc
 # Extensions to +Array+ needed by Reek.
 #
 class Array
-  def power_set
-    self.inject([[]]) { |cum, element| cum.cross(element) }
-  end
-
-  def bounded_power_set(lower_bound)
-    power_set.select {|ps| ps.length > lower_bound}
-  end
-
-  def cross(element)
-    result = []
-    self.each do |set|
-      result << set
-      result << (set + [element])
-    end
-    result
-  end
-
   def intersection
     self.inject { |res, elem| elem & res }
   end
@@ -117,29 +100,50 @@ module Reek
       @candidate_methods = ctx.local_nodes(:defn).select do |meth|
         meth.arg_names.length >= @min_clump_size
       end.map {|defn_node| CandidateMethod.new(defn_node)}
-      prune_candidates
+      delete_infrequent_parameters
+      delete_small_methods
+    end
+
+    def clumps_containing(method, methods, results)
+      methods.each do |other_method|
+        clump = [method.arg_names, other_method.arg_names].intersection
+        if clump.length >= @min_clump_size
+          others = methods.select do |other|    # BUG: early ones have already been eliminated
+            clump - other.arg_names == []
+          end
+          results[clump] += [method] + others
+        end
+      end
+    end
+    
+    def collect_clumps_in(methods, results)
+      return if methods.length <= @max_copies
+      tail = methods[1..-1]
+      clumps_containing(methods[0], tail, results)
+      collect_clumps_in(tail, results)
     end
 
     def clumps
       results = Hash.new([])
-      @candidate_methods.bounded_power_set(@max_copies).each do |methods|
-        clump = MethodGroup.intersection_of_parameters_of(methods)
-        if clump.length >= @min_clump_size
-          results[clump] = methods if methods.length > results[clump].length
-        end
+      collect_clumps_in(@candidate_methods, results)
+      results.each_key do |key|
+        results[key].uniq!
       end
       results
     end
 
-    def prune_candidates
-      @candidate_methods.each do |meth|
-        meth.arg_names.each do |param|
-          count = @candidate_methods.inject(0) {|sum, cm| cm.arg_names.include?(param) ? sum+1 : sum}
-          meth.delete(param) if count <= @max_copies
-        end
-      end
+    def delete_small_methods
       @candidate_methods = @candidate_methods.select do |meth|
         meth.arg_names.length >= @min_clump_size
+      end
+    end
+
+    def delete_infrequent_parameters
+      @candidate_methods.each do |meth|
+        meth.arg_names.each do |param|
+          occurs = @candidate_methods.inject(0) {|sum, cm| cm.arg_names.include?(param) ? sum+1 : sum}
+          meth.delete(param) if occurs <= @max_copies
+        end
       end
     end
   end
