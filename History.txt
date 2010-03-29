@@ -1,4 +1,4 @@
-== 1.2.8 (in development)
+== 1.2.7.3 (2010-03-29)
 
 === Minor Changes
 * UtilityFunction no longer reported when local method called in param initializer (#60)
@@ -6,6 +6,7 @@
 * Masked smells are no longer reported
 ** the -a command-line option has been removed
 ** some methods on Examiner are now deprecated
+* DataClump no longer needs infinite memory for large classes (#57 again)
 
 == 1.2.7.2 (2010-03-05)
 
