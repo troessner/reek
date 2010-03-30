@@ -37,17 +37,17 @@ def things(arg)
   puts "hello" if arg
 end
 EOS
-      source = src.to_reek_source
-      sniffer = Sniffer.new(source)
-      mctx = CodeParser.new(sniffer).process_defn(source.syntax_tree)
-      @detector.examine_context(mctx)
-      @warning = @detector.smells_found.to_a[0]   # SMELL: too cumbersome!
+      ctx = MethodContext.new(nil, src.to_reek_source.syntax_tree)
+      @detector.examine(ctx)
+      smells = @detector.smells_found.to_a
+      smells.length.should == 1
+      @warning = smells[0]
     end
 
     it_should_behave_like 'common fields set correctly'
 
     it 'reports the control parameter' do
-      @warning.smell['parameter'].should == 'arg'
+      @warning.smell[ControlCouple::PARAMETER_KEY].should == 'arg'
     end
     it 'reports all conditional locations' do
       @warning.lines.should == [3,6]

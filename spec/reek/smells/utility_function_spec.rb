@@ -6,16 +6,29 @@ include Reek
 include Reek::Smells
 
 describe UtilityFunction do
+  before(:each) do
+    @source_name = 'loser'
+    @detector = UtilityFunction.new(@source_name)
+  end
+
+  it_should_behave_like 'SmellDetector'
+
   context 'with a singleton method' do
     ['self', 'local_call', '$global'].each do |receiver|
       it 'ignores the receiver' do
-        "def #{receiver}.simple(arga) arga.to_s + arga.to_i end".should_not reek
+        src = "def #{receiver}.simple(arga) arga.to_s + arga.to_i end"
+        ctx = MethodContext.new(nil, src.to_reek_source.syntax_tree)
+        @detector.examine(ctx)
+        @detector.smells_found.should be_empty
       end
     end
   end
   context 'with no calls' do
     it 'does not report empty method' do
-      'def simple(arga) end'.should_not reek
+      src = 'def simple(arga) end'
+      ctx = MethodContext.new(nil, src.to_reek_source.syntax_tree)
+      @detector.examine(ctx)
+      @detector.smells_found.should be_empty
     end
     it 'does not report literal' do
       'def simple(arga) 3; end'.should_not reek
@@ -87,15 +100,6 @@ EOS
       src.should_not reek
     end
   end
-end
-
-describe UtilityFunction do
-  before(:each) do
-    @source_name = 'loser'
-    @detector = UtilityFunction.new(@source_name)
-  end
-
-  it_should_behave_like 'SmellDetector'
 
   context 'when a smells is reported' do
     before :each do

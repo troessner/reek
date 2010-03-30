@@ -14,6 +14,10 @@ module Reek
     #
     class BooleanParameter < SmellDetector
 
+      SMELL_CLASS = 'ControlCouple'
+      SMELL_SUBCLASS = self.name.split(/::/)[-1]
+      PARAMETER_KEY = 'parameter'
+
       #
       # Checks whether the given method has a Boolean parameter.
       # Remembers any smells found.
@@ -21,9 +25,9 @@ module Reek
       def examine_context(method_ctx)
         method_ctx.parameters.default_assignments.each do |param, value|
           next unless [:true, :false].include?(value[0])
-          smell = SmellWarning.new('ControlCouple', method_ctx.full_name, [method_ctx.exp.line],
+          smell = SmellWarning.new(SMELL_CLASS, method_ctx.full_name, [method_ctx.exp.line],
             "has boolean parameter '#{param.to_s}'",
-            @source, 'BooleanParameter', {'parameter' => param.to_s})
+            @source, SMELL_SUBCLASS, {PARAMETER_KEY => param.to_s})
           @smells_found << smell
           #SMELL: serious duplication
         end

@@ -19,6 +19,9 @@ module Reek
     #
     class Duplication < SmellDetector
 
+      SMELL_CLASS = self.name.split(/::/)[-1]
+      SMELL_SUBCLASS = 'DuplicateMethodCall'
+
       # The name of the config field that sets the maximum number of
       # identical calls to be permitted within any single method.
       MAX_ALLOWED_CALLS_KEY = 'max_calls'
@@ -40,7 +43,7 @@ module Reek
           call = call_exp.format
           multiple = occurs == 2 ? 'twice' : "#{occurs} times"
           found(method_ctx, "calls #{call} #{multiple}",
-            'DuplicateMethodCall', {'call' => call, 'occurrences' => occurs},
+            SMELL_SUBCLASS, {'call' => call, 'occurrences' => occurs},
             copies.map {|exp| exp.line})
         end
       end

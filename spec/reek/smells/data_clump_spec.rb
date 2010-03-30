@@ -78,14 +78,15 @@ EOS
   def third(pa, pb, pc) pa - pb + @fred; end
 end
 EOS
-
-    src.should reek_of(:DataClump, /\[pa, pb, pc\]/, /3 methods/)
-    src.should_not reek_of(:DataClump, /\[pa, pb\]/, /3 methods/)
-    src.should_not reek_of(:DataClump, /\[pa, pc\]/, /3 methods/)
-    src.should_not reek_of(:DataClump, /\[pb, pc\]/, /3 methods/)
+    ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+    @detector.examine(ctx)
+    smells = @detector.smells_found.to_a
+    smells.length.should == 1
+    smells[0].smell_class.should == DataClump::SMELL_CLASS
+    smells[0].smell[DataClump::PARAMETERS_KEY].should == ['pa', 'pb', 'pc']
   end
 
-  it 'recognises re-ordered identical parameter sets' do
+  it 'reports re-ordered identical parameter sets' do
     src = <<EOS
 #{@context} Scrunch
   def first(pb, pa, pc) @field == :sym ? 0 : 3; end
@@ -93,11 +94,12 @@ EOS
   def third(pa, pb, pc) pa - pb + @fred; end
 end
 EOS
-
-    src.should reek_of(:DataClump, /\[pa, pb, pc\]/, /3 methods/)
-    src.should_not reek_of(:DataClump, /\[pa, pb\]/, /3 methods/)
-    src.should_not reek_of(:DataClump, /\[pa, pc\]/, /3 methods/)
-    src.should_not reek_of(:DataClump, /\[pb, pc\]/, /3 methods/)
+    ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+    @detector.examine(ctx)
+    smells = @detector.smells_found.to_a
+    smells.length.should == 1
+    smells[0].smell_class.should == DataClump::SMELL_CLASS
+    smells[0].smell[DataClump::PARAMETERS_KEY].should == ['pa', 'pb', 'pc']
   end
 
   it 'counts only identical parameter sets' do
@@ -123,9 +125,8 @@ EOS
 end
 EOS
     ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
-    detector = DataClump.new('newt')
-    detector.examine(ctx)
-    smells = detector.smells_found.to_a
+    @detector.examine(ctx)
+    smells = @detector.smells_found.to_a
     smells.length.should == 1
     warning = smells[0]
     warning.smell[DataClump::OCCURRENCES_KEY].should == 5

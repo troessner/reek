@@ -45,6 +45,7 @@ module Reek
 
       SMELL_CLASS = self.name.split(/::/)[-1]
       SMELL_SUBCLASS = 'ControlParameter'
+      PARAMETER_KEY = 'parameter'
 
       #
       # Checks whether the given method chooses its execution path
@@ -56,7 +57,7 @@ module Reek
           param = cond.format
           lines = occurs.map {|exp| exp.line}
           found(method_ctx, "is controlled by argument #{param}",
-            SMELL_SUBCLASS, {'parameter' => param}, lines)
+            SMELL_SUBCLASS, {PARAMETER_KEY => param}, lines)
         end
       end
 

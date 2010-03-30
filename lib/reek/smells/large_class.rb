@@ -15,8 +15,11 @@ module Reek
     # included modules.
     #
     class LargeClass < SmellDetector
+
       SUBCLASS_TOO_MANY_METHODS = 'TooManyMethods'
       SUBCLASS_TOO_MANY_IVARS = 'TooManyInstanceVariables'
+      METHOD_COUNT_KEY = 'method_count'
+      IVAR_COUNT_KEY = 'ivar_count'
 
       # The name of the config field that sets the maximum number of methods
       # permitted in a class.
@@ -49,13 +52,15 @@ module Reek
       def check_num_methods(klass)  # :nodoc:
         actual = klass.local_nodes(:defn).length
         return if actual <= value(MAX_ALLOWED_METHODS_KEY, klass, DEFAULT_MAX_METHODS)
-        found(klass, "has at least #{actual} methods", SUBCLASS_TOO_MANY_METHODS, {'method_count' => actual})
+        found(klass, "has at least #{actual} methods", SUBCLASS_TOO_MANY_METHODS,
+          {METHOD_COUNT_KEY => actual})
       end
 
       def check_num_ivars(klass)  # :nodoc:
         count = klass.local_nodes(:iasgn).map {|iasgn| iasgn[1]}.uniq.length
         return if count <= value(MAX_ALLOWED_IVARS_KEY, klass, DEFAULT_MAX_IVARS)
-        found(klass, "has at least #{count} instance variables", SUBCLASS_TOO_MANY_IVARS, {'ivar_count' => count})
+        found(klass, "has at least #{count} instance variables", SUBCLASS_TOO_MANY_IVARS,
+          {IVAR_COUNT_KEY => count})
       end
 
       #

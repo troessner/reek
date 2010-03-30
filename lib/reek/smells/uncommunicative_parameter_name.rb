@@ -19,6 +19,10 @@ module Reek
     #
     class UncommunicativeParameterName < SmellDetector
 
+      SMELL_CLASS = 'UncommunicativeName'
+      SMELL_SUBCLASS = self.name.split(/::/)[-1]
+      PARAMETER_NAME_KEY = 'parameter_name'
+
       # The name of the config field that lists the regexps of
       # smelly names to be reported.
       REJECT_KEY = 'reject'
@@ -54,9 +58,9 @@ module Reek
       def examine_context(context)
         context.exp.parameter_names.each do |name|
           next unless is_bad_name?(name, context)
-          smell = SmellWarning.new('UncommunicativeName', context.full_name, [context.exp.line],
+          smell = SmellWarning.new(SMELL_CLASS, context.full_name, [context.exp.line],
             "has the parameter name '#{name}'",
-            @source, 'UncommunicativeParameterName', {'parameter_name' => name.to_s})
+            @source, SMELL_SUBCLASS, {PARAMETER_NAME_KEY => name.to_s})
           @smells_found << smell
           #SMELL: serious duplication
         end

@@ -22,12 +22,34 @@ describe UncommunicativeParameterName do
       it "reports parameter's name" do
         "def #{host}help(x) basics(17) end".should reek_only_of(:UncommunicativeParameterName, /x/, /parameter name/)
       end
-      it 'reports name of the form "x2"' do
-        "def #{host}help(x2) basics(17) end".should reek_only_of(:UncommunicativeParameterName, /x2/, /parameter name/)
-        #SMELL: should match either the class or the subclass!
+
+      context 'with a name of the form "x2"' do
+        before :each do
+          @bad_param = 'x2'
+          src = "def #{host}help(#{@bad_param}) basics(17) end"
+          ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+          @detector.examine(ctx)
+          @smells = @detector.smells_found.to_a
+        end
+        it 'reports only 1 smell' do
+          @smells.length.should == 1
+        end
+        it 'reports uncommunicative parameter name' do
+          @smells[0].subclass.should == UncommunicativeParameterName::SMELL_SUBCLASS
+        end
+        it 'reports the parameter name' do
+          @smells[0].smell[UncommunicativeParameterName::PARAMETER_NAME_KEY].should == @bad_param
+        end
       end
       it 'reports long name ending in a number' do
-        "def #{host}help(param1) basics(17) end".should reek_only_of(:UncommunicativeParameterName, /param1/, /parameter name/)
+        @bad_param = 'param2'
+        src = "def #{host}help(#{@bad_param}) basics(17) end"
+        ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+        @detector.examine(ctx)
+        smells = @detector.smells_found.to_a
+        smells.length.should == 1
+        smells[0].subclass.should == UncommunicativeParameterName::SMELL_SUBCLASS
+        smells[0].smell[UncommunicativeParameterName::PARAMETER_NAME_KEY].should == @bad_param
       end
     end
   end

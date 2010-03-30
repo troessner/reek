@@ -35,7 +35,14 @@ describe UncommunicativeVariableName do
       'def simple(fred) x2 = jim(45) end'.should reek_only_of(:UncommunicativeVariableName, /x2/, /variable name/)
     end
     it 'reports long name ending in a number' do
-      'def simple(fred) var123 = jim(45) end'.should reek_only_of(:UncommunicativeVariableName, /var123/, /variable name/)
+      @bad_var = 'var123'
+      src = "def simple(fred) #{@bad_var} = jim(45) end"
+      ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+      @detector.examine(ctx)
+      smells = @detector.smells_found.to_a
+      smells.length.should == 1
+      smells[0].subclass.should == UncommunicativeVariableName::SMELL_SUBCLASS
+      smells[0].smell[UncommunicativeVariableName::VARIABLE_NAME_KEY].should == @bad_var
     end
     it 'reports variable name only once' do
       'def simple(fred) x = jim(45); x = y end'.should reek_only_of(:UncommunicativeVariableName, /x/)

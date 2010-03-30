@@ -8,6 +8,13 @@ include Reek
 include Reek::Smells
 
 describe Duplication do
+  before(:each) do
+    @source_name = 'copy-cat'
+    @detector = Duplication.new(@source_name)
+  end
+
+  it_should_behave_like 'SmellDetector'
+
   context "with repeated method calls" do
     it 'reports repeated call' do
       'def double_thing() @other.thing + @other.thing end'.should reek_only_of(:Duplication, /@other.thing/)
@@ -42,25 +49,6 @@ EOS
       src.should_not reek
     end
   end
-end
-
-describe Duplication, "non-repeated method calls" do
-  it 'should not report similar calls' do
-    'def equals(other) other.thing == self.thing end'.should_not reek
-  end
-
-  it 'should respect call parameters' do
-    'def double_thing() @other.thing(3) + @other.thing(2) end'.should_not reek
-  end
-end
-
-describe Duplication do
-  before(:each) do
-    @source_name = 'copy-cat'
-    @detector = Duplication.new(@source_name)
-  end
-
-  it_should_behave_like 'SmellDetector'
 
   context 'when a smell is reported' do
     before :each do
@@ -71,26 +59,29 @@ def double_thing(other)
   other[@thing]
 end
 EOS
-      source = src.to_reek_source
-      sniffer = Core::Sniffer.new(source)
-      @mctx = Core::CodeParser.new(sniffer).process_defn(source.syntax_tree)
-      @detector.examine(@mctx)
-      @warning = @detector.smells_found.to_a[0]   # SMELL: too cumbersome!
+      ctx = MethodContext.new(nil, src.to_reek_source.syntax_tree)
+      @detector.examine(ctx)
+      smells = @detector.smells_found.to_a
+      smells.length.should == 1
+      @warning = smells[0]
     end
-    it 'reports the source' do
-      @warning.source.should == @source_name
-    end
-    it 'reports the class' do
-      @warning.smell_class.should == 'Duplication'
-    end
-    it 'reports the subclass' do
-      @warning.subclass.should == 'DuplicateMethodCall'
-    end
+
+    it_should_behave_like 'common fields set correctly'
+
     it 'reports the call' do
       @warning.smell['call'].should == 'other[@thing]'
     end
     it 'reports the correct lines' do
       @warning.lines.should == [2,4]
+    end
+  end
+
+  context "non-repeated method calls" do
+    it 'should not report similar calls' do
+      'def equals(other) other.thing == self.thing end'.should_not reek
+    end
+    it 'should respect call parameters' do
+      'def double_thing() @other.thing(3) + @other.thing(2) end'.should_not reek
     end
   end
 end

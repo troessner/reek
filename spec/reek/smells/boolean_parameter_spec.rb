@@ -5,6 +5,13 @@ require File.join(File.dirname(File.expand_path(__FILE__)), 'smell_detector_shar
 include Reek::Smells
 
 describe BooleanParameter do
+  before(:each) do
+    @source_name = 'smokin'
+    @detector = BooleanParameter.new(@source_name)
+  end
+
+  it_should_behave_like 'SmellDetector'
+
   context 'parameter defaulted with boolean' do
     context 'in a method' do
       it 'reports a parameter defaulted to true' do
@@ -22,27 +29,36 @@ describe BooleanParameter do
 
     context 'in a singleton method' do
       it 'reports a parameter defaulted to true' do
-        'def self.cc(arga = true) end'.should reek_of(:BooleanParameter, /arga/)
+        src = 'def self.cc(arga = true) end'
+        ctx = MethodContext.new(nil, src.to_reek_source.syntax_tree)
+        @detector.examine(ctx)
+        smells = @detector.smells_found.to_a
+        smells.length.should == 1
+        smells[0].smell_class.should == BooleanParameter::SMELL_CLASS
+        smells[0].smell[BooleanParameter::PARAMETER_KEY].should == 'arga'
       end
       it 'reports a parameter defaulted to false' do
-        'def fred.cc(arga = false) end'.should reek_of(:BooleanParameter, /arga/)
+        src = 'def fred.cc(arga = false) end'
+        ctx = MethodContext.new(nil, src.to_reek_source.syntax_tree)
+        @detector.examine(ctx)
+        smells = @detector.smells_found.to_a
+        smells.length.should == 1
+        smells[0].smell_class.should == BooleanParameter::SMELL_CLASS
+        smells[0].smell[BooleanParameter::PARAMETER_KEY].should == 'arga'
       end
       it 'reports two parameters defaulted to booleans' do
         src = 'def Module.cc(nowt, arga = true, argb = false, &blk) end'
-        src.should reek_of(:BooleanParameter, /arga/)
-        src.should reek_of(:BooleanParameter, /argb/)
+        ctx = MethodContext.new(nil, src.to_reek_source.syntax_tree)
+        @detector.examine(ctx)
+        smells = @detector.smells_found.to_a
+        smells.length.should == 2
+        smells[0].smell_class.should == BooleanParameter::SMELL_CLASS
+        smells[0].smell[BooleanParameter::PARAMETER_KEY].should == 'arga'
+        smells[1].smell_class.should == BooleanParameter::SMELL_CLASS
+        smells[1].smell[BooleanParameter::PARAMETER_KEY].should == 'argb'
       end
     end
   end
-end
-
-describe BooleanParameter do
-  before(:each) do
-    @source_name = 'smokin'
-    @detector = BooleanParameter.new(@source_name)
-  end
-
-  it_should_behave_like 'SmellDetector'
 
   context 'looking at the YAML' do
     before :each do
@@ -52,8 +68,8 @@ end
 EOS
       source = src.to_reek_source
       sniffer = Sniffer.new(source)
-      @mctx = CodeParser.new(sniffer).process_defn(source.syntax_tree)
-      @detector.examine(@mctx)
+      ctx = CodeParser.new(sniffer).process_defn(source.syntax_tree)
+      @detector.examine(ctx)
       warning = @detector.smells_found.to_a[0]   # SMELL: too cumbersome!
       @yaml = warning.to_yaml
     end

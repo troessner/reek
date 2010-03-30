@@ -19,6 +19,10 @@ module Reek
     #
     class UncommunicativeVariableName < SmellDetector
 
+      SMELL_CLASS = 'UncommunicativeName'
+      SMELL_SUBCLASS = self.name.split(/::/)[-1]
+      VARIABLE_NAME_KEY = 'variable_name'
+
       # The name of the config field that lists the regexps of
       # smelly names to be reported.
       REJECT_KEY = 'reject'
@@ -54,9 +58,9 @@ module Reek
       def examine_context(context)
         variable_names(context.exp).each do |name, lines|
           next unless is_bad_name?(name, context)
-          smell = SmellWarning.new('UncommunicativeName', context.full_name, lines,
+          smell = SmellWarning.new(SMELL_CLASS, context.full_name, lines,
             "has the variable name '#{name}'",
-            @source, 'UncommunicativeVariableName', {'variable_name' => name.to_s})
+            @source, SMELL_SUBCLASS, {VARIABLE_NAME_KEY => name.to_s})
           @smells_found << smell
           #SMELL: serious duplication
         end

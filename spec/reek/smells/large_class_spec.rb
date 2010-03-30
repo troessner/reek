@@ -7,7 +7,13 @@ require File.join(File.dirname(File.expand_path(__FILE__)), 'smell_detector_shar
 include Reek
 include Reek::Smells
 
-describe LargeClass, 'checking source code' do
+describe LargeClass do
+  before(:each) do
+    @source_name = 'elephant'
+    @detector = LargeClass.new(@source_name)
+  end
+
+  it_should_behave_like 'SmellDetector'
 
   context 'counting instance variables' do
     it 'should not report 9 ivars' do
@@ -49,7 +55,9 @@ class Full
   def me41x()3 end;def me42x()3 end;def me43x()3 end;def me44x()3 end;def me45x()3 end
 end
 EOS
-      src.should_not reek
+      ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+      @detector.examine(ctx)
+      @detector.smells_found.should be_empty
     end
 
     it 'should report 26 methods' do
@@ -63,7 +71,12 @@ class Full
   def me51x()3 end
 end
 EOS
-      src.should reek_of(:LargeClass)
+      ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+      @detector.examine(ctx)
+      smells = @detector.smells_found.to_a
+      smells.length.should == 1
+      smells[0].subclass.should == LargeClass::SUBCLASS_TOO_MANY_METHODS
+      smells[0].smell[LargeClass::METHOD_COUNT_KEY].should == 26
     end
   end
 
@@ -79,18 +92,11 @@ class Full
   def me51x()3 end
 end
 EOS
-      src.should_not reek_of(:LargeClass)
+      ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+      @detector.examine(ctx)
+      @detector.smells_found.should be_empty
     end
   end
-end
-
-describe LargeClass, 'looking at the YAML' do
-  before(:each) do
-    @source_name = 'elephant'
-    @detector = LargeClass.new(@source_name)
-  end
-
-  it_should_behave_like 'SmellDetector'
 
   context 'when the class has many methods' do
     before :each do
