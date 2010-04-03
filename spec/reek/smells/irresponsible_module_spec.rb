@@ -5,33 +5,47 @@ require File.join(File.dirname(File.expand_path(__FILE__)), 'smell_detector_shar
 include Reek::Smells
 
 describe IrresponsibleModule do
-  ['class'].each do |unit|
-    it "does not report a #{unit} having a comment" do
-      src = <<EOS
-# test #{unit}
-#{unit} Responsible; end
-EOS
-      src.should_not reek
-    end
-    it "reports a #{unit} without a comment" do
-      "#{unit} Responsible; end".should reek_only_of(:IrresponsibleModule, /Responsible/)
-    end
-    it "reports a #{unit} with an empty comment" do
-      src = <<EOS
-#
-#
-#  
-#{unit} Responsible; end
-EOS
-      src.should reek_only_of(:IrresponsibleModule, /Responsible/)
-    end
-  end
-end
-
-describe IrresponsibleModule do
   before(:each) do
+    @bad_module_name = 'WrongUn'
     @detector = IrresponsibleModule.new('yoof')
   end
 
   it_should_behave_like 'SmellDetector'
+
+  it "does not report a class having a comment" do
+    src = <<EOS
+# test class
+class Responsible; end
+EOS
+    ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+    @detector.examine(ctx)
+    @detector.smells_found.should be_empty
+  end
+  it "reports a class without a comment" do
+    src = "class #{@bad_module_name}; end"
+    ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+    @detector.examine(ctx)
+    smells = @detector.smells_found.to_a
+    smells.length.should == 1
+    smells[0].smell_class.should == IrresponsibleModule::SMELL_CLASS
+    smells[0].subclass.should == IrresponsibleModule::SMELL_SUBCLASS
+    smells[0].lines.should == [1]
+    smells[0].smell[IrresponsibleModule::MODULE_NAME_KEY].should == @bad_module_name
+  end
+  it "reports a class with an empty comment" do
+    src = <<EOS
+#
+#
+#  
+class #{@bad_module_name}; end
+EOS
+    ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+    @detector.examine(ctx)
+    smells = @detector.smells_found.to_a
+    smells.length.should == 1
+    smells[0].smell_class.should == IrresponsibleModule::SMELL_CLASS
+    smells[0].subclass.should == IrresponsibleModule::SMELL_SUBCLASS
+    smells[0].lines.should == [4]
+    smells[0].smell[IrresponsibleModule::MODULE_NAME_KEY].should == @bad_module_name
+  end
 end

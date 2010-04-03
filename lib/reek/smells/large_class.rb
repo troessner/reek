@@ -16,6 +16,7 @@ module Reek
     #
     class LargeClass < SmellDetector
 
+      SMELL_CLASS = self.name.split(/::/)[-1]
       SUBCLASS_TOO_MANY_METHODS = 'TooManyMethods'
       SUBCLASS_TOO_MANY_IVARS = 'TooManyInstanceVariables'
       METHOD_COUNT_KEY = 'method_count'
@@ -49,27 +50,35 @@ module Reek
         super(source, config)
       end
 
-      def check_num_methods(klass)  # :nodoc:
-        actual = klass.local_nodes(:defn).length
-        return if actual <= value(MAX_ALLOWED_METHODS_KEY, klass, DEFAULT_MAX_METHODS)
-        found(klass, "has at least #{actual} methods", SUBCLASS_TOO_MANY_METHODS,
+      def check_num_methods(ctx)  # :nodoc:
+        actual = ctx.local_nodes(:defn).length
+        return if actual <= value(MAX_ALLOWED_METHODS_KEY, ctx, DEFAULT_MAX_METHODS)
+        smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [ctx.exp.line],
+          "has at least #{actual} methods",
+          @source, SUBCLASS_TOO_MANY_METHODS,
           {METHOD_COUNT_KEY => actual})
+        @smells_found << smell
+        #SMELL: serious duplication
       end
 
-      def check_num_ivars(klass)  # :nodoc:
-        count = klass.local_nodes(:iasgn).map {|iasgn| iasgn[1]}.uniq.length
-        return if count <= value(MAX_ALLOWED_IVARS_KEY, klass, DEFAULT_MAX_IVARS)
-        found(klass, "has at least #{count} instance variables", SUBCLASS_TOO_MANY_IVARS,
+      def check_num_ivars(ctx)  # :nodoc:
+        count = ctx.local_nodes(:iasgn).map {|iasgn| iasgn[1]}.uniq.length
+        return if count <= value(MAX_ALLOWED_IVARS_KEY, ctx, DEFAULT_MAX_IVARS)
+        smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [ctx.exp.line],
+          "has at least #{count} instance variables",
+          @source, SUBCLASS_TOO_MANY_IVARS,
           {IVAR_COUNT_KEY => count})
+        @smells_found << smell
+        #SMELL: serious duplication
       end
 
       #
       # Checks +klass+ for too many methods or too many instance variables.
       # Remembers any smells found.
       #
-      def examine_context(klass)
-        check_num_methods(klass)
-        check_num_ivars(klass)
+      def examine_context(ctx)
+        check_num_methods(ctx)
+        check_num_ivars(ctx)
       end
     end
   end

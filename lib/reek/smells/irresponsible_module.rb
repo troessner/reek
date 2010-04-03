@@ -11,6 +11,11 @@ module Reek
     #
     class IrresponsibleModule < SmellDetector
 
+      SMELL_CLASS = self.name.split(/::/)[-1]
+      SMELL_SUBCLASS = SMELL_CLASS
+
+      MODULE_NAME_KEY = 'module_name'
+
       def self.contexts      # :nodoc:
         [:class]
       end
@@ -21,7 +26,12 @@ module Reek
       #
       def examine_context(ctx)
         comment = Source::CodeComment.new(ctx.exp.comments)
-        found(ctx, "has no descriptive comment") unless comment.is_descriptive?
+        return if comment.is_descriptive?
+        smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [ctx.exp.line],
+          'has no descriptive comment',
+          @source, SMELL_SUBCLASS, {MODULE_NAME_KEY => ctx.exp.name.to_s})
+        @smells_found << smell
+        #SMELL: serious duplication
       end
     end
   end

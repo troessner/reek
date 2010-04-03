@@ -15,6 +15,10 @@ module Reek
     #
     class ClassVariable < SmellDetector
 
+      SMELL_CLASS = self.name.split(/::/)[-1]
+      SMELL_SUBCLASS = SMELL_CLASS
+      VARIABLE_KEY = 'variable'
+
       def self.contexts      # :nodoc:
         [:class, :module]
       end
@@ -24,8 +28,13 @@ module Reek
       # Remembers any smells found.
       #
       def examine_context(ctx)
-        class_variables_in(ctx.exp).each do |cvar_name|
-          found(ctx, "declares the class variable #{cvar_name}", '', {'variable' => cvar_name.to_s})
+        class_variables_in(ctx.exp).each do |cvar_node|
+          smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [cvar_node.line],
+            "declares the class variable #{cvar_node.name}",
+            @source, SMELL_SUBCLASS,
+            {VARIABLE_KEY => cvar_node.name.to_s})
+          @smells_found << smell
+          #SMELL: serious duplication
         end
       end
 
@@ -35,7 +44,7 @@ module Reek
       #
       def class_variables_in(ast)
         result = Set.new
-        collector = proc { |cvar_node| result << cvar_node.name }
+        collector = proc { |cvar_node| result << cvar_node }
         [:cvar, :cvasgn, :cvdecl].each do |stmt_type|
           ast.each_node(stmt_type, [:class, :module], &collector)
         end

@@ -11,7 +11,11 @@ module Reek
     # 5 statements.
     #
     class LongMethod < SmellDetector
+
+      SMELL_CLASS = self.name.split(/::/)[-1]
       SUBCLASS_TOO_MANY_STATEMENTS = 'TooManyStatements'
+
+      STATEMENT_COUNT_KEY = 'statement_count'
 
       # The name of the config field that sets the maximum number of
       # statements permitted in any method.
@@ -34,10 +38,15 @@ module Reek
       # Checks the length of the given +method+.
       # Remembers any smells found.
       #
-      def examine_context(method)
-        num = method.num_statements
-        return false if num <= value(MAX_ALLOWED_STATEMENTS_KEY, method, DEFAULT_MAX_STATEMENTS)
-        found(method, "has approx #{num} statements", SUBCLASS_TOO_MANY_STATEMENTS, {'statement_count' => num})
+      def examine_context(ctx)
+        num = ctx.num_statements
+        return false if num <= value(MAX_ALLOWED_STATEMENTS_KEY, ctx, DEFAULT_MAX_STATEMENTS)
+        smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [ctx.exp.line],
+          "has approx #{num} statements",
+          @source, SUBCLASS_TOO_MANY_STATEMENTS,
+          {STATEMENT_COUNT_KEY => num})
+        @smells_found << smell
+        #SMELL: serious duplication
       end
     end
   end

@@ -84,8 +84,7 @@ EOS
     it_should_behave_like 'common fields set correctly'
 
     it 'reports the number of parameters' do
-      @warning.smell['parameter_count'].should == 4
-      # SMELL: many tests duplicate the names of the YAML fields
+      @warning.smell[LongParameterList::PARAMETER_COUNT_KEY].should == 4
     end
     it 'reports the line number of the method' do
       @warning.lines.should == [1]

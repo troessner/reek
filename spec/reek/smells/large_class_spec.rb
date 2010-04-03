@@ -98,9 +98,8 @@ EOS
     end
   end
 
-  context 'when the class has many methods' do
-    before :each do
-      src = <<EOS
+  it 'reports correctly when the class has many methods' do
+    src = <<EOS
 class Full
   def me01x()3 end;def me02x()3 end;def me03x()3 end;def me04x()3 end;def me05x()3 end
   def me11x()3 end;def me12x()3 end;def me13x()3 end;def me14x()3 end;def me15x()3 end
@@ -110,30 +109,18 @@ class Full
   def me51x()3 end
 end
 EOS
-      ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
-      @detector.examine(ctx)
-      @warning = @detector.smells_found.to_a[0]
-    end
-    it 'reports the source' do
-      @warning.source.should == @source_name
-    end
-    it 'reports the correct class' do
-      @warning.smell_class.should == 'LargeClass'
-    end
-    it 'reports the correct subclass' do
-      @warning.subclass.should == LargeClass::SUBCLASS_TOO_MANY_METHODS
-    end
-    it 'reports the number of methods' do
-      @warning.smell['method_count'].should == 26
-    end
-    it 'reports the line number of the declaration' do
-      @warning.lines.should == [1]
-    end
+    ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+    @detector.examine(ctx)
+    @warning = @detector.smells_found.to_a[0]
+    @warning.source.should == @source_name
+    @warning.smell_class.should == 'LargeClass'
+    @warning.subclass.should == LargeClass::SUBCLASS_TOO_MANY_METHODS
+    @warning.smell['method_count'].should == 26
+    @warning.lines.should == [1]
   end
 
-  context 'when the class has 30 instance variables' do
-    before :each do
-      src = <<EOS
+  it 'reports correctly when the class has 30 instance variables' do
+    src = <<EOS
 # smelly class for testing purposes
 class Empty
   def ivars
@@ -141,27 +128,13 @@ class Empty
   end
 end
 EOS
-      source = src.to_reek_source
-      sniffer = Core::Sniffer.new(source)
-      ctx = Core::CodeParser.new(sniffer).process_class(source.syntax_tree)
-      @detector.examine_context(ctx)
-      @yaml = @detector.smells_found.to_a[0].to_yaml   # SMELL: too cumbersome!
-    end
-    it 'reports the source' do
-      @yaml.should match(/source:\s*#{@source_name}/)
-    end
-    it 'reports the correct class' do
-      @yaml.should match(/\sclass:\s*LargeClass/)
-    end
-    it 'reports the correct subclass' do
-      @yaml.should match(/\ssubclass:\s*#{LargeClass::SUBCLASS_TOO_MANY_IVARS}/)
-    end
-    it 'reports the number of methods' do
-      @yaml.should match(/ivar_count:\s*10/)
-      # SMELL: many tests duplicate the names of the YAML fields
-    end
-    it 'reports the line number of the declaration' do
-      @yaml.should match(/lines:\s*- 2/)
-    end
+    ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+    @detector.examine_context(ctx)
+    @warning = @detector.smells_found.to_a[0]
+    @warning.source.should == @source_name
+    @warning.smell_class.should == 'LargeClass'
+    @warning.subclass.should == LargeClass::SUBCLASS_TOO_MANY_IVARS
+    @warning.smell['ivar_count'].should == 10
+    @warning.lines.should == [2]
   end
 end

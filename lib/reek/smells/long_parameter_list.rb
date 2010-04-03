@@ -18,6 +18,8 @@ module Reek
       SMELL_CLASS = self.name.split(/::/)[-1]
       SMELL_SUBCLASS = 'LongParameterList'
 
+      PARAMETER_COUNT_KEY = 'parameter_count'
+
       # The name of the config field that sets the maximum number of
       # parameters permitted in any method or block.
       MAX_ALLOWED_PARAMS_KEY = 'max_params'
@@ -43,11 +45,15 @@ module Reek
       # Checks the number of parameters in the given scope.
       # Remembers any smells found.
       #
-      def examine_context(method_ctx)
-        num_params = method_ctx.parameters.length
-        return false if num_params <= value(MAX_ALLOWED_PARAMS_KEY, method_ctx, DEFAULT_MAX_ALLOWED_PARAMS)
-        found(method_ctx, "has #{num_params} parameters",
-          SMELL_SUBCLASS, {'parameter_count' => num_params})
+      def examine_context(ctx)
+        num_params = ctx.parameters.length
+        return false if num_params <= value(MAX_ALLOWED_PARAMS_KEY, ctx, DEFAULT_MAX_ALLOWED_PARAMS)
+        smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [ctx.exp.line],
+          "has #{num_params} parameters",
+          @source, SMELL_SUBCLASS,
+          {PARAMETER_COUNT_KEY => num_params})
+        @smells_found << smell
+        #SMELL: serious duplication
       end
     end
   end

@@ -205,17 +205,19 @@ describe LongMethod do
   context 'when the method has 30 statements' do
     before :each do
       @num_statements = 30
-      @ctx = mock('method_context', :null_object => true)
-      @ctx.should_receive(:num_statements).and_return(@num_statements)
-      @detector.examine_context(@ctx)
-      @yaml = @detector.smells_found.to_a[0].to_yaml   # SMELL: too cumbersome!
+      ctx = mock('method_context', :null_object => true)
+      ctx.should_receive(:num_statements).and_return(@num_statements)
+      @detector.examine_context(ctx)
+      @smells = @detector.smells_found.to_a
+    end
+    it 'reports only 1 smell' do
+      @smells.length.should == 1
     end
     it 'reports the number of statements' do
-      @yaml.should match(/statement_count:[\s]*#{@num_statements}/)
-      # SMELL: many tests duplicate the names of the YAML fields
+      @smells[0].smell[LongMethod::STATEMENT_COUNT_KEY].should == @num_statements
     end
     it 'reports the correct subclass' do
-      @yaml.should match(/subclass:[\s]*#{LongMethod::SUBCLASS_TOO_MANY_STATEMENTS}/)
+      @smells[0].subclass.should == LongMethod::SUBCLASS_TOO_MANY_STATEMENTS
     end
   end
 end
