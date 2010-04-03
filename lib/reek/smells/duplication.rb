@@ -36,15 +36,18 @@ module Reek
         super(source, config)
       end
 
-      def examine_context(method_ctx)
-        calls(method_ctx).each do |call_exp, copies|
+      def examine_context(ctx)
+        calls(ctx).each do |call_exp, copies|
           occurs = copies.length
-          next if occurs <= value(MAX_ALLOWED_CALLS_KEY, method_ctx, DEFAULT_MAX_CALLS)
+          next if occurs <= value(MAX_ALLOWED_CALLS_KEY, ctx, DEFAULT_MAX_CALLS)
           call = call_exp.format
           multiple = occurs == 2 ? 'twice' : "#{occurs} times"
-          found(method_ctx, "calls #{call} #{multiple}",
-            SMELL_SUBCLASS, {'call' => call, 'occurrences' => occurs},
-            copies.map {|exp| exp.line})
+          smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, copies.map {|exp| exp.line},
+            "calls #{call} #{multiple}",
+            @source, SMELL_SUBCLASS,
+            {'call' => call, 'occurrences' => occurs})
+          @smells_found << smell
+          #SMELL: serious duplication
         end
       end
 

@@ -23,6 +23,9 @@ module Reek
     #
     class SimulatedPolymorphism < SmellDetector
 
+      SMELL_CLASS = self.name.split(/::/)[-1]
+      SMELL_SUBCLASS = 'RepeatedConditional'
+
       def self.contexts      # :nodoc:
         [:class]
       end
@@ -45,13 +48,17 @@ module Reek
       # Checks the given class for multiple identical conditional tests.
       # Remembers any smells found.
       #
-      def examine_context(klass)
-        conditional_counts(klass).each do |key, lines|
+      def examine_context(ctx)
+        conditional_counts(ctx).each do |key, lines|
           occurs = lines.length
-          next unless occurs > value(MAX_IDENTICAL_IFS_KEY, klass, DEFAULT_MAX_IFS)
+          next unless occurs > value(MAX_IDENTICAL_IFS_KEY, ctx, DEFAULT_MAX_IFS)
           expr = key.format
-          found(klass, "tests #{expr} at least #{occurs} times",
-            'RepeatedConditional', {'expression' => expr, 'occurrences' => occurs}, lines)
+          smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, lines,
+            "tests #{expr} at least #{occurs} times",
+            @source, SMELL_SUBCLASS,
+            {'expression' => expr, 'occurrences' => occurs})
+          @smells_found << smell
+          #SMELL: serious duplication
         end
       end
 

@@ -54,7 +54,7 @@ Feature: Report smells using simple YAML layout
         smell: 
           class: NestedIterators
           depth: 2
-          subclass: ""
+          subclass: NestedIterators
           message: contains iterators nested 2 deep
         status: 
           is_active: true

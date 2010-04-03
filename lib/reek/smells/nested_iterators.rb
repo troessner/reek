@@ -10,17 +10,24 @@ module Reek
     # +NestedIterators+ reports failing methods only once.
     #
     class NestedIterators < SmellDetector
+
+      SMELL_CLASS = self.name.split(/::/)[-1]
+      SMELL_SUBCLASS = SMELL_CLASS
       # SMELL: should be a subclass of UnnecessaryComplexity
 
       #
       # Checks whether the given +block+ is inside another.
       # Remembers any smells found.
       #
-      def examine_context(method_ctx)
-        find_deepest_iterators(method_ctx).each do |iter|
+      def examine_context(ctx)
+        find_deepest_iterators(ctx).each do |iter|
           depth = iter[1]
-          found(method_ctx, "contains iterators nested #{depth} deep", '',
-            {'depth' => depth}, [iter[0].line])
+          smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [iter[0].line],
+            "contains iterators nested #{depth} deep",
+            @source, SMELL_SUBCLASS,
+            {'depth' => depth})
+          @smells_found << smell
+          #SMELL: serious duplication
         end
         # TODO: report the nesting depth and the innermost line
         # BUG: no longer reports nesting outside methods (eg. in Optparse)

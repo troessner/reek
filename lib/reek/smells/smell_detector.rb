@@ -74,15 +74,6 @@ module Reek
         context.matches?(value(EXCLUDE_KEY, context, DEFAULT_EXCLUDE_SET))
       end
 
-      def found(context, message, subclass, parameters, lines)
-        lines ||= [context.exp.line]        # SMELL: nil?!?!?! Yuk
-        smell = SmellWarning.new(self.class.name.split(/::/)[-1], context.full_name,
-          lines, message,
-          @source, subclass, parameters)
-        @smells_found << smell
-        smell
-      end
-
       def report_on(report)
         @smells_found.each { |smell| smell.report_on(report) }
       end
@@ -90,6 +81,7 @@ module Reek
       def value(key, ctx, fall_back)
         @config.value(key, ctx, fall_back)
       end
+      
     end
   end
 end

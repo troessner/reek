@@ -52,12 +52,16 @@ module Reek
       # by testing the value of one of its parameters.
       # Remembers any smells found.
       #
-      def examine_context(method_ctx)
-        control_parameters(method_ctx).each do |cond, occurs|
+      def examine_context(ctx)
+        control_parameters(ctx).each do |cond, occurs|
           param = cond.format
           lines = occurs.map {|exp| exp.line}
-          found(method_ctx, "is controlled by argument #{param}",
-            SMELL_SUBCLASS, {PARAMETER_KEY => param}, lines)
+          smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, lines,
+            "is controlled by argument #{param}",
+            @source, SMELL_SUBCLASS,
+            {PARAMETER_KEY => param})
+          @smells_found << smell
+          #SMELL: serious duplication
         end
       end
 
