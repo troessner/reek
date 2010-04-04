@@ -76,7 +76,8 @@ Feature: Report smells using simple YAML layout
           source: $stdin
         smell: 
           class: IrresponsibleModule
-          subclass: ""
+          subclass: IrresponsibleModule
+          module_name: Turn
           message: has no descriptive comment
         status: 
           is_active: true
