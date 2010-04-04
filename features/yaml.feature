@@ -63,7 +63,7 @@ Feature: Report smells using simple YAML layout
 
   @stdin
   Scenario: return non-zero status when there are smells
-    When I pass "# test class\nclass Turn; def fred(arg = true) end end" to reek --yaml
+    When I pass "class Turn; end" to reek --yaml
     Then the exit status indicates smells
     And it reports:
       """
@@ -71,14 +71,13 @@ Feature: Report smells using simple YAML layout
       - !ruby/object:Reek::SmellWarning 
         location: 
           lines: 
-          - 2
-          context: Turn#fred
+          - 1
+          context: Turn
           source: $stdin
         smell: 
-          parameter: arg
-          class: ControlCouple
-          subclass: BooleanParameter
-          message: has boolean parameter 'arg'
+          class: IrresponsibleModule
+          subclass: ""
+          message: has no descriptive comment
         status: 
           is_active: true
 
