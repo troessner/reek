@@ -64,6 +64,8 @@ LongMethod:
   - initialize
   enabled: true
 Duplication: 
+  allow_calls: []
+
   exclude: []
 
   enabled: true

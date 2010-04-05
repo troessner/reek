@@ -84,4 +84,36 @@ EOS
       'def double_thing() @other.thing(3) + @other.thing(2) end'.should_not reek
     end
   end
+
+  context "allowing up to 3 calls" do
+    before :each do
+      config = Duplication.default_config.merge(Duplication::MAX_ALLOWED_CALLS_KEY => 3)
+      Duplication.should_receive(:default_config).and_return(config)
+    end
+    it 'does not report double calls' do
+      'def double_thing() @other.thing + @other.thing end'.should_not reek
+    end
+    it 'does not report triple calls' do
+      'def double_thing() @other.thing + @other.thing + @other.thing end'.should_not reek
+    end
+    it 'reports quadruple calls' do
+      'def double_thing() @other.thing + @other.thing + @other.thing + @other.thing end'.should reek_only_of(:Duplication, /@other.thing/)
+    end
+  end
+
+  context "allowing calls to some methods" do
+    before :each do
+      config = Duplication.default_config.merge(Duplication::ALLOW_CALLS_KEY => ['@some.thing',/puts/])
+      Duplication.should_receive(:default_config).and_return(config)
+    end
+    it 'does not report calls to some methods' do
+      'def double_some_thing() @some.thing + @some.thing end'.should_not reek
+    end
+    it 'reports calls to other methods' do
+      'def double_other_thing() @other.thing + @other.thing end'.should reek_only_of(:Duplication, /@other.thing/)
+    end
+    it 'does not report calls to methods specifed with a regular expression' do
+      'def double_puts() puts @other.thing; puts @other.thing end'.should reek_only_of(:Duplication, /@other.thing/)
+    end
+  end
 end

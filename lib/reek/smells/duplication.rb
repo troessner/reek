@@ -28,8 +28,15 @@ module Reek
 
       DEFAULT_MAX_CALLS = 1
 
+      # The name of the config field that sets the names of any
+      # methods for which identical calls should be to be permitted
+      # within any single method.
+      ALLOW_CALLS_KEY = 'allow_calls'
+
+      DEFAULT_ALLOW_CALLS = []
+
       def self.default_config
-        super.adopt(MAX_ALLOWED_CALLS_KEY => DEFAULT_MAX_CALLS)
+        super.adopt(MAX_ALLOWED_CALLS_KEY => DEFAULT_MAX_CALLS, ALLOW_CALLS_KEY => DEFAULT_ALLOW_CALLS)
       end
 
       def initialize(source, config = Duplication.default_config)
@@ -41,6 +48,7 @@ module Reek
           occurs = copies.length
           next if occurs <= value(MAX_ALLOWED_CALLS_KEY, ctx, DEFAULT_MAX_CALLS)
           call = call_exp.format
+          next if allow_calls?(ctx, call)
           multiple = occurs == 2 ? 'twice' : "#{occurs} times"
           smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, copies.map {|exp| exp.line},
             "calls #{call} #{multiple}",
@@ -61,6 +69,10 @@ module Reek
           result[asgn_node].push(asgn_node) unless asgn_node.args.length < 2
         end
         result
+      end
+
+      def allow_calls?(method_ctx, method)
+        value(ALLOW_CALLS_KEY, method_ctx, DEFAULT_ALLOW_CALLS).any? { |allow| /#{allow}/ === method }
       end
     end
   end

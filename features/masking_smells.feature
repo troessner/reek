@@ -86,3 +86,14 @@ Feature: Masking smells using config files
         Dirty#a calls puts(@s.title) twice (Duplication)
 
       """
+
+  Scenario: allow masking some calls for duplication smell
+    When I run reek spec/samples/mask_some/dirty.rb
+    Then the exit status indicates smells
+    And it reports:
+      """
+      spec/samples/mask_some/dirty.rb -- 2 warnings:
+        Dirty#a calls @s.title twice (Duplication)
+        Dirty#a contains iterators nested 2 deep (NestedIterators)
+
+      """
