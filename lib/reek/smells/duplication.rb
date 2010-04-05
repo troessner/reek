@@ -21,6 +21,8 @@ module Reek
 
       SMELL_CLASS = self.name.split(/::/)[-1]
       SMELL_SUBCLASS = 'DuplicateMethodCall'
+      CALL_KEY = 'call'
+      OCCURRENCES_KEY = 'occurrences'
 
       # The name of the config field that sets the maximum number of
       # identical calls to be permitted within any single method.
@@ -36,7 +38,10 @@ module Reek
       DEFAULT_ALLOW_CALLS = []
 
       def self.default_config
-        super.adopt(MAX_ALLOWED_CALLS_KEY => DEFAULT_MAX_CALLS, ALLOW_CALLS_KEY => DEFAULT_ALLOW_CALLS)
+        super.adopt(
+          MAX_ALLOWED_CALLS_KEY => DEFAULT_MAX_CALLS,
+          ALLOW_CALLS_KEY => DEFAULT_ALLOW_CALLS
+        )
       end
 
       def initialize(source, config = Duplication.default_config)
@@ -53,7 +58,7 @@ module Reek
           smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, copies.map {|exp| exp.line},
             "calls #{call} #{multiple}",
             @source, SMELL_SUBCLASS,
-            {'call' => call, 'occurrences' => occurs})
+            {CALL_KEY => call, OCCURRENCES_KEY => occurs})
           @smells_found << smell
           #SMELL: serious duplication
         end

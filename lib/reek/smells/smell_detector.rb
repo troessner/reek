@@ -80,6 +80,9 @@ module Reek
 
       def value(key, ctx, fall_back)
         @config.value(key, ctx, fall_back)
+        # BUG: the correct value should be found earlier in this object's
+        # lifecycle, so that the subclasses don't have to call up into the
+        # superclass.
       end
       
     end
