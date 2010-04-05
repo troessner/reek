@@ -1,0 +1,9 @@
+---
+IrresponsibleModule:
+  enabled: false
+NestedIterators:
+  enabled: false
+UncommunicativeVariableName:
+  enabled: false
+UncommunicativeMethodName:
+  enabled: false

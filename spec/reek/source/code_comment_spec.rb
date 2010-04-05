@@ -21,4 +21,12 @@ describe CodeComment do
       CodeComment.new("# fred here \n# with \n   # biscuits ").is_descriptive?.should be_true
     end
   end
+  context 'comment config' do
+    it 'parses hashed options' do
+      CodeComment.new("# :reek:Duplication: { enabled: false }").config.should include('Duplication')
+    end
+    it 'parses multiple hashed options' do
+      CodeComment.new("# :reek:Duplication: { enabled: false }\n:reek:NestedIterators: { enabled: true }").config.should include('Duplication','NestedIterators')
+    end
+  end
 end

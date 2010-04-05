@@ -9,8 +9,14 @@ module Reek
     class CodeComment
 
       def initialize(text)
-        @text = text.gsub(/#/, '').gsub(/\n/, '').strip
+        @config =  Hash.new { |hash,key| hash[key] = {} }
+        @text = text.gsub(/:reek:\s*(.*)\s*$/) { |m| @config.merge! YAML.load($1); '' }.gsub(/#/, '').gsub(/\n/, '').strip
       end
+
+      def config
+        @config
+      end
+
       def is_descriptive?
         @text.split(/\s+/).length >= 2
       end

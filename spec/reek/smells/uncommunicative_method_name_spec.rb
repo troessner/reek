@@ -28,7 +28,7 @@ describe UncommunicativeMethodName do
         ctx = mock('method', :null_object => true)
         ctx.should_receive(:name).and_return(method_name)
         ctx.should_receive(:full_name).at_least(:once).and_return(@full_name)
-        ctx.should_receive(:exp).and_return(ast(:defn))
+        ctx.should_receive(:exp).at_least(:once).and_return(ast(:defn))
         @detector.examine_context(ctx)
         @smells = @detector.smells_found.to_a
       end

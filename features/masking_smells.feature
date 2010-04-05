@@ -97,3 +97,14 @@ Feature: Masking smells using config files
         Dirty#a contains iterators nested 2 deep (NestedIterators)
 
       """
+
+  @comments
+  Scenario: provide extra masking inline in comments
+    When I run reek spec/samples/inline_config
+    Then the exit status indicates smells
+    And it reports:
+      """
+      spec/samples/inline_config/dirty.rb -- 1 warning:
+        Dirty#a calls @s.title twice (Duplication)
+
+      """

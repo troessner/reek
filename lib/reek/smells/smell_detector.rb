@@ -79,10 +79,35 @@ module Reek
       end
 
       def value(key, ctx, fall_back)
-        @config.value(key, ctx, fall_back)
+        config_for(ctx)[key] || @config.value(key, ctx, fall_back)
         # BUG: the correct value should be found earlier in this object's
         # lifecycle, so that the subclasses don't have to call up into the
         # superclass.
+      end
+
+      def config_for(ctx)
+        ContextConfiguration.new(ctx).config[self.class.name.split(/::/)[-1]] || {}
+      end
+
+      #
+      # Contextual configuration from comments for smell detectors
+      #
+      class ContextConfiguration
+        def initialize(context)
+          @context = context
+        end
+
+        def config
+          return Hash.new if @context.nil? || @context.exp.nil?
+          config = inline_config
+          ContextConfiguration.new(@context.instance_variable_get('@outer')).config.push_keys(config)
+          config
+        end
+
+      protected
+        def inline_config
+          Source::CodeComment.new(@context.exp.comments || '').config
+        end
       end
       
     end
