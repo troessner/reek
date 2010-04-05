@@ -133,6 +133,8 @@ spec/samples/empty_config_file/dirty.rb
 spec/samples/empty_config_file/empty.reek
 spec/samples/exceptions.reek
 spec/samples/inline.rb
+spec/samples/mask_some/dirty.rb
+spec/samples/mask_some/some.reek
 spec/samples/masked/dirty.rb
 spec/samples/masked/masked.reek
 spec/samples/mixed_results/clean_one.rb
