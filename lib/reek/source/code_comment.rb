@@ -11,7 +11,10 @@ module Reek
 
       def initialize(text)
         @config =  Hash.new { |hash,key| hash[key] = {} }
-        @text = text.gsub(CONFIG_REGEX) { |m| add_to_config($1, $2); '' }.gsub(/#/, '').gsub(/\n/, '').strip
+        @text = text.gsub(CONFIG_REGEX) do |m|
+          add_to_config($1, $2)
+          ''
+        end.gsub(/#/, '').gsub(/\n/, '').strip
       end
 
       def config

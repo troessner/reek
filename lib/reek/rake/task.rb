@@ -7,6 +7,8 @@ module Reek
 
   #
   # Defines a task library for running reek.
+  # (Classes here will be configured via the Rakefile, and therefore will
+  # possess a :reek:attribute or two.)
   #
   module Rake
 
