@@ -1,5 +1,9 @@
 == 1.2.8 (in development)
 
+=== Minor Changes
+* Smell detectors can be configured or disabled in code comments
+* Duplication can be configured to ignore specific calls
+
 == 1.2.7.3 (2010-03-29)
 
 === Minor Changes

@@ -132,6 +132,8 @@ spec/samples/corrupt_config_file/dirty.rb
 spec/samples/empty_config_file/dirty.rb
 spec/samples/empty_config_file/empty.reek
 spec/samples/exceptions.reek
+spec/samples/inline_config/dirty.rb
+spec/samples/inline_config/masked.reek
 spec/samples/inline.rb
 spec/samples/mask_some/dirty.rb
 spec/samples/mask_some/some.reek
