@@ -7,10 +7,11 @@ module Reek
     # module, class and method definitions.
     #
     class CodeComment
+      CONFIG_REGEX = /:reek:\s*(\w+)(:\s*\{.*?\})?/
 
       def initialize(text)
         @config =  Hash.new { |hash,key| hash[key] = {} }
-        @text = text.gsub(/:reek:\s*(.*)\s*$/) { |m| @config.merge! YAML.load($1); '' }.gsub(/#/, '').gsub(/\n/, '').strip
+        @text = text.gsub(CONFIG_REGEX) { |m| add_to_config($1, $2); '' }.gsub(/#/, '').gsub(/\n/, '').strip
       end
 
       def config
@@ -19,6 +20,12 @@ module Reek
 
       def is_descriptive?
         @text.split(/\s+/).length >= 2
+      end
+
+    protected
+      def add_to_config(smell, options)
+        options ||= ': { enabled: false }'
+        @config.merge! YAML.load(smell.gsub(/(?:^|_)(.)/) { $1.upcase } + options)
       end
     end
   end
