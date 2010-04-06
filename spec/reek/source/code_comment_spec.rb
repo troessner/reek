@@ -21,12 +21,41 @@ describe CodeComment do
       CodeComment.new("# fred here \n# with \n   # biscuits ").is_descriptive?.should be_true
     end
   end
+
   context 'comment config' do
     it 'parses hashed options' do
-      CodeComment.new("# :reek:Duplication: { enabled: false }").config.should include('Duplication')
+      config = CodeComment.new("# :reek:Duplication: { enabled: false }").config
+      config.should include('Duplication')
+      config['Duplication'].should include('enabled')
+      config['Duplication']['enabled'].should be_false
+    end
+    it 'parses hashed options with ruby names' do
+      config = CodeComment.new("# :reek:nested_iterators: { enabled: true }").config
+      config.should include('NestedIterators')
+      config['NestedIterators'].should include('enabled')
+      config['NestedIterators']['enabled'].should be_true
     end
     it 'parses multiple hashed options' do
-      CodeComment.new("# :reek:Duplication: { enabled: false }\n:reek:NestedIterators: { enabled: true }").config.should include('Duplication','NestedIterators')
+      config = CodeComment.new("# :reek:Duplication: { enabled: false }\n:reek:nested_iterators: { enabled: true }").config
+      config.should include('Duplication','NestedIterators')
+      config['Duplication'].should include('enabled')
+      config['Duplication']['enabled'].should be_false
+      config['NestedIterators'].should include('enabled')
+      config['NestedIterators']['enabled'].should be_true
+    end
+    it 'parses multiple hashed options on the same line' do
+      config = CodeComment.new("# :reek:Duplication: { enabled: false } and :reek:nested_iterators: { enabled: true }").config
+      config.should include('Duplication','NestedIterators')
+      config['Duplication'].should include('enabled')
+      config['Duplication']['enabled'].should be_false
+      config['NestedIterators'].should include('enabled')
+      config['NestedIterators']['enabled'].should be_true
+    end
+    it 'disables the smell if no options are specifed' do
+      config = CodeComment.new("# :reek:Duplication").config
+      config.should include('Duplication')
+      config['Duplication'].should include('enabled')
+      config['Duplication']['enabled'].should be_false
     end
   end
 end

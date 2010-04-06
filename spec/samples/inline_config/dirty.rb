@@ -1,4 +1,5 @@
 # :reek:Duplication: { allow_calls: [ puts ] }
+# smells of :reek:NestedIterators but ignores them
 class Dirty
   def a
     puts @s.title
