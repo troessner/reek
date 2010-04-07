@@ -38,6 +38,48 @@ end
 EOS
     src.should reek_only_of(:NestedIterators)
   end
+
+  context 'when the allowed nesting depth is 3' do
+    before :each do
+      config = NestedIterators.default_config.merge(NestedIterators::MAX_ALLOWED_DEPTH_KEY => 3)
+      @detector = NestedIterators.new('depth-charge', config)
+    end
+
+    it 'should not report nested iterators 2 levels deep' do
+      src = <<EOS
+def bad(fred)
+  @fred.each {|one| one.each {|two| two.two} }
+end
+EOS
+      ctx = MethodContext.new(nil, src.to_reek_source.syntax_tree)
+      @detector.examine(ctx)
+      @detector.smells_found.should be_empty
+    end
+
+    it 'should not report nested iterators 3 levels deep' do
+      src = <<EOS
+def bad(fred)
+  @fred.each {|one| one.each {|two| two.each {|three| three.three} } }
+end
+EOS
+      ctx = MethodContext.new(nil, src.to_reek_source.syntax_tree)
+      @detector.examine(ctx)
+      @detector.smells_found.should be_empty
+    end
+
+    it 'should report nested iterators 4 levels deep' do
+      src = <<EOS
+def bad(fred)
+  @fred.each {|one| one.each {|two| two.each {|three| three.each {|four| four.four} } } }
+end
+EOS
+      ctx = MethodContext.new(nil, src.to_reek_source.syntax_tree)
+      @detector.examine(ctx)
+      smells = @detector.smells_found.to_a
+      smells.length.should == 1
+      smells[0].smell_class.should == NestedIterators::SMELL_CLASS
+    end
+  end
 end
 
 describe NestedIterators do

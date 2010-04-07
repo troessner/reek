@@ -15,6 +15,22 @@ module Reek
       SMELL_SUBCLASS = SMELL_CLASS
       # SMELL: should be a subclass of UnnecessaryComplexity
 
+      # The name of the config field that sets the maximum depth
+      # of nested iterators to be permitted within any single method.
+      MAX_ALLOWED_DEPTH_KEY = 'max_depth'
+
+      DEFAULT_MAX_DEPTH = 1
+
+      def self.default_config
+        super.adopt(
+          MAX_ALLOWED_DEPTH_KEY => DEFAULT_MAX_DEPTH
+        )
+      end
+
+      def initialize(source, config = NestedIterators.default_config)
+        super(source, config)
+      end
+
       #
       # Checks whether the given +block+ is inside another.
       # Remembers any smells found.
@@ -36,7 +52,8 @@ module Reek
       def find_deepest_iterators(method_ctx)
         result = []
         find_iters(method_ctx.exp, 1, result)
-        result.select {|item| item[1] >= 2}
+        max_depth = value(MAX_ALLOWED_DEPTH_KEY, method_ctx, DEFAULT_MAX_DEPTH)
+        result.select {|item| item[1] > max_depth}
       end
 
       def find_iters(exp, depth, result)
