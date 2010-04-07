@@ -7,7 +7,7 @@ module Reek
     # module, class and method definitions.
     #
     class CodeComment
-      CONFIG_REGEX = /:reek:\s*(\w+)(:\s*\{.*?\})?/
+      CONFIG_REGEX = /:reek:(\w+)(:\s*\{.*?\})?/
 
       def initialize(text)
         @config =  Hash.new { |hash,key| hash[key] = {} }
@@ -29,6 +29,8 @@ module Reek
       def add_to_config(smell, options)
         options ||= ': { enabled: false }'
         @config.merge! YAML.load(smell.gsub(/(?:^|_)(.)/) { $1.upcase } + options)
+        # extend this to all configs --------------------------^
+        # extend to allow configuration of whole smell class, not just subclass
       end
     end
   end

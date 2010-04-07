@@ -101,6 +101,7 @@ module Reek
           return Hash.new if @context.nil? || @context.exp.nil?
           config = inline_config
           ContextConfiguration.new(@context.instance_variable_get('@outer')).config.push_keys(config)
+          # no tests for this -------------------------------------^
           config
         end
 

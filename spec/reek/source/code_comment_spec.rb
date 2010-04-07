@@ -51,11 +51,23 @@ describe CodeComment do
       config['NestedIterators'].should include('enabled')
       config['NestedIterators']['enabled'].should be_true
     end
+    it 'parses multiple unhashed options on the same line' do
+      config = CodeComment.new("# :reek:Duplication and :reek:nested_iterators").config
+      config.should include('Duplication','NestedIterators')
+      config['Duplication'].should include('enabled')
+      config['Duplication']['enabled'].should be_false
+      config['NestedIterators'].should include('enabled')
+      config['NestedIterators']['enabled'].should be_false
+    end
     it 'disables the smell if no options are specifed' do
       config = CodeComment.new("# :reek:Duplication").config
       config.should include('Duplication')
       config['Duplication'].should include('enabled')
       config['Duplication']['enabled'].should be_false
+    end
+    it 'ignores smells after a space' do
+      config = CodeComment.new("# :reek: Duplication").config
+      config.should_not include('Duplication')
     end
   end
 end
