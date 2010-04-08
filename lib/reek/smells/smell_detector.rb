@@ -64,7 +64,8 @@ module Reek
       end
 
       def examine(context)
-        examine_context(context) if @config.enabled? && config_for(context)[Core::SmellConfiguration::ENABLED_KEY] != false && !exception?(context)
+        @ctx_config = config_for(context)
+        examine_context(context) if @config.enabled? && @ctx_config[Core::SmellConfiguration::ENABLED_KEY] != false && !exception?(context)
       end
 
       def examine_context(context)
@@ -79,7 +80,8 @@ module Reek
       end
 
       def value(key, ctx, fall_back)
-        config_for(ctx)[key] || @config.value(key, ctx, fall_back)
+        @ctx_config ||= config_for(ctx)   # BUG: only needed for tests!
+        @ctx_config[key] || @config.value(key, ctx, fall_back)
         # BUG: the correct value should be found earlier in this object's
         # lifecycle, so that the subclasses don't have to call up into the
         # superclass.
