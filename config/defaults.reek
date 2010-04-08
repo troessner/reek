@@ -56,8 +56,12 @@ UncommunicativeModuleName:
   - !ruby/regexp /^.$/
   - !ruby/regexp /[0-9]$/
 NestedIterators: 
-  exclude: *id001
+  ignore_iterators: []
+
+  exclude: []
+
   enabled: true
+  max_allowed_nesting: 1
 LongMethod: 
   max_statements: 5
   exclude: 
