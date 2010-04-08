@@ -81,13 +81,11 @@ module Reek
 
       def value(key, ctx, fall_back)
         config_for(ctx)[key] || @config.value(key, ctx, fall_back)
-        # BUG: the correct value should be found earlier in this object's
-        # lifecycle, so that the subclasses don't have to call up into the
-        # superclass.
       end
 
       def config_for(ctx)
         ctx.config[self.class.name.split(/::/)[-1]] || {}
+        # BUG: needs to consider smell class AND subclass
       end
     end
   end
