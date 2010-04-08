@@ -22,9 +22,16 @@ module Reek
 
       DEFAULT_MAX_ALLOWED_NESTING = 1
 
+      # The name of the config field that sets the names of any
+      # methods for which nesting should not be considered
+      IGNORE_ITERATORS_KEY = 'ignore_iterators'
+
+      DEFAULT_IGNORE_ITERATORS = []
+
       def self.default_config
         super.adopt(
-          MAX_ALLOWED_NESTING_KEY => DEFAULT_MAX_ALLOWED_NESTING
+          MAX_ALLOWED_NESTING_KEY => DEFAULT_MAX_ALLOWED_NESTING,
+          IGNORE_ITERATORS_KEY => DEFAULT_IGNORE_ITERATORS
         )
       end
 
@@ -51,25 +58,28 @@ module Reek
       end
 
       def find_deepest_iterators(method_ctx)
+        ignoring = value(IGNORE_ITERATORS_KEY, method_ctx, DEFAULT_IGNORE_ITERATORS)
         result = []
-        find_iters(method_ctx.exp, 1, result)
+        find_iters(method_ctx.exp, 1, ignoring, result)
         max_allowed_nesting = value(MAX_ALLOWED_NESTING_KEY, method_ctx, DEFAULT_MAX_ALLOWED_NESTING)
         result.select {|item| item[1] > max_allowed_nesting}
       end
 
-      def find_iters(exp, depth, result)
+      def find_iters(exp, depth, ignoring, result)
         exp.each do |elem|
           next unless Sexp === elem
           case elem.first
           when :iter
-            find_iters([elem.call], depth, result)
+            find_iters([elem.call], depth, ignoring, result)
             current = result.length
-            find_iters([elem.block], depth+1, result)
-            result << [elem, depth] if result.length == current
+            call = Source::SexpFormatter.format(elem.call)
+            ignored = ignoring.any? { |ignore| /#{ignore}/ === call }
+            find_iters([elem.block], depth + (ignored ? 0 : 1), ignoring, result)
+            result << [elem, depth] if result.length == current unless ignored
           when :class, :defn, :defs, :module
             next
           else
-            find_iters(elem, depth, result)
+            find_iters(elem, depth, ignoring, result)
           end
         end
       end
