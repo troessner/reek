@@ -41,7 +41,7 @@ EOS
 
   context 'when the allowed nesting depth is 3' do
     before :each do
-      config = NestedIterators.default_config.merge(NestedIterators::MAX_ALLOWED_DEPTH_KEY => 3)
+      config = NestedIterators.default_config.merge(NestedIterators::MAX_ALLOWED_NESTING_KEY => 3)
       @detector = NestedIterators.new('depth-charge', config)
     end
 
