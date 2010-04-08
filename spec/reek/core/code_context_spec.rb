@@ -13,6 +13,7 @@ describe CodeContext do
       @exp = mock('exp')
       @exp.should_receive(:name).any_number_of_times.and_return(@exp_name)
       @exp.should_receive(:full_name).any_number_of_times.and_return(@full_name)
+      @exp.should_receive(:comments).any_number_of_times.and_return('')
       @ctx = CodeContext.new(nil, @exp)
     end
     it 'gets its short name from the exp' do
@@ -36,6 +37,7 @@ describe CodeContext do
         @outer_name = 'another_random sting'
         outer = mock('outer')
         outer.should_receive(:full_name).at_least(:once).and_return(@outer_name)
+        outer.should_receive(:config).and_return({})
         @ctx = CodeContext.new(outer, @exp)
       end
       it 'creates the correct full name' do
@@ -54,8 +56,8 @@ describe CodeContext do
     it 'should pass unknown method calls down the stack' do
       stop = StopContext.new
       def stop.bananas(arg1, arg2) arg1 + arg2 + 43 end
-      element = ModuleContext.new(stop, 'mod', s(:module, :mod, nil))
-      element = MethodContext.new(element, [0, :bad])
+      element = ModuleContext.new(stop, 'mod', ast(:module, :mod, nil))
+      element = MethodContext.new(element, ast(:defn, :bad))
       element.bananas(17, -5).should == 55
     end
   end

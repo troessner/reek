@@ -24,14 +24,14 @@ end
 
 describe MethodContext do
   it 'should record ivars as refs to self' do
-    mctx = MethodContext.new(StopContext.new, [:defn, :feed])
+    mctx = MethodContext.new(StopContext.new, ast(:defn, :feed))
     mctx.envious_receivers.should == []
     mctx.record_call_to(ast(:call, s(:ivar, :@cow), :feed_to))
     mctx.envious_receivers.should == []
   end
 
   it 'should count calls to self' do
-    mctx = MethodContext.new(StopContext.new, [:defn, :equals])
+    mctx = MethodContext.new(StopContext.new, ast(:defn, :equals))
     mctx.refs.record_ref([:lvar, :other])
     mctx.record_call_to(ast(:call, s(:self), :thing))
     mctx.envious_receivers.should be_empty

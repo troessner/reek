@@ -7,7 +7,8 @@ shared_examples_for 'SmellDetector' do
   context 'exception matching follows the context' do
     before :each do
       @ctx = mock('context')
-      @ctx.should_receive(:exp).and_return(nil)
+#      @ctx.should_receive(:exp).and_return(nil)
+      @ctx.should_receive(:config).and_return({})
     end
     it 'when false' do
       @ctx.should_receive(:matches?).and_return(false)

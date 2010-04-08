@@ -34,7 +34,7 @@ describe UncommunicativeModuleName do
     it 'accepts Inline::C' do
       ctx = mock('context')
       ctx.should_receive(:full_name).and_return('Inline::C')
-      ctx.should_receive(:exp).and_return(nil)
+      ctx.should_receive(:config).at_least(:once).and_return({})
       @detector.accept?(ctx).should == true
     end
   end

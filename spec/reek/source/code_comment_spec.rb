@@ -4,10 +4,19 @@ require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expan
 include Reek::Source
 
 describe CodeComment do
-  context 'comment checks' do
-    it 'rejects no comment' do
-      CodeComment.new('').is_descriptive?.should be_false
+  context 'with an empty comment' do
+    before :each do
+      @comment = CodeComment.new('')
     end
+    it 'is not descriptive' do
+      @comment.is_descriptive?.should be_false
+    end
+    it 'has an empty config' do
+      @comment.config.should be_empty
+    end
+  end
+
+  context 'comment checks' do
     it 'rejects an empty comment' do
       CodeComment.new('#').is_descriptive?.should be_false
     end

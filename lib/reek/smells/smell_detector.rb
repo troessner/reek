@@ -64,8 +64,8 @@ module Reek
       end
 
       def examine(context)
-        @ctx_config = config_for(context)
-        examine_context(context) if @config.enabled? && @ctx_config[Core::SmellConfiguration::ENABLED_KEY] != false && !exception?(context)
+        enabled = @config.enabled? && config_for(context)[Core::SmellConfiguration::ENABLED_KEY] != false
+        examine_context(context) if enabled && !exception?(context)
       end
 
       def examine_context(context)
@@ -80,39 +80,15 @@ module Reek
       end
 
       def value(key, ctx, fall_back)
-        @ctx_config ||= config_for(ctx)   # BUG: only needed for tests!
-        @ctx_config[key] || @config.value(key, ctx, fall_back)
+        config_for(ctx)[key] || @config.value(key, ctx, fall_back)
         # BUG: the correct value should be found earlier in this object's
         # lifecycle, so that the subclasses don't have to call up into the
         # superclass.
       end
 
       def config_for(ctx)
-        ContextConfiguration.new(ctx).config[self.class.name.split(/::/)[-1]] || {}
+        ctx.config[self.class.name.split(/::/)[-1]] || {}
       end
-
-      #
-      # Contextual configuration from comments for smell detectors
-      #
-      class ContextConfiguration
-        def initialize(context)
-          @context = context
-        end
-
-        def config
-          return Hash.new if @context.nil? || @context.exp.nil?
-          config = inline_config
-          ContextConfiguration.new(@context.instance_variable_get('@outer')).config.push_keys(config)
-          # no tests for this -------------------------------------^
-          config
-        end
-
-      protected
-        def inline_config
-          Source::CodeComment.new(@context.exp.comments || '').config
-        end
-      end
-      
     end
   end
 end

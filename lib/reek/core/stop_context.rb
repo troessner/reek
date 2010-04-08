@@ -14,6 +14,10 @@ module Reek
         nil
       end
 
+      def config
+        {}
+      end
+
       def count_statements(num)
         0
       end

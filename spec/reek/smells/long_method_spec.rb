@@ -207,6 +207,7 @@ describe LongMethod do
       @num_statements = 30
       ctx = mock('method_context', :null_object => true)
       ctx.should_receive(:num_statements).and_return(@num_statements)
+      ctx.should_receive(:config).and_return({})
       @detector.examine_context(ctx)
       @smells = @detector.smells_found.to_a
     end

@@ -10,11 +10,12 @@ module Reek
     #
     class CodeContext
 
-      attr_reader :exp
+      attr_reader :exp, :config
 
       def initialize(outer, exp)
         @outer = outer
         @exp = exp
+        @config = local_config
       end
 
       def name
@@ -49,6 +50,14 @@ module Reek
       def full_name
         outer = @outer ? @outer.full_name : ''
         exp.full_name(outer)
+      end
+
+      def local_config
+        return Hash.new if @exp.nil?
+        config = Source::CodeComment.new(@exp.comments || '').config
+        return config unless @outer
+        @outer.config.deep_copy.adopt!(config)
+        # no tests for this -----^
       end
     end
   end
