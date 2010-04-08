@@ -7,7 +7,8 @@ include Reek::Smells
 describe NestedIterators do
 
   it 'should report nested iterators in a method' do
-    'def bad(fred) @fred.each {|item| item.each {|ting| ting.ting} } end'.should reek_only_of(:NestedIterators)
+    src = 'def bad(fred) @fred.each {|item| item.each {|ting| ting.ting} } end'
+    src.should smell_of(NestedIterators)
   end
 
   it 'should not report method with successive iterators' do
@@ -17,7 +18,7 @@ def bad(fred)
   @jim.each {|ting| ting.each }
 end
 EOS
-    src.should_not reek
+    src.should_not smell_of(NestedIterators)
   end
 
   it 'should not report method with chained iterators' do
@@ -26,7 +27,7 @@ def chained
   @sig.keys.sort_by { |xray| xray.to_s }.each { |min| md5 << min.to_s }
 end
 EOS
-    src.should_not reek
+    src.should_not smell_of(NestedIterators)
   end
 
   it 'should report nested iterators only once per method' do
@@ -36,13 +37,12 @@ def bad(fred)
   @jim.each {|ting| ting.each {|piece| @hal.send} }
 end
 EOS
-    src.should reek_only_of(:NestedIterators)
+    src.should smell_of(NestedIterators)
   end
 
   context 'when the allowed nesting depth is 3' do
     before :each do
-      config = NestedIterators.default_config.merge(NestedIterators::MAX_ALLOWED_NESTING_KEY => 3)
-      @detector = NestedIterators.new('depth-charge', config)
+      @options = {NestedIterators::MAX_ALLOWED_NESTING_KEY => 3}
     end
 
     it 'should not report nested iterators 2 levels deep' do
@@ -51,9 +51,7 @@ def bad(fred)
   @fred.each {|one| one.each {|two| two.two} }
 end
 EOS
-      ctx = MethodContext.new(nil, src.to_reek_source.syntax_tree)
-      @detector.examine(ctx)
-      @detector.smells_found.should be_empty
+      src.should_not smell_of(NestedIterators).with_options(@options)
     end
 
     it 'should not report nested iterators 3 levels deep' do
@@ -62,9 +60,7 @@ def bad(fred)
   @fred.each {|one| one.each {|two| two.each {|three| three.three} } }
 end
 EOS
-      ctx = MethodContext.new(nil, src.to_reek_source.syntax_tree)
-      @detector.examine(ctx)
-      @detector.smells_found.should be_empty
+      src.should_not smell_of(NestedIterators).with_options(@options)
     end
 
     it 'should report nested iterators 4 levels deep' do
@@ -73,11 +69,7 @@ def bad(fred)
   @fred.each {|one| one.each {|two| two.each {|three| three.each {|four| four.four} } } }
 end
 EOS
-      ctx = MethodContext.new(nil, src.to_reek_source.syntax_tree)
-      @detector.examine(ctx)
-      smells = @detector.smells_found.to_a
-      smells.length.should == 1
-      smells[0].smell_class.should == NestedIterators::SMELL_CLASS
+      src.should smell_of(NestedIterators).with_options(@options)
     end
   end
 end

@@ -14,6 +14,7 @@ module Reek
       SMELL_CLASS = self.name.split(/::/)[-1]
       SMELL_SUBCLASS = SMELL_CLASS
       # SMELL: should be a subclass of UnnecessaryComplexity
+      NESTING_DEPTH_KEY = 'depth'
 
       # The name of the config field that sets the maximum depth
       # of nested iterators to be permitted within any single method.
@@ -41,7 +42,7 @@ module Reek
           smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [iter[0].line],
             "contains iterators nested #{depth} deep",
             @source, SMELL_SUBCLASS,
-            {'depth' => depth})
+            {NESTING_DEPTH_KEY => depth})
           @smells_found << smell
           #SMELL: serious duplication
         end
