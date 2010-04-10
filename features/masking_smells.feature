@@ -108,3 +108,22 @@ Feature: Masking smells using config files
         Dirty#a calls @s.title twice (Duplication)
 
       """
+
+  Scenario: supports a config file
+    When I run reek -c spec/samples/config/allow_duplication.reek spec/samples/masked/dirty.rb
+    Then the exit status indicates smells
+    And it reports:
+      """
+      spec/samples/masked/dirty.rb -- 1 warning:
+        Dirty#a contains iterators nested 2 deep (NestedIterators)
+
+      """
+
+  Scenario: supports multiple config files
+    When I run reek -c spec/samples/config/allow_duplication.reek -c spec/samples/config/deeper_nested_iterators.reek spec/samples/masked/dirty.rb
+    Then it succeeds
+    And it reports:
+      """
+      spec/samples/masked/dirty.rb -- 0 warnings
+
+      """

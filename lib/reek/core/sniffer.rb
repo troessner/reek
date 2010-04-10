@@ -1,5 +1,6 @@
 require File.join(File.dirname(File.expand_path(__FILE__)), 'code_parser')
 require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'smells')
+require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'source', 'config_file')
 require 'yaml'
 
 #
@@ -64,12 +65,13 @@ module Reek
         ]
       end
 
-      def initialize(src)
+      def initialize(src, config_files = [])
         @typed_detectors = nil
         @detectors = Hash.new
         Sniffer.smell_classes.each do |klass|
           @detectors[klass] = klass.new(src.desc)
         end
+        config_files.each{ |cf| Reek::Source::ConfigFile.new(cf).configure(self) }
         @source = src
         src.configure(self)
       end

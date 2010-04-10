@@ -65,3 +65,17 @@ Feature: Reek can be driven through its Task
         Dirty#a has the name 'a' (UncommunicativeName)
         Dirty#a has the variable name 'x' (UncommunicativeName)
       """
+
+  Scenario: can be configured with config_files
+    When I run rake reek with:
+      """
+      Reek::Rake::Task.new do |t|
+        t.config_files = 'spec/samples/config/**/*.reek'
+        t.source_files = 'spec/samples/masked/dirty.rb'
+      end
+      """
+    Then it succeeds
+    And it reports:
+      """
+      spec/samples/masked/dirty.rb -- 0 warnings
+      """

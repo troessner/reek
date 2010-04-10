@@ -42,6 +42,11 @@ module Reek
       # Defaults to ['<the absolute path to reek's lib directory>']
       attr_accessor :libs
 
+      # Glob pattern to match config files.
+      # Setting the REEK_CFG environment variable overrides this.
+      # Defaults to 'config/**/*.reek'.
+      attr_accessor :config_files
+
       # Glob pattern to match source files.
       # Setting the REEK_SRC environment variable overrides this.
       # Defaults to 'lib/**/*.rb'.
@@ -67,6 +72,7 @@ module Reek
       def initialize(name = :reek)
         @name = name
         @libs = [File.expand_path(File.dirname(__FILE__) + '/../../../lib')]
+        @config_files = nil
         @source_files = nil
         @ruby_opts = []
         @reek_opts = ''
@@ -74,6 +80,7 @@ module Reek
         @sort = nil
 
         yield self if block_given?
+        @config_files ||= 'config/**/*.reek'
         @source_files ||= 'lib/**/*.rb'
         define
       end
@@ -106,7 +113,14 @@ module Reek
             ruby_options +
             [ %Q|"#{Task.reek_script}"| ] +
             [sort_option] +
+            config_file_list.collect { |fn| ['-c', %["#{fn}"]] }.flatten +
             source_file_list.collect { |fn| %["#{fn}"] }
+      end
+
+      def config_file_list
+        files = ENV['REEK_CFG'] || @config_files
+        return [] unless files
+        return FileList[files]
       end
 
       def ruby_options

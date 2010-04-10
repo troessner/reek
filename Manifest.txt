@@ -128,6 +128,8 @@ spec/samples/clean_due_to_masking/clean_two.rb
 spec/samples/clean_due_to_masking/dirty_one.rb
 spec/samples/clean_due_to_masking/dirty_two.rb
 spec/samples/clean_due_to_masking/masked.reek
+spec/samples/config/allow_duplication.reek
+spec/samples/config/deeper_nested_iterators.reek
 spec/samples/corrupt_config_file/corrupt.reek
 spec/samples/corrupt_config_file/dirty.rb
 spec/samples/empty_config_file/dirty.rb

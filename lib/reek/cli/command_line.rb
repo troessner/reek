@@ -19,6 +19,7 @@ module Reek
         @parser = OptionParser.new
         @report_class = VerboseReport
         @command_class = ReekCommand
+        @config_files = []
         set_options
       end
 
@@ -35,6 +36,7 @@ module Reek
         # reek -v|--version        Output the tool's version number
         #
         # reek [options] files     List the smells in the given files
+        #      -c|--config file    Specify file(s) with config options
         #      -q|-[no-]quiet      Only list files that have smells
         #      files               Names of files or dirs to be checked
         #
@@ -62,6 +64,11 @@ EOB
           @command_class = VersionCommand
         end
 
+        @parser.separator "\nConfiguration:"
+        @parser.on("-c", "--config FILE", "Read configuration options from FILE") do |file|
+          @config_files << file
+        end
+
         @parser.separator "\nReport formatting:"
         @parser.on("-q", "--[no-]quiet", "Suppress headings for smell-free source files") do |opt|
           @report_class = opt ? QuietReport : VerboseReport
@@ -82,10 +89,10 @@ EOB
           VersionCommand.new(@parser.program_name)
         elsif @command_class == YamlCommand
           sources = get_sources
-          YamlCommand.create(sources)
+          YamlCommand.create(sources, @config_files)
         else
           sources = get_sources
-          ReekCommand.create(sources, @report_class)
+          ReekCommand.create(sources, @report_class, @config_files)
         end
       end
 
