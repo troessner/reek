@@ -14,8 +14,7 @@ shared_examples_for 'a data clump detector' do
   def third(pa) pa - pb + @fred; end
 end
 EOS
-
-    src.should_not reek
+    src.should_not smell_of(DataClump)
   end
 
   context 'with 3 identical pairs' do
@@ -66,8 +65,8 @@ EOS
   def tri(pa, pb) pa - pb + @fred; end
 end
 EOS
-
-    src.should reek_of(:DataClump, /\[pa, pb\]/, /3 methods/)
+    src.should smell_of(DataClump, {DataClump::OCCURRENCES_KEY => 3,
+      DataClump::PARAMETERS_KEY => ['pa', 'pb']})
   end
 
   it 'reports 3 identical parameter sets in a class' do
@@ -78,12 +77,8 @@ EOS
   def third(pa, pb, pc) pa - pb + @fred; end
 end
 EOS
-    ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
-    @detector.examine(ctx)
-    smells = @detector.smells_found.to_a
-    smells.length.should == 1
-    smells[0].smell_class.should == DataClump::SMELL_CLASS
-    smells[0].smell[DataClump::PARAMETERS_KEY].should == ['pa', 'pb', 'pc']
+    src.should smell_of(DataClump, {DataClump::OCCURRENCES_KEY => 3,
+      DataClump::PARAMETERS_KEY => ['pa', 'pb', 'pc']})
   end
 
   it 'reports re-ordered identical parameter sets' do
@@ -94,12 +89,8 @@ EOS
   def third(pa, pb, pc) pa - pb + @fred; end
 end
 EOS
-    ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
-    @detector.examine(ctx)
-    smells = @detector.smells_found.to_a
-    smells.length.should == 1
-    smells[0].smell_class.should == DataClump::SMELL_CLASS
-    smells[0].smell[DataClump::PARAMETERS_KEY].should == ['pa', 'pb', 'pc']
+    src.should smell_of(DataClump, {DataClump::OCCURRENCES_KEY => 3,
+      DataClump::PARAMETERS_KEY => ['pa', 'pb', 'pc']})
   end
 
   it 'counts only identical parameter sets' do
@@ -110,8 +101,7 @@ EOS
   def fc(name, windowW, windowH) end
 end
 EOS
-
-    src.should_not reek_of(:DataClump)
+    src.should_not smell_of(DataClump)
   end
 
   it 'gets a real example right' do
@@ -124,12 +114,7 @@ EOS
   def c_raw_singleton (src, options) end
 end
 EOS
-    ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
-    @detector.examine(ctx)
-    smells = @detector.smells_found.to_a
-    smells.length.should == 1
-    warning = smells[0]
-    warning.smell[DataClump::OCCURRENCES_KEY].should == 5
+    src.should smell_of(DataClump, DataClump::OCCURRENCES_KEY => 5)
   end
 end
 

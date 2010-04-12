@@ -1,13 +1,13 @@
 module SmellOfMatcher
   class SmellOf
-    def initialize(klass, *smells)
+    def initialize(klass, *expected_smells)
       @klass = klass
-      @smells = smells
+      @expected_smells = expected_smells
       @config = {}
     end
 
     def failure_message_for_should
-      "Expected #{@source.desc} to smell of #{@klass}, but it didn't"
+      "Expected #{@source.desc} to smell of #{@klass}, but it didn't: #{@reason}"
     end
 
     def failure_message_for_should_not
@@ -19,15 +19,20 @@ module SmellOfMatcher
       ctx = MethodContext.new(nil, @source.syntax_tree)
       detector = @klass.new(@source.desc, @klass.default_config.merge(@config))
       detector.examine(ctx)
-      smells = detector.smells_found.to_a
-      if smells.length > 0 && smells[0].smell_class.should == @klass::SMELL_CLASS
-        return smells.length == 1 if @smells.empty?
-        if @smells.length == smells.length
-          @smells.each_with_index do |smell,index|
-            return false if smell.any? { |(key,value)| smells[index].smell[key] != value }
+      actual_smells = detector.smells_found.to_a
+      return false if actual_smells.empty?
+      return false if actual_smells.any? {|expected_smell| expected_smell.smell_class != @klass::SMELL_CLASS }
+      return actual_smells.length == 1 if @expected_smells.empty?
+      return false unless @expected_smells.length == actual_smells.length
+      @expected_smells.each_with_index do |expected_smell,index|
+        expected_smell.each do |(key,value)|
+          if actual_smells[index].smell[key] != value
+            @reason = "#{key} != #{value}"
+            return false
           end
         end
       end
+      true
     end
 
     def with_config(options)

@@ -21,6 +21,8 @@ module Reek
       # value.
       DEFAULT_MAX_ALLOWED_PARAMS = 3
 
+      PARAMETER_COUNT_KEY = 'parameter_count'
+
       def self.default_config
         super.adopt(
           MAX_ALLOWED_PARAMS_KEY => DEFAULT_MAX_ALLOWED_PARAMS
@@ -41,7 +43,7 @@ module Reek
           next if num_params <= value(MAX_ALLOWED_PARAMS_KEY, method_ctx, DEFAULT_MAX_ALLOWED_PARAMS)
           smell = SmellWarning.new(SMELL_CLASS, method_ctx.full_name, [yield_node.line],
             "yields #{num_params} parameters",
-            @source, SMELL_SUBCLASS, {'parameter_count' => num_params})
+            @source, SMELL_SUBCLASS, {PARAMETER_COUNT_KEY => num_params})
           @smells_found << smell
           #SMELL: serious duplication
         end

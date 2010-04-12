@@ -17,20 +17,24 @@ describe LongYieldList do
 
   context 'yield' do
     it 'should not report yield with no parameters' do
-      'def simple(arga, argb, &blk) f(3);yield; end'.should_not reek
+      src = 'def simple(arga, argb, &blk) f(3);yield; end'
+      src.should_not smell_of(LongYieldList)
     end
     it 'should not report yield with few parameters' do
-      'def simple(arga, argb, &blk) f(3);yield a,b; end'.should_not reek
+      src = 'def simple(arga, argb, &blk) f(3);yield a,b; end'
+      src.should_not smell_of(LongYieldList)
     end
     it 'should report yield with many parameters' do
-      'def simple(arga, argb, &blk) f(3);yield arga,argb,arga,argb; end'.should reek_only_of(:LongYieldList, /simple/, /yields/, /4/)
+      src = 'def simple(arga, argb, &blk) f(3);yield arga,argb,arga,argb; end'
+      src.should smell_of(LongYieldList, LongYieldList::PARAMETER_COUNT_KEY => 4)
     end
     it 'should not report yield of a long expression' do
-      'def simple(arga, argb, &blk) f(3);yield(if @dec then argb else 5+3 end); end'.should_not reek
+      src = 'def simple(arga, argb, &blk) f(3);yield(if @dec then argb else 5+3 end); end'
+      src.should_not smell_of(LongYieldList)
     end
   end
 
-  context 'looking at the YAML' do
+  context 'when a smells is reported' do
     before :each do
       src = <<EOS
 def simple(arga, argb, &blk)
@@ -38,20 +42,16 @@ def simple(arga, argb, &blk)
   yield(arga,argb,arga,argb)
   end
 EOS
-      source = src.to_reek_source
-      sniffer = Sniffer.new(source)
-      mctx = CodeParser.new(sniffer).process_defn(source.syntax_tree)
-      @detector.examine_context(mctx)
-      @warning = @detector.smells_found.to_a[0]   # SMELL: too cumbersome!
+      ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+      @detector.examine(ctx)
+      @smells = @detector.smells_found.to_a
+      @warning = @smells[0]
     end
 
     it_should_behave_like 'common fields set correctly'
 
-    it 'reports the number of parameters' do
+    it 'reports the correct values' do
       @warning.smell['parameter_count'].should == 4
-      # SMELL: many tests duplicate the names of the YAML fields
-    end
-    it 'reports the line number of the method' do
       @warning.lines.should == [3]
     end
   end
