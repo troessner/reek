@@ -14,20 +14,24 @@ describe ControlCouple do
 
   context 'conditional on a parameter' do
     it 'should report a ternary check on a parameter' do
-      'def simple(arga) arga ? @ivar : 3 end'.should reek_only_of(:ControlCouple, /arga/)
+      src = 'def simple(arga) arga ? @ivar : 3 end'
+      src.should smell_of(ControlCouple, ControlCouple::PARAMETER_KEY => 'arga')
     end
     it 'should not report a ternary check on an ivar' do
-      'def simple(arga) @ivar ? arga : 3 end'.should_not reek
+      src = 'def simple(arga) @ivar ? arga : 3 end'
+      src.should_not smell_of(ControlCouple)
     end
     it 'should not report a ternary check on a lvar' do
-      'def simple(arga) lvar = 27; lvar ? arga : @ivar end'.should_not reek
+      src = 'def simple(arga) lvar = 27; lvar ? arga : @ivar end'
+      src.should_not smell_of(ControlCouple)
     end
     it 'should spot a couple inside a block' do
-      'def blocks(arg) @text.map { |blk| arg ? blk : "#{blk}" } end'.should reek_of(:ControlCouple, /arg/)
+      src = 'def blocks(arg) @text.map { |blk| arg ? blk : "#{blk}" } end'
+      src.should smell_of(ControlCouple, ControlCouple::PARAMETER_KEY => 'arg')
     end
   end
 
-  context 'looking at the YAML' do
+  context 'when a smell is reported' do
     before :each do
       src = <<EOS
 def things(arg)
@@ -46,10 +50,8 @@ EOS
 
     it_should_behave_like 'common fields set correctly'
 
-    it 'reports the control parameter' do
+    it 'has the correct fields' do
       @warning.smell[ControlCouple::PARAMETER_KEY].should == 'arg'
-    end
-    it 'reports all conditional locations' do
       @warning.lines.should == [3,6]
     end
   end

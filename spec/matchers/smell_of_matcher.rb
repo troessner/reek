@@ -16,7 +16,7 @@ module SmellOfMatcher
 
     def matches?(src)
       @source = src.to_reek_source
-      ctx = CodeContext.new(nil, @source.syntax_tree)
+      ctx = MethodContext.new(nil, @source.syntax_tree)
       detector = @klass.new(@source.desc, @klass.default_config.merge(@config))
       detector.examine(ctx)
       smells = detector.smells_found.to_a
