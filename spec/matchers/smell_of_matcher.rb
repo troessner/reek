@@ -3,7 +3,7 @@ module SmellOfMatcher
     def initialize(klass, *smells)
       @klass = klass
       @smells = smells
-      @options = {}
+      @config = {}
     end
 
     def failure_message_for_should
@@ -16,8 +16,8 @@ module SmellOfMatcher
 
     def matches?(src)
       @source = src.to_reek_source
-      ctx = MethodContext.new(nil, @source.syntax_tree)
-      detector = @klass.new(@source.desc, @klass.default_config.merge(@options))
+      ctx = CodeContext.new(nil, @source.syntax_tree)
+      detector = @klass.new(@source.desc, @klass.default_config.merge(@config))
       detector.examine(ctx)
       smells = detector.smells_found.to_a
       if smells.length > 0 && smells[0].smell_class.should == @klass::SMELL_CLASS
@@ -30,8 +30,8 @@ module SmellOfMatcher
       end
     end
 
-    def with_options(options)
-      @options = options
+    def with_config(options)
+      @config = options
       self
     end
   end

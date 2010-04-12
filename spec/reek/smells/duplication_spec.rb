@@ -8,12 +8,35 @@ include Reek
 include Reek::Smells
 
 describe Duplication do
-  before(:each) do
-    @source_name = 'copy-cat'
-    @detector = Duplication.new(@source_name)
-  end
 
-  it_should_behave_like 'SmellDetector'
+  context 'when a smell is reported' do
+    before :each do
+      @source_name = 'copy-cat'
+      @detector = Duplication.new(@source_name)
+      src = <<EOS
+def double_thing(other)
+  other[@thing]
+  not_the_sam(at = all)
+  other[@thing]
+end
+EOS
+      ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+      @detector.examine(ctx)
+      smells = @detector.smells_found.to_a
+      smells.length.should == 1
+      @warning = smells[0]
+    end
+
+    it_should_behave_like 'SmellDetector'
+    it_should_behave_like 'common fields set correctly'
+
+    it 'reports the call' do
+      @warning.smell[Duplication::CALL_KEY].should == 'other[@thing]'
+    end
+    it 'reports the correct lines' do
+      @warning.lines.should == [2,4]
+    end
+  end
 
   context "with repeated method calls" do
     it 'reports repeated call' do
@@ -30,7 +53,8 @@ describe Duplication do
     end
     it 'should report nested calls' do
       src = 'def double_thing() @other.thing.foo + @other.thing.foo end'
-      src.should smell_of(Duplication, {Duplication::CALL_KEY => '@other.thing'}, {Duplication::CALL_KEY => '@other.thing.foo'})
+      src.should smell_of(Duplication, {Duplication::CALL_KEY => '@other.thing'},
+                                       {Duplication::CALL_KEY => '@other.thing.foo'})
     end
     it 'should ignore calls to new' do
       src = 'def double_thing() @other.new + @other.new end'
@@ -54,32 +78,6 @@ EOS
     end
   end
 
-  context 'when a smell is reported' do
-    before :each do
-      src = <<EOS
-def double_thing(other)
-  other[@thing]
-  not_the_sam(at = all)
-  other[@thing]
-end
-EOS
-      ctx = MethodContext.new(nil, src.to_reek_source.syntax_tree)
-      @detector.examine(ctx)
-      smells = @detector.smells_found.to_a
-      smells.length.should == 1
-      @warning = smells[0]
-    end
-
-    it_should_behave_like 'common fields set correctly'
-
-    it 'reports the call' do
-      @warning.smell[Duplication::CALL_KEY].should == 'other[@thing]'
-    end
-    it 'reports the correct lines' do
-      @warning.lines.should == [2,4]
-    end
-  end
-
   context "non-repeated method calls" do
     it 'should not report similar calls' do
       src = 'def equals(other) other.thing == self.thing end'
@@ -93,37 +91,37 @@ EOS
 
   context "allowing up to 3 calls" do
     before :each do
-      @options = {Duplication::MAX_ALLOWED_CALLS_KEY => 3}
+      @config = {Duplication::MAX_ALLOWED_CALLS_KEY => 3}
     end
     it 'does not report double calls' do
       src = 'def double_thing() @other.thing + @other.thing end'
-      src.should_not smell_of(Duplication).with_options(@options)
+      src.should_not smell_of(Duplication).with_config(@config)
     end
     it 'does not report triple calls' do
       src = 'def double_thing() @other.thing + @other.thing + @other.thing end'
-      src.should_not smell_of(Duplication).with_options(@options)
+      src.should_not smell_of(Duplication).with_config(@config)
     end
     it 'reports quadruple calls' do
       src = 'def double_thing() @other.thing + @other.thing + @other.thing + @other.thing end'
-      src.should smell_of(Duplication, {Duplication::CALL_KEY => '@other.thing', Duplication::OCCURRENCES_KEY => 4}).with_options(@options)
+      src.should smell_of(Duplication, {Duplication::CALL_KEY => '@other.thing', Duplication::OCCURRENCES_KEY => 4}).with_config(@config)
     end
   end
 
   context "allowing calls to some methods" do
     before :each do
-      @options = {Duplication::ALLOW_CALLS_KEY => ['@some.thing',/puts/]}
+      @config = {Duplication::ALLOW_CALLS_KEY => ['@some.thing',/puts/]}
     end
     it 'does not report calls to some methods' do
       src = 'def double_some_thing() @some.thing + @some.thing end'
-      src.should_not smell_of(Duplication).with_options(@options)
+      src.should_not smell_of(Duplication).with_config(@config)
     end
     it 'reports calls to other methods' do
       src = 'def double_other_thing() @other.thing + @other.thing end'
-      src.should smell_of(Duplication, {Duplication::CALL_KEY => '@other.thing'}).with_options(@options)
+      src.should smell_of(Duplication, {Duplication::CALL_KEY => '@other.thing'}).with_config(@config)
     end
     it 'does not report calls to methods specifed with a regular expression' do
       src = 'def double_puts() puts @other.thing; puts @other.thing end'
-      src.should smell_of(Duplication, {Duplication::CALL_KEY => '@other.thing'}).with_options(@options)
+      src.should smell_of(Duplication, {Duplication::CALL_KEY => '@other.thing'}).with_config(@config)
     end
   end
 end

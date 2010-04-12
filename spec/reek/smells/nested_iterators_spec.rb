@@ -42,7 +42,7 @@ EOS
 
   context 'when the allowed nesting depth is 3' do
     before :each do
-      @options = {NestedIterators::MAX_ALLOWED_NESTING_KEY => 3}
+      @config = {NestedIterators::MAX_ALLOWED_NESTING_KEY => 3}
     end
 
     it 'should not report nested iterators 2 levels deep' do
@@ -51,7 +51,7 @@ def bad(fred)
   @fred.each {|one| one.each {|two| two.two} }
 end
 EOS
-      src.should_not smell_of(NestedIterators).with_options(@options)
+      src.should_not smell_of(NestedIterators).with_config(@config)
     end
 
     it 'should not report nested iterators 3 levels deep' do
@@ -60,7 +60,7 @@ def bad(fred)
   @fred.each {|one| one.each {|two| two.each {|three| three.three} } }
 end
 EOS
-      src.should_not smell_of(NestedIterators).with_options(@options)
+      src.should_not smell_of(NestedIterators).with_config(@config)
     end
 
     it 'should report nested iterators 4 levels deep' do
@@ -69,38 +69,38 @@ def bad(fred)
   @fred.each {|one| one.each {|two| two.each {|three| three.each {|four| four.four} } } }
 end
 EOS
-      src.should smell_of(NestedIterators).with_options(@options)
+      src.should smell_of(NestedIterators).with_config(@config)
     end
   end
 
   context 'when ignoring iterators' do
     before :each do
-      @options = {NestedIterators::IGNORE_ITERATORS_KEY => ['ignore_me']}
+      @config = {NestedIterators::IGNORE_ITERATORS_KEY => ['ignore_me']}
     end
 
     it 'should not report nesting the ignored iterator inside another' do
       src = 'def bad(fred) @fred.each {|item| item.ignore_me {|ting| ting.ting} } end'
-      src.should_not smell_of(NestedIterators).with_options(@options)
+      src.should_not smell_of(NestedIterators).with_config(@config)
     end
 
     it 'should not report nesting inside the ignored iterator' do
       src = 'def bad(fred) @fred.ignore_me {|item| item.each {|ting| ting.ting} } end'
-      src.should_not smell_of(NestedIterators).with_options(@options)
+      src.should_not smell_of(NestedIterators).with_config(@config)
     end
 
     it 'should report nested iterators inside the ignored iterator' do
       src = 'def bad(fred) @fred.ignore_me {|item| item.each {|ting| ting.each {|other| other.other} } } end'
-      src.should smell_of(NestedIterators, NestedIterators::NESTING_DEPTH_KEY => 2).with_options(@options)
+      src.should smell_of(NestedIterators, NestedIterators::NESTING_DEPTH_KEY => 2).with_config(@config)
     end
 
     it 'should report nested iterators outside the ignored iterator' do
       src = 'def bad(fred) @fred.each {|item| item.each {|ting| ting.ignore_me {|other| other.other} } } end'
-      src.should smell_of(NestedIterators, NestedIterators::NESTING_DEPTH_KEY => 2).with_options(@options)
+      src.should smell_of(NestedIterators, NestedIterators::NESTING_DEPTH_KEY => 2).with_config(@config)
     end
 
     it 'should report nested iterators with the ignored iterator between them' do
       src = 'def bad(fred) @fred.each {|item| item.ignore_me {|ting| ting.ting {|other| other.other} } } end'
-      src.should smell_of(NestedIterators, NestedIterators::NESTING_DEPTH_KEY => 2).with_options(@options)
+      src.should smell_of(NestedIterators, NestedIterators::NESTING_DEPTH_KEY => 2).with_config(@config)
     end
   end
 end
