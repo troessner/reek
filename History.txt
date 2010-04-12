@@ -1,8 +1,18 @@
 == 1.2.8 (in development)
 
-=== Minor Changes
+=== Major Changes
 * Smell detectors can be configured or disabled in code comments
+** Mention :reek:smell_name disables the named smell for a class, module or method
+** Mention :reek:smell_name:{...} for more detailed configuration
+* Additional config file(s) can be specified:
+** on the command-line using -c
+** via Reek::Rake::Task in the rakefile
+
+=== Minor Changes
 * Duplication can be configured to ignore specific calls
+* NestedIterators is now more configurable:
+** Option to specify permitted nesting depth (#14)
+** Option to ignore certain iterator methods
 
 == 1.2.7.3 (2010-03-29)
 
