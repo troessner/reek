@@ -8,8 +8,8 @@ module Reek
     # YAML format.
     #
     class YamlCommand
-      def self.create(sources)
-        examiners = sources.map {|src| Examiner.new(src) }
+      def self.create(sources, config_files)
+        examiners = sources.map {|src| Examiner.new(src, config_files) }
         new(examiners)
       end
 
