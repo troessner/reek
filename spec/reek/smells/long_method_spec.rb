@@ -15,7 +15,8 @@ end
 
 describe LongMethod do
   it 'should not report short methods' do
-    'def short(arga) alf = f(1);@bet = 2;@cut = 3;@dit = 4; @emp = 5;end'.should_not reek
+    src = 'def short(arga) alf = f(1);@bet = 2;@cut = 3;@dit = 4; @emp = 5;end'
+    src.should_not smell_of(LongMethod)
   end
 
   it 'should report long methods' do
