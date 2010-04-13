@@ -17,39 +17,49 @@ describe UncommunicativeVariableName do
 
   context "field name" do
     it 'does not report use of one-letter fieldname' do
-      'class Thing; def simple(fred) @x end end'.should_not reek_of(:UncommunicativeVariableName, /@x/, /Thing/, /variable name/)
+      src = 'class Thing; def simple(fred) @x end end'
+      src.should_not smell_of(UncommunicativeVariableName)
     end
     it 'reports one-letter fieldname in assignment' do
-      'class Thing; def simple(fred) @x = fred end end'.should reek_of(:UncommunicativeVariableName, /@x/, /Thing/, /variable name/)
+      src = 'class Thing; def simple(fred) @x = fred end end'
+      src.should reek_of(:UncommunicativeVariableName, /@x/, /Thing/, /variable name/)
     end
   end
 
   context "local variable name" do
     it 'does not report one-word variable name' do
-      'def help(fred) simple = jim(45) end'.should_not reek
+      'def help(fred) simple = jim(45) end'.should_not smell_of(UncommunicativeVariableName)
     end
     it 'reports one-letter variable name' do
-      'def simple(fred) x = jim(45) end'.should reek_only_of(:UncommunicativeVariableName, /x/, /variable name/)
+      src = 'def simple(fred) x = jim(45) end'
+      src.should smell_of(UncommunicativeVariableName,
+        {UncommunicativeVariableName::VARIABLE_NAME_KEY => 'x'})
     end
     it 'reports name of the form "x2"' do
-      'def simple(fred) x2 = jim(45) end'.should reek_only_of(:UncommunicativeVariableName, /x2/, /variable name/)
+      src = 'def simple(fred) x2 = jim(45) end'
+      src.should smell_of(UncommunicativeVariableName,
+        {UncommunicativeVariableName::VARIABLE_NAME_KEY => 'x2'})
     end
     it 'reports long name ending in a number' do
       @bad_var = 'var123'
       src = "def simple(fred) #{@bad_var} = jim(45) end"
+      src.should smell_of(UncommunicativeVariableName,
+        {UncommunicativeVariableName::VARIABLE_NAME_KEY => @bad_var})
+    end
+    it 'reports variable name only once' do
+      src = 'def simple(fred) x = jim(45); x = y end'
       ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
       @detector.examine(ctx)
       smells = @detector.smells_found.to_a
       smells.length.should == 1
       smells[0].subclass.should == UncommunicativeVariableName::SMELL_SUBCLASS
-      smells[0].smell[UncommunicativeVariableName::VARIABLE_NAME_KEY].should == @bad_var
-    end
-    it 'reports variable name only once' do
-      'def simple(fred) x = jim(45); x = y end'.should reek_only_of(:UncommunicativeVariableName, /x/)
+      smells[0].smell[UncommunicativeVariableName::VARIABLE_NAME_KEY].should == 'x'
+      smells[0].lines.should == [1,1]
     end
     it 'reports a bad name inside a block' do
       src = 'def clean(text) text.each { q2 = 3 } end'
-      src.should reek_of(:UncommunicativeVariableName, /q2/)
+      src.should smell_of(UncommunicativeVariableName,
+        {UncommunicativeVariableName::VARIABLE_NAME_KEY => 'q2'})
     end
     it 'reports variable name outside any method' do
       'class Simple; x = jim(45); end'.should reek_of(:UncommunicativeVariableName, /x/)
@@ -57,9 +67,6 @@ describe UncommunicativeVariableName do
   end
 
   context "block parameter name" do
-    it "reports parameter's name" do
-      'def help() @stuff.each {|x|} end'.should reek_only_of(:UncommunicativeVariableName, /x/, /variable name/)
-    end
     it "reports deep block parameter" do
       src = <<EOS
   def bad
@@ -68,20 +75,19 @@ describe UncommunicativeVariableName do
     end
   end
 EOS
-      src.should reek_only_of(:UncommunicativeVariableName, /'x'/)
+      src.should smell_of(UncommunicativeVariableName,
+        {UncommunicativeVariableName::VARIABLE_NAME_KEY => 'x'})
     end
     it 'reports all bad block parameters' do
-      source =<<EOS
-  class Thing
-    def bad(fred)
-      @fred.each {|x| 4 - x }
-      @jim.each {|y| y - 4 }
-    end
-  end
+      src =<<EOS
+def bad(fred)
+  @fred.each {|x| 4 - x }
+  @jim.each {|y| y - 4 }
+end
 EOS
-
-      source.should reek_of(:UncommunicativeVariableName, /'x'/)
-      source.should reek_of(:UncommunicativeVariableName, /'y'/)
+      src.should smell_of(UncommunicativeVariableName,
+        {UncommunicativeVariableName::VARIABLE_NAME_KEY => 'x'},
+        {UncommunicativeVariableName::VARIABLE_NAME_KEY => 'y'})
     end
   end
 
@@ -96,35 +102,17 @@ def bad
   end
 end
 EOS
-      source = src.to_reek_source
-      sniffer = Core::Sniffer.new(source)
-      mctx = Core::CodeParser.new(sniffer).process_defn(source.syntax_tree)
-      @detector.examine(mctx)
-      @warning = @detector.smells_found.to_a[0]   # SMELL: too cumbersome!
+      ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+      @detector.examine(ctx)
+      @smells = @detector.smells_found.to_a
+      @warning = @smells[0]
     end
-    it 'reports the source' do
-      @warning.source.should == @source_name
-    end
-    it 'reports the class' do
-      @warning.smell_class.should == 'UncommunicativeName'
-    end
-    it 'reports the subclass' do
-      @warning.subclass.should == 'UncommunicativeVariableName'
-    end
-    it 'reports the variable name' do
-      @warning.smell['variable_name'].should == 'x2'
-    end
-    it 'reports all line numbers' do
-      @warning.lines.should == [3,5]
-    end
-  end
 
-  context "several names" do
-    it 'should report all bad names' do
-      ruby = 'class Oof; def y(x) @z = x end end'
-      ruby.should reek_of(:UncommunicativeParameterName, /'x'/)
-      ruby.should reek_of(:UncommunicativeMethodName, /'y'/)
-      ruby.should reek_of(:UncommunicativeVariableName, /'@z'/)
+    it_should_behave_like 'common fields set correctly'
+
+    it 'reports the correct values' do
+      @warning.smell['variable_name'].should == 'x2'
+      @warning.lines.should == [3,5]
     end
   end
 end

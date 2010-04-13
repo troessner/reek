@@ -20,8 +20,15 @@ module SmellOfMatcher
       detector = @klass.new(@source.desc, @klass.default_config.merge(@config))
       detector.examine(ctx)
       actual_smells = detector.smells_found.to_a
-      return false if actual_smells.empty?
-      return false if actual_smells.any? {|expected_smell| expected_smell.smell_class != @klass::SMELL_CLASS }
+      if actual_smells.empty?
+        @reason = 'no smells found'
+        return false
+      end
+      return false if actual_smells.any? do |expected_smell|
+        @reason = "Found #{expected_smell.smell_class}/#{expected_smell.subclass}" &&
+        expected_smell.smell_class != @klass::SMELL_CLASS &&
+          expected_smell.subclass != @klass::SMELL_SUBCLASS
+      end
       return actual_smells.length == 1 if @expected_smells.empty?
       return false unless @expected_smells.length == actual_smells.length
       @expected_smells.each_with_index do |expected_smell,index|
