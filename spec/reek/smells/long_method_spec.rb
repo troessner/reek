@@ -20,11 +20,13 @@ describe LongMethod do
   end
 
   it 'should report long methods' do
-    'def long(arga) alf = f(1);@bet = 2;@cut = 3;@dit = 4; @emp = 5;@fry = 6;end'.should reek_only_of(:LongMethod, /6 statements/)
+    src = 'def long(arga) alf = f(1);@bet = 2;@cut = 3;@dit = 4; @emp = 5;@fry = 6;end'
+    src.should reek_only_of(:LongMethod, /6 statements/)
   end
 
   it 'should not report initialize' do
-    'def initialize(arga) alf = f(1);@bet = 2;@cut = 3;@dit = 4; @emp = 5;@fry = 6;end'.should_not reek
+    src = 'def initialize(arga) alf = f(1);@bet = 2;@cut = 3;@dit = 4; @emp = 5;@fry = 6;end'
+    src.should_not smell_of(LongMethod)
   end
 
   it 'should only report a long method once' do

@@ -78,17 +78,6 @@ EOS
       src.should smell_of(UncommunicativeVariableName,
         {UncommunicativeVariableName::VARIABLE_NAME_KEY => 'x'})
     end
-    it 'reports all bad block parameters' do
-      src =<<EOS
-def bad(fred)
-  @fred.each {|x| 4 - x }
-  @jim.each {|y| y - 4 }
-end
-EOS
-      src.should smell_of(UncommunicativeVariableName,
-        {UncommunicativeVariableName::VARIABLE_NAME_KEY => 'x'},
-        {UncommunicativeVariableName::VARIABLE_NAME_KEY => 'y'})
-    end
   end
 
   context 'when a smell is reported' do

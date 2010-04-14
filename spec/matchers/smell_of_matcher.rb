@@ -21,7 +21,7 @@ module SmellOfMatcher
       detector.examine(ctx)
       actual_smells = detector.smells_found.to_a
       if actual_smells.empty?
-        @reason = 'no smells found'
+        @reason = 'no smells found by detector'
         return false
       end
       return false if actual_smells.any? do |expected_smell|
