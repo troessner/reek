@@ -173,3 +173,37 @@ describe SexpExtensions::IterNode do
     end
   end
 end
+
+describe SexpExtensions::ModuleNode do
+  context 'with a simple name' do
+    subject do
+      mod = ast(:module, :Fred, nil)
+      mod
+    end
+    its(:name) { should == :Fred }
+    its(:simple_name) { should == :Fred }
+    its(:text_name) { should == 'Fred' }
+    it 'has a simple full_name' do
+      subject.full_name('').should == 'Fred'
+    end
+    it 'has a fq full_name' do
+      subject.full_name('Blimey::O::Reilly').should == 'Blimey::O::Reilly::Fred'
+    end
+  end
+
+  context 'with a scoped name' do
+    subject do
+      mod = ast(:module, s(:colon2, s(:const, :Foo), :Bar), nil)
+      mod
+    end
+    its(:name) { should == s(:colon2, s(:const, :Foo), :Bar) }
+    its(:simple_name) { should == :Bar }
+    its(:text_name) { should == 'Foo::Bar' }
+    it 'has a simple full_name' do
+      subject.full_name('').should == 'Foo::Bar'
+    end
+    it 'has a fq full_name' do
+      subject.full_name('Blimey::O::Reilly').should == 'Blimey::O::Reilly::Foo::Bar'
+    end
+  end
+end

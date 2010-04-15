@@ -28,6 +28,17 @@ describe UncommunicativeModuleName do
     it 'reports long name ending in a number' do
       "#{type} Printer2; end".should reek_of(:UncommunicativeModuleName, /Printer2/)
     end
+    it 'reports a bad scoped name' do
+      src = "#{type} Foo::X; end"
+      ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+      @detector.examine(ctx)
+      smells = @detector.smells_found.to_a
+      smells.length.should == 1
+      smells[0].smell_class.should == UncommunicativeModuleName::SMELL_CLASS
+      smells[0].subclass.should == UncommunicativeModuleName::SMELL_SUBCLASS
+      smells[0].smell[UncommunicativeModuleName::MODULE_NAME_KEY].should == 'X'
+      smells[0].context.should match(/#{smells[0].smell[UncommunicativeModuleName::MODULE_NAME_KEY]}/)
+    end
   end
 
   context 'accepting names' do
@@ -42,27 +53,17 @@ describe UncommunicativeModuleName do
   context 'looking at the YAML' do
     before :each do
       src = 'module Printer2; end'
-      source = src.to_reek_source
-      sniffer = Core::Sniffer.new(source)
-      @mctx = Core::CodeParser.new(sniffer).process_module(source.syntax_tree)
-      @detector.examine(@mctx)
-      warning = @detector.smells_found.to_a[0]   # SMELL: too cumbersome!
-      @yaml = warning.to_yaml
+      ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+      @detector.examine(ctx)
+      smells = @detector.smells_found.to_a
+      @warning = smells[0]
     end
-    it 'reports the source' do
-      @yaml.should match(/source:\s*#{@source_name}/)
-    end
-    it 'reports the class' do
-      @yaml.should match(/class:\s*UncommunicativeName/)
-    end
-    it 'reports the subclass' do
-      @yaml.should match(/subclass:\s*UncommunicativeModuleName/)
-    end
-    it 'reports the variable name' do
-      @yaml.should match(/module_name:\s*Printer2/)
-    end
-    it 'reports the line number of the declaration' do
-      @yaml.should match(/lines:\s*- 1/)
+
+    it_should_behave_like 'common fields set correctly'
+
+    it 'reports the correct values' do
+      @warning.smell[UncommunicativeModuleName::MODULE_NAME_KEY].should == 'Printer2'
+      @warning.lines.should == [1]
     end
   end
 end

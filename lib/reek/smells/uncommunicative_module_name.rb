@@ -19,6 +19,10 @@ module Reek
     #
     class UncommunicativeModuleName < SmellDetector
 
+      SMELL_CLASS = 'UncommunicativeName'
+      SMELL_SUBCLASS = self.name.split(/::/)[-1]
+      MODULE_NAME_KEY = 'module_name'
+
       # The name of the config field that lists the regexps of
       # smelly names to be reported.
       REJECT_KEY = 'reject'
@@ -52,12 +56,12 @@ module Reek
       # Remembers any smells found.
       #
       def examine_context(module_ctx)
-        name = module_ctx.name
+        name = module_ctx.exp.simple_name
         return false if accept?(module_ctx)
         return false unless is_bad_name?(name, module_ctx)
-        smell = SmellWarning.new('UncommunicativeName', module_ctx.full_name, [module_ctx.exp.line],
+        smell = SmellWarning.new(SMELL_CLASS, module_ctx.full_name, [module_ctx.exp.line],
           "has the name '#{name}'",
-          @source, 'UncommunicativeModuleName', {'module_name' => name.to_s})
+          @source, SMELL_SUBCLASS, {MODULE_NAME_KEY => name.to_s})
         @smells_found << smell
         #SMELL: serious duplication
       end

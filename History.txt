@@ -10,6 +10,7 @@
 
 === Minor Changes
 * Duplication can be configured to ignore specific calls
+* IrresponsibleModule now reports scoped module names correctly (#66)
 * NestedIterators is now more configurable:
 ** Option to specify permitted nesting depth (#14)
 ** Option to ignore certain iterator methods

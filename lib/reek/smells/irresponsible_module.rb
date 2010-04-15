@@ -29,7 +29,7 @@ module Reek
         return if comment.is_descriptive?
         smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [ctx.exp.line],
           'has no descriptive comment',
-          @source, SMELL_SUBCLASS, {MODULE_NAME_KEY => ctx.exp.name.to_s})
+          @source, SMELL_SUBCLASS, {MODULE_NAME_KEY => ctx.exp.text_name})
         @smells_found << smell
         #SMELL: serious duplication
       end

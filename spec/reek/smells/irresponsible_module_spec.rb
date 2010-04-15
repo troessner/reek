@@ -48,4 +48,15 @@ EOS
     smells[0].lines.should == [4]
     smells[0].smell[IrresponsibleModule::MODULE_NAME_KEY].should == @bad_module_name
   end
+  it 'reports a fq module name correctly' do
+    src = 'class Foo::Bar; end'
+    ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+    @detector.examine(ctx)
+    smells = @detector.smells_found.to_a
+    smells.length.should == 1
+    smells[0].smell_class.should == IrresponsibleModule::SMELL_CLASS
+    smells[0].subclass.should == IrresponsibleModule::SMELL_SUBCLASS
+    smells[0].smell[IrresponsibleModule::MODULE_NAME_KEY].should == 'Foo::Bar'
+    smells[0].context.should match(/#{smells[0].smell[IrresponsibleModule::MODULE_NAME_KEY]}/)
+  end
 end

@@ -6,6 +6,12 @@ module Reek
     # syntax tree more easily.
     #
     module SexpNode
+      def self.format(expr)
+        case expr
+        when Sexp then expr.format
+        else expr.to_s
+        end
+      end
       def is_language_node?
         first.class == Symbol
       end
@@ -61,15 +67,6 @@ module Reek
         def args() self[3] end
         def arg_names
           args[1..-1].map {|arg| arg[1]}
-        end
-      end
-
-      module ClassNode
-        def name() self[1] end
-        def superclass() self[2] end
-        def full_name(outer)
-          prefix = outer == '' ? '' : "#{outer}::"
-          "#{prefix}#{name}"
         end
       end
 
@@ -148,10 +145,25 @@ module Reek
 
       module ModuleNode
         def name() self[1] end
+        def simple_name
+          expr = name
+          while Sexp === expr and expr[0] == :colon2
+            expr = expr[2]
+          end
+          expr
+        end
         def full_name(outer)
           prefix = outer == '' ? '' : "#{outer}::"
-          "#{prefix}#{name}"
+          "#{prefix}#{text_name}"
         end
+        def text_name
+          SexpNode.format(name)
+        end
+      end
+
+      module ClassNode
+        include ModuleNode
+        def superclass() self[2] end
       end
 
       module YieldNode
