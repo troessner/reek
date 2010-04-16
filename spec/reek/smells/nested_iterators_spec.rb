@@ -116,28 +116,21 @@ describe NestedIterators do
     context 'with no iterators' do
       it 'returns an empty list' do
         src = 'def fred() nothing = true; end'
-        source = src.to_reek_source
-        sniffer = Sniffer.new(source)
-        @mctx = CodeParser.new(sniffer).process_defn(source.syntax_tree)
-        @detector.find_deepest_iterators(@mctx).should == []
+        ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+        @detector.find_deepest_iterators(ctx).should == []
       end
     end
 
     context 'with one iterator' do
-      before :each do
-        src = 'def fred() nothing.each {|item| item}; end'
-        source = src.to_reek_source
-        sniffer = Sniffer.new(source)
-        mctx = CodeParser.new(sniffer).process_defn(source.syntax_tree)
-        @result = @detector.find_deepest_iterators(mctx)
-      end
       it 'returns a depth of 1' do
-        @result.should == []
+        src = 'def fred() nothing.each {|item| item}; end'
+        ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+        @detector.find_deepest_iterators(ctx).should == []
       end
     end
 
     context 'with two non-nested iterators' do
-      before :each do
+      it 'returns both iterators' do
         src = <<EOS
 def fred()
   nothing.each do |item|
@@ -146,17 +139,12 @@ def fred()
   again.each {|thing| }
 end
 EOS
-        source = src.to_reek_source
-        sniffer = Sniffer.new(source)
-        mctx = CodeParser.new(sniffer).process_defn(source.syntax_tree)
-        @result = @detector.find_deepest_iterators(mctx)
-      end
-      it 'returns both iterators' do
-        @result.length.should == 0
+        ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+        @detector.find_deepest_iterators(ctx).should be_empty
       end
     end
 
-    context 'with one nested iterator' do
+    context 'when a smell is reported' do
       before :each do
         src = <<EOS
 def fred()
@@ -165,9 +153,7 @@ def fred()
   end
 end
 EOS
-        source = src.to_reek_source
-        sniffer = Sniffer.new(source)
-        @mctx = CodeParser.new(sniffer).process_defn(source.syntax_tree)
+        @mctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
         @result = @detector.find_deepest_iterators(@mctx)
       end
       it 'returns only the deepest iterator' do
@@ -183,14 +169,13 @@ EOS
       context 'when reporting yaml' do
         before :each do
           @detector.examine_context(@mctx)
-          warning = @detector.smells_found.to_a[0]   # SMELL: too cumbersome!
-          @yaml = warning.to_yaml
+          @warning = @detector.smells_found.to_a[0]
         end
         it 'reports the depth' do
-          @yaml.should match(/depth:\s*2/)
+          @warning.smell[NestedIterators::NESTING_DEPTH_KEY].should == 2
         end
         it 'reports the deepest line number' do
-          @yaml.should match(/lines:[\s-]*3/)
+          @warning.lines.should == [3]
         end
       end
     end

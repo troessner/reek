@@ -11,12 +11,12 @@ shared_examples_for 'SmellDetector' do
       @ctx.should_receive(:config).and_return({})
     end
     it 'when false' do
-      @ctx.should_receive(:matches?).and_return(false)
+      @ctx.should_receive(:matches?).at_least(:once).and_return(false)
       @detector.exception?(@ctx).should == false
     end
 
     it 'when true' do
-      @ctx.should_receive(:matches?).and_return(true)
+      @ctx.should_receive(:matches?).at_least(:once).and_return(true)
       @detector.exception?(@ctx).should == true
     end
   end

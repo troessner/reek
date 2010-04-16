@@ -37,6 +37,12 @@ describe SexpExtensions::DefnNode do
     it 'has no parameter names' do
       @node.parameter_names.should == s()
     end
+    it 'includes outer scope in its full name' do
+      @node.full_name('Fred').should == 'Fred#hello'
+    end
+    it 'includes no marker in its full name with empty outer scope' do
+      @node.full_name('').should == 'hello'
+    end
   end
 
   context 'with 1 parameter' do
@@ -49,6 +55,12 @@ describe SexpExtensions::DefnNode do
     end
     it 'has 1 parameter name' do
       @node.parameter_names.should == s(:param)
+    end
+    it 'includes outer scope in its full name' do
+      @node.full_name('Fred').should == 'Fred#hello'
+    end
+    it 'includes no marker in its full name with empty outer scope' do
+      @node.full_name('').should == 'hello'
     end
   end
 
@@ -63,6 +75,12 @@ describe SexpExtensions::DefnNode do
     it 'has 1 parameter name' do
       @node.parameter_names.should == s(:param, :"&blk")
     end
+    it 'includes outer scope in its full name' do
+      @node.full_name('Fred').should == 'Fred#hello'
+    end
+    it 'includes no marker in its full name with empty outer scope' do
+      @node.full_name('').should == 'hello'
+    end
   end
 
   context 'with 1 defaulted parameter' do
@@ -75,6 +93,12 @@ describe SexpExtensions::DefnNode do
     end
     it 'has 1 parameter name' do
       @node.parameter_names.should == s(:param)
+    end
+    it 'includes outer scope in its full name' do
+      @node.full_name('Fred').should == 'Fred#hello'
+    end
+    it 'includes no marker in its full name with empty outer scope' do
+      @node.full_name('').should == 'hello'
     end
   end
 end
@@ -91,6 +115,12 @@ describe SexpExtensions::DefsNode do
     it 'has no parameter names' do
       @node.parameter_names.should == s()
     end
+    it 'includes outer scope in its full name' do
+      @node.full_name('Fred').should == 'Fred#obj.hello'
+    end
+    it 'includes no marker in its full name with empty outer scope' do
+      @node.full_name('').should == 'obj.hello'
+    end
   end
 
   context 'with 1 parameter' do
@@ -103,6 +133,12 @@ describe SexpExtensions::DefsNode do
     end
     it 'has 1 parameter name' do
       @node.parameter_names.should == s(:param)
+    end
+    it 'includes outer scope in its full name' do
+      @node.full_name('Fred').should == 'Fred#obj.hello'
+    end
+    it 'includes no marker in its full name with empty outer scope' do
+      @node.full_name('').should == 'obj.hello'
     end
   end
 
@@ -117,6 +153,12 @@ describe SexpExtensions::DefsNode do
     it 'has 1 parameter name' do
       @node.parameter_names.should == s(:param, :"&blk")
     end
+    it 'includes outer scope in its full name' do
+      @node.full_name('Fred').should == 'Fred#obj.hello'
+    end
+    it 'includes no marker in its full name with empty outer scope' do
+      @node.full_name('').should == 'obj.hello'
+    end
   end
 
   context 'with 1 defaulted parameter' do
@@ -129,6 +171,12 @@ describe SexpExtensions::DefsNode do
     end
     it 'has 1 parameter name' do
       @node.parameter_names.should == s(:param)
+    end
+    it 'includes outer scope in its full name' do
+      @node.full_name('Fred').should == 'Fred#obj.hello'
+    end
+    it 'includes no marker in its full name with empty outer scope' do
+      @node.full_name('').should == 'obj.hello'
     end
   end
 end

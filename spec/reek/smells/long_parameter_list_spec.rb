@@ -6,51 +6,56 @@ include Reek
 include Reek::Smells
 
 describe LongParameterList do
-  
-  describe 'for methods with few parameters' do
+
+  context 'for methods with few parameters' do
     it 'should report nothing for no parameters' do
-      'def simple; f(3);true; end'.should_not reek
+      'def simple; f(3);true; end'.should_not smell_of(LongParameterList)
     end
     it 'should report nothing for 1 parameter' do
-      'def simple(yep) f(3);true end'.should_not reek
+      'def simple(yep) f(3);true end'.should_not smell_of(LongParameterList)
     end
     it 'should report nothing for 2 parameters' do
-      'def simple(yep,zero) f(3);true end'.should_not reek
+      'def simple(yep,zero) f(3);true end'.should_not smell_of(LongParameterList)
     end
     it 'should not count an optional block' do
-      'def simple(alpha, yep, zero, &opt) f(3);true end'.should_not reek
+      'def simple(alpha, yep, zero, &opt) f(3);true end'.should_not smell_of(LongParameterList)
     end
     it 'should not report inner block with too many parameters' do
-      'def simple(yep,zero); m[3]; rand(34); f.each { |arga, argb, argc, argd| true}; end'.should_not reek
+      src = 'def simple(yep,zero); m[3]; rand(34); f.each { |arga, argb, argc, argd| true}; end'
+      src.should_not smell_of(LongParameterList)
     end
 
     describe 'and default values' do
       it 'should report nothing for 1 parameter' do
-        'def simple(zero=nil) f(3);false end'.should_not reek
+        'def simple(zero=nil) f(3);false end'.should_not smell_of(LongParameterList)
       end
       it 'should report nothing for 2 parameters with 1 default' do
-        'def simple(yep, zero=nil) f(3);false end'.should_not reek
+        'def simple(yep, zero=nil) f(3);false end'.should_not smell_of(LongParameterList)
       end
       it 'should report nothing for 2 defaulted parameters' do
-        'def simple(yep=4, zero=nil) f(3);false end'.should_not reek
+        'def simple(yep=4, zero=nil) f(3);false end'.should_not smell_of(LongParameterList)
       end
     end
   end
 
   describe 'for methods with too many parameters' do
     it 'should report 4 parameters' do
-      'def simple(arga, argb, argc, argd) f(3);true end'.should reek_only_of(:LongParameterList, /4 parameters/)
+      src = 'def simple(arga, argb, argc, argd) f(3);true end'
+      src.should smell_of(LongParameterList, LongParameterList::PARAMETER_COUNT_KEY => 4)
     end
     it 'should report 8 parameters' do
-      'def simple(arga, argb, argc, argd,arge, argf, argg, argh) f(3);true end'.should reek_only_of(:LongParameterList, /8 parameters/)
+      src = 'def simple(arga, argb, argc, argd,arge, argf, argg, argh) f(3);true end'
+      src.should smell_of(LongParameterList, LongParameterList::PARAMETER_COUNT_KEY => 8)
     end
 
     describe 'and default values' do
       it 'should report 3 with 1 defaulted' do
-        'def simple(polly, queue, yep, zero=nil) f(3);false end'.should reek_only_of(:LongParameterList, /4 parameters/)
+        src = 'def simple(polly, queue, yep, zero=nil) f(3);false end'
+        src.should smell_of(LongParameterList, LongParameterList::PARAMETER_COUNT_KEY => 4)
       end
       it 'should report with 3 defaulted' do
-        'def simple(aarg, polly=2, yep=:truth, zero=nil) f(3);false end'.should reek_only_of(:LongParameterList, /4 parameters/)
+        src = 'def simple(aarg, polly=2, yep=:truth, zero=nil) f(3);false end'
+        src.should smell_of(LongParameterList, LongParameterList::PARAMETER_COUNT_KEY => 4)
       end
     end
   end
@@ -59,9 +64,7 @@ end
 describe LongParameterList do
   before(:each) do
     @source_name = 'smokin'
-    @detector = LongParameterList.new(@source_name, {})
-    # SMELL: can't use the default config, because that contains an override,
-    # which causes the mocked matches?() method to be called twice!!
+    @detector = LongParameterList.new(@source_name)
   end
 
   it_should_behave_like 'SmellDetector'
@@ -74,11 +77,10 @@ def badguy(arga, argb, argc, argd)
   true
 end
 EOS
-      source = src.to_reek_source
-      sniffer = Sniffer.new(source)
-      mctx = CodeParser.new(sniffer).process_defn(source.syntax_tree)
-      @detector.examine_context(mctx)
-      @warning = @detector.smells_found.to_a[0]   # SMELL: too cumbersome!
+      ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+      @detector.examine(ctx)
+      @smells = @detector.smells_found.to_a
+      @warning = @smells[0]
     end
 
     it_should_behave_like 'common fields set correctly'

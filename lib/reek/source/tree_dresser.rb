@@ -77,24 +77,29 @@ module Reek
       CvasgnNode = CvarNode
       CvdeclNode = CvarNode
 
-      module DefnNode
-        def name() self[1] end
+      module MethodNode
         def arg_names
           unless @args
-            @args = self[2][1..-1].reject {|param| Sexp === param or param.to_s =~ /^&/}
+            @args = argslist[1..-1].reject {|param| Sexp === param or param.to_s =~ /^&/}
           end
           @args
         end
         def parameters()
           unless @params
-            @params = self[2].reject {|param| Sexp === param}
+            @params = argslist.reject {|param| Sexp === param}
           end
           @params
         end
         def parameter_names
           parameters[1..-1]
         end
+      end
+
+      module DefnNode
+        def name() self[1] end
+        def argslist() self[2] end
         def body() self[3] end
+        include MethodNode
         def full_name(outer)
           prefix = outer == '' ? '' : "#{outer}#"
           "#{prefix}#{name}"
@@ -104,16 +109,12 @@ module Reek
       module DefsNode
         def receiver() self[1] end
         def name() self[2] end
-        def parameters
-          self[3].reject {|param| Sexp === param}
-        end
-        def parameter_names
-          parameters[1..-1]
-        end
+        def argslist() self[3] end
         def body() self[4] end
+        include MethodNode
         def full_name(outer)
           prefix = outer == '' ? '' : "#{outer}#"
-          "#{prefix}#{receiver.format}.#{name}"
+          "#{prefix}#{SexpNode.format(receiver)}.#{name}"
         end
       end
 

@@ -104,4 +104,20 @@ EOS
       @warning.lines.should == [3,5]
     end
   end
+
+  context 'when a smell is reported in a singleton method' do
+    before :each do
+      src = 'def self.bad() x2 = 4; end'
+      ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+      @detector.examine(ctx)
+      @smells = @detector.smells_found.to_a
+      @warning = @smells[0]
+    end
+
+    it_should_behave_like 'common fields set correctly'
+
+    it 'reports the fq context' do
+      @warning.context.should == 'self.bad'
+    end
+  end
 end

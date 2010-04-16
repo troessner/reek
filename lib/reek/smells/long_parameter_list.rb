@@ -42,11 +42,11 @@ module Reek
       end
 
       #
-      # Checks the number of parameters in the given scope.
+      # Checks the number of parameters in the given method.
       # Remembers any smells found.
       #
       def examine_context(ctx)
-        num_params = ctx.parameters.length
+        num_params = ctx.exp.arg_names.length
         return false if num_params <= value(MAX_ALLOWED_PARAMS_KEY, ctx, DEFAULT_MAX_ALLOWED_PARAMS)
         smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [ctx.exp.line],
           "has #{num_params} parameters",

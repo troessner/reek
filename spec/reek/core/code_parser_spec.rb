@@ -15,7 +15,8 @@ end
 
 describe CodeParser, 'with a global method definition' do
   it 'reports no problems for simple method' do
-    'def Outermost::fred() true; end'.should_not reek
+    src = 'def Outermost::fred() true; end'
+    src.should_not reek
   end
 end
 
