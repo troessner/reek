@@ -55,10 +55,12 @@ module Reek
       # Checks the given +context+ for uncommunicative names.
       # Remembers any smells found.
       #
-      def examine_context(context)
-        variable_names(context.exp).each do |name, lines|
-          next unless is_bad_name?(name, context)
-          smell = SmellWarning.new(SMELL_CLASS, context.full_name, lines,
+      def examine_context(ctx)
+        @reject_names = value(REJECT_KEY, ctx, DEFAULT_REJECT_SET)
+        @accept_names = value(ACCEPT_KEY, ctx, DEFAULT_ACCEPT_SET)
+        variable_names(ctx.exp).each do |name, lines|
+          next unless is_bad_name?(name, ctx)
+          smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, lines,
             "has the variable name '#{name}'",
             @source, SMELL_SUBCLASS, {VARIABLE_NAME_KEY => name.to_s})
           @smells_found << smell
@@ -66,10 +68,10 @@ module Reek
         end
       end
 
-      def is_bad_name?(name, context)  # :nodoc:
+      def is_bad_name?(name, ctx)
         var = name.to_s.gsub(/^[@\*\&]*/, '')
-        return false if value(ACCEPT_KEY, context, DEFAULT_ACCEPT_SET).include?(var)
-        value(REJECT_KEY, context, DEFAULT_REJECT_SET).detect {|patt| patt === var}
+        return false if @accept_names.include?(var)
+        @reject_names.detect {|patt| patt === var}
       end
 
       def variable_names(exp)
