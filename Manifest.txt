@@ -5,6 +5,7 @@ README.md
 Rakefile
 bin/reek
 config/defaults.reek
+features/api.feature
 features/masking_smells.feature
 features/options.feature
 features/rake_task.feature
@@ -132,6 +133,7 @@ spec/samples/config/allow_duplication.reek
 spec/samples/config/deeper_nested_iterators.reek
 spec/samples/corrupt_config_file/corrupt.reek
 spec/samples/corrupt_config_file/dirty.rb
+spec/samples/demo/demo.rb
 spec/samples/empty_config_file/dirty.rb
 spec/samples/empty_config_file/empty.reek
 spec/samples/exceptions.reek

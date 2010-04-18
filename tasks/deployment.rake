@@ -31,7 +31,9 @@ EOS
   s.rdoc_options = ['--main', README_FILE]
   s.extra_rdoc_files = s.files.grep(/(txt|rdoc)$/)
   s.post_install_message = '
-For more information on reek, see http://wiki.github.com/kevinrutherford/reek
+Thank you for downloading Reek. For info:
+  - see the reek wiki http://wiki.github.com/kevinrutherford/reek
+  - follow @rubyreek on twitter
 '
 end
 

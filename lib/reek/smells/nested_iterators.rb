@@ -44,6 +44,8 @@ module Reek
       # Remembers any smells found.
       #
       def examine_context(ctx)
+        @ignore_iterators = value(IGNORE_ITERATORS_KEY, ctx, DEFAULT_IGNORE_ITERATORS)
+        @max_allowed_nesting = value(MAX_ALLOWED_NESTING_KEY, ctx, DEFAULT_MAX_ALLOWED_NESTING)
         find_deepest_iterators(ctx).each do |iter|
           depth = iter[1]
           smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [iter[0].line],
@@ -53,33 +55,32 @@ module Reek
           @smells_found << smell
           #SMELL: serious duplication
         end
-        # TODO: report the nesting depth and the innermost line
         # BUG: no longer reports nesting outside methods (eg. in Optparse)
       end
 
-      def find_deepest_iterators(method_ctx)
-        ignoring = value(IGNORE_ITERATORS_KEY, method_ctx, DEFAULT_IGNORE_ITERATORS)
+    private
+
+      def find_deepest_iterators(ctx)
         result = []
-        find_iters(method_ctx.exp, 1, ignoring, result)
-        max_allowed_nesting = value(MAX_ALLOWED_NESTING_KEY, method_ctx, DEFAULT_MAX_ALLOWED_NESTING)
-        result.select {|item| item[1] > max_allowed_nesting}
+        find_iters(ctx.exp, 1, result)
+        result.select {|item| item[1] > @max_allowed_nesting}
       end
 
-      def find_iters(exp, depth, ignoring, result)
+      def find_iters(exp, depth, result)
         exp.each do |elem|
           next unless Sexp === elem
           case elem.first
           when :iter
-            find_iters([elem.call], depth, ignoring, result)
+            find_iters([elem.call], depth, result)
             current = result.length
             call = Source::SexpFormatter.format(elem.call)
-            ignored = ignoring.any? { |ignore| /#{ignore}/ === call }
-            find_iters([elem.block], depth + (ignored ? 0 : 1), ignoring, result)
+            ignored = @ignore_iterators.any? { |ignore| /#{ignore}/ === call }
+            find_iters([elem.block], depth + (ignored ? 0 : 1), result)
             result << [elem, depth] if result.length == current unless ignored
           when :class, :defn, :defs, :module
             next
           else
-            find_iters(elem, depth, ignoring, result)
+            find_iters(elem, depth, result)
           end
         end
       end

@@ -52,7 +52,7 @@ module Reek
 
       def check_num_methods(ctx)  # :nodoc:
         actual = ctx.local_nodes(:defn).length
-        return if actual <= value(MAX_ALLOWED_METHODS_KEY, ctx, DEFAULT_MAX_METHODS)
+        return if actual <= @max_allowed_methods
         smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [ctx.exp.line],
           "has at least #{actual} methods",
           @source, SUBCLASS_TOO_MANY_METHODS,
@@ -63,7 +63,7 @@ module Reek
 
       def check_num_ivars(ctx)  # :nodoc:
         count = ctx.local_nodes(:iasgn).map {|iasgn| iasgn[1]}.uniq.length
-        return if count <= value(MAX_ALLOWED_IVARS_KEY, ctx, DEFAULT_MAX_IVARS)
+        return if count <= @max_allowed_ivars
         smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [ctx.exp.line],
           "has at least #{count} instance variables",
           @source, SUBCLASS_TOO_MANY_IVARS,
@@ -77,6 +77,8 @@ module Reek
       # Remembers any smells found.
       #
       def examine_context(ctx)
+        @max_allowed_ivars = value(MAX_ALLOWED_IVARS_KEY, ctx, DEFAULT_MAX_IVARS)
+        @max_allowed_methods = value(MAX_ALLOWED_METHODS_KEY, ctx, DEFAULT_MAX_METHODS)
         check_num_methods(ctx)
         check_num_ivars(ctx)
       end

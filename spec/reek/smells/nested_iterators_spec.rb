@@ -6,6 +6,20 @@ include Reek::Smells
 
 describe NestedIterators do
 
+  context 'with no iterators' do
+    it 'reports no smells' do
+      src = 'def fred() nothing = true; end'
+      src.should_not smell_of(NestedIterators)
+    end
+  end
+
+  context 'with one iterator' do
+    it 'reports no smells' do
+      src = 'def fred() nothing.each {|item| item}; end'
+      src.should_not smell_of(NestedIterators)
+    end
+  end
+
   it 'should report nested iterators in a method' do
     src = 'def bad(fred) @fred.each {|item| item.each {|ting| ting.ting} } end'
     src.should smell_of(NestedIterators)
@@ -107,77 +121,31 @@ end
 
 describe NestedIterators do
   before(:each) do
-    @detector = NestedIterators.new('cuckoo')
+    @source_name = 'cuckoo'
+    @detector = NestedIterators.new(@source_name)
   end
 
   it_should_behave_like 'SmellDetector'
 
-  context 'find_deepest_iterators' do
-    context 'with no iterators' do
-      it 'returns an empty list' do
-        src = 'def fred() nothing = true; end'
-        ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
-        @detector.find_deepest_iterators(ctx).should == []
-      end
-    end
-
-    context 'with one iterator' do
-      it 'returns a depth of 1' do
-        src = 'def fred() nothing.each {|item| item}; end'
-        ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
-        @detector.find_deepest_iterators(ctx).should == []
-      end
-    end
-
-    context 'with two non-nested iterators' do
-      it 'returns both iterators' do
-        src = <<EOS
-def fred()
-  nothing.each do |item|
-    item
-  end
-  again.each {|thing| }
-end
-EOS
-        ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
-        @detector.find_deepest_iterators(ctx).should be_empty
-      end
-    end
-
-    context 'when a smell is reported' do
-      before :each do
-        src = <<EOS
+  context 'when a smell is reported' do
+    before :each do
+      src = <<EOS
 def fred()
   nothing.each do |item|
     again.each {|thing| item }
   end
 end
 EOS
-        @mctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
-        @result = @detector.find_deepest_iterators(@mctx)
-      end
-      it 'returns only the deepest iterator' do
-        @result.length.should == 1
-      end
-      it 'has depth of 2' do
-        @result[0][1].should == 2
-      end
-      it 'refers to the innermost exp' do
-        @result[0][0].line.should == 3
-      end
+      ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+      @detector.examine_context(ctx)
+      @warning = @detector.smells_found.to_a[0]
+    end
 
-      context 'when reporting yaml' do
-        before :each do
-          @detector.examine_context(@mctx)
-          @warning = @detector.smells_found.to_a[0]
-        end
-        it 'reports the depth' do
-          @warning.smell[NestedIterators::NESTING_DEPTH_KEY].should == 2
-        end
-        it 'reports the deepest line number' do
-          @warning.lines.should == [3]
-        end
-      end
+    it_should_behave_like 'common fields set correctly'
+
+    it 'reports correct values' do
+      @warning.smell[NestedIterators::NESTING_DEPTH_KEY].should == 2
+      @warning.lines.should == [3]
     end
   end
 end

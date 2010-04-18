@@ -49,9 +49,10 @@ module Reek
       # Remembers any smells found.
       #
       def examine_context(ctx)
+        @max_identical_ifs = value(MAX_IDENTICAL_IFS_KEY, ctx, DEFAULT_MAX_IFS)
         conditional_counts(ctx).each do |key, lines|
           occurs = lines.length
-          next unless occurs > value(MAX_IDENTICAL_IFS_KEY, ctx, DEFAULT_MAX_IFS)
+          next unless occurs > @max_identical_ifs
           expr = key.format
           smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, lines,
             "tests #{expr} at least #{occurs} times",

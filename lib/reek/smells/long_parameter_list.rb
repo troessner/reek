@@ -46,8 +46,9 @@ module Reek
       # Remembers any smells found.
       #
       def examine_context(ctx)
+        @max_allowed_params = value(MAX_ALLOWED_PARAMS_KEY, ctx, DEFAULT_MAX_ALLOWED_PARAMS)
         num_params = ctx.exp.arg_names.length
-        return false if num_params <= value(MAX_ALLOWED_PARAMS_KEY, ctx, DEFAULT_MAX_ALLOWED_PARAMS)
+        return false if num_params <= @max_allowed_params
         smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [ctx.exp.line],
           "has #{num_params} parameters",
           @source, SMELL_SUBCLASS,

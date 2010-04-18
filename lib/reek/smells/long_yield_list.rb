@@ -38,9 +38,10 @@ module Reek
       # Remembers any smells found.
       #
       def examine_context(method_ctx)
+        @max_allowed_params = value(MAX_ALLOWED_PARAMS_KEY, method_ctx, DEFAULT_MAX_ALLOWED_PARAMS)
         method_ctx.local_nodes(:yield).each do |yield_node|
           num_params = yield_node.args.length
-          next if num_params <= value(MAX_ALLOWED_PARAMS_KEY, method_ctx, DEFAULT_MAX_ALLOWED_PARAMS)
+          next if num_params <= @max_allowed_params
           smell = SmellWarning.new(SMELL_CLASS, method_ctx.full_name, [yield_node.line],
             "yields #{num_params} parameters",
             @source, SMELL_SUBCLASS, {PARAMETER_COUNT_KEY => num_params})

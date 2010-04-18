@@ -43,10 +43,10 @@ describe UncommunicativeModuleName do
 
   context 'accepting names' do
     it 'accepts Inline::C' do
-      ctx = mock('context')
-      ctx.should_receive(:full_name).and_return('Inline::C')
-      ctx.should_receive(:config).at_least(:once).and_return({})
-      @detector.accept?(ctx).should == true
+      src = 'module Inline::C; end'
+      ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+      @detector.examine(ctx)
+      @detector.smells_found.should be_empty
     end
   end
 

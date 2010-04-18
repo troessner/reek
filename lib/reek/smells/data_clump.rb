@@ -63,9 +63,9 @@ module Reek
       # Remembers any smells found.
       #
       def examine_context(ctx)
-        max_copies = value(MAX_COPIES_KEY, ctx, DEFAULT_MAX_COPIES)
-        min_clump_size = value(MIN_CLUMP_SIZE_KEY, ctx, DEFAULT_MIN_CLUMP_SIZE)
-        MethodGroup.new(ctx, min_clump_size, max_copies).clumps.each do |clump, methods|
+        @max_copies = value(MAX_COPIES_KEY, ctx, DEFAULT_MAX_COPIES)
+        @min_clump_size = value(MIN_CLUMP_SIZE_KEY, ctx, DEFAULT_MIN_CLUMP_SIZE)
+        MethodGroup.new(ctx, @min_clump_size, @max_copies).clumps.each do |clump, methods|
           smell = SmellWarning.new('DataClump', ctx.full_name,
             methods.map {|meth| meth.line},
             "takes parameters #{DataClump.print_clump(clump)} to #{methods.length} methods",

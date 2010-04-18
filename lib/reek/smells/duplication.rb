@@ -49,11 +49,13 @@ module Reek
       end
 
       def examine_context(ctx)
+        @max_allowed_calls = value(MAX_ALLOWED_CALLS_KEY, ctx, DEFAULT_MAX_CALLS)
+        @allow_calls = value(ALLOW_CALLS_KEY, ctx, DEFAULT_ALLOW_CALLS)
         calls(ctx).each do |call_exp, copies|
           occurs = copies.length
-          next if occurs <= value(MAX_ALLOWED_CALLS_KEY, ctx, DEFAULT_MAX_CALLS)
+          next if occurs <= @max_allowed_calls
           call = call_exp.format
-          next if allow_calls?(ctx, call)
+          next if allow_calls?(call)
           multiple = occurs == 2 ? 'twice' : "#{occurs} times"
           smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, copies.map {|exp| exp.line},
             "calls #{call} #{multiple}",
@@ -76,8 +78,8 @@ module Reek
         result
       end
 
-      def allow_calls?(method_ctx, method)
-        value(ALLOW_CALLS_KEY, method_ctx, DEFAULT_ALLOW_CALLS).any? { |allow| /#{allow}/ === method }
+      def allow_calls?(method)
+        @allow_calls.any? { |allow| /#{allow}/ === method }
       end
     end
   end

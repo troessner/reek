@@ -1,5 +1,4 @@
-Reek -- code smell detection for Ruby
-=====================================
+# Reek -- code smell detection for Ruby
 
 Reek is a tool that examines Ruby classes, modules and methods and
 reports any code smells it finds. Install it like this:
@@ -16,63 +15,47 @@ or run
 
     $ reek --help
 
-Example
--------
+## Example
 
-Imagine a source file <tt>csv_writer.rb</tt> containing:
+Imagine a source file <tt>demo.rb</tt> containing:
 
-    class CsvWriter
-      def write_line(fields)
-        if (fields.length == 0)
-          puts
-        else
-          write_field(fields[0])
-          1.upto(fields.length-1) do |i|
-            print ","
-            write_field(fields[i])
-          end
-          puts
-        end
+    class Dirty
+      # This method smells of :reek:NestedIterators but ignores them
+      def awful(x, y, offset = 0, log = false)
+        puts @screen.title
+        @screen = widgets.map {|w| w.each {|key| key += 3}}
+        puts @screen.contents
       end
-
-      #...
     end
 
 Reek will report the following code smells in this file:
 
-    $ reek csv_writer.rb
-    CsvWriter#write_line calls fields.length multiple times (Duplication)
-    CsvWriter#write_line has approx 6 statements (Long Method)
-    CsvWriter#write_line/block has the variable name 'i' (Uncommunicative Name)
+    $ reek demo.rb
+    spec/samples/demo/demo.rb -- 6 warnings:
+      Dirty has no descriptive comment (IrresponsibleModule)
+      Dirty#awful has 4 parameters (LongParameterList)
+      Dirty#awful has boolean parameter 'log' (ControlCouple)
+      Dirty#awful has the parameter name 'x' (UncommunicativeName)
+      Dirty#awful has the parameter name 'y' (UncommunicativeName)
+      Dirty#awful has the variable name 'w' (UncommunicativeName)
 
-Features
---------
+## Features
 
-Reek currently includes checks for some aspects of the following smells:
-
-* [Control Couple](http://wiki.github.com/kevinrutherford/reek/control-couple)
-* [Data Clump](http://wiki.github.com/kevinrutherford/reek/data-clump)
-* [Feature Envy](http://wiki.github.com/kevinrutherford/reek/feature-envy)
-* [Large Class](http://wiki.github.com/kevinrutherford/reek/large-class)
-* [Long Method](http://wiki.github.com/kevinrutherford/reek/long-method)
-* [Long Parameter List](http://wiki.github.com/kevinrutherford/reek/long-parameter-list)
-* [Simulated Polymorphism](http://wiki.github.com/kevinrutherford/reek/simulated-polymorphism)
-* [Uncommunicative Name](http://wiki.github.com/kevinrutherford/reek/uncommunicative-name)
-
-...and more. See the [Reek wiki](http://wiki.github.com/kevinrutherford/reek/code-smells)
+Reek currently includes checks for some aspects of Control Couple,
+Data Clump, Feature Envy, Large Class, Long Method, Long Parameter List,
+Simulated Polymorphism, Uncommunicative Name and more.
+See the [Reek wiki](http://wiki.github.com/kevinrutherford/reek/code-smells)
 for up to date details of exactly what Reek will check in your code.
 
-Tool Integration
-----------------
+### Tool Integration
 
 Reek integrates with many of your favourite tools:
 
-* Use `Reek::Rake::Task` to easily add Reek to your Rakefile
-* Use `Reek::Spec` to add the `should_not reek` custom matcher to your Rspec examples
+* `require 'reek/rake/task'` to easily add Reek to your Rakefile
+* `require 'reek/spec'` to add the `should_not reek` custom matcher to your Rspec examples
 * Reek is fully compliant with Ruby 1.8.6, 1.8.7 and 1.9.1
 
-Dependencies
-------------
+### Dependencies
 
 Reek makes use of the following other gems:
 
@@ -86,5 +69,6 @@ Learn More
 Find out more about Reek from any of the following sources:
 
 * Browse the Reek documentation at [http://wiki.github.com/kevinrutherford/reek](http://wiki.github.com/kevinrutherford/reek)
-* Browse the code or install the latest cutting-edge beta version from [http://github.com/kevinrutherford/reek/tree](http://github.com/kevinrutherford/reek/tree)
+* Browse the code or install the latest development version from [http://github.com/kevinrutherford/reek/tree](http://github.com/kevinrutherford/reek/tree)
 * Read the code API at [http://rdoc.info/projects/kevinrutherford/reek](http://rdoc.info/projects/kevinrutherford/reek)
+* Follow [@rubyreek](http://twitter.com/rubyreek) on twitter!

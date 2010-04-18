@@ -55,25 +55,19 @@ module Reek
       # Checks the given +context+ for uncommunicative names.
       # Remembers any smells found.
       #
-      def examine_context(module_ctx)
-        name = module_ctx.exp.simple_name
-        return false if accept?(module_ctx)
-        return false unless is_bad_name?(name, module_ctx)
-        smell = SmellWarning.new(SMELL_CLASS, module_ctx.full_name, [module_ctx.exp.line],
+      def examine_context(ctx)
+        @reject_names = value(REJECT_KEY, ctx, DEFAULT_REJECT_SET)
+        @accept_names = value(ACCEPT_KEY, ctx, DEFAULT_ACCEPT_SET)
+        name = ctx.exp.simple_name
+        return if @accept_names.include?(ctx.full_name)
+        var = name.to_s.gsub(/^[@\*\&]*/, '')
+        return if @accept_names.include?(var)
+        return unless @reject_names.detect {|patt| patt === var}
+        smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [ctx.exp.line],
           "has the name '#{name}'",
           @source, SMELL_SUBCLASS, {MODULE_NAME_KEY => name.to_s})
         @smells_found << smell
         #SMELL: serious duplication
-      end
-
-      def accept?(context)
-        value(ACCEPT_KEY, context, DEFAULT_ACCEPT_SET).include?(context.full_name)
-      end
-
-      def is_bad_name?(name, context)  # :nodoc:
-        var = name.to_s.gsub(/^[@\*\&]*/, '')
-        return false if value(ACCEPT_KEY, context, DEFAULT_ACCEPT_SET).include?(var)
-        value(REJECT_KEY, context, DEFAULT_REJECT_SET).detect {|patt| patt === var}
       end
     end
   end
