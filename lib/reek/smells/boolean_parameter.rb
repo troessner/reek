@@ -19,7 +19,7 @@ module Reek
       PARAMETER_KEY = 'parameter'
 
       #
-      # Checks whether the given method has a Boolean parameter.
+      # Checks whether the given method has any Boolean parameters.
       # Remembers any smells found.
       #
       def examine_context(method_ctx)

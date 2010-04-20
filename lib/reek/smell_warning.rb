@@ -72,7 +72,7 @@ module Reek
 
     def is_active() @status[ACTIVE_KEY] end
 
-    def hash  # :nodoc:
+    def hash
       sort_key.hash
     end
 
@@ -86,7 +86,7 @@ module Reek
 
     def contains_all?(patterns)
       rpt = sort_key.to_s
-      return patterns.all? {|patt| patt === rpt}
+      return patterns.all? {|pattern| pattern === rpt}
     end
 
     def matches?(klass, patterns)

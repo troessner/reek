@@ -29,7 +29,7 @@ module Reek
       DEFAULT_EXCLUDE_SET = []
 
       class << self
-        def contexts      # :nodoc:
+        def contexts
           [:defn, :defs]
         end
 
@@ -46,7 +46,7 @@ module Reek
       def initialize(source, config = self.class.default_config)
         @source = source
         @config = Core::SmellConfiguration.new(config)
-        @smells_found = Set.new
+        @smells_found = []
       end
 
       def register(hooks)

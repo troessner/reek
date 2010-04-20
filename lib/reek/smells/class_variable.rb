@@ -28,11 +28,11 @@ module Reek
       # Remembers any smells found.
       #
       def examine_context(ctx)
-        class_variables_in(ctx.exp).each do |cvar_node|
-          smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [cvar_node.line],
-            "declares the class variable #{cvar_node.name}",
+        class_variables_in(ctx.exp).each do |attr_name, lines|
+          smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, lines,
+            "declares the class variable #{attr_name.to_s}",
             @source, SMELL_SUBCLASS,
-            {VARIABLE_KEY => cvar_node.name.to_s})
+            {VARIABLE_KEY => attr_name.to_s})
           @smells_found << smell
           #SMELL: serious duplication
         end
@@ -43,8 +43,10 @@ module Reek
       # in the given module.
       #
       def class_variables_in(ast)
-        result = Set.new
-        collector = proc { |cvar_node| result << cvar_node }
+        result = Hash.new {|hash,key| hash[key] = []}
+        collector = proc do |cvar_node|
+          result[cvar_node.name].push(cvar_node.line)
+        end
         [:cvar, :cvasgn, :cvdecl].each do |stmt_type|
           ast.each_node(stmt_type, [:class, :module], &collector)
         end

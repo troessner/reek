@@ -4,3 +4,4 @@ spec/output
 tmp
 doc
 .yardoc
+.idea

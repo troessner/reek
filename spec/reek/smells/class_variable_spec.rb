@@ -32,7 +32,6 @@ describe ClassVariable do
     shared_examples_for 'one variable found' do
       before :each do
         ast = @src.to_reek_source.syntax_tree
-        @cvars = @detector.class_variables_in(ast).to_a
         @detector.examine_context(CodeContext.new(nil, ast))
         @smells = @detector.smells_found.to_a
       end

@@ -51,7 +51,7 @@ def bad(fred)
   @jim.each {|ting| ting.each {|piece| @hal.send} }
 end
 EOS
-    src.should smell_of(NestedIterators)
+    src.should smell_of(NestedIterators, {}, {})
   end
 
   context 'when the allowed nesting depth is 3' do
