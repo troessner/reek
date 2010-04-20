@@ -34,16 +34,25 @@ module Reek
       OCCURRENCES_KEY = 'occurrences'
       PARAMETERS_KEY = 'parameters'
 
-      def self.contexts      # :nodoc:
+      # @private
+      def self.contexts
         [:class, :module]
       end
 
+      #
       # The name of the config field that sets the maximum allowed
-      # copies of any clump.
+      # copies of any clump. No group of common parameters will be
+      # reported as a DataClump unless there are more than this many
+      # methods containing those parameters.
+      #
       MAX_COPIES_KEY = 'max_copies'
-
       DEFAULT_MAX_COPIES = 2
 
+      #
+      # The name of the config field that sets the minimum clump
+      # size. No group of common parameters will be reported as
+      # a DataClump unless it contains at least this many parameters.
+      #
       MIN_CLUMP_SIZE_KEY = 'min_clump_size'
       DEFAULT_MIN_CLUMP_SIZE = 2
 
@@ -80,6 +89,7 @@ module Reek
         end
       end
 
+      # @private
       def self.print_clump(clump)
         "[#{clump.map {|name| name.to_s}.join(', ')}]"
       end

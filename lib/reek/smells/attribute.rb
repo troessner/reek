@@ -22,6 +22,7 @@ module Reek
 
       SMELL_CLASS = self.name.split(/::/)[-1]
       SMELL_SUBCLASS = SMELL_CLASS
+
       ATTRIBUTE_KEY = 'attribute'
 
       def self.contexts      # :nodoc:
@@ -45,16 +46,14 @@ module Reek
           smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [line],
             "declares the attribute #{attr}",
             @source, SMELL_SUBCLASS,
-            {'attribute' => attr.to_s})
+            {ATTRIBUTE_KEY => attr.to_s})
           @smells_found << smell
           #SMELL: serious duplication
         end
       end
 
-      #
-      # Collects the names of the class variables declared and/or used
-      # in the given module.
-      #
+    private
+      
       def attributes_in(module_ctx)
         result = Set.new
         attr_defn_methods = [:attr, :attr_reader, :attr_writer, :attr_accessor]

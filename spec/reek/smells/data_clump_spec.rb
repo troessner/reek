@@ -41,7 +41,7 @@ EOS
       @smells[0].smell[DataClump::PARAMETERS_KEY].should == ['pa', 'pb']
     end
     it 'reports the number of occurrences' do
-      @smells[0].smell['occurrences'].should == 3
+      @smells[0].smell[DataClump::OCCURRENCES_KEY].should == 3
     end
     it 'reports all parameters' do
       @smells[0].smell[DataClump::METHODS_KEY].should == ['first', 'second', 'third']

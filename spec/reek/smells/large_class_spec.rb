@@ -115,7 +115,7 @@ EOS
     @warning.source.should == @source_name
     @warning.smell_class.should == 'LargeClass'
     @warning.subclass.should == LargeClass::SUBCLASS_TOO_MANY_METHODS
-    @warning.smell['method_count'].should == 26
+    @warning.smell[LargeClass::METHOD_COUNT_KEY].should == 26
     @warning.lines.should == [1]
   end
 
@@ -134,7 +134,7 @@ EOS
     @warning.source.should == @source_name
     @warning.smell_class.should == 'LargeClass'
     @warning.subclass.should == LargeClass::SUBCLASS_TOO_MANY_IVARS
-    @warning.smell['ivar_count'].should == 10
+    @warning.smell[LargeClass::IVAR_COUNT_KEY].should == 10
     @warning.lines.should == [2]
   end
 end
