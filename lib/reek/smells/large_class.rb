@@ -50,37 +50,41 @@ module Reek
         super(source, config)
       end
 
+      #
+      # Checks +klass+ for too many methods or too many instance variables.
+      #
+      # @return [Array<SmellWarning>]
+      #
+      def examine_context(ctx)
+        @max_allowed_ivars = value(MAX_ALLOWED_IVARS_KEY, ctx, DEFAULT_MAX_IVARS)
+        @max_allowed_methods = value(MAX_ALLOWED_METHODS_KEY, ctx, DEFAULT_MAX_METHODS)
+        check_num_methods(ctx) + check_num_ivars(ctx)
+      end
+
+    private
+
       def check_num_methods(ctx)  # :nodoc:
         actual = ctx.local_nodes(:defn).length
-        return if actual <= @max_allowed_methods
+        return [] if actual <= @max_allowed_methods
         smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [ctx.exp.line],
           "has at least #{actual} methods",
           @source, SUBCLASS_TOO_MANY_METHODS,
           {METHOD_COUNT_KEY => actual})
         @smells_found << smell
         #SMELL: serious duplication
+        [smell]
       end
 
       def check_num_ivars(ctx)  # :nodoc:
         count = ctx.local_nodes(:iasgn).map {|iasgn| iasgn[1]}.uniq.length
-        return if count <= @max_allowed_ivars
+        return [] if count <= @max_allowed_ivars
         smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [ctx.exp.line],
           "has at least #{count} instance variables",
           @source, SUBCLASS_TOO_MANY_IVARS,
           {IVAR_COUNT_KEY => count})
         @smells_found << smell
         #SMELL: serious duplication
-      end
-
-      #
-      # Checks +klass+ for too many methods or too many instance variables.
-      # Remembers any smells found.
-      #
-      def examine_context(ctx)
-        @max_allowed_ivars = value(MAX_ALLOWED_IVARS_KEY, ctx, DEFAULT_MAX_IVARS)
-        @max_allowed_methods = value(MAX_ALLOWED_METHODS_KEY, ctx, DEFAULT_MAX_METHODS)
-        check_num_methods(ctx)
-        check_num_ivars(ctx)
+        [smell]
       end
     end
   end

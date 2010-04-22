@@ -18,14 +18,12 @@ describe IrresponsibleModule do
 class Responsible; end
 EOS
     ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
-    @detector.examine(ctx)
-    @detector.smells_found.should be_empty
+    @detector.examine_context(ctx).should be_empty
   end
   it "reports a class without a comment" do
     src = "class #{@bad_module_name}; end"
     ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
-    @detector.examine(ctx)
-    smells = @detector.smells_found.to_a
+    smells = @detector.examine_context(ctx)
     smells.length.should == 1
     smells[0].smell_class.should == IrresponsibleModule::SMELL_CLASS
     smells[0].subclass.should == IrresponsibleModule::SMELL_SUBCLASS
@@ -40,8 +38,7 @@ EOS
 class #{@bad_module_name}; end
 EOS
     ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
-    @detector.examine(ctx)
-    smells = @detector.smells_found.to_a
+    smells = @detector.examine_context(ctx)
     smells.length.should == 1
     smells[0].smell_class.should == IrresponsibleModule::SMELL_CLASS
     smells[0].subclass.should == IrresponsibleModule::SMELL_SUBCLASS
@@ -51,8 +48,7 @@ EOS
   it 'reports a fq module name correctly' do
     src = 'class Foo::Bar; end'
     ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
-    @detector.examine(ctx)
-    smells = @detector.smells_found.to_a
+    smells = @detector.examine_context(ctx)
     smells.length.should == 1
     smells[0].smell_class.should == IrresponsibleModule::SMELL_CLASS
     smells[0].subclass.should == IrresponsibleModule::SMELL_SUBCLASS

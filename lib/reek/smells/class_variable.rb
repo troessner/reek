@@ -25,7 +25,8 @@ module Reek
 
       #
       # Checks whether the given class or module declares any class variables.
-      # Remembers any smells found.
+      #
+      # @return [Array<SmellWarning>]
       #
       def examine_context(ctx)
         class_variables_in(ctx.exp).map do |attr_name, lines|

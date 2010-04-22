@@ -1,7 +1,6 @@
 require File.join( File.dirname( File.expand_path(__FILE__)), 'smell_detector')
 require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'source')
 
-# Part of Reek's core
 module Reek
   module Smells
 
@@ -22,16 +21,18 @@ module Reek
 
       #
       # Checks the given class or module for a descriptive comment.
-      # Remembers any smells found.
+      #
+      # @return [Array<SmellWarning>]
       #
       def examine_context(ctx)
         comment = Source::CodeComment.new(ctx.exp.comments)
-        return if comment.is_descriptive?
+        return [] if comment.is_descriptive?
         smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [ctx.exp.line],
           'has no descriptive comment',
           @source, SMELL_SUBCLASS, {MODULE_NAME_KEY => ctx.exp.text_name})
         @smells_found << smell
         #SMELL: serious duplication
+        [smell]
       end
     end
   end

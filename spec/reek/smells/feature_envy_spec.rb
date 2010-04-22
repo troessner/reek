@@ -190,8 +190,7 @@ EOS
       source = src.to_reek_source
       sniffer = Sniffer.new(source)
       @mctx = CodeParser.new(sniffer).process_defn(source.syntax_tree)
-      @detector.examine_context(@mctx)
-      @smells = @detector.smells_found.to_a
+      @smells = @detector.examine_context(@mctx)
     end
     it 'reports only that smell' do
       @smells.length.should == 1

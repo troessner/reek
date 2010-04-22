@@ -56,8 +56,7 @@ class Full
 end
 EOS
       ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
-      @detector.examine(ctx)
-      @detector.smells_found.should be_empty
+      @detector.examine_context(ctx).should be_empty
     end
 
     it 'should report 26 methods' do
@@ -72,8 +71,7 @@ class Full
 end
 EOS
       ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
-      @detector.examine(ctx)
-      smells = @detector.smells_found.to_a
+      smells = @detector.examine_context(ctx)
       smells.length.should == 1
       smells[0].subclass.should == LargeClass::SUBCLASS_TOO_MANY_METHODS
       smells[0].smell[LargeClass::METHOD_COUNT_KEY].should == 26
@@ -93,8 +91,7 @@ class Full
 end
 EOS
       ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
-      @detector.examine(ctx)
-      @detector.smells_found.should be_empty
+      @detector.examine_context(ctx).should be_empty
     end
   end
 
@@ -110,8 +107,7 @@ class Full
 end
 EOS
     ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
-    @detector.examine(ctx)
-    @warning = @detector.smells_found.to_a[0]
+    @warning = @detector.examine_context(ctx)[0]
     @warning.source.should == @source_name
     @warning.smell_class.should == 'LargeClass'
     @warning.subclass.should == LargeClass::SUBCLASS_TOO_MANY_METHODS
@@ -129,8 +125,7 @@ class Empty
 end
 EOS
     ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
-    @detector.examine_context(ctx)
-    @warning = @detector.smells_found.to_a[0]
+    @warning = @detector.examine_context(ctx)[0]
     @warning.source.should == @source_name
     @warning.smell_class.should == 'LargeClass'
     @warning.subclass.should == LargeClass::SUBCLASS_TOO_MANY_IVARS

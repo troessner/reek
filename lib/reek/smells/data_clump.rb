@@ -69,12 +69,13 @@ module Reek
 
       #
       # Checks the given class or module for multiple identical parameter sets.
-      # Remembers any smells found.
+      #
+      # @return [Array<SmellWarning>]
       #
       def examine_context(ctx)
         @max_copies = value(MAX_COPIES_KEY, ctx, DEFAULT_MAX_COPIES)
         @min_clump_size = value(MIN_CLUMP_SIZE_KEY, ctx, DEFAULT_MIN_CLUMP_SIZE)
-        MethodGroup.new(ctx, @min_clump_size, @max_copies).clumps.each do |clump, methods|
+        MethodGroup.new(ctx, @min_clump_size, @max_copies).clumps.map do |clump, methods|
           smell = SmellWarning.new('DataClump', ctx.full_name,
             methods.map {|meth| meth.line},
             "takes parameters #{DataClump.print_clump(clump)} to #{methods.length} methods",
@@ -86,6 +87,7 @@ module Reek
           @smells_found << smell
           #SMELL: serious duplication
           # SMELL: name.to_s is becoming a nuisance
+          smell
         end
       end
 

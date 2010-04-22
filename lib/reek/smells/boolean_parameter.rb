@@ -21,7 +21,8 @@ module Reek
 
       #
       # Checks whether the given method has any Boolean parameters.
-      # Remembers any smells found.
+      #
+      # @return [Array<SmellWarning>]
       #
       def examine_context(method_ctx)
         method_ctx.parameters.default_assignments.map do |param, value|
