@@ -50,11 +50,12 @@ module Reek
       #
       # Checks whether the given method chooses its execution path
       # by testing the value of one of its parameters.
-      # Remembers any smells found.
+      #
+      # @return [Array<SmellWarning>]
       #
       def examine_context(ctx)
-        control_parameters(ctx).each do |cond, occurs|
-          param = cond.format
+        control_parameters(ctx).map do |cond, occurs|
+          param = cond.format_ruby
           lines = occurs.map {|exp| exp.line}
           smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, lines,
             "is controlled by argument #{param}",
@@ -62,6 +63,7 @@ module Reek
             {PARAMETER_KEY => param})
           @smells_found << smell
           #SMELL: serious duplication
+          smell
         end
       end
 

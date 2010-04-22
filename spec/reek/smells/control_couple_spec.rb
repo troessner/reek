@@ -42,8 +42,7 @@ def things(arg)
 end
 EOS
       ctx = MethodContext.new(nil, src.to_reek_source.syntax_tree)
-      @detector.examine(ctx)
-      smells = @detector.smells_found.to_a
+      smells = @detector.examine(ctx)
       smells.length.should == 1
       @warning = smells[0]
     end

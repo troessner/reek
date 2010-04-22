@@ -16,6 +16,7 @@ module Reek
 
       SMELL_CLASS = 'ControlCouple'
       SMELL_SUBCLASS = self.name.split(/::/)[-1]
+      
       PARAMETER_KEY = 'parameter'
 
       #
@@ -23,13 +24,14 @@ module Reek
       # Remembers any smells found.
       #
       def examine_context(method_ctx)
-        method_ctx.parameters.default_assignments.each do |param, value|
+        method_ctx.parameters.default_assignments.map do |param, value|
           next unless [:true, :false].include?(value[0])
           smell = SmellWarning.new(SMELL_CLASS, method_ctx.full_name, [method_ctx.exp.line],
             "has boolean parameter '#{param.to_s}'",
             @source, SMELL_SUBCLASS, {PARAMETER_KEY => param.to_s})
           @smells_found << smell
           #SMELL: serious duplication
+          smell
         end
       end
     end

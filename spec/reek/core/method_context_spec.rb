@@ -65,7 +65,7 @@ describe MethodParameters, 'default assignments' do
       @defaults = assignments_from(src)
     end
     it 'returns the param-value pair' do
-      @defaults[:argb].should == s(:lit, 456)
+      @defaults[0].should == s(:argb, s(:lit, 456))
     end
     it 'returns the nothing else' do
       @defaults.length.should == 1
@@ -78,8 +78,8 @@ describe MethodParameters, 'default assignments' do
       @defaults = assignments_from(src)
     end
     it 'returns both param-value pairs' do
-      @defaults[:arga].should == s(:lit, 123)
-      @defaults[:argb].should == s(:lit, 456)
+      @defaults[0].should == s(:arga, s(:lit, 123))
+      @defaults[1].should == s(:argb, s(:lit, 456))
     end
     it 'returns nothing else' do
       @defaults.length.should == 2

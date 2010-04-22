@@ -10,10 +10,10 @@ module Reek
     module MethodParameters
       def default_assignments
         assignments = self[-1]
-        result = {}
+        result = []
         return result unless is_assignment_block?(assignments)
         assignments[1..-1].each do |exp|
-          result[exp[1]] = exp[2] if exp[0] == :lasgn
+          result << exp[1..2] if exp[0] == :lasgn
         end
         result
       end

@@ -18,13 +18,11 @@ describe ClassVariable do
   context 'with no class variables' do
     it 'records nothing in the class' do
       exp = ast(:class, :Fred)
-      @detector.examine_context(CodeContext.new(nil, exp))
-      @detector.smells_found.should be_empty
+      @detector.examine_context(CodeContext.new(nil, exp)).should be_empty
     end
     it 'records nothing in the module' do
       exp = ast(:module, :Fred)
-      @detector.examine_context(CodeContext.new(nil, exp))
-      @detector.smells_found.should be_empty
+      @detector.examine_context(CodeContext.new(nil, exp)).should be_empty
     end
   end
 
@@ -32,8 +30,7 @@ describe ClassVariable do
     shared_examples_for 'one variable found' do
       before :each do
         ast = @src.to_reek_source.syntax_tree
-        @detector.examine_context(CodeContext.new(nil, ast))
-        @smells = @detector.smells_found.to_a
+        @smells = @detector.examine_context(CodeContext.new(nil, ast))
       end
       it 'records only that class variable' do
         @smells.length.should == 1
@@ -93,8 +90,7 @@ module Fred
 end
 EOS
     ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
-    @detector.examine(ctx)
-    @warning = @detector.smells_found.to_a[0]
+    @warning = @detector.examine_context(ctx)[0]
     @warning.source.should == @source_name
     @warning.smell_class.should == ClassVariable::SMELL_CLASS
     @warning.subclass.should == ClassVariable::SMELL_SUBCLASS

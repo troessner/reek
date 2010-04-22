@@ -21,8 +21,7 @@ def double_thing(other)
 end
 EOS
       ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
-      @detector.examine(ctx)
-      smells = @detector.smells_found.to_a
+      smells = @detector.examine_context(ctx)
       smells.length.should == 1
       @warning = smells[0]
     end

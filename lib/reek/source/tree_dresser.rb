@@ -8,10 +8,15 @@ module Reek
     module SexpNode
       def self.format(expr)
         case expr
-        when Sexp then expr.format
+        when Sexp then expr.format_ruby
         else expr.to_s
         end
       end
+
+      def hash
+        self.inspect.hash
+      end
+
       def is_language_node?
         first.class == Symbol
       end
@@ -43,7 +48,7 @@ module Reek
         end
         blk.call(self) if first == target_type
       end
-      def format
+      def format_ruby
         return self[0].to_s unless Array === self
         Ruby2Ruby.new.process(deep_copy)
       end

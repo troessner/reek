@@ -6,7 +6,7 @@ describe 'gem manifest' do
     @current_files = []
     Find.find '.' do |path|
       next unless File.file? path
-      next if path =~ /\.git|build|doc|gem\/|tmp|nbproject|quality|xp.reek|Manifest.txt|develop.rake|deployment.rake/
+      next if path =~ /\.git|\.idea|build|doc|gem\/|tmp|nbproject|quality|xp.reek|Manifest.txt|develop.rake|deployment.rake/
       @current_files << path[2..-1]
     end
     @current_files.sort!

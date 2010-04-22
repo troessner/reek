@@ -53,7 +53,7 @@ module Reek
         conditional_counts(ctx).each do |key, lines|
           occurs = lines.length
           next unless occurs > @max_identical_ifs
-          expr = key.format
+          expr = key.format_ruby
           smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, lines,
             "tests #{expr} at least #{occurs} times",
             @source, SMELL_SUBCLASS,

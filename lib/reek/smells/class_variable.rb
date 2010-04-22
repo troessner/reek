@@ -28,13 +28,14 @@ module Reek
       # Remembers any smells found.
       #
       def examine_context(ctx)
-        class_variables_in(ctx.exp).each do |attr_name, lines|
+        class_variables_in(ctx.exp).map do |attr_name, lines|
           smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, lines,
             "declares the class variable #{attr_name.to_s}",
             @source, SMELL_SUBCLASS,
             {VARIABLE_KEY => attr_name.to_s})
           @smells_found << smell
           #SMELL: serious duplication
+          smell
         end
       end
 

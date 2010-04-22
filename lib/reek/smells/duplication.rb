@@ -48,14 +48,19 @@ module Reek
         super(source, config)
       end
 
+      #
+      # Looks for duplicate calls within the body of the method +ctx+.
+      #
+      # @return [Array<SmellWarning>]
+      #
       def examine_context(ctx)
         @max_allowed_calls = value(MAX_ALLOWED_CALLS_KEY, ctx, DEFAULT_MAX_CALLS)
         @allow_calls = value(ALLOW_CALLS_KEY, ctx, DEFAULT_ALLOW_CALLS)
-        calls(ctx).each do |call_exp, copies|
+        calls(ctx).select do |call_exp, copies|
+          copies.length > @max_allowed_calls and not allow_calls?(call_exp.format_ruby)
+        end.map do |call_exp, copies|
           occurs = copies.length
-          next if occurs <= @max_allowed_calls
-          call = call_exp.format
-          next if allow_calls?(call)
+          call = call_exp.format_ruby
           multiple = occurs == 2 ? 'twice' : "#{occurs} times"
           smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, copies.map {|exp| exp.line},
             "calls #{call} #{multiple}",
@@ -63,8 +68,11 @@ module Reek
             {CALL_KEY => call, OCCURRENCES_KEY => occurs})
           @smells_found << smell
           #SMELL: serious duplication
+          smell
         end
       end
+
+    private
 
       def calls(method_ctx)
         result = Hash.new {|hash,key| hash[key] = []}

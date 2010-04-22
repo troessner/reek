@@ -18,8 +18,7 @@ describe Attribute do
     it 'records nothing in the module' do
       src = 'module Fred; end'
       ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
-      @detector.examine_context(ctx)
-      @detector.smells_found.should be_empty
+      @detector.examine_context(ctx).should be_empty
     end
   end
 
@@ -31,8 +30,7 @@ describe Attribute do
     shared_examples_for 'one attribute found' do
       before :each do
         ctx = CodeContext.new(nil, @src.to_reek_source.syntax_tree)
-        @detector.examine_context(ctx)
-        @smells = @detector.smells_found.to_a
+        @smells = @detector.examine_context(ctx)
       end
 
       it 'records only that attribute' do
