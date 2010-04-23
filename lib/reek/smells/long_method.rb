@@ -47,8 +47,6 @@ module Reek
           "has approx #{num} statements",
           @source, SUBCLASS_TOO_MANY_STATEMENTS,
           {STATEMENT_COUNT_KEY => num})
-        @smells_found << smell
-        #SMELL: serious duplication
         [smell]
       end
     end

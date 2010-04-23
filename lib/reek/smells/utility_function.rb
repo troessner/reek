@@ -72,8 +72,6 @@ module Reek
         smell = SmellWarning.new(SMELL_CLASS, method_ctx.full_name, [method_ctx.exp.line],
           "doesn't depend on instance state",
           @source, SMELL_SUBCLASS)
-        @smells_found << smell
-        #SMELL: serious duplication
         [smell]
       end
 

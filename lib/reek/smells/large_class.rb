@@ -70,8 +70,6 @@ module Reek
           "has at least #{actual} methods",
           @source, SUBCLASS_TOO_MANY_METHODS,
           {METHOD_COUNT_KEY => actual})
-        @smells_found << smell
-        #SMELL: serious duplication
         [smell]
       end
 
@@ -82,8 +80,6 @@ module Reek
           "has at least #{count} instance variables",
           @source, SUBCLASS_TOO_MANY_IVARS,
           {IVAR_COUNT_KEY => count})
-        @smells_found << smell
-        #SMELL: serious duplication
         [smell]
       end
     end

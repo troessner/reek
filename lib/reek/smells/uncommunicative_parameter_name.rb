@@ -65,8 +65,6 @@ module Reek
           smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [ctx.exp.line],
                                    "has the parameter name '#{name}'",
                                    @source, SMELL_SUBCLASS, {PARAMETER_NAME_KEY => name.to_s})
-          @smells_found << smell
-          #SMELL: serious duplication
           smell
         end
       end

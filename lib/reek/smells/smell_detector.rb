@@ -65,7 +65,10 @@ module Reek
 
       def examine(context)
         enabled = @config.enabled? && config_for(context)[Core::SmellConfiguration::ENABLED_KEY] != false
-        examine_context(context) if enabled && !exception?(context)
+        if enabled && !exception?(context)
+          sm = examine_context(context)
+          @smells_found += sm
+        end
       end
 
       def examine_context(context)

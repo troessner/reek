@@ -62,12 +62,9 @@ module Reek
         variable_names(ctx.exp).select do |name, lines|
           is_bad_name?(name, ctx)
         end.map do |name, lines|
-          smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, lines,
-                                   "has the variable name '#{name}'",
-                                   @source, SMELL_SUBCLASS, {VARIABLE_NAME_KEY => name.to_s})
-          @smells_found << smell
-          #SMELL: serious duplication
-          smell
+          SmellWarning.new(SMELL_CLASS, ctx.full_name, lines,
+                           "has the variable name '#{name}'",
+                           @source, SMELL_SUBCLASS, {VARIABLE_NAME_KEY => name.to_s})
         end
       end
 

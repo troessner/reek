@@ -61,8 +61,6 @@ module Reek
             "is controlled by argument #{param}",
             @source, SMELL_SUBCLASS,
             {PARAMETER_KEY => param})
-          @smells_found << smell
-          #SMELL: serious duplication
           smell
         end
       end

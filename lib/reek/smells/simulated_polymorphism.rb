@@ -56,12 +56,10 @@ module Reek
         end.map do |key, lines|
           occurs = lines.length
           expr = key.format_ruby
-          smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, lines,
-                                   "tests #{expr} at least #{occurs} times",
-                                   @source, SMELL_SUBCLASS,
-                                   {'expression' => expr, 'occurrences' => occurs})
-          @smells_found << smell
-          #SMELL: serious duplication
+          SmellWarning.new(SMELL_CLASS, ctx.full_name, lines,
+                           "tests #{expr} at least #{occurs} times",
+                           @source, SMELL_SUBCLASS,
+                           {'expression' => expr, 'occurrences' => occurs})
         end
       end
 

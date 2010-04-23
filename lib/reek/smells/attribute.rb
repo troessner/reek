@@ -48,8 +48,6 @@ module Reek
             "declares the attribute #{attr}",
             @source, SMELL_SUBCLASS,
             {ATTRIBUTE_KEY => attr.to_s})
-          @smells_found << smell
-          #SMELL: serious duplication
           smell
         end
       end

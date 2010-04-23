@@ -30,8 +30,6 @@ module Reek
         smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [ctx.exp.line],
           'has no descriptive comment',
           @source, SMELL_SUBCLASS, {MODULE_NAME_KEY => ctx.exp.text_name})
-        @smells_found << smell
-        #SMELL: serious duplication
         [smell]
       end
     end

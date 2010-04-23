@@ -66,8 +66,6 @@ module Reek
             "calls #{call} #{multiple}",
             @source, SMELL_SUBCLASS,
             {CALL_KEY => call, OCCURRENCES_KEY => occurs})
-          @smells_found << smell
-          #SMELL: serious duplication
           smell
         end
       end

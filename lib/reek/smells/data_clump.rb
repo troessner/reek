@@ -58,8 +58,8 @@ module Reek
 
       def self.default_config
         super.adopt(
-          MAX_COPIES_KEY => DEFAULT_MAX_COPIES,
-          MIN_CLUMP_SIZE_KEY => DEFAULT_MIN_CLUMP_SIZE
+                MAX_COPIES_KEY => DEFAULT_MAX_COPIES,
+                MIN_CLUMP_SIZE_KEY => DEFAULT_MIN_CLUMP_SIZE
         )
       end
 
@@ -76,18 +76,14 @@ module Reek
         @max_copies = value(MAX_COPIES_KEY, ctx, DEFAULT_MAX_COPIES)
         @min_clump_size = value(MIN_CLUMP_SIZE_KEY, ctx, DEFAULT_MIN_CLUMP_SIZE)
         MethodGroup.new(ctx, @min_clump_size, @max_copies).clumps.map do |clump, methods|
-          smell = SmellWarning.new('DataClump', ctx.full_name,
-            methods.map {|meth| meth.line},
-            "takes parameters #{DataClump.print_clump(clump)} to #{methods.length} methods",
-            @source, 'DataClump', {
-              PARAMETERS_KEY => clump.map {|name| name.to_s},
-              OCCURRENCES_KEY => methods.length,
-              METHODS_KEY => methods.map {|meth| meth.name}
-            })
-          @smells_found << smell
-          #SMELL: serious duplication
-          # SMELL: name.to_s is becoming a nuisance
-          smell
+          SmellWarning.new('DataClump', ctx.full_name,
+                           methods.map {|meth| meth.line},
+                           "takes parameters #{DataClump.print_clump(clump)} to #{methods.length} methods",
+                           @source, 'DataClump', {
+                          PARAMETERS_KEY => clump.map {|name| name.to_s},
+                          OCCURRENCES_KEY => methods.length,
+                          METHODS_KEY => methods.map {|meth| meth.name}
+                  })
         end
       end
 
@@ -125,7 +121,7 @@ module Reek
         end
       end
     end
-    
+
     def collect_clumps_in(methods, results)
       return if methods.length <= @max_copies
       tail = methods[1..-1]
@@ -161,7 +157,7 @@ module Reek
   class CandidateMethod
     def initialize(defn_node)
       @defn = defn_node
-      @params = defn_node.arg_names.clone.sort {|first,second| first.to_s <=> second.to_s}
+      @params = defn_node.arg_names.clone.sort {|first, second| first.to_s <=> second.to_s}
     end
 
     def arg_names

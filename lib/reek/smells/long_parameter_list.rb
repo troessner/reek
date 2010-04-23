@@ -54,8 +54,6 @@ module Reek
           "has #{num_params} parameters",
           @source, SMELL_SUBCLASS,
           {PARAMETER_COUNT_KEY => num_params})
-        @smells_found << smell
-        #SMELL: serious duplication
         [smell]
       end
     end

@@ -44,12 +44,9 @@ module Reek
           yield_node.args.length > @max_allowed_params
         end.map do |yield_node|
           num_params = yield_node.args.length
-          smell = SmellWarning.new(SMELL_CLASS, method_ctx.full_name, [yield_node.line],
-                                   "yields #{num_params} parameters",
-                                   @source, SMELL_SUBCLASS, {PARAMETER_COUNT_KEY => num_params})
-          @smells_found << smell
-          #SMELL: serious duplication
-          smell
+          SmellWarning.new(SMELL_CLASS, method_ctx.full_name, [yield_node.line],
+                           "yields #{num_params} parameters",
+                           @source, SMELL_SUBCLASS, {PARAMETER_COUNT_KEY => num_params})
         end
       end
     end

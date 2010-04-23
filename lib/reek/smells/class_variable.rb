@@ -34,8 +34,6 @@ module Reek
             "declares the class variable #{attr_name.to_s}",
             @source, SMELL_SUBCLASS,
             {VARIABLE_KEY => attr_name.to_s})
-          @smells_found << smell
-          #SMELL: serious duplication
           smell
         end
       end

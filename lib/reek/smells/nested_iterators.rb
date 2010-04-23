@@ -49,13 +49,10 @@ module Reek
         @max_allowed_nesting = value(MAX_ALLOWED_NESTING_KEY, ctx, DEFAULT_MAX_ALLOWED_NESTING)
         find_deepest_iterators(ctx).map do |iter|
           depth = iter[1]
-          smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [iter[0].line],
+          SmellWarning.new(SMELL_CLASS, ctx.full_name, [iter[0].line],
             "contains iterators nested #{depth} deep",
             @source, SMELL_SUBCLASS,
             {NESTING_DEPTH_KEY => depth})
-          @smells_found << smell
-          #SMELL: serious duplication
-          smell
         end
         # BUG: no longer reports nesting outside methods (eg. in Optparse)
       end
