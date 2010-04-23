@@ -137,8 +137,7 @@ def fred()
 end
 EOS
       ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
-      @detector.examine_context(ctx)
-      @warning = @detector.smells_found.to_a[0]
+      @warning = @detector.examine_context(ctx)[0]
     end
 
     it_should_behave_like 'common fields set correctly'

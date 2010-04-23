@@ -28,7 +28,7 @@ module Reek
       REJECT_KEY = 'reject'
 
       DEFAULT_REJECT_SET = [/^.$/, /[0-9]$/, /[A-Z]/]
-      
+
       # The name of the config field that lists the specific names that are
       # to be treated as exceptions; these names will not be reported as
       # uncommunicative.
@@ -38,8 +38,8 @@ module Reek
 
       def self.default_config
         super.adopt(
-          REJECT_KEY => DEFAULT_REJECT_SET,
-          ACCEPT_KEY => DEFAULT_ACCEPT_SET
+                REJECT_KEY => DEFAULT_REJECT_SET,
+                ACCEPT_KEY => DEFAULT_ACCEPT_SET
         )
       end
 
@@ -53,18 +53,21 @@ module Reek
 
       #
       # Checks the given +context+ for uncommunicative names.
-      # Remembers any smells found.
+      #
+      # @return [Array<SmellWarning>]
       #
       def examine_context(ctx)
         @reject_names = value(REJECT_KEY, ctx, DEFAULT_REJECT_SET)
         @accept_names = value(ACCEPT_KEY, ctx, DEFAULT_ACCEPT_SET)
-        ctx.exp.parameter_names.each do |name|
-          next unless is_bad_name?(name, ctx)
+        ctx.exp.parameter_names.select do |name|
+          is_bad_name?(name, ctx)
+        end.map do |name|
           smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [ctx.exp.line],
-            "has the parameter name '#{name}'",
-            @source, SMELL_SUBCLASS, {PARAMETER_NAME_KEY => name.to_s})
+                                   "has the parameter name '#{name}'",
+                                   @source, SMELL_SUBCLASS, {PARAMETER_NAME_KEY => name.to_s})
           @smells_found << smell
           #SMELL: serious duplication
+          smell
         end
       end
 

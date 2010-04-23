@@ -49,8 +49,7 @@ describe UncommunicativeVariableName do
     it 'reports variable name only once' do
       src = 'def simple(fred) x = jim(45); x = y end'
       ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
-      @detector.examine(ctx)
-      smells = @detector.smells_found.to_a
+      smells = @detector.examine_context(ctx)
       smells.length.should == 1
       smells[0].subclass.should == UncommunicativeVariableName::SMELL_SUBCLASS
       smells[0].smell[UncommunicativeVariableName::VARIABLE_NAME_KEY].should == 'x'
@@ -92,8 +91,7 @@ def bad
 end
 EOS
       ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
-      @detector.examine(ctx)
-      @smells = @detector.smells_found.to_a
+      @smells = @detector.examine_context(ctx)
       @warning = @smells[0]
     end
 
@@ -109,8 +107,7 @@ EOS
     before :each do
       src = 'def self.bad() x2 = 4; end'
       ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
-      @detector.examine(ctx)
-      @smells = @detector.smells_found.to_a
+      @smells = @detector.examine_context(ctx)
       @warning = @smells[0]
     end
 

@@ -36,18 +36,20 @@ module Reek
 
       #
       # Checks the length of the given +method+.
-      # Remembers any smells found.
+      #
+      # @return [Array<SmellWarning>]
       #
       def examine_context(ctx)
         @max_allowed_statements = value(MAX_ALLOWED_STATEMENTS_KEY, ctx, DEFAULT_MAX_STATEMENTS)
         num = ctx.num_statements
-        return false if num <= @max_allowed_statements
+        return [] if num <= @max_allowed_statements
         smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [ctx.exp.line],
           "has approx #{num} statements",
           @source, SUBCLASS_TOO_MANY_STATEMENTS,
           {STATEMENT_COUNT_KEY => num})
         @smells_found << smell
         #SMELL: serious duplication
+        [smell]
       end
     end
   end

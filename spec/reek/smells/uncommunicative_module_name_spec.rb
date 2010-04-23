@@ -31,8 +31,7 @@ describe UncommunicativeModuleName do
     it 'reports a bad scoped name' do
       src = "#{type} Foo::X; end"
       ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
-      @detector.examine(ctx)
-      smells = @detector.smells_found.to_a
+      smells = @detector.examine_context(ctx)
       smells.length.should == 1
       smells[0].smell_class.should == UncommunicativeModuleName::SMELL_CLASS
       smells[0].subclass.should == UncommunicativeModuleName::SMELL_SUBCLASS
@@ -45,8 +44,7 @@ describe UncommunicativeModuleName do
     it 'accepts Inline::C' do
       src = 'module Inline::C; end'
       ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
-      @detector.examine(ctx)
-      @detector.smells_found.should be_empty
+      @detector.examine_context(ctx).should be_empty
     end
   end
 
@@ -54,8 +52,7 @@ describe UncommunicativeModuleName do
     before :each do
       src = 'module Printer2; end'
       ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
-      @detector.examine(ctx)
-      smells = @detector.smells_found.to_a
+      smells = @detector.examine_context(ctx)
       @warning = smells[0]
     end
 

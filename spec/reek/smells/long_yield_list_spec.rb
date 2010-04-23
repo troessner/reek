@@ -43,8 +43,7 @@ def simple(arga, argb, &blk)
   end
 EOS
       ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
-      @detector.examine(ctx)
-      @smells = @detector.smells_found.to_a
+      @smells = @detector.examine_context(ctx)
       @warning = @smells[0]
     end
 

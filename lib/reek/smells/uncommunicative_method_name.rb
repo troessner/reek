@@ -53,7 +53,8 @@ module Reek
 
       #
       # Checks the given +context+ for uncommunicative names.
-      # Remembers any smells found.
+      #
+      # @return [Array<SmellWarning>]
       #
       def examine_context(ctx)
         @reject_names = value(REJECT_KEY, ctx, DEFAULT_REJECT_SET)
@@ -68,6 +69,7 @@ module Reek
           @source, 'UncommunicativeMethodName', {METHOD_NAME_KEY => name.to_s})
         @smells_found << smell
         #SMELL: serious duplication
+        [smell]
       end
     end
   end

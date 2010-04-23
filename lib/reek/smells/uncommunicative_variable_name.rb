@@ -28,7 +28,7 @@ module Reek
       REJECT_KEY = 'reject'
 
       DEFAULT_REJECT_SET = [/^.$/, /[0-9]$/, /[A-Z]/]
-      
+
       # The name of the config field that lists the specific names that are
       # to be treated as exceptions; these names will not be reported as
       # uncommunicative.
@@ -38,8 +38,8 @@ module Reek
 
       def self.default_config
         super.adopt(
-          REJECT_KEY => DEFAULT_REJECT_SET,
-          ACCEPT_KEY => DEFAULT_ACCEPT_SET
+                REJECT_KEY => DEFAULT_REJECT_SET,
+                ACCEPT_KEY => DEFAULT_ACCEPT_SET
         )
       end
 
@@ -53,18 +53,21 @@ module Reek
 
       #
       # Checks the given +context+ for uncommunicative names.
-      # Remembers any smells found.
+      #
+      # @return [Array<SmellWarning>]
       #
       def examine_context(ctx)
         @reject_names = value(REJECT_KEY, ctx, DEFAULT_REJECT_SET)
         @accept_names = value(ACCEPT_KEY, ctx, DEFAULT_ACCEPT_SET)
-        variable_names(ctx.exp).each do |name, lines|
-          next unless is_bad_name?(name, ctx)
+        variable_names(ctx.exp).select do |name, lines|
+          is_bad_name?(name, ctx)
+        end.map do |name, lines|
           smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, lines,
-            "has the variable name '#{name}'",
-            @source, SMELL_SUBCLASS, {VARIABLE_NAME_KEY => name.to_s})
+                                   "has the variable name '#{name}'",
+                                   @source, SMELL_SUBCLASS, {VARIABLE_NAME_KEY => name.to_s})
           @smells_found << smell
           #SMELL: serious duplication
+          smell
         end
       end
 
@@ -77,10 +80,10 @@ module Reek
       def variable_names(exp)
         assignment_nodes = exp.each_node(:lasgn, [:class, :module, :defs, :defn])
         case exp.first
-        when :class, :module
-          assignment_nodes += exp.each_node(:iasgn, [:class, :module])
+          when :class, :module
+            assignment_nodes += exp.each_node(:iasgn, [:class, :module])
         end
-        result = Hash.new {|hash,key| hash[key] = []}
+        result = Hash.new {|hash, key| hash[key] = []}
         assignment_nodes.each {|asgn| result[asgn[1]].push(asgn.line) }
         result
       end

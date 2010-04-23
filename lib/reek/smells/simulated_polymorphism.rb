@@ -46,18 +46,20 @@ module Reek
 
       #
       # Checks the given class for multiple identical conditional tests.
-      # Remembers any smells found.
+      #
+      # @return [Array<SmellWarning>]
       #
       def examine_context(ctx)
         @max_identical_ifs = value(MAX_IDENTICAL_IFS_KEY, ctx, DEFAULT_MAX_IFS)
-        conditional_counts(ctx).each do |key, lines|
+        conditional_counts(ctx).select do |key, lines|
+          lines.length > @max_identical_ifs
+        end.map do |key, lines|
           occurs = lines.length
-          next unless occurs > @max_identical_ifs
           expr = key.format_ruby
           smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, lines,
-            "tests #{expr} at least #{occurs} times",
-            @source, SMELL_SUBCLASS,
-            {'expression' => expr, 'occurrences' => occurs})
+                                   "tests #{expr} at least #{occurs} times",
+                                   @source, SMELL_SUBCLASS,
+                                   {'expression' => expr, 'occurrences' => occurs})
           @smells_found << smell
           #SMELL: serious duplication
         end
@@ -69,7 +71,7 @@ module Reek
       # occurs. Ignores nested classes and modules.
       #
       def conditional_counts(sexp)
-        result = Hash.new {|hash,key| hash[key] = []}
+        result = Hash.new {|hash, key| hash[key] = []}
         collector = proc { |node|
           condition = node.condition
           next if condition.nil? or condition == s(:call, nil, :block_given?, s(:arglist))

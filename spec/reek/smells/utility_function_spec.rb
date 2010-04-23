@@ -18,8 +18,7 @@ describe UtilityFunction do
       it 'ignores the receiver' do
         src = "def #{receiver}.simple(arga) arga.to_s + arga.to_i end"
         ctx = MethodContext.new(nil, src.to_reek_source.syntax_tree)
-        @detector.examine(ctx)
-        @detector.smells_found.should be_empty
+        @detector.examine_context(ctx).should be_empty
       end
     end
   end
@@ -27,8 +26,7 @@ describe UtilityFunction do
     it 'does not report empty method' do
       src = 'def simple(arga) end'
       ctx = MethodContext.new(nil, src.to_reek_source.syntax_tree)
-      @detector.examine(ctx)
-      @detector.smells_found.should be_empty
+      @detector.examine_context(ctx).should be_empty
     end
     it 'does not report literal' do
       'def simple(arga) 3; end'.should_not reek
@@ -111,8 +109,7 @@ EOS
       source = src.to_reek_source
       sniffer = Sniffer.new(source)
       mctx = CodeParser.new(sniffer).process_defn(source.syntax_tree)
-      @detector.examine_context(mctx)
-      @warning = @detector.smells_found.to_a[0]   # SMELL: too cumbersome!
+      @warning = @detector.examine_context(mctx)[0]   # SMELL: too cumbersome!
     end
 
     it_should_behave_like 'common fields set correctly'

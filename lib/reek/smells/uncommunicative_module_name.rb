@@ -53,21 +53,23 @@ module Reek
 
       #
       # Checks the given +context+ for uncommunicative names.
-      # Remembers any smells found.
+      #
+      # @return [Array<SmellWarning>]
       #
       def examine_context(ctx)
         @reject_names = value(REJECT_KEY, ctx, DEFAULT_REJECT_SET)
         @accept_names = value(ACCEPT_KEY, ctx, DEFAULT_ACCEPT_SET)
         name = ctx.exp.simple_name
-        return if @accept_names.include?(ctx.full_name)
+        return [] if @accept_names.include?(ctx.full_name)
         var = name.to_s.gsub(/^[@\*\&]*/, '')
-        return if @accept_names.include?(var)
-        return unless @reject_names.detect {|patt| patt === var}
+        return [] if @accept_names.include?(var)
+        return [] unless @reject_names.detect {|patt| patt === var}
         smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [ctx.exp.line],
           "has the name '#{name}'",
           @source, SMELL_SUBCLASS, {MODULE_NAME_KEY => name.to_s})
         @smells_found << smell
         #SMELL: serious duplication
+        [smell]
       end
     end
   end

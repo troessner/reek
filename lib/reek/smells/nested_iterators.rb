@@ -41,12 +41,13 @@ module Reek
 
       #
       # Checks whether the given +block+ is inside another.
-      # Remembers any smells found.
+      #
+      # @return [Array<SmellWarning>]
       #
       def examine_context(ctx)
         @ignore_iterators = value(IGNORE_ITERATORS_KEY, ctx, DEFAULT_IGNORE_ITERATORS)
         @max_allowed_nesting = value(MAX_ALLOWED_NESTING_KEY, ctx, DEFAULT_MAX_ALLOWED_NESTING)
-        find_deepest_iterators(ctx).each do |iter|
+        find_deepest_iterators(ctx).map do |iter|
           depth = iter[1]
           smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [iter[0].line],
             "contains iterators nested #{depth} deep",
@@ -54,6 +55,7 @@ module Reek
             {NESTING_DEPTH_KEY => depth})
           @smells_found << smell
           #SMELL: serious duplication
+          smell
         end
         # BUG: no longer reports nesting outside methods (eg. in Optparse)
       end

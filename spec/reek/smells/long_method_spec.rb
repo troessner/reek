@@ -211,8 +211,7 @@ describe LongMethod do
       ctx = mock('method_context', :null_object => true)
       ctx.should_receive(:num_statements).and_return(@num_statements)
       ctx.should_receive(:config).and_return({})
-      @detector.examine_context(ctx)
-      @smells = @detector.smells_found.to_a
+      @smells = @detector.examine_context(ctx)
     end
     it 'reports only 1 smell' do
       @smells.length.should == 1

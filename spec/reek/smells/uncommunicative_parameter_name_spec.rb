@@ -29,8 +29,7 @@ describe UncommunicativeParameterName do
           @bad_param = 'x2'
           src = "def #{host}help(#{@bad_param}) basics(17) end"
           ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
-          @detector.examine(ctx)
-          @smells = @detector.smells_found.to_a
+          @smells = @detector.examine_context(ctx)
         end
         it 'reports only 1 smell' do
           @smells.length.should == 1
@@ -46,8 +45,7 @@ describe UncommunicativeParameterName do
         @bad_param = 'param2'
         src = "def #{host}help(#{@bad_param}) basics(17) end"
         ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
-        @detector.examine(ctx)
-        smells = @detector.smells_found.to_a
+        smells = @detector.examine_context(ctx)
         smells.length.should == 1
         smells[0].subclass.should == UncommunicativeParameterName::SMELL_SUBCLASS
         smells[0].smell[UncommunicativeParameterName::PARAMETER_NAME_KEY].should == @bad_param
@@ -59,8 +57,7 @@ describe UncommunicativeParameterName do
     before :each do
       src = 'def bad(good, bad2, good_again) end'
       ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
-      @detector.examine(ctx)
-      @smells = @detector.smells_found.to_a
+      @smells = @detector.examine_context(ctx)
       @warning = @smells[0]
     end
 
