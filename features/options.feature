@@ -34,10 +34,8 @@ Feature: Reek can be controlled using command-line options
           -h, --help                       Show this message
           -v, --version                    Show version
 
-
       Configuration:
           -c, --config FILE                Read configuration options from FILE
-
 
       Report formatting:
           -q, --[no-]quiet                 Suppress headings for smell-free source files
