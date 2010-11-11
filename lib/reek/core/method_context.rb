@@ -24,19 +24,6 @@ module Reek
       def is_assignment_block?(param)
         Array === param and param[0] == :block
       end
-
-      def names
-        return @names if @names
-        @names = self[1..-1].select {|arg| is_arg?(arg)}.map {|arg| arg.to_s }
-      end
-
-      def length
-        names.length
-      end
-
-      def include?(name)
-        names.include?(name)
-      end
     end
 
     #
