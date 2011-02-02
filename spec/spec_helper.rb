@@ -1,13 +1,8 @@
+Dir["spec/support/**/*.rb"].each {|f| require f}
 
-require 'rubygems'
-begin
-  require 'spec/expectations'
-rescue LoadError
-  gem 'rspec'
-  require 'spec/expectations'
+RSpec.configure do |config|
+  config.mock_with :rspec
 end
-
-require 'spec/autorun'
 
 require File.join((File.dirname(File.dirname(File.expand_path(__FILE__)))), 'lib', 'reek', 'spec')
 require File.join((File.dirname(File.dirname(File.expand_path(__FILE__)))), 'lib', 'reek', 'source', 'tree_dresser')

@@ -7,7 +7,7 @@ describe HelpCommand do
   before :each do
     @text = 'Piece of interesting text'
     @cmd = HelpCommand.new(@text)
-    @view = mock('view', :null_object => true)
+    @view = mock('view').as_null_object
     @view.should_not_receive(:report_smells)
   end
 

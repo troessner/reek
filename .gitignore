@@ -4,5 +4,4 @@ spec/output
 tmp
 doc
 .yardoc
-.idea
-.redcar
+.bundle

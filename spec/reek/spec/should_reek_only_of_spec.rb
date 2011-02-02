@@ -9,7 +9,7 @@ describe ShouldReekOnlyOf do
     @expected_smell_class = :NestedIterators
     @expected_context_name = 'SmellyClass#big_method'
     @matcher = ShouldReekOnlyOf.new(@expected_smell_class, [/#{@expected_context_name}/])
-    @examiner = mock('examiner', :null_object => true)
+    @examiner = mock('examiner').as_null_object
     @examiner.should_receive(:smells).and_return {smells}
     @match = @matcher.matches_examiner?(@examiner)
   end

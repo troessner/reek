@@ -8,7 +8,7 @@ module Reek
   # Provides matchers for Rspec, making it easy to check code quality.
   #
   # If you require this module somewhere within your spec (or in your spec_helper),
-  # Reek will arrange to update Spec::Runner's config so that it knows about the
+  # Reek will arrange to update RSpec's config so that it knows about the
   # matchers defined here.
   #
   # === Examples
@@ -45,7 +45,7 @@ module Reek
 end
 
 if Object.const_defined?(:Spec)
-  Spec::Runner.configure do |config|
+  RSpec.configure do |config|
     config.include(Reek::Spec)
   end
 end
