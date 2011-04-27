@@ -20,3 +20,4 @@ describe 'gem manifest' do
     (@manifest - @current_files).should == []
   end
 end
+
