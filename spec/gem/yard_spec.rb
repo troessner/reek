@@ -15,3 +15,4 @@ describe 'yardoc' do
     @stderr.should == ''
   end
 end
+

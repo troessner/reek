@@ -23,3 +23,4 @@ if test(?f, release_timestamp_file)
     end
   end
 end
+
