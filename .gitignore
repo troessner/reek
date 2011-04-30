@@ -1,7 +1,7 @@
 build
-nbproject
 spec/output
 tmp
 doc
 .yardoc
 .bundle
+
