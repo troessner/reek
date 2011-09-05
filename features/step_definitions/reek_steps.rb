@@ -31,7 +31,7 @@ Then /^the exit status indicates smells$/ do
 end
 
 Then /^it reports:$/ do |report|
-  @last_stdout.should == report
+  @last_stdout.chomp.should == report.chomp
 end
 
 Then /^stderr reports:$/ do |report|
