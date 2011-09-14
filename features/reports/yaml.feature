@@ -12,7 +12,7 @@ Feature: Report smells using simple YAML layout
   Scenario: masked smells always appear
     When I run reek --yaml spec/samples/masked/dirty.rb
     Then the exit status indicates smells
-    And it reports:
+    And it reports this yaml:
       """
       --- 
       - !ruby/object:Reek::SmellWarning 
@@ -65,7 +65,7 @@ Feature: Report smells using simple YAML layout
   Scenario: return non-zero status when there are smells
     When I pass "class Turn; end" to reek --yaml
     Then the exit status indicates smells
-    And it reports:
+    And it reports this yaml:
       """
       --- 
       - !ruby/object:Reek::SmellWarning 

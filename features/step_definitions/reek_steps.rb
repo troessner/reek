@@ -34,6 +34,10 @@ Then /^it reports:$/ do |report|
   @last_stdout.chomp.should == report.chomp
 end
 
+Then /^it reports something like: (.*)$/ do |line|
+  @last_stdout.chomp.should match Regexp.new(Regexp.escape(line))
+end
+
 Then /^stderr reports:$/ do |report|
   @last_stderr.should == report
 end
