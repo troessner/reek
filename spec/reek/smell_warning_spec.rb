@@ -130,10 +130,10 @@ describe SmellWarning do
       it_should_behave_like 'common fields'
 
       it 'includes no subclass' do
-        @yaml.should match(/subclass:\s*""/)
+        @yaml.should match(/subclass: ''/)
       end
       it 'includes no source' do
-        @yaml.should match(/source:\s*""/)
+        @yaml.should match(/source: ''/)
       end
       it 'includes empty parameters' do
         @yaml.should_not match(/parameter/)
