@@ -8,9 +8,6 @@ describe 'yardoc' do
     @stdout = `yardoc 2> #{stderr_file.path}`
     @stderr = IO.read(stderr_file.path)
   end
-  it 'succeeds silently' do
-    @stdout.should == ''
-  end
   it 'raises no warnings' do
     @stderr.should == ''
   end

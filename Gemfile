@@ -1,11 +1,10 @@
-source 'http://rubygems.org'
+source "http://rubygems.org"
 
-gem 'ruby_parser', "~> 2.0"
-gem 'ruby2ruby', "~> 1.2"
-gem 'sexp_processor', "~> 3.0"
+gem "rake"
+gem "sexp_processor"
+gem "ruby2ruby"
+gem "cucumber"
+gem "gherkin", "= 2.4.11"
 
-group :test do
-  gem 'rspec'
-  gem 'cucumber'
-end
+gem "rspec", "= 1.3.2"
 
