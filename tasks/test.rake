@@ -1,36 +1,38 @@
 require 'rubygems'
 require 'cucumber'
 require 'cucumber/rake/task'
-require 'rspec/core/rake_task'
+require 'spec'
+require 'spec/rake/spectask'
 
 namespace 'test' do
   UNIT_TESTS = FileList['spec/reek/**/*_spec.rb']
 
-  RSpec::Core::RakeTask.new('spec') do |t|
-    t.pattern = 'spec/reek/**/*_spec.rb'
-    t.rspec_opts = ['--color']
+  Spec::Rake::SpecTask.new('spec') do |t|
+    t.spec_files = UNIT_TESTS
+    t.spec_opts = ['--color']
     t.ruby_opts = ['-Ilib']
     t.rcov = false
   end
 
   desc 'Tests various release attributes of the gem'
-  RSpec::Core::RakeTask.new('gem') do |t|
-    t.pattern = 'spec/gem/**/*_spec.rb'
+  Spec::Rake::SpecTask.new('gem') do |t|
+    t.spec_files = FileList['spec/gem/**/*_spec.rb']
     t.rcov = false
   end
 
   desc 'Tests code quality'
-  RSpec::Core::RakeTask.new('quality') do |t|
-    t.pattern = 'quality/**/*_spec.rb'
-    t.rspec_opts = ['--color']
+  Spec::Rake::SpecTask.new('quality') do |t|
+    t.spec_files = FileList['quality/**/*_spec.rb']
+    t.spec_opts = ['--color']
     t.ruby_opts = ['-Ilib']
     t.rcov = false
   end
 
   desc 'Runs all unit tests under RCov'
-  RSpec::Core::RakeTask.new('rcov') do |t|
-    t.pattern = 'spec/reek/**/*_spec.rb'
+  Spec::Rake::SpecTask.new('rcov') do |t|
+    t.spec_files = UNIT_TESTS
     t.rcov = true
+    t.rcov_dir = 'build/coverage'
   end
 
   Cucumber::Rake::Task.new(:features) do |t|
@@ -50,4 +52,3 @@ task 'spec' => 'test:spec'
 
 desc 'Synonym for test:all'
 task 'test' => 'test:all'
-
