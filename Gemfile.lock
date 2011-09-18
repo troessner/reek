@@ -32,4 +32,3 @@ DEPENDENCIES
   rspec (= 1.3.2)
   ruby2ruby
   sexp_processor
-

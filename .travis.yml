@@ -1,3 +1,9 @@
 rvm:
   - 1.8.7
   - 1.9.2
+notifications:
+  recipients:
+    - kevin@rutherford-sofware.com
+    - wagner.andrew@gmail.com
+  irc: "irc.freenode.org#reek"
+
