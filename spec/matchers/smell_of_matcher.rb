@@ -53,6 +53,6 @@ module SmellOfMatcher
   end
 end
 
-RSpec.configure do |config|
+Spec::Runner.configure do |config|
   config.include(SmellOfMatcher)
 end

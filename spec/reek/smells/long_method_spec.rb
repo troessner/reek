@@ -208,7 +208,7 @@ describe LongMethod do
   context 'when the method has 30 statements' do
     before :each do
       @num_statements = 30
-      ctx = mock('method_context').as_null_object
+      ctx = mock('method_context', :null_object => true)
       ctx.should_receive(:num_statements).and_return(@num_statements)
       ctx.should_receive(:config).and_return({})
       @smells = @detector.examine_context(ctx)

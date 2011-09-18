@@ -8,7 +8,7 @@ include Reek::Cli
 
 describe ReekCommand do
   before :each do
-    @view = mock('view').as_null_object
+    @view = mock('view', :null_object => true)
   end
 
   context 'with smells' do

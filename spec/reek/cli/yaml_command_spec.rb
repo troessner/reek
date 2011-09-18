@@ -6,7 +6,7 @@ include Reek::Cli
 
 describe YamlCommand do
   before :each do
-    @view = mock('view').as_null_object
+    @view = mock('view', :null_object => true)
     @examiner = mock('examiner')
   end
 
