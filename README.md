@@ -1,43 +1,55 @@
 # Reek -- code smell detection for Ruby
 
+[![Build Status](https://secure.travis-ci.org/kevinrutherford/reek.png)](http://travis-ci.org/kevinrutherford/reek)
+
 Reek is a tool that examines Ruby classes, modules and methods and
 reports any code smells it finds. Install it like this:
 
-    $ gem install reek
+```bash
+$ gem install reek
+```
 
 and run it like this:
 
-    $ reek [options] [dir_or_source_file]*
+```bash
+$ reek [options] [dir_or_source_file]*
+```
 
 For a full list of command-line options see the Reek
 wiki[http://wiki.github.com/kevinrutherford/reek/command-line-options]
 or run
 
-    $ reek --help
+```bash
+$ reek --help
+```
 
 ## Example
 
 Imagine a source file <tt>demo.rb</tt> containing:
 
-    class Dirty
-      # This method smells of :reek:NestedIterators but ignores them
-      def awful(x, y, offset = 0, log = false)
-        puts @screen.title
-        @screen = widgets.map {|w| w.each {|key| key += 3}}
-        puts @screen.contents
-      end
-    end
+```ruby
+class Dirty
+  # This method smells of :reek:NestedIterators but ignores them
+  def awful(x, y, offset = 0, log = false)
+    puts @screen.title
+    @screen = widgets.map {|w| w.each {|key| key += 3}}
+    puts @screen.contents
+  end
+end
+```
 
 Reek will report the following code smells in this file:
 
-    $ reek demo.rb
-    spec/samples/demo/demo.rb -- 6 warnings:
-      Dirty has no descriptive comment (IrresponsibleModule)
-      Dirty#awful has 4 parameters (LongParameterList)
-      Dirty#awful has boolean parameter 'log' (ControlCouple)
-      Dirty#awful has the parameter name 'x' (UncommunicativeName)
-      Dirty#awful has the parameter name 'y' (UncommunicativeName)
-      Dirty#awful has the variable name 'w' (UncommunicativeName)
+```bash
+$ reek demo.rb
+spec/samples/demo/demo.rb -- 6 warnings:
+  Dirty has no descriptive comment (IrresponsibleModule)
+  Dirty#awful has 4 parameters (LongParameterList)
+  Dirty#awful has boolean parameter 'log' (ControlCouple)
+  Dirty#awful has the parameter name 'x' (UncommunicativeName)
+  Dirty#awful has the parameter name 'y' (UncommunicativeName)
+  Dirty#awful has the variable name 'w' (UncommunicativeName)
+```
 
 ## Features
 
@@ -72,3 +84,4 @@ Find out more about Reek from any of the following sources:
 * Browse the code or install the latest development version from [http://github.com/kevinrutherford/reek/tree](http://github.com/kevinrutherford/reek/tree)
 * Read the code API at [http://rdoc.info/projects/kevinrutherford/reek](http://rdoc.info/projects/kevinrutherford/reek)
 * Follow [@rubyreek](http://twitter.com/rubyreek) on twitter!
+
