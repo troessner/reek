@@ -50,9 +50,15 @@ module Reek
       def load
         unless @@bad_config_files.include?(@file_path)
           begin
-            return YAML.load_file(@file_path) || {}
+            result = YAML.load_file(@file_path) || {}
+            if Hash === result
+              return result
+            else
+              @@bad_config_files << @file_path                            # poop
+              problem('Not a hash')
+            end
           rescue Exception => err
-            @@bad_config_files << @file_path
+            @@bad_config_files << @file_path                              # poop
             problem(err.to_s)
           end
         end

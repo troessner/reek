@@ -21,7 +21,7 @@ Feature: Masking smells using config files
 
   Scenario: corrupt config file prevents normal output
     When I run reek spec/samples/corrupt_config_file
-    Then the exit status might indicates smells depending on your version of ruby
+    Then the exit status indicates smells
     And it reports:
       """
       spec/samples/corrupt_config_file/dirty.rb -- 7 warnings:
@@ -34,7 +34,7 @@ Feature: Masking smells using config files
         Dirty#a has the variable name 'x' (UncommunicativeName)
 
       """
-    And it reports the error 'Error: Invalid configuration file "corrupt.reek" -- "This is not a config file" is not a code smell'
+    And it reports an error
 
   Scenario: missing source file is an error
     When I run reek no_such_file.rb spec/samples/masked/dirty.rb

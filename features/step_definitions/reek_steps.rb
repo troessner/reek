@@ -42,6 +42,10 @@ Then /^stderr reports:$/ do |report|
   @last_stderr.should == report
 end
 
+Then /^it reports an error$/ do
+  @last_stderr.chomp.should_not be_empty
+end
+
 Then /^it reports the error ['"](.*)['"]$/ do |string|
   @last_stderr.chomp.should == string
 end
