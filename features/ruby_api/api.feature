@@ -1,8 +1,8 @@
 @masking
 Feature: The Reek API maintains backwards compatibility
-  In order to use Reek witthout fuss
+  In order to use Reek without fuss
   As a developer
-  I want to mave a stable API
+  I want to have a stable API
 
   Scenario: the demo example reports as expected
     When I run reek spec/samples/demo
