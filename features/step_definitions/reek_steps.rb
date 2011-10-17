@@ -34,6 +34,12 @@ Then /^it reports:$/ do |report|
   @last_stdout.chomp.should == report.chomp
 end
 
+Then /^it reports this yaml:$/ do |expected_yaml|
+  expected_warnings = YAML.load(expected_yaml.chomp)
+  actual_warnings = YAML.load(@last_stdout)
+  actual_warnings.should == expected_warnings
+end
+
 Then /^it reports something like: (.*)$/ do |line|
   @last_stdout.chomp.should match Regexp.new(Regexp.escape(line))
 end
