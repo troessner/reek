@@ -66,3 +66,21 @@ describe ShouldReek, 'checking code in a File' do
     @matcher.failure_message_for_should_not.should match('UncommunicativeName')
   end
 end
+
+describe ShouldReek, 'configuration' do
+  before :each do
+    @smelly_file = File.new('spec/samples/redcloth.rb')
+    @clean_file = File.new('spec/samples/three_clean_files/clean_one.rb')
+  end
+  it 'can handle array of config files in ctor' do
+    expect{matcher = ShouldReek.new(Dir['spec/samples/*.reek'])}.to_not raise_error
+  end
+  it 'does not alter result for clean file' do
+    matcher = ShouldReek.new(Dir['spec/samples/*.reek'])
+    matcher.matches?(@clean_file).should be_false
+  end
+  it 'ignores smells according to config' do
+    matcher = ShouldReek.new(Dir['spec/samples/*.reek'])
+    matcher.matches?('def hash() md5 = Digest::MD5.new; end').should be_false
+  end
+end
