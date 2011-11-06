@@ -56,15 +56,18 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
+      # :reek:Duplication { allow_calls: [ to_s ] }
       def examine_context(ctx)
         @reject_names = value(REJECT_KEY, ctx, DEFAULT_REJECT_SET)
         @accept_names = value(ACCEPT_KEY, ctx, DEFAULT_ACCEPT_SET)
-        name = ctx.exp.simple_name
-        return [] if @accept_names.include?(ctx.full_name)
+        exp = ctx.exp
+        full_name = ctx.full_name
+        name = exp.simple_name
+        return [] if @accept_names.include?(full_name)
         var = name.to_s.gsub(/^[@\*\&]*/, '')
         return [] if @accept_names.include?(var)
         return [] unless @reject_names.detect {|patt| patt === var}
-        smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [ctx.exp.line],
+        smell = SmellWarning.new(SMELL_CLASS, full_name, [exp.line],
           "has the name '#{name}'",
           @source, SMELL_SUBCLASS, {MODULE_NAME_KEY => name.to_s})
         [smell]
