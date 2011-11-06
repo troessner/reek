@@ -124,8 +124,16 @@ module Reek
       end
 
       def ruby_options
-        lib_path = @libs.join(File::PATH_SEPARATOR)
-        @ruby_opts.clone << "-I\"#{lib_path}\""
+        if bundler?
+          %w(-S bundle exec)
+        else
+          lib_path = @libs.join(File::PATH_SEPARATOR)
+          @ruby_opts.clone << "-I\"#{lib_path}\""
+        end
+      end
+
+      def bundler?
+        File.exist?('./Gemfile')
       end
 
       def sort_option
