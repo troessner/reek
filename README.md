@@ -65,7 +65,9 @@ Reek integrates with many of your favourite tools:
 
 * `require 'reek/rake/task'` to easily add Reek to your Rakefile
 * `require 'reek/spec'` to add the `should_not reek` custom matcher to your Rspec examples
-* Reek is fully compliant with Ruby 1.8.6, 1.8.7 and 1.9.1
+* Reek is compatible with Ruby 1.8.6, 1.8.7, 1.9.2 and 1.9.3
+
+At present Reek is unable to parse the new Ruby 1.9 hash syntax of {a: 1}.
 
 ### Dependencies
 
