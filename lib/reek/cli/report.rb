@@ -10,7 +10,7 @@ module Reek
 
       def format_list(warnings)
         warnings.map do |warning|
-          "  #{warning.context} #{warning.message} (#{warning.smell_class})"
+          "  #{warning.context} #{warning.message} (#{warning.subclass})"
         end.join("\n")
       end
 

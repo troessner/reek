@@ -12,9 +12,9 @@ Feature: The Reek API maintains backwards compatibility
       spec/samples/demo/demo.rb -- 6 warnings:
         Dirty has no descriptive comment (IrresponsibleModule)
         Dirty#awful has 4 parameters (LongParameterList)
-        Dirty#awful has boolean parameter 'log' (ControlCouple)
-        Dirty#awful has the parameter name 'x' (UncommunicativeName)
-        Dirty#awful has the parameter name 'y' (UncommunicativeName)
-        Dirty#awful has the variable name 'w' (UncommunicativeName)
+        Dirty#awful has boolean parameter 'log' (BooleanParameter)
+        Dirty#awful has the parameter name 'x' (UncommunicativeParameterName)
+        Dirty#awful has the parameter name 'y' (UncommunicativeParameterName)
+        Dirty#awful has the variable name 'w' (UncommunicativeVariableName)
 
       """

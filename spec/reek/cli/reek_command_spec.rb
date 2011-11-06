@@ -18,7 +18,7 @@ describe ReekCommand do
     end
 
     it 'displays the correct text on the view' do
-      @view.should_receive(:output).with(/UncommunicativeName/)
+      @view.should_receive(:output).with(/UncommunicativeMethodName/)
       @cmd.execute(@view)
     end
 

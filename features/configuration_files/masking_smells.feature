@@ -10,12 +10,12 @@ Feature: Masking smells using config files
     And it reports:
       """
       spec/samples/empty_config_file/dirty.rb -- 6 warnings:
-        Dirty has the variable name '@s' (UncommunicativeName)
-        Dirty#a calls @s.title twice (Duplication)
-        Dirty#a calls puts(@s.title) twice (Duplication)
+        Dirty has the variable name '@s' (UncommunicativeVariableName)
+        Dirty#a calls @s.title twice (DuplicateMethodCall)
+        Dirty#a calls puts(@s.title) twice (DuplicateMethodCall)
         Dirty#a contains iterators nested 2 deep (NestedIterators)
-        Dirty#a has the name 'a' (UncommunicativeName)
-        Dirty#a has the variable name 'x' (UncommunicativeName)
+        Dirty#a has the name 'a' (UncommunicativeMethodName)
+        Dirty#a has the variable name 'x' (UncommunicativeVariableName)
 
       """
 
@@ -26,12 +26,12 @@ Feature: Masking smells using config files
       """
       spec/samples/corrupt_config_file/dirty.rb -- 7 warnings:
         Dirty has no descriptive comment (IrresponsibleModule)
-        Dirty has the variable name '@s' (UncommunicativeName)
-        Dirty#a calls @s.title twice (Duplication)
-        Dirty#a calls puts(@s.title) twice (Duplication)
+        Dirty has the variable name '@s' (UncommunicativeVariableName)
+        Dirty#a calls @s.title twice (DuplicateMethodCall)
+        Dirty#a calls puts(@s.title) twice (DuplicateMethodCall)
         Dirty#a contains iterators nested 2 deep (NestedIterators)
-        Dirty#a has the name 'a' (UncommunicativeName)
-        Dirty#a has the variable name 'x' (UncommunicativeName)
+        Dirty#a has the name 'a' (UncommunicativeMethodName)
+        Dirty#a has the variable name 'x' (UncommunicativeVariableName)
 
       """
     And it reports an error
@@ -42,8 +42,8 @@ Feature: Masking smells using config files
     And it reports:
       """
       spec/samples/masked/dirty.rb -- 3 warnings:
-        Dirty#a calls @s.title twice (Duplication)
-        Dirty#a calls puts(@s.title) twice (Duplication)
+        Dirty#a calls @s.title twice (DuplicateMethodCall)
+        Dirty#a calls puts(@s.title) twice (DuplicateMethodCall)
         Dirty#a contains iterators nested 2 deep (NestedIterators)
 
       """
@@ -55,8 +55,8 @@ Feature: Masking smells using config files
     And it reports:
       """
       spec/samples/masked/dirty.rb -- 3 warnings:
-        Dirty#a calls @s.title twice (Duplication)
-        Dirty#a calls puts(@s.title) twice (Duplication)
+        Dirty#a calls @s.title twice (DuplicateMethodCall)
+        Dirty#a calls puts(@s.title) twice (DuplicateMethodCall)
         Dirty#a contains iterators nested 2 deep (NestedIterators)
 
       """
@@ -67,11 +67,11 @@ Feature: Masking smells using config files
     And it reports:
       """
       spec/samples/not_quite_masked/dirty.rb -- 5 warnings:
-        Dirty has the variable name '@s' (UncommunicativeName)
-        Dirty#a calls @s.title twice (Duplication)
-        Dirty#a calls puts(@s.title) twice (Duplication)
+        Dirty has the variable name '@s' (UncommunicativeVariableName)
+        Dirty#a calls @s.title twice (DuplicateMethodCall)
+        Dirty#a calls puts(@s.title) twice (DuplicateMethodCall)
         Dirty#a contains iterators nested 2 deep (NestedIterators)
-        Dirty#a has the name 'a' (UncommunicativeName)
+        Dirty#a has the name 'a' (UncommunicativeMethodName)
 
       """
 
@@ -82,8 +82,8 @@ Feature: Masking smells using config files
     And it reports:
       """
       spec/samples/overrides/masked/dirty.rb -- 2 warnings:
-        Dirty#a calls @s.title twice (Duplication)
-        Dirty#a calls puts(@s.title) twice (Duplication)
+        Dirty#a calls @s.title twice (DuplicateMethodCall)
+        Dirty#a calls puts(@s.title) twice (DuplicateMethodCall)
 
       """
 
@@ -93,7 +93,7 @@ Feature: Masking smells using config files
     And it reports:
       """
       spec/samples/mask_some/dirty.rb -- 2 warnings:
-        Dirty#a calls @s.title twice (Duplication)
+        Dirty#a calls @s.title twice (DuplicateMethodCall)
         Dirty#a contains iterators nested 2 deep (NestedIterators)
 
       """
@@ -105,7 +105,7 @@ Feature: Masking smells using config files
     And it reports:
       """
       spec/samples/inline_config/dirty.rb -- 1 warning:
-        Dirty#a calls @s.title twice (Duplication)
+        Dirty#a calls @s.title twice (DuplicateMethodCall)
 
       """
 

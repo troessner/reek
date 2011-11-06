@@ -14,8 +14,8 @@ Feature: Reek can be driven through its Task
     And it reports:
       """
       spec/samples/masked/dirty.rb -- 3 warnings:
-        Dirty#a calls @s.title twice (Duplication)
-        Dirty#a calls puts(@s.title) twice (Duplication)
+        Dirty#a calls @s.title twice (DuplicateMethodCall)
+        Dirty#a calls puts(@s.title) twice (DuplicateMethodCall)
         Dirty#a contains iterators nested 2 deep (NestedIterators)
       """
 
@@ -30,8 +30,8 @@ Feature: Reek can be driven through its Task
     And it reports:
       """
       spec/samples/masked/dirty.rb -- 3 warnings:
-        Dirty#a calls @s.title twice (Duplication)
-        Dirty#a calls puts(@s.title) twice (Duplication)
+        Dirty#a calls @s.title twice (DuplicateMethodCall)
+        Dirty#a calls puts(@s.title) twice (DuplicateMethodCall)
         Dirty#a contains iterators nested 2 deep (NestedIterators)
       """
 
@@ -58,12 +58,12 @@ Feature: Reek can be driven through its Task
     And it reports:
       """
       spec/samples/empty_config_file/dirty.rb -- 6 warnings:
-        Dirty has the variable name '@s' (UncommunicativeName)
-        Dirty#a calls @s.title twice (Duplication)
-        Dirty#a calls puts(@s.title) twice (Duplication)
+        Dirty has the variable name '@s' (UncommunicativeVariableName)
+        Dirty#a calls @s.title twice (DuplicateMethodCall)
+        Dirty#a calls puts(@s.title) twice (DuplicateMethodCall)
         Dirty#a contains iterators nested 2 deep (NestedIterators)
-        Dirty#a has the name 'a' (UncommunicativeName)
-        Dirty#a has the variable name 'x' (UncommunicativeName)
+        Dirty#a has the name 'a' (UncommunicativeMethodName)
+        Dirty#a has the variable name 'x' (UncommunicativeVariableName)
       """
 
   Scenario: can be configured with config_files
