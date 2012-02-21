@@ -35,7 +35,6 @@ module SmellOfMatcher
         expected_smell.each do |(key,value)|
           if actual_smells[index].smell[key] != value
             @reason = "#{key} != #{value}"
-            return false
           end
         end
       end
