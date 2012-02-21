@@ -71,9 +71,6 @@ module Reek
         end
       end
 
-      def examine_context(context)
-      end
-
       def exception?(context)
         context.matches?(value(EXCLUDE_KEY, context, DEFAULT_EXCLUDE_SET))
       end
