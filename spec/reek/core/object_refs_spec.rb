@@ -71,7 +71,7 @@ describe ObjectRefs do
     end
 
     it 'should report self among the max' do
-      @refs.max_keys.should == {Sexp.from_array([:lit, :self]) => 4}
+      @refs.max_keys.should == { :self => 4}
     end
 
     it 'should report self as the max' do
@@ -94,7 +94,7 @@ describe ObjectRefs do
 
     it 'should report self among the max' do
       @refs.max_keys.should be_include('a')
-      @refs.max_keys.should be_include(Sexp.from_array([:lit, :self]))
+      @refs.max_keys.should be_include(:self)
     end
 
     it 'should report self as the max' do

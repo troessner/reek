@@ -44,7 +44,7 @@ module Reek
 
     private
 
-      SELF_REF = Sexp.from_array([:lit, :self])
+      SELF_REF = :self
 
     end
   end
