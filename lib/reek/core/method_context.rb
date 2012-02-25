@@ -52,14 +52,14 @@ module Reek
         receiver ||= [:self]
         case receiver[0]
         when :lvar
-          @refs.record_ref(receiver) unless meth == :new
+          @refs.record_reference_to(receiver) unless meth == :new
         when :self
-          record_use_of_self
+          @refs.record_reference_to(:self)
         end
       end
 
       def record_use_of_self
-        @refs.record_reference_to_self
+        @refs.record_reference_to(:self)
       end
 
       def envious_receivers

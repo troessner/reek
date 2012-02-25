@@ -9,24 +9,13 @@ module Reek
         @refs = Hash.new(0)
       end
 
-      def record_reference_to_self
-        record_ref(SELF_REF)
-      end
-
-      def record_ref(exp)
+      def record_reference_to(exp)
         type = exp[0]
-        case type
-        when :gvar
-          return
-        when :self
-          record_reference_to_self
-        else
-          @refs[exp] += 1
-        end
+        @refs[exp] += 1
       end
 
-      def refs_to_self
-        @refs[SELF_REF]
+      def references_to(exp)
+        @refs[exp]
       end
 
       def max_refs
@@ -39,13 +28,8 @@ module Reek
       end
 
       def self_is_max?
-        max_keys.length == 0 || @refs[SELF_REF] == max_refs
+        max_keys.length == 0 || @refs[:self] == max_refs
       end
-
-    private
-
-      SELF_REF = :self
-
     end
   end
 end

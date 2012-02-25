@@ -32,7 +32,7 @@ describe MethodContext do
 
   it 'should count calls to self' do
     mctx = MethodContext.new(StopContext.new, ast(:defn, :equals))
-    mctx.refs.record_ref([:lvar, :other])
+    mctx.refs.record_reference_to([:lvar, :other])
     mctx.record_call_to(ast(:call, s(:self), :thing))
     mctx.envious_receivers.should be_empty
   end
