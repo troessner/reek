@@ -44,7 +44,7 @@ describe ObjectRefs do
         end
 
         it 'should not report self among the max' do
-          @refs.max_keys.should be_include('a')
+          @refs.max_keys.should include('a')
           @refs.max_keys.should_not include(Sexp.from_array([:lit, :self]))
         end
 
@@ -93,8 +93,8 @@ describe ObjectRefs do
     end
 
     it 'should report self among the max' do
-      @refs.max_keys.should be_include('a')
-      @refs.max_keys.should be_include(:self)
+      @refs.max_keys.should include('a')
+      @refs.max_keys.should include(:self)
     end
 
     it 'should report self as the max' do
@@ -115,8 +115,8 @@ describe ObjectRefs do
     end
 
     it 'should not report self among the max' do
-      @refs.max_keys.should be_include('a')
-      @refs.max_keys.should be_include('b')
+      @refs.max_keys.should include('a')
+      @refs.max_keys.should include('b')
     end
 
     it 'should not report self as the max' do
