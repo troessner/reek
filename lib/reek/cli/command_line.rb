@@ -87,12 +87,13 @@ EOB
           HelpCommand.new(@parser)
         elsif @command_class == VersionCommand
           VersionCommand.new(@parser.program_name)
-        elsif @command_class == YamlCommand
-          sources = get_sources
-          YamlCommand.create(sources, @config_files)
         else
           sources = get_sources
-          ReekCommand.create(sources, @report_class, @config_files)
+          if @command_class == YamlCommand
+            YamlCommand.create(sources, @config_files)
+          else
+            ReekCommand.create(sources, @report_class, @config_files)
+          end
         end
       end
 
