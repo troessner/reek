@@ -11,7 +11,7 @@ directory CONFIG_DIR
 
 file CONFIG_FILE => [CONFIG_DIR] do
   config = {}
-  Reek::Core::Sniffer.smell_classes.each do |klass|
+  Reek::Core::SmellRepository.smell_classes.each do |klass|
     config[klass.name.split(/::/)[-1]] = klass.default_config
   end
   $stderr.puts "Creating #{CONFIG_FILE}"
