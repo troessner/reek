@@ -1,5 +1,5 @@
 require File.join(File.dirname(File.expand_path(__FILE__)), 'code_parser')
-require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'smells')
+require File.join(File.dirname(File.expand_path(__FILE__)), 'smell_repository')
 require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'source', 'config_file')
 require 'yaml'
 require File.join(File.dirname(File.expand_path(__FILE__)), 'hash_extensions')
@@ -12,65 +12,24 @@ module Reek
     #
     class Sniffer
 
-      def self.smell_classes
-        # SMELL: Duplication -- these should be loaded by listing the files
-        [
-          Smells::Attribute,
-          Smells::BooleanParameter,
-          Smells::ClassVariable,
-          Smells::ControlCouple,
-          Smells::DataClump,
-          Smells::Duplication,
-          Smells::FeatureEnvy,
-          Smells::IrresponsibleModule,
-          Smells::LargeClass,
-          Smells::LongMethod,
-          Smells::LongParameterList,
-          Smells::LongYieldList,
-          Smells::NestedIterators,
-          Smells::SimulatedPolymorphism,
-          Smells::UncommunicativeMethodName,
-          Smells::UncommunicativeModuleName,
-          Smells::UncommunicativeParameterName,
-          Smells::UncommunicativeVariableName,
-          Smells::UtilityFunction,
-        ]
-      end
-
-      def initialize(src, config_files = [])
-        @typed_detectors = nil
-        @detectors = Hash.new
-        Sniffer.smell_classes.each do |klass|
-          @detectors[klass] = klass.new(src.desc)
-        end
+      def initialize(src, config_files = [], smell_repository=Core::SmellRepository.new(src.desc))
+        @smell_repository = smell_repository
         config_files.each{ |cf| Reek::Source::ConfigFile.new(cf).configure(self) }
         @source = src
         src.configure(self)
       end
 
       def configure(klass, config)
-        @detectors[klass].configure_with(config)
+        @smell_repository.configure klass, config
       end
 
       def report_on(listener)
         CodeParser.new(self).process(@source.syntax_tree)
-        @detectors.each_value { |detector| detector.report_on(listener) }
+        @smell_repository.report_on(listener)
       end
 
       def examine(scope, node_type)
-        smell_listeners[node_type].each do |detector|
-          detector.examine(scope)
-        end
-      end
-
-  private
-
-      def smell_listeners()
-        unless @typed_detectors
-          @typed_detectors = Hash.new {|hash,key| hash[key] = [] }
-          @detectors.each_value { |detector| detector.register(@typed_detectors) }
-        end
-        @typed_detectors
+        @smell_repository.examine scope, node_type
       end
     end
   end
