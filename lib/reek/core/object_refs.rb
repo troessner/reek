@@ -10,7 +10,6 @@ module Reek
       end
 
       def record_reference_to(exp)
-        type = exp[0]
         @refs[exp] += 1
       end
 
