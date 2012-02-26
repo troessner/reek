@@ -1,6 +1,6 @@
 require File.join(File.dirname(File.expand_path(__FILE__)), 'core', 'sniffer')
 require File.join(File.dirname(File.expand_path(__FILE__)), 'core', 'warning_collector')
-require File.join(File.dirname(File.expand_path(__FILE__)), 'source')
+require File.join(File.dirname(File.expand_path(__FILE__)), 'source', 'source_repository')
 
 module Reek
 
@@ -28,18 +28,8 @@ module Reek
     #   each of which is opened and parsed for source code.
     #
     def initialize(source, config_files = [])
-      sources = case source
-      when Array
-        @description = 'dir'
-        Source::SourceLocator.new(source).all_sources
-      when Source::SourceCode
-        @description = source.desc
-        [source]
-      else
-        src = source.to_reek_source
-        @description = src.desc
-        [src]
-      end
+      sources = Source::SourceRepository.parse(source)
+      @description = sources.description
       collector = Core::WarningCollector.new
       sources.each { |src| Core::Sniffer.new(src, config_files).report_on(collector) }
       @smells = collector.warnings
