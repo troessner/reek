@@ -16,11 +16,7 @@ module Reek
       end
 
       def warnings
-        @warnings.to_a.sort do |first,second|
-          first_sig = [first.context, first.message, first.smell_class]
-          second_sig = [second.context, second.message, second.smell_class]
-          first_sig <=> second_sig
-        end
+        @warnings.to_a.sort
       end
     end
   end
