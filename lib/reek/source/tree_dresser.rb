@@ -53,7 +53,7 @@ module Reek
         Ruby2Ruby.new.process(deep_copy)
       end
       def deep_copy
-        YAML::load(YAML::dump(self))
+        Sexp.from_array(YAML::load(YAML::dump(self)))
       end
     end
 
