@@ -1,8 +1,9 @@
 # -*- encoding: utf-8 -*-
+require File.join(File.dirname(__FILE__), 'lib/reek/version.rb')
 
 Gem::Specification.new do |s|
   s.name = %q{reek}
-  s.version = "1.2.8"
+  s.version = Reek::VERSION
 
   s.authors = ["Kevin Rutherford"]
   s.date = %q{2010-04-26}
