@@ -14,10 +14,10 @@ and reports any code smells it finds.
   s.email = ["kevin@rutherford-software.com"]
   s.executables = ["reek"]
   s.extra_rdoc_files = ["History.txt", "License.txt"]
-  s.files = [".yardopts", "History.txt", "License.txt", "README.md",
-             "Rakefile", "bin/reek", "config/defaults.reek",
-             "{features,lib,spec,tasks}/**/*",
-             "reek.gemspec" ] & `git ls-files -z`.split("\0")
+  s.files = Dir[".yardopts", "History.txt", "License.txt", "README.md",
+                "Rakefile", "bin/reek", "config/defaults.reek",
+                "{features,lib,spec,tasks}/**/*",
+                "reek.gemspec" ] & `git ls-files -z`.split("\0")
   s.homepage = %q{http://wiki.github.com/kevinrutherford/reek}
   s.post_install_message = %q{
 Thank you for downloading Reek. For info:
