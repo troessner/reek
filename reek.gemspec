@@ -30,7 +30,11 @@ Thank you for downloading Reek. For info:
   s.rubygems_version = %q{1.3.6}
   s.summary = %q{Code smell detector for Ruby}
 
-  s.add_runtime_dependency(%q<ruby_parser>, ["~> 2.0"])
+  if RUBY_VERSION < "1.9.3"
+    s.add_runtime_dependency(%q<ruby_parser>, ["~> 2.0"])
+  else
+    s.add_runtime_dependency(%q<ripper_ruby_parser>, ["~> 0.0.5"])
+  end
   s.add_runtime_dependency(%q<ruby2ruby>, ["~> 1.2.5"])
   s.add_runtime_dependency(%q<sexp_processor>, ["~> 3.0"])
 
