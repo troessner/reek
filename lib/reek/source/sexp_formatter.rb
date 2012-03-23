@@ -9,7 +9,7 @@ module Reek
     class SexpFormatter
       def self.format(sexp)
         return sexp.to_s unless Array === sexp
-        sexp = YAML::load(YAML::dump(sexp))
+        sexp = Sexp.from_array(YAML::load(YAML::dump(sexp)))
         Ruby2Ruby.new.process(sexp)
       end
     end
