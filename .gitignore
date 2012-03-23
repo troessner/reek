@@ -4,5 +4,4 @@ tmp
 doc
 .yardoc
 .bundle
-Gemfile.lock
 

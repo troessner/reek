@@ -1,4 +1,10 @@
 source 'http://rubygems.org'
 
-# The gem's dependencies are specified in gir_ffi.gemspec
-gemspec
+gem 'rake'
+gem 'sexp_processor'
+gem 'ruby2ruby'
+gem 'cucumber'
+gem 'gherkin', "= 2.4.11"
+
+gem 'rspec', "= 1.3.2"
+
