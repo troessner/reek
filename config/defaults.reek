@@ -4,13 +4,13 @@ Attribute:
   exclude: []
 BooleanParameter:
   enabled: true
-  exclude: &70350371717700 []
+  exclude: &70139980541640 []
 ClassVariable:
   enabled: true
-  exclude: *70350371717700
+  exclude: *70139980541640
 ControlCouple:
   enabled: true
-  exclude: *70350371717700
+  exclude: *70139980541640
 DataClump:
   enabled: true
   exclude: []
@@ -23,10 +23,10 @@ Duplication:
   allow_calls: []
 FeatureEnvy:
   enabled: true
-  exclude: *70350371717700
+  exclude: *70139980541640
 IrresponsibleModule:
   enabled: true
-  exclude: *70350371717700
+  exclude: *70139980541640
 LargeClass:
   enabled: true
   exclude: []
@@ -64,14 +64,14 @@ UncommunicativeMethodName:
   - !ruby/regexp /^[a-z]$/
   - !ruby/regexp /[0-9]$/
   - !ruby/regexp /[A-Z]/
-  accept: []
+  allow: []
 UncommunicativeModuleName:
   enabled: true
   exclude: []
   reject:
   - !ruby/regexp /^.$/
   - !ruby/regexp /[0-9]$/
-  accept:
+  allow:
   - Inline::C
 UncommunicativeParameterName:
   enabled: true
@@ -80,7 +80,8 @@ UncommunicativeParameterName:
   - !ruby/regexp /^.$/
   - !ruby/regexp /[0-9]$/
   - !ruby/regexp /[A-Z]/
-  accept: []
+  allow:
+  - _
 UncommunicativeVariableName:
   enabled: true
   exclude: []
@@ -88,7 +89,7 @@ UncommunicativeVariableName:
   - !ruby/regexp /^.$/
   - !ruby/regexp /[0-9]$/
   - !ruby/regexp /[A-Z]/
-  accept:
+  allow:
   - _
 UtilityFunction:
   enabled: true

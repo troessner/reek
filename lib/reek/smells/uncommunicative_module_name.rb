@@ -32,14 +32,14 @@ module Reek
       # The name of the config field that lists the specific names that are
       # to be treated as exceptions; these names will not be reported as
       # uncommunicative.
-      ACCEPT_KEY = 'accept'
+      ALLOW_KEY = 'allow'
 
-      DEFAULT_ACCEPT_SET = ['Inline::C']
+      DEFAULT_ALLOW_SET = ['Inline::C']
 
       def self.default_config
         super.adopt(
           REJECT_KEY => DEFAULT_REJECT_SET,
-          ACCEPT_KEY => DEFAULT_ACCEPT_SET
+          ALLOW_KEY => DEFAULT_ALLOW_SET
         )
       end
 
@@ -59,13 +59,13 @@ module Reek
       # :reek:Duplication { allow_calls: [ to_s ] }
       def examine_context(ctx)
         @reject_names = value(REJECT_KEY, ctx, DEFAULT_REJECT_SET)
-        @accept_names = value(ACCEPT_KEY, ctx, DEFAULT_ACCEPT_SET)
+        @allow_names = value(ALLOW_KEY, ctx, DEFAULT_ALLOW_SET)
         exp = ctx.exp
         full_name = ctx.full_name
         name = exp.simple_name
-        return [] if @accept_names.include?(full_name)
+        return [] if @allow_names.include?(full_name)
         var = name.to_s.gsub(/^[@\*\&]*/, '')
-        return [] if @accept_names.include?(var)
+        return [] if @allow_names.include?(var)
         return [] unless @reject_names.detect {|patt| patt === var}
         smell = SmellWarning.new(SMELL_CLASS, full_name, [exp.line],
           "has the name '#{name}'",
