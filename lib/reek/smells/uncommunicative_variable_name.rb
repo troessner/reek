@@ -34,7 +34,7 @@ module Reek
       # uncommunicative.
       ACCEPT_KEY = 'accept'
 
-      DEFAULT_ACCEPT_SET = []
+      DEFAULT_ACCEPT_SET = ['_']
 
       def self.default_config
         super.adopt(

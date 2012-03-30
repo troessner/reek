@@ -30,6 +30,9 @@ describe UncommunicativeVariableName do
     it 'does not report one-word variable name' do
       'def help(fred) simple = jim(45) end'.should_not smell_of(UncommunicativeVariableName)
     end
+    it 'does not report single underscore as a variable name' do
+      'def help(fred) _ = jim(45) end'.should_not smell_of(UncommunicativeVariableName)
+    end
     it 'reports one-letter variable name' do
       src = 'def simple(fred) x = jim(45) end'
       src.should smell_of(UncommunicativeVariableName,
