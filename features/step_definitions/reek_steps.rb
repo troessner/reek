@@ -56,6 +56,14 @@ Then /^it reports the error ['"](.*)['"]$/ do |string|
   @last_stderr.chomp.should == string
 end
 
+Then /^it reports a parsing error$/ do
+  if RUBY_VERSION < "1.9.3"
+    @last_stderr.chomp.should match /Racc::ParseError/
+  else
+    @last_stderr.chomp.should match /RipperRubyParser::SyntaxError/
+  end
+end
+
 Then /^it reports the current version$/ do
   @last_stdout.should == "reek #{Reek::VERSION}\n"
 end
