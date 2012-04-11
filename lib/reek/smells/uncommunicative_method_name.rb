@@ -59,14 +59,15 @@ module Reek
       def examine_context(ctx)
         @reject_names = value(REJECT_KEY, ctx, DEFAULT_REJECT_SET)
         @accept_names = value(ACCEPT_KEY, ctx, DEFAULT_ACCEPT_SET)
-        name = ctx.name
-        return [] if @accept_names.include?(ctx.full_name)
-        var = name.to_s.gsub(/^[@\*\&]*/, '')
+        name = ctx.name.to_s
+        full_name = ctx.full_name
+        return [] if @accept_names.include?(full_name)
+        var = name.gsub(/^[@\*\&]*/, '')
         return [] if @accept_names.include?(var)
         return [] unless @reject_names.detect {|patt| patt === var}
-        smell = SmellWarning.new('UncommunicativeName', ctx.full_name, [ctx.exp.line],
+        smell = SmellWarning.new('UncommunicativeName', full_name, [ctx.exp.line],
           "has the name '#{name}'",
-          @source, 'UncommunicativeMethodName', {METHOD_NAME_KEY => name.to_s})
+          @source, 'UncommunicativeMethodName', {METHOD_NAME_KEY => name})
         [smell]
       end
     end

@@ -56,8 +56,9 @@ module Reek
       def examine_context(ctx)
         @max_allowed_calls = value(MAX_ALLOWED_CALLS_KEY, ctx, DEFAULT_MAX_CALLS)
         @allow_calls = value(ALLOW_CALLS_KEY, ctx, DEFAULT_ALLOW_CALLS)
-        calls(ctx).select do |call_exp, copies|
-          copies.length > @max_allowed_calls and not allow_calls?(call_exp.format_ruby)
+        calls(ctx).select do |call_exp_select, copies_select|
+          #TODO: take block contexts in account (ex. false-positive for this method if call_exp1 was called call_exp)
+          copies_select.length > @max_allowed_calls and not allow_calls?(call_exp_select.format_ruby)
         end.map do |call_exp, copies|
           occurs = copies.length
           call = call_exp.format_ruby

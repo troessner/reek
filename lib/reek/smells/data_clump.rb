@@ -76,12 +76,13 @@ module Reek
         @max_copies = value(MAX_COPIES_KEY, ctx, DEFAULT_MAX_COPIES)
         @min_clump_size = value(MIN_CLUMP_SIZE_KEY, ctx, DEFAULT_MIN_CLUMP_SIZE)
         MethodGroup.new(ctx, @min_clump_size, @max_copies).clumps.map do |clump, methods|
+          methods_count = methods.length
           SmellWarning.new('DataClump', ctx.full_name,
-                           methods.map {|meth| meth.line},
-                           "takes parameters #{DataClump.print_clump(clump)} to #{methods.length} methods",
+                           methods.map(&:line),
+                           "takes parameters #{DataClump.print_clump(clump)} to #{methods_count} methods",
                            @source, 'DataClump', {
                           PARAMETERS_KEY => clump.map {|name| name.to_s},
-                          OCCURRENCES_KEY => methods.length,
+                          OCCURRENCES_KEY => methods_count,
                           METHODS_KEY => methods.map {|meth| meth.name}
                   })
         end

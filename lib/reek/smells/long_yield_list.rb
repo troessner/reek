@@ -40,8 +40,8 @@ module Reek
       #
       def examine_context(method_ctx)
         @max_allowed_params = value(MAX_ALLOWED_PARAMS_KEY, method_ctx, DEFAULT_MAX_ALLOWED_PARAMS)
-        method_ctx.local_nodes(:yield).select do |yield_node|
-          yield_node.args.length > @max_allowed_params
+        method_ctx.local_nodes(:yield).select do |yield_node_select|
+          yield_node_select.args.length > @max_allowed_params
         end.map do |yield_node|
           num_params = yield_node.args.length
           SmellWarning.new(SMELL_CLASS, method_ctx.full_name, [yield_node.line],

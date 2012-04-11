@@ -51,8 +51,8 @@ module Reek
       #
       def examine_context(ctx)
         @max_identical_ifs = value(MAX_IDENTICAL_IFS_KEY, ctx, DEFAULT_MAX_IFS)
-        conditional_counts(ctx).select do |key, lines|
-          lines.length > @max_identical_ifs
+        conditional_counts(ctx).select do |key, lines_select|
+          lines_select.length > @max_identical_ifs
         end.map do |key, lines|
           occurs = lines.length
           expr = key.format_ruby
