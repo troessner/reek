@@ -8,9 +8,7 @@ Gem::Specification.new do |s|
   s.authors = ["Kevin Rutherford"]
   s.date = %q{2010-04-26}
   s.default_executable = %q{reek}
-  s.description = %q{Reek is a tool that examines Ruby classes, modules and methods
-and reports any code smells it finds.
-}
+  s.description = "Reek is a tool that examines Ruby classes, modules and methods and reports any code smells it finds."
   s.email = ["kevin@rutherford-software.com"]
   s.executables = ["reek"]
   s.extra_rdoc_files = ["History.txt", "License.txt"]
@@ -31,10 +29,10 @@ Thank you for downloading Reek. For info:
   s.summary = %q{Code smell detector for Ruby}
 
   s.add_runtime_dependency(%q<ruby_parser>, ["~> 2.0"])
-  s.add_runtime_dependency(%q<ruby2ruby>, ["~> 1.2.5"])
+  s.add_runtime_dependency(%q<ruby2ruby>, ["~> 1.3"])
   s.add_runtime_dependency(%q<sexp_processor>, ["~> 3.0"])
 
   s.add_development_dependency(%q<rake>)
   s.add_development_dependency(%q<cucumber>)
-  s.add_development_dependency(%q<rspec>, ["= 1.3.2"])
+  s.add_development_dependency(%q<rspec>, [">= 1.3.2"])
 end
