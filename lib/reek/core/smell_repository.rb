@@ -26,6 +26,7 @@ module Reek
          Smells::UncommunicativeParameterName,
          Smells::UncommunicativeVariableName,
          Smells::UtilityFunction,
+         Smells::ModuleInitialize,
         ]
       end
 
