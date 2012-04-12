@@ -25,11 +25,12 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       def examine_context(ctx)
-        comment = Source::CodeComment.new(ctx.exp.comments)
+        exp = ctx.exp
+        comment = Source::CodeComment.new(exp.comments)
         return [] if comment.is_descriptive?
-        smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [ctx.exp.line],
+        smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [exp.line],
           'has no descriptive comment',
-          @source, SMELL_SUBCLASS, {MODULE_NAME_KEY => ctx.exp.text_name})
+          @source, SMELL_SUBCLASS, {MODULE_NAME_KEY => exp.text_name})
         [smell]
       end
     end

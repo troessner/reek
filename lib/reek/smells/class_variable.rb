@@ -31,7 +31,7 @@ module Reek
       def examine_context(ctx)
         class_variables_in(ctx.exp).map do |attr_name, lines|
           smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, lines,
-            "declares the class variable #{attr_name.to_s}",
+            "declares the class variable #{attr_name}",
             @source, SMELL_SUBCLASS,
             {VARIABLE_KEY => attr_name.to_s})
           smell

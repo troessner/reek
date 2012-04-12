@@ -59,10 +59,11 @@ module Reek
       def examine_context(ctx)
         @reject_names = value(REJECT_KEY, ctx, DEFAULT_REJECT_SET)
         @accept_names = value(ACCEPT_KEY, ctx, DEFAULT_ACCEPT_SET)
-        ctx.exp.parameter_names.select do |name|
+        exp = ctx.exp
+        exp.parameter_names.select do |name|
           is_bad_name?(name, ctx)
         end.map do |name|
-          smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [ctx.exp.line],
+          smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [exp.line],
                                    "has the parameter name '#{name}'",
                                    @source, SMELL_SUBCLASS, {PARAMETER_NAME_KEY => name.to_s})
           smell

@@ -47,10 +47,11 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       def examine_context(ctx)
+        exp = ctx.exp
         @max_allowed_params = value(MAX_ALLOWED_PARAMS_KEY, ctx, DEFAULT_MAX_ALLOWED_PARAMS)
-        num_params = ctx.exp.arg_names.length
+        num_params = exp.arg_names.length
         return [] if num_params <= @max_allowed_params
-        smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [ctx.exp.line],
+        smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [exp.line],
           "has #{num_params} parameters",
           @source, SMELL_SUBCLASS,
           {PARAMETER_COUNT_KEY => num_params})

@@ -1,5 +1,5 @@
 require 'rubygems'
-require 'rake/gempackagetask'
+require 'rubygems/package_task'
 require 'yaml'
 require 'reek'
 
@@ -48,7 +48,7 @@ file GEMSPEC => [GEM_MANIFEST, README_FILE, HISTORY_FILE, VERSION_FILE, __FILE__
 end
 
 namespace :build do
-  Rake::GemPackageTask.new($gemspec) do |task|
+  Gem::PackageTask.new($gemspec) do |task|
     task.package_dir = PKG_DIR
     task.need_tar = true
     task.need_zip = false

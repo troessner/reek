@@ -70,9 +70,10 @@ module Reek
           next unless Sexp === elem
           case elem.first
           when :iter
-            find_iters([elem.call], depth, result)
+            elem_call = elem.call
+            find_iters([elem_call], depth, result)
             current = result.length
-            call = Source::SexpFormatter.format(elem.call)
+            call = Source::SexpFormatter.format(elem_call)
             ignored = @ignore_iterators.any? { |ignore| /#{ignore}/ === call }
             find_iters([elem.block], depth + (ignored ? 0 : 1), result)
             result << [elem, depth] if result.length == current unless ignored
