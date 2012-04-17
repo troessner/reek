@@ -54,14 +54,14 @@ Feature: Basic smell detection
   Scenario: Correct smells from optparse.rb
     When I run reek spec/samples/optparse.rb
     Then the exit status indicates smells
-    And it reports something like: spec/samples/optparse.rb -- 109 warnings:
+    And it reports something like: spec/samples/optparse.rb -- 110 warnings:
     And it reports something like: OptionParser has at least 42 methods (TooManyMethods)
     And it reports something like: OptionParser has the variable name 'f' (UncommunicativeVariableName)
     And it reports something like: OptionParser has the variable name 'k' (UncommunicativeVariableName)
     And it reports something like: OptionParser has the variable name 'o' (UncommunicativeVariableName)
     And it reports something like: OptionParser has the variable name 's' (UncommunicativeVariableName)
     And it reports something like: OptionParser has the variable name 'v' (UncommunicativeVariableName)
-    And it reports something like: OptionParser tests ((argv.size == 1) and Array.===(argv[0])) at least 3 times (RepeatedConditional)
+    And it reports something like: OptionParser tests (argv.size == 1) and Array.===(argv[0]) at least 3 times (RepeatedConditional)
     And it reports something like: OptionParser tests a at least 7 times (RepeatedConditional)
     And it reports something like: OptionParser tests default_pattern at least 7 times (RepeatedConditional)
     And it reports something like: OptionParser tests not_style at least 3 times (RepeatedConditional)
@@ -72,7 +72,7 @@ Feature: Basic smell detection
     And it reports something like: OptionParser#getopts calls result[opt] = false twice (DuplicateMethodCall)
     And it reports something like: OptionParser#getopts has approx 17 statements (TooManyStatements)
     And it reports something like: OptionParser#load has the variable name 's' (UncommunicativeVariableName)
-    And it reports something like: OptionParser#make_switch calls (long << o = q.downcase) twice (DuplicateMethodCall)
+    And it reports something like: OptionParser#make_switch calls (long << (o = q.downcase)) twice (DuplicateMethodCall)
     And it reports something like (pending): OptionParser#make_switch calls (sdesc << "-#{q}") twice (DuplicateMethodCall)
     And it reports something like: OptionParser#make_switch calls default_style.guess(arg = a) 4 times (DuplicateMethodCall)
     And it reports something like: OptionParser#make_switch calls notwice(NilClass, klass, "type") twice (DuplicateMethodCall)
@@ -114,6 +114,7 @@ Feature: Basic smell detection
     And it reports something like: OptionParser#summarize has 4 parameters (LongParameterList)
     And it reports something like: OptionParser#summarize has the variable name 'l' (UncommunicativeVariableName)
     And it reports something like: OptionParser#ver has the variable name 'v' (UncommunicativeVariableName)
+    And it reports something like: OptionParser::Arguable has initialize method (ModuleInitialize)
     And it reports something like: OptionParser::CompletingHash#match contains iterators nested 2 deep (NestedIterators)
     And it reports something like: OptionParser::Completion#complete calls candidates.size twice (DuplicateMethodCall)
     And it reports something like: OptionParser::Completion#complete calls k.id2name twice (DuplicateMethodCall)
