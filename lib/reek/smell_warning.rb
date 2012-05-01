@@ -1,6 +1,7 @@
 
 module Reek
 
+
   #
   # Reports a warning that a smell has been found.
   # This object is essentially a DTO, and therefore contains a :reek:attribute or two.
