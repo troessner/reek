@@ -17,6 +17,8 @@ module Reek
     # * 1-character names
     # * names ending with a number
     #
+    # 
+    #
     class UncommunicativeVariableName < SmellDetector
 
       SMELL_CLASS = 'UncommunicativeName'
@@ -32,14 +34,14 @@ module Reek
       # The name of the config field that lists the specific names that are
       # to be treated as exceptions; these names will not be reported as
       # uncommunicative.
-      ACCEPT_KEY = 'accept'
+      ALLOW_KEY = 'allow'
 
-      DEFAULT_ACCEPT_SET = []
+      DEFAULT_ALLOW_SET = ['_']
 
       def self.default_config
         super.adopt(
                 REJECT_KEY => DEFAULT_REJECT_SET,
-                ACCEPT_KEY => DEFAULT_ACCEPT_SET
+                ALLOW_KEY => DEFAULT_ALLOW_SET
         )
       end
 
@@ -58,7 +60,7 @@ module Reek
       #
       def examine_context(ctx)
         @reject_names = value(REJECT_KEY, ctx, DEFAULT_REJECT_SET)
-        @accept_names = value(ACCEPT_KEY, ctx, DEFAULT_ACCEPT_SET)
+        @allow_names = value(ALLOW_KEY, ctx, DEFAULT_ALLOW_SET)
         variable_names(ctx.exp).select do |name, lines|
           is_bad_name?(name, ctx)
         end.map do |name, lines|
@@ -70,7 +72,7 @@ module Reek
 
       def is_bad_name?(name, ctx)
         var = name.to_s.gsub(/^[@\*\&]*/, '')
-        return false if @accept_names.include?(var)
+        return false if @allow_names.include?(var)
         @reject_names.detect {|patt| patt === var}
       end
 
