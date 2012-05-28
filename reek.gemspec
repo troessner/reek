@@ -18,10 +18,10 @@ and reports any code smells it finds.
                 "Rakefile", "bin/reek", "config/defaults.reek",
                 "{features,lib,spec,tasks}/**/*",
                 "reek.gemspec" ] & `git ls-files -z`.split("\0")
-  s.homepage = %q{http://wiki.github.com/kevinrutherford/reek}
+  s.homepage = %q{http://wiki.github.com/troessner/reek}
   s.post_install_message = %q{
 Thank you for downloading Reek. For info:
-  - see the reek wiki http://wiki.github.com/kevinrutherford/reek
+  - see the reek wiki http://wiki.github.com/troessner/reek
   - follow @rubyreek on twitter
 }
   s.rdoc_options = ["--main", "README.md"]

@@ -28,7 +28,7 @@ Feature: Reek can be controlled using command-line options
       reek -q lib
       cat my_class.rb | reek
 
-      See http://wiki.github.com/kevinrutherford/reek for detailed help.
+      See http://wiki.github.com/troessner/reek for detailed help.
 
       Common options:
           -h, --help                       Show this message
