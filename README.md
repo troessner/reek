@@ -16,7 +16,7 @@ $ reek [options] [dir_or_source_file]*
 ```
 
 For a full list of command-line options see the Reek
-wiki[http://wiki.github.com/kevinrutherford/reek/command-line-options]
+wiki[http://wiki.github.com/troessner/reek/command-line-options]
 or run
 
 ```bash
@@ -56,7 +56,7 @@ spec/samples/demo/demo.rb -- 6 warnings:
 Reek currently includes checks for some aspects of Control Couple,
 Data Clump, Feature Envy, Large Class, Long Method, Long Parameter List,
 Simulated Polymorphism, Uncommunicative Name and more.
-See the [Reek wiki](http://wiki.github.com/kevinrutherford/reek/code-smells)
+See the [Reek wiki](http://wiki.github.com/troessner/reek/code-smells)
 for up to date details of exactly what Reek will check in your code.
 
 ### Tool Integration
@@ -82,8 +82,8 @@ Learn More
 
 Find out more about Reek from any of the following sources:
 
-* Browse the Reek documentation at [http://wiki.github.com/kevinrutherford/reek](http://wiki.github.com/kevinrutherford/reek)
-* Browse the code or install the latest development version from [http://github.com/kevinrutherford/reek/tree](http://github.com/kevinrutherford/reek/tree)
-* Read the code API at [http://rdoc.info/projects/kevinrutherford/reek](http://rdoc.info/projects/kevinrutherford/reek)
+* Browse the Reek documentation at [http://wiki.github.com/troessner/reek](http://wiki.github.com/troessner/reek)
+* Browse the code or install the latest development version from [http://github.com/troessner/reek/tree](http://github.com/troessner/reek/tree)
+* Read the code API at [http://rdoc.info/projects/troessner/reek](http://rdoc.info/projects/troessner/reek)
 * Follow [@rubyreek](http://twitter.com/rubyreek) on twitter!
 

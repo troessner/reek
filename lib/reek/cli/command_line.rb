@@ -49,7 +49,7 @@ Examples:
 #{progname} -q lib
 cat my_class.rb | #{progname}
 
-See http://wiki.github.com/kevinrutherford/reek for detailed help.
+See http://wiki.github.com/troessner/reek for detailed help.
 
 EOB
       end
