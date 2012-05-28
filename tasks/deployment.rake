@@ -19,7 +19,7 @@ and reports any code smells it finds.
 EOS
   s.author = 'Kevin Rutherford'
   s.email = ['kevin@rutherford-software.com']
-  s.homepage = 'http://wiki.github.com/kevinrutherford/reek'
+  s.homepage = 'http://wiki.github.com/troessner/reek'
   s.rubyforge_project = PROJECT_NAME
   s.add_dependency('ruby_parser', '~> 2.0')
   s.add_dependency('ruby2ruby', '~> 1.2')
@@ -32,7 +32,7 @@ EOS
   s.extra_rdoc_files = s.files.grep(/(txt|rdoc)$/)
   s.post_install_message = '
 Thank you for downloading Reek. For info:
-  - see the reek wiki http://wiki.github.com/kevinrutherford/reek
+  - see the reek wiki http://wiki.github.com/troessner/reek
   - follow @rubyreek on twitter
 '
 end
