@@ -1,3 +1,7 @@
+== Unpublished
+
+* (marktabler) Allow single underscore as a variable assignment without triggering UncommunicativeVariableName.
+
 == 1.2.8 (2010-04-26)
 
 === Major Changes
