@@ -41,8 +41,6 @@ namespace 'test' do
 
   desc 'Runs all unit tests and acceptance tests'
   task 'all' => ['test:spec', 'test:features']
-
-  task 'release' => ['test:gem', 'test:all']
 end
 
 task 'clobber_rcov' => 'test:clobber_rcov'
