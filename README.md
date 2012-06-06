@@ -85,5 +85,4 @@ Find out more about Reek from any of the following sources:
 * Browse the Reek documentation at [http://wiki.github.com/troessner/reek](http://wiki.github.com/troessner/reek)
 * Browse the code or install the latest development version from [http://github.com/troessner/reek/tree](http://github.com/troessner/reek/tree)
 * Read the code API at [http://rdoc.info/projects/troessner/reek](http://rdoc.info/projects/troessner/reek)
-* Follow [@rubyreek](http://twitter.com/rubyreek) on twitter!
 
