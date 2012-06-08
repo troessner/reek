@@ -1,4 +1,4 @@
-build
+pkg
 spec/output
 tmp
 doc

@@ -1,4 +1,8 @@
-== Unpublished
+== 1.2.10 (2012-06-05)
+
+* (troessner) Use bundler rake tasks.
+
+== 1.2.9 (2012-06-05)
 
 * (marktabler) Allow single underscore as a variable assignment without triggering UncommunicativeVariableName.
 
