@@ -1,8 +1,3 @@
-if RUBY_VERSION < "1.9.3"
-  require 'ruby_parser'
-else
-  require 'ripper_ruby_parser'
-end
 require File.join(File.dirname(File.expand_path(__FILE__)), 'config_file')
 require File.join(File.dirname(File.expand_path(__FILE__)), 'tree_dresser')
 
@@ -26,10 +21,12 @@ module Reek
 
       attr_reader :desc
 
-      PARSER_CLASS = if RUBY_VERSION < "1.9.3"
-                       RubyParser
-                     else
+      PARSER_CLASS = begin
+                       require 'ripper_ruby_parser'
                        RipperRubyParser::Parser
+                     rescue LoadError
+                       require 'ruby_parser'
+                       RubyParser
                      end
 
       def initialize(code, desc, parser = PARSER_CLASS.new)
