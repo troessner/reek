@@ -1,3 +1,7 @@
+== 1.2.11 (2012-06-08)
+
+* (mvz) Make Bundler a development dependency.
+
 == 1.2.10 (2012-06-05)
 
 * (troessner) Use bundler rake tasks.
