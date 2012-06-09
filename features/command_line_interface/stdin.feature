@@ -48,9 +48,5 @@ Feature: Reek reads from $stdin when no files are given
       $stdin -- 0 warnings
 
       """
-    And stderr reports:
-      """
-      $stdin: Racc::ParseError: 
-      parse error on value "$end" ($end)
+    And it reports a parsing error
 
-      """

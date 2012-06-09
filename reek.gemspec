@@ -27,6 +27,7 @@ and reports any code smells it finds.
   s.summary = %q{Code smell detector for Ruby}
 
   s.add_runtime_dependency(%q<ruby_parser>, ["~> 2.0"])
+  s.add_runtime_dependency(%q<ripper_ruby_parser>, ["~> 0.0.7"])
   s.add_runtime_dependency(%q<ruby2ruby>, ["~> 1.2.5"])
   s.add_runtime_dependency(%q<sexp_processor>, ["~> 3.0"])
 
