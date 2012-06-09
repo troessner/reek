@@ -1,4 +1,3 @@
-require 'ruby_parser'
 require File.join(File.dirname(File.expand_path(__FILE__)), 'config_file')
 require File.join(File.dirname(File.expand_path(__FILE__)), 'tree_dresser')
 
@@ -22,7 +21,15 @@ module Reek
 
       attr_reader :desc
 
-      def initialize(code, desc, parser = RubyParser.new)
+      PARSER_CLASS = begin
+                       require 'ripper_ruby_parser'
+                       RipperRubyParser::Parser
+                     rescue LoadError
+                       require 'ruby_parser'
+                       RubyParser
+                     end
+
+      def initialize(code, desc, parser = PARSER_CLASS.new)
         @source = code
         @desc = desc
         @parser = parser
