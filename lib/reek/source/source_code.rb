@@ -21,6 +21,10 @@ module Reek
 
       attr_reader :desc
 
+      # At runtime, reek tries to load ripper_ruby_parser. If that succeeds,
+      # reek uses that parser and will be able to handle Ruby 1.9 syntax. On
+      # Ruby versions below 1.9.3, it will fail and reek will use ruby_parser
+      # and handle Ruby 1.8 syntax only.
       PARSER_CLASS = begin
                        require 'ripper_ruby_parser'
                        RipperRubyParser::Parser
