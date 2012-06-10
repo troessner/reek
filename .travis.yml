@@ -6,5 +6,6 @@ notifications:
   recipients:
     - kevin@rutherford-sofware.com
     - wagner.andrew@gmail.com
+    - matijs@matijs.net
   irc: "irc.freenode.org#reek"
 
