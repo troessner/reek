@@ -105,7 +105,7 @@ module Reek
       end
 
       def self.ruby_exe
-        File.join(Config::CONFIG['bindir'], Config::CONFIG['ruby_install_name'])
+        File.join(RbConfig::CONFIG['bindir'], RbConfig::CONFIG['ruby_install_name'])
       end
 
       def cmd_words
