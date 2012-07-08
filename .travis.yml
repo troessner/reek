@@ -4,8 +4,7 @@ rvm:
   - 1.9.3
 notifications:
   recipients:
-    - kevin@rutherford-sofware.com
-    - wagner.andrew@gmail.com
+    - timo.roessner@googlemail.com
     - matijs@matijs.net
   irc: "irc.freenode.org#reek"
 
