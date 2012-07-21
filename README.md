@@ -67,6 +67,25 @@ Reek integrates with many of your favourite tools:
 * `require 'reek/spec'` to add the `should_not reek` custom matcher to your Rspec examples
 * Reek is compatible with Ruby 1.8.6, 1.8.7, 1.9.2 and 1.9.3
 
+## Contributing
+
+* Fork the repo
+* Create a feature branch
+* Make sure the tests pass (see below)
+* Submit a pull request
+
+### Running the tests
+
+Either just `rake` to run all or, if you want to be specific:
+
+```bash
+spec spec/your/file        # Runs all tests
+spec spec/your/file -l 23  # Runs test in line 23
+spec spec/your/file -u     # Runs all tests stopping at the breakpoints you have set before with `debugger`
+```
+
+### Tool Integration
+
 ### Dependencies
 
 Reek makes use of the following other gems:
