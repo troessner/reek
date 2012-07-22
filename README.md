@@ -63,7 +63,8 @@ for up to date details of exactly what Reek will check in your code.
 
 Basically there are two ways to use reek in your project except for the obvious static code analysis:
 
-(1) Use Reek's [[Rake Task]] to easily add Reek to your Rakefile
+(1) Use Reek's [Rake Task](https://github.com/troessner/reek/wiki/Rake-Task) to easily add Reek to your Rakefile
+
 (2) Add Reek's custom matcher to your Rspec examples like this:
 
 ```Ruby
@@ -71,11 +72,13 @@ require 'rubygems'
 require 'spec'
 require 'reek'
 require 'reek/spec'
+require 'reek/spec'
+
 include Reek::Spec
 
-'foo'.should == 'foo' and puts 'foo equals foo'
-'foo'.should_not reek and puts 'foo does not reek'
-
+my_precious_code = 'class C; def m; end; end'
+my_precious_code.should_not reek # Well, it does.
+```
 
 ## Contributing
 
