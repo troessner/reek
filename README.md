@@ -59,13 +59,23 @@ Simulated Polymorphism, Uncommunicative Name and more.
 See the [Reek wiki](http://wiki.github.com/troessner/reek/code-smells)
 for up to date details of exactly what Reek will check in your code.
 
-### Tool Integration
+### Integration
 
-Reek integrates with many of your favourite tools:
+Basically there are two ways to use reek in your project except for the obvious static code analysis:
 
-* `require 'reek/rake/task'` to easily add Reek to your Rakefile
-* `require 'reek/spec'` to add the `should_not reek` custom matcher to your Rspec examples
-* Reek is compatible with Ruby 1.8.6, 1.8.7, 1.9.2 and 1.9.3
+(1) Use Reek's [[Rake Task]] to easily add Reek to your Rakefile
+(2) Add Reek's custom matcher to your Rspec examples like this:
+
+```Ruby
+require 'rubygems'
+require 'spec'
+require 'reek'
+require 'reek/spec'
+include Reek::Spec
+
+'foo'.should == 'foo' and puts 'foo equals foo'
+'foo'.should_not reek and puts 'foo does not reek'
+
 
 ## Contributing
 
