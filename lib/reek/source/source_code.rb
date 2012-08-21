@@ -1,3 +1,4 @@
+require 'ruby_parser'
 require File.join(File.dirname(File.expand_path(__FILE__)), 'config_file')
 require File.join(File.dirname(File.expand_path(__FILE__)), 'tree_dresser')
 
@@ -21,19 +22,7 @@ module Reek
 
       attr_reader :desc
 
-      # At runtime, reek tries to load ripper_ruby_parser. If that succeeds,
-      # reek uses that parser and will be able to handle Ruby 1.9 syntax. On
-      # Ruby versions below 1.9.3, it will fail and reek will use ruby_parser
-      # and handle Ruby 1.8 syntax only.
-      PARSER_CLASS = begin
-                       require 'ripper_ruby_parser'
-                       RipperRubyParser::Parser
-                     rescue LoadError
-                       require 'ruby_parser'
-                       RubyParser
-                     end
-
-      def initialize(code, desc, parser = PARSER_CLASS.new)
+      def initialize(code, desc, parser = RubyParser.new)
         @source = code
         @desc = desc
         @parser = parser
