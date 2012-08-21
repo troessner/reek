@@ -80,6 +80,72 @@ EOS
       src.should smell_of(UncommunicativeVariableName,
         {UncommunicativeVariableName::VARIABLE_NAME_KEY => 'x'})
     end
+
+    it "reports all relevant block parameters" do
+      src = <<-EOS
+        def bad
+          @foo.map { |x, y| x + y }
+        end
+      EOS
+      src.should smell_of(UncommunicativeVariableName,
+                          {UncommunicativeVariableName::VARIABLE_NAME_KEY => 'x'},
+                          {UncommunicativeVariableName::VARIABLE_NAME_KEY => 'y'})
+    end
+
+    it "reports block parameters used outside of methods" do
+      src = <<-EOS
+      class Foo
+        @foo.map { |x| x * 2 }
+      end
+      EOS
+      src.should smell_of(UncommunicativeVariableName,
+                          {UncommunicativeVariableName::VARIABLE_NAME_KEY => 'x'})
+    end
+
+    it "reports splatted block parameters correctly" do
+      src = <<-EOS
+        def bad
+          @foo.map { |*y| y << 1 }
+        end
+      EOS
+      src.should smell_of(UncommunicativeVariableName,
+                          {UncommunicativeVariableName::VARIABLE_NAME_KEY => 'y'})
+    end
+
+    it "reports nested block parameters" do
+      src = <<-EOS
+        def bad
+          @foo.map { |(x, y)| x + y }
+        end
+      EOS
+      src.should smell_of(UncommunicativeVariableName,
+                          {UncommunicativeVariableName::VARIABLE_NAME_KEY => 'x'},
+                          {UncommunicativeVariableName::VARIABLE_NAME_KEY => 'y'})
+    end
+
+    it "reports splatted nested block parameters" do
+      src = <<-EOS
+        def bad
+          @foo.map { |(x, *y)| x + y }
+        end
+      EOS
+      src.should smell_of(UncommunicativeVariableName,
+                          {UncommunicativeVariableName::VARIABLE_NAME_KEY => 'x'},
+                          {UncommunicativeVariableName::VARIABLE_NAME_KEY => 'y'})
+    end
+
+    it "reports deeply nested block parameters" do
+      src = <<-EOS
+        def bad
+          @foo.map { |(x, (y, z))| x + y + z }
+        end
+      EOS
+      src.should smell_of(UncommunicativeVariableName,
+                          {UncommunicativeVariableName::VARIABLE_NAME_KEY => 'x'},
+                          {UncommunicativeVariableName::VARIABLE_NAME_KEY => 'y'},
+                          {UncommunicativeVariableName::VARIABLE_NAME_KEY => 'z'})
+    end
+
   end
 
   context 'when a smell is reported' do

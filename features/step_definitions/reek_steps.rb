@@ -53,11 +53,7 @@ Then /^it reports the error ['"](.*)['"]$/ do |string|
 end
 
 Then /^it reports a parsing error$/ do
-  if RUBY_VERSION < "1.9.3"
-    @last_stderr.chomp.should match /Racc::ParseError/
-  else
-    @last_stderr.chomp.should match /RipperRubyParser::SyntaxError/
-  end
+  @last_stderr.chomp.should match(/Racc::ParseError/)
 end
 
 Then /^it reports the current version$/ do
