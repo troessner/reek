@@ -1,3 +1,8 @@
+== 1.2.12 (2012-06-09)
+
+* (mvz) Use ripper_ruby_parser on Ruby 1.9.3 and up (thus making reek able
+        to parse the new 1.9 hash syntax).
+
 == 1.2.11 (2012-06-08)
 
 * (mvz) Make Bundler a development dependency.

@@ -13,8 +13,8 @@ and reports any code smells it finds.
 }
   s.email = ["timo.roessner@googlemail.com"]
   s.executables = ["reek"]
-  s.extra_rdoc_files = ["History.txt", "License.txt"]
-  s.files = Dir[".yardopts", "History.txt", "License.txt", "README.md",
+  s.extra_rdoc_files = ["CHANGELOG", "License.txt"]
+  s.files = Dir[".yardopts", "CHANGELOG", "License.txt", "README.md",
                 "Rakefile", "bin/reek", "config/defaults.reek",
                 "{features,lib,spec,tasks}/**/*",
                 "reek.gemspec" ] & `git ls-files -z`.split("\0")
@@ -27,6 +27,7 @@ and reports any code smells it finds.
   s.summary = %q{Code smell detector for Ruby}
 
   s.add_runtime_dependency(%q<ruby_parser>, ["~> 2.0"])
+  s.add_runtime_dependency(%q<ripper_ruby_parser>, ["~> 0.0.7"])
   s.add_runtime_dependency(%q<ruby2ruby>, ["~> 1.2.5"])
   s.add_runtime_dependency(%q<sexp_processor>, ["~> 3.0"])
 

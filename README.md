@@ -59,15 +59,45 @@ Simulated Polymorphism, Uncommunicative Name and more.
 See the [Reek wiki](http://wiki.github.com/troessner/reek/code-smells)
 for up to date details of exactly what Reek will check in your code.
 
+### Integration
+
+Basically there are two ways to use reek in your project except for the obvious static code analysis:
+
+(1) Use Reek's [Rake Task](https://github.com/troessner/reek/wiki/Rake-Task) to easily add Reek to your Rakefile
+
+(2) Add Reek's custom matcher to your Rspec examples like this:
+
+```Ruby
+require 'rubygems'
+require 'spec'
+require 'reek'
+require 'reek/spec'
+require 'reek/spec'
+
+include Reek::Spec
+
+my_precious_code = 'class C; def m; end; end'
+my_precious_code.should_not reek # Well, it does.
+```
+
+## Contributing
+
+* Fork the repo
+* Create a feature branch
+* Make sure the tests pass (see below)
+* Submit a pull request
+
+### Running the tests
+
+Either just `rake` to run all or, if you want to be specific:
+
+```bash
+spec spec/your/file        # Runs all tests
+spec spec/your/file -l 23  # Runs test in line 23
+spec spec/your/file -u     # Runs all tests stopping at the breakpoints you have set before with `debugger`
+```
+
 ### Tool Integration
-
-Reek integrates with many of your favourite tools:
-
-* `require 'reek/rake/task'` to easily add Reek to your Rakefile
-* `require 'reek/spec'` to add the `should_not reek` custom matcher to your Rspec examples
-* Reek is compatible with Ruby 1.8.6, 1.8.7, 1.9.2 and 1.9.3
-
-At present Reek is unable to parse the new Ruby 1.9 hash syntax of {a: 1}.
 
 ### Dependencies
 

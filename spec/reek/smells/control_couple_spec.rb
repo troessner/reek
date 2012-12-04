@@ -51,7 +51,11 @@ EOS
 
     it 'has the correct fields' do
       @warning.smell[ControlCouple::PARAMETER_KEY].should == 'arg'
-      @warning.lines.should == [3,6]
+      if RUBY_VERSION < "1.9.3"
+        @warning.lines.should == [3,6]
+      else
+        @warning.lines.should == [3,5]
+      end
     end
   end
 end
