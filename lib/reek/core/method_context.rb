@@ -9,20 +9,11 @@ module Reek
     #
     module MethodParameters
       def default_assignments
-        assignments = self[-1]
         result = []
-        return result unless is_assignment_block?(assignments)
-        assignments[1..-1].each do |exp|
-          result << exp[1..2] if exp[0] == :lasgn
+        self[1..-1].each do |exp|
+          result << exp[1..2] if Sexp === exp && exp[0] == :lasgn
         end
         result
-      end
-      def is_arg?(param)
-        return false if is_assignment_block?(param)
-        return !(param.to_s =~ /^\&/)
-      end
-      def is_assignment_block?(param)
-        Array === param and param[0] == :block
       end
     end
 
