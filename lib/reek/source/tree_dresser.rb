@@ -69,9 +69,9 @@ module Reek
       module CallNode
         def receiver() self[1] end
         def method_name() self[2] end
-        def args() self[3] end
+        def args() self[3..-1] end
         def arg_names
-          args[1..-1].map {|arg| arg[1]}
+          args.map {|arg| arg[1]}
         end
       end
 
@@ -84,26 +84,19 @@ module Reek
 
       module MethodNode
         def arg_names
-          unless @args
-            @args = argslist[1..-1].reject {|param| Sexp === param or param.to_s =~ /^&/}
-          end
-          @args
-        end
-        def parameters()
-          unless @params
-            @params = argslist.reject {|param| Sexp === param}
-          end
-          @params
+          @args ||= parameter_names.reject {|param| param.to_s =~ /^&/}
         end
         def parameter_names
-          parameters[1..-1]
+          @param_names ||= argslist[1..-1].map { |param| Sexp === param ?  param[1] : param }
         end
       end
 
       module DefnNode
         def name() self[1] end
         def argslist() self[2] end
-        def body() self[3] end
+        def body()
+          self[3..-1].tap {|b| b.extend SexpNode }
+        end
         include MethodNode
         def full_name(outer)
           prefix = outer == '' ? '' : "#{outer}#"
@@ -115,7 +108,9 @@ module Reek
         def receiver() self[1] end
         def name() self[2] end
         def argslist() self[3] end
-        def body() self[4] end
+        def body()
+          self[4..-1].tap {|b| b.extend SexpNode }
+        end
         include MethodNode
         def full_name(outer)
           prefix = outer == '' ? '' : "#{outer}#"
@@ -133,15 +128,7 @@ module Reek
         def block() self[3] end
         def parameters() self[2] || [] end
         def parameter_names
-          result = parameters
-          return case result[0]
-          when :lasgn
-            [result[1]]
-          when :masgn
-            result[1][1..-1].map {|lasgn| lasgn[1]}
-          else
-            []
-          end
+          parameters[1..-1].to_a
         end
       end
 
