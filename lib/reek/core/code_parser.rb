@@ -57,7 +57,7 @@ module Reek
       end
 
       def process_block(exp)
-        @element.count_statements(CodeParser.count_statements(exp))
+        @element.count_statements(CodeParser.count_statements(exp[1..-1]))
         process_default(exp)
       end
 
@@ -110,7 +110,7 @@ module Reek
       end
 
       def process_when(exp)
-        count_clause(exp[2])
+        @element.count_statements(CodeParser.count_statements(exp[2..-1].compact))
         process_default(exp)
       end
 
@@ -133,8 +133,7 @@ module Reek
         end
       end
 
-      def self.count_statements(exp)
-        stmts = exp[1..-1]
+      def self.count_statements(stmts)
         ignore = 0
         ignore += 1 if stmts[1] == s(:nil)
         stmts.length - ignore
@@ -145,6 +144,7 @@ module Reek
       def handle_context(klass, type, exp)
         scope = klass.new(@element, exp)
         push(scope) do
+          @element.count_statements(CodeParser.count_statements(exp.body))
           process_default(exp)
           check_smells(type)
         end
