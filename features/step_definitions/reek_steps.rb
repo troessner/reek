@@ -40,10 +40,6 @@ Then /^it reports this yaml:$/ do |expected_yaml|
   actual_warnings.should == expected_warnings
 end
 
-Then /^it reports something like: (.*)$/ do |line|
-  @last_stdout.chomp.should match Regexp.new(Regexp.escape(line))
-end
-
 Then /^stderr reports:$/ do |report|
   @last_stderr.should == report
 end
