@@ -1,7 +1,6 @@
 require File.join(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__)))), 'spec_helper')
 require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'smells', 'irresponsible_module')
 require File.join(File.dirname(File.expand_path(__FILE__)), 'smell_detector_shared')
-
 include Reek::Smells
 
 describe IrresponsibleModule do
@@ -11,6 +10,16 @@ describe IrresponsibleModule do
   end
 
   it_should_behave_like 'SmellDetector'
+
+  it 'does not report re-opened modules' do
+    src = <<-EOS
+      # Abstract base class
+      class C; end
+
+      class C; def foo; end; end
+    EOS
+    src.should_not reek_of(:IrresponsibleModule)
+  end
 
   it "does not report a class having a comment" do
     src = <<EOS

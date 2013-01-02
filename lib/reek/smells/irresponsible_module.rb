@@ -19,6 +19,10 @@ module Reek
         [:class]
       end
 
+      def self.descriptive   # :nodoc:
+        @descriptive ||= {}
+      end
+
       #
       # Checks the given class or module for a descriptive comment.
       #
@@ -26,7 +30,7 @@ module Reek
       #
       def examine_context(ctx)
         comment = Source::CodeComment.new(ctx.exp.comments)
-        return [] if comment.is_descriptive?
+        return [] if self.class.descriptive[ctx.full_name] ||= comment.is_descriptive?
         smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [ctx.exp.line],
           'has no descriptive comment',
           @source, SMELL_SUBCLASS, {MODULE_NAME_KEY => ctx.exp.text_name})
