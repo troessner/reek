@@ -29,13 +29,13 @@ describe UtilityFunction do
       @detector.examine_context(ctx).should be_empty
     end
     it 'does not report literal' do
-      'def simple(arga) 3; end'.should_not reek
+      'def simple() 3; end'.should_not reek
     end
     it 'does not report instance variable reference' do
-      'def simple(arga) @yellow end'.should_not reek
+      'def simple() @yellow end'.should_not reek
     end
     it 'does not report vcall' do
-      'def simple(arga) y end'.should_not reek
+      'def simple() y end'.should_not reek
     end
     it 'does not report references to self' do
       'def into; self; end'.should_not reek
