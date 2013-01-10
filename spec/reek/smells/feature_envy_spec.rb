@@ -13,9 +13,6 @@ describe FeatureEnvy do
     it 'should not report vcall with no argument' do
       'def simple() func; end'.should_not reek
     end
-    it 'should not report vcall with argument' do
-      'def simple(arga) func(17); end'.should_not reek
-    end
     it 'should not report single use' do
       'def no_envy(arga) arga.barg(@item) end'.should_not reek
     end

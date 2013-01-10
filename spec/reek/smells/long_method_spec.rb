@@ -20,7 +20,7 @@ describe LongMethod do
   end
 
   it 'should report long methods' do
-    src = 'def long(arga) alf = f(1);@bet = 2;@cut = 3;@dit = 4; @emp = 5;@fry = 6;end'
+    src = 'def long() alf = f(1);@bet = 2;@cut = 3;@dit = 4; @emp = 5;@fry = 6;end'
     src.should reek_only_of(:LongMethod, /6 statements/)
   end
 
@@ -53,7 +53,7 @@ EOS
 
   it 'should report long inner block' do
     src = <<EOS
-def long(arga)
+def long()
   f(3)
   self.each do |xyzero|
     xyzero = 1
