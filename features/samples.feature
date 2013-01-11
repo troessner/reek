@@ -60,7 +60,7 @@ Feature: Basic smell detection
     Then the exit status indicates smells
     And it reports:
     """
-    spec/samples/optparse.rb -- 109 warnings:
+    spec/samples/optparse.rb -- 113 warnings:
       OptionParser has at least 42 methods (TooManyMethods)
       OptionParser has the variable name 'f' (UncommunicativeVariableName)
       OptionParser has the variable name 'k' (UncommunicativeVariableName)
@@ -120,6 +120,7 @@ Feature: Basic smell detection
       OptionParser#summarize has 4 parameters (LongParameterList)
       OptionParser#summarize has the variable name 'l' (UncommunicativeVariableName)
       OptionParser#ver has the variable name 'v' (UncommunicativeVariableName)
+      OptionParser::Arguable#initialize has unused parameter '*args' (UnusedParameters)
       OptionParser::CompletingHash#match contains iterators nested 2 deep (NestedIterators)
       OptionParser::Completion#complete calls candidates.size twice (DuplicateMethodCall)
       OptionParser::Completion#complete calls k.id2name twice (DuplicateMethodCall)
@@ -128,6 +129,7 @@ Feature: Basic smell detection
       OptionParser::Completion#complete has the variable name 'k' (UncommunicativeVariableName)
       OptionParser::Completion#complete has the variable name 'v' (UncommunicativeVariableName)
       OptionParser::Completion#complete refers to candidates more than self (FeatureEnvy)
+      OptionParser::Completion#convert has unused parameter 'opt' (UnusedParameters)
       OptionParser::List#accept has the parameter name 't' (UncommunicativeParameterName)
       OptionParser::List#accept is controlled by argument pat (ControlParameter)
       OptionParser::List#accept refers to pat more than self (FeatureEnvy)
@@ -166,7 +168,9 @@ Feature: Basic smell detection
       OptionParser::Switch#summarize has the variable name 'l' (UncommunicativeVariableName)
       OptionParser::Switch#summarize has the variable name 'r' (UncommunicativeVariableName)
       OptionParser::Switch#summarize has the variable name 's' (UncommunicativeVariableName)
+      OptionParser::Switch::NoArgument#parse has unused parameter 'argv' (UnusedParameters)
       OptionParser::Switch::NoArgument#parse is controlled by argument arg (ControlParameter)
+      OptionParser::Switch::OptionalArgument#parse has unused parameter 'argv' (UnusedParameters)
       OptionParser::Switch::OptionalArgument#parse is controlled by argument arg (ControlParameter)
       OptionParser::Switch::PlacedArgument#parse has approx 6 statements (TooManyStatements)
       OptionParser::Switch::RequiredArgument#parse is controlled by argument arg (ControlParameter)
@@ -178,7 +182,7 @@ Feature: Basic smell detection
     Then the exit status indicates smells
     And it reports:
     """
-    spec/samples/redcloth.rb -- 97 warnings:
+    spec/samples/redcloth.rb -- 102 warnings:
       RedCloth has at least 44 methods (TooManyMethods)
       RedCloth has the variable name 'a' (UncommunicativeVariableName)
       RedCloth has the variable name 'b' (UncommunicativeVariableName)
@@ -189,6 +193,7 @@ Feature: Basic smell detection
       RedCloth tests title at least 4 times (RepeatedConditional)
       RedCloth#block_markdown_atx refers to text more than self (FeatureEnvy)
       RedCloth#block_markdown_bq has approx 6 statements (TooManyStatements)
+      RedCloth#block_markdown_lists has unused parameter 'text' (UnusedParameters)
       RedCloth#block_markdown_rule refers to text more than self (FeatureEnvy)
       RedCloth#block_markdown_setext refers to text more than self (FeatureEnvy)
       RedCloth#block_textile_lists calls (line_id - 1) twice (DuplicateMethodCall)
@@ -267,11 +272,15 @@ Feature: Basic smell detection
       RedCloth#rip_offtags calls used_offtags["notextile"] 3 times (DuplicateMethodCall)
       RedCloth#rip_offtags has approx 18 statements (TooManyStatements)
       RedCloth#textile_bq has 4 parameters (LongParameterList)
+      RedCloth#textile_bq has unused parameter 'tag' (UnusedParameters)
       RedCloth#textile_bq is controlled by argument atts (ControlParameter)
       RedCloth#textile_bq is controlled by argument cite (ControlParameter)
       RedCloth#textile_fn_ has 5 parameters (LongParameterList)
+      RedCloth#textile_fn_ has unused parameter 'cite' (UnusedParameters)
+      RedCloth#textile_fn_ has unused parameter 'tag' (UnusedParameters)
       RedCloth#textile_fn_ is controlled by argument atts (ControlParameter)
       RedCloth#textile_p has 4 parameters (LongParameterList)
+      RedCloth#textile_p has unused parameter 'cite' (UnusedParameters)
       RedCloth#textile_p is controlled by argument atts (ControlParameter)
       RedCloth#textile_popup_help has the parameter name 'windowH' (UncommunicativeParameterName)
       RedCloth#textile_popup_help has the parameter name 'windowW' (UncommunicativeParameterName)

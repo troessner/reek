@@ -31,5 +31,17 @@ describe UnusedParameters do
                           {UnusedParameters::PARAMETER_KEY => 'quotient'})
     end
 
+    it 'should report nothing for used splatted parameter' do
+      'def simple(*sum); sum end'.should_not smell_of(UnusedParameters)
+    end
+
+    it 'should report nothing for unused anonymous parameter' do
+      'def simple(_); end'.should_not smell_of(UnusedParameters)
+    end
+
+    it 'should report nothing for unused anonymous splatted parameter' do
+      'def simple(*); end'.should_not smell_of(UnusedParameters)
+    end
+
   end
 end
