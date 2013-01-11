@@ -16,6 +16,7 @@ require File.join( File.dirname( File.expand_path(__FILE__)), 'smells', 'uncommu
 require File.join( File.dirname( File.expand_path(__FILE__)), 'smells', 'uncommunicative_module_name')
 require File.join( File.dirname( File.expand_path(__FILE__)), 'smells', 'uncommunicative_parameter_name')
 require File.join( File.dirname( File.expand_path(__FILE__)), 'smells', 'uncommunicative_variable_name')
+require File.join( File.dirname( File.expand_path(__FILE__)), 'smells', 'unused_parameters')
 require File.join( File.dirname( File.expand_path(__FILE__)), 'smells', 'utility_function')
 # SMELL: Duplication -- all these should be found automagically
 
