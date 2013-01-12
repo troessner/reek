@@ -20,9 +20,11 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       def examine_context(method_ctx)
-        params = method_ctx.parameters.to_a - [:args,:"*args"]
+        params = method_ctx.exp.arg_names || []
         params.select do |param|
-          !method_ctx.local_nodes(:lvar).include?(Sexp.new(:lvar, :"#{param}"))
+          param = param.to_s.sub(/^\*/, '')
+          !["", "_"].include?(param) &&
+            !method_ctx.local_nodes(:lvar).include?(Sexp.new(:lvar, param.to_sym))
         end.map do |param|
           SmellWarning.new(SMELL_CLASS, method_ctx.full_name, [method_ctx.exp.line],
                            "has unused parameter '#{param.to_s}'",
