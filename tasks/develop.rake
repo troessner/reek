@@ -12,7 +12,7 @@ directory CONFIG_DIR
 file CONFIG_FILE => [CONFIG_DIR] do
   config = {}
   Reek::Core::SmellRepository.smell_classes.each do |klass|
-    config[klass.name.split(/::/)[-1]] = klass.default_config
+    config[klass.name.split(/::/)[-1]] = klass.default_config.dup
   end
   $stderr.puts "Creating #{CONFIG_FILE}"
   File.open(CONFIG_FILE, 'w') { |f| YAML.dump(config, f) }
