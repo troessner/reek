@@ -1,5 +1,7 @@
-== Not released yet
+== 1.3
 
+* (mvz) Use new ruby_parser 3 and friends
+* (EmilRehnberg) Unused parameter smell added
 * (dkubb) Fix problem with IrresponsibleModule flagging the same module twice
 
 == 1.2.13 (2012-12-07)

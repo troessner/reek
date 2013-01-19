@@ -1,3 +1,3 @@
 module Reek
-  VERSION = '1.2.13'
+  VERSION = '1.3'
 end
