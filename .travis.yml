@@ -6,5 +6,6 @@ notifications:
   recipients:
     - timo.roessner@googlemail.com
     - matijs@matijs.net
+    - emil.rehnberg@gmail.com
   irc: "irc.freenode.org#reek"
 
