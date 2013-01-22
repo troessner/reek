@@ -37,6 +37,7 @@ module Reek
         #
         # reek [options] files     List the smells in the given files
         #      -c|--config file    Specify file(s) with config options
+        #      -n|--line-number    Prefix smelly lines with line numbers
         #      -q|-[no-]quiet      Only list files that have smells
         #      files               Names of files or dirs to be checked
         #
@@ -72,6 +73,9 @@ EOB
         @parser.separator "\nReport formatting:"
         @parser.on("-q", "--[no-]quiet", "Suppress headings for smell-free source files") do |opt|
           @report_class = opt ? QuietReport : VerboseReport
+        end
+        @parser.on("-n", "--line-number", "Prefix the output with the line number(s).") do 
+          @report_class = ShowLineReport
         end
         @parser.on("-y", "--yaml", "Report smells in YAML format") do
           @command_class = YamlCommand
