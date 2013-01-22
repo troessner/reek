@@ -56,6 +56,10 @@ Then /^it reports a parsing error$/ do
   @last_stderr.chomp.should match(/Racc::ParseError/)
 end
 
+Then /^it should indicate the line numbers of those smells$/ do
+  @last_stdout.chomp.should match(/\[.*\]:/)
+end
+
 Then /^it reports the current version$/ do
   @last_stdout.should == "reek #{Reek::VERSION}\n"
 end
