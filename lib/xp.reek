@@ -61,3 +61,6 @@ LongYieldList:
   overrides: 
     initialize: 
       max_params: 5
+NilCheck:
+  exclude: []
+  enabled: true

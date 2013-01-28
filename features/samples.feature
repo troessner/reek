@@ -10,12 +10,13 @@ Feature: Basic smell detection
     Then the exit status indicates smells
     And it reports:
     """
-    spec/samples/inline.rb -- 41 warnings:
+    spec/samples/inline.rb -- 42 warnings:
       File has no descriptive comment (IrresponsibleModule)
       Inline declares the class variable @@directory (ClassVariable)
       Inline declares the class variable @@rootdir (ClassVariable)
       Inline#self.rootdir calls env.nil? twice (DuplicateMethodCall)
       Inline#self.rootdir has approx 8 statements (TooManyStatements)
+      Inline#self.rootdir performs a nil-check. (NilCheck)
       Inline::C declares the class variable @@type_map (ClassVariable)
       Inline::C has at least 13 instance variables (TooManyInstanceVariables)
       Inline::C takes parameters [options, src] to 5 methods (DataClump)
@@ -60,7 +61,7 @@ Feature: Basic smell detection
     Then the exit status indicates smells
     And it reports:
     """
-    spec/samples/optparse.rb -- 113 warnings:
+    spec/samples/optparse.rb -- 115 warnings:
       OptionParser has at least 42 methods (TooManyMethods)
       OptionParser has the variable name 'f' (UncommunicativeVariableName)
       OptionParser has the variable name 'k' (UncommunicativeVariableName)
@@ -99,6 +100,7 @@ Feature: Basic smell detection
       OptionParser#make_switch has the variable name 'q' (UncommunicativeVariableName)
       OptionParser#make_switch has the variable name 's' (UncommunicativeVariableName)
       OptionParser#make_switch has the variable name 'v' (UncommunicativeVariableName)
+      OptionParser#make_switch performs a nil-check. (NilCheck)
       OptionParser#order calls argv[0] twice (DuplicateMethodCall)
       OptionParser#order refers to argv more than self (FeatureEnvy)
       OptionParser#parse calls argv[0] twice (DuplicateMethodCall)
@@ -117,6 +119,7 @@ Feature: Basic smell detection
       OptionParser#permute calls argv[0] twice (DuplicateMethodCall)
       OptionParser#permute refers to argv more than self (FeatureEnvy)
       OptionParser#search has the variable name 'k' (UncommunicativeVariableName)
+      OptionParser#self.inc performs a nil-check. (NilCheck)
       OptionParser#summarize has 4 parameters (LongParameterList)
       OptionParser#summarize has the variable name 'l' (UncommunicativeVariableName)
       OptionParser#ver has the variable name 'v' (UncommunicativeVariableName)

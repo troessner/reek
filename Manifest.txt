@@ -51,6 +51,7 @@ lib/reek/smells/long_method.rb
 lib/reek/smells/long_parameter_list.rb
 lib/reek/smells/long_yield_list.rb
 lib/reek/smells/nested_iterators.rb
+lib/reek/smells/nil_check.rb
 lib/reek/smells/simulated_polymorphism.rb
 lib/reek/smells/smell_detector.rb
 lib/reek/smells/uncommunicative_method_name.rb
