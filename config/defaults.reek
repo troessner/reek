@@ -115,3 +115,6 @@ LongYieldList:
 UnusedParameters: 
   exclude: *id001
   enabled: true
+NilCheck:
+  exclude: *id001
+  enabled: true
