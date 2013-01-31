@@ -11,6 +11,7 @@ require File.join( File.dirname( File.expand_path(__FILE__)), 'smells', 'long_me
 require File.join( File.dirname( File.expand_path(__FILE__)), 'smells', 'long_parameter_list')
 require File.join( File.dirname( File.expand_path(__FILE__)), 'smells', 'long_yield_list')
 require File.join( File.dirname( File.expand_path(__FILE__)), 'smells', 'nested_iterators')
+require File.join( File.dirname( File.expand_path(__FILE__)), 'smells', 'nil_check')
 require File.join( File.dirname( File.expand_path(__FILE__)), 'smells', 'simulated_polymorphism')
 require File.join( File.dirname( File.expand_path(__FILE__)), 'smells', 'uncommunicative_method_name')
 require File.join( File.dirname( File.expand_path(__FILE__)), 'smells', 'uncommunicative_module_name')

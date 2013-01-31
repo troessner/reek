@@ -20,6 +20,7 @@ module Reek
           Smells::LongParameterList,
           Smells::LongYieldList,
           Smells::NestedIterators,
+          Smells::NilCheck,
           Smells::SimulatedPolymorphism,
           Smells::UncommunicativeMethodName,
           Smells::UncommunicativeModuleName,
