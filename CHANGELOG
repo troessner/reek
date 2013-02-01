@@ -1,3 +1,9 @@
+== 1.3.1
+
+* (EmilRehnberg) Added smell for nil checks
+* (geoffharcourt) Updated dependencies to use ruby2ruby 2.0.2 and ruby_parser 3.1.1
+* (EmilRehnberg) Added command-line option for printing line numbers with the smell lines
+
 == 1.3
 
 * (mvz) Use new ruby_parser 3 and friends
