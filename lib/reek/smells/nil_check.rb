@@ -23,7 +23,7 @@ module Reek
         smelly_nodes = smelly_calls + smelly_cases
 
         smelly_nodes.map do |node|
-          SmellWarning.new(SMELL_CLASS, ctx.full_name, node.line,
+          SmellWarning.new(SMELL_CLASS, ctx.full_name, Array(node.line),
                            "performs a nil-check.",
                            @source, SMELL_SUBCLASS )
         end
