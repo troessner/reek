@@ -47,5 +47,17 @@ describe UnusedParameters do
       'def simple(*); end'.should_not smell_of(UnusedParameters)
     end
 
+    it 'should report nothing when using super with implicit arguments' do
+      'def simple(*args); super; end'.should_not smell_of(UnusedParameters)
+    end
+
+    it 'should report something when using super explicitely passing no arguments' do
+      'def simple(*args); super(); end'.should smell_of(UnusedParameters)
+    end
+
+    it 'should report nothing when using super explicitely passing all arguments' do
+      'def simple(*args); super(*args); end'.should_not smell_of(UnusedParameters)
+    end
+
   end
 end
