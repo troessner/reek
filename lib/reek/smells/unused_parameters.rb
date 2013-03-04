@@ -21,6 +21,7 @@ module Reek
       #
       def examine_context(method_ctx)
         params = method_ctx.exp.arg_names || []
+        return [] if method_ctx.exp.body.find_node :zsuper
         params.select do |param|
           param = param.to_s.sub(/^\*/, '')
           !["", "_"].include?(param) &&
