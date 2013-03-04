@@ -14,6 +14,11 @@ module Reek
 
       PARAMETER_KEY = 'parameter'
 
+      EMPTY_ARRAY  = [].freeze
+      EMPTY_STRING = ''.freeze
+      SPLAT_MATCH  = /^\*/.freeze
+      UNDERSCORE   = '_'.freeze
+
       #
       # Checks whether the given method has any unused parameters.
       #
@@ -33,13 +38,13 @@ module Reek
       def unused_params(method_ctx)
         params(method_ctx).select do |param|
           param = sanitized_param(param)
-          next if marked_unused?(param)
+          next if skip?(param)
           unused?(method_ctx, param)
         end
       end
 
-      def marked_unused?(param)
-        param == '' || param.start_with?('_')
+      def skip?(param)
+        anonymous_splat?(param) || marked_unused?(param)
       end
 
       def unused?(method_ctx, param)
@@ -47,11 +52,19 @@ module Reek
       end
 
       def params(method_ctx)
-        method_ctx.exp.arg_names || []
+        method_ctx.exp.arg_names || EMPTY_ARRAY
       end
 
       def sanitized_param(param)
-        param.to_s.sub(/^\*/, '')
+        param.to_s.sub(SPLAT_MATCH, EMPTY_STRING)
+      end
+
+      def marked_unused?(param)
+        param.start_with?(UNDERSCORE)
+      end
+
+      def anonymous_splat?(param)
+        param == EMPTY_STRING
       end
 
       def zsuper?(method_ctx)
