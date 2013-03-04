@@ -27,9 +27,7 @@ module Reek
       def examine_context(method_ctx)
         return EMPTY_ARRAY if zsuper?(method_ctx)
         unused_params(method_ctx).map do |param|
-          SmellWarning.new(SMELL_CLASS, method_ctx.full_name, [method_ctx.exp.line],
-                           "has unused parameter '#{param.to_s}'",
-                           @source, SMELL_SUBCLASS, {PARAMETER_KEY => param.to_s})
+          smell_warning(method_ctx, param)
         end
       end
 
@@ -69,6 +67,18 @@ module Reek
 
       def zsuper?(method_ctx)
         method_ctx.exp.body.find_node :zsuper
+      end
+
+      def smell_warning(method_ctx, param)
+        SmellWarning.new(
+          SMELL_CLASS,
+          method_ctx.full_name,
+          [ method_ctx.exp.line ],
+          "has unused parameter '#{param.to_s}'",
+          @source,
+          SMELL_SUBCLASS,
+          { PARAMETER_KEY => param.to_s }
+        )
       end
 
     end
