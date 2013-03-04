@@ -39,6 +39,10 @@ describe UnusedParameters do
       'def simple(_); end'.should_not smell_of(UnusedParameters)
     end
 
+    it 'should report nothing for named parameters prefixed with _' do
+      'def simple(_name); end'.should_not smell_of(UnusedParameters)
+    end
+
     it 'should report nothing for unused anonymous splatted parameter' do
       'def simple(*); end'.should_not smell_of(UnusedParameters)
     end
