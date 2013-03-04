@@ -38,7 +38,7 @@ module Reek
       end
 
       def marked_unused?(param)
-        ["", "_"].include?(param)
+        param == '' || param.start_with?('_')
       end
 
       def unused?(method_ctx, param)
