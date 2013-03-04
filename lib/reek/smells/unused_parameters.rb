@@ -6,7 +6,7 @@ module Reek
 
     #
     # Methods should use their parameters.
-    # 
+    #
     class UnusedParameters < SmellDetector
 
       SMELL_CLASS = 'ControlCouple'
