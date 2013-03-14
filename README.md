@@ -97,7 +97,11 @@ spec spec/your/file -l 23  # Runs test in line 23
 spec spec/your/file -u     # Runs all tests stopping at the breakpoints you have set before with `debugger`
 ```
 
-### Tool Integration
+## Miscellaneous
+
+### Tools
+
+There's a vim plugin for `reek`: [http://github.com/rainerborene/vim-reek](http://github.com/rainerborene/vim-reek)
 
 ### Dependencies
 
@@ -107,8 +111,7 @@ Reek makes use of the following other gems:
 * sexp_processor
 * ruby2ruby
 
-Learn More
-----------
+### Learn More
 
 Find out more about Reek from any of the following sources:
 
