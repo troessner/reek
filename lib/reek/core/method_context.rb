@@ -1,5 +1,5 @@
-require File.join(File.dirname(File.expand_path(__FILE__)), 'code_context')
-require File.join(File.dirname(File.expand_path(__FILE__)), 'object_refs')
+require 'reek/core/code_context'
+require 'reek/core/object_refs'
 
 module Reek
   module Core

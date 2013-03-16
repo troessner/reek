@@ -1,4 +1,4 @@
-require File.join(File.dirname(File.expand_path(__FILE__)), 'source_code')
+require 'reek/source/source_code'
 
 #
 # Extensions to +File+ needed by Reek.

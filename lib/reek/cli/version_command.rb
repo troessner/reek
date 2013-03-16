@@ -1,4 +1,4 @@
-require File.join(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__)))), 'reek')
+require 'reek'
 
 module Reek
   module Cli

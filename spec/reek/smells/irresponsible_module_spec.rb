@@ -1,6 +1,6 @@
-require File.join(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__)))), 'spec_helper')
-require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'smells', 'irresponsible_module')
-require File.join(File.dirname(File.expand_path(__FILE__)), 'smell_detector_shared')
+require 'spec_helper'
+require 'reek/smells/irresponsible_module'
+require 'reek/smells/smell_detector_shared'
 include Reek::Smells
 
 describe IrresponsibleModule do

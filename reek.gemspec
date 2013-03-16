@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
-require File.join(File.dirname(__FILE__), 'lib/reek/version.rb')
+$:.push File.join(File.dirname(__FILE__), "lib")
+require 'reek/version'
 
 Gem::Specification.new do |s|
   s.name = %q{reek}

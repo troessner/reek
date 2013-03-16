@@ -1,5 +1,5 @@
-require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'examiner')
-require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'cli', 'report')
+require 'reek/examiner'
+require 'reek/cli/report'
 
 module Reek
   module Spec

@@ -1,8 +1,8 @@
-require File.join(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__)))), 'spec_helper')
-require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'smells', 'uncommunicative_variable_name')
-require File.join(File.dirname(File.expand_path(__FILE__)), 'smell_detector_shared')
-require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'core', 'code_parser')
-require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'core', 'sniffer')
+require 'spec_helper'
+require 'reek/smells/uncommunicative_variable_name'
+require 'reek/smells/smell_detector_shared'
+require 'reek/core/code_parser'
+require 'reek/core/sniffer'
 
 include Reek
 include Reek::Smells

@@ -1,6 +1,6 @@
-require File.join(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__)))), 'spec_helper')
+require 'spec_helper'
 require 'stringio'
-require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'source', 'source_code')
+require 'reek/source/source_code'
 
 include Reek::Source
 

@@ -1,7 +1,7 @@
-require File.join(File.dirname(File.expand_path(__FILE__)), 'code_context')
-require File.join(File.dirname(File.expand_path(__FILE__)), 'code_parser')
-require File.join(File.dirname(File.expand_path(__FILE__)), 'sniffer')
-require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'source', 'sexp_formatter')
+require 'reek/core/code_context'
+require 'reek/core/code_parser'
+require 'reek/core/sniffer'
+require 'reek/source/sexp_formatter'
 
 module Reek
   module Core

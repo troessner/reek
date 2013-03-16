@@ -1,8 +1,8 @@
 require 'sexp'
-require File.join(File.dirname(File.expand_path(__FILE__)), 'method_context')
-require File.join(File.dirname(File.expand_path(__FILE__)), 'module_context')
-require File.join(File.dirname(File.expand_path(__FILE__)), 'stop_context')
-require File.join(File.dirname(File.expand_path(__FILE__)), 'singleton_method_context')
+require 'reek/core/method_context'
+require 'reek/core/module_context'
+require 'reek/core/stop_context'
+require 'reek/core/singleton_method_context'
 
 module Reek
   module Core

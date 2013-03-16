@@ -1,4 +1,4 @@
-require File.join(File.dirname(File.expand_path(__FILE__)), 'method_context')
+require 'reek/core/method_context'
 
 module Reek
   module Core

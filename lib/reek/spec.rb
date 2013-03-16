@@ -1,6 +1,6 @@
-require File.join(File.dirname(File.expand_path(__FILE__)), 'spec', 'should_reek')
-require File.join(File.dirname(File.expand_path(__FILE__)), 'spec', 'should_reek_of')
-require File.join(File.dirname(File.expand_path(__FILE__)), 'spec', 'should_reek_only_of')
+require 'reek/spec/should_reek'
+require 'reek/spec/should_reek_of'
+require 'reek/spec/should_reek_only_of'
 
 module Reek
 

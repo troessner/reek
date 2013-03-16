@@ -1,11 +1,11 @@
-require File.join(File.dirname(File.expand_path(__FILE__)), 'source', 'code_comment')
-require File.join(File.dirname(File.expand_path(__FILE__)), 'source', 'config_file')
-require File.join(File.dirname(File.expand_path(__FILE__)), 'source', 'core_extras')
-require File.join(File.dirname(File.expand_path(__FILE__)), 'source', 'sexp_formatter')
-require File.join(File.dirname(File.expand_path(__FILE__)), 'source', 'source_code')
-require File.join(File.dirname(File.expand_path(__FILE__)), 'source', 'source_file')
-require File.join(File.dirname(File.expand_path(__FILE__)), 'source', 'source_locator')
-require File.join(File.dirname(File.expand_path(__FILE__)), 'source', 'tree_dresser')
+require 'reek/source/code_comment'
+require 'reek/source/config_file'
+require 'reek/source/core_extras'
+require 'reek/source/sexp_formatter'
+require 'reek/source/source_code'
+require 'reek/source/source_file'
+require 'reek/source/source_locator'
+require 'reek/source/tree_dresser'
 
 module Reek
 
