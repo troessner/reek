@@ -33,7 +33,7 @@ module Reek
           MAX_ALLOWED_PARAMS_KEY => DEFAULT_MAX_ALLOWED_PARAMS,
           Core::SmellConfiguration::OVERRIDES_KEY => {
             "initialize" => {MAX_ALLOWED_PARAMS_KEY => 5}
-            }
+          }
         )
       end
 

@@ -26,7 +26,7 @@ module Reek
       end
 
       def each &block
-        @sources.each &block
+        @sources.each(&block)
       end
     end
   end

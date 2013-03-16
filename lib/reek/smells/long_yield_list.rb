@@ -25,7 +25,7 @@ module Reek
 
       def self.default_config
         super.adopt(
-                MAX_ALLOWED_PARAMS_KEY => DEFAULT_MAX_ALLOWED_PARAMS
+          MAX_ALLOWED_PARAMS_KEY => DEFAULT_MAX_ALLOWED_PARAMS
         )
       end
 

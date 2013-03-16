@@ -21,7 +21,7 @@ module Reek
         smelly_nodes.map do |node|
           SmellWarning.new(SMELL_CLASS, ctx.full_name, Array(node.line),
                            "performs a nil-check.",
-                           @source, SMELL_SUBCLASS )
+                           @source, SMELL_SUBCLASS)
         end
       end
 
@@ -62,13 +62,14 @@ module Reek
 
       class CaseNodeFinder < NodeFinder
         CASE_NIL_NODE = Sexp.new(:array, SEXP_NIL)
+
         def initialize(ctx)
           super(ctx, :when)
-          end
+        end
 
         def smelly
           @nodes.select{ |when_node|
-            nil_chk?(when_node) 
+            nil_chk?(when_node)
           }
         end
 

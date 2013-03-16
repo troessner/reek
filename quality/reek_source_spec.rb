@@ -37,11 +37,11 @@ Spec::Matchers.define :simian do |threshold|
     @simian = `java -jar #{simian_jar} -threshold=#{threshold} #{files}`
     !@simian.include?("Found 0 duplicate lines")
   end
-  
+
   failure_message_for_should do
     "Expected source to contain textual duplication, but it didn't"
   end
-  
+
   failure_message_for_should_not do
     "Expected source not to contain textual duplication, but got:\n#{@simian}"
   end

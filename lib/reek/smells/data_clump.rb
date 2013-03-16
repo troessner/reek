@@ -58,8 +58,8 @@ module Reek
 
       def self.default_config
         super.adopt(
-                MAX_COPIES_KEY => DEFAULT_MAX_COPIES,
-                MIN_CLUMP_SIZE_KEY => DEFAULT_MIN_CLUMP_SIZE
+          MAX_COPIES_KEY => DEFAULT_MAX_COPIES,
+          MIN_CLUMP_SIZE_KEY => DEFAULT_MIN_CLUMP_SIZE
         )
       end
 

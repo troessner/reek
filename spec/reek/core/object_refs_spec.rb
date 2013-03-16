@@ -33,7 +33,7 @@ describe ObjectRefs do
       it 'should not report self as the max' do
         @refs.self_is_max?.should == false
       end
-      
+
       context "with one reference to self" do
         before(:each) do
           @refs.record_reference_to(:self)

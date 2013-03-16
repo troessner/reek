@@ -49,7 +49,7 @@ module Reek
       end
 
     private
-      
+
       def attributes_in(module_ctx)
         result = Set.new
         attr_defn_methods = [:attr, :attr_reader, :attr_writer, :attr_accessor]
