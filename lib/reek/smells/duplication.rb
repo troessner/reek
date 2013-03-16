@@ -44,10 +44,6 @@ module Reek
         )
       end
 
-      def initialize(source, config = Duplication.default_config)
-        super(source, config)
-      end
-
       #
       # Looks for duplicate calls within the body of the method +ctx+.
       #

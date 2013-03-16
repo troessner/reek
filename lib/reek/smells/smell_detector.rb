@@ -9,9 +9,6 @@ module Reek
       def self.default_config
         super.adopt(EXCLUDE_KEY => ['initialize'])
       end
-      def initialize(source, config = self.class.default_config)
-        super(source, config)
-      end
     end
 
     #

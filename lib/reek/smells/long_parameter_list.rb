@@ -37,10 +37,6 @@ module Reek
         )
       end
 
-      def initialize(source, config = LongParameterList.default_config)
-        super(source, config)
-      end
-
       #
       # Checks the number of parameters in the given method.
       #

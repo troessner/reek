@@ -9,10 +9,6 @@ module Reek
       SMELL_CLASS = 'NilCheck'
       SMELL_SUBCLASS = SMELL_CLASS
 
-      def initialize(source, config = NilCheck.default_config)
-        super(source, config)
-      end
-
       def examine_context(ctx)
 
         call_nodes = CallNodeFinder.new(ctx)

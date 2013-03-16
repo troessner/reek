@@ -63,10 +63,6 @@ module Reek
         )
       end
 
-      def initialize(source, config = DataClump.default_config)
-        super(source, config)
-      end
-
       #
       # Checks the given class or module for multiple identical parameter sets.
       #

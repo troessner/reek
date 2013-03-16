@@ -30,10 +30,6 @@ module Reek
         )
       end
 
-      def initialize(source, config = LongMethod.default_config)
-        super(source, config)
-      end
-
       #
       # Checks the length of the given +method+.
       #

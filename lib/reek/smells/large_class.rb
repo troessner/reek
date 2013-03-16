@@ -46,10 +46,6 @@ module Reek
           )
       end
 
-      def initialize(source, config = LargeClass.default_config)
-        super(source, config)
-      end
-
       #
       # Checks +klass+ for too many methods or too many instance variables.
       #

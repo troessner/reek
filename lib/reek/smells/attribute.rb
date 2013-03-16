@@ -33,10 +33,6 @@ module Reek
         super.adopt(Core::SmellConfiguration::ENABLED_KEY => false)
       end
 
-      def initialize(source, config = Attribute.default_config)
-        super(source, config)
-      end
-
       #
       # Checks whether the given class declares any attributes.
       #

@@ -35,10 +35,6 @@ module Reek
         )
       end
 
-      def initialize(source, config = NestedIterators.default_config)
-        super(source, config)
-      end
-
       #
       # Checks whether the given +block+ is inside another.
       #

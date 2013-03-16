@@ -47,10 +47,6 @@ module Reek
         [:module, :class, :defn, :defs]
       end
 
-      def initialize(source, config = UncommunicativeVariableName.default_config)
-        super(source, config)
-      end
-
       #
       # Checks the given +context+ for uncommunicative names.
       #

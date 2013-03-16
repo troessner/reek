@@ -55,10 +55,6 @@ module Reek
         end
       end
 
-      def initialize(source, config = UtilityFunction.default_config)
-        super(source, config)
-      end
-
       #
       # Checks whether the given +method+ is a utility function.
       #
