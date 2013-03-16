@@ -2,15 +2,6 @@ require 'reek/smells/smell_detector'
 require 'reek/smell_warning'
 require 'reek/source'
 
-#
-# Extensions to +Array+ needed by Reek.
-#
-class Array
-  def intersection
-    self.inject { |res, elem| elem & res }
-  end
-end
-
 module Reek
   module Smells
 
@@ -94,10 +85,6 @@ module Reek
   # @private
   class MethodGroup
 
-    def self.intersection_of_parameters_of(methods)
-      methods.map {|meth| meth.arg_names}.intersection
-    end
-
     def initialize(ctx, min_clump_size, max_copies)
       @min_clump_size = min_clump_size
       @max_copies = max_copies
@@ -110,7 +97,7 @@ module Reek
 
     def clumps_containing(method, methods, results)
       methods.each do |other_method|
-        clump = [method.arg_names, other_method.arg_names].intersection
+        clump = method.arg_names & other_method.arg_names
         if clump.length >= @min_clump_size
           others = methods.select { |other| clump - other.arg_names == [] }
           results[clump] += [method] + others
