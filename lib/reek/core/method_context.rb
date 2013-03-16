@@ -61,6 +61,18 @@ module Reek
       def uses_param?(param)
         local_nodes(:lvar).include?(Sexp.new(:lvar, param.to_sym))
       end
+
+      def unused_params
+        exp.arguments.select do |param|
+          next if param.anonymous_splat?
+          next if param.marked_unused?
+          !uses_param? param.plain_name
+        end
+      end
+
+      def uses_super_with_implicit_arguments?
+        exp.body.has_nested_node? :zsuper
+      end
     end
   end
 end
