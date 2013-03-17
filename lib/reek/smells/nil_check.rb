@@ -4,10 +4,12 @@ require 'reek/smell_warning'
 module Reek
   module Smells
 
+    # Checking for nil is a special kind of type check, and therefore a case of
+    # SimulatedPolymorphism.
     class NilCheck < SmellDetector
 
-      SMELL_CLASS = 'NilCheck'
-      SMELL_SUBCLASS = SMELL_CLASS
+      SMELL_CLASS = 'SimulatedPolymorphism'
+      SMELL_SUBCLASS = self.name.split(/::/)[-1]
 
       def examine_context(ctx)
 

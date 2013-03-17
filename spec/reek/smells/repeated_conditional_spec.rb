@@ -1,15 +1,15 @@
 require 'spec_helper'
-require 'reek/smells/simulated_polymorphism'
+require 'reek/smells/repeated_conditional'
 require 'reek/core/code_context'
 require 'reek/smells/smell_detector_shared'
 
 include Reek::Core
 include Reek::Smells
 
-describe SimulatedPolymorphism do
+describe RepeatedConditional do
   before :each do
     @source_name = 'howdy-doody'
-    @detector = SimulatedPolymorphism.new(@source_name)
+    @detector = RepeatedConditional.new(@source_name)
   end
 
   it_should_behave_like 'SmellDetector'

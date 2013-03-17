@@ -18,13 +18,13 @@ module Reek
     # classes to change. Tests for the type of an object may indicate that the
     # abstraction represented by that type is not completely defined (or understood).
     #
-    # In the current implementation, Reek only checks for multiple conditionals
+    # +RepeatedConditional+ checks for multiple conditionals
     # testing the same value throughout a single class.
     #
-    class SimulatedPolymorphism < SmellDetector
+    class RepeatedConditional < SmellDetector
 
-      SMELL_CLASS = self.name.split(/::/)[-1]
-      SMELL_SUBCLASS = 'RepeatedConditional'
+      SMELL_CLASS = 'SimulatedPolymorphism'
+      SMELL_SUBCLASS = self.name.split(/::/)[-1]
 
       def self.contexts      # :nodoc:
         [:class]

@@ -9,7 +9,7 @@ module Reek
     # or when two fragments of code have nearly identical effects
     # at some conceptual level.
     # 
-    # Currently +Duplication+ checks for repeated identical method calls
+    # +DuplicateMethodCall+ checks for repeated identical method calls
     # within any one method definition. For example, the following method
     # will report a warning:
     # 
@@ -17,10 +17,11 @@ module Reek
     #     @other.thing + @other.thing
     #   end
     #
-    class Duplication < SmellDetector
+    class DuplicateMethodCall < SmellDetector
 
-      SMELL_CLASS = self.name.split(/::/)[-1]
-      SMELL_SUBCLASS = 'DuplicateMethodCall'
+      SMELL_CLASS = 'Duplication'
+      SMELL_SUBCLASS = self.name.split(/::/)[-1]
+
       CALL_KEY = 'call'
       OCCURRENCES_KEY = 'occurrences'
 

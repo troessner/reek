@@ -20,6 +20,7 @@ module Reek
     class DataClump < SmellDetector
 
       SMELL_CLASS = self.name.split(/::/)[-1]
+      SMELL_SUBCLASS = self.name.split(/::/)[-1]
 
       METHODS_KEY = 'methods'
       OCCURRENCES_KEY = 'occurrences'
@@ -63,14 +64,14 @@ module Reek
         @max_copies = value(MAX_COPIES_KEY, ctx, DEFAULT_MAX_COPIES)
         @min_clump_size = value(MIN_CLUMP_SIZE_KEY, ctx, DEFAULT_MIN_CLUMP_SIZE)
         MethodGroup.new(ctx, @min_clump_size, @max_copies).clumps.map do |clump, methods|
-          SmellWarning.new('DataClump', ctx.full_name,
+          SmellWarning.new(SMELL_CLASS, ctx.full_name,
                            methods.map {|meth| meth.line},
                            "takes parameters #{DataClump.print_clump(clump)} to #{methods.length} methods",
-                           @source, 'DataClump', {
-                          PARAMETERS_KEY => clump.map {|name| name.to_s},
-                          OCCURRENCES_KEY => methods.length,
-                          METHODS_KEY => methods.map {|meth| meth.name}
-                  })
+                           @source, SMELL_SUBCLASS, {
+                             PARAMETERS_KEY => clump.map {|name| name.to_s},
+                             OCCURRENCES_KEY => methods.length,
+                             METHODS_KEY => methods.map {|meth| meth.name}
+                           })
         end
       end
 
