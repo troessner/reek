@@ -1,6 +1,6 @@
-require File.join(File.dirname(File.expand_path(__FILE__)), 'core', 'sniffer')
-require File.join(File.dirname(File.expand_path(__FILE__)), 'core', 'warning_collector')
-require File.join(File.dirname(File.expand_path(__FILE__)), 'source', 'source_repository')
+require 'reek/core/sniffer'
+require 'reek/core/warning_collector'
+require 'reek/source/source_repository'
 
 module Reek
 

@@ -1,15 +1,6 @@
-require File.join( File.dirname( File.expand_path(__FILE__)), 'smell_detector')
-require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'smell_warning')
-require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'source')
-
-#
-# Extensions to +Array+ needed by Reek.
-#
-class Array
-  def intersection
-    self.inject { |res, elem| elem & res }
-  end
-end
+require 'reek/smells/smell_detector'
+require 'reek/smell_warning'
+require 'reek/source'
 
 module Reek
   module Smells
@@ -58,13 +49,9 @@ module Reek
 
       def self.default_config
         super.adopt(
-                MAX_COPIES_KEY => DEFAULT_MAX_COPIES,
-                MIN_CLUMP_SIZE_KEY => DEFAULT_MIN_CLUMP_SIZE
+          MAX_COPIES_KEY => DEFAULT_MAX_COPIES,
+          MIN_CLUMP_SIZE_KEY => DEFAULT_MIN_CLUMP_SIZE
         )
-      end
-
-      def initialize(source, config = DataClump.default_config)
-        super(source, config)
       end
 
       #
@@ -98,10 +85,6 @@ module Reek
   # @private
   class MethodGroup
 
-    def self.intersection_of_parameters_of(methods)
-      methods.map {|meth| meth.arg_names}.intersection
-    end
-
     def initialize(ctx, min_clump_size, max_copies)
       @min_clump_size = min_clump_size
       @max_copies = max_copies
@@ -114,7 +97,7 @@ module Reek
 
     def clumps_containing(method, methods, results)
       methods.each do |other_method|
-        clump = [method.arg_names, other_method.arg_names].intersection
+        clump = method.arg_names & other_method.arg_names
         if clump.length >= @min_clump_size
           others = methods.select { |other| clump - other.arg_names == [] }
           results[clump] += [method] + others

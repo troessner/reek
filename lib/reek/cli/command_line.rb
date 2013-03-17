@@ -1,10 +1,10 @@
 require 'optparse'
-require File.join(File.dirname(File.expand_path(__FILE__)), 'report')
-require File.join(File.dirname(File.expand_path(__FILE__)), 'reek_command')
-require File.join(File.dirname(File.expand_path(__FILE__)), 'help_command')
-require File.join(File.dirname(File.expand_path(__FILE__)), 'version_command')
-require File.join(File.dirname(File.expand_path(__FILE__)), 'yaml_command')
-require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'source')
+require 'reek/cli/report'
+require 'reek/cli/reek_command'
+require 'reek/cli/help_command'
+require 'reek/cli/version_command'
+require 'reek/cli/yaml_command'
+require 'reek/source'
 
 module Reek
   module Cli

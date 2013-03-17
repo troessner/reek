@@ -1,5 +1,5 @@
-require File.join( File.dirname( File.expand_path(__FILE__)), 'smell_detector')
-require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'smell_warning')
+require 'reek/smells/smell_detector'
+require 'reek/smell_warning'
 
 module Reek
   module Smells
@@ -8,10 +8,6 @@ module Reek
 
       SMELL_CLASS = 'NilCheck'
       SMELL_SUBCLASS = SMELL_CLASS
-
-      def initialize(source, config = NilCheck.default_config)
-        super(source, config)
-      end
 
       def examine_context(ctx)
 
@@ -25,7 +21,7 @@ module Reek
         smelly_nodes.map do |node|
           SmellWarning.new(SMELL_CLASS, ctx.full_name, Array(node.line),
                            "performs a nil-check.",
-                           @source, SMELL_SUBCLASS )
+                           @source, SMELL_SUBCLASS)
         end
       end
 
@@ -66,13 +62,14 @@ module Reek
 
       class CaseNodeFinder < NodeFinder
         CASE_NIL_NODE = Sexp.new(:array, SEXP_NIL)
+
         def initialize(ctx)
           super(ctx, :when)
-          end
+        end
 
         def smelly
           @nodes.select{ |when_node|
-            nil_chk?(when_node) 
+            nil_chk?(when_node)
           }
         end
 

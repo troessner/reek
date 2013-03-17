@@ -1,6 +1,6 @@
-require File.join( File.dirname( File.expand_path(__FILE__)), 'smell_detector')
-require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'smell_warning')
-require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'core', 'smell_configuration')
+require 'reek/smells/smell_detector'
+require 'reek/smell_warning'
+require 'reek/core/smell_configuration'
 
 module Reek
   module Smells
@@ -33,10 +33,6 @@ module Reek
         super.adopt(Core::SmellConfiguration::ENABLED_KEY => false)
       end
 
-      def initialize(source, config = Attribute.default_config)
-        super(source, config)
-      end
-
       #
       # Checks whether the given class declares any attributes.
       #
@@ -53,7 +49,7 @@ module Reek
       end
 
     private
-      
+
       def attributes_in(module_ctx)
         result = Set.new
         attr_defn_methods = [:attr, :attr_reader, :attr_writer, :attr_accessor]

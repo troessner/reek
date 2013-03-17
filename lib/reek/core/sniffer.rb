@@ -1,8 +1,8 @@
-require File.join(File.dirname(File.expand_path(__FILE__)), 'code_parser')
-require File.join(File.dirname(File.expand_path(__FILE__)), 'smell_repository')
-require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'source', 'config_file')
+require 'reek/core/code_parser'
+require 'reek/core/smell_repository'
+require 'reek/source/config_file'
 require 'yaml'
-require File.join(File.dirname(File.expand_path(__FILE__)), 'hash_extensions')
+require 'reek/core/hash_extensions'
 
 module Reek
   module Core

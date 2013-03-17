@@ -1,5 +1,6 @@
-require File.join( File.dirname( File.expand_path(__FILE__)), 'smell_detector')
-require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'source')
+require 'reek/smells/smell_detector'
+require 'reek/smell_warning'
+require 'reek/source/code_comment'
 
 module Reek
   module Smells

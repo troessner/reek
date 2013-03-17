@@ -17,11 +17,11 @@ class Hash
     end
     self
   end
-  
+
   def adopt(other)
     self.deep_copy.adopt!(other)
   end
-  
+
   def deep_copy
     YAML::load(YAML::dump(self))
   end

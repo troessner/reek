@@ -1,6 +1,6 @@
 require 'set'
-require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'smell_warning')
-require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'core', 'smell_configuration')
+require 'reek/smell_warning'
+require 'reek/core/smell_configuration'
 
 module Reek
   module Smells
@@ -8,9 +8,6 @@ module Reek
     module ExcludeInitialize
       def self.default_config
         super.adopt(EXCLUDE_KEY => ['initialize'])
-      end
-      def initialize(source, config = self.class.default_config)
-        super(source, config)
       end
     end
 

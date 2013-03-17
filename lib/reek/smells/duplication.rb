@@ -1,5 +1,5 @@
-require File.join( File.dirname( File.expand_path(__FILE__)), 'smell_detector')
-require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'smell_warning')
+require 'reek/smells/smell_detector'
+require 'reek/smell_warning'
 
 module Reek
   module Smells
@@ -42,10 +42,6 @@ module Reek
           MAX_ALLOWED_CALLS_KEY => DEFAULT_MAX_CALLS,
           ALLOW_CALLS_KEY => DEFAULT_ALLOW_CALLS
         )
-      end
-
-      def initialize(source, config = Duplication.default_config)
-        super(source, config)
       end
 
       #

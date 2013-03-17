@@ -1,7 +1,7 @@
-require File.join(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__)))), 'spec_helper')
-require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'smells', 'uncommunicative_parameter_name')
-require File.join(File.dirname(File.expand_path(__FILE__)), 'smell_detector_shared')
-require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'core', 'method_context')
+require 'spec_helper'
+require 'reek/smells/uncommunicative_parameter_name'
+require 'reek/smells/smell_detector_shared'
+require 'reek/core/method_context'
 
 include Reek::Core
 include Reek::Smells

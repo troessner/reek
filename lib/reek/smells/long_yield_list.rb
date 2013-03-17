@@ -1,5 +1,5 @@
-require File.join( File.dirname( File.expand_path(__FILE__)), 'smell_detector')
-require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'smell_warning')
+require 'reek/smells/smell_detector'
+require 'reek/smell_warning'
 
 module Reek
   module Smells
@@ -25,12 +25,8 @@ module Reek
 
       def self.default_config
         super.adopt(
-                MAX_ALLOWED_PARAMS_KEY => DEFAULT_MAX_ALLOWED_PARAMS
+          MAX_ALLOWED_PARAMS_KEY => DEFAULT_MAX_ALLOWED_PARAMS
         )
-      end
-
-      def initialize(source, config = LongYieldList.default_config)
-        super(source, config)
       end
 
       #

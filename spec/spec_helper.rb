@@ -2,11 +2,10 @@ require 'rubygems'
 require 'bundler'
 Bundler.require :development, :default # Explicitly necessary here.
 
-# TODO Clean me up big time please?
-require File.join((File.dirname(File.dirname(File.expand_path(__FILE__)))), 'lib', 'reek', 'spec')
-require File.join((File.dirname(File.dirname(File.expand_path(__FILE__)))), 'lib', 'reek', 'source', 'tree_dresser')
+require 'reek/spec'
+require 'reek/source/tree_dresser'
 
-require File.join(File.dirname(File.expand_path(__FILE__)), 'matchers', 'smell_of_matcher')
+require 'matchers/smell_of_matcher'
 
 SAMPLES_DIR = 'spec/samples' unless Object.const_defined?('SAMPLES_DIR')
 

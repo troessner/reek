@@ -1,4 +1,4 @@
-require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'examiner')
+require 'reek/examiner'
 
 module Reek
   module Spec

@@ -1,5 +1,5 @@
-require File.join(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__)))), 'spec_helper')
-require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'core', 'sniffer')
+require 'spec_helper'
+require 'reek/core/sniffer'
 
 describe Hash do
   before :each do
@@ -17,12 +17,12 @@ describe Hash do
     @first['two']['four'].should == false
     @first['one'].keys.length.should == 3
   end
-  
+
   it 'should deep copy Hashes' do
     second = @first.deep_copy
     second['two'].object_id.should_not be_eql(@first['two'].object_id)
   end
-  
+
   it 'should merge array values' do
     @first['three'] = [1,2,3]
   end

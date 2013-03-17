@@ -1,5 +1,5 @@
-require File.join(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__)))), 'spec_helper')
-require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'core', 'object_refs')
+require 'spec_helper'
+require 'reek/core/object_refs'
 
 include Reek::Core
 
@@ -33,7 +33,7 @@ describe ObjectRefs do
       it 'should not report self as the max' do
         @refs.self_is_max?.should == false
       end
-      
+
       context "with one reference to self" do
         before(:each) do
           @refs.record_reference_to(:self)
