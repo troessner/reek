@@ -1,4 +1,4 @@
-require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'smells')
+require 'reek/smells'
 
 module Reek
   module Core

@@ -1,5 +1,5 @@
-require File.join(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__)))), 'spec_helper')
-require File.join(File.dirname(File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))), 'lib', 'reek', 'source', 'code_comment')
+require 'spec_helper'
+require 'reek/source/code_comment'
 
 include Reek::Source
 

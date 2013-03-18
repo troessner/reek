@@ -1,5 +1,5 @@
-require File.join( File.dirname( File.expand_path(__FILE__)), 'smell_detector')
-require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'smell_warning')
+require 'reek/smells/smell_detector'
+require 'reek/smell_warning'
 
 module Reek
   module Smells
@@ -38,17 +38,13 @@ module Reek
 
       def self.default_config
         super.adopt(
-                REJECT_KEY => DEFAULT_REJECT_SET,
-                ACCEPT_KEY => DEFAULT_ACCEPT_SET
+          REJECT_KEY => DEFAULT_REJECT_SET,
+          ACCEPT_KEY => DEFAULT_ACCEPT_SET
         )
       end
 
       def self.contexts      # :nodoc:
         [:defn, :defs]
-      end
-
-      def initialize(source, config = UncommunicativeParameterName.default_config)
-        super(source, config)
       end
 
       #

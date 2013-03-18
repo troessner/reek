@@ -1,6 +1,6 @@
-require File.join( File.dirname( File.expand_path(__FILE__)), 'smell_detector')
-require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'smell_warning')
-require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'source', 'reference_collector')
+require 'reek/smells/smell_detector'
+require 'reek/smell_warning'
+require 'reek/source/reference_collector'
 
 module Reek
   module Smells
@@ -53,10 +53,6 @@ module Reek
         def default_config
           super.adopt(HELPER_CALLS_LIMIT_KEY => DEFAULT_HELPER_CALLS_LIMIT)
         end
-      end
-
-      def initialize(source, config = UtilityFunction.default_config)
-        super(source, config)
       end
 
       #

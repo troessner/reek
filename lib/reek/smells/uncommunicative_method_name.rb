@@ -1,5 +1,5 @@
-require File.join( File.dirname( File.expand_path(__FILE__)), 'smell_detector')
-require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'smell_warning')
+require 'reek/smells/smell_detector'
+require 'reek/smell_warning'
 
 module Reek
   module Smells
@@ -28,7 +28,7 @@ module Reek
       REJECT_KEY = 'reject'
 
       DEFAULT_REJECT_SET = [/^[a-z]$/, /[0-9]$/, /[A-Z]/]
-      
+
       # The name of the config field that lists the specific names that are
       # to be treated as exceptions; these names will not be reported as
       # uncommunicative.
@@ -45,10 +45,6 @@ module Reek
 
       def self.contexts      # :nodoc:
         [:defn, :defs]
-      end
-
-      def initialize(source, config = UncommunicativeMethodName.default_config)
-        super(source, config)
       end
 
       #

@@ -1,4 +1,4 @@
-require File.join(File.dirname(File.expand_path(__FILE__)), 'core_extras')
+require 'reek/source/core_extras'
 
 module Reek
   module Source

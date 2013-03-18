@@ -1,6 +1,6 @@
-require File.join( File.dirname( File.expand_path(__FILE__)), 'smell_detector')
-require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'smell_warning')
-require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'core', 'smell_configuration')
+require 'reek/smells/smell_detector'
+require 'reek/smell_warning'
+require 'reek/core/smell_configuration'
 
 module Reek
   module Smells
@@ -33,12 +33,8 @@ module Reek
           MAX_ALLOWED_PARAMS_KEY => DEFAULT_MAX_ALLOWED_PARAMS,
           Core::SmellConfiguration::OVERRIDES_KEY => {
             "initialize" => {MAX_ALLOWED_PARAMS_KEY => 5}
-            }
+          }
         )
-      end
-
-      def initialize(source, config = LongParameterList.default_config)
-        super(source, config)
       end
 
       #

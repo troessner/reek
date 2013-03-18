@@ -1,6 +1,4 @@
-
 module Reek
-
 
   #
   # Reports a warning that a smell has been found.

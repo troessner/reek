@@ -1,4 +1,4 @@
-require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'spec_helper')
+require 'spec_helper'
 require 'find'
 
 release_timestamp_file = 'build/.last-release'

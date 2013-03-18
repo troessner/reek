@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/spec_helper.rb'
+require 'spec_helper'
 
 require 'flay'
 
@@ -9,15 +9,15 @@ Spec::Matchers.define :flay do |threshold|
     @flay.process(*Flay.expand_dirs_to_files(dirs_and_files))
     @flay.total > 0
   end
-  
+
   failure_message_for_should do
     "Expected source to contain duplication, but it didn't"
   end
-  
+
   failure_message_for_should_not do
     "Expected source not to contain duplication, but got:\n#{report}"
   end
-  
+
   def report
     lines = ["Total mass = #{@flay.total} (threshold = #{@threshold})"]
     @flay.masses.each do |hash, mass|
@@ -37,11 +37,11 @@ Spec::Matchers.define :simian do |threshold|
     @simian = `java -jar #{simian_jar} -threshold=#{threshold} #{files}`
     !@simian.include?("Found 0 duplicate lines")
   end
-  
+
   failure_message_for_should do
     "Expected source to contain textual duplication, but it didn't"
   end
-  
+
   failure_message_for_should_not do
     "Expected source not to contain textual duplication, but got:\n#{@simian}"
   end
