@@ -33,7 +33,7 @@ module Reek
         def default_config
           {
             Core::SmellConfiguration::ENABLED_KEY => true,
-            EXCLUDE_KEY => DEFAULT_EXCLUDE_SET
+            EXCLUDE_KEY => DEFAULT_EXCLUDE_SET.dup
           }
         end
       end
