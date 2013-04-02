@@ -1,5 +1,5 @@
 ---
-Duplication:
+DuplicateMethodCall:
   allow_calls:
     - puts\(@s.title\)
 UncommunicativeVariableName:

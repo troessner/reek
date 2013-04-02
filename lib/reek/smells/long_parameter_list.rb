@@ -15,8 +15,8 @@ module Reek
     #
     class LongParameterList < SmellDetector
 
-      SMELL_CLASS = self.name.split(/::/)[-1]
-      SMELL_SUBCLASS = 'LongParameterList'
+      SMELL_CLASS = 'LongParameterList'
+      SMELL_SUBCLASS = self.name.split(/::/)[-1]
 
       PARAMETER_COUNT_KEY = 'parameter_count'
 
