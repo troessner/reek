@@ -8,7 +8,7 @@ BooleanParameter:
 ClassVariable:
   enabled: true
   exclude: []
-ControlCouple:
+ControlParameter:
   enabled: true
   exclude: []
 DataClump:
@@ -16,7 +16,7 @@ DataClump:
   exclude: []
   max_copies: 2
   min_clump_size: 2
-Duplication:
+DuplicateMethodCall:
   enabled: true
   exclude: []
   max_calls: 1
@@ -27,16 +27,6 @@ FeatureEnvy:
 IrresponsibleModule:
   enabled: true
   exclude: []
-LargeClass:
-  enabled: true
-  exclude: []
-  max_methods: 25
-  max_instance_variables: 9
-LongMethod:
-  enabled: true
-  exclude:
-  - initialize
-  max_statements: 5
 LongParameterList:
   enabled: true
   exclude: []
@@ -53,10 +43,26 @@ NestedIterators:
   exclude: []
   max_allowed_nesting: 1
   ignore_iterators: []
-SimulatedPolymorphism:
+NilCheck:
+  enabled: true
+  exclude: []
+RepeatedConditional:
   enabled: true
   exclude: []
   max_ifs: 2
+TooManyInstanceVariables:
+  enabled: true
+  exclude: []
+  max_instance_variables: 9
+TooManyMethods:
+  enabled: true
+  exclude: []
+  max_methods: 25
+TooManyStatements:
+  enabled: true
+  exclude:
+  - initialize
+  max_statements: 5
 UncommunicativeMethodName:
   enabled: true
   exclude: []
@@ -97,6 +103,3 @@ UtilityFunction:
   enabled: true
   exclude: []
   max_helper_calls: 1
-NilCheck:
-  exclude: []
-  enabled: true

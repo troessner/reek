@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'reek/smells/long_method'
+require 'reek/smells/too_many_statements'
 require 'reek/core/code_parser'
 require 'reek/core/sniffer'
 require 'reek/smells/smell_detector_shared'
@@ -19,20 +19,20 @@ def process_singleton_method(src)
   Core::CodeParser.new(sniffer).process_defs(source.syntax_tree)
 end
 
-describe LongMethod do
+describe TooManyStatements do
   it 'should not report short methods' do
     src = 'def short(arga) alf = f(1);@bet = 2;@cut = 3;@dit = 4; @emp = 5;end'
-    src.should_not smell_of(LongMethod)
+    src.should_not smell_of(TooManyStatements)
   end
 
   it 'should report long methods' do
     src = 'def long() alf = f(1);@bet = 2;@cut = 3;@dit = 4; @emp = 5;@fry = 6;end'
-    src.should reek_only_of(:LongMethod, /6 statements/)
+    src.should reek_only_of(:TooManyStatements, /6 statements/)
   end
 
   it 'should not report initialize' do
     src = 'def initialize(arga) alf = f(1);@bet = 2;@cut = 3;@dit = 4; @emp = 5;@fry = 6;end'
-    src.should_not smell_of(LongMethod)
+    src.should_not smell_of(TooManyStatements)
   end
 
   it 'should only report a long method once' do
@@ -54,7 +54,7 @@ def standard_entries(rbconfig)
   end
 end
 EOS
-    src.should reek_only_of(:LongMethod)
+    src.should reek_only_of(:TooManyStatements)
   end
 
   it 'should report long inner block' do
@@ -71,11 +71,11 @@ def long()
   end
 end
 EOS
-    src.should reek_only_of(:LongMethod)
+    src.should reek_only_of(:TooManyStatements)
   end
 end
 
-describe LongMethod do
+describe TooManyStatements do
   it 'counts 1 assignment' do
     method = process_method('def one() val = 4; end')
     method.num_statements.should == 1
@@ -112,7 +112,7 @@ describe LongMethod do
   end
 end
 
-describe LongMethod, 'does not count control statements' do
+describe TooManyStatements, 'does not count control statements' do
   it 'counts 1 statement in a conditional expression' do
     method = process_method('def one() if val == 4; callee(); end; end')
     method.num_statements.should == 1
@@ -220,9 +220,9 @@ EOS
   end
 end
 
-describe LongMethod do
+describe TooManyStatements do
   before(:each) do
-    @detector = LongMethod.new('silver')
+    @detector = TooManyStatements.new('silver')
   end
 
   it_should_behave_like 'SmellDetector'
@@ -239,10 +239,10 @@ describe LongMethod do
       @smells.length.should == 1
     end
     it 'reports the number of statements' do
-      @smells[0].smell[LongMethod::STATEMENT_COUNT_KEY].should == @num_statements
+      @smells[0].smell[TooManyStatements::STATEMENT_COUNT_KEY].should == @num_statements
     end
     it 'reports the correct subclass' do
-      @smells[0].subclass.should == LongMethod::SUBCLASS_TOO_MANY_STATEMENTS
+      @smells[0].subclass.should == TooManyStatements::SMELL_SUBCLASS
     end
   end
 end

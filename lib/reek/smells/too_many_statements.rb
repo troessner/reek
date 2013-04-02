@@ -7,13 +7,12 @@ module Reek
     #
     # A Long Method is any method that has a large number of lines.
     #
-    # Currently +LongMethod+ reports any method with more than
-    # 5 statements.
+    # +TooManyStatements+ reports any method with more than 5 statements.
     #
-    class LongMethod < SmellDetector
+    class TooManyStatements < SmellDetector
 
-      SMELL_CLASS = self.name.split(/::/)[-1]
-      SUBCLASS_TOO_MANY_STATEMENTS = 'TooManyStatements'
+      SMELL_CLASS = 'LongMethod'
+      SMELL_SUBCLASS = self.name.split(/::/)[-1]
 
       STATEMENT_COUNT_KEY = 'statement_count'
 
@@ -41,7 +40,7 @@ module Reek
         return [] if num <= @max_allowed_statements
         smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [ctx.exp.line],
           "has approx #{num} statements",
-          @source, SUBCLASS_TOO_MANY_STATEMENTS,
+          @source, SMELL_SUBCLASS,
           {STATEMENT_COUNT_KEY => num})
         [smell]
       end

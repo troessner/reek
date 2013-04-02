@@ -17,6 +17,7 @@ module Reek
 
       SMELL_CLASS = self.name.split(/::/)[-1]
       SMELL_SUBCLASS = SMELL_CLASS
+
       VARIABLE_KEY = 'variable'
 
       def self.contexts      # :nodoc:

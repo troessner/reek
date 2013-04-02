@@ -41,10 +41,10 @@ module Reek
     # that remains next to where the caller invokes it in
     # the source code.
     #
-    class ControlCouple < SmellDetector
+    class ControlParameter < SmellDetector
 
-      SMELL_CLASS = self.name.split(/::/)[-1]
-      SMELL_SUBCLASS = 'ControlParameter'
+      SMELL_CLASS = 'ControlCouple'
+      SMELL_SUBCLASS = self.name.split(/::/)[-1]
       PARAMETER_KEY = 'parameter'
 
       #

@@ -9,7 +9,7 @@ module Reek
     #
     class UnusedParameters < SmellDetector
 
-      SMELL_CLASS = 'ControlCouple'
+      SMELL_CLASS = 'UnusedCode'
       SMELL_SUBCLASS = name.split(/::/)[-1]
 
       PARAMETER_KEY = 'parameter'

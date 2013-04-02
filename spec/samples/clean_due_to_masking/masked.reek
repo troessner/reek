@@ -1,5 +1,5 @@
 ---
-Duplication:
+DuplicateMethodCall:
   enabled: false
 IrresponsibleModule:
   enabled: false
