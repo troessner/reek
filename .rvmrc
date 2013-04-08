@@ -1,1 +1,1 @@
-rvm use 1.9.3@reek --create
+rvm use 2.0.0@reek --create
