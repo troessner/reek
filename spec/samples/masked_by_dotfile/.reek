@@ -1,0 +1,9 @@
+---
+DuplicateMethodCall:
+  enabled: false
+UncommunicativeVariableName:
+  enabled: false
+UncommunicativeMethodName:
+  enabled: false
+UncommunicativeParameterName:
+  enabled: false

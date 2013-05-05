@@ -25,7 +25,7 @@ module Reek
         return [] unless File.exist?(path)
         parent = File.dirname(path)
         return [] if path == parent
-        all_config_files(parent) + Dir["#{path}/*.reek"]
+        all_config_files(parent) + Dir["#{path}/*.reek", "#{path}/.reek"]
       end
     end
   end

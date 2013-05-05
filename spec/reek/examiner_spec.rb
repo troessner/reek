@@ -65,7 +65,7 @@ describe Examiner do
     it_should_behave_like 'one smell found'
   end
 
-  context 'with a smelly Dir' do
+  context 'with a partially masked smelly Dir' do
     before :each do
       smelly_dir = Dir['spec/samples/all_but_one_masked/*.rb']
       @examiner = Examiner.new(smelly_dir)
@@ -83,7 +83,16 @@ describe Examiner do
     it_should_behave_like 'no smells found'
   end
 
-  context 'with a smelly File' do
+  context 'with a smelly Dir masked by a dotfile' do
+    before :each do
+      smelly_dir = Dir['spec/samples/masked_by_dotfile/*.rb']
+      @examiner = Examiner.new(smelly_dir)
+    end
+
+    it_should_behave_like 'one smell found'
+  end
+
+  context 'with a partially masked smelly File' do
     before :each do
       smelly_file = File.new(Dir['spec/samples/all_but_one_masked/d*.rb'][0])
       @examiner = Examiner.new(smelly_file)
