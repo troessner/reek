@@ -1,8 +1,7 @@
 require 'spec_helper'
-
 require 'flay'
 
-Spec::Matchers.define :flay do |threshold|
+RSpec::Matchers.define :flay do |threshold|
   match do |dirs_and_files|
     @threshold = threshold
     @flay = Flay.new({:fuzzy => false, :verbose => false, :mass => @threshold})
@@ -30,23 +29,6 @@ Spec::Matchers.define :flay do |threshold|
   end
 end
 
-Spec::Matchers.define :simian do |threshold|
-  match do |dirs_and_files|
-    files = Flay.expand_dirs_to_files(dirs_and_files).join(' ')
-    simian_jar = Dir["#{ENV['SIMIAN_HOME']}/simian*.jar"].first
-    @simian = `java -jar #{simian_jar} -threshold=#{threshold} #{files}`
-    !@simian.include?("Found 0 duplicate lines")
-  end
-
-  failure_message_for_should do
-    "Expected source to contain textual duplication, but it didn't"
-  end
-
-  failure_message_for_should_not do
-    "Expected source not to contain textual duplication, but got:\n#{@simian}"
-  end
-end
-
 describe 'Reek source code' do
   it 'has no smells' do
     Dir['lib/**/*.rb'].should_not reek
@@ -54,13 +36,7 @@ describe 'Reek source code' do
   it 'has no structural duplication' do
     ['lib'].should_not flay(16)
   end
-  it 'has no textual duplication' do
-    ['lib'].should_not simian(3)
-  end
   it 'has no structural duplication in the tests' do
     ['spec/reek'].should_not flay(25)
-  end
-  it 'has no textual duplication in the tests' do
-    ['spec/reek'].should_not simian(8)
   end
 end
