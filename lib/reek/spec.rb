@@ -49,3 +49,9 @@ if Object.const_defined?(:Spec)
     config.include(Reek::Spec)
   end
 end
+
+if Object.const_defined?(:RSpec)
+  RSpec.configure do |config|
+    config.include(Reek::Spec)
+  end
+end

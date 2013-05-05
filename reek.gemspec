@@ -34,5 +34,6 @@ and reports any code smells it finds.
   s.add_development_dependency(%q<rake>)
   s.add_development_dependency(%q<cucumber>)
   s.add_development_dependency(%q<rspec>, ["~> 2.12"])
+  s.add_development_dependency(%q<flay>)
   s.add_development_dependency(%q<yard>)
 end
