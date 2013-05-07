@@ -1,6 +1,10 @@
 # Reek -- code smell detection for Ruby
 
+##Overview
+
 [![Build Status](https://secure.travis-ci.org/troessner/reek.png?branch=master)](http://travis-ci.org/troessner/reek?branch=master)
+[![Gem Version](https://badge.fury.io/rb/reek.png)](http://badge.fury.io/rb/reek)
+
 
 Reek is a tool that examines Ruby classes, modules and methods and
 reports any code smells it finds. Install it like this:
