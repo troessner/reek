@@ -41,43 +41,53 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       def examine_context(ctx)
-        @ignore_iterators = value(IGNORE_ITERATORS_KEY, ctx, DEFAULT_IGNORE_ITERATORS)
-        @max_allowed_nesting = value(MAX_ALLOWED_NESTING_KEY, ctx, DEFAULT_MAX_ALLOWED_NESTING)
-        find_deepest_iterators(ctx).map do |iter|
-          depth = iter[1]
-          SmellWarning.new(SMELL_CLASS, ctx.full_name, [iter[0].line],
+        exp, depth = *find_deepest_iterator(ctx)
+
+        if depth && depth > value(MAX_ALLOWED_NESTING_KEY, ctx, DEFAULT_MAX_ALLOWED_NESTING)
+          smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [exp.line],
             "contains iterators nested #{depth} deep",
             @source, SMELL_SUBCLASS,
             {NESTING_DEPTH_KEY => depth})
+          [smell]
+        else
+          []
         end
         # BUG: no longer reports nesting outside methods (eg. in Optparse)
       end
 
     private
 
-      def find_deepest_iterators(ctx)
-        result = []
-        find_iters(ctx.exp, 1, result)
-        result.select {|item| item[1] > @max_allowed_nesting}
+      def find_deepest_iterator(ctx)
+        @ignore_iterators = value(IGNORE_ITERATORS_KEY, ctx, DEFAULT_IGNORE_ITERATORS)
+
+        find_iters(ctx.exp, 1).sort_by {|item| item[1]}.last
       end
 
-      def find_iters(exp, depth, result)
-        exp.each do |elem|
+      def find_iters(exp, depth)
+        exp.map do |elem|
           next unless Sexp === elem
           case elem.first
           when :iter
-            find_iters([elem.call], depth, result)
-            current = result.length
-            call = Source::SexpFormatter.format(elem.call)
-            ignored = @ignore_iterators.any? { |ignore| /#{ignore}/ === call }
-            find_iters([elem.block], depth + (ignored ? 0 : 1), result)
-            result << [elem, depth] if result.length == current unless ignored
+            find_iters_for_iter_node(elem, depth)
           when :class, :defn, :defs, :module
             next
           else
-            find_iters(elem, depth, result)
+            find_iters(elem, depth)
           end
-        end
+        end.flatten(1).compact
+      end
+
+      def find_iters_for_iter_node(exp, depth)
+        ignored = ignored_iterator? exp
+        result = find_iters([exp.call], depth) +
+          find_iters([exp.block], depth + (ignored ? 0 : 1))
+        result << [exp, depth] unless ignored
+        result
+      end
+
+      def ignored_iterator?(exp)
+        name = exp.call.method_name.to_s
+        @ignore_iterators.any? { |pattern| /#{pattern}/ === name }
       end
     end
   end
