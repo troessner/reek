@@ -56,3 +56,26 @@ Feature: Correctly formatted reports
       | option  |
       | -q      |
       | --quiet |
+      | -n -q   |
+      | -q -n   |
+
+  Scenario Outline: --line-number turns on line numbers
+    When I run reek <option> spec/samples/not_quite_masked/dirty.rb
+    Then the exit status indicates smells
+    And it reports:
+      """
+      spec/samples/not_quite_masked/dirty.rb -- 5 warnings:
+        [7]:Dirty has the variable name '@s' (UncommunicativeVariableName)
+        [6, 8]:Dirty#a calls @s.title twice (DuplicateMethodCall)
+        [6, 8]:Dirty#a calls puts(@s.title) twice (DuplicateMethodCall)
+        [7]:Dirty#a contains iterators nested 2 deep (NestedIterators)
+        [5]:Dirty#a has the name 'a' (UncommunicativeMethodName)
+
+      """
+
+    Examples:
+      | option        |
+      | -n            |
+      | --line-number |
+      | -n -q         |
+      | -q -n         |

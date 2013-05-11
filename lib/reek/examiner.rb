@@ -45,6 +45,13 @@ module Reek
     end
 
     #
+    # Returns the number of smells found in the source
+    #
+    def smells_count
+      @smells.length
+    end
+
+    #
     # True if and only if there are code smells in the source.
     #
     def smelly?
