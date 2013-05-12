@@ -9,7 +9,6 @@ namespace 'test' do
 
   RSpec::Core::RakeTask.new('spec') do |t|
     t.pattern = UNIT_TESTS
-    t.rspec_opts = ['--color']
     t.ruby_opts = ['-Ilib']
     t.rcov = false
   end
@@ -23,7 +22,6 @@ namespace 'test' do
   desc 'Tests code quality'
   RSpec::Core::RakeTask.new('quality') do |t|
     t.pattern = FileList['quality/**/*_spec.rb']
-    t.rspec_opts = ['--color']
     t.ruby_opts = ['-Ilib']
     t.rcov = false
   end
