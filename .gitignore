@@ -4,5 +4,6 @@ tmp
 doc
 .yardoc
 .bundle
+.rspec
 Gemfile.lock
 *.swp
