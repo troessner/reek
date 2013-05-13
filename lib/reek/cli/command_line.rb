@@ -18,6 +18,7 @@ module Reek
         @argv = argv
         @parser = OptionParser.new
         @report_class = VerboseReport
+        @warning_formatter = SimpleWarningFormatter
         @command_class = ReekCommand
         @config_files = []
         set_options
@@ -75,7 +76,7 @@ EOB
           @report_class = opt ? QuietReport : VerboseReport
         end
         @parser.on("-n", "--line-number", "Prefix the output with the line number(s).") do 
-          @report_class = ShowLineReport
+          @warning_formatter = WarningFormatterWithLineNumbers
         end
         @parser.on("-y", "--yaml", "Report smells in YAML format") do
           @command_class = YamlCommand
@@ -96,7 +97,8 @@ EOB
           if @command_class == YamlCommand
             YamlCommand.create(sources, @config_files)
           else
-            ReekCommand.create(sources, @report_class, @config_files)
+            report = @report_class.new(@warning_formatter)
+            ReekCommand.create(sources, report, @config_files)
           end
         end
       end

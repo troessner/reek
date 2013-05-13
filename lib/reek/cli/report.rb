@@ -1,38 +1,47 @@
 module Reek
   module Cli
-
     module ReportFormatter
-      def header(desc, count)
-        result = "#{desc} -- #{count} warning"
-        result += 's' unless count == 1
-        result
-      end
-
-      def format_list(warnings)
+      def self.format_list(warnings, formatter = SimpleWarningFormatter)
         warnings.map do |warning|
-          "  #{warning.context} #{warning.message} (#{warning.subclass})"
+          "  #{formatter.format warning}"
         end.join("\n")
       end
 
-      module_function :format_list
+      def self.header(examiner)
+        count = examiner.smells_count
+        result = "#{examiner.description} -- #{count} warning"
+        result += 's' unless count == 1
+        result
+      end
+    end
+
+    module SimpleWarningFormatter
+      def self.format(warning)
+        "#{warning.context} #{warning.message} (#{warning.subclass})"
+      end
+    end
+
+    module WarningFormatterWithLineNumbers
+      def self.format(warning)
+        "#{warning.lines.inspect}:#{SimpleWarningFormatter.format(warning)}"
+      end
     end
 
     #
     # A report that lists every source, including those that have no smells.
     #
     class VerboseReport
-
-      include ReportFormatter
-
-      def initialize(examiner)
-        @examiner = examiner
+      def initialize(warning_formatter = SimpleWarningFormatter, report_formatter = ReportFormatter)
+        @warning_formatter = warning_formatter
+        @report_formatter = report_formatter
       end
 
-      def report
-        warnings = @examiner.smells
-        warning_count = warnings.length
-        result = header(@examiner.description, warning_count)
-        result += ":\n#{format_list(warnings)}" if warning_count > 0
+      def report(examiner)
+        result = @report_formatter.header examiner
+        if examiner.smelly?
+          formatted_list = @report_formatter.format_list examiner.smells, @warning_formatter
+          result += ":\n#{formatted_list}"
+        end
         result + "\n"
       end
     end
@@ -40,26 +49,13 @@ module Reek
     #
     # A report that lists a section for each source that has smells.
     #
-    class QuietReport
-
-      include ReportFormatter
-
-      def initialize(examiner)
-        @warnings = examiner.smells
-        @smell_count = @warnings.length
-        @desc = examiner.description
-      end
-
-      def report
-        @smell_count > 0 ? "#{header(@desc, @smell_count)}:\n#{format_list(@warnings)}\n" : ''
-      end
-    end
-
-    class ShowLineReport < VerboseReport
-      def format_list(warnings)
-        warnings.map do |warning|
-          "  #{warning.lines.inspect}:#{warning.context} #{warning.message} (#{warning.subclass})"
-        end.join("\n")
+    class QuietReport < VerboseReport
+      def report(examiner)
+        if examiner.smelly?
+          super
+        else
+          ''
+        end
       end
     end
   end

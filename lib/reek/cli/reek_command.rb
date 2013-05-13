@@ -8,13 +8,13 @@ module Reek
     # text report format.
     #
     class ReekCommand
-      def self.create(sources, report_class, config_files = [])
-        new(report_class, sources, config_files)
+      def self.create(sources, reporter, config_files = [])
+        new(reporter, sources, config_files)
       end
 
-      def initialize(report_class, sources, config_files = [])
+      def initialize(reporter, sources, config_files = [])
         @sources = sources
-        @report_class = report_class
+        @reporter = reporter
         @config_files = config_files
       end
 
@@ -22,9 +22,8 @@ module Reek
         had_smells = false
         @sources.each do |source|
           examiner = Examiner.new(source, @config_files)
-          rpt = @report_class.new(examiner)
           had_smells ||= examiner.smelly?
-          view.output(rpt.report)
+          view.output @reporter.report(examiner)
         end
         if had_smells
           view.report_smells

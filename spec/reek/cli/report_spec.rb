@@ -9,15 +9,15 @@ describe QuietReport, " when empty" do
   context 'empty source' do
     it 'has an empty quiet_report' do
       examiner = Examiner.new('')
-      QuietReport.new(examiner).report.should == ''
+      QuietReport.new.report(examiner).should == ''
     end
   end
 
   context 'with a couple of smells' do
     before :each do
       examiner = Examiner.new('def simple(a) a[3] end')
-      rpt = QuietReport.new(examiner)
-      @lines = rpt.report.split("\n")
+      rpt = QuietReport.new
+      @lines = rpt.report(examiner).split("\n")
     end
     it 'has a header and a list of smells' do
       @lines.should have_at_least(3).lines
