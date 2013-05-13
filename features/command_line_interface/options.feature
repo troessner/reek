@@ -44,21 +44,6 @@ Feature: Reek can be controlled using command-line options
 
       """
 
-  Scenario: output line numbers if -n flag is passed
-    When I run reek -n spec/samples/not_quite_masked/dirty.rb
-    Then the exit status indicates smells
-    And it should indicate the line numbers of those smells 
-    And it reports:
-      """
-      spec/samples/not_quite_masked/dirty.rb -- 5 warnings:
-        [7]:Dirty has the variable name '@s' (UncommunicativeVariableName)
-        [6, 8]:Dirty#a calls @s.title twice (DuplicateMethodCall)
-        [6, 8]:Dirty#a calls puts(@s.title) twice (DuplicateMethodCall)
-        [7]:Dirty#a contains iterators nested 2 deep (NestedIterators)
-        [5]:Dirty#a has the name 'a' (UncommunicativeMethodName)
-
-      """
-
   Scenario: output proper line numbers for nil-check smells if -n flag is passed
     When I run reek -n spec/samples/not_quite_masked/smelly.rb
     Then the exit status indicates smells
