@@ -74,7 +74,7 @@ module Reek
         result = Hash.new {|hash, key| hash[key] = []}
         find_assignment_variable_names(exp, result)
         find_block_argument_variable_names(exp, result)
-        result
+        result.to_a.sort_by {|name, _| name.to_s}
       end
 
       def find_assignment_variable_names(exp, accumulator)

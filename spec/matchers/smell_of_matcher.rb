@@ -16,28 +16,42 @@ module SmellOfMatcher
 
     def matches?(src)
       @source = src.to_reek_source
+
       ctx = MethodContext.new(nil, @source.syntax_tree)
       detector = @klass.new(@source.desc, @klass.default_config.merge(@config))
       detector.examine(ctx)
       actual_smells = detector.smells_found.to_a
+
       if actual_smells.empty?
         @reason = 'no smells found by detector'
         return false
       end
-      return false if actual_smells.any? do |expected_smell|
-        @reason = "Found #{expected_smell.smell_class}/#{expected_smell.subclass}" &&
-        expected_smell.smell_class != @klass::SMELL_CLASS &&
-          expected_smell.subclass != @klass::SMELL_SUBCLASS
+
+      actual_smells.each do |smell|
+        if smell.smell_class != @klass::SMELL_CLASS ||
+          smell.subclass != @klass::SMELL_SUBCLASS
+          @reason = "Found #{smell.smell_class}/#{smell.subclass}"
+          return false
+        end
       end
-      return actual_smells.length == 1 if @expected_smells.empty?
-      return false unless @expected_smells.length == actual_smells.length
-      @expected_smells.each_with_index do |expected_smell,index|
-        expected_smell.each do |(key,value)|
-          if actual_smells[index].smell[key] != value
-            @reason = "#{key} != #{value}"
+
+      expected_number_of_smells = @expected_smells.empty? ? 1 : @expected_smells.length
+
+      if expected_number_of_smells != actual_smells.length
+        @reason = "expected #{expected_number_of_smells} smell(s), found #{actual_smells.length}"
+        return false
+      end
+
+      @expected_smells.zip(actual_smells).each do |expected_smell, actual_smell|
+        expected_smell.each do |key, value|
+          actual_value = actual_smell.smell[key]
+          if actual_value != value
+            @reason = "expected #{key} to be #{value}, was #{actual_value}"
+            return false
           end
         end
       end
+
       true
     end
 
