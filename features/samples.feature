@@ -61,7 +61,7 @@ Feature: Basic smell detection
     Then the exit status indicates smells
     And it reports:
     """
-    spec/samples/optparse.rb -- 114 warnings:
+    spec/samples/optparse.rb -- 112 warnings:
       OptionParser has at least 42 methods (TooManyMethods)
       OptionParser has the variable name 'f' (UncommunicativeVariableName)
       OptionParser has the variable name 'k' (UncommunicativeVariableName)
@@ -90,7 +90,6 @@ Feature: Basic smell detection
       OptionParser#make_switch calls q.downcase 3 times (DuplicateMethodCall)
       OptionParser#make_switch calls search(:atype, FalseClass) twice (DuplicateMethodCall)
       OptionParser#make_switch calls search(:atype, o) 6 times (DuplicateMethodCall)
-      OptionParser#make_switch contains iterators nested 2 deep (NestedIterators)
       OptionParser#make_switch contains iterators nested 3 deep (NestedIterators)
       OptionParser#make_switch has approx 68 statements (TooManyStatements)
       OptionParser#make_switch has the variable name 'a' (UncommunicativeVariableName)
@@ -112,7 +111,6 @@ Feature: Basic smell detection
       OptionParser#parse_in_order calls setter.call(sw.switch_name, val) twice (DuplicateMethodCall)
       OptionParser#parse_in_order calls sw.block twice (DuplicateMethodCall)
       OptionParser#parse_in_order calls sw.switch_name twice (DuplicateMethodCall)
-      OptionParser#parse_in_order contains iterators nested 2 deep (NestedIterators)
       OptionParser#parse_in_order contains iterators nested 3 deep (NestedIterators)
       OptionParser#parse_in_order has approx 28 statements (TooManyStatements)
       OptionParser#parse_in_order is controlled by argument setter (ControlParameter)
@@ -184,7 +182,7 @@ Feature: Basic smell detection
     Then the exit status indicates smells
     And it reports:
     """
-    spec/samples/redcloth.rb -- 102 warnings:
+    spec/samples/redcloth.rb -- 101 warnings:
       RedCloth has at least 44 methods (TooManyMethods)
       RedCloth has the variable name 'a' (UncommunicativeVariableName)
       RedCloth has the variable name 'b' (UncommunicativeVariableName)
@@ -209,7 +207,6 @@ Feature: Basic smell detection
       RedCloth#block_textile_lists has the variable name 'i' (UncommunicativeVariableName)
       RedCloth#block_textile_lists has the variable name 'v' (UncommunicativeVariableName)
       RedCloth#block_textile_lists refers to depth more than self (FeatureEnvy)
-      RedCloth#block_textile_table contains iterators nested 2 deep (NestedIterators)
       RedCloth#block_textile_table contains iterators nested 3 deep (NestedIterators)
       RedCloth#block_textile_table has approx 18 statements (TooManyStatements)
       RedCloth#block_textile_table has the variable name 'x' (UncommunicativeVariableName)
