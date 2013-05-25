@@ -36,6 +36,7 @@ Feature: Reek can be controlled using command-line options
 
       Configuration:
           -c, --config FILE                Read configuration options from FILE
+              --smell SMELL                Detect smell SMELL (default is all enabled smells)
 
       Report formatting:
           -o, --[no-]color                 Use colors for the output (this is the default)

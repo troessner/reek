@@ -10,19 +10,16 @@ module Reek
     #
     class Sniffer
 
-      def initialize(src, config_files = [], smell_repository=Core::SmellRepository.new(src.desc))
+      def initialize(src, extra_config_files = [], smell_repository=Core::SmellRepository.new(src.desc))
         @smell_repository = smell_repository
-        config_files.each{ |cf| Reek::Source::ConfigFile.new(cf).configure(self) }
         @source = src
-        src.configure(self)
-      end
 
-      def configure(klass, config)
-        @smell_repository.configure klass, config
+        config_files = extra_config_files + @source.relevant_config_files
+        config_files.each{ |cf| Reek::Source::ConfigFile.new(cf).configure(@smell_repository) }
       end
 
       def report_on(listener)
-        CodeParser.new(self).process(@source.syntax_tree)
+        CodeParser.new(@smell_repository).process(@source.syntax_tree)
         @smell_repository.report_on(listener)
       end
 
