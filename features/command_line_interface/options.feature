@@ -43,16 +43,3 @@ Feature: Reek can be controlled using command-line options
           -y, --yaml                       Report smells in YAML format
 
       """
-
-  Scenario: output proper line numbers for nil-check smells if -n flag is passed
-    When I run reek -n spec/samples/not_quite_masked/smelly.rb
-    Then the exit status indicates smells
-    And it should indicate the line numbers of those smells
-    And it reports:
-      """
-      spec/samples/not_quite_masked/smelly.rb -- 4 warnings:
-        [1]:f has the name 'f' (UncommunicativeMethodName)
-        [1]:f has the parameter name 'x' (UncommunicativeParameterName)
-        [1]:f has unused parameter 'x' (UnusedParameters)
-        [2]:f performs a nil-check. (NilCheck)
-      """
