@@ -34,9 +34,3 @@ EOS
     src.should_not reek
   end
 end
-
-describe CodeParser do
-  it 'copes with a yield to an ivar' do
-    'def options() ozz.on { |@list| @prompt = !@list } end'.should_not reek
-  end
-end

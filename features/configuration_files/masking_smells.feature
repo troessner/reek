@@ -6,7 +6,8 @@ Feature: Masking smells using config files
 
   Scenario: empty config file is ignored
     When I run reek spec/samples/empty_config_file/dirty.rb
-    Then the exit status indicates smells
+    Then it reports the error 'Warning: Invalid configuration file "empty.reek" -- Empty file'
+    And the exit status indicates smells
     And it reports:
       """
       spec/samples/empty_config_file/dirty.rb -- 6 warnings:
@@ -20,19 +21,11 @@ Feature: Masking smells using config files
 
   Scenario: corrupt config file prevents normal output
     When I run reek spec/samples/corrupt_config_file
-    Then the exit status indicates smells
+    Then it reports the error 'Error: Invalid configuration file "corrupt.reek" -- Not a hash'
+    And the exit status indicates an error
     And it reports:
       """
-      spec/samples/corrupt_config_file/dirty.rb -- 7 warnings:
-        [1]:Dirty has no descriptive comment (IrresponsibleModule)
-        [4]:Dirty has the variable name '@s' (UncommunicativeVariableName)
-        [3, 5]:Dirty#a calls @s.title twice (DuplicateMethodCall)
-        [3, 5]:Dirty#a calls puts(@s.title) twice (DuplicateMethodCall)
-        [4]:Dirty#a contains iterators nested 2 deep (NestedIterators)
-        [2]:Dirty#a has the name 'a' (UncommunicativeMethodName)
-        [4]:Dirty#a has the variable name 'x' (UncommunicativeVariableName)
       """
-    And it reports an error
 
   Scenario: missing source file is an error
     When I run reek no_such_file.rb spec/samples/masked/dirty.rb
@@ -63,11 +56,11 @@ Feature: Masking smells using config files
     And it reports:
       """
       spec/samples/not_quite_masked/dirty.rb -- 5 warnings:
-        [7]:Dirty has the variable name '@s' (UncommunicativeVariableName)
-        [6, 8]:Dirty#a calls @s.title twice (DuplicateMethodCall)
-        [6, 8]:Dirty#a calls puts(@s.title) twice (DuplicateMethodCall)
-        [7]:Dirty#a contains iterators nested 2 deep (NestedIterators)
-        [5]:Dirty#a has the name 'a' (UncommunicativeMethodName)
+        [5]:Dirty has the variable name '@s' (UncommunicativeVariableName)
+        [4, 6]:Dirty#a calls @s.title twice (DuplicateMethodCall)
+        [4, 6]:Dirty#a calls puts(@s.title) twice (DuplicateMethodCall)
+        [5]:Dirty#a contains iterators nested 2 deep (NestedIterators)
+        [3]:Dirty#a has the name 'a' (UncommunicativeMethodName)
       """
 
   @overrides

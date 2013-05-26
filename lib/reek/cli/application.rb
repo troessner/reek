@@ -23,7 +23,7 @@ module Reek
         begin
           cmd = @options.parse
           cmd.execute(self)
-        rescue Exception => error
+        rescue OptionParser::InvalidOption, ConfigFileException => error
           $stderr.puts "Error: #{error}"
           @status = STATUS_ERROR
         end

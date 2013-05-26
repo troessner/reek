@@ -88,11 +88,11 @@ Feature: Correctly formatted reports
     And it reports:
       """
       spec/samples/not_quite_masked/dirty.rb -- 5 warnings:
-        spec/samples/not_quite_masked/dirty.rb:7: Dirty has the variable name '@s' (UncommunicativeVariableName)
-        spec/samples/not_quite_masked/dirty.rb:6: Dirty#a calls @s.title twice (DuplicateMethodCall)
-        spec/samples/not_quite_masked/dirty.rb:6: Dirty#a calls puts(@s.title) twice (DuplicateMethodCall)
-        spec/samples/not_quite_masked/dirty.rb:7: Dirty#a contains iterators nested 2 deep (NestedIterators)
-        spec/samples/not_quite_masked/dirty.rb:5: Dirty#a has the name 'a' (UncommunicativeMethodName)
+        spec/samples/not_quite_masked/dirty.rb:5: Dirty has the variable name '@s' (UncommunicativeVariableName)
+        spec/samples/not_quite_masked/dirty.rb:4: Dirty#a calls @s.title twice (DuplicateMethodCall)
+        spec/samples/not_quite_masked/dirty.rb:4: Dirty#a calls puts(@s.title) twice (DuplicateMethodCall)
+        spec/samples/not_quite_masked/dirty.rb:5: Dirty#a contains iterators nested 2 deep (NestedIterators)
+        spec/samples/not_quite_masked/dirty.rb:3: Dirty#a has the name 'a' (UncommunicativeMethodName)
       """
 
     Examples:
