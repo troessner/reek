@@ -51,7 +51,45 @@ def bad(fred)
   @jim.each {|ting| ting.each {|piece| @hal.send} }
 end
 EOS
-    src.should smell_of(NestedIterators, {}, {})
+    src.should smell_of(NestedIterators, {})
+  end
+
+  it 'reports nested iterators only once per method even if levels are different' do
+    src = <<-EOS
+      def bad(fred)
+        @fred.each {|item| item.each {|part| part.foo} }
+        @jim.each {|ting| ting.each {|piece| piece.each {|atom| atom.foo } } }
+      end
+    EOS
+    src.should smell_of(NestedIterators, {})
+  end
+
+  it 'reports nesting inside iterator arguments' do
+    src = <<-EOS
+      def bad(fred, ted)
+        fred.foo(
+          ted.each {|item|
+            item.each {|part|
+              part.baz
+            }
+          }
+        ) { |qux| qux.quuz }
+      end
+    EOS
+    src.should smell_of(NestedIterators, NestedIterators::NESTING_DEPTH_KEY => 2)
+  end
+
+  it 'reports the deepest level of nesting only' do
+    src = <<-EOS
+      def bad(fred)
+        fred.each {|item|
+          item.each {|part|
+            part.each {|sub| sub.foobar}
+          }
+        }
+      end
+    EOS
+    src.should smell_of(NestedIterators, NestedIterators::NESTING_DEPTH_KEY => 3)
   end
 
   context 'when the allowed nesting depth is 3' do
