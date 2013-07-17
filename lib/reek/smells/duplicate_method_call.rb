@@ -78,7 +78,7 @@ module Reek
         method_ctx.local_nodes(:attrasgn) do |asgn_node|
           result[asgn_node].push(asgn_node) unless asgn_node.args.nil?
         end
-        result
+        result.to_a.sort_by {|call_exp, _| call_exp.format_ruby}
       end
 
       def allow_calls?(method)
