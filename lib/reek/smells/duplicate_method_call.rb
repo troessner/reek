@@ -73,6 +73,7 @@ module Reek
         result = Hash.new {|hash,key| hash[key] = []}
         method_ctx.local_nodes(:call) do |call_node|
           next if call_node.method_name == :new
+          next if call_node.receiver.nil? && call_node.args.empty?
           result[call_node].push(call_node)
         end
         method_ctx.local_nodes(:attrasgn) do |asgn_node|
