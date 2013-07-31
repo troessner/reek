@@ -76,7 +76,6 @@ require 'rubygems'
 require 'spec'
 require 'reek'
 require 'reek/spec'
-require 'reek/spec'
 
 include Reek::Spec
 
