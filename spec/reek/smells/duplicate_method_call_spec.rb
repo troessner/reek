@@ -61,6 +61,22 @@ EOS
     end
   end
 
+  context "with repeated simple method calls" do
+    it 'reports no smell' do
+      src = <<-EOS
+        def foo
+          case bar
+          when :baz
+            :qux
+          else
+            bar
+          end
+        end
+      EOS
+      src.should_not smell_of(DuplicateMethodCall)
+    end
+  end
+
   context 'with repeated attribute assignment' do
     it 'reports repeated assignment' do
       src = 'def double_thing(thing) @other[thing] = true; @other[thing] = true; end'
