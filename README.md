@@ -19,8 +19,8 @@ and run it like this:
 $ reek [options] [dir_or_source_file]*
 ```
 
-For a full list of command-line options see the Reek
-wiki[http://wiki.github.com/troessner/reek/command-line-options]
+For a full list of command-line options see the
+[Reek wiki](https://github.com/troessner/reek/wiki/command-line-options)
 or run
 
 ```bash
@@ -60,7 +60,7 @@ spec/samples/demo/demo.rb -- 6 warnings:
 Reek currently includes checks for some aspects of Control Couple,
 Data Clump, Feature Envy, Large Class, Long Method, Long Parameter List,
 Simulated Polymorphism, Uncommunicative Name and more.
-See the [Reek wiki](http://wiki.github.com/troessner/reek/code-smells)
+See the [Reek wiki](https://github.com/troessner/reek/wiki/code-smells)
 for up to date details of exactly what Reek will check in your code.
 
 ### Integration
@@ -104,7 +104,7 @@ spec spec/your/file -u     # Runs all tests stopping at the breakpoints you have
 
 ### Tools
 
-There's a vim plugin for `reek`: [http://github.com/rainerborene/vim-reek](http://github.com/rainerborene/vim-reek)
+There's a vim plugin for `reek`: [https://github.com/rainerborene/vim-reek](https://github.com/rainerborene/vim-reek)
 
 ### Dependencies
 
@@ -118,7 +118,7 @@ Reek makes use of the following other gems:
 
 Find out more about Reek from any of the following sources:
 
-* Browse the Reek documentation at [http://wiki.github.com/troessner/reek](http://wiki.github.com/troessner/reek)
-* Browse the code or install the latest development version from [http://github.com/troessner/reek/tree](http://github.com/troessner/reek/tree)
+* Browse the Reek documentation at [https://github.com/troessner/reek/wiki](https://github.com/troessner/reek/wiki)
+* Browse the code or install the latest development version from [https://github.com/troessner/reek/tree](https://github.com/troessner/reek/tree)
 * Read the code API at [http://rdoc.info/projects/troessner/reek](http://rdoc.info/projects/troessner/reek)
 
