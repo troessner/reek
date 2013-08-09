@@ -10,7 +10,7 @@ Feature: Basic smell detection
     Then the exit status indicates smells
     And it reports:
     """
-    spec/samples/inline.rb -- 42 warnings:
+    spec/samples/inline.rb -- 40 warnings:
       File has no descriptive comment (IrresponsibleModule)
       Inline declares the class variable @@directory (ClassVariable)
       Inline declares the class variable @@rootdir (ClassVariable)
@@ -28,7 +28,6 @@ Feature: Basic smell detection
       Inline::C#build calls io.puts 6 times (DuplicateMethodCall)
       Inline::C#build calls io.puts("#endif") twice (DuplicateMethodCall)
       Inline::C#build calls io.puts("#ifdef __cplusplus") twice (DuplicateMethodCall)
-      Inline::C#build calls module_name twice (DuplicateMethodCall)
       Inline::C#build calls warn("Output:\n#{result}") twice (DuplicateMethodCall)
       Inline::C#build contains iterators nested 2 deep (NestedIterators)
       Inline::C#build has approx 60 statements (TooManyStatements)
@@ -41,7 +40,6 @@ Feature: Basic smell detection
       Inline::C#generate calls signature["args"].map twice (DuplicateMethodCall)
       Inline::C#generate has approx 32 statements (TooManyStatements)
       Inline::C#initialize calls stack.empty? twice (DuplicateMethodCall)
-      Inline::C#load calls so_name twice (DuplicateMethodCall)
       Inline::C#module_name has the variable name 'm' (UncommunicativeVariableName)
       Inline::C#module_name has the variable name 'x' (UncommunicativeVariableName)
       Inline::C#parse_signature has approx 15 statements (TooManyStatements)
@@ -61,7 +59,7 @@ Feature: Basic smell detection
     Then the exit status indicates smells
     And it reports:
     """
-    spec/samples/optparse.rb -- 112 warnings:
+    spec/samples/optparse.rb -- 109 warnings:
       OptionParser has at least 42 methods (TooManyMethods)
       OptionParser has the variable name 'f' (UncommunicativeVariableName)
       OptionParser has the variable name 'k' (UncommunicativeVariableName)
@@ -145,9 +143,7 @@ Feature: Basic smell detection
       OptionParser::List#update is controlled by argument sopts (ControlParameter)
       OptionParser::ParseError#set_option is controlled by argument eq (ControlParameter)
       OptionParser::Switch#add_banner has the variable name 's' (UncommunicativeVariableName)
-      OptionParser::Switch#conv_arg calls conv twice (DuplicateMethodCall)
       OptionParser::Switch#initialize has 7 parameters (LongParameterList)
-      OptionParser::Switch#parse_arg calls pattern twice (DuplicateMethodCall)
       OptionParser::Switch#parse_arg calls s.length twice (DuplicateMethodCall)
       OptionParser::Switch#parse_arg has approx 11 statements (TooManyStatements)
       OptionParser::Switch#parse_arg has the variable name 'm' (UncommunicativeVariableName)
@@ -155,7 +151,6 @@ Feature: Basic smell detection
       OptionParser::Switch#self.guess has the variable name 't' (UncommunicativeVariableName)
       OptionParser::Switch#self.incompatible_argument_styles has the parameter name 't' (UncommunicativeParameterName)
       OptionParser::Switch#summarize calls (indent + l) twice (DuplicateMethodCall)
-      OptionParser::Switch#summarize calls arg 4 times (DuplicateMethodCall)
       OptionParser::Switch#summarize calls left.collect twice (DuplicateMethodCall)
       OptionParser::Switch#summarize calls left.collect { |s| s.length }.max twice (DuplicateMethodCall)
       OptionParser::Switch#summarize calls left.collect { |s| s.length }.max.to_i twice (DuplicateMethodCall)
