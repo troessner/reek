@@ -1,3 +1,9 @@
+== 1.3.2
+
+* (mvz) Allow duplicate calls to variable-like methods
+* (mvz) Improve NestedIterators smell detector
+* (mvz) Make combination of -n and -q options work
+
 == 1.3.1
 
 * (EmilRehnberg) Added smell for nil checks
