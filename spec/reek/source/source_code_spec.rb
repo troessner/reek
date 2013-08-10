@@ -9,7 +9,7 @@ describe SourceCode do
     before :each do
       @catcher = StringIO.new
       @old_err_io = (SourceCode.err_io = @catcher)
-      parser = mock('parser')
+      parser = double('parser')
       @error_message = 'Error message'
       parser.should_receive(:parse).and_raise(SyntaxError.new(@error_message))
       @source_name = 'Test source'
