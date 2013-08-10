@@ -10,7 +10,7 @@ describe CodeContext do
     before :each do
       @exp_name = 'random_name'    # SMELL: could use a String.random here
       @full_name = "::::::::::::::::::::#{@exp_name}"
-      @exp = mock('exp')
+      @exp = double('exp')
       @exp.should_receive(:name).any_number_of_times.and_return(@exp_name)
       @exp.should_receive(:full_name).any_number_of_times.and_return(@full_name)
       @exp.should_receive(:comments).any_number_of_times.and_return('')
@@ -35,7 +35,7 @@ describe CodeContext do
     context 'when there is an outer' do
       before :each do
         @outer_name = 'another_random sting'
-        outer = mock('outer')
+        outer = double('outer')
         outer.should_receive(:full_name).at_least(:once).and_return(@outer_name)
         outer.should_receive(:config).and_return({})
         @ctx = CodeContext.new(outer, @exp)
