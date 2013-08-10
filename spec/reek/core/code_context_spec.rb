@@ -11,9 +11,9 @@ describe CodeContext do
       @exp_name = 'random_name'    # SMELL: could use a String.random here
       @full_name = "::::::::::::::::::::#{@exp_name}"
       @exp = double('exp')
-      @exp.should_receive(:name).any_number_of_times.and_return(@exp_name)
-      @exp.should_receive(:full_name).any_number_of_times.and_return(@full_name)
-      @exp.should_receive(:comments).any_number_of_times.and_return('')
+      allow(@exp).to receive(:name).and_return(@exp_name)
+      allow(@exp).to receive(:full_name).and_return(@full_name)
+      allow(@exp).to receive(:comments).and_return('')
       @ctx = CodeContext.new(nil, @exp)
     end
     it 'gets its short name from the exp' do
