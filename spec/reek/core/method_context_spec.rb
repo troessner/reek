@@ -6,7 +6,7 @@ include Reek::Core
 
 describe MethodContext, 'matching' do
   before :each do
-    exp = mock('exp').as_null_object
+    exp = double('exp').as_null_object
     exp.should_receive(:full_name).at_least(:once).and_return('mod')
     @element = MethodContext.new(StopContext.new, exp)
   end
