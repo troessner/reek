@@ -19,6 +19,7 @@ module Reek
       end
 
       def execute(view)
+<<<<<<< HEAD
         total_smells_count = 0
         @sources.each do |source|
           examiner = Examiner.new(source, @config_files)
@@ -26,13 +27,35 @@ module Reek
           view.output @reporter.report(examiner)
         end
         if total_smells_count > 0 
+=======
+        @total_smells_count = 0
+        @sources.each do |source|
+          examiner = Examiner.new(source, @config_files)
+          @total_smells_count += examiner.smells_count 
+          view.output @reporter.report(examiner)
+        end
+        if @total_smells_count > 0 
+          output_smells_total(view)  
+>>>>>>> 56d11ea... Added total number of warnings from all files.
           view.report_smells
         else
           view.report_success
         end
+<<<<<<< HEAD
 
         view.output_smells_total(total_smells_count) if @sources.count > 1
       end      
+=======
+      end
+
+      private
+
+      def output_smells_total(view)
+        total_smells_message = "#{@total_smells_count} total warning"
+        total_smells_message += 's' unless @total_smells_count <= 1  
+        view.output total_smells_message 
+      end
+>>>>>>> 56d11ea... Added total number of warnings from all files.
     end
   end
 end

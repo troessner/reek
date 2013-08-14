@@ -74,7 +74,7 @@ Feature: Correctly formatted reports
         [6, 8]:Dirty#a calls puts(@s.title) twice (DuplicateMethodCall)
         [7]:Dirty#a contains iterators nested 2 deep (NestedIterators)
         [5]:Dirty#a has the name 'a' (UncommunicativeMethodName)
-
+      5 total warnings
       """
 
     Examples:
