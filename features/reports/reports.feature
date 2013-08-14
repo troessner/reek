@@ -23,7 +23,7 @@ Feature: Correctly formatted reports
         Dirty#a contains iterators nested 2 deep (NestedIterators)
         Dirty#a has the name 'a' (UncommunicativeMethodName)
         Dirty#a has the variable name 'x' (UncommunicativeVariableName)
-
+      12 total warnings
       """
 
     Examples:
@@ -70,7 +70,7 @@ Feature: Correctly formatted reports
         [6, 8]:Dirty#a calls puts(@s.title) twice (DuplicateMethodCall)
         [7]:Dirty#a contains iterators nested 2 deep (NestedIterators)
         [5]:Dirty#a has the name 'a' (UncommunicativeMethodName)
-
+      5 total warnings
       """
 
     Examples:

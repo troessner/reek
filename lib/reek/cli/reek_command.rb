@@ -19,17 +19,26 @@ module Reek
       end
 
       def execute(view)
-        had_smells = false
+        @total_smells_count = 0
         @sources.each do |source|
           examiner = Examiner.new(source, @config_files)
-          had_smells ||= examiner.smelly?
+          @total_smells_count += examiner.smells_count 
           view.output @reporter.report(examiner)
         end
-        if had_smells
+        if @total_smells_count > 0 
+          output_smells_total(view)  
           view.report_smells
         else
           view.report_success
         end
+      end
+
+      private
+
+      def output_smells_total(view)
+        total_smells_message = "#{@total_smells_count} total warning"
+        total_smells_message += 's' unless @total_smells_count <= 1  
+        view.output total_smells_message 
       end
     end
   end
