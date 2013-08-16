@@ -39,7 +39,7 @@ Feature: Correctly formatted reports
       spec/samples/three_clean_files/clean_one.rb -- 0 warnings
       spec/samples/three_clean_files/clean_three.rb -- 0 warnings
       spec/samples/three_clean_files/clean_two.rb -- 0 warnings
-
+      0 total warning
       """
 
     Examples:
@@ -50,7 +50,11 @@ Feature: Correctly formatted reports
   Scenario Outline: --quiet turns off headers for fragrant files
     When I run reek <option> spec/samples/three_clean_files/*.rb
     Then it succeeds
-    And stdout equals ""
+    And it reports:
+    """
+    0 total warning
+
+    """
 
     Examples:
       | option  |
@@ -70,7 +74,7 @@ Feature: Correctly formatted reports
         [6, 8]:Dirty#a calls puts(@s.title) twice (DuplicateMethodCall)
         [7]:Dirty#a contains iterators nested 2 deep (NestedIterators)
         [5]:Dirty#a has the name 'a' (UncommunicativeMethodName)
-      5 total warnings
+
       """
 
     Examples:
