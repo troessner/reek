@@ -16,7 +16,7 @@ Feature: Masking smells using config files
         Dirty#a contains iterators nested 2 deep (NestedIterators)
         Dirty#a has the name 'a' (UncommunicativeMethodName)
         Dirty#a has the variable name 'x' (UncommunicativeVariableName)
-      6 total warnings
+
       """
 
   Scenario: corrupt config file prevents normal output
@@ -32,7 +32,7 @@ Feature: Masking smells using config files
         Dirty#a contains iterators nested 2 deep (NestedIterators)
         Dirty#a has the name 'a' (UncommunicativeMethodName)
         Dirty#a has the variable name 'x' (UncommunicativeVariableName)
-      7 total warnings
+
       """
     And it reports an error
 
@@ -45,7 +45,7 @@ Feature: Masking smells using config files
         Dirty#a calls @s.title twice (DuplicateMethodCall)
         Dirty#a calls puts(@s.title) twice (DuplicateMethodCall)
         Dirty#a contains iterators nested 2 deep (NestedIterators)
-      3 total warnings
+
       """
     And it reports the error "Error: No such file - no_such_file.rb"
 
@@ -58,7 +58,7 @@ Feature: Masking smells using config files
         Dirty#a calls @s.title twice (DuplicateMethodCall)
         Dirty#a calls puts(@s.title) twice (DuplicateMethodCall)
         Dirty#a contains iterators nested 2 deep (NestedIterators)
-      3 total warnings
+
       """
 
   Scenario: non-masked smells are only counted once
@@ -72,7 +72,7 @@ Feature: Masking smells using config files
         Dirty#a calls puts(@s.title) twice (DuplicateMethodCall)
         Dirty#a contains iterators nested 2 deep (NestedIterators)
         Dirty#a has the name 'a' (UncommunicativeMethodName)
-      5 total warnings
+
       """
 
   @overrides
@@ -84,7 +84,7 @@ Feature: Masking smells using config files
       spec/samples/overrides/masked/dirty.rb -- 2 warnings:
         Dirty#a calls @s.title twice (DuplicateMethodCall)
         Dirty#a calls puts(@s.title) twice (DuplicateMethodCall)
-      2 total warnings
+
       """
 
   Scenario: allow masking some calls for duplication smell
@@ -95,7 +95,7 @@ Feature: Masking smells using config files
       spec/samples/mask_some/dirty.rb -- 2 warnings:
         Dirty#a calls @s.title twice (DuplicateMethodCall)
         Dirty#a contains iterators nested 2 deep (NestedIterators)
-      2 total warnings
+
       """
 
   @comments
@@ -106,7 +106,7 @@ Feature: Masking smells using config files
       """
       spec/samples/inline_config/dirty.rb -- 1 warning:
         Dirty#a calls @s.title twice (DuplicateMethodCall)
-      1 total warning
+
       """
 
   Scenario: supports a config file
@@ -116,7 +116,7 @@ Feature: Masking smells using config files
       """
       spec/samples/masked/dirty.rb -- 1 warning:
         Dirty#a contains iterators nested 2 deep (NestedIterators)
-      1 total warning
+
       """
 
   Scenario: supports multiple config files
