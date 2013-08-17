@@ -39,7 +39,7 @@ Feature: Correctly formatted reports
       spec/samples/three_clean_files/clean_one.rb -- 0 warnings
       spec/samples/three_clean_files/clean_three.rb -- 0 warnings
       spec/samples/three_clean_files/clean_two.rb -- 0 warnings
-      0 total warning
+      0 total warnings
       """
 
     Examples:
@@ -52,7 +52,7 @@ Feature: Correctly formatted reports
     Then it succeeds
     And it reports:
     """
-    0 total warning
+    0 total warnings
 
     """
 

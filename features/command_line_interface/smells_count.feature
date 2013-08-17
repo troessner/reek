@@ -47,5 +47,5 @@ Feature: Reports total number of code smells
       spec/samples/three_clean_files/clean_one.rb -- 0 warnings
       spec/samples/three_clean_files/clean_three.rb -- 0 warnings
       spec/samples/three_clean_files/clean_two.rb -- 0 warnings
-      0 total warning
+      0 total warnings
       """
