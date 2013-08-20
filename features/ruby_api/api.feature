@@ -20,5 +20,4 @@ Feature: The Reek API maintains backwards compatibility
         Dirty#awful has unused parameter 'offset' (UnusedParameters)
         Dirty#awful has unused parameter 'x' (UnusedParameters)
         Dirty#awful has unused parameter 'y' (UnusedParameters)
-
       """
