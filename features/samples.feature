@@ -51,7 +51,7 @@ Feature: Basic smell detection
       Module#inline calls Inline.const_get(lang) twice (DuplicateMethodCall)
       Module#inline has approx 11 statements (TooManyStatements)
       Module#inline is controlled by argument options (ControlParameter)
-
+    40 total warnings
     """
 
   Scenario: Correct smells from optparse.rb
@@ -169,7 +169,7 @@ Feature: Basic smell detection
       OptionParser::Switch::OptionalArgument#parse is controlled by argument arg (ControlParameter)
       OptionParser::Switch::PlacedArgument#parse has approx 6 statements (TooManyStatements)
       OptionParser::Switch::RequiredArgument#parse is controlled by argument arg (ControlParameter)
-
+    109 total warnings
     """
 
   Scenario: Correct smells from redcloth.rb
@@ -279,5 +279,5 @@ Feature: Basic smell detection
       RedCloth#textile_popup_help has the parameter name 'windowH' (UncommunicativeParameterName)
       RedCloth#textile_popup_help has the parameter name 'windowW' (UncommunicativeParameterName)
       RedCloth#to_html has approx 24 statements (TooManyStatements)
-
+    101 total warnings
     """

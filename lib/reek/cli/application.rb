@@ -39,7 +39,14 @@ module Reek
       end
 
       def report_smells
-        @status = STATUS_SMELLS
+        @status = STATUS_SMELLS        
+      end
+
+      def output_smells_total(total_smells_count)
+        total_smells_message = "#{total_smells_count} total warning"
+        total_smells_message += 's' unless total_smells_count == 1  
+        total_smells_message += "\n"
+        output total_smells_message 
       end
     end
   end
