@@ -1,7 +1,0 @@
----
-DuplicateMethodCall:
-  enabled: true
-UncommunicativeVariableName:
-  enabled: false
-UncommunicativeMethodName:
-  enabled: false

@@ -1,3 +1,0 @@
-default: --tags ~@wip -fprogress -r features features
-wip: -fpretty --tags @wip --wip features
-
