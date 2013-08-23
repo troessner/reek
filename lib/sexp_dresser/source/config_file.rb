@@ -18,31 +18,6 @@ module SexpDresser
         @hash = load
       end
 
-      #
-      # Configure the given sniffer using the contents of the config file.
-      #
-      def configure(sniffer)
-        @hash.each do |klass_name, config|
-          klass = find_class(klass_name)
-          sniffer.configure(klass, config) if klass
-        end
-      end
-
-      #
-      # Find the class with this name if it exsits.
-      # If not, report the problem and return +nil+.
-      #
-      def find_class(name)
-        begin
-          klass = SexpDresser::Smells.const_get(name)
-        rescue
-          klass = nil
-        end
-        problem("\"#{name}\" is not a code smell") unless klass
-        klass
-      end
-
-      #
       # Load the file path with which this was initialized,
       # unless it is already known to be a bad configuration file.
       # If it won't load, then it is considered a bad file.

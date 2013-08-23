@@ -26,9 +26,9 @@ module SexpDresser
       end
 
     protected
-      def add_to_config(smell, options)
+      def add_to_config(config, options)
         options ||= ': { enabled: false }'
-        @config.merge! YAML.load(smell.gsub(/(?:^|_)(.)/) { $1.upcase } + options)
+        @config.merge! YAML.load(config.gsub(/(?:^|_)(.)/) { $1.upcase } + options)
         # extend this to all configs --------------------------^
         # extend to allow configuration of whole smell class, not just subclass
       end

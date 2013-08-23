@@ -1,6 +1,6 @@
 require 'sexp_dresser/core/code_context'
 require 'sexp_dresser/core/code_parser'
-# require 'sexp_dresser/core/sniffer'
+# require 'sexp_dresser/core/analyzer'
 require 'sexp_dresser/source/sexp_formatter'
 
 module SexpDresser

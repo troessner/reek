@@ -12,8 +12,8 @@ module SexpDresser
     # it encounters specific node types.
     #
     class CodeParser
-      def initialize(sniffer, ctx = StopContext.new)
-        @sniffer = sniffer
+      def initialize(analyzer, ctx = StopContext.new)
+        @analyzer = analyzer
         @element = ctx
       end
 
@@ -33,7 +33,7 @@ module SexpDresser
         scope = ModuleContext.new(@element, name, exp)
         push(scope) do
           process_default(exp) unless exp.superclass == [:const, :Struct]
-          check_smells(exp[0])
+          analyze_node(exp[0])
         end
         scope
       end
@@ -146,13 +146,13 @@ module SexpDresser
         push(scope) do
           @element.count_statements(CodeParser.count_statements(exp.body))
           process_default(exp)
-          check_smells(type)
+          analyze_node(type)
         end
         scope
       end
 
-      def check_smells(type)
-        @sniffer.examine(@element, type)
+      def analyze_node(type)
+        @analyzer.examine(@element, type)
       end
 
       def push(context)
