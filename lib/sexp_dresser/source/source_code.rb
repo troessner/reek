@@ -28,7 +28,7 @@ module SexpDresser
         @parser = parser
       end
 
-      def configure(analyzer) end
+      def configure(examiner) end
 
       def syntax_tree
         begin

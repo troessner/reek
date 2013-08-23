@@ -14,9 +14,9 @@ module SexpDresser
         super(IO.readlines(@path).join, @path)
       end
 
-      def configure(analyzer)
+      def configure(examiner)
         path = File.expand_path(File.dirname(@path))
-        all_config_files(path).each { |cf| ConfigFile.new(cf).configure(analyzer) }
+        all_config_files(path).each { |cf| ConfigFile.new(cf).configure(examiner) }
       end
 
     private
