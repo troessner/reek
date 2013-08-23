@@ -29,14 +29,14 @@ RSpec::Matchers.define :flay do |threshold|
   end
 end
 
-describe 'Reek source code' do
+describe 'SexpDresser source code' do
   it 'has no smells' do
-    Dir['lib/**/*.rb'].should_not reek
+    Dir['lib/**/*.rb'].should_not sexp_dresser
   end
   it 'has no structural duplication' do
     ['lib'].should_not flay(16)
   end
   it 'has no structural duplication in the tests' do
-    ['spec/reek'].should_not flay(25)
+    ['spec/sexp_dresser'].should_not flay(25)
   end
 end

@@ -1,7 +1,9 @@
-require 'reek/source/tree_dresser'
+require 'sexp_dresser/source/core_extras'
+require 'sexp_dresser/core/hash_extensions'
+require 'sexp_dresser/source/tree_dresser'
 
 def ast(*args)
-  result = Reek::Source::TreeDresser.new.dress(s(*args))
+  result = SexpDresser::Source::TreeDresser.new.dress(s(*args))
   result.line = 1
   result
 end
