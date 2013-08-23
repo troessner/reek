@@ -1,9 +1,4 @@
-require 'reek/spec'
 require 'reek/source/tree_dresser'
-
-require 'matchers/smell_of_matcher'
-
-SAMPLES_DIR = 'spec/samples'
 
 def ast(*args)
   result = Reek::Source::TreeDresser.new.dress(s(*args))
