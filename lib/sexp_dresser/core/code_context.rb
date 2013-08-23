@@ -1,3 +1,5 @@
+require 'sexp_dresser/source/code_comment'
+require 'sexp_dresser/core/hash_extensions'
 
 module SexpDresser
   module Core

@@ -1,4 +1,5 @@
 require 'sexp_dresser/source/source_code'
+require 'sexp_dresser/source/source_file'
 
 #
 # Extensions to +File+ needed by SexpDresser.
