@@ -278,3 +278,13 @@ Feature: Basic smell detection
       RedCloth#textile_popup_help has the parameter name 'windowW' (UncommunicativeParameterName)
       RedCloth#to_html has approx 24 statements (TooManyStatements)
     """
+
+  Scenario: Correct smells from a source file with Ruby 2.0 specific syntax
+    When I run reek spec/samples/ruby20_syntax.rb
+    Then the exit status indicates smells
+    And it reports:
+    """
+    spec/samples/ruby20_syntax.rb -- 2 warnings:
+      SomeClass has no descriptive comment (IrresponsibleModule)
+      SomeClass#method_with_keyword_arguments has unused parameter 'foo' (UnusedParameters)
+    """
