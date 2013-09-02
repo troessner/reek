@@ -81,3 +81,30 @@ Feature: Correctly formatted reports
       | --line-number |
       | -n -q         |
       | -q -n         |
+
+  Scenario Outline: Extra slashes aren't added to directory names
+    When I run reek <args>
+    Then the exit status indicates smells
+    And it reports:
+      """
+      spec/samples/two_smelly_files/dirty_one.rb -- 6 warnings:
+        Dirty has the variable name '@s' (UncommunicativeVariableName)
+        Dirty#a calls @s.title twice (DuplicateMethodCall)
+        Dirty#a calls puts(@s.title) twice (DuplicateMethodCall)
+        Dirty#a contains iterators nested 2 deep (NestedIterators)
+        Dirty#a has the name 'a' (UncommunicativeMethodName)
+        Dirty#a has the variable name 'x' (UncommunicativeVariableName)
+      spec/samples/two_smelly_files/dirty_two.rb -- 6 warnings:
+        Dirty has the variable name '@s' (UncommunicativeVariableName)
+        Dirty#a calls @s.title twice (DuplicateMethodCall)
+        Dirty#a calls puts(@s.title) twice (DuplicateMethodCall)
+        Dirty#a contains iterators nested 2 deep (NestedIterators)
+        Dirty#a has the name 'a' (UncommunicativeMethodName)
+        Dirty#a has the variable name 'x' (UncommunicativeVariableName)
+      12 total warnings
+      """
+
+    Examples:
+      | args |
+      | spec/samples/two_smelly_files/ |
+      | spec/samples/two_smelly_files  |
