@@ -10,14 +10,14 @@ Feature: The Reek API maintains backwards compatibility
     And it reports:
       """
       spec/samples/demo/demo.rb -- 10 warnings:
-        Dirty has no descriptive comment (IrresponsibleModule)
-        Dirty#awful has 4 parameters (LongParameterList)
-        Dirty#awful has boolean parameter 'log' (BooleanParameter)
-        Dirty#awful has the parameter name 'x' (UncommunicativeParameterName)
-        Dirty#awful has the parameter name 'y' (UncommunicativeParameterName)
-        Dirty#awful has the variable name 'w' (UncommunicativeVariableName)
-        Dirty#awful has unused parameter 'log' (UnusedParameters)
-        Dirty#awful has unused parameter 'offset' (UnusedParameters)
-        Dirty#awful has unused parameter 'x' (UnusedParameters)
-        Dirty#awful has unused parameter 'y' (UnusedParameters)
+        [1]:Dirty has no descriptive comment (IrresponsibleModule)
+        [3]:Dirty#awful has 4 parameters (LongParameterList)
+        [3]:Dirty#awful has boolean parameter 'log' (BooleanParameter)
+        [3]:Dirty#awful has the parameter name 'x' (UncommunicativeParameterName)
+        [3]:Dirty#awful has the parameter name 'y' (UncommunicativeParameterName)
+        [5]:Dirty#awful has the variable name 'w' (UncommunicativeVariableName)
+        [3]:Dirty#awful has unused parameter 'log' (UnusedParameters)
+        [3]:Dirty#awful has unused parameter 'offset' (UnusedParameters)
+        [3]:Dirty#awful has unused parameter 'x' (UnusedParameters)
+        [3]:Dirty#awful has unused parameter 'y' (UnusedParameters)
       """

@@ -18,7 +18,7 @@ module Reek
         @argv = argv
         @parser = OptionParser.new
         @report_class = VerboseReport
-        @warning_formatter = SimpleWarningFormatter
+        @warning_formatter = WarningFormatterWithLineNumbers
         @command_class = ReekCommand
         @config_files = []
         set_options
@@ -75,8 +75,8 @@ EOB
         @parser.on("-q", "--[no-]quiet", "Suppress headings for smell-free source files") do |opt|
           @report_class = opt ? QuietReport : VerboseReport
         end
-        @parser.on("-n", "--line-number", "Prefix the output with the line number(s).") do 
-          @warning_formatter = WarningFormatterWithLineNumbers
+        @parser.on("-n", "--line-number", "Suppress line number(s) from the output.") do 
+          @warning_formatter = SimpleWarningFormatter
         end
         @parser.on("-y", "--yaml", "Report smells in YAML format") do
           @command_class = YamlCommand
