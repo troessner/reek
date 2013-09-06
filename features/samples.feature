@@ -6,7 +6,7 @@ Feature: Basic smell detection
 
   @inline
   Scenario: Correct smells from inline.rb
-    When I run reek spec/samples/inline.rb
+    When I run reek -n spec/samples/inline.rb
     Then the exit status indicates smells
     And it reports:
     """
@@ -54,7 +54,7 @@ Feature: Basic smell detection
     """
 
   Scenario: Correct smells from optparse.rb
-    When I run reek spec/samples/optparse.rb
+    When I run reek -n spec/samples/optparse.rb
     Then the exit status indicates smells
     And it reports:
     """
@@ -171,7 +171,7 @@ Feature: Basic smell detection
     """
 
   Scenario: Correct smells from redcloth.rb
-    When I run reek spec/samples/redcloth.rb
+    When I run reek -n spec/samples/redcloth.rb
     Then the exit status indicates smells
     And it reports:
     """
@@ -285,6 +285,6 @@ Feature: Basic smell detection
     And it reports:
     """
     spec/samples/ruby20_syntax.rb -- 2 warnings:
-      SomeClass has no descriptive comment (IrresponsibleModule)
-      SomeClass#method_with_keyword_arguments has unused parameter 'foo' (UnusedParameters)
+      [1]:SomeClass has no descriptive comment (IrresponsibleModule)
+      [2]:SomeClass#method_with_keyword_arguments has unused parameter 'foo' (UnusedParameters)
     """

@@ -14,9 +14,9 @@ Feature: Reek can be driven through its Task
     And it reports:
       """
       spec/samples/masked/dirty.rb -- 3 warnings:
-        Dirty#a calls @s.title twice (DuplicateMethodCall)
-        Dirty#a calls puts(@s.title) twice (DuplicateMethodCall)
-        Dirty#a contains iterators nested 2 deep (NestedIterators)
+        [4, 6]:Dirty#a calls @s.title twice (DuplicateMethodCall)
+        [4, 6]:Dirty#a calls puts(@s.title) twice (DuplicateMethodCall)
+        [5]:Dirty#a contains iterators nested 2 deep (NestedIterators)
       """
 
   Scenario: name changes the task name
@@ -30,9 +30,9 @@ Feature: Reek can be driven through its Task
     And it reports:
       """
       spec/samples/masked/dirty.rb -- 3 warnings:
-        Dirty#a calls @s.title twice (DuplicateMethodCall)
-        Dirty#a calls puts(@s.title) twice (DuplicateMethodCall)
-        Dirty#a contains iterators nested 2 deep (NestedIterators)
+        [4, 6]:Dirty#a calls @s.title twice (DuplicateMethodCall)
+        [4, 6]:Dirty#a calls puts(@s.title) twice (DuplicateMethodCall)
+        [5]:Dirty#a contains iterators nested 2 deep (NestedIterators)
       """
 
   Scenario: verbose prints the reek command
@@ -58,12 +58,12 @@ Feature: Reek can be driven through its Task
     And it reports:
       """
       spec/samples/empty_config_file/dirty.rb -- 6 warnings:
-        Dirty has the variable name '@s' (UncommunicativeVariableName)
-        Dirty#a calls @s.title twice (DuplicateMethodCall)
-        Dirty#a calls puts(@s.title) twice (DuplicateMethodCall)
-        Dirty#a contains iterators nested 2 deep (NestedIterators)
-        Dirty#a has the name 'a' (UncommunicativeMethodName)
-        Dirty#a has the variable name 'x' (UncommunicativeVariableName)
+        [5]:Dirty has the variable name '@s' (UncommunicativeVariableName)
+        [4, 6]:Dirty#a calls @s.title twice (DuplicateMethodCall)
+        [4, 6]:Dirty#a calls puts(@s.title) twice (DuplicateMethodCall)
+        [5]:Dirty#a contains iterators nested 2 deep (NestedIterators)
+        [3]:Dirty#a has the name 'a' (UncommunicativeMethodName)
+        [5]:Dirty#a has the variable name 'x' (UncommunicativeVariableName)
       """
 
   Scenario: can be configured with config_files
