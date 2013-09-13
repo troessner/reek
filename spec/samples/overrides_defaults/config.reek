@@ -1,0 +1,6 @@
+---
+UncommunicativeVariableName:
+  enabled: true
+  reject:
+  - !ruby/regexp /^.$/
+  - !ruby/regexp /[0-9]$/

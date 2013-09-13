@@ -18,8 +18,8 @@ module Reek
         @options = hash
       end
 
-      def adopt!(options)
-        @options.adopt!(options)
+      def merge!(options)
+        @options.merge!(options)
       end
 
       #
