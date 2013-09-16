@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
 
-# The gem's dependencies are specified in the gemspec
+gem 'sexp_dresser', path: 'sexp_dresser'
+
 gemspec

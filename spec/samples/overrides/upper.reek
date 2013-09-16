@@ -1,0 +1,5 @@
+---
+DuplicateMethodCall:
+  enabled: false
+NestedIterators:
+  enabled: false
