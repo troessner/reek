@@ -57,7 +57,7 @@ module Reek
       end
 
       def configure_with(config)
-        @config.adopt!(config)
+        @config.merge!(config)
       end
 
       def examine(context)
