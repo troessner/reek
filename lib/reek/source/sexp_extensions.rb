@@ -3,6 +3,14 @@ require 'reek/source/sexp_node'
 module Reek
   module Source
     module SexpExtensions
+      module AndNode
+        def condition() self[1..2].tap {|b| b.extend SexpNode } end
+      end
+
+      module OrNode
+        def condition() self[1..2].tap {|b| b.extend SexpNode } end
+      end
+
       module AttrasgnNode
         def args() self[3] end
       end
@@ -26,6 +34,10 @@ module Reek
 
       CvasgnNode = CvarNode
       CvdeclNode = CvarNode
+
+      module LvarNode
+        def value() self[1] end
+      end
 
       module MethodNode
         def arg_names
