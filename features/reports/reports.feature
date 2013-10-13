@@ -82,6 +82,26 @@ Feature: Correctly formatted reports
       | -n -q         |
       | -q -n         |
 
+  Scenario Outline: --single-line shows filename and one line number
+    When I run reek <option> spec/samples/not_quite_masked/dirty.rb
+    Then the exit status indicates smells
+    And it reports:
+      """
+      spec/samples/not_quite_masked/dirty.rb -- 5 warnings:
+        spec/samples/not_quite_masked/dirty.rb:7: Dirty has the variable name '@s' (UncommunicativeVariableName)
+        spec/samples/not_quite_masked/dirty.rb:6: Dirty#a calls @s.title twice (DuplicateMethodCall)
+        spec/samples/not_quite_masked/dirty.rb:6: Dirty#a calls puts(@s.title) twice (DuplicateMethodCall)
+        spec/samples/not_quite_masked/dirty.rb:7: Dirty#a contains iterators nested 2 deep (NestedIterators)
+        spec/samples/not_quite_masked/dirty.rb:5: Dirty#a has the name 'a' (UncommunicativeMethodName)
+      """
+
+    Examples:
+      | option        |
+      | -s            |
+      | --single-line |
+      | -s -q         |
+      | -q -s         |
+
   Scenario Outline: Extra slashes aren't added to directory names
     When I run reek <args>
     Then the exit status indicates smells
