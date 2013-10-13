@@ -18,7 +18,7 @@ module Reek
       end
 
       def is_language_node?
-        first.class == Symbol
+        Symbol === first
       end
 
       def has_type?(type)
@@ -48,12 +48,13 @@ module Reek
         end
         blk.call(self) if first == target_type
       end
+
       def format_ruby
-        return self[0].to_s unless Array === self
         Ruby2Ruby.new.process(deep_copy)
       end
+
       def deep_copy
-        Sexp.from_array(YAML::load(YAML::dump(self)))
+        Sexp.new(*map { |elem| Sexp === elem ? elem.deep_copy : elem })
       end
     end
 
