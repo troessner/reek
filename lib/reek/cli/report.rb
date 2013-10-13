@@ -27,6 +27,12 @@ module Reek
       end
     end
 
+    module SingleLineWarningFormatter
+      def self.format(warning)
+        "#{warning.source}:#{warning.lines.first}: #{SimpleWarningFormatter.format(warning)}"
+      end
+    end    
+
     #
     # A report that lists every source, including those that have no smells.
     #

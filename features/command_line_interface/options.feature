@@ -40,6 +40,7 @@ Feature: Reek can be controlled using command-line options
       Report formatting:
           -q, --[no-]quiet                 Suppress headings for smell-free source files
           -n, --line-number                Suppress line number(s) from the output.
+          -s, --single-line                Show IDE-compatible single-line-per-warning
           -y, --yaml                       Report smells in YAML format
 
       """
