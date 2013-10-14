@@ -78,6 +78,9 @@ EOB
         @parser.on("-n", "--line-number", "Suppress line number(s) from the output.") do 
           @warning_formatter = SimpleWarningFormatter
         end
+        @parser.on("-s", "--single-line", "Show IDE-compatible single-line-per-warning") do 
+          @warning_formatter = SingleLineWarningFormatter
+        end        
         @parser.on("-y", "--yaml", "Report smells in YAML format") do
           @command_class = YamlCommand
           # SMELL: the args passed to the command should be tested, because it may
