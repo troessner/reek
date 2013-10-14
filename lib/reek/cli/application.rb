@@ -25,6 +25,7 @@ module Reek
           cmd.execute(self)
         rescue Exception => error
           $stderr.puts "Error: #{error}"
+          $stderr.puts error.backtrace.join("\n") unless OptionParser::InvalidOption == error.class
           @status = STATUS_ERROR
         end
         return @status
