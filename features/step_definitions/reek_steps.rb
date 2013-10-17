@@ -44,6 +44,10 @@ Then /^stderr reports:$/ do |report|
   @last_stderr.should == report
 end
 
+Then /^it reports no errors$/ do
+  @last_stderr.chomp.should eq ""
+end
+
 Then /^it reports an error$/ do
   @last_stderr.chomp.should_not be_empty
 end
