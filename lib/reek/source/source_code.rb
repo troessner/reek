@@ -33,7 +33,7 @@ module Reek
       def syntax_tree
         begin
           ast = @parser.parse(@source, @desc)
-        rescue Exception => error
+        rescue Racc::ParseError, RubyParser::SyntaxError => error
           @@err_io.puts "#{desc}: #{error.class.name}: #{error}"
         end
         ast ||= s()

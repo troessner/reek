@@ -9,11 +9,11 @@ Feature: Reports total number of code smells
         And it reports:
         """
         spec/samples/not_quite_masked/dirty.rb -- 5 warnings:
-          [7]:Dirty has the variable name '@s' (UncommunicativeVariableName)
-          [6, 8]:Dirty#a calls @s.title twice (DuplicateMethodCall)
-          [6, 8]:Dirty#a calls puts(@s.title) twice (DuplicateMethodCall)
-          [7]:Dirty#a contains iterators nested 2 deep (NestedIterators)
-          [5]:Dirty#a has the name 'a' (UncommunicativeMethodName)
+          [5]:Dirty has the variable name '@s' (UncommunicativeVariableName)
+          [4, 6]:Dirty#a calls @s.title twice (DuplicateMethodCall)
+          [4, 6]:Dirty#a calls puts(@s.title) twice (DuplicateMethodCall)
+          [5]:Dirty#a contains iterators nested 2 deep (NestedIterators)
+          [3]:Dirty#a has the name 'a' (UncommunicativeMethodName)
         """
 
     Scenario: Output total number of smells when inspecting multiple files

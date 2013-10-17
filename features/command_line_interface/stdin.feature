@@ -42,11 +42,11 @@ Feature: Reek reads from $stdin when no files are given
   @stderr
   Scenario: syntax error causes the source to be ignored
     When I pass "def incomplete" to reek
+    Then it reports a parsing error
     Then it succeeds
     And it reports:
       """
       $stdin -- 0 warnings
 
       """
-    And it reports a parsing error
 

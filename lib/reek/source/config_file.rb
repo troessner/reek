@@ -1,4 +1,5 @@
 require 'yaml'
+require 'reek/config_file_exception'
 
 module Reek
   module Source
@@ -43,26 +44,25 @@ module Reek
       end
 
       #
-      # Load the file path with which this was initialized,
-      # unless it is already known to be a bad configuration file.
-      # If it won't load, then it is considered a bad file.
+      # Load the file path with which this was initialized.
+      # Empty files are ignored with a warning. All other errors are to be
+      # handled farther up the stack.
       #
       def load
-        unless @@bad_config_files.include?(@file_path)
-          begin
-            result = YAML.load_file(@file_path) || {}
-            if Hash === result
-              return result
-            else
-              @@bad_config_files << @file_path                            # poop
-              problem('Not a hash')
-            end
-          rescue Exception => err
-            @@bad_config_files << @file_path                              # poop
-            problem(err.to_s)
-          end
+        if File.size(@file_path) == 0
+          problem('Empty file')
+          return {}
         end
-        return {}
+
+        begin
+          result = YAML.load_file(@file_path) || {}
+        rescue => e
+          error(e.to_s)
+        end
+
+        error('Not a hash') unless Hash === result
+
+        result
       end
 
       #
@@ -70,8 +70,19 @@ module Reek
       # Error.
       #
       def problem(reason)
-        $stderr.puts "Error: Invalid configuration file \"#{File.basename(@file_path)}\" -- #{reason}"
-        # SMELL: Duplication of 'Error:'
+        $stderr.puts "Warning: #{message(reason)}"
+      end
+
+      #
+      # Report invalid configuration file to standard
+      # Error.
+      #
+      def error(reason)
+        raise ConfigFileException.new message(reason)
+      end
+
+      def message(reason)
+        "Invalid configuration file \"#{File.basename(@file_path)}\" -- #{reason}"
       end
     end
   end

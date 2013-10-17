@@ -51,13 +51,14 @@ Feature: Reek can be driven through its Task
       """
       Reek::Rake::Task.new do |t|
         t.fail_on_error = false
-        t.source_files = 'spec/samples/empty_config_file/dirty.rb'
+        t.source_files = 'spec/samples/no_config_file/dirty.rb'
       end
       """
-    Then it succeeds
+    Then it reports no errors
+    And it succeeds
     And it reports:
       """
-      spec/samples/empty_config_file/dirty.rb -- 6 warnings:
+      spec/samples/no_config_file/dirty.rb -- 6 warnings:
         [5]:Dirty has the variable name '@s' (UncommunicativeVariableName)
         [4, 6]:Dirty#a calls @s.title twice (DuplicateMethodCall)
         [4, 6]:Dirty#a calls puts(@s.title) twice (DuplicateMethodCall)
