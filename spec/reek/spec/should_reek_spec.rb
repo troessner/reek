@@ -4,83 +4,70 @@ require 'reek/spec'
 include Reek
 include Reek::Spec
 
-describe ShouldReek, 'checking code in a string' do
-  before :each do
-    @clean_code = 'def good() true; end'
-    @smelly_code = 'def x() y = 4; end'
-    @matcher = ShouldReek.new
+describe ShouldReek do
+  let(:matcher) { ShouldReek.new }
+
+  describe 'checking code in a string' do
+    let(:clean_code) { 'def good() true; end' }
+    let(:smelly_code) { 'def x() y = 4; end' }
+
+    it 'matches a smelly String' do
+      matcher.matches?(smelly_code).should be_true
+    end
+
+    it 'doesnt match a fragrant String' do
+      matcher.matches?(clean_code).should be_false
+    end
+
+    it 'reports the smells when should_not fails' do
+      matcher.matches?(smelly_code)
+      matcher.failure_message_for_should_not.should match('UncommunicativeVariableName')
+    end
   end
 
-  it 'matches a smelly String' do
-    @matcher.matches?(@smelly_code).should be_true
+  describe 'checking code in a Dir' do
+    let(:clean_dir) { Dir['spec/samples/three_clean_files/*.rb'] }
+    let(:smelly_dir) { Dir['spec/samples/two_smelly_files/*.rb'] }
+    let(:masked_dir) { Dir['spec/samples/clean_due_to_masking/*.rb'] }
+
+    it 'matches a smelly Dir' do
+      matcher.matches?(smelly_dir).should be_true
+    end
+
+    it 'doesnt match a fragrant Dir' do
+      matcher.matches?(clean_dir).should be_false
+    end
+
+    it 'masks smells using the relevant configuration' do
+      matcher.matches?(masked_dir).should be_false
+    end
+
+    it 'reports the smells when should_not fails' do
+      matcher.matches?(smelly_dir)
+      matcher.failure_message_for_should_not.should match('UncommunicativeVariableName')
+    end
   end
 
-  it 'doesnt match a fragrant String' do
-    @matcher.matches?(@clean_code).should be_false
-  end
+  describe 'checking code in a File' do
+    let(:clean_file) { File.new('spec/samples/three_clean_files/clean_one.rb') }
+    let(:smelly_file) { File.new('spec/samples/two_smelly_files/dirty_one.rb') }
+    let(:masked_file) { File.new('spec/samples/clean_due_to_masking/dirty_one.rb') }
 
-  it 'reports the smells when should_not fails' do
-    @matcher.matches?(@smelly_code)
-    @matcher.failure_message_for_should_not.should match('UncommunicativeVariableName')
-  end
-end
+    it 'matches a smelly File' do
+      matcher.matches?(smelly_file).should be_true
+    end
 
-describe ShouldReek, 'checking code in a Dir' do
-  before :each do
-    @clean_dir = Dir['spec/samples/three_clean_files/*.rb']
-    @smelly_dir = Dir['spec/samples/two_smelly_files/*.rb']
-    @matcher = ShouldReek.new
-  end
+    it 'doesnt match a fragrant File' do
+      matcher.matches?(clean_file).should be_false
+    end
 
-  it 'matches a smelly String' do
-    @matcher.matches?(@smelly_dir).should be_true
-  end
+    it 'masks smells using the relevant configuration' do
+      matcher.matches?(masked_file).should be_false
+    end
 
-  it 'doesnt match a fragrant String' do
-    @matcher.matches?(@clean_dir).should be_false
-  end
-
-  it 'reports the smells when should_not fails' do
-    @matcher.matches?(@smelly_dir)
-    @matcher.failure_message_for_should_not.should match('UncommunicativeVariableName')
-  end
-end
-
-describe ShouldReek, 'checking code in a File' do
-  before :each do
-    @clean_file = File.new(Dir['spec/samples/three_clean_files/*.rb'][0])
-    @smelly_file = File.new(Dir['spec/samples/two_smelly_files/*.rb'][0])
-    @matcher = ShouldReek.new
-  end
-
-  it 'matches a smelly String' do
-    @matcher.matches?(@smelly_file).should be_true
-  end
-
-  it 'doesnt match a fragrant String' do
-    @matcher.matches?(@clean_file).should be_false
-  end
-
-  it 'reports the smells when should_not fails' do
-    @matcher.matches?(@smelly_file)
-    @matcher.failure_message_for_should_not.should match('UncommunicativeVariableName')
-  end
-end
-
-describe ShouldReek, 'configuration' do
-  before :each do
-    @smelly_file = File.new('spec/samples/redcloth.rb')
-    @clean_file = File.new('spec/samples/three_clean_files/clean_one.rb')
-  end
-  it 'can handle array of config files in ctor' do
-    expect{matcher = ShouldReek.new(Dir['spec/samples/*.reek'])}.to_not raise_error
-  end
-  it 'does not alter result for clean file' do
-    matcher = ShouldReek.new(Dir['spec/samples/*.reek'])
-    matcher.matches?(@clean_file).should be_false
-  end
-  it 'ignores smells according to config' do
-    matcher = ShouldReek.new(Dir['spec/samples/*.reek'])
-    matcher.matches?('def hash() md5 = Digest::MD5.new; end').should be_false
+    it 'reports the smells when should_not fails' do
+      matcher.matches?(smelly_file)
+      matcher.failure_message_for_should_not.should match('UncommunicativeVariableName')
+    end
   end
 end
