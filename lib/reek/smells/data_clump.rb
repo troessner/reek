@@ -89,49 +89,29 @@ module Reek
     def initialize(ctx, min_clump_size, max_copies)
       @min_clump_size = min_clump_size
       @max_copies = max_copies
-      @candidate_methods = ctx.local_nodes(:defn).select do |meth|
-        meth.arg_names.length >= @min_clump_size
-      end.map {|defn_node| CandidateMethod.new(defn_node)}
-      delete_infrequent_parameters
-      delete_small_methods
+      @candidate_methods = ctx.local_nodes(:defn).map {|defn_node|
+        CandidateMethod.new(defn_node)}
     end
 
-    def clumps_containing(method, methods, results)
-      methods.each do |other_method|
-        clump = method.arg_names & other_method.arg_names
-        if clump.length >= @min_clump_size
-          others = methods.select { |other| clump - other.arg_names == [] }
-          results[clump] += [method] + others
-        end
-      end
+    def candidate_clumps
+      @candidate_methods.each_cons(@max_copies + 1).map do |methods|
+        common_argument_names_for(methods)
+      end.select do |clump|
+        clump.length >= @min_clump_size
+      end.uniq
     end
 
-    def collect_clumps_in(methods, results)
-      return if methods.length <= @max_copies
-      tail = methods[1..-1]
-      clumps_containing(methods[0], tail, results)
-      collect_clumps_in(tail, results)
+    def common_argument_names_for(methods)
+      methods.collect(&:arg_names).inject(:&)
+    end
+
+    def methods_containing_clump(clump)
+      @candidate_methods.select { |method| clump & method.arg_names == clump }
     end
 
     def clumps
-      results = Hash.new([])
-      collect_clumps_in(@candidate_methods, results)
-      results.each_key { |key| results[key].uniq! }
-      results
-    end
-
-    def delete_small_methods
-      @candidate_methods = @candidate_methods.select do |meth|
-        meth.arg_names.length >= @min_clump_size
-      end
-    end
-
-    def delete_infrequent_parameters
-      @candidate_methods.each do |meth|
-        meth.arg_names.each do |param|
-          occurs = @candidate_methods.inject(0) {|sum, cm| cm.arg_names.include?(param) ? sum+1 : sum}
-          meth.delete(param) if occurs <= @max_copies
-        end
+      candidate_clumps.map do |clump|
+        [clump, methods_containing_clump(clump)]
       end
     end
   end
@@ -146,10 +126,6 @@ module Reek
 
     def arg_names
       @params
-    end
-
-    def delete(param)
-      @params.delete(param)
     end
 
     def line
