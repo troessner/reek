@@ -20,7 +20,6 @@ module SmellOfMatcher
       detect_smells
 
       return false if no_smells_found?
-      return false if wrong_smell_class_found?
       return false if wrong_number_of_smells_found?
       return false if wrong_smell_details_found?
 
@@ -48,23 +47,21 @@ module SmellOfMatcher
       end
     end
 
-    def wrong_smell_class_found?
-      @actual_smells.each do |smell|
-        if smell.smell_class != @klass::SMELL_CLASS ||
-          smell.subclass != @klass::SMELL_SUBCLASS
-          @reason = "Found #{smell.smell_class}/#{smell.subclass}"
-          return true
-        end
-      end
-      false
-    end
-
     def wrong_number_of_smells_found?
-      expected_number_of_smells = @expected_smells.empty? ? 1 : @expected_smells.length
-      if expected_number_of_smells != @actual_smells.length
-        @reason = "expected #{expected_number_of_smells} smell(s), found #{@actual_smells.length}"
+      return false if @expected_smells.empty?
+
+      if expected_number_of_smells != actual_number_of_smells
+        @reason = "expected #{expected_number_of_smells} smell(s), found #{actual_number_of_smells}"
         true
       end
+    end
+
+    def expected_number_of_smells
+      @expected_number_of_smells ||= @expected_smells.length
+    end
+
+    def actual_number_of_smells
+      @actual_number_of_smells ||= @actual_smells.length
     end
 
     def wrong_smell_details_found?
