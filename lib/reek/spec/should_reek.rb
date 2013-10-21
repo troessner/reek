@@ -8,11 +8,8 @@ module Reek
     # An rspec matcher that matches when the +actual+ has code smells.
     #
     class ShouldReek        # :nodoc:
-      def initialize(config_files = [])
-        @config_files = config_files
-      end
       def matches?(actual)
-        @examiner = Examiner.new(actual, @config_files)
+        @examiner = Examiner.new(actual)
         @examiner.smelly?
       end
       def failure_message_for_should
@@ -28,7 +25,7 @@ module Reek
     # Returns +true+ if and only if the target source code contains smells.
     #
     def reek
-      ShouldReek.new(Dir['config/*.reek'])
+      ShouldReek.new
     end
   end
 end
