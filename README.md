@@ -106,6 +106,8 @@ spec spec/your/file -u     # Runs all tests stopping at the breakpoints you have
 
 There's a vim plugin for `reek`: [https://github.com/rainerborene/vim-reek](https://github.com/rainerborene/vim-reek)
 
+TextMate Bundle for `reek`: [https://github.com/peeyush1234/reek.tmbundle](https://github.com/peeyush1234/reek.tmbundle)
+
 ### Dependencies
 
 Reek makes use of the following other gems:
