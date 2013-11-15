@@ -42,7 +42,7 @@ EOS
     it 'reports the number of occurrences' do
       @smells[0].smell[DataClump::OCCURRENCES_KEY].should == 3
     end
-    it 'reports all parameters' do
+    it 'reports all methods' do
       @smells[0].smell[DataClump::METHODS_KEY].should == ['first', 'second', 'third']
     end
     it 'reports the declaration line numbers' do
@@ -56,7 +56,7 @@ EOS
     end
   end
 
-  it 'reports 3 swapped pairs in a class' do
+  it 'reports 3 swapped pairs' do
     src = <<EOS
 #{@context} Scrunch
   def one(pa, pb) @field == :sym ? 0 : 3; end
@@ -68,7 +68,7 @@ EOS
       DataClump::PARAMETERS_KEY => ['pa', 'pb']})
   end
 
-  it 'reports 3 identical parameter sets in a class' do
+  it 'reports 3 identical parameter sets' do
     src = <<EOS
 #{@context} Scrunch
   def first(pa, pb, pc) @field == :sym ? 0 : 3; end
@@ -114,6 +114,31 @@ EOS
 end
 EOS
     src.should smell_of(DataClump, DataClump::OCCURRENCES_KEY => 5)
+  end
+
+  it 'correctly checks number of occurences' do
+    src = <<-EOS
+      #{@context} Smelly
+        def fa(p1, p2, p3) end
+        def fb(p2, p3, p4) end
+        def fc(p3, p4, p5) end
+        def fd(p4, p5, p1) end
+        def fe(p5, p1, p2) end
+      end
+    EOS
+    src.should_not smell_of(DataClump)
+  end
+
+  it 'detects clumps smaller than the total number of arguments' do
+    src = <<-EOS
+      #{@context} Smelly
+        def fa(p1, p2, p3) end
+        def fb(p1, p3, p2) end
+        def fc(p4, p1, p2) end
+      end
+    EOS
+    src.should smell_of(DataClump,
+                        { DataClump::PARAMETERS_KEY => %w(p1 p2) })
   end
 end
 
