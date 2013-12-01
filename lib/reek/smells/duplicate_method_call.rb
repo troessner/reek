@@ -18,7 +18,6 @@ module Reek
     #   end
     #
     class DuplicateMethodCall < SmellDetector
-
       SMELL_CLASS = 'Duplication'
       SMELL_SUBCLASS = self.name.split(/::/)[-1]
 
@@ -51,39 +50,90 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       def examine_context(ctx)
-        @max_allowed_calls = value(MAX_ALLOWED_CALLS_KEY, ctx, DEFAULT_MAX_CALLS)
-        @allow_calls = value(ALLOW_CALLS_KEY, ctx, DEFAULT_ALLOW_CALLS)
-        calls(ctx).select do |call_exp, copies|
-          copies.length > @max_allowed_calls and not allow_calls?(call_exp.format_ruby)
-        end.map do |call_exp, copies|
-          occurs = copies.length
-          call = call_exp.format_ruby
+        max_allowed_calls = value(MAX_ALLOWED_CALLS_KEY, ctx, DEFAULT_MAX_CALLS)
+        allow_calls = value(ALLOW_CALLS_KEY, ctx, DEFAULT_ALLOW_CALLS)
+
+        CallCollector.new(ctx, max_allowed_calls, allow_calls).smelly_calls.map do |found_call|
+          SmellWarning.new(SMELL_CLASS, ctx.full_name, found_call.lines,
+                           found_call.smell_message,
+                           @source, SMELL_SUBCLASS,
+                           {CALL_KEY => found_call.call, OCCURRENCES_KEY => found_call.occurs})
+        end
+      end
+
+      # Collects information about a single found call
+      class FoundCall
+        def initialize(call_node)
+          @call_node = call_node
+          @occurences = []
+        end
+
+        def record(occurence)
+          @occurences.push occurence
+        end
+
+        def smell_message
           multiple = occurs == 2 ? 'twice' : "#{occurs} times"
-          smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, copies.map {|exp| exp.line},
-            "calls #{call} #{multiple}",
-            @source, SMELL_SUBCLASS,
-            {CALL_KEY => call, OCCURRENCES_KEY => occurs})
-          smell
+          "calls #{call} #{multiple}"
+        end
+
+        def call
+          @call ||= @call_node.format_ruby
+        end
+
+        def occurs
+          @occurences.length
+        end
+
+        def lines
+          @occurences.map {|exp| exp.line}
         end
       end
 
-    private
+      # Collects all calls in a given context
+      class CallCollector
+        attr_reader :context
 
-      def calls(method_ctx)
-        result = Hash.new {|hash,key| hash[key] = []}
-        method_ctx.local_nodes(:call) do |call_node|
-          next if call_node.method_name == :new
-          next if call_node.receiver.nil? && call_node.args.empty?
-          result[call_node].push(call_node)
+        def initialize(context, max_allowed_calls, allow_calls)
+          @context = context
+          @max_allowed_calls = max_allowed_calls
+          @allow_calls = allow_calls
         end
-        method_ctx.local_nodes(:attrasgn) do |asgn_node|
-          result[asgn_node].push(asgn_node) unless asgn_node.args.nil?
-        end
-        result.to_a.sort_by {|call_exp, _| call_exp.format_ruby}
-      end
 
-      def allow_calls?(method)
-        @allow_calls.any? { |allow| /#{allow}/ === method }
+        def calls
+          result = Hash.new {|hash,key| hash[key] = FoundCall.new(key)}
+          collect_calls(result)
+          collect_assignments(result)
+          result.values.sort_by {|found_call| found_call.call}
+        end
+
+        def smelly_calls
+          calls.select {|found_call| smelly_call? found_call }
+        end
+
+        private
+
+        def collect_assignments(result)
+          context.local_nodes(:attrasgn) do |asgn_node|
+            result[asgn_node].record(asgn_node) if asgn_node.args
+          end
+        end
+
+        def collect_calls(result)
+          context.local_nodes(:call) do |call_node|
+            next if call_node.method_name == :new
+            next if !call_node.receiver && call_node.args.empty?
+            result[call_node].record(call_node)
+          end
+        end
+
+        def smelly_call?(found_call)
+          found_call.occurs > @max_allowed_calls and not allow_calls?(found_call.call)
+        end
+
+        def allow_calls?(method)
+          @allow_calls.any? { |allow| /#{allow}/ === method }
+        end
       end
     end
   end
