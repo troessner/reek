@@ -31,36 +31,64 @@ module Reek
       def self.format(warning)
         "#{warning.source}:#{warning.lines.first}: #{SimpleWarningFormatter.format(warning)}"
       end
-    end    
+    end
 
-    #
-    # A report that lists every source, including those that have no smells.
-    #
-    class VerboseReport
+    class Report
       def initialize(warning_formatter = SimpleWarningFormatter, report_formatter = ReportFormatter)
-        @warning_formatter = warning_formatter
-        @report_formatter = report_formatter
+        @warning_formatter  = warning_formatter
+        @report_formatter   = report_formatter
+        @examiners          = []
+        @total_smell_count  = 0
       end
 
-      def report(examiner)
+      def add_examiner(examiner)
+        @total_smell_count += examiner.smells_count
+        @examiners << examiner
+        self
+      end
+
+      def show
+        print gather_results.reject(&:empty?).join("\n")
+        if @examiners.size > 1
+          print "\n"
+          print total_smell_count_message
+        end
+      end
+
+      def has_smells?
+        @total_smell_count > 0
+      end
+
+    private
+
+      def total_smell_count_message
+        "#{@total_smell_count} total warning#{'s' unless @total_smell_count == 1 }\n"
+      end
+
+      def summarize_single_examiner(examiner)
         result = @report_formatter.header examiner
         if examiner.smelly?
           formatted_list = @report_formatter.format_list examiner.smells, @warning_formatter
           result += ":\n#{formatted_list}"
         end
-        result + "\n"
+        result
       end
     end
 
-    #
-    # A report that lists a section for each source that has smells.
-    #
-    class QuietReport < VerboseReport
-      def report(examiner)
-        if examiner.smelly?
-          super
-        else
-          ''
+    class VerboseReport < Report
+      def gather_results
+        @examiners.each_with_object([]) do |examiner, result|
+          result << summarize_single_examiner(examiner)
+        end
+      end
+    end
+
+    class QuietReport < Report
+      def gather_results
+        @examiners.each_with_object([]) do |examiner, result|
+          if examiner.smelly?
+            result << summarize_single_examiner(examiner)
+          end
         end
       end
     end

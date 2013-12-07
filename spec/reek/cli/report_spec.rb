@@ -9,7 +9,9 @@ describe QuietReport, " when empty" do
   context 'empty source' do
     it 'has an empty quiet_report' do
       examiner = Examiner.new('')
-      QuietReport.new.report(examiner).should == ''
+      qr = QuietReport.new
+      qr.add_examiner(examiner)
+      qr.gather_results.should == []
     end
   end
 
@@ -17,14 +19,16 @@ describe QuietReport, " when empty" do
     before :each do
       examiner = Examiner.new('def simple(a) a[3] end')
       rpt = QuietReport.new
-      @lines = rpt.report(examiner).split("\n")
+      @result = rpt.add_examiner(examiner).gather_results.first
     end
-    it 'has a header and a list of smells' do
-      @lines.should have_at_least(3).lines
+
+    it 'has a header' do
+      @result.should match('string -- 2 warnings')
     end
+
     it 'should mention every smell name' do
-      @lines[0].should match('[Utility Function]')
-      @lines[1].should match('[Feature Envy]')
+      @result.should match('[UncommunicativeParameterName]')
+      @result.should match('[Feature Envy]')
     end
   end
 end
