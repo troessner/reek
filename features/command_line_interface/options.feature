@@ -35,6 +35,7 @@ Feature: Reek can be controlled using command-line options
           -v, --version                    Show version
 
       Configuration:
+          -d, --development                Development flag: Use the current dir as base for your reek installation when running 'bin/reek'
           -c, --config FILE                Read configuration options from FILE
 
       Report formatting:

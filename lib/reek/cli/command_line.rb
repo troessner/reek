@@ -67,6 +67,7 @@ EOB
         end
 
         @parser.separator "\nConfiguration:"
+        @parser.on("-d", "--development", "Development flag: Use the current dir as base for your reek installation when running 'bin/reek'")
         @parser.on("-c", "--config FILE", "Read configuration options from FILE") do |file|
           @config_files << file
         end
