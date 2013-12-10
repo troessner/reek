@@ -6,6 +6,11 @@
 # Author: Kevin Rutherford
 #
 
+# No, we can't use optparser here. This wouldnt work.
+if ARGV.join(' ') =~ /((--development)|(-d))\b/
+  $LOAD_PATH.unshift(File.expand_path('lib'))
+end
+
 require 'reek/cli/application'
 
 exit Reek::Cli::Application.new(ARGV).execute
