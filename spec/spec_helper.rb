@@ -2,6 +2,7 @@ require 'reek/spec'
 require 'reek/source/tree_dresser'
 
 require 'matchers/smell_of_matcher'
+require 'debugger'
 
 SAMPLES_DIR = 'spec/samples'
 
