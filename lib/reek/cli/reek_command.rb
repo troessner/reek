@@ -18,20 +18,12 @@ module Reek
         @config_files = config_files
       end
 
-      def execute(view)
-        total_smells_count = 0
+      def execute(app)
         @sources.each do |source|
-          examiner = Examiner.new(source, @config_files)
-          total_smells_count += examiner.smells_count
-          view.output @reporter.report(examiner)
+          @reporter.add_examiner(Examiner.new(source, @config_files))
         end
-        if total_smells_count > 0
-          view.report_smells
-        else
-          view.report_success
-        end
-
-        view.output_smells_total(total_smells_count) if @sources.count > 1
+        app.update_status(@reporter)
+        @reporter.show
       end
     end
   end

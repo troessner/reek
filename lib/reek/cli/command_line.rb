@@ -100,8 +100,8 @@ EOB
           if @command_class == YamlCommand
             YamlCommand.create(sources, @config_files)
           else
-            report = @report_class.new(@warning_formatter)
-            ReekCommand.create(sources, report, @config_files)
+            reporter = @report_class.new(@warning_formatter)
+            ReekCommand.create(sources, reporter, @config_files)
           end
         end
       end
