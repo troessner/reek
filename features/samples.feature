@@ -23,7 +23,7 @@ Feature: Basic smell detection
       Inline::C tests $DEBUG at least 7 times (RepeatedConditional)
       Inline::C tests $TESTING at least 4 times (RepeatedConditional)
       Inline::C tests @@type_map.has_key?(type) at least 3 times (RepeatedConditional)
-      Inline::C#build calls $?.!=(0) twice (DuplicateMethodCall)
+      Inline::C#build calls ($? != 0) twice (DuplicateMethodCall)
       Inline::C#build calls Inline.directory 5 times (DuplicateMethodCall)
       Inline::C#build calls io.puts 6 times (DuplicateMethodCall)
       Inline::C#build calls io.puts("#endif") twice (DuplicateMethodCall)
