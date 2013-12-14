@@ -31,6 +31,51 @@ Feature: Correctly formatted reports
       | spec/samples/two_smelly_files/*.rb |
       | spec/samples/two_smelly_files      |
 
+  Scenario: Do not sort by default (which means report each file as it is read in)
+    When I run reek spec/samples/three_smelly_files/*.rb
+    Then the exit status indicates smells
+    And it reports:
+      """
+      spec/samples/three_smelly_files/dirty_one.rb -- 2 warnings:
+        [1]:Dirty has no descriptive comment (IrresponsibleModule)
+        [2]:Dirty#a has the name 'a' (UncommunicativeMethodName)
+      spec/samples/three_smelly_files/dirty_three.rb -- 4 warnings:
+        [1]:Dirty has no descriptive comment (IrresponsibleModule)
+        [2]:Dirty#a has the name 'a' (UncommunicativeMethodName)
+        [3]:Dirty#b has the name 'b' (UncommunicativeMethodName)
+        [4]:Dirty#c has the name 'c' (UncommunicativeMethodName)
+      spec/samples/three_smelly_files/dirty_two.rb -- 3 warnings:
+        [1]:Dirty has no descriptive comment (IrresponsibleModule)
+        [2]:Dirty#a has the name 'a' (UncommunicativeMethodName)
+        [3]:Dirty#b has the name 'b' (UncommunicativeMethodName)
+      9 total warnings
+      """
+
+  Scenario Outline: Sort by issue count
+    When I run reek <option> spec/samples/three_smelly_files/*.rb
+    Then the exit status indicates smells
+    And it reports:
+      """
+      spec/samples/three_smelly_files/dirty_three.rb -- 4 warnings:
+        [1]:Dirty has no descriptive comment (IrresponsibleModule)
+        [2]:Dirty#a has the name 'a' (UncommunicativeMethodName)
+        [3]:Dirty#b has the name 'b' (UncommunicativeMethodName)
+        [4]:Dirty#c has the name 'c' (UncommunicativeMethodName)
+      spec/samples/three_smelly_files/dirty_two.rb -- 3 warnings:
+        [1]:Dirty has no descriptive comment (IrresponsibleModule)
+        [2]:Dirty#a has the name 'a' (UncommunicativeMethodName)
+        [3]:Dirty#b has the name 'b' (UncommunicativeMethodName)
+      spec/samples/three_smelly_files/dirty_one.rb -- 2 warnings:
+        [1]:Dirty has no descriptive comment (IrresponsibleModule)
+        [2]:Dirty#a has the name 'a' (UncommunicativeMethodName)
+      9 total warnings
+      """
+
+    Examples:
+      | option                |
+      | -S                    |
+      | --sort-by-issue-count |
+
   Scenario Outline: good files show headers consecutively
     When I run reek <args>
     Then it succeeds
