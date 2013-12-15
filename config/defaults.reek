@@ -46,6 +46,9 @@ NestedIterators:
 NilCheck:
   enabled: true
   exclude: []
+PrimaDonnaMethod:
+  enabled: true
+  exclude: []
 RepeatedConditional:
   enabled: true
   exclude: []

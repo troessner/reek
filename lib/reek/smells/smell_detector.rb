@@ -36,6 +36,10 @@ module Reek
             EXCLUDE_KEY => DEFAULT_EXCLUDE_SET.dup
           }
         end
+
+        def smell_class_name
+          name.split(/::/)[-1]
+        end
       end
 
       attr_reader :smells_found   # SMELL: only published for tests

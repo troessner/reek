@@ -122,7 +122,7 @@ EOS
 
   it 'counts self references correctly' do
     src = <<EOS
-def adopt!(other)
+def adopt(other)
   other.keys.each do |key|
     self[key] += 3
     self[key] = o4
