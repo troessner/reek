@@ -2,7 +2,11 @@ require 'reek/spec'
 require 'reek/source/tree_dresser'
 
 require 'matchers/smell_of_matcher'
-require 'debugger'
+begin
+  require 'debugger'
+rescue LoadError
+  # Swallow error. Not required to run tests
+end
 
 SAMPLES_DIR = 'spec/samples'
 
