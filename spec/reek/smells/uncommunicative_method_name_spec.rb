@@ -23,19 +23,19 @@ describe UncommunicativeMethodName do
 
   ['x', 'x2', 'method2'].each do |method_name|
     context 'with a bad name' do
-      before :each do
-        src = 'def x() end'
+      before do
+        src = "def #{method_name}; end"
         ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
-        @smells = @detector.examine_context(ctx)
-        @warning = @smells[0]
+        smells = @detector.examine_context(ctx)
+        @warning = smells[0]
       end
 
       it_should_behave_like 'common fields set correctly'
 
       it 'reports the correct values' do
-        @smells[0].smell[UncommunicativeMethodName::METHOD_NAME_KEY].should == 'x'
-        @smells[0].lines.should == [1]
-        @smells[0].context.should == 'x'
+        @warning.smell[UncommunicativeMethodName::METHOD_NAME_KEY].should == method_name
+        @warning.lines.should == [1]
+        @warning.context.should == method_name
       end
     end
   end
