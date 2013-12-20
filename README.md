@@ -27,9 +27,32 @@ or run
 $ reek --help
 ```
 
-## Example
+## Usage
 
-Imagine a source file <tt>demo.rb</tt> containing:
+For scanning the current directory you're in do a
+
+```bash
+$ reek .
+```
+
+(Mind the "." at the end to indicate the current directory)
+
+
+Likewise you can scan specific directories like this
+
+```bash
+$ reek lib/your/files
+```
+
+Note that if you just call
+
+```bash
+$ reek
+```
+
+without any arguments reek will wait for input from STDIN.
+
+Given a source file <tt>demo.rb</tt> containing:
 
 ```ruby
 class Dirty
