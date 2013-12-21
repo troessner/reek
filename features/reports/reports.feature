@@ -122,11 +122,11 @@ Feature: Correctly formatted reports
       """
 
     Examples:
-      | option        |
-      | -n            |
-      | --line-number |
-      | -n -q         |
-      | -q -n         |
+      | option            |
+      | -n                |
+      | --no-line-numbers |
+      | -n -q             |
+      | -q -n             |
 
   Scenario Outline: --single-line shows filename and one line number
     When I run reek <option> spec/samples/not_quite_masked/dirty.rb
