@@ -21,6 +21,7 @@ module Reek
         @warning_formatter = WarningFormatterWithLineNumbers
         @command_class = ReekCommand
         @config_files = []
+        @sort_by_issue_count = false
         set_options
       end
 
@@ -81,6 +82,9 @@ EOB
         @parser.on("-s", "--single-line", "Show IDE-compatible single-line-per-warning") do 
           @warning_formatter = SingleLineWarningFormatter
         end        
+        @parser.on("-S", "--sort-by-issue-count", 'Sort by "issue-count", listing the "smelliest" files first') do
+          @sort_by_issue_count = true
+        end
         @parser.on("-y", "--yaml", "Report smells in YAML format") do
           @command_class = YamlCommand
           # SMELL: the args passed to the command should be tested, because it may
@@ -100,7 +104,7 @@ EOB
           if @command_class == YamlCommand
             YamlCommand.create(sources, @config_files)
           else
-            reporter = @report_class.new(@warning_formatter)
+            reporter = @report_class.new(@warning_formatter, ReportFormatter, @sort_by_issue_count)
             ReekCommand.create(sources, reporter, @config_files)
           end
         end
