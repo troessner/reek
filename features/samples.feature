@@ -6,7 +6,7 @@ Feature: Basic smell detection
 
   @inline
   Scenario: Correct smells from inline.rb
-    When I run reek -n spec/samples/inline.rb
+    When I run reek --no-line-numbers spec/samples/inline.rb
     Then the exit status indicates smells
     And it reports:
     """
@@ -53,7 +53,7 @@ Feature: Basic smell detection
     """
 
   Scenario: Correct smells from optparse.rb
-    When I run reek -n spec/samples/optparse.rb
+    When I run reek --no-line-numbers spec/samples/optparse.rb
     Then the exit status indicates smells
     And it reports:
     """
@@ -164,7 +164,7 @@ Feature: Basic smell detection
     """
 
   Scenario: Correct smells from redcloth.rb
-    When I run reek -n spec/samples/redcloth.rb
+    When I run reek --no-line-numbers spec/samples/redcloth.rb
     Then the exit status indicates smells
     And it reports:
     """

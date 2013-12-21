@@ -108,7 +108,7 @@ Feature: Correctly formatted reports
       | -n -q   |
       | -q -n   |
 
-  Scenario Outline: --line-number turns off line numbers
+  Scenario Outline: --no-line-numbers turns off line numbers
     When I run reek <option> spec/samples/not_quite_masked/dirty.rb
     Then the exit status indicates smells
     And it reports:
@@ -122,11 +122,10 @@ Feature: Correctly formatted reports
       """
 
     Examples:
-      | option        |
-      | -n            |
-      | --line-number |
-      | -n -q         |
-      | -q -n         |
+      | option               |
+      | --no-line-numbers    |
+      | --no-line-numbers -q |
+      | -q --no-line-numbers |
 
   Scenario Outline: --single-line shows filename and one line number
     When I run reek <option> spec/samples/not_quite_masked/dirty.rb
