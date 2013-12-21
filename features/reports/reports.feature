@@ -76,8 +76,22 @@ Feature: Correctly formatted reports
       | -S                    |
       | --sort-by-issue-count |
 
-  Scenario Outline: good files show headers consecutively
+  Scenario Outline: good files show no headers by default
     When I run reek <args>
+    Then it succeeds
+    And it reports:
+      """
+
+      0 total warnings
+      """
+
+    Examples:
+      | args |
+      | spec/samples/three_clean_files/*.rb |
+      | spec/samples/three_clean_files      |
+
+  Scenario Outline: --verbose and --no-quiet turn on headers for fragrant files
+    When I run reek <option> spec/samples/three_clean_files/*.rb
     Then it succeeds
     And it reports:
       """
@@ -88,9 +102,10 @@ Feature: Correctly formatted reports
       """
 
     Examples:
-      | args |
-      | spec/samples/three_clean_files/*.rb |
-      | spec/samples/three_clean_files      |
+      | option     |
+      | --verbose  |
+      | -V         |
+      | --no-quiet |
 
   Scenario Outline: --quiet turns off headers for fragrant files
     When I run reek <option> spec/samples/three_clean_files/*.rb
@@ -102,11 +117,9 @@ Feature: Correctly formatted reports
     """
 
     Examples:
-      | option  |
-      | -q      |
-      | --quiet |
-      | -n -q   |
-      | -q -n   |
+      | option        |
+      | -V -q         |
+      | -V --quiet    |
 
   Scenario Outline: --line-number turns off line numbers
     When I run reek <option> spec/samples/not_quite_masked/dirty.rb
@@ -125,8 +138,8 @@ Feature: Correctly formatted reports
       | option            |
       | -n                |
       | --no-line-numbers |
-      | -n -q             |
-      | -q -n             |
+      | -n -V             |
+      | -V -n             |
 
   Scenario Outline: --single-line shows filename and one line number
     When I run reek <option> spec/samples/not_quite_masked/dirty.rb
@@ -145,8 +158,8 @@ Feature: Correctly formatted reports
       | option        |
       | -s            |
       | --single-line |
-      | -s -q         |
-      | -q -s         |
+      | -s -V         |
+      | -V -s         |
 
   Scenario Outline: Extra slashes aren't added to directory names
     When I run reek <args>

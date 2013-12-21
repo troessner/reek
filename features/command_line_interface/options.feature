@@ -38,7 +38,8 @@ Feature: Reek can be controlled using command-line options
           -c, --config FILE                Read configuration options from FILE
 
       Report formatting:
-          -q, --[no-]quiet                 Suppress headings for smell-free source files
+          -q, --quiet                      Suppress headings for smell-free source files (this is the default)
+          -V, --no-quiet, --verbose        Show headings for smell-free source files
           -n, --no-line-numbers            Suppress line numbers from the output
               --line-numbers               Show line numbers in the output (this is the default)
           -s, --single-line                Show IDE-compatible single-line-per-warning

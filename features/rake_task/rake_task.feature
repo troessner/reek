@@ -78,5 +78,4 @@ Feature: Reek can be driven through its Task
     Then it succeeds
     And it reports:
       """
-      spec/samples/masked/dirty.rb -- 0 warnings
       """
