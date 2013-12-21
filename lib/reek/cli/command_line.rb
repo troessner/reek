@@ -76,8 +76,8 @@ EOB
         @parser.on("-q", "--[no-]quiet", "Suppress headings for smell-free source files") do |opt|
           @report_class = opt ? QuietReport : VerboseReport
         end
-        @parser.on("-n", "--line-number", "Suppress line number(s) from the output.") do 
-          @warning_formatter = SimpleWarningFormatter
+        @parser.on("-n", "--[no-]line-numbers", "Show line numbers in the output (this is the default)") do |opt|
+          @warning_formatter = opt ? WarningFormatterWithLineNumbers : SimpleWarningFormatter
         end
         @parser.on("-s", "--single-line", "Show IDE-compatible single-line-per-warning") do 
           @warning_formatter = SingleLineWarningFormatter
