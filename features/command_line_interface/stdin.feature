@@ -9,23 +9,21 @@ Feature: Reek reads from $stdin when no files are given
     Then it succeeds
     And it reports:
       """
-      $stdin -- 0 warnings
-
       """
 
-  Scenario: outputs header only on empty stdin
-    When I pass "" to reek
+  Scenario: outputs nothing on empty stdin
+    When I pass "" to reek --quiet
+    Then it succeeds
+    And stdout equals ""
+
+  Scenario: outputs header only on empty stdin in verbose mode
+    When I pass "" to reek -V
     Then it succeeds
     And it reports:
       """
       $stdin -- 0 warnings
 
       """
-
-  Scenario: outputs nothing on empty stdin in quiet mode
-    When I pass "" to reek --quiet
-    Then it succeeds
-    And stdout equals ""
 
   Scenario: return non-zero status when there are smells
     When I pass "class Turn; def y() @x = 3; end end" to reek
@@ -44,9 +42,5 @@ Feature: Reek reads from $stdin when no files are given
     When I pass "def incomplete" to reek
     Then it reports a parsing error
     Then it succeeds
-    And it reports:
-      """
-      $stdin -- 0 warnings
-
-      """
+    And stdout equals ""
 

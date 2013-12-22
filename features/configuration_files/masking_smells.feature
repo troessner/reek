@@ -108,5 +108,4 @@ Feature: Masking smells using config files
     Then it succeeds
     And it reports:
       """
-      spec/samples/masked/dirty.rb -- 0 warnings
       """
