@@ -6,4 +6,5 @@ gemspec
 group :local_development do
   gem 'debugger', platforms: [:ruby]
   gem 'pry'
+  gem 'pry_debug'
 end
