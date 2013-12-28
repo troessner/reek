@@ -19,6 +19,7 @@ module Reek
           Smells::LongYieldList,
           Smells::NestedIterators,
           Smells::NilCheck,
+          Smells::PrimaDonnaMethod,
           Smells::RepeatedConditional,
           Smells::TooManyInstanceVariables,
           Smells::TooManyMethods,

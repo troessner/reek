@@ -46,6 +46,14 @@ module Reek
         def parameter_names
           @param_names ||= argslist[1..-1].map { |param| Sexp === param ?  param[1] : param }
         end
+
+        def name_without_bang
+          name.to_s.chop
+        end
+
+        def ends_with_bang?
+          name[-1] == '!'
+        end
       end
 
       module DefnNode
