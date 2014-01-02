@@ -86,7 +86,7 @@ EOS
         @yaml.should match(/subclass:\s*RepeatedConditional/)
       end
       it 'reports the expression' do
-        @yaml.should match(/expression:\s*\(#{@cond}\)/)
+        @yaml.should match(/expression:\s*"?\(#{@cond}\)"?/)
       end
       it 'reports the number of occurrences' do
         @yaml.should match(/occurrences:\s*3/)
