@@ -92,7 +92,7 @@ describe SexpExtensions::DefnNode do
 
     it 'has a body extended with SexpNode' do
       b = @node.body
-      (class << b; self; end).ancestors.first.should == SexpNode
+      (class << b; self; end).included_modules.first.should == SexpNode
     end
   end
 end
@@ -186,7 +186,7 @@ describe SexpExtensions::DefsNode do
 
     it 'has a body extended with SexpNode' do
       b = @node.body
-      (class << b; self; end).ancestors.first.should == SexpNode
+      (class << b; self; end).included_modules.first.should == SexpNode
     end
   end
 end
