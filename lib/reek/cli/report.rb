@@ -34,12 +34,15 @@ module Reek
     end
 
     class Report
-      def initialize(warning_formatter = SimpleWarningFormatter, report_formatter = ReportFormatter, sort_by_issue_count = false)
+      DefaultFormat = :text
+
+      def initialize(warning_formatter = SimpleWarningFormatter, report_formatter = ReportFormatter, sort_by_issue_count = false, format = DefaultFormat)
         @warning_formatter   = warning_formatter
         @report_formatter    = report_formatter
         @examiners           = []
         @total_smell_count   = 0
         @sort_by_issue_count = sort_by_issue_count
+        @format              = format
       end
 
       def add_examiner(examiner)
@@ -49,9 +52,18 @@ module Reek
       end
 
       def show
-        sort_examiners
-        display_summary
-        display_total_smell_count
+        case @format
+        when DefaultFormat
+          sort_examiners
+          display_summary
+          display_total_smell_count
+        when :yaml
+          if all_smells.size > 0
+            print(all_smells.to_yaml)
+          else
+            print ''
+          end
+        end
       end
 
       def has_smells?
@@ -59,6 +71,11 @@ module Reek
       end
 
     private
+
+      def all_smells
+        @all_smells ||= @examiners.each_with_object([]) { |examiner, smells| smells << examiner.smells }
+                                  .flatten
+      end
 
       def sort_examiners
         @examiners.sort! {|a, b| b.smells_count <=> a.smells_count } if @sort_by_issue_count

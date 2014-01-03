@@ -3,7 +3,6 @@ require 'reek/cli/report'
 require 'reek/cli/reek_command'
 require 'reek/cli/help_command'
 require 'reek/cli/version_command'
-require 'reek/cli/yaml_command'
 require 'reek/source'
 
 module Reek
@@ -20,6 +19,7 @@ module Reek
         @report_class = QuietReport
         @warning_formatter = WarningFormatterWithLineNumbers
         @command_class = ReekCommand
+        @format = Report::DefaultFormat
         @config_files = []
         @sort_by_issue_count = false
         set_options
@@ -92,10 +92,7 @@ EOB
           @sort_by_issue_count = true
         end
         @parser.on("-y", "--yaml", "Report smells in YAML format") do
-          @command_class = YamlCommand
-          # SMELL: the args passed to the command should be tested, because it may
-          # turn out that they are passed too soon, ie. before the files have been
-          # separated out from the options
+          @format = :yaml
         end
       end
 
@@ -106,13 +103,8 @@ EOB
         elsif @command_class == VersionCommand
           VersionCommand.new(@parser.program_name)
         else
-          sources = get_sources
-          if @command_class == YamlCommand
-            YamlCommand.create(sources, @config_files)
-          else
-            reporter = @report_class.new(@warning_formatter, ReportFormatter, @sort_by_issue_count)
-            ReekCommand.create(sources, reporter, @config_files)
-          end
+          reporter = @report_class.new(@warning_formatter, ReportFormatter, @sort_by_issue_count, @format)
+          ReekCommand.create(get_sources, reporter, @config_files)
         end
       end
 
