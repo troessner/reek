@@ -1,10 +1,6 @@
 class SomeClass
   def method_with_keyword_arguments(foo: '123')
-    if foo == '123'
-      bar
-    else
-      baz
-    end
+    puts foo
   end
 
   def make_symbol_list
