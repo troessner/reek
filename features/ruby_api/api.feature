@@ -9,12 +9,10 @@ Feature: The Reek API maintains backwards compatibility
     Then the exit status indicates smells
     And it reports:
       """
-      spec/samples/demo/demo.rb -- 10 warnings:
+      spec/samples/demo/demo.rb -- 8 warnings:
         [1]:Dirty has no descriptive comment (IrresponsibleModule)
         [3]:Dirty#awful has 4 parameters (LongParameterList)
         [3]:Dirty#awful has boolean parameter 'log' (BooleanParameter)
-        [3]:Dirty#awful has the parameter name 'x' (UncommunicativeParameterName)
-        [3]:Dirty#awful has the parameter name 'y' (UncommunicativeParameterName)
         [5]:Dirty#awful has the variable name 'w' (UncommunicativeVariableName)
         [3]:Dirty#awful has unused parameter 'log' (UnusedParameters)
         [3]:Dirty#awful has unused parameter 'offset' (UnusedParameters)

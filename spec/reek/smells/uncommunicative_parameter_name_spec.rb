@@ -14,49 +14,63 @@ describe UncommunicativeParameterName do
 
   it_should_behave_like 'SmellDetector'
 
-  context "parameter name" do
-    ['obj.', ''].each do |host|
+  { 'obj.' => 'with a receiveer',
+    '' => 'without a receiver'}.each do |host, description|
+    context "in a method definition #{description}" do
       it 'does not recognise *' do
-        "def #{host}help(xray, *) basics(17) end".should_not smell_of(UncommunicativeParameterName)
-      end
-      it "reports parameter's name" do
-        src = "def #{host}help(x) basics(17) end"
-        src.should smell_of(UncommunicativeParameterName, {UncommunicativeParameterName::PARAMETER_NAME_KEY => 'x'})
+        "def #{host}help(xray, *) basics(17) end".
+          should_not smell_of(UncommunicativeParameterName)
       end
 
-      context 'with a name of the form "x2"' do
-        before :each do
-          @bad_param = 'x2'
-          src = "def #{host}help(#{@bad_param}) basics(17) end"
-          ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
-          @smells = @detector.examine_context(ctx)
-        end
-        it 'reports only 1 smell' do
-          @smells.length.should == 1
-        end
-        it 'reports uncommunicative parameter name' do
-          @smells[0].subclass.should == UncommunicativeParameterName::SMELL_SUBCLASS
-        end
-        it 'reports the parameter name' do
-          @smells[0].smell[UncommunicativeParameterName::PARAMETER_NAME_KEY].should == @bad_param
-        end
+      it "reports parameter's name" do
+        src = "def #{host}help(x) basics(x) end"
+        src.should smell_of(UncommunicativeParameterName,
+                            {UncommunicativeParameterName::PARAMETER_NAME_KEY => 'x'})
       end
+
+      it "does not report unused parameters" do
+        src = "def #{host}help(x) basics(17) end"
+        src.should_not smell_of(UncommunicativeParameterName)
+      end
+
+      it 'does not report two-letter parameter names' do
+        "def #{host}help(ab) basics(ab) end".
+          should_not smell_of(UncommunicativeParameterName)
+      end
+
+      it 'reports names of the form "x2"' do
+        src = "def #{host}help(x2) basics(x2) end"
+        src.should smell_of(UncommunicativeParameterName,
+                            {UncommunicativeParameterName::PARAMETER_NAME_KEY => 'x2'})
+      end
+
       it 'reports long name ending in a number' do
-        @bad_param = 'param2'
-        src = "def #{host}help(#{@bad_param}) basics(17) end"
-        ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
-        smells = @detector.examine_context(ctx)
-        smells.length.should == 1
-        smells[0].subclass.should == UncommunicativeParameterName::SMELL_SUBCLASS
-        smells[0].smell[UncommunicativeParameterName::PARAMETER_NAME_KEY].should == @bad_param
+        src = "def #{host}help(param2) basics(param2) end"
+        src.should smell_of(UncommunicativeParameterName,
+                            {UncommunicativeParameterName::PARAMETER_NAME_KEY => 'param2'})
+      end
+
+      it 'does not report unused anonymous parameter' do
+        "def #{host}help(_) basics(17) end".
+          should_not smell_of(UncommunicativeParameterName)
+      end
+
+      it 'reports used anonymous parameter' do
+        "def #{host}help(_) basics(_) end".
+          should smell_of(UncommunicativeParameterName)
+      end
+
+      it 'reports used parameters marked as unused' do
+        "def #{host}help(_unused) basics(_unused) end".
+          should smell_of(UncommunicativeParameterName)
       end
     end
   end
 
-  context 'looking at the YAML' do
+  context 'looking at the smell result fields' do
     before :each do
-      src = 'def bad(good, bad2, good_again) end'
-      ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+      src = 'def bad(good, bad2, good_again); basics(good, bad2, good_again); end'
+      ctx = MethodContext.new(nil, src.to_reek_source.syntax_tree)
       @smells = @detector.examine_context(ctx)
       @warning = @smells[0]
     end

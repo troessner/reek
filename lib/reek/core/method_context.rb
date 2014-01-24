@@ -57,6 +57,10 @@ module Reek
         return [] if @refs.self_is_max?
         @refs.max_keys
       end
+
+      def uses_param?(param)
+        local_nodes(:lvar).include?(Sexp.new(:lvar, param.to_sym))
+      end
     end
   end
 end

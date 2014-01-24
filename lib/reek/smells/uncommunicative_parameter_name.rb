@@ -27,7 +27,7 @@ module Reek
       # smelly names to be reported.
       REJECT_KEY = 'reject'
 
-      DEFAULT_REJECT_SET = [/^.$/, /[0-9]$/, /[A-Z]/]
+      DEFAULT_REJECT_SET = [/^.$/, /[0-9]$/, /[A-Z]/, /^_/]
 
       # The name of the config field that lists the specific names that are
       # to be treated as exceptions; these names will not be reported as
@@ -56,7 +56,7 @@ module Reek
         @reject_names = value(REJECT_KEY, ctx, DEFAULT_REJECT_SET)
         @accept_names = value(ACCEPT_KEY, ctx, DEFAULT_ACCEPT_SET)
         ctx.exp.parameter_names.select do |name|
-          is_bad_name?(name, ctx)
+          is_bad_name?(name) && ctx.uses_param?(name)
         end.map do |name|
           smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [ctx.exp.line],
                                    "has the parameter name '#{name}'",
@@ -65,7 +65,7 @@ module Reek
         end
       end
 
-      def is_bad_name?(name, ctx)
+      def is_bad_name?(name)
         var = name.to_s.gsub(/^[@\*\&]*/, '')
         return false if var == '*' or @accept_names.include?(var)
         @reject_names.detect {|patt| patt === var}
