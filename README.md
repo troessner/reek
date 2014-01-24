@@ -1,7 +1,7 @@
 # Reek -- code smell detection for Ruby
 
 
-##Overview
+### Overview
 
 
 [![Build Status](https://secure.travis-ci.org/troessner/reek.png?branch=master)](http://travis-ci.org/troessner/reek?branch=master)
