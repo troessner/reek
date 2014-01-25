@@ -89,6 +89,7 @@ UncommunicativeParameterName:
   - !ruby/regexp /^.$/
   - !ruby/regexp /[0-9]$/
   - !ruby/regexp /[A-Z]/
+  - !ruby/regexp /^_/
   accept: []
 UncommunicativeVariableName:
   enabled: true

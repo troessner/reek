@@ -37,16 +37,12 @@ module Reek
         params(method_ctx).select do |param|
           param = sanitized_param(param)
           next if skip?(param)
-          unused?(method_ctx, param)
+          !method_ctx.uses_param?(param)
         end
       end
 
       def skip?(param)
         anonymous_splat?(param) || marked_unused?(param)
-      end
-
-      def unused?(method_ctx, param)
-        !method_ctx.local_nodes(:lvar).include?(Sexp.new(:lvar, param.to_sym))
       end
 
       def params(method_ctx)
