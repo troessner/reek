@@ -38,7 +38,7 @@ module Reek
       DEFAULT_ALLOW_CALLS = []
 
       def self.default_config
-        super.adopt(
+        super.merge(
           MAX_ALLOWED_CALLS_KEY => DEFAULT_MAX_CALLS,
           ALLOW_CALLS_KEY => DEFAULT_ALLOW_CALLS
         )

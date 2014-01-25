@@ -37,7 +37,7 @@ module Reek
       DEFAULT_MAX_IFS = 2
 
       def self.default_config
-        super.adopt(MAX_IDENTICAL_IFS_KEY => DEFAULT_MAX_IFS)
+        super.merge(MAX_IDENTICAL_IFS_KEY => DEFAULT_MAX_IFS)
       end
 
       #

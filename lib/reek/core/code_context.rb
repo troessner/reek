@@ -10,12 +10,11 @@ module Reek
     #
     class CodeContext
 
-      attr_reader :exp, :config
+      attr_reader :exp
 
       def initialize(outer, exp)
         @outer = outer
         @exp = exp
-        @config = local_config
       end
 
       def name
@@ -56,12 +55,23 @@ module Reek
         exp.full_name(outer)
       end
 
-      def local_config
-        return Hash.new if @exp.nil?
-        config = Source::CodeComment.new(@exp.comments || '').config
-        return config unless @outer
-        @outer.config.deep_copy.adopt!(config)
-        # no tests for this -----^
+      def config_for(detector_class)
+        outer_config_for(detector_class).merge(
+          config[detector_class.smell_class_name] || {})
+      end
+
+      private
+
+      def config
+        @config ||= if @exp
+                      Source::CodeComment.new(@exp.comments || '').config
+                    else
+                      {}
+                    end
+      end
+
+      def outer_config_for(detector_class)
+        @outer ? @outer.config_for(detector_class) : {}
       end
     end
   end

@@ -51,7 +51,7 @@ module Reek
           [:defn]
         end
         def default_config
-          super.adopt(HELPER_CALLS_LIMIT_KEY => DEFAULT_HELPER_CALLS_LIMIT)
+          super.merge(HELPER_CALLS_LIMIT_KEY => DEFAULT_HELPER_CALLS_LIMIT)
         end
       end
 

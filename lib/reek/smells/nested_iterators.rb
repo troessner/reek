@@ -29,7 +29,7 @@ module Reek
       DEFAULT_IGNORE_ITERATORS = []
 
       def self.default_config
-        super.adopt(
+        super.merge(
           MAX_ALLOWED_NESTING_KEY => DEFAULT_MAX_ALLOWED_NESTING,
           IGNORE_ITERATORS_KEY => DEFAULT_IGNORE_ITERATORS
         )

@@ -29,7 +29,7 @@ module Reek
       DEFAULT_MAX_ALLOWED_PARAMS = 3
 
       def self.default_config
-        super.adopt(
+        super.merge(
           MAX_ALLOWED_PARAMS_KEY => DEFAULT_MAX_ALLOWED_PARAMS,
           Core::SmellConfiguration::OVERRIDES_KEY => {
             "initialize" => {MAX_ALLOWED_PARAMS_KEY => 5}

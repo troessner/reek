@@ -24,7 +24,7 @@ module Reek
       PARAMETER_COUNT_KEY = 'parameter_count'
 
       def self.default_config
-        super.adopt(
+        super.merge(
           MAX_ALLOWED_PARAMS_KEY => DEFAULT_MAX_ALLOWED_PARAMS
         )
       end
