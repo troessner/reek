@@ -14,7 +14,7 @@ module Reek
         nil
       end
 
-      def config
+      def config_for(_)
         {}
       end
 

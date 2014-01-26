@@ -36,8 +36,8 @@ describe CodeContext do
       before :each do
         @outer_name = 'another_random sting'
         outer = double('outer')
-        outer.should_receive(:full_name).at_least(:once).and_return(@outer_name)
-        outer.should_receive(:config).and_return({})
+        allow(outer).to receive(:full_name).at_least(:once).and_return(@outer_name)
+        allow(outer).to receive(:config).and_return({})
         @ctx = CodeContext.new(outer, @exp)
       end
       it 'creates the correct full name' do
@@ -140,6 +140,38 @@ EOS
       ast = src.to_reek_source.syntax_tree
       ctx = CodeContext.new(nil, ast)
       ctx.each_node(:if, []).length.should == 3
+    end
+  end
+
+  describe '#config_for' do
+    let(:exp) { double('exp') }
+    let(:outer) { nil }
+    let(:ctx) { CodeContext.new(outer, exp) }
+    let(:sniffer) { double('sniffer') }
+
+    before :each do
+      allow(sniffer).to receive(:smell_class_name).and_return('DuplicateMethodCall')
+      allow(exp).to receive(:comments).and_return(
+        ':reek:DuplicateMethodCall: { allow_calls: [ puts ] }')
+    end
+
+    it 'gets its configuration from the exp comments' do
+      ctx.config_for(sniffer).should == {
+        'allow_calls' => [ 'puts' ] }
+    end
+
+    context 'when there is an outer' do
+      let(:outer) { double('outer') }
+
+      before :each do
+        allow(outer).to receive(:config_for).with(sniffer).and_return(
+          { 'max_calls' => 2 })
+      end
+
+      it 'merges the outer config with its own configuration' do
+        ctx.config_for(sniffer).should == { 'allow_calls' => [ 'puts' ],
+                                            'max_calls' => 2 }
+      end
     end
   end
 end

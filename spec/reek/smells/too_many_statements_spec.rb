@@ -232,7 +232,7 @@ describe TooManyStatements do
       @num_statements = 30
       ctx = double('method_context').as_null_object
       ctx.should_receive(:num_statements).and_return(@num_statements)
-      ctx.should_receive(:config).and_return({})
+      ctx.should_receive(:config_for).with(TooManyStatements).and_return({})
       @smells = @detector.examine_context(ctx)
     end
     it 'reports only 1 smell' do

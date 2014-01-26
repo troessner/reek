@@ -28,7 +28,7 @@ module Reek
       end
 
       def self.default_config
-        super.adopt(
+        super.merge(
           MAX_ALLOWED_IVARS_KEY => DEFAULT_MAX_IVARS,
           EXCLUDE_KEY => []
         )

@@ -37,7 +37,7 @@ module Reek
       DEFAULT_ACCEPT_SET = ['Inline::C']
 
       def self.default_config
-        super.adopt(
+        super.merge(
           REJECT_KEY => DEFAULT_REJECT_SET,
           ACCEPT_KEY => DEFAULT_ACCEPT_SET
         )

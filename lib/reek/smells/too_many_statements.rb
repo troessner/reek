@@ -23,7 +23,7 @@ module Reek
       DEFAULT_MAX_STATEMENTS = 5
 
       def self.default_config
-        super.adopt(
+        super.merge(
           MAX_ALLOWED_STATEMENTS_KEY => DEFAULT_MAX_STATEMENTS,
           EXCLUDE_KEY => ['initialize']
         )

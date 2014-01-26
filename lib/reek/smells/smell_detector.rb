@@ -7,7 +7,7 @@ module Reek
 
     module ExcludeInitialize
       def self.default_config
-        super.adopt(EXCLUDE_KEY => ['initialize'])
+        super.merge(EXCLUDE_KEY => ['initialize'])
       end
     end
 
@@ -85,8 +85,7 @@ module Reek
       end
 
       def config_for(ctx)
-        ctx.config[self.class.name.split(/::/)[-1]] || {}
-        # BUG: needs to consider smell class AND subclass
+        ctx.config_for(self.class)
       end
     end
   end
