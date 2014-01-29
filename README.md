@@ -137,6 +137,8 @@ There's a vim plugin for `reek`: [https://github.com/rainerborene/vim-reek](http
 
 TextMate Bundle for `reek`: [https://github.com/peeyush1234/reek.tmbundle](https://github.com/peeyush1234/reek.tmbundle)
 
+Colorful output for `reek`: [Preek](https://github.com/joenas/preek) (also with [Guard::Preek](https://github.com/joenas/guard-preek))
+
 ### Dependencies
 
 Reek makes use of the following other gems:
