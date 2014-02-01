@@ -62,7 +62,7 @@ module Reek
       end
 
       def zsuper?(method_ctx)
-        method_ctx.exp.body.find_node :zsuper
+        method_ctx.exp.body.has_nested_node? :zsuper
       end
 
       def smell_warning(method_ctx, param)

@@ -25,4 +25,3 @@ describe SexpNode do
     end
   end
 end
-
