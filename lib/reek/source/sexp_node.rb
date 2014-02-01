@@ -43,13 +43,16 @@ module Reek
       # every Sexp of type +target_type+. The traversal ignores any node
       # whose type is listed in the Array +ignoring+.
       #
-      def look_for(target_type, ignoring, &blk)
-        each do |elem|
-          if Sexp === elem then
-            elem.look_for(target_type, ignoring, &blk) unless ignoring.include?(elem.first)
-          end
+      def look_for(target_type, ignoring = [], &blk)
+        each_sexp do |elem|
+          elem.look_for(target_type, ignoring, &blk) unless ignoring.include?(elem.first)
         end
         blk.call(self) if first == target_type
+      end
+
+      def has_nested_node?(target_type)
+        look_for(target_type) { |elem| return true }
+        false
       end
 
       def format_ruby
