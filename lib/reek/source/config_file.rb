@@ -9,7 +9,6 @@ module Reek
     # any or all of the smell detectors.
     #
     class ConfigFile
-      @@bad_config_files = []
 
       #
       # Load the YAML config file from the supplied +file_path+.
@@ -39,7 +38,7 @@ module Reek
         rescue
           klass = nil
         end
-        problem("\"#{name}\" is not a code smell") unless klass
+        report_problem("\"#{name}\" is not a code smell") unless klass
         klass
       end
 
@@ -50,26 +49,28 @@ module Reek
       #
       def load
         if File.size(@file_path) == 0
-          problem('Empty file')
+          report_problem('Empty file')
           return {}
         end
 
         begin
           result = YAML.load_file(@file_path) || {}
-        rescue => e
-          error(e.to_s)
+        rescue => error
+          report_error(error.to_s)
         end
 
-        error('Not a hash') unless Hash === result
+        report_error('Not a hash') unless Hash === result
 
         result
       end
+
+      private
 
       #
       # Report invalid configuration file to standard
       # Error.
       #
-      def problem(reason)
+      def report_problem(reason)
         $stderr.puts "Warning: #{message(reason)}"
       end
 
@@ -77,7 +78,7 @@ module Reek
       # Report invalid configuration file to standard
       # Error.
       #
-      def error(reason)
+      def report_error(reason)
         raise ConfigFileException.new message(reason)
       end
 

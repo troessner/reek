@@ -33,6 +33,9 @@ module Reek
       end
     end
 
+    #
+    # A report that contains the smells and smell counts following source code analysis.
+    #
     class Report
       DefaultFormat = :text
 
@@ -78,7 +81,7 @@ module Reek
       end
 
       def sort_examiners
-        @examiners.sort! {|a, b| b.smells_count <=> a.smells_count } if @sort_by_issue_count
+        @examiners.sort! {|first, second| second.smells_count <=> first.smells_count } if @sort_by_issue_count
       end
 
       def display_summary
@@ -106,6 +109,9 @@ module Reek
       end
     end
 
+    #
+    # A report that lists smell-free source files.
+    #
     class VerboseReport < Report
       def gather_results
         @examiners.each_with_object([]) do |examiner, result|
@@ -114,6 +120,9 @@ module Reek
       end
     end
 
+    #
+    # A report that does not list smell-free source files.
+    #
     class QuietReport < Report
       def gather_results
         @examiners.each_with_object([]) do |examiner, result|
