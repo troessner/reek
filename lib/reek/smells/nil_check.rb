@@ -27,6 +27,9 @@ module Reek
         end
       end
 
+      #
+      # A base class that allows to work on all nodes of a certain type.
+      #
       class NodeFinder
         SEXP_NIL = Sexp.new(:nil)
         def initialize(ctx, type)
@@ -34,6 +37,9 @@ module Reek
         end
       end
 
+      #
+      # Find call nodes which perform a nil check.
+      #
       class CallNodeFinder < NodeFinder
         def initialize(ctx)
           super(ctx, :call)
@@ -62,6 +68,9 @@ module Reek
         end
       end
 
+      #
+      # Finds when statements that perform a nil check.
+      #
       class CaseNodeFinder < NodeFinder
         CASE_NIL_NODE = Sexp.new(:array, SEXP_NIL)
 

@@ -2,6 +2,9 @@ require 'reek/smells'
 
 module Reek
   module Core
+    #
+    # Contains all the existing smells and exposes operations on them.
+    #
     class SmellRepository
 
       def self.smell_classes
