@@ -7,6 +7,7 @@
 [![Build Status](https://secure.travis-ci.org/troessner/reek.png?branch=master)](http://travis-ci.org/troessner/reek?branch=master)
 [![Gem Version](https://badge.fury.io/rb/reek.png)](http://badge.fury.io/rb/reek)
 [![Dependency Status](https://gemnasium.com/troessner/reek.png)](https://gemnasium.com/troessner/reek)
+[![Inline docs](http://inch-pages.github.io/github/troessner/reek.png)](http://inch-pages.github.io/github/troessner/reek)
 
 
 ### Synopsis
