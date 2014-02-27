@@ -12,13 +12,9 @@ module Reek
       SMELL_SUBCLASS = self.name.split(/::/)[-1]
 
       def examine_context(ctx)
-
         call_nodes = CallNodeFinder.new(ctx)
         case_nodes = CaseNodeFinder.new(ctx)
-        smelly_calls = call_nodes.smelly
-        smelly_cases = case_nodes.smelly
-
-        smelly_nodes = smelly_calls + smelly_cases
+        smelly_nodes = call_nodes.smelly + case_nodes.smelly
 
         smelly_nodes.map do |node|
           SmellWarning.new(SMELL_CLASS, ctx.full_name, Array(node.line),

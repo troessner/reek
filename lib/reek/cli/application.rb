@@ -41,10 +41,6 @@ module Reek
       def report_smells
         @status = STATUS_SMELLS
       end
-
-      def update_status(reporter)
-        reporter.has_smells? ? report_smells : report_success
-      end
     end
   end
 end

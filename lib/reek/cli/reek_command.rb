@@ -22,7 +22,7 @@ module Reek
         @sources.each do |source|
           @reporter.add_examiner(Examiner.new(source, @config_files))
         end
-        app.update_status(@reporter)
+        @reporter.has_smells? ? app.report_smells : app.report_success
         @reporter.show
       end
     end
