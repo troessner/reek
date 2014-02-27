@@ -4,11 +4,11 @@ module Reek
   module Source
     module SexpExtensions
       module AndNode
-        def condition() self[1..2].tap {|b| b.extend SexpNode } end
+        def condition() self[1..2].tap {|node| node.extend SexpNode } end
       end
 
       module OrNode
-        def condition() self[1..2].tap {|b| b.extend SexpNode } end
+        def condition() self[1..2].tap {|node| node.extend SexpNode } end
       end
 
       module AttrasgnNode

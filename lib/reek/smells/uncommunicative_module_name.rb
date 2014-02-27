@@ -58,14 +58,14 @@ module Reek
         @accept_names = value(ACCEPT_KEY, ctx, DEFAULT_ACCEPT_SET)
         exp = ctx.exp
         full_name = ctx.full_name
-        name = exp.simple_name
+        name = exp.simple_name.to_s
         return [] if @accept_names.include?(full_name)
-        var = name.to_s.gsub(/^[@\*\&]*/, '')
+        var = name.gsub(/^[@\*\&]*/, '')
         return [] if @accept_names.include?(var)
         return [] unless @reject_names.detect {|patt| patt === var}
         smell = SmellWarning.new(SMELL_CLASS, full_name, [exp.line],
           "has the name '#{name}'",
-          @source, SMELL_SUBCLASS, {MODULE_NAME_KEY => name.to_s})
+          @source, SMELL_SUBCLASS, {MODULE_NAME_KEY => name})
         [smell]
       end
     end
