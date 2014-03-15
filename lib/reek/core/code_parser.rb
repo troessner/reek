@@ -29,124 +29,128 @@ module Reek
       end
 
       def process_module(exp)
-        name = Source::SexpFormatter.format(exp[1])
-        scope = ModuleContext.new(@element, name, exp)
-        push(scope) do
-          process_default(exp) unless exp.superclass == [:const, :Struct]
-          check_smells(exp[0])
+        inside_new_context(ModuleContext, exp) do
+          process_default(exp)
         end
-        scope
       end
 
-      def process_class(exp)
-        process_module(exp)
-      end
+      alias process_class process_module
 
       def process_defn(exp)
-        handle_context(MethodContext, exp[0], exp)
+        inside_new_context(MethodContext, exp) do
+          count_statement_list(exp.body)
+          process_default(exp)
+        end
       end
 
       def process_defs(exp)
-        handle_context(SingletonMethodContext, exp[0], exp)
+        inside_new_context(SingletonMethodContext, exp) do
+          count_statement_list(exp.body)
+          process_default(exp)
+        end
       end
 
-      def process_args(exp) end
+      def process_args(_) end
 
-      def process_zsuper(exp)
-        @element.record_use_of_self
-      end
-
-      def process_block(exp)
-        @element.count_statements(CodeParser.count_statements(exp[1..-1]))
-        process_default(exp)
-      end
+      #
+      # Recording of calls to methods and self
+      #
 
       def process_call(exp)
         @element.record_call_to(exp)
         process_default(exp)
       end
 
-      def process_attrasgn(exp)
-        process_call(exp)
+      alias process_attrasgn process_call
+      alias process_op_asgn1 process_call
+
+      def process_ivar(exp)
+        @element.record_use_of_self
+        process_default(exp)
       end
 
-      def process_op_asgn1(exp)
-        process_call(exp)
+      alias process_iasgn process_ivar
+
+      def process_self(_)
+        @element.record_use_of_self
+      end
+
+      alias process_zsuper process_self
+
+      #
+      # Statement counting
+      #
+
+      def process_iter(exp)
+        count_clause(exp[3])
+        process_default(exp)
+      end
+
+      def process_block(exp)
+        count_statement_list(exp[1..-1])
+        @element.count_statements(-1)
+        process_default(exp)
       end
 
       def process_if(exp)
         count_clause(exp[2])
         count_clause(exp[3])
-        process_default(exp)
         @element.count_statements(-1)
+        process_default(exp)
       end
 
       def process_while(exp)
-        process_until(exp)
+        count_clause(exp[2])
+        @element.count_statements(-1)
+        process_default(exp)
       end
 
-      def process_until(exp)
-        count_clause(exp[2])
-        process_case(exp)
-      end
+      alias process_until process_while
 
       def process_for(exp)
         count_clause(exp[3])
-        process_case(exp)
+        @element.count_statements(-1)
+        process_default(exp)
       end
 
       def process_rescue(exp)
         count_clause(exp[1])
-        process_case(exp)
+        @element.count_statements(-1)
+        process_default(exp)
       end
 
       def process_resbody(exp)
-        process_when(exp)
+        count_statement_list(exp[2..-1].compact)
+        process_default(exp)
       end
 
       def process_case(exp)
-        process_default(exp)
+        count_statement_list(exp[2..-1].compact)
         @element.count_statements(-1)
+        process_default(exp)
       end
 
       def process_when(exp)
-        @element.count_statements(CodeParser.count_statements(exp[2..-1].compact))
+        count_statement_list(exp[2..-1].compact)
+        @element.count_statements(-1)
         process_default(exp)
       end
 
-      def process_ivar(exp)
-        process_iasgn(exp)
-      end
-
-      def process_iasgn(exp)
-        @element.record_use_of_self
-        process_default(exp)
-      end
-
-      def process_self(exp)
-        @element.record_use_of_self
-      end
+      private
 
       def count_clause(sexp)
-        if sexp and !sexp.has_type?(:block)
-          @element.count_statements(1)
-        end
+        @element.count_statements(1) if sexp
       end
 
-      def self.count_statements(stmts)
-        ignore = 0
-        ignore += 1 if stmts[1] == s(:nil)
-        stmts.length - ignore
+      def count_statement_list(statement_list)
+        @element.count_statements statement_list.length
       end
 
-    private
-
-      def handle_context(klass, type, exp)
+      def inside_new_context(klass, exp)
         scope = klass.new(@element, exp)
         push(scope) do
-          @element.count_statements(CodeParser.count_statements(exp.body))
-          process_default(exp)
-          check_smells(type)
+          yield
+          check_smells(exp[0])
         end
         scope
       end
@@ -155,9 +159,9 @@ module Reek
         @sniffer.examine(@element, type)
       end
 
-      def push(context)
+      def push(scope)
         orig = @element
-        @element = context
+        @element = scope
         yield
         @element = orig
       end

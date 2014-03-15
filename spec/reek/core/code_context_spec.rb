@@ -56,7 +56,7 @@ describe CodeContext do
     it 'should pass unknown method calls down the stack' do
       stop = StopContext.new
       def stop.bananas(arg1, arg2) arg1 + arg2 + 43 end
-      element = ModuleContext.new(stop, 'mod', ast(:module, :mod, nil))
+      element = ModuleContext.new(stop, ast(:module, :mod, nil))
       element = MethodContext.new(element, ast(:defn, :bad))
       element.bananas(17, -5).should == 55
     end
