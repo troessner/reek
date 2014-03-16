@@ -8,10 +8,10 @@ module Reek
     # Control Coupling occurs when a method or block checks the value of
     # a parameter in order to decide which execution path to take. The
     # offending parameter is often called a Control Couple.
-    # 
+    #
     # A simple example would be the <tt>quoted</tt> parameter
     # in the following method:
-    # 
+    #
     #  def write(quoted)
     #    if quoted
     #      write_quoted(@value)
@@ -19,15 +19,15 @@ module Reek
     #      puts @value
     #    end
     #  end
-    # 
+    #
     # Control Coupling is a kind of duplication, because the calling method
     # already knows which path should be taken.
-    # 
+    #
     # Control Coupling reduces the code's flexibility by creating a
     # dependency between the caller and callee:
     # any change to the possible values of the controlling parameter must
     # be reflected on both sides of the call.
-    # 
+    #
     # A Control Couple also reveals a loss of simplicity: the called
     # method probably has more than one responsibility,
     # because it includes at least two different code paths.
@@ -55,60 +55,94 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       def examine_context(ctx)
-        control_parameters(ctx).map do |lvars, occurs|
-          param = lvars.format_ruby
-          lines = occurs.map {|exp| exp.line}
-          smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, lines,
-                                   "is controlled by argument #{param}",
-                                   @source, SMELL_SUBCLASS,
-                                   {PARAMETER_KEY => param})
-          smell
+        ControlParameterCollector.new(ctx).control_parameters.map do |control_parameter|
+          SmellWarning.new(SMELL_CLASS, ctx.full_name, control_parameter.lines,
+                           control_parameter.smell_message,
+                           @source, SMELL_SUBCLASS,
+                           {PARAMETER_KEY => control_parameter.name})
         end
       end
 
-      private
-
-      def control_parameters(method_ctx)
-        result = Hash.new {|hash, key| hash[key] = []}
-        method_ctx.exp.parameter_names.each do |param|
-          next if used_outside_conditional?(method_ctx, param)
-          find_matchs(method_ctx, param).each {|match| result[match].push(match)}
+      #
+      # Collects information about a single control parameter.
+      #
+      class FoundControlParameter
+        def initialize(param)
+          @param = param
+          @occurences = []
         end
-        result
+
+        def record(occurences)
+          @occurences.concat occurences
+        end
+
+        def smell_message
+          "is controlled by argument #{name}"
+        end
+
+        def lines
+          @occurences.map(&:line)
+        end
+
+        def name
+          @param.to_s
+        end
       end
 
-      # Returns wether the parameter is used outside of the conditional statement.
-      def used_outside_conditional?(method_ctx, param)
-        method_ctx.exp.each_node(:lvar, [:if, :case, :and, :or, :args]) do |node|
-          return true if node.value == param
+      #
+      # Collects all control parameters in a given context.
+      #
+      class ControlParameterCollector
+        def initialize(context)
+          @context = context
         end
-        false
-      end
 
-      # Find the use of the param that match the definition of a control parameter.
-      def find_matchs(method_ctx, param)
-        matchs = []
-        [:if, :case, :and, :or].each do |keyword|
-          method_ctx.local_nodes(keyword).each do |node|
-            return [] if used_besides_in_condition?(node, param)
-            node.each_node(:lvar, []) {|inner| matchs.push(inner) if inner.value == param}
+        def control_parameters
+          result = Hash.new {|hash, key| hash[key] = FoundControlParameter.new(key)}
+          potential_parameters.each do |param|
+            matches = find_matches(param)
+            result[param].record(matches) if matches.any?
           end
+          result.values
         end
-        matchs
-      end
 
-      # Returns wether the parameter is used somewhere besides in the condition of the
-      # conditional statement.
-      def used_besides_in_condition?(node, param)
-        times_in_conditional, times_total = 0, 0
-        node.each_node(:lvar, [:if, :case]) {|inner| times_total +=1 if inner[VALUE_POSITION] == param}
-        if node.condition
-          times_in_conditional += 1 if node.condition[VALUE_POSITION] == param
-          node.condition.each do |inner|
-            times_in_conditional += 1 if inner.class == Sexp && inner[VALUE_POSITION] == param
-          end
+        private
+
+        # Returns parameters that aren't used outside of a conditional statements and that
+        # could be good candidates for being a control parameter.
+        def potential_parameters
+          @context.exp.parameter_names.select {|param| !used_outside_conditional?(param)}
         end
-        return times_total > times_in_conditional
+
+        # Returns wether the parameter is used outside of the conditional statement.
+        def used_outside_conditional?(param)
+          nodes = @context.exp.each_node(:lvar, [:if, :case, :and, :or, :args])
+          nodes.any? {|node| node.value == param}
+        end
+
+        # Find the use of the param that match the definition of a control parameter.
+        def find_matches(param)
+          matches = []
+          [:if, :case, :and, :or].each do |keyword|
+            @context.local_nodes(keyword).each do |node|
+              return [] if used_besides_in_condition?(node, param)
+              node.each_node(:lvar, []) {|inner| matches.push(inner) if inner.value == param}
+            end
+          end
+          matches
+        end
+
+        # Returns wether the parameter is used somewhere besides in the condition of the
+        # conditional statement.
+        def used_besides_in_condition?(node, param)
+          times_in_conditional, times_total = 0, 0
+          node.each_node(:lvar, [:if, :case]) {|lvar| times_total +=1 if lvar.value == param}
+          if node.condition
+            times_in_conditional += 1 if node.condition[VALUE_POSITION] == param
+            times_in_conditional += node.condition.count {|inner| inner.class == Sexp && inner[VALUE_POSITION] == param}
+          end
+          return times_total > times_in_conditional
+        end
       end
     end
   end
