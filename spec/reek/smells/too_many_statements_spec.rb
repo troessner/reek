@@ -110,6 +110,11 @@ describe TooManyStatements do
     method = process_method('def one() val = 4; true; end')
     method.num_statements.should == 2
   end
+
+  it 'counts nil returns' do
+    method = process_method('def one() val = 4; nil; end')
+    method.num_statements.should == 2
+  end
 end
 
 describe TooManyStatements, 'does not count control statements' do
@@ -123,8 +128,23 @@ describe TooManyStatements, 'does not count control statements' do
     method.num_statements.should == 3
   end
 
+  it 'counts 1 statements in an else' do
+    method = process_method('def one() if val == 4; callee(); else; callee(); end; end')
+    method.num_statements.should == 2
+  end
+
+  it 'counts 3 statements in an else' do
+    method = process_method('def one() if val == 4; callee(); callee(); callee(); else; callee(); callee(); callee(); end; end')
+    method.num_statements.should == 6
+  end
+
   it 'does not count empty conditional expression' do
     method = process_method('def one() if val == 4; ; end; end')
+    method.num_statements.should == 0
+  end
+
+  it 'does not count empty else' do
+    method = process_method('def one() if val == 4; ; else; ; end; end')
     method.num_statements.should == 0
   end
 
@@ -178,18 +198,32 @@ describe TooManyStatements, 'does not count control statements' do
     method.num_statements.should == 3
   end
 
+  it 'counts 1 statement in a case else' do
+    method = process_method('def one() case fred; when "hi"; callee(); else; callee(); end; end')
+    method.num_statements.should == 2
+  end
+
+  it 'counts 3 statements in a case else' do
+    method = process_method('def one() case fred; when "hi"; callee(); callee(); callee(); else; callee(); callee(); callee(); end; end')
+    method.num_statements.should == 6
+  end
+
   it 'does not count empty case' do
     method = process_method('def one() case fred; when "hi"; ; when "lo"; ; end; end')
     method.num_statements.should == 0
   end
 
-  it 'counts 1 statement in a block' do
-    method = process_method('def one() fred.each do; callee(); end; end')
-    method.num_statements.should == 1
+  it 'does not count empty case else' do
+    method = process_method('def one() case fred; when "hi"; ; else; ; end; end')
+    method.num_statements.should == 0
   end
 
-  # FIXME: I think this is wrong, but it specs current behavior.
-  it 'counts 4 statements in a block' do
+  it 'counts 2 statement in an iterator' do
+    method = process_method('def one() fred.each do; callee(); end; end')
+    method.num_statements.should == 2
+  end
+
+  it 'counts 4 statements in an iterator' do
     method = process_method('def one() fred.each do; callee(); callee(); callee(); end; end')
     method.num_statements.should == 4
   end
@@ -197,26 +231,6 @@ describe TooManyStatements, 'does not count control statements' do
   it 'counts 1 statement in a singleton method' do
     method = process_singleton_method('def self.foo; callee(); end')
     method.num_statements.should == 1
-  end
-
-  it 'counts else statement' do
-    src = <<EOS
-def parse(arg, argv, &error)
-  if !(val = arg) and (argv.empty? or /\A-/ =~ (val = argv[0]))
-    return nil, block, nil
-  end
-  opt = (val = parse_arg(val, &error))[1]
-  val = conv_arg(*val)
-  if opt and !arg
-    argv.shift
-  else
-    val[0] = nil
-  end
-  val
-end
-EOS
-    method = process_method(src)
-    method.num_statements.should == 6
   end
 end
 

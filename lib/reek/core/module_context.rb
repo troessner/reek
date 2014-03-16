@@ -11,9 +11,9 @@ module Reek
     #
     class ModuleContext < CodeContext
 
-      def initialize(outer, name, exp)
+      def initialize(outer, exp)
         super(outer, exp)
-        @name = name
+        @name = Source::SexpFormatter.format(exp[1])
       end
     end
   end
