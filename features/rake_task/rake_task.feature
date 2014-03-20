@@ -8,6 +8,7 @@ Feature: Reek can be driven through its Task
       """
       Reek::Rake::Task.new do |t|
         t.source_files = 'spec/samples/masked/dirty.rb'
+        t.reek_opts = '--no-color'
       end
       """
     Then the exit status indicates an error
@@ -24,6 +25,7 @@ Feature: Reek can be driven through its Task
       """
       Reek::Rake::Task.new('silky') do |t|
         t.source_files = 'spec/samples/masked/dirty.rb'
+        t.reek_opts = '--no-color'
       end
       """
     Then the exit status indicates an error
@@ -52,6 +54,7 @@ Feature: Reek can be driven through its Task
       Reek::Rake::Task.new do |t|
         t.fail_on_error = false
         t.source_files = 'spec/samples/no_config_file/dirty.rb'
+        t.reek_opts = '--no-color'
       end
       """
     Then it reports no errors

@@ -1,4 +1,5 @@
 require 'optparse'
+require 'rainbow'
 require 'reek/cli/report'
 require 'reek/cli/reek_command'
 require 'reek/cli/help_command'
@@ -16,6 +17,7 @@ module Reek
       def initialize(argv)
         @argv = argv
         @parser = OptionParser.new
+        @colored = true
         @report_class = QuietReport
         @warning_formatter = WarningFormatterWithLineNumbers
         @command_class = ReekCommand
@@ -73,6 +75,9 @@ EOB
         end
 
         @parser.separator "\nReport formatting:"
+        @parser.on("-o", "--[no-]color", "Use colors for the output (this is the default)") do |opt|
+          @colored = opt
+        end
         @parser.on("-q", "--quiet", "Suppress headings for smell-free source files (this is the default)") do |opt|
           @report_class = QuietReport
         end
@@ -103,6 +108,7 @@ EOB
         elsif @command_class == VersionCommand
           VersionCommand.new(@parser.program_name)
         else
+          Rainbow.enabled = @colored
           reporter = @report_class.new(@warning_formatter, ReportFormatter, @sort_by_issue_count, @format)
           ReekCommand.create(get_sources, reporter, @config_files)
         end

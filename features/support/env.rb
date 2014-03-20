@@ -15,11 +15,11 @@ class ReekWorld
   end
 
   def reek(args)
-    run("ruby -Ilib -rubygems bin/reek #{args}")
+    run("ruby -Ilib -rubygems bin/reek --no-color #{args}")
   end
 
   def reek_with_pipe(stdin, args)
-    run("echo \"#{stdin}\" | ruby -Ilib -rubygems bin/reek #{args}")
+    run("echo \"#{stdin}\" | ruby -Ilib -rubygems bin/reek --no-color #{args}")
   end
 
   def rake(name, task_def)

@@ -38,6 +38,7 @@ Feature: Reek can be controlled using command-line options
           -c, --config FILE                Read configuration options from FILE
 
       Report formatting:
+          -o, --[no-]color                 Use colors for the output (this is the default)
           -q, --quiet                      Suppress headings for smell-free source files (this is the default)
           -V, --no-quiet, --verbose        Show headings for smell-free source files
           -n, --no-line-numbers            Suppress line numbers from the output
