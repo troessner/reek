@@ -1,3 +1,5 @@
+require 'rainbow'
+
 module Reek
   module Cli
     module ReportFormatter
@@ -9,8 +11,8 @@ module Reek
 
       def self.header(examiner)
         count = examiner.smells_count
-        result = "#{examiner.description} -- #{count} warning"
-        result += 's' unless count == 1
+        result = Rainbow("#{examiner.description} -- ").cyan + Rainbow("#{count} warning").yellow
+        result += Rainbow('s').yellow unless count == 1
         result
       end
     end
@@ -96,7 +98,7 @@ module Reek
       end
 
       def total_smell_count_message
-        "#{@total_smell_count} total warning#{'s' unless @total_smell_count == 1 }\n"
+        Rainbow("#{@total_smell_count} total warning#{'s' unless @total_smell_count == 1 }\n").red
       end
 
       def summarize_single_examiner(examiner)
