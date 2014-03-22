@@ -147,6 +147,7 @@ Reek makes use of the following other gems:
 * ruby_parser
 * sexp_processor
 * ruby2ruby
+* rainbow
 
 ### Learn More
 
