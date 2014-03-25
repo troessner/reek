@@ -1,3 +1,9 @@
+== 1.3.7
+
+* (gilles-leblanc) Add color to reek's output
+* (mvz) Ignore unused parameters if method calls super in nested context
+* (mvz) Only mark parameters uncommunicative if used
+
 == 1.3.6
 
 * (troessner) Add `Prima Donna Method` smell
