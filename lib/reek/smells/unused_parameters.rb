@@ -66,14 +66,15 @@ module Reek
       end
 
       def smell_warning(method_ctx, param)
+        param_name = param.to_s
         SmellWarning.new(
           SMELL_CLASS,
           method_ctx.full_name,
           [ method_ctx.exp.line ],
-          "has unused parameter '#{param.to_s}'",
+          "has unused parameter '#{param_name}'",
           @source,
           SMELL_SUBCLASS,
-          { PARAMETER_KEY => param.to_s }
+          { PARAMETER_KEY => param_name }
         )
       end
 
