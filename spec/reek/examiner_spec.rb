@@ -5,25 +5,25 @@ include Reek
 
 shared_examples_for 'supports the deprecated api' do
   it 'returns all smells as active' do
-    @examiner.all_active_smells.should == @examiner.smells
+    expect(@examiner.all_active_smells).to eq(@examiner.smells)
   end
   it 'returns all smells as active' do
-    @examiner.all_smells.should == @examiner.smells
+    expect(@examiner.all_smells).to eq(@examiner.smells)
   end
   it 'counts all smells as active smells' do
-    @examiner.num_active_smells.should == @examiner.smells.length
+    expect(@examiner.num_active_smells).to eq(@examiner.smells.length)
   end
   it 'never reports masked smells' do
-    @examiner.num_masked_smells.should == 0
+    expect(@examiner.num_masked_smells).to eq(0)
   end
 end
 
 shared_examples_for 'no smells found' do
   it 'is not smelly' do
-    @examiner.should_not be_smelly
+    expect(@examiner).not_to be_smelly
   end
   it 'finds no smells' do
-    @examiner.smells.length.should == 0
+    expect(@examiner.smells.length).to eq(0)
   end
 
   it_should_behave_like 'supports the deprecated api'
@@ -31,13 +31,13 @@ end
 
 shared_examples_for 'one smell found' do
   it 'is smelly' do
-    @examiner.should be_smelly
+    expect(@examiner).to be_smelly
   end
   it 'reports the smell' do
-    @examiner.smells.length.should == 1
+    expect(@examiner.smells.length).to eq(1)
   end
   it 'reports the correct smell' do
-    @examiner.smells[0].smell_class.should == @expected_first_smell
+    expect(@examiner.smells[0].smell_class).to eq(@expected_first_smell)
   end
 
   it_should_behave_like 'supports the deprecated api'

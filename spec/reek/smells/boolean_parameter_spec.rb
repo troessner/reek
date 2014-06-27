@@ -9,15 +9,15 @@ describe BooleanParameter do
     context 'in a method' do
       it 'reports a parameter defaulted to true' do
         src = 'def cc(arga = true) end'
-        src.should smell_of(BooleanParameter, BooleanParameter::PARAMETER_KEY => 'arga')
+        expect(src).to smell_of(BooleanParameter, BooleanParameter::PARAMETER_KEY => 'arga')
       end
       it 'reports a parameter defaulted to false' do
         src = 'def cc(arga = false) end'
-        src.should smell_of(BooleanParameter, BooleanParameter::PARAMETER_KEY => 'arga')
+        expect(src).to smell_of(BooleanParameter, BooleanParameter::PARAMETER_KEY => 'arga')
       end
       it 'reports two parameters defaulted to booleans' do
         src = 'def cc(nowt, arga = true, argb = false, &blk) end'
-        src.should smell_of(BooleanParameter,
+        expect(src).to smell_of(BooleanParameter,
           {BooleanParameter::PARAMETER_KEY => 'arga'},
           {BooleanParameter::PARAMETER_KEY => 'argb'})
       end
@@ -26,15 +26,15 @@ describe BooleanParameter do
     context 'in a singleton method' do
       it 'reports a parameter defaulted to true' do
         src = 'def self.cc(arga = true) end'
-        src.should smell_of(BooleanParameter, BooleanParameter::PARAMETER_KEY => 'arga')
+        expect(src).to smell_of(BooleanParameter, BooleanParameter::PARAMETER_KEY => 'arga')
       end
       it 'reports a parameter defaulted to false' do
         src = 'def fred.cc(arga = false) end'
-        src.should smell_of(BooleanParameter, BooleanParameter::PARAMETER_KEY => 'arga')
+        expect(src).to smell_of(BooleanParameter, BooleanParameter::PARAMETER_KEY => 'arga')
       end
       it 'reports two parameters defaulted to booleans' do
         src = 'def Module.cc(nowt, arga = true, argb = false, &blk) end'
-        src.should smell_of(BooleanParameter,
+        expect(src).to smell_of(BooleanParameter,
           {BooleanParameter::PARAMETER_KEY => 'arga'},
           {BooleanParameter::PARAMETER_KEY => 'argb'})
       end
@@ -54,13 +54,13 @@ describe BooleanParameter do
       ctx = MethodContext.new(nil, src.to_reek_source.syntax_tree)
       @detector.examine(ctx)
       smells = @detector.smells_found.to_a
-      smells.length.should == 1
-      smells[0].smell_class.should == BooleanParameter::SMELL_CLASS
-      smells[0].smell[BooleanParameter::PARAMETER_KEY].should == 'arga'
-      smells[0].source.should == @source_name
-      smells[0].smell_class.should == BooleanParameter::SMELL_CLASS
-      smells[0].subclass.should == BooleanParameter::SMELL_SUBCLASS
-      smells[0].lines.should == [1]
+      expect(smells.length).to eq(1)
+      expect(smells[0].smell_class).to eq(BooleanParameter::SMELL_CLASS)
+      expect(smells[0].smell[BooleanParameter::PARAMETER_KEY]).to eq('arga')
+      expect(smells[0].source).to eq(@source_name)
+      expect(smells[0].smell_class).to eq(BooleanParameter::SMELL_CLASS)
+      expect(smells[0].subclass).to eq(BooleanParameter::SMELL_SUBCLASS)
+      expect(smells[0].lines).to eq([1])
     end
   end
 end

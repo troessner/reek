@@ -17,18 +17,18 @@ describe TooManyInstanceVariables do
 
   context 'counting instance variables' do
     it 'should not report 9 ivars' do
-      '# clean class for testing purposes
-class Empty;def ivars() @aa=@ab=@ac=@ad=@ae=@af=@ag=@ah=@ai=4; end;end'.should_not reek
+      expect('# clean class for testing purposes
+class Empty;def ivars() @aa=@ab=@ac=@ad=@ae=@af=@ag=@ah=@ai=4; end;end').not_to reek
     end
 
     it 'counts each ivar only once' do
-      '# clean class for testing purposes
-class Empty;def ivars() @aa=@ab=@ac=@ad=@ae=@af=@ag=@ah=@ai=4;@aa=3; end;end'.should_not reek
+      expect('# clean class for testing purposes
+class Empty;def ivars() @aa=@ab=@ac=@ad=@ae=@af=@ag=@ah=@ai=4;@aa=3; end;end').not_to reek
     end
 
     it 'should report 10 ivars' do
-      '# smelly class for testing purposes
-class Empty;def ivars() @aa=@ab=@ac=@ad=@ae=@af=@ag=@ah=@ai=@aj=4; end;end'.should reek_only_of(:TooManyInstanceVariables)
+      expect('# smelly class for testing purposes
+class Empty;def ivars() @aa=@ab=@ac=@ad=@ae=@af=@ag=@ah=@ai=@aj=4; end;end').to reek_only_of(:TooManyInstanceVariables)
     end
 
     it 'should not report 10 ivars in 2 extensions' do
@@ -38,7 +38,7 @@ class Full;def ivars_a() @aa=@ab=@ac=@ad=@ae; end;end
 # clean class for testing purposes
 class Full;def ivars_b() @af=@ag=@ah=@ai=@aj; end;end
 EOS
-      src.should_not reek
+      expect(src).not_to reek
     end
   end
 
@@ -53,10 +53,10 @@ end
 EOS
     ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
     @warning = @detector.examine_context(ctx)[0]
-    @warning.source.should == @source_name
-    @warning.smell_class.should == 'LargeClass'
-    @warning.subclass.should == TooManyInstanceVariables::SMELL_SUBCLASS
-    @warning.smell[TooManyInstanceVariables::IVAR_COUNT_KEY].should == 10
-    @warning.lines.should == [2]
+    expect(@warning.source).to eq(@source_name)
+    expect(@warning.smell_class).to eq('LargeClass')
+    expect(@warning.subclass).to eq(TooManyInstanceVariables::SMELL_SUBCLASS)
+    expect(@warning.smell[TooManyInstanceVariables::IVAR_COUNT_KEY]).to eq(10)
+    expect(@warning.lines).to eq([2])
   end
 end

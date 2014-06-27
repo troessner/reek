@@ -10,28 +10,28 @@ describe ReferenceCollector do
       ReferenceCollector.new(src.to_reek_source.syntax_tree).num_refs_to_self
     end
     it 'with no refs to self' do
-      refs_to_self('def no_envy(arga) arga.barg end').should == 0
+      expect(refs_to_self('def no_envy(arga) arga.barg end')).to eq(0)
     end
     it 'counts a call to super' do
-      refs_to_self('def simple() super; end').should == 1
+      expect(refs_to_self('def simple() super; end')).to eq(1)
     end
     it 'counts a local call' do
-      refs_to_self('def simple() to_s; end').should == 1
+      expect(refs_to_self('def simple() to_s; end')).to eq(1)
     end
     it 'counts a use of self' do
-      refs_to_self('def simple() lv = self; end').should == 1
+      expect(refs_to_self('def simple() lv = self; end')).to eq(1)
     end
     it 'counts a call with self as receiver' do
-      refs_to_self('def simple() self.to_s; end').should == 1
+      expect(refs_to_self('def simple() self.to_s; end')).to eq(1)
     end
     it 'counts uses of an ivar' do
-      refs_to_self('def no_envy() @item.to_a; @item = 4; @item end').should == 3
+      expect(refs_to_self('def no_envy() @item.to_a; @item = 4; @item end')).to eq(3)
     end
     it 'counts an ivar passed to a method' do
-      refs_to_self('def no_envy(arga) arga.barg(@item); arga end').should == 1
+      expect(refs_to_self('def no_envy(arga) arga.barg(@item); arga end')).to eq(1)
     end
     it 'ignores global variables' do
-      refs_to_self('def no_envy(arga) $s2.to_a; $s2[arga] end').should == 0
+      expect(refs_to_self('def no_envy(arga) $s2.to_a; $s2[arga] end')).to eq(0)
     end
     it 'ignores global variables' do
       src = <<EOS
@@ -47,7 +47,7 @@ describe ReferenceCollector do
       @atype[t] = [pat, block]
     end
 EOS
-      refs_to_self(src).should == 2
+      expect(refs_to_self(src)).to eq(2)
     end
   end
 end

@@ -12,16 +12,16 @@ describe ShouldReek do
     let(:smelly_code) { 'def x() y = 4; end' }
 
     it 'matches a smelly String' do
-      matcher.matches?(smelly_code).should be_true
+      expect(matcher.matches?(smelly_code)).to be_truthy
     end
 
     it 'doesnt match a fragrant String' do
-      matcher.matches?(clean_code).should be_false
+      expect(matcher.matches?(clean_code)).to be_falsey
     end
 
     it 'reports the smells when should_not fails' do
       matcher.matches?(smelly_code)
-      matcher.failure_message_for_should_not.should match('UncommunicativeVariableName')
+      expect(matcher.failure_message_when_negated).to match('UncommunicativeVariableName')
     end
   end
 
@@ -31,20 +31,20 @@ describe ShouldReek do
     let(:masked_dir) { Dir['spec/samples/clean_due_to_masking/*.rb'] }
 
     it 'matches a smelly Dir' do
-      matcher.matches?(smelly_dir).should be_true
+      expect(matcher.matches?(smelly_dir)).to be_truthy
     end
 
     it 'doesnt match a fragrant Dir' do
-      matcher.matches?(clean_dir).should be_false
+      expect(matcher.matches?(clean_dir)).to be_falsey
     end
 
     it 'masks smells using the relevant configuration' do
-      matcher.matches?(masked_dir).should be_false
+      expect(matcher.matches?(masked_dir)).to be_falsey
     end
 
     it 'reports the smells when should_not fails' do
       matcher.matches?(smelly_dir)
-      matcher.failure_message_for_should_not.should match('UncommunicativeVariableName')
+      expect(matcher.failure_message_when_negated).to match('UncommunicativeVariableName')
     end
   end
 
@@ -54,20 +54,20 @@ describe ShouldReek do
     let(:masked_file) { File.new('spec/samples/clean_due_to_masking/dirty_one.rb') }
 
     it 'matches a smelly File' do
-      matcher.matches?(smelly_file).should be_true
+      expect(matcher.matches?(smelly_file)).to be_truthy
     end
 
     it 'doesnt match a fragrant File' do
-      matcher.matches?(clean_file).should be_false
+      expect(matcher.matches?(clean_file)).to be_falsey
     end
 
     it 'masks smells using the relevant configuration' do
-      matcher.matches?(masked_file).should be_false
+      expect(matcher.matches?(masked_file)).to be_falsey
     end
 
     it 'reports the smells when should_not fails' do
       matcher.matches?(smelly_file)
-      matcher.failure_message_for_should_not.should match('UncommunicativeVariableName')
+      expect(matcher.failure_message_when_negated).to match('UncommunicativeVariableName')
     end
   end
 end

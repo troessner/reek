@@ -13,7 +13,7 @@ describe QuietReport, " when empty" do
       examiner = Examiner.new('')
       qr = QuietReport.new
       qr.add_examiner(examiner)
-      qr.gather_results.should == []
+      expect(qr.gather_results).to eq([])
     end
   end
 
@@ -30,12 +30,12 @@ describe QuietReport, " when empty" do
       end
 
       it 'has a header' do
-        @result.should match('string -- 2 warnings')
+        expect(@result).to match('string -- 2 warnings')
       end
 
       it 'should mention every smell name' do
-        @result.should match('[UncommunicativeParameterName]')
-        @result.should match('[Feature Envy]')
+        expect(@result).to match('[UncommunicativeParameterName]')
+        expect(@result).to match('[Feature Envy]')
       end
     end
 
@@ -48,7 +48,7 @@ describe QuietReport, " when empty" do
       end
 
       it 'has a header in color' do
-        @result.first.should start_with "\e[36mstring -- \e[0m\e[33m2 warning\e[0m\e[33ms\e[0m"
+        expect(@result.first).to start_with "\e[36mstring -- \e[0m\e[33m2 warning\e[0m\e[33ms\e[0m"
       end
 
       it 'has a footer in color' do
@@ -57,7 +57,7 @@ describe QuietReport, " when empty" do
         @rpt.show
         $stdout = STDOUT
 
-        stdout.string.should end_with "\e[31m4 total warnings\n\e[0m"
+        expect(stdout.string).to end_with "\e[31m4 total warnings\n\e[0m"
       end
     end
   end

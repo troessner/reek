@@ -10,7 +10,7 @@ describe ObjectRefs do
 
   context 'when empty' do
     it 'should report no refs to self' do
-      @refs.references_to(:self).should == 0
+      expect(@refs.references_to(:self)).to eq(0)
     end
   end
 
@@ -23,15 +23,15 @@ describe ObjectRefs do
       end
 
       it 'should report no refs to self' do
-        @refs.references_to(:self).should == 0
+        expect(@refs.references_to(:self)).to eq(0)
       end
 
       it 'should report :a as the max' do
-        @refs.max_keys.should == {'a' => 2}
+        expect(@refs.max_keys).to eq({'a' => 2})
       end
 
       it 'should not report self as the max' do
-        @refs.self_is_max?.should == false
+        expect(@refs.self_is_max?).to eq(false)
       end
 
       context "with one reference to self" do
@@ -40,16 +40,16 @@ describe ObjectRefs do
         end
 
         it 'should report 1 ref to self' do
-          @refs.references_to(:self).should == 1
+          expect(@refs.references_to(:self)).to eq(1)
         end
 
         it 'should not report self among the max' do
-          @refs.max_keys.should include('a')
-          @refs.max_keys.should_not include(:self)
+          expect(@refs.max_keys).to include('a')
+          expect(@refs.max_keys).not_to include(:self)
         end
 
         it 'should not report self as the max' do
-          @refs.self_is_max?.should == false
+          expect(@refs.self_is_max?).to eq(false)
         end
       end
     end
@@ -67,15 +67,15 @@ describe ObjectRefs do
     end
 
     it 'should report all refs to self' do
-      @refs.references_to(:self).should == 4
+      expect(@refs.references_to(:self)).to eq(4)
     end
 
     it 'should report self among the max' do
-      @refs.max_keys.should == { :self => 4}
+      expect(@refs.max_keys).to eq({ :self => 4})
     end
 
     it 'should report self as the max' do
-      @refs.self_is_max?.should == true
+      expect(@refs.self_is_max?).to eq(true)
     end
   end
 
@@ -89,16 +89,16 @@ describe ObjectRefs do
     end
 
     it 'should report all refs to self' do
-      @refs.references_to(:self).should == 2
+      expect(@refs.references_to(:self)).to eq(2)
     end
 
     it 'should report self among the max' do
-      @refs.max_keys.should include('a')
-      @refs.max_keys.should include(:self)
+      expect(@refs.max_keys).to include('a')
+      expect(@refs.max_keys).to include(:self)
     end
 
     it 'should report self as the max' do
-      @refs.self_is_max?.should == true
+      expect(@refs.self_is_max?).to eq(true)
     end
   end
 
@@ -111,16 +111,16 @@ describe ObjectRefs do
     end
 
     it 'should report all refs to self' do
-      @refs.references_to(:self).should == 0
+      expect(@refs.references_to(:self)).to eq(0)
     end
 
     it 'should not report self among the max' do
-      @refs.max_keys.should include('a')
-      @refs.max_keys.should include('b')
+      expect(@refs.max_keys).to include('a')
+      expect(@refs.max_keys).to include('b')
     end
 
     it 'should not report self as the max' do
-      @refs.self_is_max?.should == false
+      expect(@refs.self_is_max?).to eq(false)
     end
   end
 end

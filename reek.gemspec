@@ -34,7 +34,7 @@ and reports any code smells it finds.
   s.add_development_dependency(%q<bundler>, ["~> 1.1"])
   s.add_development_dependency(%q<rake>)
   s.add_development_dependency(%q<cucumber>)
-  s.add_development_dependency(%q<rspec>, ["~> 2.12"])
+  s.add_development_dependency(%q<rspec>, ["~> 3.0"])
   s.add_development_dependency(%q<flay>)
   s.add_development_dependency(%q<yard>)
 end

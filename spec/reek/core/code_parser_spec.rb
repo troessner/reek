@@ -5,18 +5,18 @@ include Reek::Core
 
 describe CodeParser, "with no method definitions" do
   it 'reports no problems for empty source code' do
-    ''.should_not reek
+    expect('').not_to reek
   end
   it 'reports no problems for empty class' do
-    '# clean class for testing purposes
-class Fred; end'.should_not reek
+    expect('# clean class for testing purposes
+class Fred; end').not_to reek
   end
 end
 
 describe CodeParser, 'with a global method definition' do
   it 'reports no problems for simple method' do
     src = 'def Outermost::fred() true; end'
-    src.should_not reek
+    expect(src).not_to reek
   end
 end
 
@@ -31,6 +31,6 @@ def values(*args)
   self
 end
 EOS
-    src.should_not reek
+    expect(src).not_to reek
   end
 end

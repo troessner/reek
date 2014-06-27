@@ -17,7 +17,7 @@ describe UncommunicativeMethodName do
 
   ['help', '+', '-', '/', '*'].each do |method_name|
     it "accepts the method name '#{method_name}'" do
-      "def #{method_name}(fred) basics(17) end".should_not smell_of(UncommunicativeMethodName)
+      expect("def #{method_name}(fred) basics(17) end").not_to smell_of(UncommunicativeMethodName)
     end
   end
 
@@ -33,9 +33,9 @@ describe UncommunicativeMethodName do
       it_should_behave_like 'common fields set correctly'
 
       it 'reports the correct values' do
-        @warning.smell[UncommunicativeMethodName::METHOD_NAME_KEY].should == method_name
-        @warning.lines.should == [1]
-        @warning.context.should == method_name
+        expect(@warning.smell[UncommunicativeMethodName::METHOD_NAME_KEY]).to eq(method_name)
+        expect(@warning.lines).to eq([1])
+        expect(@warning.context).to eq(method_name)
       end
     end
   end

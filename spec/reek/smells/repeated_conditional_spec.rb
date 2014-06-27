@@ -18,7 +18,7 @@ describe RepeatedConditional do
     it 'gathers an empty hash' do
       ast = 'module Stable; end'.to_reek_source.syntax_tree
       ctx = CodeContext.new(nil, ast)
-      @detector.conditional_counts(ctx).length.should == 0
+      expect(@detector.conditional_counts(ctx).length).to eq(0)
     end
   end
 
@@ -26,7 +26,7 @@ describe RepeatedConditional do
     it 'does not record the condition' do
       ast = 'def fred() yield(3) if block_given?; end'.to_reek_source.syntax_tree
       ctx = CodeContext.new(nil, ast)
-      @detector.conditional_counts(ctx).length.should == 0
+      expect(@detector.conditional_counts(ctx).length).to eq(0)
     end
   end
 
@@ -34,7 +34,7 @@ describe RepeatedConditional do
     it 'does not record the condition' do
       ast = 'def fred() case; when 3; end; end'.to_reek_source.syntax_tree
       ctx = CodeContext.new(nil, ast)
-      @detector.conditional_counts(ctx).length.should == 0
+      expect(@detector.conditional_counts(ctx).length).to eq(0)
     end
   end
 
@@ -64,10 +64,10 @@ EOS
       @conds = @detector.conditional_counts(@ctx)
     end
     it 'finds both conditionals' do
-      @conds.length.should == 2
+      expect(@conds.length).to eq(2)
     end
     it 'knows there are three copies' do
-      @conds[@cond_expr].length.should == 3
+      expect(@conds[@cond_expr].length).to eq(3)
     end
 
     context 'looking at the YAML' do
@@ -77,22 +77,22 @@ EOS
         @yaml = warning.to_yaml
       end
       it 'reports the source' do
-        @yaml.should match(/source:\s*#{@source_name}/)
+        expect(@yaml).to match(/source:\s*#{@source_name}/)
       end
       it 'reports the class' do
-        @yaml.should match(/class:\s*SimulatedPolymorphism/)
+        expect(@yaml).to match(/class:\s*SimulatedPolymorphism/)
       end
       it 'reports the subclass' do
-        @yaml.should match(/subclass:\s*RepeatedConditional/)
+        expect(@yaml).to match(/subclass:\s*RepeatedConditional/)
       end
       it 'reports the expression' do
-        @yaml.should match(/expression:\s*"?\(#{@cond}\)"?/)
+        expect(@yaml).to match(/expression:\s*"?\(#{@cond}\)"?/)
       end
       it 'reports the number of occurrences' do
-        @yaml.should match(/occurrences:\s*3/)
+        expect(@yaml).to match(/occurrences:\s*3/)
       end
       it 'reports the referring lines' do
-        @yaml.should match(/lines:\s*- 4\s*- 7\s*- 12/)
+        expect(@yaml).to match(/lines:\s*- 4\s*- 7\s*- 12/)
       end
     end
   end
@@ -120,13 +120,13 @@ EOS
       @conds = @detector.conditional_counts(ctx)
     end
     it 'finds exactly one conditional' do
-      @conds.length.should == 1
+      expect(@conds.length).to eq(1)
     end
     it 'returns the condition expr' do
-      @conds.keys[0].should == @cond_expr
+      expect(@conds.keys[0]).to eq(@cond_expr)
     end
     it 'knows there are three copies' do
-      @conds[@cond_expr].length.should == 2
+      expect(@conds[@cond_expr].length).to eq(2)
     end
   end
 

@@ -9,10 +9,10 @@ describe TreeDresser do
   let(:dresser) { TreeDresser.new }
 
   it 'dresses :if sexp with IfNode' do
-    dresser.dress(ifnode).should be_a Reek::Source::SexpExtensions::IfNode
+    expect(dresser.dress(ifnode)).to be_a Reek::Source::SexpExtensions::IfNode
   end
 
   it 'dresses :call sexp with CallNode' do
-    dresser.dress(callnode).should be_a Reek::Source::SexpExtensions::CallNode
+    expect(dresser.dress(callnode)).to be_a Reek::Source::SexpExtensions::CallNode
   end
 end

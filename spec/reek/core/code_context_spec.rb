@@ -17,19 +17,19 @@ describe CodeContext do
       @ctx = CodeContext.new(nil, @exp)
     end
     it 'gets its short name from the exp' do
-      @ctx.name.should == @exp_name
+      expect(@ctx.name).to eq(@exp_name)
     end
     it 'does not match an empty list' do
-      @ctx.matches?([]).should == false
+      expect(@ctx.matches?([])).to eq(false)
     end
     it 'does not match when its own short name is not given' do
-      @ctx.matches?(['banana']).should == false
+      expect(@ctx.matches?(['banana'])).to eq(false)
     end
     it 'recognises its own short name' do
-      @ctx.matches?(['banana', @exp_name]).should == true
+      expect(@ctx.matches?(['banana', @exp_name])).to eq(true)
     end
     it 'recognises its short name as a regex' do
-      @ctx.matches?([/banana/, /#{@exp_name}/]).should == true
+      expect(@ctx.matches?([/banana/, /#{@exp_name}/])).to eq(true)
     end
 
     context 'when there is an outer' do
@@ -41,13 +41,13 @@ describe CodeContext do
         @ctx = CodeContext.new(outer, @exp)
       end
       it 'creates the correct full name' do
-        @ctx.full_name.should == "#{@full_name}"
+        expect(@ctx.full_name).to eq("#{@full_name}")
       end
       it 'recognises its own full name' do
-        @ctx.matches?(['banana', @full_name]).should == true
+        expect(@ctx.matches?(['banana', @full_name])).to eq(true)
       end
       it 'recognises its full name as a regex' do
-        @ctx.matches?([/banana/, /#{@full_name}/]).should == true
+        expect(@ctx.matches?([/banana/, /#{@full_name}/])).to eq(true)
       end
     end
   end
@@ -58,7 +58,7 @@ describe CodeContext do
       def stop.bananas(arg1, arg2) arg1 + arg2 + 43 end
       element = ModuleContext.new(stop, ast(:module, :mod, nil))
       element = MethodContext.new(element, ast(:defn, :bad))
-      element.bananas(17, -5).should == 55
+      expect(element.bananas(17, -5)).to eq(55)
     end
   end
 
@@ -76,15 +76,15 @@ describe CodeContext do
       it 'yields one module' do
         mods = 0
         @ctx.each_node(:module, []) {|exp| mods += 1}
-        mods.should == 1
+        expect(mods).to eq(1)
       end
       it "yields the module's full AST" do
-        @ctx.each_node(:module, []) {|exp| exp[1].should == @module_name.to_sym}
+        @ctx.each_node(:module, []) {|exp| expect(exp[1]).to eq(@module_name.to_sym)}
       end
 
       context 'with no block' do
         it 'returns an empty array of ifs' do
-          @ctx.each_node(:if, []).should be_empty
+          expect(@ctx.each_node(:if, [])).to be_empty
         end
       end
     end
@@ -101,21 +101,21 @@ describe CodeContext do
         @ctx.each_node(:if, []) {|exp| raise "#{exp} yielded by empty module!"}
       end
       it 'yields one module' do
-        @ctx.each_node(:module, []).length.should == 1
+        expect(@ctx.each_node(:module, []).length).to eq(1)
       end
       it "yields the module's full AST" do
-        @ctx.each_node(:module, []) {|exp| exp[1].should == @module_name.to_sym}
+        @ctx.each_node(:module, []) {|exp| expect(exp[1]).to eq(@module_name.to_sym)}
       end
       it 'yields one method' do
-        @ctx.each_node(:defn, []).length.should == 1
+        expect(@ctx.each_node(:defn, []).length).to eq(1)
       end
       it "yields the method's full AST" do
-        @ctx.each_node(:defn, []) {|exp| exp[1].should == @method_name.to_sym}
+        @ctx.each_node(:defn, []) {|exp| expect(exp[1]).to eq(@method_name.to_sym)}
       end
 
       context 'pruning the traversal' do
         it 'ignores the call inside the method' do
-          @ctx.each_node(:call, [:defn]).should be_empty
+          expect(@ctx.each_node(:call, [:defn])).to be_empty
         end
       end
     end
@@ -139,7 +139,7 @@ EOS
 
       ast = src.to_reek_source.syntax_tree
       ctx = CodeContext.new(nil, ast)
-      ctx.each_node(:if, []).length.should == 3
+      expect(ctx.each_node(:if, []).length).to eq(3)
     end
   end
 
@@ -156,8 +156,8 @@ EOS
     end
 
     it 'gets its configuration from the exp comments' do
-      ctx.config_for(sniffer).should == {
-        'allow_calls' => [ 'puts' ] }
+      expect(ctx.config_for(sniffer)).to eq({
+        'allow_calls' => [ 'puts' ] })
     end
 
     context 'when there is an outer' do
@@ -169,8 +169,8 @@ EOS
       end
 
       it 'merges the outer config with its own configuration' do
-        ctx.config_for(sniffer).should == { 'allow_calls' => [ 'puts' ],
-                                            'max_calls' => 2 }
+        expect(ctx.config_for(sniffer)).to eq({ 'allow_calls' => [ 'puts' ],
+                                            'max_calls' => 2 })
       end
     end
   end

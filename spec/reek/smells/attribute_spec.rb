@@ -18,7 +18,7 @@ describe Attribute do
     it 'records nothing in the module' do
       src = 'module Fred; end'
       ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
-      @detector.examine_context(ctx).should be_empty
+      expect(@detector.examine_context(ctx)).to be_empty
     end
   end
 
@@ -34,19 +34,19 @@ describe Attribute do
       end
 
       it 'records only that attribute' do
-        @smells.length.should == 1
+        expect(@smells.length).to eq(1)
       end
       it 'reports the attribute name' do
-        @smells[0].smell[Attribute::ATTRIBUTE_KEY].should == @attr_name
+        expect(@smells[0].smell[Attribute::ATTRIBUTE_KEY]).to eq(@attr_name)
       end
       it 'reports the declaration line number' do
-        @smells[0].lines.should == [1]
+        expect(@smells[0].lines).to eq([1])
       end
       it 'reports the correct smell class' do
-        @smells[0].smell_class.should == Attribute::SMELL_CLASS
+        expect(@smells[0].smell_class).to eq(Attribute::SMELL_CLASS)
       end
       it 'reports the context fq name' do
-        @smells[0].context.should == 'Fred'
+        expect(@smells[0].context).to eq('Fred')
       end
     end
 

@@ -6,7 +6,7 @@ include Reek::Core
 describe SmellConfiguration do
   it 'returns the default value when key not found' do
     cf = SmellConfiguration.new({})
-    cf.value('fred', nil, 27).should == 27
+    expect(cf.value('fred', nil, 27)).to eq(27)
   end
 
   context 'when overriding default configs' do
@@ -17,31 +17,32 @@ describe SmellConfiguration do
       @smell_config = SmellConfiguration.new(@base_config)
     end
 
-    it { @smell_config.merge!({}).should == @base_config }
-    it { @smell_config.merge!({"enabled"=>true}).should == @base_config }
-    it { @smell_config.merge!({"exclude"=>[]}).should == @base_config }
-    it { @smell_config.merge!({"accept"=>["_"]}).should == @base_config }
-    it { @smell_config.merge!({"reject"=>[/^.$/, /[0-9]$/, /[A-Z]/]}).should == @base_config }
-    it { @smell_config.merge!({"enabled"=>true, "accept"=>["_"]}).should == @base_config }
+    it { expect(@smell_config.merge!({})).to eq(@base_config) }
+    it { expect(@smell_config.merge!({"enabled"=>true})).to eq(@base_config) }
+    it { expect(@smell_config.merge!({"exclude"=>[]})).to eq(@base_config) }
+    it { expect(@smell_config.merge!({"accept"=>["_"]})).to eq(@base_config) }
+    it { expect(@smell_config.merge!({"reject"=>[/^.$/, /[0-9]$/, /[A-Z]/]})).to eq(@base_config) }
+    it { expect(@smell_config.merge!({"enabled"=>true, "accept"=>["_"]})).to eq(@base_config) }
 
     it 'should override single values' do
-      @smell_config.merge!({"enabled"=>false}).should == {"enabled"=>false, "exclude"=>[],
+      expect(@smell_config.merge!({"enabled"=>false})).to eq({"enabled"=>false, "exclude"=>[],
                                                           "reject"=>[/^.$/, /[0-9]$/, /[A-Z]/],
-                                                          "accept"=>["_"]}
+                                                          "accept"=>["_"]})
     end
 
     it 'should override arrays of values' do
-      @smell_config.merge!({"reject"=>[/^.$/, /[3-9]$/]}).should == {"enabled"=>true,
+      expect(@smell_config.merge!({"reject"=>[/^.$/, /[3-9]$/]})).to eq({"enabled"=>true,
                                                           "exclude"=>[],
                                                           "reject"=>[/^.$/, /[3-9]$/],
-                                                          "accept"=>["_"]}
+                                                          "accept"=>["_"]})
     end
 
     it 'should override multiple values' do
-      @smell_config.merge!({"enabled"=>false, "accept"=>[/[A-Z]$/]}).should ==
+      expect(@smell_config.merge!({"enabled"=>false, "accept"=>[/[A-Z]$/]})).to eq(
                            {"enabled"=>false, "exclude"=>[],
                             "reject"=>[/^.$/, /[0-9]$/, /[A-Z]/],
                             "accept"=>[/[A-Z]$/]}
+      )
     end
   end
 end

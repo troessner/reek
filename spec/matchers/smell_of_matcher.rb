@@ -6,11 +6,11 @@ module SmellOfMatcher
       @config = {}
     end
 
-    def failure_message_for_should
+    def failure_message
       "Expected #{@source.desc} to smell of #{@klass}, but it didn't: #{@reason}"
     end
 
-    def failure_message_for_should_not
+    def failure_message_when_negated
       "Expected #{@source.desc} not to smell of #{@klass}, but it did"
     end
 

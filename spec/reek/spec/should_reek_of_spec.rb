@@ -11,13 +11,13 @@ describe ShouldReekOf do
     end
 
     it 'reports duplicate calls to @other.thing' do
-      @ruby.should reek_of(:Duplication, /@other.thing[^\.]/)
+      expect(@ruby).to reek_of(:Duplication, /@other.thing[^\.]/)
     end
     it 'reports duplicate calls to @other.thing.foo' do
-      @ruby.should reek_of(:Duplication, /@other.thing.foo/)
+      expect(@ruby).to reek_of(:Duplication, /@other.thing.foo/)
     end
     it 'does not report any feature envy' do
-      @ruby.should_not reek_of(:FeatureEnvy)
+      expect(@ruby).not_to reek_of(:FeatureEnvy)
     end
   end
 
@@ -29,16 +29,16 @@ describe ShouldReekOf do
     end
 
     it 'matches a smelly String' do
-      @matcher.matches?(@smelly_code).should be_true
+      expect(@matcher.matches?(@smelly_code)).to be_truthy
     end
 
     it 'doesnt match a fragrant String' do
-      @matcher.matches?(@clean_code).should be_false
+      expect(@matcher.matches?(@clean_code)).to be_falsey
     end
 
     it 'reports the smells when should_not fails' do
-      @matcher.matches?(@smelly_code).should be_true
-      @matcher.failure_message_for_should_not.should match('UncommunicativeVariableName')
+      expect(@matcher.matches?(@smelly_code)).to be_truthy
+      expect(@matcher.failure_message_when_negated).to match('UncommunicativeVariableName')
     end
   end
 
@@ -50,11 +50,11 @@ describe ShouldReekOf do
     end
 
     it 'matches a smelly String' do
-      @matcher.matches?(@smelly_dir).should be_true
+      expect(@matcher.matches?(@smelly_dir)).to be_truthy
     end
 
     it 'doesnt match a fragrant String' do
-      @matcher.matches?(@clean_dir).should be_false
+      expect(@matcher.matches?(@clean_dir)).to be_falsey
     end
   end
 
@@ -66,11 +66,11 @@ describe ShouldReekOf do
     end
 
     it 'matches a smelly String' do
-      @matcher.matches?(@smelly_file).should be_true
+      expect(@matcher.matches?(@smelly_file)).to be_truthy
     end
 
     it 'doesnt match a fragrant String' do
-      @matcher.matches?(@clean_file).should be_false
+      expect(@matcher.matches?(@clean_file)).to be_falsey
     end
   end
 end

@@ -17,26 +17,26 @@ describe UncommunicativeModuleName do
 
   ['class', 'module'].each do |type|
     it 'does not report one-word name' do
-      "#{type} Helper; end".should_not reek_of(:UncommunicativeModuleName)
+      expect("#{type} Helper; end").not_to reek_of(:UncommunicativeModuleName)
     end
     it 'reports one-letter name' do
-      "#{type} X; end".should reek_of(:UncommunicativeModuleName, /X/)
+      expect("#{type} X; end").to reek_of(:UncommunicativeModuleName, /X/)
     end
     it 'reports name of the form "x2"' do
-      "#{type} X2; end".should reek_of(:UncommunicativeModuleName, /X2/)
+      expect("#{type} X2; end").to reek_of(:UncommunicativeModuleName, /X2/)
     end
     it 'reports long name ending in a number' do
-      "#{type} Printer2; end".should reek_of(:UncommunicativeModuleName, /Printer2/)
+      expect("#{type} Printer2; end").to reek_of(:UncommunicativeModuleName, /Printer2/)
     end
     it 'reports a bad scoped name' do
       src = "#{type} Foo::X; end"
       ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
       smells = @detector.examine_context(ctx)
-      smells.length.should == 1
-      smells[0].smell_class.should == UncommunicativeModuleName::SMELL_CLASS
-      smells[0].subclass.should == UncommunicativeModuleName::SMELL_SUBCLASS
-      smells[0].smell[UncommunicativeModuleName::MODULE_NAME_KEY].should == 'X'
-      smells[0].context.should match(/#{smells[0].smell[UncommunicativeModuleName::MODULE_NAME_KEY]}/)
+      expect(smells.length).to eq(1)
+      expect(smells[0].smell_class).to eq(UncommunicativeModuleName::SMELL_CLASS)
+      expect(smells[0].subclass).to eq(UncommunicativeModuleName::SMELL_SUBCLASS)
+      expect(smells[0].smell[UncommunicativeModuleName::MODULE_NAME_KEY]).to eq('X')
+      expect(smells[0].context).to match(/#{smells[0].smell[UncommunicativeModuleName::MODULE_NAME_KEY]}/)
     end
   end
 
@@ -44,7 +44,7 @@ describe UncommunicativeModuleName do
     it 'accepts Inline::C' do
       src = 'module Inline::C; end'
       ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
-      @detector.examine_context(ctx).should be_empty
+      expect(@detector.examine_context(ctx)).to be_empty
     end
   end
 
@@ -59,8 +59,8 @@ describe UncommunicativeModuleName do
     it_should_behave_like 'common fields set correctly'
 
     it 'reports the correct values' do
-      @warning.smell[UncommunicativeModuleName::MODULE_NAME_KEY].should == 'Printer2'
-      @warning.lines.should == [1]
+      expect(@warning.smell[UncommunicativeModuleName::MODULE_NAME_KEY]).to eq('Printer2')
+      expect(@warning.lines).to eq([1])
     end
   end
 end

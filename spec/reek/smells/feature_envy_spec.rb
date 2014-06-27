@@ -8,40 +8,40 @@ include Reek::Smells
 describe FeatureEnvy do
   context 'with no smell' do
     it 'should not report use of self' do
-      'def simple() self.to_s + self.to_i end'.should_not reek
+      expect('def simple() self.to_s + self.to_i end').not_to reek
     end
     it 'should not report vcall with no argument' do
-      'def simple() func; end'.should_not reek
+      expect('def simple() func; end').not_to reek
     end
     it 'should not report single use' do
-      'def no_envy(arga) arga.barg(@item) end'.should_not reek
+      expect('def no_envy(arga) arga.barg(@item) end').not_to reek
     end
     it 'should not report return value' do
-      'def no_envy(arga) arga.barg(@item); arga end'.should_not reek
+      expect('def no_envy(arga) arga.barg(@item); arga end').not_to reek
     end
     it 'should ignore global variables' do
-      'def no_envy() $s2.to_a; $s2[@item] end'.should_not reek
+      expect('def no_envy() $s2.to_a; $s2[@item] end').not_to reek
     end
     it 'should not report class methods' do
-      'def simple() self.class.new.flatten_merge(self) end'.should_not reek
+      expect('def simple() self.class.new.flatten_merge(self) end').not_to reek
     end
     it 'should not report single use of an ivar' do
-      'def no_envy() @item.to_a end'.should_not reek
+      expect('def no_envy() @item.to_a end').not_to reek
     end
     it 'should not report returning an ivar' do
-      'def no_envy() @item.to_a; @item end'.should_not reek
+      expect('def no_envy() @item.to_a; @item end').not_to reek
     end
     it 'should not report ivar usage in a parameter' do
-      'def no_envy() @item.price + tax(@item) - savings(@item) end'.should_not reek
+      expect('def no_envy() @item.price + tax(@item) - savings(@item) end').not_to reek
     end
     it 'should not report single use of an lvar' do
-      'def no_envy() lv = @item; lv.to_a end'.should_not reek
+      expect('def no_envy() lv = @item; lv.to_a end').not_to reek
     end
     it 'should not report returning an lvar' do
-      'def no_envy() lv = @item; lv.to_a; lv end'.should_not reek
+      expect('def no_envy() lv = @item; lv.to_a; lv end').not_to reek
     end
     it 'ignores lvar usage in a parameter' do
-      'def no_envy() lv = @item; lv.price + tax(lv) - savings(lv); end'.should_not reek
+      expect('def no_envy() lv = @item; lv.price + tax(lv) - savings(lv); end').not_to reek
     end
     it 'ignores multiple ivars' do
       src = <<EOS
@@ -52,7 +52,7 @@ describe FeatureEnvy do
     @nother.d
   end
 EOS
-      src.should_not reek
+      expect(src).not_to reek
       #
       # def other.func(me)
       #   a
@@ -66,7 +66,7 @@ EOS
 
   context 'with 2 calls to a parameter' do
     it 'reports the smell' do
-      'def envy(arga) arga.b(arga) + arga.c(@fred) end'.should reek_only_of(:FeatureEnvy, /arga/)
+      expect('def envy(arga) arga.b(arga) + arga.c(@fred) end').to reek_only_of(:FeatureEnvy, /arga/)
     end
   end
 
@@ -80,7 +80,7 @@ def total_envy
   total *= 1.15
 end
 EOS
-    src.should reek_only_of(:FeatureEnvy, /total/)
+    expect(src).to reek_only_of(:FeatureEnvy, /total/)
   end
 
   it 'should report multiple affinities' do
@@ -92,20 +92,20 @@ def total_envy
   total += fred.tax
 end
 EOS
-    src.should reek_of(:FeatureEnvy, /total/)
-    src.should reek_of(:FeatureEnvy, /fred/)
+    expect(src).to reek_of(:FeatureEnvy, /total/)
+    expect(src).to reek_of(:FeatureEnvy, /fred/)
   end
 
   it 'should not be fooled by duplication' do
-    'def feed(thing) @cow.feed_to(thing.pig); @duck.feed_to(thing.pig) end'.should reek_only_of(:Duplication, /thing.pig/)
+    expect('def feed(thing) @cow.feed_to(thing.pig); @duck.feed_to(thing.pig) end').to reek_only_of(:Duplication, /thing.pig/)
   end
 
   it 'should count local calls' do
-    'def feed(thing) cow.feed_to(thing.pig); duck.feed_to(thing.pig) end'.should reek_only_of(:Duplication, /thing.pig/)
+    expect('def feed(thing) cow.feed_to(thing.pig); duck.feed_to(thing.pig) end').to reek_only_of(:Duplication, /thing.pig/)
   end
 
   it 'should report many calls to lvar' do
-    'def envy() lv = @item; lv.price + lv.tax; end'.should reek_only_of(:FeatureEnvy, /lv/)
+    expect('def envy() lv = @item; lv.price + lv.tax; end').to reek_only_of(:FeatureEnvy, /lv/)
     #
     # def moved_version
     #   price + tax
@@ -117,7 +117,7 @@ EOS
   end
 
   it 'ignores frequent use of a call' do
-    'def func() other.a; other.b; nother.c end'.should_not reek_of(:FeatureEnvy)
+    expect('def func() other.a; other.b; nother.c end').not_to reek_of(:FeatureEnvy)
   end
 
   it 'counts self references correctly' do
@@ -130,7 +130,7 @@ def adopt(other)
   self
 end
 EOS
-    src.should_not reek
+    expect(src).not_to reek
   end
 end
 
@@ -147,7 +147,7 @@ def report
   @report
 end
 EOS
-    ruby.should_not reek
+    expect(ruby).not_to reek
   end
 
   it 'interprets << correctly' do
@@ -161,7 +161,7 @@ def report_on(report)
 end
 EOS
 
-    ruby.should_not reek
+    expect(ruby).not_to reek
   end
 end
 
@@ -190,26 +190,26 @@ EOS
       @smells = @detector.examine_context(@mctx)
     end
     it 'reports only that smell' do
-      @smells.length.should == 1
+      expect(@smells.length).to eq(1)
     end
     it 'reports the source' do
-      @smells[0].source.should == @source_name
+      expect(@smells[0].source).to eq(@source_name)
     end
     it 'reports the class' do
-      @smells[0].smell_class.should == FeatureEnvy::SMELL_CLASS
+      expect(@smells[0].smell_class).to eq(FeatureEnvy::SMELL_CLASS)
     end
     it 'reports the subclass' do
-      @smells[0].subclass.should == FeatureEnvy::SMELL_SUBCLASS
+      expect(@smells[0].subclass).to eq(FeatureEnvy::SMELL_SUBCLASS)
     end
     it 'reports the envious receiver' do
-      @smells[0].smell[FeatureEnvy::RECEIVER_KEY].should == @receiver
+      expect(@smells[0].smell[FeatureEnvy::RECEIVER_KEY]).to eq(@receiver)
     end
     it 'reports the number of references' do
-      @smells[0].smell[FeatureEnvy::REFERENCES_KEY].should == 3
+      expect(@smells[0].smell[FeatureEnvy::REFERENCES_KEY]).to eq(3)
     end
     it 'reports the referring lines' do
-      pending
-      @smells[0].lines.should == [2, 4, 5]
+      skip
+      expect(@smells[0].lines).to eq([2, 4, 5])
     end
   end
 end

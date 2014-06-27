@@ -22,7 +22,6 @@ task CONFIG_FILE => FileList['lib/reek/smells/*.rb']
 
 task 'test:spec' => [CONFIG_FILE]
 task 'test:slow' => [CONFIG_FILE]
-task 'test:rcov' => [CONFIG_FILE]
 task 'test:quality' => [CONFIG_FILE]
 task 'test:features' => [CONFIG_FILE]
 task 'reek' => [CONFIG_FILE]

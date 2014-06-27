@@ -18,7 +18,7 @@ describe IrresponsibleModule do
 
       class C; def foo; end; end
     EOS
-    src.should_not reek_of(:IrresponsibleModule)
+    expect(src).not_to reek_of(:IrresponsibleModule)
   end
 
   it "does not report a class having a comment" do
@@ -27,17 +27,17 @@ describe IrresponsibleModule do
 class Responsible; end
 EOS
     ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
-    @detector.examine_context(ctx).should be_empty
+    expect(@detector.examine_context(ctx)).to be_empty
   end
   it "reports a class without a comment" do
     src = "class #{@bad_module_name}; end"
     ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
     smells = @detector.examine_context(ctx)
-    smells.length.should == 1
-    smells[0].smell_class.should == IrresponsibleModule::SMELL_CLASS
-    smells[0].subclass.should == IrresponsibleModule::SMELL_SUBCLASS
-    smells[0].lines.should == [1]
-    smells[0].smell[IrresponsibleModule::MODULE_NAME_KEY].should == @bad_module_name
+    expect(smells.length).to eq(1)
+    expect(smells[0].smell_class).to eq(IrresponsibleModule::SMELL_CLASS)
+    expect(smells[0].subclass).to eq(IrresponsibleModule::SMELL_SUBCLASS)
+    expect(smells[0].lines).to eq([1])
+    expect(smells[0].smell[IrresponsibleModule::MODULE_NAME_KEY]).to eq(@bad_module_name)
   end
   it "reports a class with an empty comment" do
     src = <<EOS
@@ -48,20 +48,20 @@ class #{@bad_module_name}; end
 EOS
     ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
     smells = @detector.examine_context(ctx)
-    smells.length.should == 1
-    smells[0].smell_class.should == IrresponsibleModule::SMELL_CLASS
-    smells[0].subclass.should == IrresponsibleModule::SMELL_SUBCLASS
-    smells[0].lines.should == [4]
-    smells[0].smell[IrresponsibleModule::MODULE_NAME_KEY].should == @bad_module_name
+    expect(smells.length).to eq(1)
+    expect(smells[0].smell_class).to eq(IrresponsibleModule::SMELL_CLASS)
+    expect(smells[0].subclass).to eq(IrresponsibleModule::SMELL_SUBCLASS)
+    expect(smells[0].lines).to eq([4])
+    expect(smells[0].smell[IrresponsibleModule::MODULE_NAME_KEY]).to eq(@bad_module_name)
   end
   it 'reports a fq module name correctly' do
     src = 'class Foo::Bar; end'
     ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
     smells = @detector.examine_context(ctx)
-    smells.length.should == 1
-    smells[0].smell_class.should == IrresponsibleModule::SMELL_CLASS
-    smells[0].subclass.should == IrresponsibleModule::SMELL_SUBCLASS
-    smells[0].smell[IrresponsibleModule::MODULE_NAME_KEY].should == 'Foo::Bar'
-    smells[0].context.should match(/#{smells[0].smell[IrresponsibleModule::MODULE_NAME_KEY]}/)
+    expect(smells.length).to eq(1)
+    expect(smells[0].smell_class).to eq(IrresponsibleModule::SMELL_CLASS)
+    expect(smells[0].subclass).to eq(IrresponsibleModule::SMELL_SUBCLASS)
+    expect(smells[0].smell[IrresponsibleModule::MODULE_NAME_KEY]).to eq('Foo::Bar')
+    expect(smells[0].context).to match(/#{smells[0].smell[IrresponsibleModule::MODULE_NAME_KEY]}/)
   end
 end

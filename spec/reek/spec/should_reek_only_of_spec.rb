@@ -10,24 +10,24 @@ describe ShouldReekOnlyOf do
     @expected_context_name = 'SmellyClass#big_method'
     @matcher = ShouldReekOnlyOf.new(@expected_smell_class, [/#{@expected_context_name}/])
     @examiner = double('examiner').as_null_object
-    @examiner.should_receive(:smells).and_return {smells}
+    expect(@examiner).to receive(:smells) {smells}
     @match = @matcher.matches_examiner?(@examiner)
   end
 
   shared_examples_for 'no match' do
     it 'does not match' do
-      @match.should be_false
+      expect(@match).to be_falsey
     end
     context 'when a match was expected' do
       before :each do
         @source = 'the_path/to_a/source_file.rb'
-        @examiner.should_receive(:description).and_return(@source)
+        expect(@examiner).to receive(:description).and_return(@source)
       end
       it 'reports the source' do
-        @matcher.failure_message_for_should.should match(@source)
+        expect(@matcher.failure_message).to match(@source)
       end
       it 'reports the expected smell class' do
-        @matcher.failure_message_for_should.should match(@expected_smell_class.to_s)
+        expect(@matcher.failure_message).to match(@expected_smell_class.to_s)
       end
     end
   end
@@ -75,15 +75,15 @@ describe ShouldReekOnlyOf do
       [SmellWarning.new(@expected_smell_class.to_s, nil, [1], "message mentioning #{@expected_context_name}")]
     end
     it 'matches' do
-      @match.should be_true
+      expect(@match).to be_truthy
     end
     it 'reports the expected smell when no match was expected' do
-      @matcher.failure_message_for_should_not.should match(@expected_smell_class.to_s)
+      expect(@matcher.failure_message_when_negated).to match(@expected_smell_class.to_s)
     end
     it 'reports the source when no match was expected' do
       source = 'the_path/to_a/source_file.rb'
-      @examiner.should_receive(:description).and_return(source)
-      @matcher.failure_message_for_should_not.should match(source)
+      expect(@examiner).to receive(:description).and_return(source)
+      expect(@matcher.failure_message_when_negated).to match(source)
     end
   end
 end

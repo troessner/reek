@@ -11,7 +11,7 @@ describe StopContext do
 
   context 'full_name' do
     it "reports full context" do
-      @stop.full_name.should == ''
+      expect(@stop.full_name).to eq('')
     end
   end
 end
