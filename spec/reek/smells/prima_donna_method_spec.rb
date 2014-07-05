@@ -18,6 +18,10 @@ describe PrimaDonnaMethod do
     'class C; attr_reader :m; def m!; end; end'.should_not smell_of(PrimaDonnaMethod)
   end
 
+  it 'should report nothing when multiple attr_reader and bang counterpart exist' do
+    'class C; attr_reader :m, :c; def m!; end; end'.should_not smell_of(PrimaDonnaMethod)
+  end
+
   it 'should report PrimaDonnaMethod when only bang method exists' do
     'class C; def m!; end; end'.should smell_of(PrimaDonnaMethod)
   end

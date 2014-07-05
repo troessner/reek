@@ -53,7 +53,7 @@ module Reek
       def attr_call_exist?(ctx, method_sexp)
         ctx.local_nodes(:call).find do |sexp_item|
           [:attr_reader, :attr_accessor].include?(sexp_item.method_name) &&
-            sexp_item.arg_names.first.to_s == method_sexp.name_without_bang
+            sexp_item.arg_names.map(&:to_s).include?(method_sexp.name_without_bang)
         end
       end
     end
