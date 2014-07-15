@@ -29,7 +29,7 @@ class Full
 end
 EOS
       ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
-      @detector.examine_context(ctx).should be_empty
+      expect(@detector.examine_context(ctx)).to be_empty
     end
 
     it 'should report 26 methods' do
@@ -45,9 +45,9 @@ end
 EOS
       ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
       smells = @detector.examine_context(ctx)
-      smells.length.should == 1
-      smells[0].subclass.should == TooManyMethods::SMELL_SUBCLASS
-      smells[0].smell[TooManyMethods::METHOD_COUNT_KEY].should == 26
+      expect(smells.length).to eq(1)
+      expect(smells[0].subclass).to eq(TooManyMethods::SMELL_SUBCLASS)
+      expect(smells[0].smell[TooManyMethods::METHOD_COUNT_KEY]).to eq(26)
     end
   end
 
@@ -64,7 +64,7 @@ class Full
 end
 EOS
       ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
-      @detector.examine_context(ctx).should be_empty
+      expect(@detector.examine_context(ctx)).to be_empty
     end
   end
 
@@ -81,10 +81,10 @@ end
 EOS
     ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
     @warning = @detector.examine_context(ctx)[0]
-    @warning.source.should == @source_name
-    @warning.smell_class.should == 'LargeClass'
-    @warning.subclass.should == TooManyMethods::SMELL_SUBCLASS
-    @warning.smell[TooManyMethods::METHOD_COUNT_KEY].should == 26
-    @warning.lines.should == [1]
+    expect(@warning.source).to eq(@source_name)
+    expect(@warning.smell_class).to eq('LargeClass')
+    expect(@warning.subclass).to eq(TooManyMethods::SMELL_SUBCLASS)
+    expect(@warning.smell[TooManyMethods::METHOD_COUNT_KEY]).to eq(26)
+    expect(@warning.lines).to eq([1])
   end
 end

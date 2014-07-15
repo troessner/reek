@@ -18,53 +18,53 @@ describe UncommunicativeVariableName do
   context "field name" do
     it 'does not report use of one-letter fieldname' do
       src = 'class Thing; def simple(fred) @x end end'
-      src.should_not smell_of(UncommunicativeVariableName)
+      expect(src).not_to smell_of(UncommunicativeVariableName)
     end
     it 'reports one-letter fieldname in assignment' do
       src = 'class Thing; def simple(fred) @x = fred end end'
-      src.should reek_of(:UncommunicativeVariableName, /@x/, /Thing/, /variable name/)
+      expect(src).to reek_of(:UncommunicativeVariableName, /@x/, /Thing/, /variable name/)
     end
   end
 
   context "local variable name" do
     it 'does not report one-word variable name' do
-      'def help(fred) simple = jim(45) end'.should_not smell_of(UncommunicativeVariableName)
+      expect('def help(fred) simple = jim(45) end').not_to smell_of(UncommunicativeVariableName)
     end
     it 'does not report single underscore as a variable name' do
-      'def help(fred) _ = jim(45) end'.should_not smell_of(UncommunicativeVariableName)
+      expect('def help(fred) _ = jim(45) end').not_to smell_of(UncommunicativeVariableName)
     end
     it 'reports one-letter variable name' do
       src = 'def simple(fred) x = jim(45) end'
-      src.should smell_of(UncommunicativeVariableName,
+      expect(src).to smell_of(UncommunicativeVariableName,
         {UncommunicativeVariableName::VARIABLE_NAME_KEY => 'x'})
     end
     it 'reports name of the form "x2"' do
       src = 'def simple(fred) x2 = jim(45) end'
-      src.should smell_of(UncommunicativeVariableName,
+      expect(src).to smell_of(UncommunicativeVariableName,
         {UncommunicativeVariableName::VARIABLE_NAME_KEY => 'x2'})
     end
     it 'reports long name ending in a number' do
       @bad_var = 'var123'
       src = "def simple(fred) #{@bad_var} = jim(45) end"
-      src.should smell_of(UncommunicativeVariableName,
+      expect(src).to smell_of(UncommunicativeVariableName,
         {UncommunicativeVariableName::VARIABLE_NAME_KEY => @bad_var})
     end
     it 'reports variable name only once' do
       src = 'def simple(fred) x = jim(45); x = y end'
       ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
       smells = @detector.examine_context(ctx)
-      smells.length.should == 1
-      smells[0].subclass.should == UncommunicativeVariableName::SMELL_SUBCLASS
-      smells[0].smell[UncommunicativeVariableName::VARIABLE_NAME_KEY].should == 'x'
-      smells[0].lines.should == [1,1]
+      expect(smells.length).to eq(1)
+      expect(smells[0].subclass).to eq(UncommunicativeVariableName::SMELL_SUBCLASS)
+      expect(smells[0].smell[UncommunicativeVariableName::VARIABLE_NAME_KEY]).to eq('x')
+      expect(smells[0].lines).to eq([1,1])
     end
     it 'reports a bad name inside a block' do
       src = 'def clean(text) text.each { q2 = 3 } end'
-      src.should smell_of(UncommunicativeVariableName,
+      expect(src).to smell_of(UncommunicativeVariableName,
         {UncommunicativeVariableName::VARIABLE_NAME_KEY => 'q2'})
     end
     it 'reports variable name outside any method' do
-      'class Simple; x = jim(45); end'.should reek_of(:UncommunicativeVariableName, /x/)
+      expect('class Simple; x = jim(45); end').to reek_of(:UncommunicativeVariableName, /x/)
     end
   end
 
@@ -77,7 +77,7 @@ describe UncommunicativeVariableName do
     end
   end
 EOS
-      src.should smell_of(UncommunicativeVariableName,
+      expect(src).to smell_of(UncommunicativeVariableName,
         {UncommunicativeVariableName::VARIABLE_NAME_KEY => 'x'})
     end
 
@@ -87,7 +87,7 @@ EOS
           @foo.map { |x, y| x + y }
         end
       EOS
-      src.should smell_of(UncommunicativeVariableName,
+      expect(src).to smell_of(UncommunicativeVariableName,
                           {UncommunicativeVariableName::VARIABLE_NAME_KEY => 'x'},
                           {UncommunicativeVariableName::VARIABLE_NAME_KEY => 'y'})
     end
@@ -98,7 +98,7 @@ EOS
         @foo.map { |x| x * 2 }
       end
       EOS
-      src.should smell_of(UncommunicativeVariableName,
+      expect(src).to smell_of(UncommunicativeVariableName,
                           {UncommunicativeVariableName::VARIABLE_NAME_KEY => 'x'})
     end
 
@@ -108,7 +108,7 @@ EOS
           @foo.map { |*y| y << 1 }
         end
       EOS
-      src.should smell_of(UncommunicativeVariableName,
+      expect(src).to smell_of(UncommunicativeVariableName,
                           {UncommunicativeVariableName::VARIABLE_NAME_KEY => 'y'})
     end
 
@@ -118,7 +118,7 @@ EOS
           @foo.map { |(x, y)| x + y }
         end
       EOS
-      src.should smell_of(UncommunicativeVariableName,
+      expect(src).to smell_of(UncommunicativeVariableName,
                           {UncommunicativeVariableName::VARIABLE_NAME_KEY => 'x'},
                           {UncommunicativeVariableName::VARIABLE_NAME_KEY => 'y'})
     end
@@ -129,7 +129,7 @@ EOS
           @foo.map { |(x, *y)| x + y }
         end
       EOS
-      src.should smell_of(UncommunicativeVariableName,
+      expect(src).to smell_of(UncommunicativeVariableName,
                           {UncommunicativeVariableName::VARIABLE_NAME_KEY => 'x'},
                           {UncommunicativeVariableName::VARIABLE_NAME_KEY => 'y'})
     end
@@ -140,7 +140,7 @@ EOS
           @foo.map { |(x, (y, z))| x + y + z }
         end
       EOS
-      src.should smell_of(UncommunicativeVariableName,
+      expect(src).to smell_of(UncommunicativeVariableName,
                           {UncommunicativeVariableName::VARIABLE_NAME_KEY => 'x'},
                           {UncommunicativeVariableName::VARIABLE_NAME_KEY => 'y'},
                           {UncommunicativeVariableName::VARIABLE_NAME_KEY => 'z'})
@@ -167,8 +167,8 @@ EOS
     it_should_behave_like 'common fields set correctly'
 
     it 'reports the correct values' do
-      @warning.smell['variable_name'].should == 'x2'
-      @warning.lines.should == [3,5]
+      expect(@warning.smell['variable_name']).to eq('x2')
+      expect(@warning.lines).to eq([3,5])
     end
   end
 
@@ -183,7 +183,7 @@ EOS
     it_should_behave_like 'common fields set correctly'
 
     it 'reports the fq context' do
-      @warning.context.should == 'self.bad'
+      expect(@warning.context).to eq('self.bad')
     end
   end
 end

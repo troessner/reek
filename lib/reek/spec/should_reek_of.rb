@@ -12,15 +12,18 @@ module Reek
         @klass = klass
         @patterns = patterns
       end
+
       def matches?(actual)
         @examiner = Examiner.new(actual)
         @all_smells = @examiner.smells
         @all_smells.any? {|warning| warning.matches?(@klass, @patterns)}
       end
-      def failure_message_for_should
+
+      def failure_message
         "Expected #{@examiner.description} to reek of #{@klass}, but it didn't"
       end
-      def failure_message_for_should_not
+
+      def failure_message_when_negated
         "Expected #{@examiner.description} not to reek of #{@klass}, but it did"
       end
     end

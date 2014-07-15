@@ -18,11 +18,11 @@ describe ClassVariable do
   context 'with no class variables' do
     it 'records nothing in the class' do
       exp = ast(:class, :Fred)
-      @detector.examine_context(CodeContext.new(nil, exp)).should be_empty
+      expect(@detector.examine_context(CodeContext.new(nil, exp))).to be_empty
     end
     it 'records nothing in the module' do
       exp = ast(:module, :Fred)
-      @detector.examine_context(CodeContext.new(nil, exp)).should be_empty
+      expect(@detector.examine_context(CodeContext.new(nil, exp))).to be_empty
     end
   end
 
@@ -33,10 +33,10 @@ describe ClassVariable do
         @smells = @detector.examine_context(CodeContext.new(nil, ast))
       end
       it 'records only that class variable' do
-        @smells.length.should == 1
+        expect(@smells.length).to eq(1)
       end
       it 'records the variable name' do
-        @smells[0].smell[ClassVariable::VARIABLE_KEY].should == @class_variable
+        expect(@smells[0].smell[ClassVariable::VARIABLE_KEY]).to eq(@class_variable)
       end
     end
 
@@ -91,10 +91,10 @@ end
 EOS
     ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
     @warning = @detector.examine_context(ctx)[0]
-    @warning.source.should == @source_name
-    @warning.smell_class.should == ClassVariable::SMELL_CLASS
-    @warning.subclass.should == ClassVariable::SMELL_SUBCLASS
-    @warning.smell[ClassVariable::VARIABLE_KEY].should == @class_variable
-    @warning.lines.should == [2]
+    expect(@warning.source).to eq(@source_name)
+    expect(@warning.smell_class).to eq(ClassVariable::SMELL_CLASS)
+    expect(@warning.subclass).to eq(ClassVariable::SMELL_SUBCLASS)
+    expect(@warning.smell[ClassVariable::VARIABLE_KEY]).to eq(@class_variable)
+    expect(@warning.lines).to eq([2])
   end
 end

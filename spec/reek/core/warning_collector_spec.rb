@@ -11,7 +11,7 @@ describe WarningCollector do
 
   context 'when empty' do
     it 'reports no warnings' do
-      @collector.warnings.should == []
+      expect(@collector.warnings).to eq([])
     end
   end
 
@@ -21,7 +21,7 @@ describe WarningCollector do
       @collector.found_smell(@warning)
     end
     it 'reports that warning' do
-      @collector.warnings.should == [@warning]
+      expect(@collector.warnings).to eq([@warning])
     end
   end
 end

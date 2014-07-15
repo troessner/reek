@@ -22,17 +22,17 @@ end
 describe TooManyStatements do
   it 'should not report short methods' do
     src = 'def short(arga) alf = f(1);@bet = 2;@cut = 3;@dit = 4; @emp = 5;end'
-    src.should_not smell_of(TooManyStatements)
+    expect(src).not_to smell_of(TooManyStatements)
   end
 
   it 'should report long methods' do
     src = 'def long() alf = f(1);@bet = 2;@cut = 3;@dit = 4; @emp = 5;@fry = 6;end'
-    src.should reek_only_of(:TooManyStatements, /6 statements/)
+    expect(src).to reek_only_of(:TooManyStatements, /6 statements/)
   end
 
   it 'should not report initialize' do
     src = 'def initialize(arga) alf = f(1);@bet = 2;@cut = 3;@dit = 4; @emp = 5;@fry = 6;end'
-    src.should_not smell_of(TooManyStatements)
+    expect(src).not_to smell_of(TooManyStatements)
   end
 
   it 'should only report a long method once' do
@@ -54,7 +54,7 @@ def standard_entries(rbconfig)
   end
 end
 EOS
-    src.should reek_only_of(:TooManyStatements)
+    expect(src).to reek_only_of(:TooManyStatements)
   end
 
   it 'should report long inner block' do
@@ -71,166 +71,166 @@ def long()
   end
 end
 EOS
-    src.should reek_only_of(:TooManyStatements)
+    expect(src).to reek_only_of(:TooManyStatements)
   end
 end
 
 describe TooManyStatements do
   it 'counts 1 assignment' do
     method = process_method('def one() val = 4; end')
-    method.num_statements.should == 1
+    expect(method.num_statements).to eq(1)
   end
 
   it 'counts 3 assignments' do
     method = process_method('def one() val = 4; val = 4; val = 4; end')
-    method.num_statements.should == 3
+    expect(method.num_statements).to eq(3)
   end
 
   it 'counts 1 attr assignment' do
     method = process_method('def one() val[0] = 4; end')
-    method.num_statements.should == 1
+    expect(method.num_statements).to eq(1)
   end
 
   it 'counts 1 increment assignment' do
     method = process_method('def one() val += 4; end')
-    method.num_statements.should == 1
+    expect(method.num_statements).to eq(1)
   end
 
   it 'counts 1 increment attr assignment' do
     method = process_method('def one() val[0] += 4; end')
-    method.num_statements.should == 1
+    expect(method.num_statements).to eq(1)
   end
 
   it 'counts 1 nested assignment' do
     method = process_method('def one() val = fred = 4; end')
-    method.num_statements.should == 1
+    expect(method.num_statements).to eq(1)
   end
 
   it 'counts returns' do
     method = process_method('def one() val = 4; true; end')
-    method.num_statements.should == 2
+    expect(method.num_statements).to eq(2)
   end
 
   it 'counts nil returns' do
     method = process_method('def one() val = 4; nil; end')
-    method.num_statements.should == 2
+    expect(method.num_statements).to eq(2)
   end
 end
 
 describe TooManyStatements, 'does not count control statements' do
   it 'counts 1 statement in a conditional expression' do
     method = process_method('def one() if val == 4; callee(); end; end')
-    method.num_statements.should == 1
+    expect(method.num_statements).to eq(1)
   end
 
   it 'counts 3 statements in a conditional expression' do
     method = process_method('def one() if val == 4; callee(); callee(); callee(); end; end')
-    method.num_statements.should == 3
+    expect(method.num_statements).to eq(3)
   end
 
   it 'counts 1 statements in an else' do
     method = process_method('def one() if val == 4; callee(); else; callee(); end; end')
-    method.num_statements.should == 2
+    expect(method.num_statements).to eq(2)
   end
 
   it 'counts 3 statements in an else' do
     method = process_method('def one() if val == 4; callee(); callee(); callee(); else; callee(); callee(); callee(); end; end')
-    method.num_statements.should == 6
+    expect(method.num_statements).to eq(6)
   end
 
   it 'does not count empty conditional expression' do
     method = process_method('def one() if val == 4; ; end; end')
-    method.num_statements.should == 0
+    expect(method.num_statements).to eq(0)
   end
 
   it 'does not count empty else' do
     method = process_method('def one() if val == 4; ; else; ; end; end')
-    method.num_statements.should == 0
+    expect(method.num_statements).to eq(0)
   end
 
   it 'counts 1 statement in a while loop' do
     method = process_method('def one() while val < 4; callee(); end; end')
-    method.num_statements.should == 1
+    expect(method.num_statements).to eq(1)
   end
 
   it 'counts 3 statements in a while loop' do
     method = process_method('def one() while val < 4; callee(); callee(); callee(); end; end')
-    method.num_statements.should == 3
+    expect(method.num_statements).to eq(3)
   end
 
   it 'counts 1 statement in a until loop' do
     method = process_method('def one() until val < 4; callee(); end; end')
-    method.num_statements.should == 1
+    expect(method.num_statements).to eq(1)
   end
 
   it 'counts 3 statements in a until loop' do
     method = process_method('def one() until val < 4; callee(); callee(); callee(); end; end')
-    method.num_statements.should == 3
+    expect(method.num_statements).to eq(3)
   end
 
   it 'counts 1 statement in a for loop' do
     method = process_method('def one() for i in 0..4; callee(); end; end')
-    method.num_statements.should == 1
+    expect(method.num_statements).to eq(1)
   end
 
   it 'counts 3 statements in a for loop' do
     method = process_method('def one() for i in 0..4; callee(); callee(); callee(); end; end')
-    method.num_statements.should == 3
+    expect(method.num_statements).to eq(3)
   end
 
   it 'counts 1 statement in a rescue' do
     method = process_method('def one() begin; callee(); rescue; callee(); end; end')
-    method.num_statements.should == 2
+    expect(method.num_statements).to eq(2)
   end
 
   it 'counts 3 statements in a rescue' do
     method = process_method('def one() begin; callee(); callee(); callee(); rescue; callee(); callee(); callee(); end; end')
-    method.num_statements.should == 6
+    expect(method.num_statements).to eq(6)
   end
 
   it 'counts 1 statement in a when' do
     method = process_method('def one() case fred; when "hi"; callee(); end; end')
-    method.num_statements.should == 1
+    expect(method.num_statements).to eq(1)
   end
 
   it 'counts 3 statements in a when' do
     method = process_method('def one() case fred; when "hi"; callee(); callee(); when "lo"; callee(); end; end')
-    method.num_statements.should == 3
+    expect(method.num_statements).to eq(3)
   end
 
   it 'counts 1 statement in a case else' do
     method = process_method('def one() case fred; when "hi"; callee(); else; callee(); end; end')
-    method.num_statements.should == 2
+    expect(method.num_statements).to eq(2)
   end
 
   it 'counts 3 statements in a case else' do
     method = process_method('def one() case fred; when "hi"; callee(); callee(); callee(); else; callee(); callee(); callee(); end; end')
-    method.num_statements.should == 6
+    expect(method.num_statements).to eq(6)
   end
 
   it 'does not count empty case' do
     method = process_method('def one() case fred; when "hi"; ; when "lo"; ; end; end')
-    method.num_statements.should == 0
+    expect(method.num_statements).to eq(0)
   end
 
   it 'does not count empty case else' do
     method = process_method('def one() case fred; when "hi"; ; else; ; end; end')
-    method.num_statements.should == 0
+    expect(method.num_statements).to eq(0)
   end
 
   it 'counts 2 statement in an iterator' do
     method = process_method('def one() fred.each do; callee(); end; end')
-    method.num_statements.should == 2
+    expect(method.num_statements).to eq(2)
   end
 
   it 'counts 4 statements in an iterator' do
     method = process_method('def one() fred.each do; callee(); callee(); callee(); end; end')
-    method.num_statements.should == 4
+    expect(method.num_statements).to eq(4)
   end
 
   it 'counts 1 statement in a singleton method' do
     method = process_singleton_method('def self.foo; callee(); end')
-    method.num_statements.should == 1
+    expect(method.num_statements).to eq(1)
   end
 end
 
@@ -245,18 +245,18 @@ describe TooManyStatements do
     before :each do
       @num_statements = 30
       ctx = double('method_context').as_null_object
-      ctx.should_receive(:num_statements).and_return(@num_statements)
-      ctx.should_receive(:config_for).with(TooManyStatements).and_return({})
+      expect(ctx).to receive(:num_statements).and_return(@num_statements)
+      expect(ctx).to receive(:config_for).with(TooManyStatements).and_return({})
       @smells = @detector.examine_context(ctx)
     end
     it 'reports only 1 smell' do
-      @smells.length.should == 1
+      expect(@smells.length).to eq(1)
     end
     it 'reports the number of statements' do
-      @smells[0].smell[TooManyStatements::STATEMENT_COUNT_KEY].should == @num_statements
+      expect(@smells[0].smell[TooManyStatements::STATEMENT_COUNT_KEY]).to eq(@num_statements)
     end
     it 'reports the correct subclass' do
-      @smells[0].subclass.should == TooManyStatements::SMELL_SUBCLASS
+      expect(@smells[0].subclass).to eq(TooManyStatements::SMELL_SUBCLASS)
     end
   end
 end

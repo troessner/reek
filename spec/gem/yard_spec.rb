@@ -9,7 +9,7 @@ describe 'yardoc' do
     @stderr = IO.read(stderr_file.path)
   end
   it 'raises no warnings' do
-    @stderr.should == ''
+    expect(@stderr).to eq('')
   end
 end
 

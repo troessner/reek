@@ -7,17 +7,17 @@ describe SmellWarning do
   context 'sort order' do
     shared_examples_for 'first sorts ahead of second' do
       it 'hash differently' do
-        @first.hash.should_not == @second.hash
+        expect(@first.hash).not_to eq(@second.hash)
       end
       it 'are not equal' do
-        @first.should_not == @second
+        expect(@first).not_to eq(@second)
       end
       it 'sort correctly' do
-        (@first <=> @second).should be < 0
+        expect(@first <=> @second).to be < 0
       end
       it 'does not match using eql?' do
-        @first.should_not eql(@second)
-        @second.should_not eql(@first)
+        expect(@first).not_to eql(@second)
+        expect(@second).not_to eql(@first)
       end
     end
 
@@ -78,20 +78,20 @@ describe SmellWarning do
 
     shared_examples_for 'common fields' do
       it 'includes the smell class' do
-        @yaml.should match(/class:\s*FeatureEnvy/)
+        expect(@yaml).to match(/class:\s*FeatureEnvy/)
       end
       it 'includes the context' do
-        @yaml.should match(/context:\s*#{@context_name}/)
+        expect(@yaml).to match(/context:\s*#{@context_name}/)
       end
       it 'includes the message' do
-        @yaml.should match(/message:\s*#{@message}/)
+        expect(@yaml).to match(/message:\s*#{@message}/)
       end
       it 'indicates the masking' do
-        @yaml.should match(/is_active:\s*true/)
+        expect(@yaml).to match(/is_active:\s*true/)
       end
       it 'includes the line numbers' do
         @lines.each do |line|
-          @yaml.should match(/lines:[\s\d-]*- #{line}/)
+          expect(@yaml).to match(/lines:[\s\d-]*- #{line}/)
         end
       end
     end
@@ -109,14 +109,14 @@ describe SmellWarning do
       it_should_behave_like 'common fields'
 
       it 'includes the subclass' do
-        @yaml.should match(/subclass:\s*#{@subclass}/)
+        expect(@yaml).to match(/subclass:\s*#{@subclass}/)
       end
       it 'includes the source' do
-        @yaml.should match(/source:\s*#{@source}/)
+        expect(@yaml).to match(/source:\s*#{@source}/)
       end
       it 'includes the parameters' do
         @parameters.each do |key,value|
-          @yaml.should match(/#{key}:\s*#{value}/)
+          expect(@yaml).to match(/#{key}:\s*#{value}/)
         end
       end
     end
@@ -130,13 +130,13 @@ describe SmellWarning do
       it_should_behave_like 'common fields'
 
       it 'includes no subclass' do
-        @yaml.should match(/subclass: ["']{2}/)
+        expect(@yaml).to match(/subclass: ["']{2}/)
       end
       it 'includes no source' do
-        @yaml.should match(/source: ["']{2}/)
+        expect(@yaml).to match(/source: ["']{2}/)
       end
       it 'includes empty parameters' do
-        @yaml.should_not match(/parameter/)
+        expect(@yaml).not_to match(/parameter/)
       end
     end
   end

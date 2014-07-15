@@ -8,16 +8,16 @@ describe HelpCommand do
     @text = 'Piece of interesting text'
     @cmd = HelpCommand.new(@text)
     @view = double('view').as_null_object
-    @view.should_not_receive(:report_smells)
+    expect(@view).not_to receive(:report_smells)
   end
 
   it 'displays the correct text on the view' do
-    @view.should_receive(:output).with(@text)
+    expect(@view).to receive(:output).with(@text)
     @cmd.execute(@view)
   end
 
   it 'tells the view it succeeded' do
-    @view.should_receive(:report_success)
+    expect(@view).to receive(:report_success)
     @cmd.execute(@view)
   end
 end

@@ -12,16 +12,19 @@ module Reek
       def matches?(actual)
         matches_examiner?(Examiner.new(actual))
       end
+
       def matches_examiner?(examiner)
         @examiner = examiner
         @warnings = @examiner.smells
         @warnings.length == 1 and @warnings[0].matches?(@klass, @patterns)
       end
-      def failure_message_for_should
+
+      def failure_message
         rpt = Cli::ReportFormatter.format_list(@warnings)
         "Expected #{@examiner.description} to reek only of #{@klass}, but got:\n#{rpt}"
       end
-      def failure_message_for_should_not
+
+      def failure_message_when_negated
         "Expected #{@examiner.description} not to reek only of #{@klass}, but it did"
       end
     end

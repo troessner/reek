@@ -7,41 +7,41 @@ include Reek::Core
 describe MethodContext, 'matching' do
   before :each do
     exp = double('exp').as_null_object
-    exp.should_receive(:full_name).at_least(:once).and_return('mod')
+    expect(exp).to receive(:full_name).at_least(:once).and_return('mod')
     @element = MethodContext.new(StopContext.new, exp)
   end
 
   it 'should recognise itself in a collection of names' do
-    @element.matches?(['banana', 'mod']).should == true
-    @element.matches?(['banana']).should == false
+    expect(@element.matches?(['banana', 'mod'])).to eq(true)
+    expect(@element.matches?(['banana'])).to eq(false)
   end
 
   it 'should recognise itself in a collection of REs' do
-    @element.matches?([/banana/, /mod/]).should == true
-    @element.matches?([/banana/]).should == false
+    expect(@element.matches?([/banana/, /mod/])).to eq(true)
+    expect(@element.matches?([/banana/])).to eq(false)
   end
 end
 
 describe MethodContext do
   it 'should record ivars as refs to self' do
     mctx = MethodContext.new(StopContext.new, ast(:defn, :feed))
-    mctx.envious_receivers.should == []
+    expect(mctx.envious_receivers).to eq([])
     mctx.record_call_to(ast(:call, s(:ivar, :@cow), :feed_to))
-    mctx.envious_receivers.should == []
+    expect(mctx.envious_receivers).to eq([])
   end
 
   it 'should count calls to self' do
     mctx = MethodContext.new(StopContext.new, ast(:defn, :equals))
     mctx.refs.record_reference_to([:lvar, :other])
     mctx.record_call_to(ast(:call, s(:self), :thing))
-    mctx.envious_receivers.should be_empty
+    expect(mctx.envious_receivers).to be_empty
   end
 
   it 'should recognise a call on self' do
     mc = MethodContext.new(StopContext.new, s(:defn, :deep))
     mc.record_call_to(ast(:call, s(:lvar, :text), :each, s(:arglist)))
     mc.record_call_to(ast(:call, nil, :shelve, s(:arglist)))
-    mc.envious_receivers.should be_empty
+    expect(mc.envious_receivers).to be_empty
   end
 end
 
@@ -55,7 +55,7 @@ describe MethodParameters, 'default assignments' do
   context 'with no defaults' do
     it 'returns an empty hash' do
       src = 'def meth(arga, argb, &blk) end'
-      assignments_from(src).should be_empty
+      expect(assignments_from(src)).to be_empty
     end
   end
 
@@ -65,10 +65,10 @@ describe MethodParameters, 'default assignments' do
       @defaults = assignments_from(src)
     end
     it 'returns the param-value pair' do
-      @defaults[0].should == s(:argb, s(:lit, 456))
+      expect(@defaults[0]).to eq(s(:argb, s(:lit, 456)))
     end
     it 'returns the nothing else' do
-      @defaults.length.should == 1
+      expect(@defaults.length).to eq(1)
     end
   end
 
@@ -78,11 +78,11 @@ describe MethodParameters, 'default assignments' do
       @defaults = assignments_from(src)
     end
     it 'returns both param-value pairs' do
-      @defaults[0].should == s(:arga, s(:lit, 123))
-      @defaults[1].should == s(:argb, s(:lit, 456))
+      expect(@defaults[0]).to eq(s(:arga, s(:lit, 123)))
+      expect(@defaults[1]).to eq(s(:argb, s(:lit, 456)))
     end
     it 'returns nothing else' do
-      @defaults.length.should == 2
+      expect(@defaults.length).to eq(2)
     end
   end
 end

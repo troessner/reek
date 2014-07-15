@@ -9,20 +9,20 @@ describe NestedIterators do
   context 'with no iterators' do
     it 'reports no smells' do
       src = 'def fred() nothing = true; end'
-      src.should_not smell_of(NestedIterators)
+      expect(src).not_to smell_of(NestedIterators)
     end
   end
 
   context 'with one iterator' do
     it 'reports no smells' do
       src = 'def fred() nothing.each {|item| item}; end'
-      src.should_not smell_of(NestedIterators)
+      expect(src).not_to smell_of(NestedIterators)
     end
   end
 
   it 'should report nested iterators in a method' do
     src = 'def bad(fred) @fred.each {|item| item.each {|ting| ting.ting} } end'
-    src.should smell_of(NestedIterators)
+    expect(src).to smell_of(NestedIterators)
   end
 
   it 'should not report method with successive iterators' do
@@ -32,7 +32,7 @@ def bad(fred)
   @jim.each {|ting| ting.each }
 end
 EOS
-    src.should_not smell_of(NestedIterators)
+    expect(src).not_to smell_of(NestedIterators)
   end
 
   it 'should not report method with chained iterators' do
@@ -41,7 +41,7 @@ def chained
   @sig.keys.sort_by { |xray| xray.to_s }.each { |min| md5 << min.to_s }
 end
 EOS
-    src.should_not smell_of(NestedIterators)
+    expect(src).not_to smell_of(NestedIterators)
   end
 
   it 'should report nested iterators only once per method' do
@@ -51,7 +51,7 @@ def bad(fred)
   @jim.each {|ting| ting.each {|piece| @hal.send} }
 end
 EOS
-    src.should smell_of(NestedIterators, {})
+    expect(src).to smell_of(NestedIterators, {})
   end
 
   it 'reports nested iterators only once per method even if levels are different' do
@@ -61,7 +61,7 @@ EOS
         @jim.each {|ting| ting.each {|piece| piece.each {|atom| atom.foo } } }
       end
     EOS
-    src.should smell_of(NestedIterators, {})
+    expect(src).to smell_of(NestedIterators, {})
   end
 
   it 'reports nesting inside iterator arguments' do
@@ -76,7 +76,7 @@ EOS
         ) { |qux| qux.quuz }
       end
     EOS
-    src.should smell_of(NestedIterators, NestedIterators::NESTING_DEPTH_KEY => 2)
+    expect(src).to smell_of(NestedIterators, NestedIterators::NESTING_DEPTH_KEY => 2)
   end
 
   it 'reports the deepest level of nesting only' do
@@ -89,7 +89,7 @@ EOS
         }
       end
     EOS
-    src.should smell_of(NestedIterators, NestedIterators::NESTING_DEPTH_KEY => 3)
+    expect(src).to smell_of(NestedIterators, NestedIterators::NESTING_DEPTH_KEY => 3)
   end
 
   context 'when the allowed nesting depth is 3' do
@@ -103,7 +103,7 @@ def bad(fred)
   @fred.each {|one| one.each {|two| two.two} }
 end
 EOS
-      src.should_not smell_of(NestedIterators).with_config(@config)
+      expect(src).not_to smell_of(NestedIterators).with_config(@config)
     end
 
     it 'should not report nested iterators 3 levels deep' do
@@ -112,7 +112,7 @@ def bad(fred)
   @fred.each {|one| one.each {|two| two.each {|three| three.three} } }
 end
 EOS
-      src.should_not smell_of(NestedIterators).with_config(@config)
+      expect(src).not_to smell_of(NestedIterators).with_config(@config)
     end
 
     it 'should report nested iterators 4 levels deep' do
@@ -121,7 +121,7 @@ def bad(fred)
   @fred.each {|one| one.each {|two| two.each {|three| three.each {|four| four.four} } } }
 end
 EOS
-      src.should smell_of(NestedIterators).with_config(@config)
+      expect(src).to smell_of(NestedIterators).with_config(@config)
     end
   end
 
@@ -132,27 +132,27 @@ EOS
 
     it 'should not report nesting the ignored iterator inside another' do
       src = 'def bad(fred) @fred.each {|item| item.ignore_me {|ting| ting.ting} } end'
-      src.should_not smell_of(NestedIterators).with_config(@config)
+      expect(src).not_to smell_of(NestedIterators).with_config(@config)
     end
 
     it 'should not report nesting inside the ignored iterator' do
       src = 'def bad(fred) @fred.ignore_me {|item| item.each {|ting| ting.ting} } end'
-      src.should_not smell_of(NestedIterators).with_config(@config)
+      expect(src).not_to smell_of(NestedIterators).with_config(@config)
     end
 
     it 'should report nested iterators inside the ignored iterator' do
       src = 'def bad(fred) @fred.ignore_me {|item| item.each {|ting| ting.each {|other| other.other} } } end'
-      src.should smell_of(NestedIterators, NestedIterators::NESTING_DEPTH_KEY => 2).with_config(@config)
+      expect(src).to smell_of(NestedIterators, NestedIterators::NESTING_DEPTH_KEY => 2).with_config(@config)
     end
 
     it 'should report nested iterators outside the ignored iterator' do
       src = 'def bad(fred) @fred.each {|item| item.each {|ting| ting.ignore_me {|other| other.other} } } end'
-      src.should smell_of(NestedIterators, NestedIterators::NESTING_DEPTH_KEY => 2).with_config(@config)
+      expect(src).to smell_of(NestedIterators, NestedIterators::NESTING_DEPTH_KEY => 2).with_config(@config)
     end
 
     it 'should report nested iterators with the ignored iterator between them' do
       src = 'def bad(fred) @fred.each {|item| item.ignore_me {|ting| ting.ting {|other| other.other} } } end'
-      src.should smell_of(NestedIterators, NestedIterators::NESTING_DEPTH_KEY => 2).with_config(@config)
+      expect(src).to smell_of(NestedIterators, NestedIterators::NESTING_DEPTH_KEY => 2).with_config(@config)
     end
   end
 end
@@ -181,8 +181,8 @@ EOS
     it_should_behave_like 'common fields set correctly'
 
     it 'reports correct values' do
-      @warning.smell[NestedIterators::NESTING_DEPTH_KEY].should == 2
-      @warning.lines.should == [3]
+      expect(@warning.smell[NestedIterators::NESTING_DEPTH_KEY]).to eq(2)
+      expect(@warning.lines).to eq([3])
     end
   end
 end

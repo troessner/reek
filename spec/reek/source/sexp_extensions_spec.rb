@@ -10,16 +10,16 @@ describe SexpExtensions::DefnNode do
       @node.extend(SexpExtensions::DefnNode)
     end
     it 'has no arg names' do
-      @node.arg_names.should == s()
+      expect(@node.arg_names).to eq(s())
     end
     it 'has no parameter names' do
-      @node.parameter_names.should == s()
+      expect(@node.parameter_names).to eq(s())
     end
     it 'includes outer scope in its full name' do
-      @node.full_name('Fred').should == 'Fred#hello'
+      expect(@node.full_name('Fred')).to eq('Fred#hello')
     end
     it 'includes no marker in its full name with empty outer scope' do
-      @node.full_name('').should == 'hello'
+      expect(@node.full_name('')).to eq('hello')
     end
   end
 
@@ -29,16 +29,16 @@ describe SexpExtensions::DefnNode do
       @node.extend(SexpExtensions::DefnNode)
     end
     it 'has 1 arg name' do
-      @node.arg_names.should == s(:param)
+      expect(@node.arg_names).to eq(s(:param))
     end
     it 'has 1 parameter name' do
-      @node.parameter_names.should == s(:param)
+      expect(@node.parameter_names).to eq(s(:param))
     end
     it 'includes outer scope in its full name' do
-      @node.full_name('Fred').should == 'Fred#hello'
+      expect(@node.full_name('Fred')).to eq('Fred#hello')
     end
     it 'includes no marker in its full name with empty outer scope' do
-      @node.full_name('').should == 'hello'
+      expect(@node.full_name('')).to eq('hello')
     end
   end
 
@@ -48,16 +48,16 @@ describe SexpExtensions::DefnNode do
       @node.extend(SexpExtensions::DefnNode)
     end
     it 'has 1 arg name' do
-      @node.arg_names.should == s(:param)
+      expect(@node.arg_names).to eq(s(:param))
     end
     it 'has 2 parameter names' do
-      @node.parameter_names.should == s(:param, :"&blk")
+      expect(@node.parameter_names).to eq(s(:param, :"&blk"))
     end
     it 'includes outer scope in its full name' do
-      @node.full_name('Fred').should == 'Fred#hello'
+      expect(@node.full_name('Fred')).to eq('Fred#hello')
     end
     it 'includes no marker in its full name with empty outer scope' do
-      @node.full_name('').should == 'hello'
+      expect(@node.full_name('')).to eq('hello')
     end
   end
 
@@ -67,16 +67,16 @@ describe SexpExtensions::DefnNode do
       @node.extend(SexpExtensions::DefnNode)
     end
     it 'has 1 arg name' do
-      @node.arg_names.should == s(:param)
+      expect(@node.arg_names).to eq(s(:param))
     end
     it 'has 1 parameter name' do
-      @node.parameter_names.should == s(:param)
+      expect(@node.parameter_names).to eq(s(:param))
     end
     it 'includes outer scope in its full name' do
-      @node.full_name('Fred').should == 'Fred#hello'
+      expect(@node.full_name('Fred')).to eq('Fred#hello')
     end
     it 'includes no marker in its full name with empty outer scope' do
-      @node.full_name('').should == 'hello'
+      expect(@node.full_name('')).to eq('hello')
     end
   end
 
@@ -87,12 +87,12 @@ describe SexpExtensions::DefnNode do
     end
 
     it 'has 2 body statements' do
-      @node.body.should == s(s(:first), s(:second))
+      expect(@node.body).to eq(s(s(:first), s(:second)))
     end
 
     it 'has a body extended with SexpNode' do
       b = @node.body
-      (class << b; self; end).included_modules.first.should == SexpNode
+      expect((class << b; self; end).included_modules.first).to eq(SexpNode)
     end
   end
 end
@@ -104,16 +104,16 @@ describe SexpExtensions::DefsNode do
       @node.extend(SexpExtensions::DefsNode)
     end
     it 'has no arg names' do
-      @node.arg_names.should == s()
+      expect(@node.arg_names).to eq(s())
     end
     it 'has no parameter names' do
-      @node.parameter_names.should == s()
+      expect(@node.parameter_names).to eq(s())
     end
     it 'includes outer scope in its full name' do
-      @node.full_name('Fred').should == 'Fred#obj.hello'
+      expect(@node.full_name('Fred')).to eq('Fred#obj.hello')
     end
     it 'includes no marker in its full name with empty outer scope' do
-      @node.full_name('').should == 'obj.hello'
+      expect(@node.full_name('')).to eq('obj.hello')
     end
   end
 
@@ -123,16 +123,16 @@ describe SexpExtensions::DefsNode do
       @node.extend(SexpExtensions::DefsNode)
     end
     it 'has 1 arg name' do
-      @node.arg_names.should == s(:param)
+      expect(@node.arg_names).to eq(s(:param))
     end
     it 'has 1 parameter name' do
-      @node.parameter_names.should == s(:param)
+      expect(@node.parameter_names).to eq(s(:param))
     end
     it 'includes outer scope in its full name' do
-      @node.full_name('Fred').should == 'Fred#obj.hello'
+      expect(@node.full_name('Fred')).to eq('Fred#obj.hello')
     end
     it 'includes no marker in its full name with empty outer scope' do
-      @node.full_name('').should == 'obj.hello'
+      expect(@node.full_name('')).to eq('obj.hello')
     end
   end
 
@@ -142,16 +142,16 @@ describe SexpExtensions::DefsNode do
       @node.extend(SexpExtensions::DefsNode)
     end
     it 'has 1 arg name' do
-      @node.arg_names.should == s(:param)
+      expect(@node.arg_names).to eq(s(:param))
     end
     it 'has 2 parameter names' do
-      @node.parameter_names.should == s(:param, :"&blk")
+      expect(@node.parameter_names).to eq(s(:param, :"&blk"))
     end
     it 'includes outer scope in its full name' do
-      @node.full_name('Fred').should == 'Fred#obj.hello'
+      expect(@node.full_name('Fred')).to eq('Fred#obj.hello')
     end
     it 'includes no marker in its full name with empty outer scope' do
-      @node.full_name('').should == 'obj.hello'
+      expect(@node.full_name('')).to eq('obj.hello')
     end
   end
 
@@ -161,16 +161,16 @@ describe SexpExtensions::DefsNode do
       @node.extend(SexpExtensions::DefsNode)
     end
     it 'has 1 arg name' do
-      @node.arg_names.should == s(:param)
+      expect(@node.arg_names).to eq(s(:param))
     end
     it 'has 1 parameter name' do
-      @node.parameter_names.should == s(:param)
+      expect(@node.parameter_names).to eq(s(:param))
     end
     it 'includes outer scope in its full name' do
-      @node.full_name('Fred').should == 'Fred#obj.hello'
+      expect(@node.full_name('Fred')).to eq('Fred#obj.hello')
     end
     it 'includes no marker in its full name with empty outer scope' do
-      @node.full_name('').should == 'obj.hello'
+      expect(@node.full_name('')).to eq('obj.hello')
     end
   end
 
@@ -181,12 +181,12 @@ describe SexpExtensions::DefsNode do
     end
 
     it 'has 2 body statements' do
-      @node.body.should == s(s(:first), s(:second))
+      expect(@node.body).to eq(s(s(:first), s(:second)))
     end
 
     it 'has a body extended with SexpNode' do
       b = @node.body
-      (class << b; self; end).included_modules.first.should == SexpNode
+      expect((class << b; self; end).included_modules.first).to eq(SexpNode)
     end
   end
 end
@@ -198,7 +198,7 @@ describe SexpExtensions::CallNode do
       @node.extend(SexpExtensions::CallNode)
     end
     it 'has no parameter names' do
-      @node.parameter_names.should == nil
+      expect(@node.parameter_names).to eq(nil)
     end
   end
 
@@ -208,7 +208,7 @@ describe SexpExtensions::CallNode do
       @node.extend(SexpExtensions::CallNode)
     end
     it 'has 1 argument name' do
-      @node.arg_names.should == [:param]
+      expect(@node.arg_names).to eq([:param])
     end
   end
 
@@ -218,7 +218,7 @@ describe SexpExtensions::CallNode do
       @node.extend(SexpExtensions::CallNode)
     end
     it 'has 2 argument names' do
-      @node.arg_names.should == [:x, :y]
+      expect(@node.arg_names).to eq([:x, :y])
     end
   end
 end
@@ -230,7 +230,7 @@ describe SexpExtensions::IterNode do
       @node.extend(SexpExtensions::IterNode)
     end
     it 'has no parameter names' do
-      @node.parameter_names.should == []
+      expect(@node.parameter_names).to eq([])
     end
   end
 
@@ -240,7 +240,7 @@ describe SexpExtensions::IterNode do
       @node.extend(SexpExtensions::IterNode)
     end
     it 'has 1 parameter name' do
-      @node.parameter_names.should == s(:param)
+      expect(@node.parameter_names).to eq(s(:param))
     end
   end
 
@@ -250,7 +250,7 @@ describe SexpExtensions::IterNode do
       @node.extend(SexpExtensions::IterNode)
     end
     it 'has 2 parameter names' do
-      @node.parameter_names.should == [:x, :y]
+      expect(@node.parameter_names).to eq([:x, :y])
     end
   end
 end
@@ -261,14 +261,24 @@ describe SexpExtensions::ModuleNode do
       mod = ast(:module, :Fred, nil)
       mod
     end
-    its(:name) { should == :Fred }
-    its(:simple_name) { should == :Fred }
-    its(:text_name) { should == 'Fred' }
+
+    it 'has the correct #name' do
+      expect(subject.name).to eq(:Fred)
+    end
+
+    it 'has the correct #simple_name' do
+      expect(subject.simple_name).to eq(:Fred)
+    end
+
+    it 'has the correct #text_name' do
+      expect(subject.text_name).to eq('Fred')
+    end
+
     it 'has a simple full_name' do
-      subject.full_name('').should == 'Fred'
+      expect(subject.full_name('')).to eq('Fred')
     end
     it 'has a fq full_name' do
-      subject.full_name('Blimey::O::Reilly').should == 'Blimey::O::Reilly::Fred'
+      expect(subject.full_name('Blimey::O::Reilly')).to eq('Blimey::O::Reilly::Fred')
     end
   end
 
@@ -277,14 +287,25 @@ describe SexpExtensions::ModuleNode do
       mod = ast(:module, s(:colon2, s(:const, :Foo), :Bar), nil)
       mod
     end
-    its(:name) { should == s(:colon2, s(:const, :Foo), :Bar) }
-    its(:simple_name) { should == :Bar }
-    its(:text_name) { should == 'Foo::Bar' }
-    it 'has a simple full_name' do
-      subject.full_name('').should == 'Foo::Bar'
+
+    it 'has the correct #name' do
+      expect(subject.name).to eq(s(:colon2, s(:const, :Foo), :Bar))
     end
+
+    it 'has the correct #simple_name' do
+      expect(subject.simple_name).to eq(:Bar)
+    end
+
+    it 'has the correct #text_name' do
+      expect(subject.text_name).to eq('Foo::Bar')
+    end
+
+    it 'has a simple full_name' do
+      expect(subject.full_name('')).to eq('Foo::Bar')
+    end
+
     it 'has a fq full_name' do
-      subject.full_name('Blimey::O::Reilly').should == 'Blimey::O::Reilly::Foo::Bar'
+      expect(subject.full_name('Blimey::O::Reilly')).to eq('Blimey::O::Reilly::Foo::Bar')
     end
   end
 end

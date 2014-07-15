@@ -14,7 +14,7 @@ shared_examples_for 'a data clump detector' do
   def third(pa) pa - pb + @fred; end
 end
 EOS
-    src.should_not smell_of(DataClump)
+    expect(src).not_to smell_of(DataClump)
   end
 
   context 'with 3 identical pairs' do
@@ -34,25 +34,25 @@ EOS
       @yaml = @warning.to_yaml
     end
     it 'records only the one smell' do
-      @smells.length.should == 1
+      expect(@smells.length).to eq(1)
     end
     it 'reports all parameters' do
-      @smells[0].smell[DataClump::PARAMETERS_KEY].should == ['pa', 'pb']
+      expect(@smells[0].smell[DataClump::PARAMETERS_KEY]).to eq(['pa', 'pb'])
     end
     it 'reports the number of occurrences' do
-      @smells[0].smell[DataClump::OCCURRENCES_KEY].should == 3
+      expect(@smells[0].smell[DataClump::OCCURRENCES_KEY]).to eq(3)
     end
     it 'reports all methods' do
-      @smells[0].smell[DataClump::METHODS_KEY].should == ['first', 'second', 'third']
+      expect(@smells[0].smell[DataClump::METHODS_KEY]).to eq(['first', 'second', 'third'])
     end
     it 'reports the declaration line numbers' do
-      @smells[0].lines.should == [2,3,4]
+      expect(@smells[0].lines).to eq([2,3,4])
     end
     it 'reports the correct smell class' do
-      @smells[0].smell_class.should == DataClump::SMELL_CLASS
+      expect(@smells[0].smell_class).to eq(DataClump::SMELL_CLASS)
     end
     it 'reports the context fq name' do
-      @smells[0].context.should == @module_name
+      expect(@smells[0].context).to eq(@module_name)
     end
   end
 
@@ -64,7 +64,7 @@ EOS
   def tri(pa, pb) pa - pb + @fred; end
 end
 EOS
-    src.should smell_of(DataClump, {DataClump::OCCURRENCES_KEY => 3,
+    expect(src).to smell_of(DataClump, {DataClump::OCCURRENCES_KEY => 3,
       DataClump::PARAMETERS_KEY => ['pa', 'pb']})
   end
 
@@ -76,7 +76,7 @@ EOS
   def third(pa, pb, pc) pa - pb + @fred; end
 end
 EOS
-    src.should smell_of(DataClump, {DataClump::OCCURRENCES_KEY => 3,
+    expect(src).to smell_of(DataClump, {DataClump::OCCURRENCES_KEY => 3,
       DataClump::PARAMETERS_KEY => ['pa', 'pb', 'pc']})
   end
 
@@ -88,7 +88,7 @@ EOS
   def third(pa, pb, pc) pa - pb + @fred; end
 end
 EOS
-    src.should smell_of(DataClump, {DataClump::OCCURRENCES_KEY => 3,
+    expect(src).to smell_of(DataClump, {DataClump::OCCURRENCES_KEY => 3,
       DataClump::PARAMETERS_KEY => ['pa', 'pb', 'pc']})
   end
 
@@ -100,7 +100,7 @@ EOS
   def fc(name, windowW, windowH) end
 end
 EOS
-    src.should_not smell_of(DataClump)
+    expect(src).not_to smell_of(DataClump)
   end
 
   it 'gets a real example right' do
@@ -113,7 +113,7 @@ EOS
   def c_raw_singleton (src, options) end
 end
 EOS
-    src.should smell_of(DataClump, DataClump::OCCURRENCES_KEY => 5)
+    expect(src).to smell_of(DataClump, DataClump::OCCURRENCES_KEY => 5)
   end
 
   it 'correctly checks number of occurences' do
@@ -126,7 +126,7 @@ EOS
         def fe(p5, p1, p2) end
       end
     EOS
-    src.should_not smell_of(DataClump)
+    expect(src).not_to smell_of(DataClump)
   end
 
   it 'detects clumps smaller than the total number of arguments' do
@@ -137,7 +137,7 @@ EOS
         def fc(p4, p1, p2) end
       end
     EOS
-    src.should smell_of(DataClump,
+    expect(src).to smell_of(DataClump,
                         { DataClump::PARAMETERS_KEY => %w(p1 p2) })
   end
 end

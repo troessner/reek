@@ -18,11 +18,11 @@ describe NilCheck do
       ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
       detector = NilCheck.new('source_name')
       smells = detector.examine_context(ctx)
-      smells[0].lines.should eq [2]
+      expect(smells[0].lines).to eq [2]
     end
 
     it 'should report nothing when scope includes no nil checks' do
-      'def no_nils; end'.should_not smell_of(NilCheck)
+      expect('def no_nils; end').not_to smell_of(NilCheck)
     end
 
     it 'should report when scope uses multiple nil? methods' do
@@ -33,7 +33,7 @@ describe NilCheck do
         \"\".nil?
       end
       eos
-      src.should smell_of(NilCheck,
+      expect(src).to smell_of(NilCheck,
                           {NilCheck => nil}, {NilCheck => nil})
     end
 
@@ -44,12 +44,12 @@ describe NilCheck do
         para === nil
       end
       eos
-      src.should smell_of(NilCheck,
+      expect(src).to smell_of(NilCheck,
                           {NilCheck => nil}, {NilCheck => nil})
     end
 
     it 'should report when scope uses nil ==' do
-      'def chk_eq_nil_rev(para); nil == para; end'.should smell_of(NilCheck)
+      expect('def chk_eq_nil_rev(para); nil == para; end').to smell_of(NilCheck)
     end
 
     it 'should report when scope uses multiple case-clauses checking nil' do
@@ -65,7 +65,7 @@ describe NilCheck do
         end
       end
       eos
-      src.should smell_of(NilCheck,
+      expect(src).to smell_of(NilCheck,
                           {NilCheck => nil}, {NilCheck => nil})
     end
   end

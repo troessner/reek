@@ -18,7 +18,7 @@ describe UtilityFunction do
       it 'ignores the receiver' do
         src = "def #{receiver}.simple(arga) arga.to_s + arga.to_i end"
         ctx = MethodContext.new(nil, src.to_reek_source.syntax_tree)
-        @detector.examine_context(ctx).should be_empty
+        expect(@detector.examine_context(ctx)).to be_empty
       end
     end
   end
@@ -26,60 +26,60 @@ describe UtilityFunction do
     it 'does not report empty method' do
       src = 'def simple(arga) end'
       ctx = MethodContext.new(nil, src.to_reek_source.syntax_tree)
-      @detector.examine_context(ctx).should be_empty
+      expect(@detector.examine_context(ctx)).to be_empty
     end
     it 'does not report literal' do
-      'def simple() 3; end'.should_not reek
+      expect('def simple() 3; end').not_to reek
     end
     it 'does not report instance variable reference' do
-      'def simple() @yellow end'.should_not reek
+      expect('def simple() @yellow end').not_to reek
     end
     it 'does not report vcall' do
-      'def simple() y end'.should_not reek
+      expect('def simple() y end').not_to reek
     end
     it 'does not report references to self' do
-      'def into; self; end'.should_not reek
+      expect('def into; self; end').not_to reek
     end
     it 'recognises an ivar reference within a block' do
-      'def clean(text) text.each { @fred = 3} end'.should_not reek
+      expect('def clean(text) text.each { @fred = 3} end').not_to reek
     end
     it 'copes with nil superclass' do
-      '# clean class for testing purposes
-class Object; def is_maybe?() false end end'.should_not reek
+      expect('# clean class for testing purposes
+class Object; def is_maybe?() false end end').not_to reek
     end
   end
 
   context 'with only one call' do
     it 'does not report a call to a parameter' do
-      'def simple(arga) arga.to_s end'.should_not reek_of(:UtilityFunction, /simple/)
+      expect('def simple(arga) arga.to_s end').not_to reek_of(:UtilityFunction, /simple/)
     end
     it 'does not report a call to a constant' do
-      'def simple(arga) FIELDS[arga] end'.should_not reek
+      expect('def simple(arga) FIELDS[arga] end').not_to reek
     end
   end
 
   context 'with two or more calls' do
     it 'reports two calls' do
-      'def simple(arga) arga.to_s + arga.to_i end'.should reek_of(:UtilityFunction, /simple/)
+      expect('def simple(arga) arga.to_s + arga.to_i end').to reek_of(:UtilityFunction, /simple/)
     end
     it 'counts a local call in a param initializer' do
-      'def simple(arga=local) arga.to_s end'.should_not reek_of(:UtilityFunction)
+      expect('def simple(arga=local) arga.to_s end').not_to reek_of(:UtilityFunction)
     end
     it 'should count usages of self'do
-      'def <=>(other) Options[:sort_order].compare(self, other) end'.should_not reek
+      expect('def <=>(other) Options[:sort_order].compare(self, other) end').not_to reek
     end
     it 'should count self reference within a dstr' do
-      'def as(alias_name); "#{self} as #{alias_name}".to_sym; end'.should_not reek
+      expect('def as(alias_name); "#{self} as #{alias_name}".to_sym; end').not_to reek
     end
     it 'should count calls to self within a dstr' do
-      'def to_sql; "\'#{self.gsub(/\'/, "\'\'")}\'"; end'.should_not reek
+      expect('def to_sql; "\'#{self.gsub(/\'/, "\'\'")}\'"; end').not_to reek
     end
     it 'should report message chain' do
-      'def simple(arga) arga.b.c end'.should reek_of(:UtilityFunction, /simple/)
+      expect('def simple(arga) arga.b.c end').to reek_of(:UtilityFunction, /simple/)
     end
 
     it 'does not report a method that calls super' do
-      'def child(arg) super; arg.to_s; end'.should_not reek
+      expect('def child(arg) super; arg.to_s; end').not_to reek
     end
 
     it 'should recognise a deep call' do
@@ -95,7 +95,7 @@ class Object; def is_maybe?() false end end'.should_not reek
     end
   end
 EOS
-      src.should_not reek
+      expect(src).not_to reek
     end
   end
 
@@ -115,7 +115,7 @@ EOS
     it_should_behave_like 'common fields set correctly'
 
     it 'reports the line number of the method' do
-      @warning.lines.should == [1]
+      expect(@warning.lines).to eq([1])
     end
   end
 end

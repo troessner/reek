@@ -12,10 +12,12 @@ module Reek
         @examiner = Examiner.new(actual)
         @examiner.smelly?
       end
-      def failure_message_for_should
+
+      def failure_message
         "Expected #{@examiner.description} to reek, but it didn't"
       end
-      def failure_message_for_should_not
+
+      def failure_message_when_negated
         rpt = Cli::ReportFormatter.format_list(@examiner.smells)
         "Expected no smells, but got:\n#{rpt}"
       end

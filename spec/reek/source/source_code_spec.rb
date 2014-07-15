@@ -22,22 +22,22 @@ describe SourceCode do
       end
 
       it 'returns an empty syntax tree' do
-        src.syntax_tree.should == s()
+        expect(src.syntax_tree).to eq(s())
       end
 
       it 'records the syntax error' do
         src.syntax_tree
-        @catcher.string.should match(error_class.name)
+        expect(@catcher.string).to match(error_class.name)
       end
 
       it 'records the source name' do
         src.syntax_tree
-        @catcher.string.should match(source_name)
+        expect(@catcher.string).to match(source_name)
       end
 
       it 'records the error message' do
         src.syntax_tree
-        @catcher.string.should match(error_message)
+        expect(@catcher.string).to match(error_message)
       end
     end
 
@@ -45,7 +45,7 @@ describe SourceCode do
       let(:error_class) { RubyParser::SyntaxError }
 
       before do
-        parser.stub(:parse).and_raise(error_class.new(error_message))
+        allow(parser).to receive(:parse).and_raise(error_class.new(error_message))
       end
 
       it_should_behave_like "handling and recording the error"
@@ -55,7 +55,7 @@ describe SourceCode do
       let(:error_class) { Racc::ParseError }
 
       before do
-        parser.stub(:parse).and_raise(error_class.new(error_message))
+        allow(parser).to receive(:parse).and_raise(error_class.new(error_message))
       end
 
       it_should_behave_like "handling and recording the error"
@@ -65,7 +65,7 @@ describe SourceCode do
       let(:error_class) { RuntimeError }
 
       before do
-        parser.stub(:parse).and_raise(error_class.new(error_message))
+        allow(parser).to receive(:parse).and_raise(error_class.new(error_message))
       end
 
       it 'raises the error' do
