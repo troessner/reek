@@ -62,5 +62,15 @@ describe UnusedParameters do
       expect('def simple(*args); call_other("something", super); end').
         not_to smell_of(UnusedParameters)
     end
+
+    it 'reports something when not using a keyword argument with splat' do
+      expect('def simple(var, kw: :val, **args); @var, @kw = var, kw; end').
+        to smell_of(UnusedParameters)
+    end
+
+    it 'reports nothing when using a keyword argument with splat' do
+      expect('def simple(var, kw: :val, **args); @var, @kw, @args = var, kw, args; end').
+        not_to smell_of(UnusedParameters)
+    end
   end
 end

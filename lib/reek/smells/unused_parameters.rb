@@ -16,7 +16,7 @@ module Reek
 
       EMPTY_ARRAY  = [].freeze
       EMPTY_STRING = ''.freeze
-      SPLAT_MATCH  = /^\*/.freeze
+      SPLAT_MATCH  = /^\*{1,2}/.freeze
       UNDERSCORE   = '_'.freeze
 
       #
