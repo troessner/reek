@@ -26,7 +26,7 @@ and reports any code smells it finds.
   s.rubygems_version = %q{1.3.6}
   s.summary = %q{Code smell detector for Ruby}
 
-  s.add_runtime_dependency(%q<ruby_parser>, ["~> 3.3"])
+  s.add_runtime_dependency(%q<ruby_parser>, [">= 3.5.0", "< 4.0"])
   s.add_runtime_dependency(%q<sexp_processor>)
   s.add_runtime_dependency(%q<ruby2ruby>, [">= 2.0.8", "< 3.0"])
   s.add_runtime_dependency(%q<rainbow>, [">= 1.99", "< 3.0"])
