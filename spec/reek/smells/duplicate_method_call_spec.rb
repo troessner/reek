@@ -77,6 +77,50 @@ EOS
     end
   end
 
+  context "with repeated simple method calls with blocks" do
+    it 'reports a smell if the blocks are identical' do
+      src = <<-EOS
+        def foo
+          bar { baz }
+          bar { baz }
+        end
+      EOS
+      expect(src).to smell_of(DuplicateMethodCall)
+    end
+
+    it 'reports no smell if the blocks are different' do
+      src = <<-EOS
+        def foo
+          bar { baz }
+          bar { qux }
+        end
+      EOS
+      expect(src).not_to smell_of(DuplicateMethodCall)
+    end
+  end
+
+  context "with repeated method calls with receivers with blocks" do
+    it 'reports a smell if the blocks are identical' do
+      src = <<-EOS
+        def foo
+          bar.qux { baz }
+          bar.qux { baz }
+        end
+      EOS
+      expect(src).to smell_of(DuplicateMethodCall)
+    end
+
+    it 'reports a smell if the blocks are different' do
+      src = <<-EOS
+        def foo
+          bar.qux { baz }
+          bar.qux { qux }
+        end
+      EOS
+      expect(src).to smell_of(DuplicateMethodCall)
+    end
+  end
+
   context 'with repeated attribute assignment' do
     it 'reports repeated assignment' do
       src = 'def double_thing(thing) @other[thing] = true; @other[thing] = true; end'
