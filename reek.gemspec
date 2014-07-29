@@ -8,9 +8,12 @@ Gem::Specification.new do |s|
 
   s.authors = ['Kevin Rutherford', 'Timo Roessner', 'Matijs van Zuijlen']
   s.default_executable = %q{reek}
-  s.description = %q{Reek is a tool that examines Ruby classes, modules and methods
-and reports any code smells it finds.
-}
+  s.description = <<-DESC
+    Reek is a tool that examines Ruby classes, modules and methods and reports
+    any code smells it finds.
+  DESC
+
+  s.license = 'MIT'
   s.email = ["timo.roessner@googlemail.com"]
   s.executables = ["reek"]
   s.extra_rdoc_files = ["CHANGELOG", "License.txt"]
@@ -19,7 +22,6 @@ and reports any code smells it finds.
                 "{features,lib,spec,tasks}/**/*",
                 "reek.gemspec" ] & `git ls-files -z`.split("\0")
   s.homepage = %q{http://wiki.github.com/troessner/reek}
-  s.post_install_message = %q{Thank you for downloading Reek. For info see the reek wiki http://wiki.github.com/troessner/reek}
   s.rdoc_options = ["--main", "README.md"]
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{reek}
@@ -27,14 +29,14 @@ and reports any code smells it finds.
   s.summary = %q{Code smell detector for Ruby}
 
   s.add_runtime_dependency(%q<ruby_parser>, [">= 3.5.0", "< 4.0"])
-  s.add_runtime_dependency(%q<sexp_processor>)
+  s.add_runtime_dependency(%q<sexp_processor>, ["~> 4.4"])
   s.add_runtime_dependency(%q<ruby2ruby>, [">= 2.0.8", "< 3.0"])
   s.add_runtime_dependency(%q<rainbow>, [">= 1.99", "< 3.0"])
 
   s.add_development_dependency(%q<bundler>, ["~> 1.1"])
-  s.add_development_dependency(%q<rake>)
-  s.add_development_dependency(%q<cucumber>)
+  s.add_development_dependency(%q<rake>, ["~> 10.0"])
+  s.add_development_dependency(%q<cucumber>, ["~> 1.3"])
   s.add_development_dependency(%q<rspec>, ["~> 3.0"])
-  s.add_development_dependency(%q<flay>)
-  s.add_development_dependency(%q<yard>)
+  s.add_development_dependency(%q<flay>, ["~> 2.4"])
+  s.add_development_dependency(%q<yard>, [">= 0.8.7", "< 0.9"])
 end
