@@ -61,6 +61,21 @@ EOS
     end
   end
 
+  context 'with repeated method calls and an interpolated string with newlines' do
+    it 'correctly reports the lines of the repeated method calls' do
+      src = <<-EOS
+        def someMethod
+          "\#{interpolated_value}\n\n\n"
+          object.method
+          object.method
+        end
+      EOS
+      ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+      smells = DuplicateMethodCall.new('copy-cat').examine_context(ctx)
+      expect(smells[0].lines).to eq([3,4])
+    end
+  end
+
   context "with repeated simple method calls" do
     it 'reports no smell' do
       src = <<-EOS
