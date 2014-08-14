@@ -9,7 +9,7 @@ namespace 'test' do
 
   RSpec::Core::RakeTask.new('spec') do |t|
     t.pattern = UNIT_TESTS
-    t.ruby_opts = ['-Ilib']
+    t.ruby_opts = ['-Ilib -w']
   end
 
   desc 'Tests various release attributes of the gem'

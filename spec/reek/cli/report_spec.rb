@@ -34,8 +34,8 @@ describe QuietReport, " when empty" do
       end
 
       it 'should mention every smell name' do
-        expect(@result).to match('[UncommunicativeParameterName]')
-        expect(@result).to match('[Feature Envy]')
+        expect(@result).to include('UncommunicativeParameterName')
+        expect(@result).to include('FeatureEnvy')
       end
     end
 
