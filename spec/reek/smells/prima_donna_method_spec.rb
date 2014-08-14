@@ -10,6 +10,18 @@ describe PrimaDonnaMethod do
     expect('class C; def m; end; def m!; end; end').not_to smell_of(PrimaDonnaMethod)
   end
 
+  it 'should report nothing when attr_accessor with method name exist and bang counterpart exist' do
+    'class C; attr_accessor :m; def m!; end; end'.should_not smell_of(PrimaDonnaMethod)
+  end
+
+  it 'should report nothing when attr_reader with method name exist and bang counterpart exist' do
+    'class C; attr_reader :m; def m!; end; end'.should_not smell_of(PrimaDonnaMethod)
+  end
+
+  it 'should report nothing when multiple attr_reader and bang counterpart exist' do
+    'class C; attr_reader :c, :m; def m!; end; end'.should_not smell_of(PrimaDonnaMethod)
+  end
+
   it 'should report PrimaDonnaMethod when only bang method exists' do
     expect('class C; def m!; end; end').to smell_of(PrimaDonnaMethod)
   end
