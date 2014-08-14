@@ -95,11 +95,13 @@ for up to date details of exactly what Reek will check in your code.
 
 ### Integration
 
-Basically there are two ways to use reek in your project except for the obvious static code analysis:
+Basically there are two ways to use reek in your project except for the obvious
+static code analysis:
 
-(1) Use Reek's [Rake Task](https://github.com/troessner/reek/wiki/Rake-Task) to easily add Reek to your Rakefile
+1. Use Reek's [Rake Task](https://github.com/troessner/reek/wiki/Rake-Task) to
+  easily add Reek to your Rakefile
 
-(2) Add Reek's custom matcher to your Rspec examples like this:
+2. Add Reek's custom matcher to your Rspec examples like this:
 
 ```Ruby
 require 'rubygems'
@@ -122,23 +124,28 @@ my_precious_code.should_not reek # Well, it does.
 
 ### Running the tests
 
-Either just `rake` to run all or, if you want to be specific:
+Either just `bundle exec rake` to run all or, if you want to be specific:
 
 ```bash
-spec spec/your/file        # Runs all tests
-spec spec/your/file -l 23  # Runs test in line 23
-spec spec/your/file -u     # Runs all tests stopping at the breakpoints you have set before with `debugger`
+bundle exec rspec spec/your/file        # Runs all tests
+bundle exec rspec spec/your/file -l 23  # Runs test in line 23
+bundle exec rspec spec/your/file -u     # Runs all tests stopping at the
+                                        # breakpoints you have set before with
+                                        # `debugger`
 ```
 
 ## Miscellaneous
 
 ### Tools
 
-There's a vim plugin for `reek`: [https://github.com/rainerborene/vim-reek](https://github.com/rainerborene/vim-reek)
+There's a vim plugin for `reek`:
+[https://github.com/rainerborene/vim-reek](https://github.com/rainerborene/vim-reek)
 
-TextMate Bundle for `reek`: [https://github.com/peeyush1234/reek.tmbundle](https://github.com/peeyush1234/reek.tmbundle)
+TextMate Bundle for `reek`:
+[https://github.com/peeyush1234/reek.tmbundle](https://github.com/peeyush1234/reek.tmbundle)
 
-Colorful output for `reek`: [Preek](https://github.com/joenas/preek) (also with [Guard::Preek](https://github.com/joenas/guard-preek))
+Colorful output for `reek`: [Preek](https://github.com/joenas/preek) (also with
+[Guard::Preek](https://github.com/joenas/guard-preek))
 
 ### Dependencies
 
@@ -153,7 +160,9 @@ Reek makes use of the following other gems:
 
 Find out more about Reek from any of the following sources:
 
-* Browse the Reek documentation at [https://github.com/troessner/reek/wiki](https://github.com/troessner/reek/wiki)
-* Browse the code or install the latest development version from [https://github.com/troessner/reek/tree](https://github.com/troessner/reek/tree)
-* Read the code API at [http://rdoc.info/projects/troessner/reek](http://rdoc.info/projects/troessner/reek)
-
+* Browse the Reek documentation at
+  [https://github.com/troessner/reek/wiki](https://github.com/troessner/reek/wiki)
+* Browse the code or install the latest development version from
+  [https://github.com/troessner/reek/tree](https://github.com/troessner/reek/tree)
+* Read the code API at
+  [http://rdoc.info/projects/troessner/reek](http://rdoc.info/projects/troessner/reek)
