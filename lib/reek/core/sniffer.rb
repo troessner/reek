@@ -1,7 +1,6 @@
 require 'reek/core/code_parser'
 require 'reek/core/smell_repository'
 require 'reek/source/config_file'
-require 'yaml'
 
 module Reek
   module Core

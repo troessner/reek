@@ -1,6 +1,4 @@
 require 'reek/core/code_context'
-require 'reek/core/code_parser'
-require 'reek/core/sniffer'
 require 'reek/source/sexp_formatter'
 
 module Reek
