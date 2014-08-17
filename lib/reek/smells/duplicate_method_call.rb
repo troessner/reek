@@ -8,11 +8,11 @@ module Reek
     # Duplication occurs when two fragments of code look nearly identical,
     # or when two fragments of code have nearly identical effects
     # at some conceptual level.
-    # 
+    #
     # +DuplicateMethodCall+ checks for repeated identical method calls
     # within any one method definition. For example, the following method
     # will report a warning:
-    # 
+    #
     #   def double_thing()
     #     @other.thing + @other.thing
     #   end
@@ -123,6 +123,9 @@ module Reek
           context.local_nodes(:call) do |call_node|
             next if call_node.method_name == :new
             next if !call_node.receiver && call_node.args.empty?
+            result[call_node].record(call_node)
+          end
+          context.local_nodes(:iter) do |call_node|
             result[call_node].record(call_node)
           end
         end
