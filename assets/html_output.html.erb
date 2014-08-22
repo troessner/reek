@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='UTF-8' />
+    <title>Reek Output</title>
+    <style>
+    * {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+    body {
+      background-color: #e8eef2;
+      font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+      margin: 0;
+    }
+    #header {
+      background-color: #fafbfc;
+      border-bottom: 1px solid #cfdbe2;
+      margin-bottom: 20px;
+      padding: 20px;
+      color: #444444;
+    }
+    h1 {
+      margin: 0;
+    }
+    .total-warnings {
+      color: #f47f7f;
+    }
+    #reek-smells {
+      padding: 20px;
+      width: 100%;
+    }
+    .box {
+      margin-bottom: 20px;
+      background-color: #ffffff;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      border-color: #cfdbe2;
+      -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+      border-top-width: 3px;
+    }
+    .smell-list {
+      margin-bottom: 0px;
+      padding-left: 0px;
+    }
+    .list-item:first-child {
+      border-top-width: 0;
+    }
+    .list-item {
+      border-width: 1px 0;
+      border-radius: 0;
+      position: relative;
+      display: block;
+      padding: 10px 15px;
+      margin-bottom: -1px;
+      background-color: #ffffff;
+      border: 1px solid #f1f2f3;
+    }
+    .list-item > .content:first-child {
+      margin-top: 0px;
+    }
+    .list-item > .content {
+      overflow: hidden;
+    }
+    .list-item > .content > .heading {
+      margin: 0 0 5px 0;
+    }
+    .list-item > .content > small {
+      float: right;
+      color: #909fa7;
+      font-size: 0.8rem;
+    }
+    .list-item > .content > p {
+      margin: 0;
+      color: #656565;
+    }
+    </style>
+  </head>
+  <body>
+    <div id="header">
+      <h1>Reek Output - <span class="total-warnings"><%= @count %> total warnings</span></h1>
+    </div>
+    <div id="reek-smells">
+      <div class="box">
+        <div class="smell-list">
+          <% @smells.each do |smell| %>
+          <div class="list-item">
+            <div class="content">
+              <div class="heading"><strong><%= smell.context%></strong> <%= smell.message%> (<%= smell.subclass%>)</div>
+              <small class="text-muted pull-right">Line <%= smell.lines %></small>
+              <p>
+              <small><%= smell.source %></small>
+              </p>
+            </div>
+          </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
