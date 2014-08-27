@@ -80,12 +80,12 @@
   </head>
   <body>
     <div id="header">
-      <h1>Reek Output - <span class="total-warnings"><%= @count %> total warnings</span></h1>
+      <h1>Reek Output - <span class="total-warnings"><%= smells.size %> total warnings</span></h1>
     </div>
     <div id="reek-smells">
       <div class="box">
         <div class="smell-list">
-          <% @smells.each do |smell| %>
+          <% smells.each do |smell| %>
           <div class="list-item">
             <div class="content">
               <div class="heading"><strong><%= smell.context%></strong> <%= smell.message%> (<%= smell.subclass%>)</div>

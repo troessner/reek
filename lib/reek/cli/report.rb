@@ -144,15 +144,11 @@ module Reek
     # Saves the report as a HTML file
     # 
     class HtmlReport < Report
-      require 'erubis'
-      TEMPLATE = File.read(File.expand_path("../../../../assets/html_output.html.erb", __FILE__))
+      require 'erb'
+      TEMPLATE = File.read(File.expand_path('../../../../assets/html_output.html.erb', __FILE__))
       def output(smells)
-        File.open("reek.html", "w+") do |file|
-          eruby = Erubis::Eruby.new(TEMPLATE)
-          file.puts eruby.evaluate(
-            smells: smells,
-            count: smells.size
-          )
+        File.open('reek.html', 'w+') do |file|
+          file.puts ERB.new(TEMPLATE).result(binding)
         end
       end
     end
