@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.executables = ["reek"]
   s.extra_rdoc_files = ["CHANGELOG", "License.txt"]
   s.files = Dir[".yardopts", "CHANGELOG", "License.txt", "README.md",
-                "Rakefile", "bin/reek", "config/defaults.reek",
+                "Rakefile", "assets/html_output.html.erb", "bin/reek", "config/defaults.reek",
                 "{features,lib,spec,tasks}/**/*",
                 "reek.gemspec" ] & `git ls-files -z`.split("\0")
   s.homepage = %q{http://wiki.github.com/troessner/reek}
@@ -32,6 +32,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency(%q<sexp_processor>, ["~> 4.4"])
   s.add_runtime_dependency(%q<ruby2ruby>, [">= 2.0.8", "< 3.0"])
   s.add_runtime_dependency(%q<rainbow>, [">= 1.99", "< 3.0"])
+  s.add_runtime_dependency(%q<erubis>, ["~> 2.7.0"])
 
   s.add_development_dependency(%q<bundler>, ["~> 1.1"])
   s.add_development_dependency(%q<rake>, ["~> 10.0"])

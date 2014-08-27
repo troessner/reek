@@ -46,5 +46,6 @@ Feature: Reek can be controlled using command-line options
           -s, --single-line                Show IDE-compatible single-line-per-warning
           -S, --sort-by-issue-count        Sort by "issue-count", listing the "smelliest" files first
           -y, --yaml                       Report smells in YAML format
+          -H, --html                       Report smells in HTML format
 
       """

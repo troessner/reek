@@ -99,6 +99,9 @@ EOB
         @parser.on("-y", "--yaml", "Report smells in YAML format") do
           @format = :yaml
         end
+        @parser.on("-H", "--html", "Report smells in HTML format") do
+          @format = :html
+        end
       end
 
       def parse
