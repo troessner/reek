@@ -32,7 +32,6 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency(%q<sexp_processor>, ["~> 4.4"])
   s.add_runtime_dependency(%q<ruby2ruby>, [">= 2.0.8", "< 3.0"])
   s.add_runtime_dependency(%q<rainbow>, [">= 1.99", "< 3.0"])
-  s.add_runtime_dependency(%q<erubis>, ["~> 2.7.0"])
 
   s.add_development_dependency(%q<bundler>, ["~> 1.1"])
   s.add_development_dependency(%q<rake>, ["~> 10.0"])
