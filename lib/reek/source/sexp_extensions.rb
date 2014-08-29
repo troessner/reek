@@ -3,6 +3,34 @@ require 'reek/source/sexp_node'
 module Reek
   module Source
     module SexpExtensions
+      class MethodParameter
+        attr_reader :name
+
+        def initialize(name)
+          @name = name
+        end
+
+        def == other
+          @name == other
+        end
+
+        def block?
+          @name.to_s =~ /^&/
+        end
+
+        def anonymous_splat?
+          @name == :*
+        end
+
+        def marked_unused?
+          plain_name.start_with?('_')
+        end
+
+        def plain_name
+          @plain_name ||= @name.to_s.sub(/^[*&]+/, '')
+        end
+      end
+
       module AndNode
         def condition() self[1..2].tap {|node| node.extend SexpNode } end
       end
@@ -40,11 +68,22 @@ module Reek
       end
 
       module MethodNode
-        def arg_names
-          @args ||= parameter_names.reject {|param| param.to_s =~ /^&/}
+        def arguments
+          @arguments ||= parameters.reject {|param| param.block? }
         end
+
+        def arg_names
+          @arg_names ||= arguments.map(&:name)
+        end
+
+        def parameters
+          @parameters ||= argslist[1..-1].map { |param|
+            MethodParameter.new(Sexp === param ?  param[1] : param)
+          }
+        end
+
         def parameter_names
-          @param_names ||= argslist[1..-1].map { |param| Sexp === param ?  param[1] : param }
+          @parameter_names ||= parameters.map(&:name)
         end
 
         def name_without_bang
