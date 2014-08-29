@@ -40,6 +40,8 @@ module Reek
     #
     class Report
       DefaultFormat = :text
+      NoWarningsColor = :green
+      WarningsColor = :red
 
       def initialize(warning_formatter = SimpleWarningFormatter, report_formatter = ReportFormatter, sort_by_issue_count = false, format = DefaultFormat)
         @warning_formatter   = warning_formatter
@@ -103,7 +105,8 @@ module Reek
       end
 
       def total_smell_count_message
-        Rainbow("#{@total_smell_count} total warning#{'s' unless @total_smell_count == 1 }\n").red
+        colour = has_smells? ? WarningsColor : NoWarningsColor
+        Rainbow("#{@total_smell_count} total warning#{'s' unless @total_smell_count == 1 }\n").color(colour)
       end
 
       def summarize_single_examiner(examiner)
