@@ -1,4 +1,4 @@
-require 'reek/cli/command_line'
+require 'reek/cli/options'
 
 module Reek
   module Cli
