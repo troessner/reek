@@ -1,4 +1,5 @@
 require 'reek'
+require 'reek/cli/command'
 
 module Reek
   module Cli
@@ -6,12 +7,9 @@ module Reek
     #
     # A command to report the application's current version number.
     #
-    class VersionCommand
-      def initialize(progname)
-        @progname = progname
-      end
+    class VersionCommand < Command
       def execute(view)
-        view.output("#{@progname} #{Reek::VERSION}\n")
+        view.output("#{@parser.program_name} #{Reek::VERSION}\n")
         view.report_success
       end
     end

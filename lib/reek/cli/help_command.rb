@@ -1,3 +1,4 @@
+require 'reek/cli/command'
 
 module Reek
   module Cli
@@ -5,12 +6,9 @@ module Reek
     #
     # A command to display usage information for this application.
     #
-    class HelpCommand
-      def initialize(parser)
-        @parser = parser
-      end
+    class HelpCommand < Command
       def execute(view)
-        view.output(@parser.to_s)
+        view.output(@parser.help_text)
         view.report_success
       end
     end

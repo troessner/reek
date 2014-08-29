@@ -106,15 +106,14 @@ EOB
 
       def parse
         @parser.parse!(@argv)
-        if @command_class == HelpCommand
-          HelpCommand.new(@parser)
-        elsif @command_class == VersionCommand
-          VersionCommand.new(@parser.program_name)
-        else
-          Rainbow.enabled = @colored
-          reporter = @report_class.new(@warning_formatter, ReportFormatter, @sort_by_issue_count, @format)
-          ReekCommand.create(get_sources, reporter, @config_files)
-        end
+        Rainbow.enabled = @colored
+        @command_class.new(self)
+      end
+
+      attr_reader :config_files
+
+      def reporter
+        @reporter ||= @report_class.new(@warning_formatter, ReportFormatter, @sort_by_issue_count, @format)
       end
 
       def get_sources
@@ -123,6 +122,14 @@ EOB
         else
           return Source::SourceLocator.new(@argv).all_sources
         end
+      end
+
+      def program_name
+        @parser.program_name
+      end
+
+      def help_text
+        @parser.to_s
       end
     end
   end
