@@ -8,8 +8,3 @@ begin
   end
 rescue Gem::LoadError
 end
-
-begin
-  require 'metric_fu'
-rescue LoadError
-end
