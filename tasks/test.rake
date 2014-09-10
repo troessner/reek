@@ -5,21 +5,19 @@ require 'rspec'
 require 'rspec/core/rake_task'
 
 namespace 'test' do
-  UNIT_TESTS = FileList['spec/reek/**/*_spec.rb']
-
   RSpec::Core::RakeTask.new('spec') do |t|
-    t.pattern = UNIT_TESTS
+    t.pattern = 'spec/reek/**/*_spec.rb'
     t.ruby_opts = ['-Ilib -w']
   end
 
   desc 'Tests various release attributes of the gem'
   RSpec::Core::RakeTask.new('gem') do |t|
-    t.pattern = FileList['spec/gem/**/*_spec.rb']
+    t.pattern = 'spec/gem/**/*_spec.rb'
   end
 
   desc 'Tests code quality'
   RSpec::Core::RakeTask.new('quality') do |t|
-    t.pattern = FileList['quality/**/*_spec.rb']
+    t.pattern = 'quality/**/*_spec.rb'
     t.ruby_opts = ['-Ilib']
   end
 
