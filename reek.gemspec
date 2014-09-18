@@ -26,6 +26,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{reek}
   s.rubygems_version = %q{1.3.6}
+  s.required_ruby_version = %q{>= 1.9.2}
   s.summary = %q{Code smell detector for Ruby}
 
   s.add_runtime_dependency(%q<ruby_parser>, [">= 3.5.0", "< 4.0"])
