@@ -17,7 +17,7 @@ namespace 'test' do
 
   desc 'Tests code quality'
   RSpec::Core::RakeTask.new('quality') do |t|
-    t.pattern = 'quality/**/*_spec.rb'
+    t.pattern = 'spec/quality/**/*_spec.rb'
     t.ruby_opts = ['-Ilib']
   end
 
