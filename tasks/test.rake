@@ -1,7 +1,4 @@
-require 'rubygems'
-require 'cucumber'
 require 'cucumber/rake/task'
-require 'rspec'
 require 'rspec/core/rake_task'
 
 namespace 'test' do
