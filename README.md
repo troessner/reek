@@ -127,11 +127,10 @@ my_precious_code.should_not reek # Well, it does.
 Either just `bundle exec rake` to run all or, if you want to be specific:
 
 ```bash
-bundle exec rspec spec/your/file        # Runs all tests
-bundle exec rspec spec/your/file -l 23  # Runs test in line 23
-bundle exec rspec spec/your/file -u     # Runs all tests stopping at the
-                                        # breakpoints you have set before with
-                                        # `debugger`
+bundle exec rspec spec/your/file_spec.rb            # Runs all tests in spec/your/file_spec.rb
+bundle exec rspec spec/your/file_spec.rb:23         # Runs test in line 23
+bundle exec cucumber features/your_file.feature     # Runs all scenarios in your_file.feature
+bundle exec cucumber features/your_file.feature:23  # Runs scenario at line 23
 ```
 
 ## Miscellaneous
