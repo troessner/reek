@@ -52,7 +52,7 @@ module Reek
 
         def format(warning)
           "#{super} " \
-          "[#{explanatory_link(warning)}]"
+            "[#{explanatory_link(warning)}]"
         end
 
         def explanatory_link(warning)

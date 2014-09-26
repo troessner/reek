@@ -28,16 +28,5 @@ module Reek
         "Expected #{@examiner.description} not to reek only of #{@smell_category}, but it did"
       end
     end
-
-    #
-    # See the documentaton for "reek_of".
-    #
-    # Notable differences to reek_of:
-    #   1.) "reek_of" doesn't mind if there are other smells of a different category.
-    #       "reek_only_of" will fail in that case.
-    #   2.) "reek_only_of" doesn't support the additional smell_details hash.
-    def reek_only_of(smell_category)
-      ShouldReekOnlyOf.new(smell_category)
-    end
   end
 end

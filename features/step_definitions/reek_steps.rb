@@ -69,7 +69,7 @@ Then /^it should indicate the line numbers of those smells$/ do
 end
 
 Then /^it reports the current version$/ do
-  expect(@last_stdout).to eq "reek #{Reek::VERSION}\n"
+  expect(@last_stdout).to eq "reek #{Reek::Version::STRING}\n"
 end
 
 Given(/^"(.*?)" exists in the working directory$/) do |path|

@@ -122,7 +122,7 @@ module Reek
           exit
         end
         @parser.on_tail('-v', '--version', 'Show version') do
-          puts "#{@parser.program_name} #{Reek::VERSION}\n"
+          puts "#{@parser.program_name} #{Reek::Version::STRING}\n"
           exit
         end
       end

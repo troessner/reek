@@ -4,12 +4,6 @@ require 'reek/core/smell_configuration'
 
 module Reek
   module Smells
-    module ExcludeInitialize
-      def self.default_config
-        super.merge(EXCLUDE_KEY => ['initialize'])
-      end
-    end
-
     #
     # Shared responsibilities of all smell detectors.
     #

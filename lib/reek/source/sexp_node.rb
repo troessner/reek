@@ -1,7 +1,7 @@
 module Reek
   module Source
     #
-    # Extensions to +Sexp+ to allow +CodeParser+ to navigate the abstract
+    # Extensions to +AstNode+ to allow +CodeParser+ to navigate the abstract
     # syntax tree more easily.
     #
     module SexpNode

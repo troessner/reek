@@ -31,8 +31,6 @@ module Reek
     # often than it refers to (ie. send messages to) some other object.
     #
     class FeatureEnvy < SmellDetector
-      include ExcludeInitialize
-
       def self.smell_category
         'LowCohesion'
       end

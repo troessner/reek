@@ -2,6 +2,10 @@ require 'reek/source/sexp_node'
 
 module Reek
   module Source
+    #
+    # Extension modules providing utility methods to AstNode objects, depending
+    # on their type.
+    #
     module SexpExtensions
       # Base module for utility methods for argument nodes.
       module ArgNodeBase
@@ -96,21 +100,22 @@ module Reek
         end
       end
 
+      # Utility methods for :and nodes.
       module AndNode
         include LogicOperatorBase
       end
 
-      # Utility methods for :or nodes
+      # Utility methods for :or nodes.
       module OrNode
         include LogicOperatorBase
       end
 
-      # Utility methods for :attrasgn nodes
+      # Utility methods for :attrasgn nodes.
       module AttrasgnNode
         def args() self[3] end
       end
 
-      # Utility methods for :case nodes
+      # Utility methods for :case nodes.
       module CaseNode
         def condition() self[1] end
 
@@ -123,7 +128,7 @@ module Reek
         end
       end
 
-      # Utility methods for :when nodes
+      # Utility methods for :when nodes.
       module WhenNode
         def condition_list
           children[0..-2]
@@ -134,7 +139,7 @@ module Reek
         end
       end
 
-      # Utility methods for :send nodes
+      # Utility methods for :send nodes.
       module SendNode
         def receiver() self[1] end
         def method_name() self[2] end
@@ -172,6 +177,7 @@ module Reek
         include VariableBase
       end
 
+      # Utility methods for :lvar nodes.
       module LvarNode
         def var_name() self[1] end
       end
@@ -226,6 +232,7 @@ module Reek
         end
       end
 
+      # Utility methods for :defs nodes.
       module DefsNode
         def receiver() self[1] end
         def name() self[2] end
@@ -242,7 +249,7 @@ module Reek
         end
       end
 
-      # Utility methods for :if nodes
+      # Utility methods for :if nodes.
       module IfNode
         def condition() self[1] end
 
@@ -263,6 +270,7 @@ module Reek
         end
       end
 
+      # Utility methods for :lit nodes.
       module LitNode
         def value() self[1] end
       end
@@ -292,11 +300,13 @@ module Reek
         end
       end
 
+      # Utility methods for :class nodes.
       module ClassNode
         include ModuleNode
         def superclass() self[2] end
       end
 
+      # Utility methods for :yield nodes.
       module YieldNode
         def args() self[1..-1] end
 
@@ -305,6 +315,7 @@ module Reek
         end
       end
 
+      # Utility methods for :zsuper nodes.
       module ZsuperNode
         def method_name
           :super
