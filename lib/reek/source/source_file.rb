@@ -14,12 +14,12 @@ module Reek
         super(IO.readlines(@path).join, @path)
       end
 
-      def configure(sniffer)
+      def relevant_config_files
         path = File.expand_path(File.dirname(@path))
-        all_config_files(path).each { |cf| ConfigFile.new(cf).configure(sniffer) }
+        all_config_files(path)
       end
 
-    private
+      private
 
       def all_config_files(path)
         return [] unless File.exist?(path)

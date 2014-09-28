@@ -28,7 +28,9 @@ module Reek
         @parser = parser
       end
 
-      def configure(sniffer) end
+      def relevant_config_files
+        []
+      end
 
       def syntax_tree
         begin

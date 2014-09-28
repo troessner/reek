@@ -11,9 +11,11 @@ module Reek
     # Traverses a Sexp abstract syntax tree and fires events whenever
     # it encounters specific node types.
     #
+    # SMELL: This class is responsible for counting statements and for feeding
+    # each context to the smell repository.
     class CodeParser
-      def initialize(sniffer, ctx = StopContext.new)
-        @sniffer = sniffer
+      def initialize(smell_repository, ctx = StopContext.new)
+        @smell_repository = smell_repository
         @element = ctx
       end
 
@@ -156,7 +158,7 @@ module Reek
       end
 
       def check_smells(type)
-        @sniffer.examine(@element, type)
+        @smell_repository.examine(@element, type)
       end
 
       def push(scope)
