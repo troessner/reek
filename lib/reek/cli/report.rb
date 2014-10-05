@@ -35,6 +35,8 @@ module Reek
       end
     end
 
+    class UnsupportedReportFormatError < StandardError; end
+
     #
     # A report that contains the smells and smell counts following source code analysis.
     #
@@ -43,13 +45,15 @@ module Reek
       NoWarningsColor = :green
       WarningsColor = :red
 
-      def initialize(warning_formatter = SimpleWarningFormatter, report_formatter = ReportFormatter, sort_by_issue_count = false, format = DefaultFormat)
-        @warning_formatter   = warning_formatter
-        @report_formatter    = report_formatter
+      FORMAT_WHITELIST = [:text, :html, :yaml]
+
+      def initialize(options = {})
+        @warning_formatter   = options.fetch :warning_formatter, SimpleWarningFormatter
+        @report_formatter    = options.fetch :report_formatter, ReportFormatter
         @examiners           = []
         @total_smell_count   = 0
-        @sort_by_issue_count = sort_by_issue_count
-        @format              = format
+        @sort_by_issue_count = options.fetch :sort_by_issue_count, false
+        @format = options[:format] ? validate_format(options[:format]) : DefaultFormat
       end
 
       def add_examiner(examiner)
@@ -59,34 +63,42 @@ module Reek
       end
 
       def show
-        case @format
-        when DefaultFormat
-          sort_examiners
-          display_summary
-          display_total_smell_count
-        when :yaml
-          if all_smells.size > 0
-            print(all_smells.to_yaml)
-          else
-            print ''
-          end
-        when :html
-          if all_smells.size > 0
-            HtmlReport.new.output(all_smells)
-            print("Html file saved\n")
-          end
-        end
+          send("as_#{@format}")
       end
 
       def has_smells?
         @total_smell_count > 0
       end
 
-    private
+      private
+
+      def validate_format(format)
+        unless FORMAT_WHITELIST.include? format
+          raise UnsupportedReportFormatError
+        end
+        format
+      end
+
+      def as_html
+        HtmlReport.new(all_smells).output
+        print("Html file saved\n")
+      end
+
+      def as_text
+        if has_smells?
+          sort_examiners
+        end
+        display_summary
+        display_total_smell_count
+      end
+
+      def as_yaml
+        print(all_smells.to_yaml)
+      end
 
       def all_smells
         @all_smells ||= @examiners.each_with_object([]) { |examiner, smells| smells << examiner.smells }
-                                  .flatten
+                                                      .flatten
       end
 
       def sort_examiners
@@ -145,11 +157,19 @@ module Reek
 
     #
     # Saves the report as a HTML file
-    # 
+    #
     class HtmlReport < Report
       require 'erb'
+
       TEMPLATE = File.read(File.expand_path('../../../../assets/html_output.html.erb', __FILE__))
-      def output(smells)
+
+      attr_reader:smells
+
+      def initialize(smells)
+        @smells = smells
+      end
+
+      def output
         File.open('reek.html', 'w+') do |file|
           file.puts ERB.new(TEMPLATE).result(binding)
         end

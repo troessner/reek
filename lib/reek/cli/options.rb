@@ -88,15 +88,15 @@ EOB
         @parser.on("-V", "--no-quiet", "--verbose", "Show headings for smell-free source files") do |opt|
           @report_class = VerboseReport
         end
-        @parser.on("-n", "--no-line-numbers", "Suppress line numbers from the output") do 
+        @parser.on("-n", "--no-line-numbers", "Suppress line numbers from the output") do
           @warning_formatter = SimpleWarningFormatter
         end
-        @parser.on("--line-numbers", "Show line numbers in the output (this is the default)") do 
+        @parser.on("--line-numbers", "Show line numbers in the output (this is the default)") do
           @warning_formatter = WarningFormatterWithLineNumbers
         end
-        @parser.on("-s", "--single-line", "Show IDE-compatible single-line-per-warning") do 
+        @parser.on("-s", "--single-line", "Show IDE-compatible single-line-per-warning") do
           @warning_formatter = SingleLineWarningFormatter
-        end        
+        end
         @parser.on("-S", "--sort-by-issue-count", 'Sort by "issue-count", listing the "smelliest" files first') do
           @sort_by_issue_count = true
         end
@@ -118,7 +118,12 @@ EOB
       attr_reader :smells_to_detect
 
       def reporter
-        @reporter ||= @report_class.new(@warning_formatter, ReportFormatter, @sort_by_issue_count, @format)
+        @reporter ||= @report_class.new( {
+          warning_formatter: @warning_formatter,
+          report_formatter: ReportFormatter,
+          format: @format,
+          sort_by_issue_count: @sort_by_issue_count
+        })
       end
 
       def get_sources
