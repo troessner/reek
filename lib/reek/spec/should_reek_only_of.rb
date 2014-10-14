@@ -1,5 +1,7 @@
 require 'reek/examiner'
-require 'reek/cli/report'
+require 'reek/cli/report/report'
+require 'reek/cli/report/formatter'
+require 'reek/cli/report/strategy'
 
 module Reek
   module Spec
@@ -20,7 +22,7 @@ module Reek
       end
 
       def failure_message
-        rpt = Cli::ReportFormatter.format_list(@warnings)
+        rpt = Cli::Report::Formatter.format_list(@warnings)
         "Expected #{@examiner.description} to reek only of #{@klass}, but got:\n#{rpt}"
       end
 
