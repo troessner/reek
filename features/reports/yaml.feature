@@ -6,7 +6,10 @@ Feature: Report smells using simple YAML layout
   Scenario: output is empty when there are no smells
     When I run reek --yaml spec/samples/three_clean_files
     Then it succeeds
-    And stdout equals ""
+    And it reports this yaml:
+    """
+    --- []
+    """
 
   @masking
   Scenario: masked smells always appear
@@ -14,49 +17,49 @@ Feature: Report smells using simple YAML layout
     Then the exit status indicates smells
     And it reports this yaml:
       """
-      --- 
-      - !ruby/object:Reek::SmellWarning 
-        location: 
-          lines: 
+      ---
+      - !ruby/object:Reek::SmellWarning
+        location:
+          lines:
           - 4
           - 6
           context: Dirty#a
           source: spec/samples/masked/dirty.rb
-        smell: 
+        smell:
           class: Duplication
           occurrences: 2
           subclass: DuplicateMethodCall
           call: "@s.title"
           message: calls @s.title twice
-        status: 
+        status:
           is_active: true
-      - !ruby/object:Reek::SmellWarning 
-        location: 
-          lines: 
+      - !ruby/object:Reek::SmellWarning
+        location:
+          lines:
           - 5
           - 7
           context: Dirty#a
           source: spec/samples/masked/dirty.rb
-        smell: 
+        smell:
           class: Duplication
           occurrences: 2
           subclass: DuplicateMethodCall
           call: puts(@s.title)
           message: calls puts(@s.title) twice
-        status: 
+        status:
           is_active: true
-      - !ruby/object:Reek::SmellWarning 
-        location: 
-          lines: 
+      - !ruby/object:Reek::SmellWarning
+        location:
+          lines:
           - 5
           context: Dirty#a
           source: spec/samples/masked/dirty.rb
-        smell: 
+        smell:
           class: NestedIterators
           depth: 2
           subclass: NestedIterators
           message: contains iterators nested 2 deep
-        status: 
+        status:
           is_active: true
 
       """
@@ -67,19 +70,19 @@ Feature: Report smells using simple YAML layout
     Then the exit status indicates smells
     And it reports this yaml:
       """
-      --- 
-      - !ruby/object:Reek::SmellWarning 
-        location: 
-          lines: 
+      ---
+      - !ruby/object:Reek::SmellWarning
+        location:
+          lines:
           - 1
           context: Turn
           source: $stdin
-        smell: 
+        smell:
           class: IrresponsibleModule
           subclass: IrresponsibleModule
           module_name: Turn
           message: has no descriptive comment
-        status: 
+        status:
           is_active: true
 
       """
