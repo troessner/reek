@@ -2,7 +2,6 @@ require 'reek/cli/command'
 
 module Reek
   module Cli
-
     #
     # A command to display usage information for this application.
     #

@@ -8,7 +8,6 @@ require 'reek/source/source_locator'
 require 'reek/source/tree_dresser'
 
 module Reek
-
   #
   # This module contains a set of classes for interacting with Ruby
   # source code and abstract syntax trees.

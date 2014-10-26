@@ -3,7 +3,6 @@ require 'reek/smell_warning'
 
 module Reek
   module Smells
-
     #
     # Duplication occurs when two fragments of code look nearly identical,
     # or when two fragments of code have nearly identical effects
@@ -19,7 +18,7 @@ module Reek
     #
     class DuplicateMethodCall < SmellDetector
       SMELL_CLASS = 'Duplication'
-      SMELL_SUBCLASS = self.name.split(/::/)[-1]
+      SMELL_SUBCLASS = name.split(/::/)[-1]
 
       CALL_KEY = 'call'
       OCCURRENCES_KEY = 'occurrences'
@@ -57,7 +56,7 @@ module Reek
           SmellWarning.new(SMELL_CLASS, ctx.full_name, found_call.lines,
                            found_call.smell_message,
                            @source, SMELL_SUBCLASS,
-                           {CALL_KEY => found_call.call, OCCURRENCES_KEY => found_call.occurs})
+                           CALL_KEY => found_call.call, OCCURRENCES_KEY => found_call.occurs)
         end
       end
 
@@ -86,7 +85,7 @@ module Reek
         end
 
         def lines
-          @occurences.map {|exp| exp.line}
+          @occurences.map(&:line)
         end
       end
 
@@ -101,14 +100,14 @@ module Reek
         end
 
         def calls
-          result = Hash.new {|hash,key| hash[key] = FoundCall.new(key)}
+          result = Hash.new { |hash, key| hash[key] = FoundCall.new(key) }
           collect_calls(result)
           collect_assignments(result)
-          result.values.sort_by {|found_call| found_call.call}
+          result.values.sort_by(&:call)
         end
 
         def smelly_calls
-          calls.select {|found_call| smelly_call? found_call }
+          calls.select { |found_call| smelly_call? found_call }
         end
 
         private
@@ -131,11 +130,11 @@ module Reek
         end
 
         def smelly_call?(found_call)
-          found_call.occurs > @max_allowed_calls and not allow_calls?(found_call.call)
+          found_call.occurs > @max_allowed_calls && !allow_calls?(found_call.call)
         end
 
         def allow_calls?(method)
-          @allow_calls.any? { |allow| /#{allow}/ === method }
+          @allow_calls.any? { |allow| /#{allow}/ =~ method }
         end
       end
     end

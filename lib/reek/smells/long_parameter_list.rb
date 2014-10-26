@@ -4,7 +4,6 @@ require 'reek/core/smell_configuration'
 
 module Reek
   module Smells
-
     #
     # A Long Parameter List occurs when a method has more than one
     # or two parameters, or when a method yields more than one or
@@ -14,9 +13,8 @@ module Reek
     # many parameters.
     #
     class LongParameterList < SmellDetector
-
       SMELL_CLASS = 'LongParameterList'
-      SMELL_SUBCLASS = self.name.split(/::/)[-1]
+      SMELL_SUBCLASS = name.split(/::/)[-1]
 
       PARAMETER_COUNT_KEY = 'parameter_count'
 
@@ -32,7 +30,7 @@ module Reek
         super.merge(
           MAX_ALLOWED_PARAMS_KEY => DEFAULT_MAX_ALLOWED_PARAMS,
           Core::SmellConfiguration::OVERRIDES_KEY => {
-            "initialize" => {MAX_ALLOWED_PARAMS_KEY => 5}
+            'initialize' => { MAX_ALLOWED_PARAMS_KEY => 5 }
           }
         )
       end
@@ -47,9 +45,9 @@ module Reek
         num_params = ctx.exp.arg_names.length
         return [] if num_params <= @max_allowed_params
         smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [ctx.exp.line],
-          "has #{num_params} parameters",
-          @source, SMELL_SUBCLASS,
-          {PARAMETER_COUNT_KEY => num_params})
+                                 "has #{num_params} parameters",
+                                 @source, SMELL_SUBCLASS,
+                                 PARAMETER_COUNT_KEY => num_params)
         [smell]
       end
     end

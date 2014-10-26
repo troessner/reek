@@ -10,7 +10,7 @@ describe StopContext do
   end
 
   context 'full_name' do
-    it "reports full context" do
+    it 'reports full context' do
       expect(@stop.full_name).to eq('')
     end
   end

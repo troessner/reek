@@ -3,12 +3,10 @@ require 'reek/smell_warning'
 
 module Reek
   module Smells
-
     #
     # Methods should use their parameters.
     #
     class UnusedParameters < SmellDetector
-
       SMELL_CLASS = 'UnusedCode'
       SMELL_SUBCLASS = name.split(/::/)[-1]
 
@@ -33,14 +31,13 @@ module Reek
         SmellWarning.new(
           SMELL_CLASS,
           method_ctx.full_name,
-          [ method_ctx.exp.line ],
+          [method_ctx.exp.line],
           "has unused parameter '#{param_name}'",
           @source,
           SMELL_SUBCLASS,
-          { PARAMETER_KEY => param_name }
+          PARAMETER_KEY => param_name
         )
       end
-
     end
   end
 end

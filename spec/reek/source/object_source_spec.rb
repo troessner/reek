@@ -11,7 +11,7 @@ describe Dir do
   end
 
   it 'copes with daft file specs' do
-    expect(Dir["spec/samples/two_smelly_files/*/.rb"]).not_to reek
+    expect(Dir['spec/samples/two_smelly_files/*/.rb']).not_to reek
   end
 
   it 'copes with empty array' do

@@ -2,7 +2,6 @@ require 'set'
 
 module Reek
   module Core
-
     #
     # Collects and sorts smells warnings.
     #

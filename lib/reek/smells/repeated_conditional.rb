@@ -3,7 +3,6 @@ require 'reek/smell_warning'
 
 module Reek
   module Smells
-
     #
     # Simulated Polymorphism occurs when
     # * code uses a case statement (especially on a type field);
@@ -22,9 +21,8 @@ module Reek
     # testing the same value throughout a single class.
     #
     class RepeatedConditional < SmellDetector
-
       SMELL_CLASS = 'SimulatedPolymorphism'
-      SMELL_SUBCLASS = self.name.split(/::/)[-1]
+      SMELL_SUBCLASS = name.split(/::/)[-1]
 
       def self.contexts      # :nodoc:
         [:class]
@@ -47,7 +45,7 @@ module Reek
       #
       def examine_context(ctx)
         @max_identical_ifs = value(MAX_IDENTICAL_IFS_KEY, ctx, DEFAULT_MAX_IFS)
-        conditional_counts(ctx).select do |key, lines|
+        conditional_counts(ctx).select do |_key, lines|
           lines.length > @max_identical_ifs
         end.map do |key, lines|
           occurs = lines.length
@@ -55,7 +53,7 @@ module Reek
           SmellWarning.new(SMELL_CLASS, ctx.full_name, lines,
                            "tests #{expr} at least #{occurs} times",
                            @source, SMELL_SUBCLASS,
-                           {'expression' => expr, 'occurrences' => occurs})
+                           'expression' => expr, 'occurrences' => occurs)
         end
       end
 
@@ -65,13 +63,13 @@ module Reek
       # occurs. Ignores nested classes and modules.
       #
       def conditional_counts(sexp)
-        result = Hash.new {|hash, key| hash[key] = []}
-        collector = proc { |node|
+        result = Hash.new { |hash, key| hash[key] = [] }
+        collector = proc do |node|
           condition = node.condition
-          next if condition.nil? or condition == s(:call, nil, :block_given?)
+          next if condition.nil? || condition == s(:call, nil, :block_given?)
           result[condition].push(condition.line)
-        }
-        [:if, :case].each {|stmt| sexp.local_nodes(stmt, &collector) }
+        end
+        [:if, :case].each { |stmt| sexp.local_nodes(stmt, &collector) }
         result
       end
     end

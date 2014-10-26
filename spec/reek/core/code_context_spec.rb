@@ -71,15 +71,15 @@ describe CodeContext do
         @ctx = CodeContext.new(nil, ast)
       end
       it 'yields no calls' do
-        @ctx.each_node(:call, []) {|exp| raise "#{exp} yielded by empty module!"}
+        @ctx.each_node(:call, []) { |exp| raise "#{exp} yielded by empty module!" }
       end
       it 'yields one module' do
         mods = 0
-        @ctx.each_node(:module, []) {|exp| mods += 1}
+        @ctx.each_node(:module, []) { |_exp| mods += 1 }
         expect(mods).to eq(1)
       end
       it "yields the module's full AST" do
-        @ctx.each_node(:module, []) {|exp| expect(exp[1]).to eq(@module_name.to_sym)}
+        @ctx.each_node(:module, []) { |exp| expect(exp[1]).to eq(@module_name.to_sym) }
       end
 
       context 'with no block' do
@@ -98,19 +98,19 @@ describe CodeContext do
         @ctx = CodeContext.new(nil, ast)
       end
       it 'yields no ifs' do
-        @ctx.each_node(:if, []) {|exp| raise "#{exp} yielded by empty module!"}
+        @ctx.each_node(:if, []) { |exp| raise "#{exp} yielded by empty module!" }
       end
       it 'yields one module' do
         expect(@ctx.each_node(:module, []).length).to eq(1)
       end
       it "yields the module's full AST" do
-        @ctx.each_node(:module, []) {|exp| expect(exp[1]).to eq(@module_name.to_sym)}
+        @ctx.each_node(:module, []) { |exp| expect(exp[1]).to eq(@module_name.to_sym) }
       end
       it 'yields one method' do
         expect(@ctx.each_node(:defn, []).length).to eq(1)
       end
       it "yields the method's full AST" do
-        @ctx.each_node(:defn, []) {|exp| expect(exp[1]).to eq(@method_name.to_sym)}
+        @ctx.each_node(:defn, []) { |exp| expect(exp[1]).to eq(@method_name.to_sym) }
       end
 
       context 'pruning the traversal' do
@@ -156,8 +156,7 @@ EOS
     end
 
     it 'gets its configuration from the exp comments' do
-      expect(ctx.config_for(sniffer)).to eq({
-        'allow_calls' => [ 'puts' ] })
+      expect(ctx.config_for(sniffer)).to eq('allow_calls' => ['puts'])
     end
 
     context 'when there is an outer' do
@@ -165,12 +164,12 @@ EOS
 
       before :each do
         allow(outer).to receive(:config_for).with(sniffer).and_return(
-          { 'max_calls' => 2 })
+          'max_calls' => 2)
       end
 
       it 'merges the outer config with its own configuration' do
-        expect(ctx.config_for(sniffer)).to eq({ 'allow_calls' => [ 'puts' ],
-                                            'max_calls' => 2 })
+        expect(ctx.config_for(sniffer)).to eq('allow_calls' => ['puts'],
+                                              'max_calls' => 2)
       end
     end
   end

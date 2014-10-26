@@ -3,11 +3,10 @@ require 'reek/smell_warning'
 
 module Reek
   module Smells
-
     #
     # An Uncommunicative Name is a name that doesn't communicate its intent
     # well enough.
-    # 
+    #
     # Poor names make it hard for the reader to build a mental picture
     # of what's going on in the code. They can also be mis-interpreted;
     # and they hurt the flow of reading, because the reader must slow
@@ -18,9 +17,8 @@ module Reek
     # * names ending with a number
     #
     class UncommunicativeParameterName < SmellDetector
-
       SMELL_CLASS = 'UncommunicativeName'
-      SMELL_SUBCLASS = self.name.split(/::/)[-1]
+      SMELL_SUBCLASS = name.split(/::/)[-1]
       PARAMETER_NAME_KEY = 'parameter_name'
 
       # The name of the config field that lists the regexps of
@@ -57,18 +55,18 @@ module Reek
         @accept_names = value(ACCEPT_KEY, ctx, DEFAULT_ACCEPT_SET)
         context_expression = ctx.exp
         context_expression.parameter_names.select do |name|
-          is_bad_name?(name) && ctx.uses_param?(name)
+          bad_name?(name) && ctx.uses_param?(name)
         end.map do |name|
           SmellWarning.new(SMELL_CLASS, ctx.full_name, [context_expression.line],
                            "has the parameter name '#{name}'",
-                           @source, SMELL_SUBCLASS, {PARAMETER_NAME_KEY => name.to_s})
+                           @source, SMELL_SUBCLASS, PARAMETER_NAME_KEY => name.to_s)
         end
       end
 
-      def is_bad_name?(name)
+      def bad_name?(name)
         var = name.to_s.gsub(/^[@\*\&]*/, '')
-        return false if var == '*' or @accept_names.include?(var)
-        @reject_names.detect {|patt| patt === var}
+        return false if var == '*' || @accept_names.include?(var)
+        @reject_names.find { |patt| patt =~ var }
       end
     end
   end

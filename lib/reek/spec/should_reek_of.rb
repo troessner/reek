@@ -2,7 +2,6 @@ require 'reek/examiner'
 
 module Reek
   module Spec
-
     #
     # An rspec matcher that matches when the +actual+ has the specified
     # code smell.
@@ -16,7 +15,7 @@ module Reek
       def matches?(actual)
         @examiner = Examiner.new(actual)
         @all_smells = @examiner.smells
-        @all_smells.any? {|warning| warning.matches?(@klass, @patterns)}
+        @all_smells.any? { |warning| warning.matches?(@klass, @patterns) }
       end
 
       def failure_message

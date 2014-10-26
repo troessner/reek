@@ -46,7 +46,7 @@ EOS
       expect(@smells[0].smell[DataClump::METHODS_KEY]).to eq(['first', 'second', 'third'])
     end
     it 'reports the declaration line numbers' do
-      expect(@smells[0].lines).to eq([2,3,4])
+      expect(@smells[0].lines).to eq([2, 3, 4])
     end
     it 'reports the correct smell class' do
       expect(@smells[0].smell_class).to eq(DataClump::SMELL_CLASS)
@@ -64,8 +64,9 @@ EOS
   def tri(pa, pb) pa - pb + @fred; end
 end
 EOS
-    expect(src).to smell_of(DataClump, {DataClump::OCCURRENCES_KEY => 3,
-      DataClump::PARAMETERS_KEY => ['pa', 'pb']})
+    expect(src).to smell_of(DataClump,
+                            DataClump::OCCURRENCES_KEY => 3,
+                            DataClump::PARAMETERS_KEY => ['pa', 'pb'])
   end
 
   it 'reports 3 identical parameter sets' do
@@ -76,8 +77,9 @@ EOS
   def third(pa, pb, pc) pa - pb + @fred; end
 end
 EOS
-    expect(src).to smell_of(DataClump, {DataClump::OCCURRENCES_KEY => 3,
-      DataClump::PARAMETERS_KEY => ['pa', 'pb', 'pc']})
+    expect(src).to smell_of(DataClump,
+                            DataClump::OCCURRENCES_KEY => 3,
+                            DataClump::PARAMETERS_KEY => ['pa', 'pb', 'pc'])
   end
 
   it 'reports re-ordered identical parameter sets' do
@@ -88,8 +90,9 @@ EOS
   def third(pa, pb, pc) pa - pb + @fred; end
 end
 EOS
-    expect(src).to smell_of(DataClump, {DataClump::OCCURRENCES_KEY => 3,
-      DataClump::PARAMETERS_KEY => ['pa', 'pb', 'pc']})
+    expect(src).to smell_of(DataClump,
+                            DataClump::OCCURRENCES_KEY => 3,
+                            DataClump::PARAMETERS_KEY => ['pa', 'pb', 'pc'])
   end
 
   it 'counts only identical parameter sets' do
@@ -138,7 +141,7 @@ EOS
       end
     EOS
     expect(src).to smell_of(DataClump,
-                        { DataClump::PARAMETERS_KEY => %w(p1 p2) })
+                            DataClump::PARAMETERS_KEY => %w(p1 p2))
   end
 end
 

@@ -1,7 +1,6 @@
 
 module Reek
   module Source
-
     #
     # Locates references to the current object within a portion
     # of an abstract syntax tree.
@@ -16,7 +15,7 @@ module Reek
       def num_refs_to_self
         result = 0
         [:self, :zsuper, :ivar, :iasgn].each do |node_type|
-          @ast.look_for(node_type, STOP_NODES) { result += 1}
+          @ast.look_for(node_type, STOP_NODES) { result += 1 }
         end
         @ast.look_for(:call, STOP_NODES) do |call|
           result += 1 unless call.receiver

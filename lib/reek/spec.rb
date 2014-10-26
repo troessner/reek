@@ -3,7 +3,6 @@ require 'reek/spec/should_reek_of'
 require 'reek/spec/should_reek_only_of'
 
 module Reek
-
   #
   # Provides matchers for Rspec, making it easy to check code quality.
   #
@@ -34,7 +33,7 @@ module Reek
   #  'def equals(other) other.thing == self.thing end'.should_not reek
   #
   # To check for specific smells, use something like this:
-  # 
+  #
   #   ruby = 'def double_thing() @other.thing.foo + @other.thing.foo end'
   #   ruby.should reek_of(:Duplication, /@other.thing[^\.]/)
   #   ruby.should reek_of(:Duplication, /@other.thing.foo/)

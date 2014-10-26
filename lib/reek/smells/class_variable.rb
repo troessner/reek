@@ -4,7 +4,6 @@ require 'reek/smell_warning'
 
 module Reek
   module Smells
-
     #
     # Class variables form part of the global runtime state, and as such make
     # it easy for one part of the system to accidentally or inadvertently
@@ -14,8 +13,7 @@ module Reek
     # the context of the test includes all global state).
     #
     class ClassVariable < SmellDetector
-
-      SMELL_CLASS = self.name.split(/::/)[-1]
+      SMELL_CLASS = name.split(/::/)[-1]
       SMELL_SUBCLASS = SMELL_CLASS
 
       VARIABLE_KEY = 'variable'
@@ -33,9 +31,9 @@ module Reek
         class_variables_in(ctx.exp).map do |attr_name, lines|
           attr_name = attr_name.to_s
           smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, lines,
-            "declares the class variable #{attr_name}",
-            @source, SMELL_SUBCLASS,
-            {VARIABLE_KEY => attr_name})
+                                   "declares the class variable #{attr_name}",
+                                   @source, SMELL_SUBCLASS,
+                                   VARIABLE_KEY => attr_name)
           smell
         end
       end
@@ -45,7 +43,7 @@ module Reek
       # in the given module.
       #
       def class_variables_in(ast)
-        result = Hash.new {|hash,key| hash[key] = []}
+        result = Hash.new { |hash, key| hash[key] = [] }
         collector = proc do |cvar_node|
           result[cvar_node.name].push(cvar_node.line)
         end

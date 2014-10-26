@@ -14,7 +14,7 @@ describe ObjectRefs do
     end
   end
 
-  context "with references to a, b, and a" do
+  context 'with references to a, b, and a' do
     context 'with no refs to self' do
       before(:each) do
         @refs.record_reference_to('a')
@@ -27,14 +27,14 @@ describe ObjectRefs do
       end
 
       it 'should report :a as the max' do
-        expect(@refs.max_keys).to eq({'a' => 2})
+        expect(@refs.max_keys).to eq('a' => 2)
       end
 
       it 'should not report self as the max' do
         expect(@refs.self_is_max?).to eq(false)
       end
 
-      context "with one reference to self" do
+      context 'with one reference to self' do
         before(:each) do
           @refs.record_reference_to(:self)
         end
@@ -71,7 +71,7 @@ describe ObjectRefs do
     end
 
     it 'should report self among the max' do
-      expect(@refs.max_keys).to eq({ :self => 4})
+      expect(@refs.max_keys).to eq(self: 4)
     end
 
     it 'should report self as the max' do
@@ -124,4 +124,3 @@ describe ObjectRefs do
     end
   end
 end
-

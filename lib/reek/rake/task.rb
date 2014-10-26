@@ -4,14 +4,12 @@ require 'rake'
 require 'rake/tasklib'
 
 module Reek
-
   #
   # Defines a task library for running reek.
   # (Classes here will be configured via the Rakefile, and therefore will
   # possess a :reek:attribute or two.)
   #
   module Rake
-
     # A Rake task that runs reek on a set of source files.
     #
     # Example:
@@ -33,7 +31,6 @@ module Reek
     #   rake reek REEK_OPTS=-s                   # sorts the report by smell
     #
     class Task < ::Rake::TaskLib
-
       # Name of reek task.
       # Defaults to :reek.
       attr_accessor :name
@@ -85,7 +82,7 @@ module Reek
         define
       end
 
-  private
+      private
 
       def define # :nodoc:
         desc 'Check for code smells' unless ::Rake.application.last_comment
@@ -97,7 +94,7 @@ module Reek
         return if source_file_list.empty?
         cmd = cmd_words.join(' ')
         puts cmd if @verbose
-        raise('Smells found!') if !system(cmd) and fail_on_error
+        raise('Smells found!') if !system(cmd) && fail_on_error
       end
 
       def self.reek_script
@@ -111,16 +108,16 @@ module Reek
       def cmd_words
         [Task.ruby_exe] +
             ruby_options +
-            [ %Q|"#{Task.reek_script}"| ] +
+            [%("#{Task.reek_script}")] +
             [sort_option] +
-            config_file_list.collect { |fn| ['-c', %["#{fn}"]] }.flatten +
-            source_file_list.collect { |fn| %["#{fn}"] }
+            config_file_list.map { |fn| ['-c', %("#{fn}")] }.flatten +
+            source_file_list.map { |fn| %("#{fn}") }
       end
 
       def config_file_list
         files = ENV['REEK_CFG'] || @config_files
         return [] unless files
-        return FileList[files]
+        FileList[files]
       end
 
       def ruby_options
@@ -143,7 +140,7 @@ module Reek
       def source_file_list # :nodoc:
         files = ENV['REEK_SRC'] || @source_files
         return [] unless files
-        return FileList[files]
+        FileList[files]
       end
     end
   end

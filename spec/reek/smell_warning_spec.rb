@@ -23,8 +23,8 @@ describe SmellWarning do
 
     context 'smells differing only by detector' do
       before :each do
-        @first = SmellWarning.new('Duplication', "self", 27, "self", false)
-        @second = SmellWarning.new('FeatureEnvy', "self", 27, "self", true)
+        @first = SmellWarning.new('Duplication', 'self', 27, 'self', false)
+        @second = SmellWarning.new('FeatureEnvy', 'self', 27, 'self', true)
       end
 
       it_should_behave_like 'first sorts ahead of second'
@@ -32,8 +32,8 @@ describe SmellWarning do
 
     context 'smells differing only by context' do
       before :each do
-        @first = SmellWarning.new('FeatureEnvy', "first", 27, "self", true)
-        @second = SmellWarning.new('FeatureEnvy', "second", 27, "self", false)
+        @first = SmellWarning.new('FeatureEnvy', 'first', 27, 'self', true)
+        @second = SmellWarning.new('FeatureEnvy', 'second', 27, 'self', false)
       end
 
       it_should_behave_like 'first sorts ahead of second'
@@ -41,8 +41,8 @@ describe SmellWarning do
 
     context 'smells differing only by message' do
       before :each do
-        @first = SmellWarning.new('FeatureEnvy', "context", 27, "first", true)
-        @second = SmellWarning.new('FeatureEnvy', "context", 27, "second", false)
+        @first = SmellWarning.new('FeatureEnvy', 'context', 27, 'first', true)
+        @second = SmellWarning.new('FeatureEnvy', 'context', 27, 'second', false)
       end
 
       it_should_behave_like 'first sorts ahead of second'
@@ -50,8 +50,8 @@ describe SmellWarning do
 
     context 'message takes precedence over smell name' do
       before :each do
-        @first = SmellWarning.new('UtilityFunction', "context", 27, "first", true)
-        @second = SmellWarning.new('FeatureEnvy', "context", 27, "second", false)
+        @first = SmellWarning.new('UtilityFunction', 'context', 27, 'first', true)
+        @second = SmellWarning.new('FeatureEnvy', 'context', 27, 'second', false)
       end
 
       it_should_behave_like 'first sorts ahead of second'
@@ -59,8 +59,8 @@ describe SmellWarning do
 
     context 'smells differing everywhere' do
       before :each do
-        @first = SmellWarning.new('UncommunicativeName', "Dirty", 27, "has the variable name '@s'", true)
-        @second = SmellWarning.new('Duplication', 'Dirty#a', 27, "calls @s.title twice", false)
+        @first = SmellWarning.new('UncommunicativeName', 'Dirty', 27, "has the variable name '@s'", true)
+        @second = SmellWarning.new('Duplication', 'Dirty#a', 27, 'calls @s.title twice', false)
       end
 
       it_should_behave_like 'first sorts ahead of second'
@@ -100,9 +100,9 @@ describe SmellWarning do
       before :each do
         @source = 'a/ruby/source/file.rb'
         @subclass = 'TooManyParties'
-        @parameters = {'one' => 34, 'two' => 'second'}
+        @parameters = { 'one' => 34, 'two' => 'second' }
         @warning = SmellWarning.new(@class, @context_name, @lines, @message,
-          @source, @subclass, @parameters)
+                                    @source, @subclass, @parameters)
         @yaml = @warning.to_yaml
       end
 
@@ -115,7 +115,7 @@ describe SmellWarning do
         expect(@yaml).to match(/source:\s*#{@source}/)
       end
       it 'includes the parameters' do
-        @parameters.each do |key,value|
+        @parameters.each do |key, value|
           expect(@yaml).to match(/#{key}:\s*#{value}/)
         end
       end

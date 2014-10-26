@@ -42,9 +42,7 @@ module Reek
         class Quiet < Base
           def gather_results
             examiners.each_with_object([]) do |examiner, result|
-              if examiner.smelly?
-                result << summarize_single_examiner(examiner)
-              end
+              result << summarize_single_examiner(examiner) if examiner.smelly?
             end
           end
         end
@@ -55,8 +53,8 @@ module Reek
         #
         class Normal < Base
           def gather_results
-            examiners.each_with_object([]) { |examiner, smells| smells << examiner.smells }
-                             .flatten
+            examiners.each_with_object([]) { |examiner, smells| smells << examiner.smells }.
+                             flatten
           end
         end
       end

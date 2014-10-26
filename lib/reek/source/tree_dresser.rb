@@ -33,12 +33,12 @@ module Reek
 
       def extension_map
         @extension_map ||= begin
-                             assoc = @extensions_module.constants.map { |const|
+                             assoc = @extensions_module.constants.map do |const|
                                [
                                  const.to_s.sub(/Node$/, '').downcase.to_sym,
                                  @extensions_module.const_get(const)
                                ]
-                             }
+                             end
                              Hash[assoc]
                            end
       end

@@ -3,15 +3,13 @@ require 'reek/smell_warning'
 
 module Reek
   module Smells
-
     #
     # A Nested Iterator occurs when a block contains another block.
     #
     # +NestedIterators+ reports failing methods only once.
     #
     class NestedIterators < SmellDetector
-
-      SMELL_CLASS = self.name.split(/::/)[-1]
+      SMELL_CLASS = name.split(/::/)[-1]
       SMELL_SUBCLASS = SMELL_CLASS
       # SMELL: should be a subclass of UnnecessaryComplexity
       NESTING_DEPTH_KEY = 'depth'
@@ -45,9 +43,9 @@ module Reek
 
         if depth && depth > value(MAX_ALLOWED_NESTING_KEY, ctx, DEFAULT_MAX_ALLOWED_NESTING)
           smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [exp.line],
-            "contains iterators nested #{depth} deep",
-            @source, SMELL_SUBCLASS,
-            {NESTING_DEPTH_KEY => depth})
+                                   "contains iterators nested #{depth} deep",
+                                   @source, SMELL_SUBCLASS,
+                                   NESTING_DEPTH_KEY => depth)
           [smell]
         else
           []
@@ -55,17 +53,17 @@ module Reek
         # BUG: no longer reports nesting outside methods (eg. in Optparse)
       end
 
-    private
+      private
 
       def find_deepest_iterator(ctx)
         @ignore_iterators = value(IGNORE_ITERATORS_KEY, ctx, DEFAULT_IGNORE_ITERATORS)
 
-        find_iters(ctx.exp, 1).sort_by {|item| item[1]}.last
+        find_iters(ctx.exp, 1).sort_by { |item| item[1] }.last
       end
 
       def find_iters(exp, depth)
         exp.map do |elem|
-          next unless Sexp === elem
+          next unless elem.is_a? Sexp
           case elem.first
           when :iter
             find_iters_for_iter_node(elem, depth)
@@ -87,7 +85,7 @@ module Reek
 
       def ignored_iterator?(exp)
         name = exp.call.method_name.to_s
-        @ignore_iterators.any? { |pattern| /#{pattern}/ === name }
+        @ignore_iterators.any? { |pattern| /#{pattern}/ =~ name }
       end
     end
   end

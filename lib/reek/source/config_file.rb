@@ -3,13 +3,11 @@ require 'reek/config_file_exception'
 
 module Reek
   module Source
-
     #
     # A file called <something>.reek containing configuration settings for
     # any or all of the smell detectors.
     #
     class ConfigFile
-
       #
       # Load the YAML config file from the supplied +file_path+.
       #
@@ -59,7 +57,7 @@ module Reek
           report_error(error.to_s)
         end
 
-        report_error('Not a hash') unless Hash === result
+        report_error('Not a hash') unless result.is_a? Hash
 
         result
       end
@@ -79,7 +77,7 @@ module Reek
       # Error.
       #
       def report_error(reason)
-        raise ConfigFileException.new message(reason)
+        raise ConfigFileException, message(reason)
       end
 
       def message(reason)

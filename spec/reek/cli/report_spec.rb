@@ -22,10 +22,10 @@ def report_options
     warning_formatter: Report::SimpleWarningFormatter,
     report_formatter: Report::Formatter,
     strategy: Report::Strategy::Quiet
-    }
+  }
 end
 
-describe Report::TextReport, " when empty" do
+describe Report::TextReport, ' when empty' do
   context 'empty source' do
     let(:examiner) { Examiner.new('') }
 
@@ -36,7 +36,7 @@ describe Report::TextReport, " when empty" do
     it 'has an empty quiet_report' do
       tr = Report::TextReport.new
       tr.add_examiner(examiner)
-      expect{tr.show}.to_not output.to_stdout
+      expect { tr.show }.to_not output.to_stdout
     end
 
     context 'when output format is html' do
@@ -48,7 +48,7 @@ describe Report::TextReport, " when empty" do
         text = File.read(file)
         File.delete(file)
 
-        expect(text).to include("0 total warnings")
+        expect(text).to include('0 total warnings')
       end
     end
 
@@ -56,14 +56,14 @@ describe Report::TextReport, " when empty" do
       it 'prints empty yaml' do
         yaml_report = report(Report::YamlReport.new(report_options))
         output = capture_output_stream { yaml_report.show }
-        expect(output).to match /^--- \[\]\n.*$/
+        expect(output).to match(/^--- \[\]\n.*$/)
       end
     end
 
     context 'when output format is text' do
       it 'prints nothing' do
         text_report = report(Report::TextReport.new)
-        expect{text_report.show}.to_not output.to_stdout
+        expect { text_report.show }.to_not output.to_stdout
       end
     end
   end

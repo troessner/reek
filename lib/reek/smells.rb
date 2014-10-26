@@ -24,7 +24,6 @@ require 'reek/smells/utility_function'
 # SMELL: Duplication -- all these should be found automagically
 
 module Reek
-
   #
   # This module contains the various smell detectors.
   #

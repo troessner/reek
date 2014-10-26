@@ -4,13 +4,12 @@ require 'reek/source/reference_collector'
 
 module Reek
   module Smells
-
-    # 
+    #
     # A Utility Function is any instance method that has no
     # dependency on the state of the instance.
-    # 
+    #
     # Currently +UtilityFunction+ will warn about any method that:
-    # 
+    #
     # * is non-empty, and
     # * does not override an inherited method, and
     # * calls at least one method on another object, and
@@ -34,8 +33,7 @@ module Reek
     # likely belong there.
     #
     class UtilityFunction < SmellDetector
-
-      SMELL_SUBCLASS = self.name.split(/::/)[-1]
+      SMELL_SUBCLASS = name.split(/::/)[-1]
       SMELL_CLASS = 'LowCohesion'
 
       # The name of the config field that sets the maximum number of
@@ -50,6 +48,7 @@ module Reek
         def contexts      # :nodoc:
           [:defn]
         end
+
         def default_config
           super.merge(HELPER_CALLS_LIMIT_KEY => DEFAULT_HELPER_CALLS_LIMIT)
         end
@@ -64,14 +63,14 @@ module Reek
         return [] if method_ctx.num_statements == 0
         return [] if depends_on_instance?(method_ctx.exp)
         return [] if num_helper_methods(method_ctx) <= value(HELPER_CALLS_LIMIT_KEY, method_ctx, DEFAULT_HELPER_CALLS_LIMIT)
-          # SMELL: loads of calls to value{} with the above pattern
+        # SMELL: loads of calls to value{} with the above pattern
         smell = SmellWarning.new(SMELL_CLASS, method_ctx.full_name, [method_ctx.exp.line],
-          "doesn't depend on instance state",
-          @source, SMELL_SUBCLASS)
+                                 "doesn't depend on instance state",
+                                 @source, SMELL_SUBCLASS)
         [smell]
       end
 
-    private
+      private
 
       def depends_on_instance?(exp)
         Reek::Source::ReferenceCollector.new(exp).num_refs_to_self > 0

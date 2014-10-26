@@ -3,7 +3,6 @@ require 'reek/core/object_refs'
 
 module Reek
   module Core
-
     #
     # The parameters in a method's definition.
     #
@@ -11,7 +10,7 @@ module Reek
       def default_assignments
         result = []
         self[1..-1].each do |exp|
-          result << exp[1..2] if Sexp === exp && exp[0] == :lasgn
+          result << exp[1..2] if exp.is_a?(Sexp) && exp[0] == :lasgn
         end
         result
       end
@@ -71,7 +70,7 @@ module Reek
       end
 
       def uses_super_with_implicit_arguments?
-        exp.body.has_nested_node? :zsuper
+        exp.body.contains_nested_node? :zsuper
       end
     end
   end

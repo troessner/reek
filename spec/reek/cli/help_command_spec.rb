@@ -7,7 +7,7 @@ describe HelpCommand do
   before :each do
     @help_text = 'Piece of interesting text'
     @parser = double('parser')
-    @parser.stub(:help_text).and_return @help_text
+    allow(@parser).to receive(:help_text).and_return @help_text
     @cmd = HelpCommand.new(@parser)
     @view = double('view').as_null_object
   end

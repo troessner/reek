@@ -49,7 +49,7 @@ describe MethodParameters, 'default assignments' do
   def assignments_from(src)
     exp = src.to_reek_source.syntax_tree
     ctx = MethodContext.new(StopContext.new, exp)
-    return ctx.parameters.default_assignments
+    ctx.parameters.default_assignments
   end
 
   context 'with no defaults' do
@@ -61,7 +61,7 @@ describe MethodParameters, 'default assignments' do
 
   context 'with 1 default' do
     before :each do
-      src = "def meth(arga, argb=456, &blk) end"
+      src = 'def meth(arga, argb=456, &blk) end'
       @defaults = assignments_from(src)
     end
     it 'returns the param-value pair' do
@@ -74,7 +74,7 @@ describe MethodParameters, 'default assignments' do
 
   context 'with 2 defaults' do
     before :each do
-      src = "def meth(arga=123, argb=456, &blk) end"
+      src = 'def meth(arga=123, argb=456, &blk) end'
       @defaults = assignments_from(src)
     end
     it 'returns both param-value pairs' do

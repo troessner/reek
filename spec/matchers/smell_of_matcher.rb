@@ -41,19 +41,17 @@ module SmellOfMatcher
     end
 
     def no_smells_found?
-      if @actual_smells.empty?
-        @reason = 'no smells found by detector'
-        return true
-      end
+      return false if @actual_smells.any?
+      @reason = 'no smells found by detector'
+      true
     end
 
     def wrong_number_of_smells_found?
       return false if @expected_smells.empty?
+      return false if expected_number_of_smells == actual_number_of_smells
 
-      if expected_number_of_smells != actual_number_of_smells
-        @reason = "expected #{expected_number_of_smells} smell(s), found #{actual_number_of_smells}"
-        true
-      end
+      @reason = "expected #{expected_number_of_smells} smell(s), found #{actual_number_of_smells}"
+      true
     end
 
     def expected_number_of_smells
@@ -68,10 +66,10 @@ module SmellOfMatcher
       @expected_smells.zip(@actual_smells).each do |expected_smell, actual_smell|
         expected_smell.each do |key, value|
           actual_value = actual_smell.smell[key]
-          if actual_value != value
-            @reason = "expected #{key} to be #{value}, was #{actual_value}"
-            return true
-          end
+          next if actual_value == value
+
+          @reason = "expected #{key} to be #{value}, was #{actual_value}"
+          return true
         end
       end
       false

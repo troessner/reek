@@ -3,7 +3,6 @@ require 'reek/cli/command'
 
 module Reek
   module Cli
-
     #
     # A command to report the application's current version number.
     #

@@ -46,7 +46,7 @@ Feature: Reek can be driven through its Task
       end
       """
     Then the exit status indicates an error
-    And stdout includes /spec\/samples\/masked\/dirty\.rb/
+    And stdout includes "spec/samples/masked/dirty.rb"
 
   Scenario: fail_on_error can hide the error status
     When I run rake reek with:

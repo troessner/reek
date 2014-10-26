@@ -1,6 +1,6 @@
 require 'rake/clean'
 
-CONFIG_FILE = "config/defaults.reek"
+CONFIG_FILE = 'config/defaults.reek'
 
 file CONFIG_FILE do
   config = {}

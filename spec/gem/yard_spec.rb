@@ -12,4 +12,3 @@ describe 'yardoc' do
     expect(@stderr).to eq('')
   end
 end
-

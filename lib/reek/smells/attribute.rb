@@ -4,7 +4,6 @@ require 'reek/core/smell_configuration'
 
 module Reek
   module Smells
-
     #
     # A class that publishes a getter or setter for an instance variable
     # invites client classes to become too intimate with its inner workings,
@@ -14,13 +13,11 @@ module Reek
     # +attr_reader+, +attr_writer+ and +attr_accessor+ -- including those
     # that are private.
     #
-    # TODO:
-    # * eliminate private attributes
-    # * catch attributes declared "by hand"
+    # TODO: Eliminate private attributes
+    # TODO: Catch attributes declared "by hand"
     #
     class Attribute < SmellDetector
-
-      SMELL_CLASS = self.name.split(/::/)[-1]
+      SMELL_CLASS = name.split(/::/)[-1]
       SMELL_SUBCLASS = SMELL_CLASS
 
       ATTRIBUTE_KEY = 'attribute'
@@ -41,21 +38,21 @@ module Reek
       def examine_context(ctx)
         attributes_in(ctx).map do |attr, line|
           smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [line],
-            "declares the attribute #{attr}",
-            @source, SMELL_SUBCLASS,
-            {ATTRIBUTE_KEY => attr.to_s})
+                                   "declares the attribute #{attr}",
+                                   @source, SMELL_SUBCLASS,
+                                   ATTRIBUTE_KEY => attr.to_s)
           smell
         end
       end
 
-    private
+      private
 
       def attributes_in(module_ctx)
         result = Set.new
         attr_defn_methods = [:attr, :attr_reader, :attr_writer, :attr_accessor]
         module_ctx.local_nodes(:call) do |call_node|
           if attr_defn_methods.include?(call_node.method_name)
-            call_node.arg_names.each {|arg| result << [arg, call_node.line] }
+            call_node.arg_names.each { |arg| result << [arg, call_node.line] }
           end
         end
         result

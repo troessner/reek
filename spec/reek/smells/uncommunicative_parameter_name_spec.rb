@@ -15,7 +15,7 @@ describe UncommunicativeParameterName do
   it_should_behave_like 'SmellDetector'
 
   { 'obj.' => 'with a receiveer',
-    '' => 'without a receiver'}.each do |host, description|
+    '' => 'without a receiver' }.each do |host, description|
     context "in a method definition #{description}" do
       it 'does not recognise *' do
         expect("def #{host}help(xray, *) basics(17) end").
@@ -25,10 +25,10 @@ describe UncommunicativeParameterName do
       it "reports parameter's name" do
         src = "def #{host}help(x) basics(x) end"
         expect(src).to smell_of(UncommunicativeParameterName,
-                            {UncommunicativeParameterName::PARAMETER_NAME_KEY => 'x'})
+                                UncommunicativeParameterName::PARAMETER_NAME_KEY => 'x')
       end
 
-      it "does not report unused parameters" do
+      it 'does not report unused parameters' do
         src = "def #{host}help(x) basics(17) end"
         expect(src).not_to smell_of(UncommunicativeParameterName)
       end
@@ -41,13 +41,13 @@ describe UncommunicativeParameterName do
       it 'reports names of the form "x2"' do
         src = "def #{host}help(x2) basics(x2) end"
         expect(src).to smell_of(UncommunicativeParameterName,
-                            {UncommunicativeParameterName::PARAMETER_NAME_KEY => 'x2'})
+                                UncommunicativeParameterName::PARAMETER_NAME_KEY => 'x2')
       end
 
       it 'reports long name ending in a number' do
         src = "def #{host}help(param2) basics(param2) end"
         expect(src).to smell_of(UncommunicativeParameterName,
-                            {UncommunicativeParameterName::PARAMETER_NAME_KEY => 'param2'})
+                                UncommunicativeParameterName::PARAMETER_NAME_KEY => 'param2')
       end
 
       it 'does not report unused anonymous parameter' do

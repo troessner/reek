@@ -1,0 +1,48 @@
+AllCops:
+  Exclude:
+    - 'spec/samples/**/*'
+    - 'tmp/**/*'
+
+# Be a little more lenient with line length
+Metrics/LineLength:
+  Max: 92
+
+# Allow small arrays of words with quotes
+Style/WordArray:
+  MinSize: 3
+
+# Allow single-line method definitions
+Style/SingleLineMethods:
+  Enabled: false
+
+# Always use raise to signal exceptions
+Style/SignalException:
+  EnforcedStyle: only_raise
+
+# Place . on the previous line
+Style/DotPosition:
+  EnforcedStyle: trailing
+
+# Require empty lines between defs, except for one-line defs
+Style/EmptyLineBetweenDefs:
+  AllowAdjacentOneLineDefs: true
+
+# Enforce GaurdClause if there are 2 or more lines in the body
+Style/GuardClause:
+  MinBodyLength: 2
+
+# Allow s()
+Style/MethodCallParentheses:
+  Enabled: false
+
+# Allow multiline block chains
+Style/MultilineBlockChain:
+  Enabled: false
+
+# Allow Perl-style references to regex matches
+Style/PerlBackrefs:
+  Enabled: false
+
+# Only register TrivialAccessors offenses when the name matches
+Style/TrivialAccessors:
+  ExactNameMatch: true
