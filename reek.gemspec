@@ -22,7 +22,8 @@ Gem::Specification.new do |s|
                 "{features,lib,spec,tasks}/**/*",
                 "reek.gemspec" ] & `git ls-files -z`.split("\0")
   s.homepage = %q{http://wiki.github.com/troessner/reek}
-  s.rdoc_options = ["--main", "README.md"]
+  s.rdoc_options = ["--main", "README.md",
+                    "-x", "assets/|bin/|config/|features/|spec/|tasks/"]
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{reek}
   s.rubygems_version = %q{1.3.6}
