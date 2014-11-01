@@ -3,18 +3,16 @@ require 'reek/smell_warning'
 
 module Reek
   module Smells
-
     #
     # A Large Class is a class or module that has a large number of
     # instance variables, methods or lines of code.
-    # 
+    #
     # +TooManyInstanceVariables' reports classes having more than a
     # configurable number of instance variables.
     #
     class TooManyInstanceVariables < SmellDetector
-
       SMELL_CLASS = 'LargeClass'
-      SMELL_SUBCLASS = self.name.split(/::/)[-1]
+      SMELL_SUBCLASS = name.split(/::/)[-1]
       IVAR_COUNT_KEY = 'ivar_count'
 
       # The name of the config field that sets the maximum number of instance
@@ -44,15 +42,15 @@ module Reek
         check_num_ivars(ctx)
       end
 
-    private
+      private
 
       def check_num_ivars(ctx)  # :nodoc:
-        count = ctx.local_nodes(:iasgn).map {|iasgn| iasgn[1]}.uniq.length
+        count = ctx.local_nodes(:iasgn).map { |iasgn| iasgn[1] }.uniq.length
         return [] if count <= @max_allowed_ivars
         smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [ctx.exp.line],
-          "has at least #{count} instance variables",
-          @source, SMELL_SUBCLASS,
-          {IVAR_COUNT_KEY => count})
+                                 "has at least #{count} instance variables",
+                                 @source, SMELL_SUBCLASS,
+                                 IVAR_COUNT_KEY => count)
         [smell]
       end
     end

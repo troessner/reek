@@ -3,11 +3,10 @@ require 'reek/smell_warning'
 
 module Reek
   module Smells
-
     #
     # An Uncommunicative Name is a name that doesn't communicate its intent
     # well enough.
-    # 
+    #
     # Poor names make it hard for the reader to build a mental picture
     # of what's going on in the code. They can also be mis-interpreted;
     # and they hurt the flow of reading, because the reader must slow
@@ -18,9 +17,8 @@ module Reek
     # * names ending with a number
     #
     class UncommunicativeModuleName < SmellDetector
-
       SMELL_CLASS = 'UncommunicativeName'
-      SMELL_SUBCLASS = self.name.split(/::/)[-1]
+      SMELL_SUBCLASS = name.split(/::/)[-1]
       MODULE_NAME_KEY = 'module_name'
 
       # The name of the config field that lists the regexps of
@@ -62,10 +60,10 @@ module Reek
         return [] if @accept_names.include?(full_name)
         var = name.gsub(/^[@\*\&]*/, '')
         return [] if @accept_names.include?(var)
-        return [] unless @reject_names.detect {|patt| patt === var}
+        return [] unless @reject_names.find { |patt| patt =~ var }
         smell = SmellWarning.new(SMELL_CLASS, full_name, [exp.line],
-          "has the name '#{name}'",
-          @source, SMELL_SUBCLASS, {MODULE_NAME_KEY => name})
+                                 "has the name '#{name}'",
+                                 @source, SMELL_SUBCLASS, MODULE_NAME_KEY => name)
         [smell]
       end
     end

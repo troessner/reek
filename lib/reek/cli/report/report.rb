@@ -7,9 +7,9 @@ module Reek
       # A report that contains the smells and smell counts following source code analysis.
       #
       class Base
-        DefaultFormat = :text
-        NoWarningsColor = :green
-        WarningsColor = :red
+        DEFAULT_FORMAT = :text
+        NO_WARNINGS_COLOR = :green
+        WARNINGS_COLOR = :red
 
         def initialize(options = {})
           @warning_formatter   = options.fetch :warning_formatter, SimpleWarningFormatter
@@ -26,7 +26,7 @@ module Reek
           self
         end
 
-        def has_smells?
+        def smells?
           @total_smell_count > 0
         end
 
@@ -40,9 +40,7 @@ module Reek
       #
       class TextReport < Base
         def show
-          if has_smells?
-            sort_examiners
-          end
+          sort_examiners if smells?
           display_summary
           display_total_smell_count
         end
@@ -54,18 +52,17 @@ module Reek
         end
 
         def display_total_smell_count
-          if @examiners.size > 1
-            print "\n"
-            print total_smell_count_message
-          end
+          return unless @examiners.size > 1
+          print "\n"
+          print total_smell_count_message
         end
 
         def sort_examiners
-          @examiners.sort! {|first, second| second.smells_count <=> first.smells_count } if @sort_by_issue_count
+          @examiners.sort! { |first, second| second.smells_count <=> first.smells_count } if @sort_by_issue_count
         end
 
         def total_smell_count_message
-          colour = has_smells? ? WarningsColor : NoWarningsColor
+          colour = smells? ? WARNINGS_COLOR : NO_WARNINGS_COLOR
           Rainbow("#{@total_smell_count} total warning#{'s' unless @total_smell_count == 1 }\n").color(colour)
         end
       end
@@ -74,7 +71,7 @@ module Reek
       # Displays a list of smells in YAML format
       # YAML with empty array for 0 smells
       class YamlReport < Base
-        def initialize(options ={})
+        def initialize(options = {})
           @options = options
           super options.merge!(strategy: Strategy::Normal)
         end
@@ -88,7 +85,7 @@ module Reek
       # Saves the report as a HTML file
       #
       class HtmlReport < Base
-        def initialize(options ={})
+        def initialize(options = {})
           @options = options
           super @options.merge!(strategy: Strategy::Normal)
         end

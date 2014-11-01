@@ -6,7 +6,6 @@ module Reek
     # Contains all the existing smells and exposes operations on them.
     #
     class SmellRepository
-
       def self.smell_classes
         # SMELL: Duplication -- these should be loaded by listing the files
         [
@@ -36,9 +35,9 @@ module Reek
         ]
       end
 
-      def initialize source_description, smell_classes=SmellRepository.smell_classes
+      def initialize(source_description, smell_classes = SmellRepository.smell_classes)
         @typed_detectors = nil
-        @detectors = Hash.new
+        @detectors = {}
         smell_classes.each do |klass|
           @detectors[klass] = klass.new(source_description)
         end
@@ -48,7 +47,7 @@ module Reek
         @detectors[klass].configure_with(config) if @detectors[klass]
       end
 
-      def report_on listener
+      def report_on(listener)
         @detectors.each_value { |detector| detector.report_on(listener) }
       end
 
@@ -60,9 +59,9 @@ module Reek
 
       private
 
-      def smell_listeners()
+      def smell_listeners
         unless @typed_detectors
-          @typed_detectors = Hash.new {|hash,key| hash[key] = [] }
+          @typed_detectors = Hash.new { |hash, key| hash[key] = [] }
           @detectors.each_value { |detector| detector.register(@typed_detectors) }
         end
         @typed_detectors

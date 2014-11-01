@@ -10,7 +10,7 @@ module Reek
     # single unit of Ruby source code.
     #
     class SourceRepository
-      def self.parse source
+      def self.parse(source)
         case source
         when Array
           new 'dir', Source::SourceLocator.new(source).all_sources
@@ -25,12 +25,12 @@ module Reek
       include Enumerable
       attr_reader :description
 
-      def initialize description, sources
+      def initialize(description, sources)
         @description = description
         @sources = sources
       end
 
-      def each &block
+      def each(&block)
         @sources.each(&block)
       end
     end

@@ -6,7 +6,6 @@ require 'reek/core/singleton_method_context'
 
 module Reek
   module Core
-
     #
     # Traverses a Sexp abstract syntax tree and fires events whenever
     # it encounters specific node types.
@@ -22,12 +21,12 @@ module Reek
       def process(exp)
         meth = "process_#{exp[0]}"
         meth = :process_default unless self.respond_to?(meth)
-        self.send(meth, exp)
+        send(meth, exp)
         @element
       end
 
       def process_default(exp)
-        exp.each { |sub| process(sub) if Array === sub }
+        exp.each { |sub| process(sub) if sub.is_a? Array }
       end
 
       def process_module(exp)
@@ -36,7 +35,7 @@ module Reek
         end
       end
 
-      alias process_class process_module
+      alias_method :process_class, :process_module
 
       def process_defn(exp)
         inside_new_context(MethodContext, exp) do
@@ -63,21 +62,21 @@ module Reek
         process_default(exp)
       end
 
-      alias process_attrasgn process_call
-      alias process_op_asgn1 process_call
+      alias_method :process_attrasgn, :process_call
+      alias_method :process_op_asgn1, :process_call
 
       def process_ivar(exp)
         @element.record_use_of_self
         process_default(exp)
       end
 
-      alias process_iasgn process_ivar
+      alias_method :process_iasgn, :process_ivar
 
       def process_self(_)
         @element.record_use_of_self
       end
 
-      alias process_zsuper process_self
+      alias_method :process_zsuper, :process_self
 
       #
       # Statement counting
@@ -107,7 +106,7 @@ module Reek
         process_default(exp)
       end
 
-      alias process_until process_while
+      alias_method :process_until, :process_while
 
       def process_for(exp)
         count_clause(exp[3])

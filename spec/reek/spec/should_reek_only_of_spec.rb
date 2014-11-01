@@ -10,7 +10,7 @@ describe ShouldReekOnlyOf do
     @expected_context_name = 'SmellyClass#big_method'
     @matcher = ShouldReekOnlyOf.new(@expected_smell_class, [/#{@expected_context_name}/])
     @examiner = double('examiner').as_null_object
-    expect(@examiner).to receive(:smells) {smells}
+    expect(@examiner).to receive(:smells) { smells }
     @match = @matcher.matches_examiner?(@examiner)
   end
 
@@ -53,7 +53,7 @@ describe ShouldReekOnlyOf do
       [
         SmellWarning.new('ControlCouple', 'context', [1], 'any old message'),
         SmellWarning.new('FeatureEnvy', 'context', [1], 'any old message')
-        ]
+      ]
     end
 
     it_should_behave_like 'no match'
@@ -64,7 +64,7 @@ describe ShouldReekOnlyOf do
       [
         SmellWarning.new('ControlCouple', 'context', [1], 'any old message'),
         SmellWarning.new(@expected_smell_class.to_s, 'context', [1], "message mentioning #{@expected_context_name}")
-        ]
+      ]
     end
 
     it_should_behave_like 'no match'

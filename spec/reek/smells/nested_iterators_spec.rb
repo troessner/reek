@@ -94,7 +94,7 @@ EOS
 
   context 'when the allowed nesting depth is 3' do
     before :each do
-      @config = {NestedIterators::MAX_ALLOWED_NESTING_KEY => 3}
+      @config = { NestedIterators::MAX_ALLOWED_NESTING_KEY => 3 }
     end
 
     it 'should not report nested iterators 2 levels deep' do
@@ -127,7 +127,7 @@ EOS
 
   context 'when ignoring iterators' do
     before :each do
-      @config = {NestedIterators::IGNORE_ITERATORS_KEY => ['ignore_me']}
+      @config = { NestedIterators::IGNORE_ITERATORS_KEY => ['ignore_me'] }
     end
 
     it 'should not report nesting the ignored iterator inside another' do

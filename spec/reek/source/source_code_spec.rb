@@ -13,10 +13,11 @@ describe SourceCode do
 
     before :each do
       @catcher = StringIO.new
-      @old_err_io = (SourceCode.err_io = @catcher)
+      @old_std_err = $stderr
+      $stderr = @catcher
     end
 
-    shared_examples_for "handling and recording the error" do
+    shared_examples_for 'handling and recording the error' do
       it 'does not raise an error' do
         src.syntax_tree
       end
@@ -41,27 +42,27 @@ describe SourceCode do
       end
     end
 
-    context "with a RubyParser::SyntaxError" do
+    context 'with a RubyParser::SyntaxError' do
       let(:error_class) { RubyParser::SyntaxError }
 
       before do
         allow(parser).to receive(:parse).and_raise(error_class.new(error_message))
       end
 
-      it_should_behave_like "handling and recording the error"
+      it_should_behave_like 'handling and recording the error'
     end
 
-    context "with a Racc::ParseError" do
+    context 'with a Racc::ParseError' do
       let(:error_class) { Racc::ParseError }
 
       before do
         allow(parser).to receive(:parse).and_raise(error_class.new(error_message))
       end
 
-      it_should_behave_like "handling and recording the error"
+      it_should_behave_like 'handling and recording the error'
     end
 
-    context "with a generic error" do
+    context 'with a generic error' do
       let(:error_class) { RuntimeError }
 
       before do
@@ -74,7 +75,7 @@ describe SourceCode do
     end
 
     after :each do
-      SourceCode.err_io = @old_err_io
+      $stderr = @old_std_err
     end
   end
 end

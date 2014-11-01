@@ -26,7 +26,7 @@ class IO
   # @return [Reek::Source::SourceCode]
   #
   def to_reek_source(description = 'io')
-    Reek::Source::SourceCode.new(self.readlines.join, description)
+    Reek::Source::SourceCode.new(readlines.join, description)
   end
 end
 

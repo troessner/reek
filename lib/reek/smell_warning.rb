@@ -1,11 +1,9 @@
 module Reek
-
   #
   # Reports a warning that a smell has been found.
   # This object is essentially a DTO, and therefore contains a :reek:attribute or two.
   #
   class SmellWarning
-
     include Comparable
 
     MESSAGE_KEY = 'message'
@@ -23,7 +21,7 @@ module Reek
       @smell = {
         CLASS_KEY => class_name,
         SUBCLASS_KEY => subclass_name,
-        MESSAGE_KEY => message,
+        MESSAGE_KEY => message
       }
       @smell.merge!(parameters)
       @status = {
@@ -69,8 +67,6 @@ module Reek
     #
     attr_reader :status
 
-    def is_active() @status[ACTIVE_KEY] end
-
     def hash
       sort_key.hash
     end
@@ -85,18 +81,18 @@ module Reek
 
     def contains_all?(patterns)
       rpt = sort_key.to_s
-      return patterns.all? {|pattern| pattern === rpt}
+      patterns.all? { |pattern| pattern =~ rpt }
     end
 
     def matches?(klass, patterns)
-      @smell.values.include?(klass.to_s) and contains_all?(patterns)
+      @smell.values.include?(klass.to_s) && contains_all?(patterns)
     end
 
     def report_on(listener)
       listener.found_smell(self)
     end
 
-  protected
+    protected
 
     def sort_key
       [@location[CONTEXT_KEY], @smell[MESSAGE_KEY], @smell[CLASS_KEY]]

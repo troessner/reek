@@ -8,7 +8,7 @@ describe VersionCommand do
   before :each do
     @program_name = 'the_name_of_the_program'
     @parser = double('parser')
-    @parser.should_receive(:program_name).and_return @program_name
+    expect(@parser).to receive(:program_name).and_return @program_name
     @cmd = VersionCommand.new(@parser)
     @view = double('view').as_null_object
   end

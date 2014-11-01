@@ -10,7 +10,7 @@ module Reek
           @name = name
         end
 
-        def == other
+        def ==(other)
           @name == other
         end
 
@@ -32,11 +32,11 @@ module Reek
       end
 
       module AndNode
-        def condition() self[1..2].tap {|node| node.extend SexpNode } end
+        def condition() self[1..2].tap { |node| node.extend SexpNode } end
       end
 
       module OrNode
-        def condition() self[1..2].tap {|node| node.extend SexpNode } end
+        def condition() self[1..2].tap { |node| node.extend SexpNode } end
       end
 
       module AttrasgnNode
@@ -51,8 +51,9 @@ module Reek
         def receiver() self[1] end
         def method_name() self[2] end
         def args() self[3..-1] end
+
         def arg_names
-          args.map {|arg| arg[1]}
+          args.map { |arg| arg[1] }
         end
       end
 
@@ -69,7 +70,7 @@ module Reek
 
       module MethodNode
         def arguments
-          @arguments ||= parameters.reject {|param| param.block? }
+          @arguments ||= parameters.reject(&:block?)
         end
 
         def arg_names
@@ -77,9 +78,9 @@ module Reek
         end
 
         def parameters
-          @parameters ||= argslist[1..-1].map { |param|
-            MethodParameter.new(Sexp === param ?  param[1] : param)
-          }
+          @parameters ||= argslist[1..-1].map do |param|
+            MethodParameter.new(param.is_a?(Sexp) ? param[1] : param)
+          end
         end
 
         def parameter_names
@@ -98,7 +99,8 @@ module Reek
       module DefnNode
         def name() self[1] end
         def argslist() self[2] end
-        def body()
+
+        def body
           self[3..-1].extend SexpNode
         end
         include MethodNode
@@ -112,7 +114,8 @@ module Reek
         def receiver() self[1] end
         def name() self[2] end
         def argslist() self[3] end
-        def body()
+
+        def body
           self[4..-1].extend SexpNode
         end
         include MethodNode
@@ -131,6 +134,7 @@ module Reek
         def args() self[2] end
         def block() self[3] end
         def parameters() self[2] || [] end
+
         def parameter_names
           parameters[1..-1].to_a
         end
@@ -158,13 +162,14 @@ module Reek
         def name() self[1] end
 
         def simple_name
-          Sexp === name ? name.simple_name : name
+          name.is_a?(Sexp) ? name.simple_name : name
         end
 
         def full_name(outer)
           prefix = outer == '' ? '' : "#{outer}::"
           "#{prefix}#{text_name}"
         end
+
         def text_name
           SexpNode.format(name)
         end
@@ -177,8 +182,9 @@ module Reek
 
       module YieldNode
         def args() self[1..-1] end
+
         def arg_names
-          args.map {|arg| arg[1]}
+          args.map { |arg| arg[1] }
         end
       end
     end

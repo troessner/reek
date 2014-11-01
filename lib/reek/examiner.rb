@@ -3,12 +3,10 @@ require 'reek/core/warning_collector'
 require 'reek/source/source_repository'
 
 module Reek
-
   #
   # Finds the active code smells in Ruby source code.
   #
   class Examiner
-
     #
     # A simple description of the source being analysed for smells.
     # If the source is a single File, this will be the file's path.
@@ -30,7 +28,7 @@ module Reek
     def initialize(source, config_files = [], smell_names = [])
       sources = Source::SourceRepository.parse(source)
       @description = sources.description
-      collector = Core::WarningCollector.new
+      @collector = Core::WarningCollector.new
 
       smell_classes = Core::SmellRepository.smell_classes
       if smell_names.any?
@@ -39,9 +37,8 @@ module Reek
 
       sources.each do |src|
         repository = Core::SmellRepository.new(src.desc, smell_classes)
-        Core::Sniffer.new(src, config_files, repository).report_on(collector)
+        Core::Sniffer.new(src, config_files, repository).report_on(@collector)
       end
-      @smells = collector.warnings
     end
 
     #
@@ -50,21 +47,21 @@ module Reek
     # @return [Array<SmellWarning>]
     #
     def smells
-      @smells
+      @smells ||= @collector.warnings
     end
 
     #
     # Returns the number of smells found in the source
     #
     def smells_count
-      @smells.length
+      smells.length
     end
 
     #
     # True if and only if there are code smells in the source.
     #
     def smelly?
-      not @smells.empty?
+      !smells.empty?
     end
 
     #
@@ -73,9 +70,7 @@ module Reek
     #
     # @deprecated Use #smells instead.
     #
-    def all_active_smells
-      @smells
-    end
+    alias_method :all_active_smells, :smells
 
     #
     # Returns an Array of SmellWarning objects, one for each smell
@@ -85,17 +80,15 @@ module Reek
     #
     # @deprecated Use #smells instead.
     #
-    def all_smells
-      @smells
-    end
+    alias_method :all_smells, :smells
 
     #
     # Returns the number of non-masked smells in the source.
     #
-    # @deprecated Use #smells instead.
+    # @deprecated Use #smells_count instead.
     #
     def num_active_smells
-      @smells.length
+      smells.length
     end
 
     #

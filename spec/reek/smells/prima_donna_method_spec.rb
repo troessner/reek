@@ -23,9 +23,9 @@ describe PrimaDonnaMethod do
       smells = detector.examine_context(ctx)
       warning = smells[0]
 
-      expect(warning.smell['class']).to    eq('PrimaDonnaMethod')
+      expect(warning.smell['class']).to eq('PrimaDonnaMethod')
       expect(warning.smell['subclass']).to eq('PrimaDonnaMethod')
-      expect(warning.lines).to             eq([1])
+      expect(warning.lines).to eq([1])
     end
   end
 end

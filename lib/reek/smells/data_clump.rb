@@ -4,7 +4,6 @@ require 'reek/source'
 
 module Reek
   module Smells
-
     #
     # A Data Clump occurs when the same two or three items frequently
     # appear together in classes and parameter lists, or when a group
@@ -18,9 +17,8 @@ module Reek
     # the same names that are expected by three or more methods of a class.
     #
     class DataClump < SmellDetector
-
-      SMELL_CLASS = self.name.split(/::/)[-1]
-      SMELL_SUBCLASS = self.name.split(/::/)[-1]
+      SMELL_CLASS = name.split(/::/)[-1]
+      SMELL_SUBCLASS = name.split(/::/)[-1]
 
       METHODS_KEY = 'methods'
       OCCURRENCES_KEY = 'occurrences'
@@ -65,19 +63,18 @@ module Reek
         @min_clump_size = value(MIN_CLUMP_SIZE_KEY, ctx, DEFAULT_MIN_CLUMP_SIZE)
         MethodGroup.new(ctx, @min_clump_size, @max_copies).clumps.map do |clump, methods|
           SmellWarning.new(SMELL_CLASS, ctx.full_name,
-                           methods.map {|meth| meth.line},
+                           methods.map(&:line),
                            "takes parameters #{DataClump.print_clump(clump)} to #{methods.length} methods",
-                           @source, SMELL_SUBCLASS, {
-                             PARAMETERS_KEY => clump.map {|name| name.to_s},
-                             OCCURRENCES_KEY => methods.length,
-                             METHODS_KEY => methods.map {|meth| meth.name}
-                           })
+                           @source, SMELL_SUBCLASS,
+                           PARAMETERS_KEY => clump.map(&:to_s),
+                           OCCURRENCES_KEY => methods.length,
+                           METHODS_KEY => methods.map(&:name))
         end
       end
 
       # @private
       def self.print_clump(clump)
-        "[#{clump.map {|name| name.to_s}.join(', ')}]"
+        "[#{clump.map(&:to_s).join(', ')}]"
       end
     end
   end
@@ -85,12 +82,12 @@ module Reek
   # Represents a group of methods
   # @private
   class MethodGroup
-
     def initialize(ctx, min_clump_size, max_copies)
       @min_clump_size = min_clump_size
       @max_copies = max_copies
-      @candidate_methods = ctx.local_nodes(:defn).map {|defn_node|
-        CandidateMethod.new(defn_node)}
+      @candidate_methods = ctx.local_nodes(:defn).map do |defn_node|
+        CandidateMethod.new(defn_node)
+      end
     end
 
     def candidate_clumps
@@ -102,7 +99,7 @@ module Reek
     end
 
     def common_argument_names_for(methods)
-      methods.collect(&:arg_names).inject(:&)
+      methods.map(&:arg_names).inject(:&)
     end
 
     def methods_containing_clump(clump)
@@ -121,7 +118,7 @@ module Reek
   class CandidateMethod
     def initialize(defn_node)
       @defn = defn_node
-      @params = defn_node.arg_names.clone.sort {|first, second| first.to_s <=> second.to_s}
+      @params = defn_node.arg_names.clone.sort { |first, second| first.to_s <=> second.to_s }
     end
 
     def arg_names

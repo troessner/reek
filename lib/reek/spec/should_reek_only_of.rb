@@ -5,7 +5,6 @@ require 'reek/cli/report/strategy'
 
 module Reek
   module Spec
-
     #
     # An rspec matcher that matches when the +actual+ has the specified
     # code smell and no others.
@@ -18,7 +17,7 @@ module Reek
       def matches_examiner?(examiner)
         @examiner = examiner
         @warnings = @examiner.smells
-        @warnings.length == 1 and @warnings[0].matches?(@klass, @patterns)
+        @warnings.length == 1 && @warnings[0].matches?(@klass, @patterns)
       end
 
       def failure_message

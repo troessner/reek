@@ -3,15 +3,13 @@ require 'reek/smell_warning'
 
 module Reek
   module Smells
-
     #
     # A variant on LongParameterList that checks the number of items
     # passed to a block by a +yield+ call.
     #
     class LongYieldList < SmellDetector
-
       SMELL_CLASS = 'LongParameterList'
-      SMELL_SUBCLASS = self.name.split(/::/)[-1]
+      SMELL_SUBCLASS = name.split(/::/)[-1]
 
       # The name of the config field that sets the maximum number of
       # parameters permitted in any method or block.
@@ -42,7 +40,7 @@ module Reek
           num_params = yield_node.args.length
           SmellWarning.new(SMELL_CLASS, method_ctx.full_name, [yield_node.line],
                            "yields #{num_params} parameters",
-                           @source, SMELL_SUBCLASS, {PARAMETER_COUNT_KEY => num_params})
+                           @source, SMELL_SUBCLASS, PARAMETER_COUNT_KEY => num_params)
         end
       end
     end

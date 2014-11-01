@@ -19,7 +19,7 @@ namespace 'test' do
   end
 
   Cucumber::Rake::Task.new(:features) do |t|
-    t.cucumber_opts = "features --format progress --color"
+    t.cucumber_opts = 'features --format progress --color'
   end
 
   desc 'Runs all unit tests and acceptance tests'

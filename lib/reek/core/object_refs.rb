@@ -1,6 +1,5 @@
 module Reek
   module Core
-
     #
     # Manages and counts the references out of a method to other objects.
     #
@@ -18,12 +17,12 @@ module Reek
       end
 
       def max_refs
-        @refs.values.max or 0
+        @refs.values.max || 0
       end
 
       def max_keys
         max = max_refs
-        @refs.select {|key,val| val == max}
+        @refs.select { |_key, val| val == max }
       end
 
       def self_is_max?

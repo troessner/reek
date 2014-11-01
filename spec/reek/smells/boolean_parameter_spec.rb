@@ -18,8 +18,8 @@ describe BooleanParameter do
       it 'reports two parameters defaulted to booleans' do
         src = 'def cc(nowt, arga = true, argb = false, &blk) end'
         expect(src).to smell_of(BooleanParameter,
-          {BooleanParameter::PARAMETER_KEY => 'arga'},
-          {BooleanParameter::PARAMETER_KEY => 'argb'})
+                                { BooleanParameter::PARAMETER_KEY => 'arga' },
+                                BooleanParameter::PARAMETER_KEY => 'argb')
       end
     end
 
@@ -35,8 +35,8 @@ describe BooleanParameter do
       it 'reports two parameters defaulted to booleans' do
         src = 'def Module.cc(nowt, arga = true, argb = false, &blk) end'
         expect(src).to smell_of(BooleanParameter,
-          {BooleanParameter::PARAMETER_KEY => 'arga'},
-          {BooleanParameter::PARAMETER_KEY => 'argb'})
+                                { BooleanParameter::PARAMETER_KEY => 'arga' },
+                                BooleanParameter::PARAMETER_KEY => 'argb')
       end
     end
   end

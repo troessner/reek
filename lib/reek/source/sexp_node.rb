@@ -13,15 +13,7 @@ module Reek
       end
 
       def hash
-        self.inspect.hash
-      end
-
-      def is_language_node?
-        Symbol === first
-      end
-
-      def has_type?(type)
-        is_language_node? and first == type
+        inspect.hash
       end
 
       def each_node(type, ignoring, &blk)
@@ -29,13 +21,13 @@ module Reek
           look_for(type, ignoring, &blk)
         else
           result = []
-          look_for(type, ignoring) {|exp| result << exp}
+          look_for(type, ignoring) { |exp| result << exp }
           result
         end
       end
 
       def each_sexp
-        each { |elem| yield elem if Sexp === elem }
+        each { |elem| yield elem if elem.is_a? Sexp }
       end
 
       #
@@ -50,8 +42,8 @@ module Reek
         blk.call(self) if first == target_type
       end
 
-      def has_nested_node?(target_type)
-        look_for(target_type) { |elem| return true }
+      def contains_nested_node?(target_type)
+        look_for(target_type) { |_elem| return true }
         false
       end
 
@@ -60,7 +52,7 @@ module Reek
       end
 
       def deep_copy
-        Sexp.new(*map { |elem| Sexp === elem ? elem.deep_copy : elem })
+        Sexp.new(*map { |elem| elem.is_a?(Sexp) ? elem.deep_copy : elem })
       end
     end
   end

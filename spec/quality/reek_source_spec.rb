@@ -4,7 +4,7 @@ require 'flay'
 RSpec::Matchers.define :flay do |threshold|
   match do |dirs_and_files|
     @threshold = threshold
-    @flay = Flay.new({:fuzzy => false, :verbose => false, :mass => @threshold})
+    @flay = Flay.new(fuzzy: false, verbose: false, mass: @threshold)
     @flay.process(*Flay.expand_dirs_to_files(dirs_and_files))
     @flay.total > 0
   end
@@ -21,8 +21,8 @@ RSpec::Matchers.define :flay do |threshold|
     lines = ["Total mass = #{@flay.total} (threshold = #{@threshold})"]
     @flay.masses.each do |hash, mass|
       nodes = @flay.hashes[hash]
-      match = @flay.identical[hash] ? "IDENTICAL" : "Similar"
-      lines << ("%s code found in %p (%d)" % [match, nodes.first.first, mass])
+      match = @flay.identical[hash] ? 'IDENTICAL' : 'Similar'
+      lines << format('%s code found in %p (%d)', match, nodes.first.first, mass)
       nodes.each { |x| lines << "  #{x.file}:#{x.line}" }
     end
     lines.join("\n")

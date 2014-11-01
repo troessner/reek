@@ -3,7 +3,7 @@ require 'reek/core/code_parser'
 
 include Reek::Core
 
-describe CodeParser, "with no method definitions" do
+describe CodeParser, 'with no method definitions' do
   it 'reports no problems for empty source code' do
     expect('').not_to reek
   end

@@ -1,17 +1,15 @@
-$:.unshift 'lib'
-
 require 'rubygems'
 require 'tempfile'
 require 'fileutils'
+require 'open3'
 require 'reek/cli/application'
 
 class ReekWorld
   def run(cmd)
-    stderr_file = Tempfile.new('reek-world')
-    stderr_file.close
-    @last_stdout = `#{cmd} 2> #{stderr_file.path}`
-    @last_exit_status = $?.exitstatus
-    @last_stderr = IO.read(stderr_file.path)
+    out, err, status = Open3.capture3(cmd)
+    @last_stdout = out
+    @last_stderr = err
+    @last_exit_status = status.exitstatus
   end
 
   def reek(args)
@@ -31,9 +29,9 @@ EOS
     rakefile = Tempfile.new('rake_task', '.')
     rakefile.puts(header + task_def)
     rakefile.close
-    run("RUBYOPT=rubygems rake -f #{rakefile.path} #{name}")
+    run("rake -f #{rakefile.path} #{name}")
     lines = @last_stdout.split("\n")
-    if lines.length > 0 and lines[0] =~ /^\(/
+    if lines.length > 0 && lines[0] =~ /^\(/
       @last_stdout = lines[1..-1].join("\n")
     end
   end
