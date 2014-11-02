@@ -88,6 +88,9 @@ EOB
         @parser.on('-V', '--no-quiet', '--verbose', 'Show headings for smell-free source files') do |_opt|
           @strategy = Report::Strategy::Verbose
         end
+        @parser.on('-U', '--ultra-verbose', 'Be as explanatory as possible') do |_opt|
+          @warning_formatter = Report::UltraVerboseWarningFormattter
+        end
         @parser.on('-n', '--no-line-numbers', 'Suppress line numbers from the output') do
           @warning_formatter = Report::SimpleWarningFormatter
         end

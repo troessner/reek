@@ -187,3 +187,19 @@ Feature: Correctly formatted reports
       | args |
       | spec/samples/two_smelly_files/ |
       | spec/samples/two_smelly_files  |
+
+  Scenario Outline: -U or --ultra-verbose adds helpful links to smell warnings
+    When I run reek <option> spec/samples/one_smelly_file/dirty.rb
+    Then the exit status indicates smells
+    And it reports:
+      """
+      spec/samples/one_smelly_file/dirty.rb -- 3 warnings:
+        [1]:D has no descriptive comment (IrresponsibleModule) [https://github.com/troessner/reek/wiki/IrresponsibleModule]
+        [1]:D has the name 'D' (UncommunicativeModuleName) [https://github.com/troessner/reek/wiki/UncommunicativeModuleName]
+        [2]:D#a has the name 'a' (UncommunicativeMethodName) [https://github.com/troessner/reek/wiki/UncommunicativeMethodName]
+      """
+
+    Examples:
+      | option           |
+      | -U               |
+      | --ultra-verbose  |
