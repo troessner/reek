@@ -47,6 +47,13 @@ module Reek
         def condition() self[1] end
       end
 
+      # Utility methods for :when nodes
+      module WhenNode
+        def condition_list
+          self[1][1..-1]
+        end
+      end
+
       module CallNode
         def receiver() self[1] end
         def method_name() self[2] end
@@ -137,6 +144,13 @@ module Reek
 
         def parameter_names
           parameters[1..-1].to_a
+        end
+      end
+
+      # Utility methods for :nil nodes
+      module NilNode
+        def nil_node?
+          true
         end
       end
 

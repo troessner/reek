@@ -21,11 +21,11 @@ describe NilCheck do
       expect(smells[0].lines).to eq [2]
     end
 
-    it 'should report nothing when scope includes no nil checks' do
+    it 'reports nothing when scope includes no nil checks' do
       expect('def no_nils; end').not_to smell_of(NilCheck)
     end
 
-    it 'should report when scope uses multiple nil? methods' do
+    it 'reports when scope uses multiple nil? methods' do
       src = <<-eos
       def chk_multi_nil(para)
         para.nil?
@@ -33,26 +33,24 @@ describe NilCheck do
         \"\".nil?
       end
       eos
-      expect(src).to smell_of(NilCheck,
-                              { NilCheck => nil }, NilCheck => nil)
+      expect(src).to smell_of(NilCheck, {}, {})
     end
 
-    it 'should report twice when scope uses == nil and === nil' do
+    it 'reports twice when scope uses == nil and === nil' do
       src = <<-eos
       def chk_eq_nil(para)
         para == nil
         para === nil
       end
       eos
-      expect(src).to smell_of(NilCheck,
-                              { NilCheck => nil }, NilCheck => nil)
+      expect(src).to smell_of(NilCheck, {}, {})
     end
 
-    it 'should report when scope uses nil ==' do
+    it 'reports when scope uses nil ==' do
       expect('def chk_eq_nil_rev(para); nil == para; end').to smell_of(NilCheck)
     end
 
-    it 'should report when scope uses multiple case-clauses checking nil' do
+    it 'reports when scope uses multiple case-clauses checking nil' do
       src = <<-eos
       def case_nil
         case @inst_var
@@ -65,8 +63,18 @@ describe NilCheck do
         end
       end
       eos
-      expect(src).to smell_of(NilCheck,
-                              { NilCheck => nil }, NilCheck => nil)
+      expect(src).to smell_of(NilCheck, {}, {})
+    end
+
+    it 'reports a when clause that checks nil and other values' do
+      src = <<-eos
+      def case_nil
+        case @inst_var
+        when nil, false then puts "Hello"
+        end
+      end
+      eos
+      expect(src).to smell_of(NilCheck)
     end
   end
 end
