@@ -16,6 +16,20 @@ module Reek
         end
       end
 
+      module UltraVerboseWarningFormattter
+        BASE_URL_FOR_HELP_LINK = 'https://github.com/troessner/reek/wiki/'
+
+        module_function
+
+        def format(warning)
+          "#{WarningFormatterWithLineNumbers.format(warning)} [#{explanatory_link(warning)}]"
+        end
+
+        def explanatory_link(warning)
+          "#{BASE_URL_FOR_HELP_LINK}#{warning.subclass}"
+        end
+      end
+
       module SimpleWarningFormatter
         def self.format(warning)
           "#{warning.context} #{warning.message} (#{warning.subclass})"
