@@ -32,19 +32,33 @@ module Reek
       end
 
       module AndNode
-        def condition() self[1..2].tap { |node| node.extend SexpNode } end
+        def condition() self[1] end
+
+        def body
+          self[2]
+        end
       end
 
+      # Utility methods for :or nodes
       module OrNode
-        def condition() self[1..2].tap { |node| node.extend SexpNode } end
+        def condition() self[1] end
+
+        def body
+          self[2]
+        end
       end
 
       module AttrasgnNode
         def args() self[3] end
       end
 
+      # Utility methods for :case nodes
       module CaseNode
         def condition() self[1] end
+
+        def body
+          self[2..-1].extend SexpNode
+        end
       end
 
       # Utility methods for :when nodes
@@ -54,10 +68,15 @@ module Reek
         end
       end
 
+      # Utility methods for :call nodes
       module CallNode
         def receiver() self[1] end
         def method_name() self[2] end
         def args() self[3..-1] end
+
+        def participants
+          ([receiver] + args).compact
+        end
 
         def arg_names
           args.map { |arg| arg[1] }
@@ -72,7 +91,7 @@ module Reek
       CvdeclNode = CvarNode
 
       module LvarNode
-        def value() self[1] end
+        def var_name() self[1] end
       end
 
       module MethodNode
@@ -132,8 +151,13 @@ module Reek
         end
       end
 
+      # Utility methods for :if nodes
       module IfNode
         def condition() self[1] end
+
+        def body
+          self[2..-1].extend SexpNode
+        end
       end
 
       module IterNode

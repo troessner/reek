@@ -16,7 +16,7 @@ module Reek
         inspect.hash
       end
 
-      def each_node(type, ignoring, &blk)
+      def each_node(type, ignoring = [], &blk)
         if block_given?
           look_for(type, ignoring, &blk)
         else
@@ -24,6 +24,18 @@ module Reek
           look_for(type, ignoring) { |exp| result << exp }
           result
         end
+      end
+
+      def unnested_nodes(types)
+        result = []
+        if types.include? first
+          result << self
+        else
+          each_sexp do |elem|
+            result += elem.unnested_nodes(types)
+          end
+        end
+        result
       end
 
       def each_sexp

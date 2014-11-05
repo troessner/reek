@@ -44,7 +44,6 @@ module Reek
       SMELL_CLASS = 'ControlCouple'
       SMELL_SUBCLASS = name.split(/::/)[-1]
       PARAMETER_KEY = 'parameter'
-      VALUE_POSITION = 1
 
       #
       # Checks whether the given method chooses its execution path
@@ -65,13 +64,13 @@ module Reek
       # Collects information about a single control parameter.
       #
       class FoundControlParameter
-        def initialize(param)
+        def initialize(param, occurences)
           @param = param
-          @occurences = []
+          @occurences = occurences
         end
 
-        def record(occurences)
-          @occurences.concat occurences
+        def smells?
+          @occurences.any?
         end
 
         def smell_message
@@ -87,6 +86,73 @@ module Reek
         end
       end
 
+      # Finds cases of ControlParameter in a particular node for a particular parameter
+      class ControlParameterFinder
+        def initialize(node, param)
+          @node = node
+          @param = param
+        end
+
+        def find_matches
+          return [] if legitimite_uses?
+          nested_finders.flat_map(&:find_matches) + uses_of_param_in_condition
+        end
+
+        def legitimite_uses?
+          return true if uses_param_in_body?
+          return true if uses_param_in_call_in_condition?
+          return true if nested_finders.any?(&:legitimite_uses?)
+          false
+        end
+
+        private
+
+        def conditional_nodes
+          @node.body.unnested_nodes([:if, :case, :and, :or])
+        end
+
+        def nested_finders
+          @nested_finders ||= conditional_nodes.flat_map do |node|
+            self.class.new(node, @param)
+          end
+        end
+
+        def uses_param_in_call_in_condition?
+          return false unless (condition = @node.condition)
+          condition.each_node(:call) do |inner|
+            next unless regular_call_involving_param? inner
+            return true
+          end
+          false
+        end
+
+        def uses_of_param_in_condition
+          return [] unless (condition = @node.condition)
+          condition.each_node(:lvar).select { |inner| inner.var_name == @param }
+        end
+
+        def regular_call_involving_param?(call_node)
+          call_involving_param?(call_node) && !comparison_call?(call_node)
+        end
+
+        def comparison_call?(call_node)
+          comparison_method_names.include? call_node.method_name
+        end
+
+        def comparison_method_names
+          [:==, :!=]
+        end
+
+        def call_involving_param?(call_node)
+          call_node.participants.any? { |it| it.var_name == @param }
+        end
+
+        def uses_param_in_body?
+          nodes = @node.body.each_node(:lvar, [:if, :case, :and, :or])
+          nodes.any? { |lvar_node| lvar_node.var_name == @param }
+        end
+      end
+
       #
       # Collects all control parameters in a given context.
       #
@@ -96,50 +162,19 @@ module Reek
         end
 
         def control_parameters
-          result = Hash.new { |hash, key| hash[key] = FoundControlParameter.new(key) }
-          potential_parameters.each do |param|
-            matches = find_matches(param)
-            result[param].record(matches) if matches.any?
-          end
-          result.values
+          potential_parameters.
+            map { |param| FoundControlParameter.new(param, find_matches(param)) }.
+            select(&:smells?)
         end
 
         private
 
-        # Returns parameters that aren't used outside of a conditional statements and that
-        # could be good candidates for being a control parameter.
         def potential_parameters
-          @context.exp.parameter_names.select { |param| !used_outside_conditional?(param) }
+          @context.exp.parameter_names
         end
 
-        # Returns wether the parameter is used outside of the conditional statement.
-        def used_outside_conditional?(param)
-          nodes = @context.exp.each_node(:lvar, [:if, :case, :and, :or, :args])
-          nodes.any? { |node| node.value == param }
-        end
-
-        # Find the use of the param that match the definition of a control parameter.
         def find_matches(param)
-          matches = []
-          [:if, :case, :and, :or].each do |keyword|
-            @context.local_nodes(keyword).each do |node|
-              return [] if used_besides_in_condition?(node, param)
-              node.each_node(:lvar, []) { |inner| matches.push(inner) if inner.value == param }
-            end
-          end
-          matches
-        end
-
-        # Returns wether the parameter is used somewhere besides in the condition of the
-        # conditional statement.
-        def used_besides_in_condition?(node, param)
-          times_in_conditional, times_total = 0, 0
-          node.each_node(:lvar, [:if, :case]) { |lvar| times_total += 1 if lvar.value == param }
-          if node.condition
-            times_in_conditional += 1 if node.condition[VALUE_POSITION] == param
-            times_in_conditional += node.condition.count { |inner| inner.class == Sexp && inner[VALUE_POSITION] == param }
-          end
-          times_total > times_in_conditional
+          ControlParameterFinder.new(@context.exp, param).find_matches
         end
       end
     end
