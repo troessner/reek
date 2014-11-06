@@ -194,9 +194,9 @@ Feature: Correctly formatted reports
     And it reports:
       """
       spec/samples/one_smelly_file/dirty.rb -- 3 warnings:
-        [1]:D has no descriptive comment (IrresponsibleModule) [https://github.com/troessner/reek/wiki/IrresponsibleModule]
-        [1]:D has the name 'D' (UncommunicativeModuleName) [https://github.com/troessner/reek/wiki/UncommunicativeModuleName]
-        [2]:D#a has the name 'a' (UncommunicativeMethodName) [https://github.com/troessner/reek/wiki/UncommunicativeMethodName]
+        [1]:D has no descriptive comment (IrresponsibleModule) [https://github.com/troessner/reek/wiki/Irresponsible-Module]
+        [1]:D has the name 'D' (UncommunicativeModuleName) [https://github.com/troessner/reek/wiki/Uncommunicative-Module-Name]
+        [2]:D#a has the name 'a' (UncommunicativeMethodName) [https://github.com/troessner/reek/wiki/Uncommunicative-Method-Name]
       """
 
     Examples:

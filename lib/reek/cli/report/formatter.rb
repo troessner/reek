@@ -26,7 +26,11 @@ module Reek
         end
 
         def explanatory_link(warning)
-          "#{BASE_URL_FOR_HELP_LINK}#{warning.subclass}"
+          "#{BASE_URL_FOR_HELP_LINK}#{class_name_to_param(warning.subclass)}"
+        end
+
+        def class_name_to_param(name)
+          name.split(/(?=[A-Z])/).join('-')
         end
       end
 
