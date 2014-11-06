@@ -10,9 +10,9 @@ module Reek
       SMELL_SUBCLASS = name.split(/::/)[-1]
 
       def examine_context(ctx)
-        call_nodes = CallNodeFinder.new(ctx)
-        case_nodes = CaseNodeFinder.new(ctx)
-        smelly_nodes = call_nodes.smelly + case_nodes.smelly
+        call_node_finder = NodeFinder.new(ctx, :call, NilCallNodeDetector)
+        case_node_finder = NodeFinder.new(ctx, :when, NilWhenNodeDetector)
+        smelly_nodes = call_node_finder.smelly_nodes + case_node_finder.smelly_nodes
 
         smelly_nodes.map do |node|
           SmellWarning.new(SMELL_CLASS, ctx.full_name, Array(node.line),
@@ -25,61 +25,53 @@ module Reek
       # A base class that allows to work on all nodes of a certain type.
       #
       class NodeFinder
-        SEXP_NIL = Sexp.new(:nil)
-        def initialize(ctx, type)
-          @nodes = Array(ctx.local_nodes(type))
-        end
-      end
-
-      #
-      # Find call nodes which perform a nil check.
-      #
-      class CallNodeFinder < NodeFinder
-        def initialize(ctx)
-          super(ctx, :call)
+        def initialize(ctx, type, detector = nil)
+          @nodes = ctx.local_nodes(type)
+          @detector = detector
         end
 
-        def smelly
-          @nodes.select do |call|
-            nil_chk?(call)
-          end
-        end
-
-        def nil_chk?(call)
-          nil_query_use?(call) || eq_nil_use?(call)
-        end
-
-        def nil_query_use?(call)
-          call.last == :nil?
-        end
-
-        def eq_nil_use?(call)
-          include_eq?(call) && call.include?(SEXP_NIL)
-        end
-
-        def include_eq?(call)
-          [:==, :===].any? { |operator| call.include?(operator) }
-        end
-      end
-
-      #
-      # Finds when statements that perform a nil check.
-      #
-      class CaseNodeFinder < NodeFinder
-        CASE_NIL_NODE = Sexp.new(:array, SEXP_NIL)
-
-        def initialize(ctx)
-          super(ctx, :when)
-        end
-
-        def smelly
+        def smelly_nodes
           @nodes.select do |when_node|
-            nil_chk?(when_node)
+            @detector.detect(when_node)
           end
         end
+      end
 
-        def nil_chk?(when_node)
-          when_node.include?(CASE_NIL_NODE)
+      # Detect 'call' nodes which perform a nil check.
+      module NilCallNodeDetector
+        module_function
+
+        def detect(node)
+          nil_query?(node) || nil_comparison?(node)
+        end
+
+        def nil_query?(call)
+          call.method_name == :nil?
+        end
+
+        def nil_comparison?(call)
+          is_comparison_call?(call) && involves_nil?(call)
+        end
+
+        def is_comparison_call?(call)
+          comparison_methods.include? call.method_name
+        end
+
+        def involves_nil?(call)
+          call.receiver.nil_node? || call.args.any?(&:nil_node?)
+        end
+
+        def comparison_methods
+          [:==, :===]
+        end
+      end
+
+      # Detect 'when' statements that perform a nil check.
+      module NilWhenNodeDetector
+        module_function
+
+        def detect(node)
+          node.condition_list.any?(&:nil_node?)
         end
       end
     end
