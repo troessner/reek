@@ -62,23 +62,15 @@ module Reek
       end
 
       def find_iters(exp, depth)
-        exp.map do |elem|
-          next unless elem.is_a? Sexp
-          case elem.first
-          when :iter
-            find_iters_for_iter_node(elem, depth)
-          when :class, :defn, :defs, :module
-            next
-          else
-            find_iters(elem, depth)
-          end
-        end.flatten(1).compact
+        exp.unnested_nodes([:iter]).flat_map do |elem|
+          find_iters_for_iter_node(elem, depth)
+        end
       end
 
       def find_iters_for_iter_node(exp, depth)
         ignored = ignored_iterator? exp
-        result = find_iters([exp.call], depth) +
-          find_iters([exp.block], depth + (ignored ? 0 : 1))
+        result = find_iters(exp.call, depth) +
+          find_iters(exp.block, depth + (ignored ? 0 : 1))
         result << [exp, depth] unless ignored
         result
       end
