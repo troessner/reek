@@ -34,7 +34,15 @@ module SmellOfMatcher
     private
 
     def detect_smells
-      ctx = MethodContext.new(nil, @source.syntax_tree)
+      tree = @source.syntax_tree
+      ctx = case tree.type
+            when :def, :defs
+              MethodContext.new(nil, tree)
+            when :module, :class
+              ModuleContext.new(nil, tree)
+            else
+              CodeContext.new(nil, tree)
+            end
       detector = @klass.new(@source.desc, @klass.default_config.merge(@config))
       detector.examine(ctx)
       @actual_smells = detector.smells_found.to_a

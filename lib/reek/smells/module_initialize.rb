@@ -22,7 +22,7 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       def examine_context(module_ctx)
-        module_ctx.local_nodes(:defn) do |node| # FIXME: also search for :defs?
+        module_ctx.local_nodes(:def) do |node| # FIXME: also search for :defs?
           if node.name.to_s == 'initialize'
             return [
               SmellWarning.new(SMELL_CLASS, module_ctx.full_name, [module_ctx.exp.line],

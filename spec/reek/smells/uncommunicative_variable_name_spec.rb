@@ -18,7 +18,7 @@ describe UncommunicativeVariableName do
   context 'field name' do
     it 'does not report use of one-letter fieldname' do
       src = 'class Thing; def simple(fred) @x end end'
-      expect(src).not_to smell_of(UncommunicativeVariableName)
+      expect(src).not_to reek_of(:UncommunicativeVariableName)
     end
     it 'reports one-letter fieldname in assignment' do
       src = 'class Thing; def simple(fred) @x = fred end end'

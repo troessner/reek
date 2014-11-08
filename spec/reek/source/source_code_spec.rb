@@ -5,6 +5,14 @@ require 'reek/source/source_code'
 include Reek::Source
 
 describe SourceCode do
+  describe '#syntax_tree' do
+    it 'associates comments with the AST' do
+      source_code = SourceCode.new("# this is\n# a comment\ndef foo; end", '(string)')
+      result = source_code.syntax_tree
+      expect(result.comments).to eq "# this is\n# a comment"
+    end
+  end
+
   context 'when the parser fails' do
     let(:source_name) { 'Test source' }
     let(:error_message) { 'Error message' }
@@ -23,7 +31,7 @@ describe SourceCode do
       end
 
       it 'returns an empty syntax tree' do
-        expect(src.syntax_tree).to eq(s())
+        expect(src.syntax_tree).to eq(s(:empty))
       end
 
       it 'records the syntax error' do
@@ -42,11 +50,13 @@ describe SourceCode do
       end
     end
 
-    context 'with a RubyParser::SyntaxError' do
-      let(:error_class) { RubyParser::SyntaxError }
+    context 'with a Parser::SyntaxError' do
+      let(:error_class) { Parser::SyntaxError }
+      let(:diagnostic) { double('diagnostic', message: error_message) }
 
       before do
-        allow(parser).to receive(:parse).and_raise(error_class.new(error_message))
+        allow(parser).to receive(:parse_with_comments).
+          and_raise error_class.new(diagnostic)
       end
 
       it_should_behave_like 'handling and recording the error'
@@ -56,7 +66,8 @@ describe SourceCode do
       let(:error_class) { Racc::ParseError }
 
       before do
-        allow(parser).to receive(:parse).and_raise(error_class.new(error_message))
+        allow(parser).to receive(:parse_with_comments).
+          and_raise(error_class.new(error_message))
       end
 
       it_should_behave_like 'handling and recording the error'
@@ -66,7 +77,8 @@ describe SourceCode do
       let(:error_class) { RuntimeError }
 
       before do
-        allow(parser).to receive(:parse).and_raise(error_class.new(error_message))
+        allow(parser).to receive(:parse_with_comments).
+          and_raise(error_class.new(error_message))
       end
 
       it 'raises the error' do

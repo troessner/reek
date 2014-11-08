@@ -63,11 +63,17 @@ EOS
       @ctx = CodeContext.new(nil, ast)
       @conds = @detector.conditional_counts(@ctx)
     end
+
     it 'finds both conditionals' do
       expect(@conds.length).to eq(2)
     end
+
+    it 'returns the condition expr' do
+      expect(@conds.keys[1]).to eq(@cond_expr)
+    end
+
     it 'knows there are three copies' do
-      expect(@conds[@cond_expr].length).to eq(3)
+      expect(@conds.values[1].length).to eq(3)
     end
 
     context 'looking at the YAML' do
@@ -86,7 +92,7 @@ EOS
         expect(@yaml).to match(/subclass:\s*RepeatedConditional/)
       end
       it 'reports the expression' do
-        expect(@yaml).to match(/expression:\s*"?\(#{@cond}\)"?/)
+        expect(@yaml).to match(/expression:\s*(! )?['"]?#{@cond}["']?/)
       end
       it 'reports the number of occurrences' do
         expect(@yaml).to match(/occurrences:\s*3/)
@@ -125,8 +131,8 @@ EOS
     it 'returns the condition expr' do
       expect(@conds.keys[0]).to eq(@cond_expr)
     end
-    it 'knows there are three copies' do
-      expect(@conds[@cond_expr].length).to eq(2)
+    it 'knows there are two copies' do
+      expect(@conds.values[0].length).to eq(2)
     end
   end
 

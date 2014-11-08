@@ -25,7 +25,7 @@ module Reek
 
       class << self
         def contexts
-          [:defn, :defs]
+          [:def, :defs]
         end
 
         def default_config

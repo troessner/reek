@@ -11,8 +11,20 @@ describe SexpFormatter do
     end
 
     it 'formats a more complex s-expression' do
-      result = SexpFormatter.format s(:call, nil, :foo, s(:arglist, s(:lvar, :bar)))
+      result = SexpFormatter.format s(:send, nil, :foo, s(:lvar, :bar))
       expect(result).to eq('foo(bar)')
+    end
+
+    it 'reduces very large ASTs to a single line' do
+      ast = s(:if,
+              s(:send, nil, :foo),
+              s(:send, nil, :bar),
+              s(:begin,
+                s(:send, nil, :baz),
+                s(:send, nil, :qux)))
+      result = SexpFormatter.format ast
+
+      expect(result).to eq 'if foo ... end'
     end
   end
 end

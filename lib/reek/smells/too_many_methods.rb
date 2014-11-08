@@ -47,7 +47,7 @@ module Reek
       private
 
       def check_num_methods(ctx)  # :nodoc:
-        actual = ctx.local_nodes(:defn).length
+        actual = ctx.node_instance_methods.length
         return [] if actual <= @max_allowed_methods
         smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [ctx.exp.line],
                                  "has at least #{actual} methods",

@@ -41,10 +41,6 @@ module Reek
         )
       end
 
-      def self.contexts      # :nodoc:
-        [:defn, :defs]
-      end
-
       #
       # Checks the given +context+ for uncommunicative names.
       #

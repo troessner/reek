@@ -88,6 +88,8 @@ module Reek
 
       # Finds cases of ControlParameter in a particular node for a particular parameter
       class ControlParameterFinder
+        CONDITIONAL_NODE_TYPES = [:if, :case, :and, :or]
+
         def initialize(node, param)
           @node = node
           @param = param
@@ -108,7 +110,7 @@ module Reek
         private
 
         def conditional_nodes
-          @node.body.unnested_nodes([:if, :case, :and, :or])
+          @node.body_nodes(CONDITIONAL_NODE_TYPES)
         end
 
         def nested_finders
@@ -118,8 +120,8 @@ module Reek
         end
 
         def uses_param_in_call_in_condition?
-          return false unless (condition = @node.condition)
-          condition.each_node(:call) do |inner|
+          return unless condition
+          condition.each_node(:send) do |inner|
             next unless regular_call_involving_param? inner
             return true
           end
@@ -127,8 +129,13 @@ module Reek
         end
 
         def uses_of_param_in_condition
-          return [] unless (condition = @node.condition)
+          return [] unless condition
           condition.each_node(:lvar).select { |inner| inner.var_name == @param }
+        end
+
+        def condition
+          return nil unless CONDITIONAL_NODE_TYPES.include? @node.type
+          @node.condition
         end
 
         def regular_call_involving_param?(call_node)
@@ -140,15 +147,15 @@ module Reek
         end
 
         def comparison_method_names
-          [:==, :!=]
+          [:==, :!=, :=~]
         end
 
         def call_involving_param?(call_node)
-          call_node.participants.any? { |it| it.var_name == @param }
+          call_node.each_node(:lvar).any? { |it| it.var_name == @param }
         end
 
         def uses_param_in_body?
-          nodes = @node.body.each_node(:lvar, [:if, :case, :and, :or])
+          nodes = @node.body_nodes([:lvar], [:if, :case, :and, :or])
           nodes.any? { |lvar_node| lvar_node.var_name == @param }
         end
       end

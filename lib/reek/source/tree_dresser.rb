@@ -1,5 +1,4 @@
-require 'reek/source/sexp_node'
-require 'reek/source/sexp_extensions'
+require 'reek/source/ast_node_class_map'
 
 module Reek
   module Source
@@ -8,39 +7,17 @@ module Reek
     # the tree more understandable and less implementation-dependent.
     #
     class TreeDresser
-      def initialize(extensions_module = SexpExtensions, node_module = SexpNode)
-        @extensions_module = extensions_module
-        @node_module = node_module
+      def initialize(klass_map = AstNodeClassMap.new)
+        @klass_map = klass_map
       end
 
-      def dress(sexp)
-        extend_sexp(sexp)
-        sexp.each_sexp { |sub| dress(sub) }
-        sexp
-      end
-
-      private
-
-      def extend_sexp(sexp)
-        sexp.extend(@node_module)
-        extension_module = extension_for(sexp)
-        sexp.extend(extension_module) if extension_module
-      end
-
-      def extension_for(sexp)
-        extension_map[sexp.sexp_type]
-      end
-
-      def extension_map
-        @extension_map ||= begin
-                             assoc = @extensions_module.constants.map do |const|
-                               [
-                                 const.to_s.sub(/Node$/, '').downcase.to_sym,
-                                 @extensions_module.const_get(const)
-                               ]
-                             end
-                             Hash[assoc]
-                           end
+      def dress(sexp, comment_map)
+        return sexp unless sexp.is_a? AST::Node
+        type = sexp.type
+        children = sexp.children.map { |child| dress(child, comment_map) }
+        comments = comment_map[sexp]
+        @klass_map.klass_for(type).new(type, children,
+                                       location: sexp.loc, comments: comments)
       end
     end
   end

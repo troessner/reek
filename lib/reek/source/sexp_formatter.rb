@@ -1,4 +1,6 @@
-require 'ruby2ruby'
+old_verbose, $VERBOSE = $VERBOSE, nil
+require 'unparser'
+$VERBOSE = old_verbose
 
 module Reek
   module Source
@@ -7,9 +9,13 @@ module Reek
     #
     class SexpFormatter
       def self.format(sexp)
-        return sexp.to_s unless sexp.is_a? Array
-        sexp = Sexp.from_array(YAML.load(YAML.dump(sexp)))
-        Ruby2Ruby.new.process(sexp)
+        return sexp.to_s unless sexp.is_a? AST::Node
+        lines = Unparser.unparse(sexp).split "\n"
+        if lines.length > 1
+          "#{lines.first} ... #{lines.last}"
+        else
+          lines.first
+        end
       end
     end
   end

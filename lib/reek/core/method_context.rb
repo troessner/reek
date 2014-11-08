@@ -9,8 +9,8 @@ module Reek
     module MethodParameters
       def default_assignments
         result = []
-        self[1..-1].each do |exp|
-          result << exp[1..2] if exp.is_a?(Sexp) && exp[0] == :lasgn
+        each do |exp|
+          result << exp[1..2] if exp.optional_argument?
         end
         result
       end
@@ -26,9 +26,8 @@ module Reek
 
       def initialize(outer, exp)
         super(outer, exp)
-        @parameters = exp[exp[0] == :defn ? 2 : 3]  # SMELL: SimulatedPolymorphism
-        @parameters ||= []
-        @parameters.extend(MethodParameters)
+        @parameters = exp.parameters.dup
+        @parameters.extend MethodParameters
         @num_statements = 0
         @refs = ObjectRefs.new
       end
@@ -41,6 +40,8 @@ module Reek
         receiver, meth = exp[1..2]
         receiver ||= [:self]
         case receiver[0]
+        when :lvasgn
+          @refs.record_reference_to(receiver.updated(:lvar))
         when :lvar
           @refs.record_reference_to(receiver) unless meth == :new
         when :self
@@ -58,7 +59,7 @@ module Reek
       end
 
       def uses_param?(param)
-        local_nodes(:lvar).include?(Sexp.new(:lvar, param.to_sym))
+        local_nodes(:lvar).find { |node| node.var_name == param.to_sym }
       end
 
       def unused_params
@@ -70,7 +71,7 @@ module Reek
       end
 
       def uses_super_with_implicit_arguments?
-        exp.body.contains_nested_node? :zsuper
+        (body = exp.body) && body.contains_nested_node?(:zsuper)
       end
     end
   end

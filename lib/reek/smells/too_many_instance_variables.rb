@@ -45,7 +45,7 @@ module Reek
       private
 
       def check_num_ivars(ctx)  # :nodoc:
-        count = ctx.local_nodes(:iasgn).map { |iasgn| iasgn[1] }.uniq.length
+        count = ctx.local_nodes(:ivasgn).map { |ivasgn| ivasgn[1] }.uniq.length
         return [] if count <= @max_allowed_ivars
         smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [ctx.exp.line],
                                  "has at least #{count} instance variables",

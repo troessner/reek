@@ -1,6 +1,9 @@
-require 'ruby_parser'
+old_verbose, $VERBOSE = $VERBOSE, nil
+require 'parser/current'
+$VERBOSE = old_verbose
 require 'reek/source/config_file'
 require 'reek/source/tree_dresser'
+require 'reek/source/ast_node'
 
 module Reek
   module Source
@@ -10,7 +13,7 @@ module Reek
     class SourceCode
       attr_reader :desc
 
-      def initialize(code, desc, parser = RubyParser.new)
+      def initialize(code, desc, parser = Parser::Ruby21.new)
         @source = code
         @desc = desc
         @parser = parser
@@ -21,13 +24,22 @@ module Reek
       end
 
       def syntax_tree
-        begin
-          ast = @parser.parse(@source, @desc)
-        rescue Racc::ParseError, RubyParser::SyntaxError => error
-          $stderr.puts "#{desc}: #{error.class.name}: #{error}"
-        end
-        ast ||= s()
-        TreeDresser.new.dress(ast)
+        @syntax_tree ||=
+          begin
+            buffer = Parser::Source::Buffer.new(@desc)
+            buffer.source = @source
+
+            begin
+              ast, comments = @parser.parse_with_comments(buffer)
+            rescue Racc::ParseError, Parser::SyntaxError => error
+              $stderr.puts "#{desc}: #{error.class.name}: #{error}"
+            end
+            ast ||= AstNode.new(:empty)
+            comments ||= []
+
+            comment_map = Parser::Source::Comment.associate(ast, comments)
+            TreeDresser.new.dress(ast, comment_map)
+          end
       end
     end
   end

@@ -50,7 +50,7 @@ module Reek
       def attributes_in(module_ctx)
         result = Set.new
         attr_defn_methods = [:attr, :attr_reader, :attr_writer, :attr_accessor]
-        module_ctx.local_nodes(:call) do |call_node|
+        module_ctx.local_nodes(:send) do |call_node|
           if attr_defn_methods.include?(call_node.method_name)
             call_node.arg_names.each { |arg| result << [arg, call_node.line] }
           end

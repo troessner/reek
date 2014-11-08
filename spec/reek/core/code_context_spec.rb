@@ -56,8 +56,8 @@ describe CodeContext do
     it 'should pass unknown method calls down the stack' do
       stop = StopContext.new
       def stop.bananas(arg1, arg2) arg1 + arg2 + 43 end
-      element = ModuleContext.new(stop, ast(:module, :mod, nil))
-      element = MethodContext.new(element, ast(:defn, :bad))
+      element = ModuleContext.new(stop, s(:module, :mod, nil))
+      element = MethodContext.new(element, s(:def, :bad, s(:args), nil))
       expect(element.bananas(17, -5)).to eq(55)
     end
   end
@@ -70,16 +70,21 @@ describe CodeContext do
         ast = src.to_reek_source.syntax_tree
         @ctx = CodeContext.new(nil, ast)
       end
+
       it 'yields no calls' do
-        @ctx.each_node(:call, []) { |exp| raise "#{exp} yielded by empty module!" }
+        @ctx.each_node(:send, []) { |exp| raise "#{exp} yielded by empty module!" }
       end
+
       it 'yields one module' do
         mods = 0
         @ctx.each_node(:module, []) { |_exp| mods += 1 }
         expect(mods).to eq(1)
       end
+
       it "yields the module's full AST" do
-        @ctx.each_node(:module, []) { |exp| expect(exp[1]).to eq(@module_name.to_sym) }
+        @ctx.each_node(:module, []) do |exp|
+          expect(exp).to eq(s(:module, s(:const, nil, @module_name.to_sym), nil))
+        end
       end
 
       context 'with no block' do
@@ -103,19 +108,28 @@ describe CodeContext do
       it 'yields one module' do
         expect(@ctx.each_node(:module, []).length).to eq(1)
       end
+
       it "yields the module's full AST" do
-        @ctx.each_node(:module, []) { |exp| expect(exp[1]).to eq(@module_name.to_sym) }
+        @ctx.each_node(:module, []) do |exp|
+          expect(exp).to eq s(:module,
+                              s(:const, nil, @module_name.to_sym),
+                              s(:def, :calloo,
+                                s(:args),
+                                s(:send, nil, :puts, s(:str, 'hello'))))
+        end
       end
+
       it 'yields one method' do
-        expect(@ctx.each_node(:defn, []).length).to eq(1)
+        expect(@ctx.each_node(:def, []).length).to eq(1)
       end
+
       it "yields the method's full AST" do
-        @ctx.each_node(:defn, []) { |exp| expect(exp[1]).to eq(@method_name.to_sym) }
+        @ctx.each_node(:def, []) { |exp| expect(exp[1]).to eq(@method_name.to_sym) }
       end
 
       context 'pruning the traversal' do
         it 'ignores the call inside the method' do
-          expect(@ctx.each_node(:call, [:defn])).to be_empty
+          expect(@ctx.each_node(:send, [:def])).to be_empty
         end
       end
     end

@@ -140,6 +140,30 @@ describe ControlParameter do
       src = 'def simple(arg) if arg != :foo then :bar else :foo end end'
       expect(src).to smell_of(ControlParameter)
     end
+
+    it 'reports when the argument is compared to a regexp' do
+      src = 'def simple(arg) if arg =~ /foo/ then :foo else :bar end end'
+      expect(src).to smell_of(ControlParameter)
+    end
+
+    it 'reports when the argument is reverse-compared to a regexp' do
+      src = 'def simple(arg) if /foo/ =~ arg then :foo else :bar end end'
+      expect(src).to smell_of(ControlParameter)
+    end
+
+    it 'reports when the argument is used in a complex regexp' do
+      src = 'def simple(arg) if /foo#{arg}/ =~ bar then :foo else :bar end end'
+      expect(src).to smell_of(ControlParameter)
+    end
+
+    it 'reports when the argument is a block parameter' do
+      src = <<-EOS
+        def foo &blk
+          bar(blk || proc {})
+        end
+      EOS
+      expect(src).to smell_of(ControlParameter)
+    end
   end
 
   context 'parameter used besides determining code path' do

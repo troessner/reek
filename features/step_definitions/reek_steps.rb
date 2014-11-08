@@ -57,7 +57,7 @@ Then /^it reports the error ['"](.*)['"]$/ do |string|
 end
 
 Then /^it reports a parsing error$/ do
-  expect(@last_stderr.chomp).to match(/Racc::ParseError/)
+  expect(@last_stderr.chomp).to match(/Parser::SyntaxError/)
 end
 
 Then /^it should indicate the line numbers of those smells$/ do

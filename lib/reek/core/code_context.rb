@@ -20,7 +20,7 @@ module Reek
       end
 
       def node_instance_methods
-        local_nodes(:defn)
+        local_nodes(:def)
       end
 
       def local_nodes(type, &blk)

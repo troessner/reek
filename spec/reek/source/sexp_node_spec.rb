@@ -7,20 +7,20 @@ describe SexpNode do
   context 'format' do
     it 'formats self' do
       @node = s(:self)
-      @node.extend(SexpNode)
       expect(@node.format_ruby).to eq('self')
     end
   end
 
   context 'hash' do
     it 'hashes equal for equal sexps' do
-      node1 = ast(:defn, s(:const2, :Fred, :jim), s(:call, :+, s(:lit, 4), :fred))
-      node2 = ast(:defn, s(:const2, :Fred, :jim), s(:call, :+, s(:lit, 4), :fred))
+      node1 = s(:def, :jim, s(:args), s(:send, s(:int, 4), :+, s(:send, nil, :fred)))
+      node2 = s(:def, :jim, s(:args), s(:send, s(:int, 4), :+, s(:send, nil, :fred)))
       expect(node1.hash).to eq(node2.hash)
     end
+
     it 'hashes diferent for diferent sexps' do
-      node1 = ast(:defn, s(:const2, :Fred, :jim), s(:call, :+, s(:lit, 4), :fred))
-      node2 = ast(:defn, s(:const2, :Fred, :jim), s(:call, :+, s(:lit, 3), :fred))
+      node1 = s(:def, :jim, s(:args), s(:send, s(:int, 4), :+, s(:send, nil, :fred)))
+      node2 = s(:def, :jim, s(:args), s(:send, s(:int, 3), :+, s(:send, nil, :fred)))
       expect(node1.hash).not_to eq(node2.hash)
     end
   end
