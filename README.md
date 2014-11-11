@@ -1,7 +1,6 @@
 # Reek -- code smell detection for Ruby
 
-
-### Overview
+## Overview
 
 
 [![Build Status](https://secure.travis-ci.org/troessner/reek.png?branch=master)](http://travis-ci.org/troessner/reek?branch=master)
@@ -9,59 +8,25 @@
 [![Dependency Status](https://gemnasium.com/troessner/reek.png)](https://gemnasium.com/troessner/reek)
 [![Inline docs](http://inch-ci.org/github/troessner/reek.png)](http://inch-ci.org/github/troessner/reek)
 
+## Quickstart
 
-### Synopsis
+`reek` is a tool that examines Ruby classes, modules and methods and reports any [Code Smells](https://github.com/troessner/reek/wiki/Code-Smells) it finds. Install it like this:
 
-
-Reek is a tool that examines Ruby classes, modules and methods and
-reports any code smells it finds. Install it like this:
-
-```bash
-$ gem install reek
+```Bash
+gem install reek
 ```
 
 and run it like this:
 
-```bash
-$ reek [options] [dir_or_source_file]*
+```Bash
+reek [options] [dir_or_source_file]*
 ```
 
-For a full list of command-line options see the
-[Reek wiki](https://github.com/troessner/reek/wiki/command-line-options)
-or run
+## Example
 
-```bash
-$ reek --help
-```
+Imagine a source file <tt>demo.rb</tt> containing:
 
-## Usage
-
-For scanning the current directory you're in do a
-
-```bash
-$ reek .
-```
-
-(Mind the "." at the end to indicate the current directory)
-
-
-Likewise you can scan specific directories like this
-
-```bash
-$ reek lib/your/files
-```
-
-Note that if you just call
-
-```bash
-$ reek
-```
-
-without any arguments reek will wait for input from STDIN.
-
-Given a source file <tt>demo.rb</tt> containing:
-
-```ruby
+```Ruby
 class Dirty
   # This method smells of :reek:NestedIterators but ignores them
   def awful(x, y, offset = 0, log = false)
@@ -74,7 +39,7 @@ end
 
 Reek will report the following code smells in this file:
 
-```bash
+```
 $ reek demo.rb
 spec/samples/demo/demo.rb -- 6 warnings:
   Dirty has no descriptive comment (IrresponsibleModule)
@@ -83,48 +48,55 @@ spec/samples/demo/demo.rb -- 6 warnings:
   Dirty#awful has the parameter name 'x' (UncommunicativeName)
   Dirty#awful has the parameter name 'y' (UncommunicativeName)
   Dirty#awful has the variable name 'w' (UncommunicativeName)
+  Dirty#awful has unused parameter 'log' (UnusedParameters)
+  Dirty#awful has unused parameter 'offset' (UnusedParameters)
+  Dirty#awful has unused parameter 'x' (UnusedParameters)
+  Dirty#awful has unused parameter 'y' (UnusedParameters)
 ```
 
-## Features
+## Code smells
 
-Reek currently includes checks for some aspects of Control Couple,
-Data Clump, Feature Envy, Large Class, Long Method, Long Parameter List,
-Simulated Polymorphism, Uncommunicative Name and more.
-See the [Reek wiki](https://github.com/troessner/reek/wiki/code-smells)
-for up to date details of exactly what Reek will check in your code.
+`reek` currently includes checks for some aspects of [Control Couple](https://github.com/troessner/reek/wiki/Control-Couple), [Data Clump](https://github.com/troessner/reek/wiki/Data-Clump), [Feature Envy](https://github.com/troessner/reek/wiki/Feature-Envy), [Large Class](https://github.com/troessner/reek/wiki/Large-Class), [Long Parameter List](https://github.com/troessner/reek/wiki/Long-Parameter-List), [Simulated Polymorphism](https://github.com/troessner/reek/wiki/Simulated-Polymorphism), [Too Many Statements](https://github.com/troessner/reek/wiki/Too-Many-Statements), [Uncommunicative Name](https://github.com/troessner/reek/wiki/Uncommunicative-Name), [Unused Parameters](https://github.com/troessner/reek/wiki/Unused-Parameters) and more. See the [Code Smells](https://github.com/troessner/reek/wiki/Code-Smells) for up to date details of exactly what `reek` will check in your code.
 
-### Integration
+## Configuration
 
-Basically there are two ways to use reek in your project except for the obvious
-static code analysis:
-
-1. Use Reek's [Rake Task](https://github.com/troessner/reek/wiki/Rake-Task) to
-  easily add Reek to your Rakefile
-
-2. Add Reek's custom matcher to your Rspec examples like this:
+For a basic overview, run
 
 ```Ruby
-require 'rubygems'
-require 'spec'
-require 'reek'
-require 'reek/spec'
-
-include Reek::Spec
-
-my_precious_code = 'class C; def m; end; end'
-my_precious_code.should_not reek # Well, it does.
+reek --help
 ```
 
-## Contributing
+For a summary of those CLI options see [Command-Line Options](https://github.com/troessner/reek/wiki/Command-Line-Options).
 
-* Fork the repo
-* Create a feature branch
-* Make sure the tests pass (see below)
-* Submit a pull request
+Apart from that, `reek` offers quite a few ways for configuring it:
 
-### Running the tests
+* The first thing you probably want to check out are the [Basic Smell Options](https://github.com/troessner/reek/wiki/Basic-Smell-Options)
+* `reek` is not the police. In case you need to suppress a smell warning for whatever reasons have a look at [Smell Suppression](https://github.com/troessner/reek/wiki/Smell-Suppression)
+* Lastly there are a couple of ways to configure `reek` via [Configuration Files](https://github.com/troessner/reek/wiki/Configuration-Files)
 
-Either just `bundle exec rake` to run all or, if you want to be specific:
+## Integration
+
+Besides the obvious
+
+```Bash
+reek [options] [dir_or_source_file]*
+```
+
+there are quite a few other ways how to use reek in your projects:
+
+* Use `reek`'s [Rake Task](https://github.com/troessner/reek/wiki/Rake-Task) to automate detecting code smells
+* Add `reek`'s custom matcher to your Rspec examples ([This is still TODO](https://github.com/troessner/reek/issues/315))
+* Include `reek` using the [Developer API](https://github.com/troessner/reek/wiki/Developer-Api)
+
+## Developing reek / Contributing
+
+The first thing you want to do after checking out the source code is to run bundler
+
+```
+bundle install
+```
+
+and then to run the tests:
 
 ```bash
 bundle exec rspec spec/your/file_spec.rb            # Runs all tests in spec/your/file_spec.rb
@@ -133,7 +105,28 @@ bundle exec cucumber features/your_file.feature     # Runs all scenarios in your
 bundle exec cucumber features/your_file.feature:23  # Runs scenario at line 23
 ```
 
-## Miscellaneous
+Or just run the whole test suite by running
+
+```
+bundle exec rake
+```
+
+From then on continue by following the establish [pull request workflow](https://help.github.com/articles/using-pull-requests/).
+
+If you don't feel like getting your hands dirty with code there a still other ways you can help us:
+
+* Work on the [wiki](https://github.com/troessner/reek/wiki)
+* Open up an [issue](https://github.com/troessner/reek/issues) and report bugs or suggest other improvements
+
+## Output formats
+
+`reek` supports 3 output formats:
+
+* plain text (default)
+* html (-H, --html)
+* yaml (-y, --yaml)
+
+## Additional resources
 
 ### Tools
 
@@ -146,22 +139,7 @@ TextMate Bundle for `reek`:
 Colorful output for `reek`: [Preek](https://github.com/joenas/preek) (also with
 [Guard::Preek](https://github.com/joenas/guard-preek))
 
-### Dependencies
+### Find out more:
 
-Reek makes use of the following other gems:
-
-* ruby_parser
-* sexp_processor
-* ruby2ruby
-* rainbow
-
-### Learn More
-
-Find out more about Reek from any of the following sources:
-
-* Browse the Reek documentation at
-  [https://github.com/troessner/reek/wiki](https://github.com/troessner/reek/wiki)
-* Browse the code or install the latest development version from
-  [https://github.com/troessner/reek/tree](https://github.com/troessner/reek/tree)
-* Read the code API at
-  [http://rdoc.info/projects/troessner/reek](http://rdoc.info/projects/troessner/reek)
+* [Stack Overflow](http://stackoverflow.com/questions/tagged/reek)
+* [RDoc](http://rdoc.info/projects/troessner/reek)
