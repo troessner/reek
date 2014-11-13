@@ -1,4 +1,3 @@
-require 'rubygems'
 require 'tempfile'
 require 'fileutils'
 require 'open3'
@@ -13,11 +12,11 @@ class ReekWorld
   end
 
   def reek(args)
-    run("ruby -Ilib -rubygems bin/reek --no-color #{args}")
+    run("ruby -Ilib bin/reek --no-color #{args}")
   end
 
   def reek_with_pipe(stdin, args)
-    run("echo \"#{stdin}\" | ruby -Ilib -rubygems bin/reek --no-color #{args}")
+    run("echo \"#{stdin}\" | ruby -Ilib bin/reek --no-color #{args}")
   end
 
   def rake(name, task_def)
