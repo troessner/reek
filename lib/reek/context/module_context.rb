@@ -15,6 +15,10 @@ module Reek
       def node_instance_methods
         local_nodes(:def)
       end
+
+      def descriptively_commented?
+        Core::CodeComment.new(exp.leading_comment).descriptive?
+      end
     end
   end
 end

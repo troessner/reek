@@ -1,3 +1,4 @@
+require_relative '../core/code_comment'
 
 module Reek
   module Context
@@ -97,7 +98,7 @@ module Reek
 
       def config
         @config ||= if @exp
-                      Core::CodeComment.new(@exp.comments || '').config
+                      Core::CodeComment.new(@exp.full_comment || '').config
                     else
                       {}
                     end

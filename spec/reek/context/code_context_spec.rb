@@ -11,7 +11,6 @@ RSpec.describe Reek::Context::CodeContext do
       @exp = double('exp')
       allow(@exp).to receive(:name).and_return(@exp_name)
       allow(@exp).to receive(:full_name).and_return(@full_name)
-      allow(@exp).to receive(:comments).and_return('')
       @ctx = Reek::Context::CodeContext.new(nil, @exp)
     end
     it 'gets its short name from the exp' do
@@ -169,7 +168,7 @@ EOS
 
     before :each do
       allow(sniffer).to receive(:smell_type).and_return('DuplicateMethodCall')
-      allow(expression).to receive(:comments).and_return(
+      allow(expression).to receive(:full_comment).and_return(
         ':reek:DuplicateMethodCall: { allow_calls: [ puts ] }')
     end
 
