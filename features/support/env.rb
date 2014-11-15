@@ -5,10 +5,11 @@ require 'reek/cli/application'
 
 class ReekWorld
   def run(cmd)
-    out, err, status = Open3.capture3(cmd)
-    @last_stdout = out
-    @last_stderr = err
-    @last_exit_status = status.exitstatus
+    stderr_file = Tempfile.new('reek-world')
+    stderr_file.close
+    @last_stdout = `#{cmd} 2> #{stderr_file.path}`
+    @last_exit_status = $?.exitstatus
+    @last_stderr = IO.read(stderr_file.path)
   end
 
   def reek(args)
