@@ -86,9 +86,6 @@ describe SmellWarning do
       it 'includes the message' do
         expect(@yaml).to match(/message:\s*#{@message}/)
       end
-      it 'indicates the masking' do
-        expect(@yaml).to match(/is_active:\s*true/)
-      end
       it 'includes the line numbers' do
         @lines.each do |line|
           expect(@yaml).to match(/lines:[\s\d-]*- #{line}/)
