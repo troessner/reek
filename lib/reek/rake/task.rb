@@ -97,10 +97,6 @@ module Reek
         raise('Smells found!') if !system(cmd) && fail_on_error
       end
 
-      def self.reek_script
-        File.expand_path(File.dirname(__FILE__) + '/../../../bin/reek')
-      end
-
       def self.ruby_exe
         File.join(RbConfig::CONFIG['bindir'], RbConfig::CONFIG['ruby_install_name'])
       end
@@ -108,7 +104,7 @@ module Reek
       def cmd_words
         [Task.ruby_exe] +
             ruby_options +
-            [%("#{Task.reek_script}")] +
+            [%(reek)] +
             [sort_option] +
             config_file_list.map { |fn| ['-c', %("#{fn}")] }.flatten +
             source_file_list.map { |fn| %("#{fn}") }
