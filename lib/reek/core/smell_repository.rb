@@ -19,6 +19,7 @@ module Reek
           Smells::IrresponsibleModule,
           Smells::LongParameterList,
           Smells::LongYieldList,
+          Smells::ModuleInitialize,
           Smells::NestedIterators,
           Smells::NilCheck,
           Smells::PrimaDonnaMethod,

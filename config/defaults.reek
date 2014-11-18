@@ -38,6 +38,9 @@ LongYieldList:
   enabled: true
   exclude: []
   max_params: 3
+ModuleInitialize:
+  enabled: true
+  exclude: []
 NestedIterators:
   enabled: true
   exclude: []

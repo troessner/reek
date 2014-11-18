@@ -59,7 +59,7 @@ Feature: Basic smell detection
     Then the exit status indicates smells
     And it reports:
     """
-    spec/samples/optparse.rb -- 109 warnings:
+    spec/samples/optparse.rb -- 110 warnings:
       OptionParser has at least 42 methods (TooManyMethods)
       OptionParser has the variable name 'f' (UncommunicativeVariableName)
       OptionParser has the variable name 'k' (UncommunicativeVariableName)
@@ -121,6 +121,7 @@ Feature: Basic smell detection
       OptionParser#summarize has 4 parameters (LongParameterList)
       OptionParser#summarize has the variable name 'l' (UncommunicativeVariableName)
       OptionParser#ver has the variable name 'v' (UncommunicativeVariableName)
+      OptionParser::Arguable has initialize method (ModuleInitialize)
       OptionParser::Arguable#options has approx 6 statements (TooManyStatements)
       OptionParser::Arguable#options= is controlled by argument opt (ControlParameter)
       OptionParser::CompletingHash#match contains iterators nested 2 deep (NestedIterators)
