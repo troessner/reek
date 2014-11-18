@@ -27,7 +27,7 @@ EOS
   def third(pa, pb) pa - pb + @fred; end
 end
 EOS
-      ctx = CodeContext.new(nil, @src.to_reek_source.syntax_tree)
+      ctx = ModuleContext.new(nil, @src.to_reek_source.syntax_tree)
       detector = DataClump.new('newt')
       @smells = detector.examine_context(ctx)
       @warning = @smells[0]   # SMELL: too cumbersome!

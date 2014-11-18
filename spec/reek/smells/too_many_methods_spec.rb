@@ -28,7 +28,7 @@ class Full
   def me41x()3 end;def me42x()3 end;def me43x()3 end;def me44x()3 end;def me45x()3 end
 end
 EOS
-      ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+      ctx = ModuleContext.new(nil, src.to_reek_source.syntax_tree)
       expect(@detector.examine_context(ctx)).to be_empty
     end
 
@@ -43,7 +43,7 @@ class Full
   def me51x()3 end
 end
 EOS
-      ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+      ctx = ModuleContext.new(nil, src.to_reek_source.syntax_tree)
       smells = @detector.examine_context(ctx)
       expect(smells.length).to eq(1)
       expect(smells[0].subclass).to eq(TooManyMethods::SMELL_SUBCLASS)
@@ -63,7 +63,7 @@ class Full
   def me51x()3 end
 end
 EOS
-      ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+      ctx = ModuleContext.new(nil, src.to_reek_source.syntax_tree)
       expect(@detector.examine_context(ctx)).to be_empty
     end
   end
@@ -79,7 +79,7 @@ class Full
   def me51x()3 end
 end
 EOS
-    ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+    ctx = ModuleContext.new(nil, src.to_reek_source.syntax_tree)
     @warning = @detector.examine_context(ctx)[0]
     expect(@warning.source).to eq(@source_name)
     expect(@warning.smell_class).to eq('LargeClass')

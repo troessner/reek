@@ -11,6 +11,10 @@ module Reek
         super(outer, exp)
         @name = Source::SexpFormatter.format(exp.children.first)
       end
+
+      def node_instance_methods
+        local_nodes(:def)
+      end
     end
   end
 end
