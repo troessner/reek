@@ -85,7 +85,7 @@ reek [options] [dir_or_source_file]*
 there are quite a few other ways how to use reek in your projects:
 
 * Use `reek`'s [Rake Task](https://github.com/troessner/reek/wiki/Rake-Task) to automate detecting code smells
-* Add `reek`'s custom matcher to your Rspec examples ([This is still TODO](https://github.com/troessner/reek/issues/315))
+* Add `reek`'s custom matcher to your [RSpec examples](https://github.com/troessner/reek/wiki/RSpec-Integration)
 * Include `reek` using the [Developer API](https://github.com/troessner/reek/wiki/Developer-Api)
 
 ## Developing reek / Contributing
