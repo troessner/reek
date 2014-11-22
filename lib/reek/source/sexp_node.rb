@@ -7,7 +7,7 @@ module Reek
     module SexpNode
       def self.format(expr)
         case expr
-        when Sexp then expr.format_ruby
+        when AST::Node then expr.format_ruby
         else expr.to_s
         end
       end
@@ -26,20 +26,14 @@ module Reek
         end
       end
 
-      def unnested_nodes(types)
+      def find_nodes(types, ignoring = [])
         result = []
-        if types.include? first
-          result << self
-        else
-          each_sexp do |elem|
-            result += elem.unnested_nodes(types)
-          end
-        end
+        look_for_alt(types, ignoring) { |exp| result << exp }
         result
       end
 
       def each_sexp
-        each { |elem| yield elem if elem.is_a? Sexp }
+        children.each { |elem| yield elem if elem.is_a? AST::Node }
       end
 
       #
@@ -49,9 +43,27 @@ module Reek
       #
       def look_for(target_type, ignoring = [], &blk)
         each_sexp do |elem|
-          elem.look_for(target_type, ignoring, &blk) unless ignoring.include?(elem.first)
+          elem.look_for(target_type, ignoring, &blk) unless ignoring.include?(elem.type)
         end
-        blk.call(self) if first == target_type
+        blk.call(self) if type == target_type
+      end
+
+      #
+      # Carries out a depth-first traversal of this syntax tree, yielding
+      # every Sexp of type +target_type+. The traversal ignores any node
+      # whose type is listed in the Array +ignoring+, includeing the top node.
+      #
+      # Also, doesn't nest
+      #
+      def look_for_alt(target_types, ignoring = [], &blk)
+        return if ignoring.include?(type)
+        if target_types.include? type
+          blk.call(self)
+        else
+          each_sexp do |elem|
+            elem.look_for_alt(target_types, ignoring, &blk)
+          end
+        end
       end
 
       def contains_nested_node?(target_type)
@@ -60,11 +72,7 @@ module Reek
       end
 
       def format_ruby
-        Ruby2Ruby.new.process(deep_copy)
-      end
-
-      def deep_copy
-        Sexp.new(*map { |elem| elem.is_a?(Sexp) ? elem.deep_copy : elem })
+        SexpFormatter.format(self)
       end
     end
   end

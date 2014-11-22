@@ -102,7 +102,6 @@ module Reek
         def calls
           result = Hash.new { |hash, key| hash[key] = FoundCall.new(key) }
           collect_calls(result)
-          collect_assignments(result)
           result.values.sort_by(&:call)
         end
 
@@ -112,19 +111,13 @@ module Reek
 
         private
 
-        def collect_assignments(result)
-          context.local_nodes(:attrasgn) do |asgn_node|
-            result[asgn_node].record(asgn_node) if asgn_node.args
-          end
-        end
-
         def collect_calls(result)
-          context.local_nodes(:call) do |call_node|
+          context.each_node(:send, [:mlhs]) do |call_node|
             next if call_node.method_name == :new
             next if !call_node.receiver && call_node.args.empty?
             result[call_node].record(call_node)
           end
-          context.local_nodes(:iter) do |call_node|
+          context.local_nodes(:block) do |call_node|
             result[call_node].record(call_node)
           end
         end

@@ -1,4 +1,3 @@
-require 'sexp'
 require 'reek/core/method_context'
 require 'reek/core/module_context'
 require 'reek/core/stop_context'
@@ -12,6 +11,7 @@ module Reek
     #
     # SMELL: This class is responsible for counting statements and for feeding
     # each context to the smell repository.
+    # SMELL: This class has a name that doesn't match its responsibility.
     class CodeParser
       def initialize(smell_repository, ctx = StopContext.new)
         @smell_repository = smell_repository
@@ -19,14 +19,14 @@ module Reek
       end
 
       def process(exp)
-        meth = "process_#{exp[0]}"
+        meth = "process_#{exp.type}"
         meth = :process_default unless self.respond_to?(meth)
         send(meth, exp)
         @element
       end
 
       def process_default(exp)
-        exp.each { |sub| process(sub) if sub.is_a? Array }
+        exp.children.each { |sub| process(sub) if sub.is_a? AST::Node }
       end
 
       def process_module(exp)
@@ -37,16 +37,16 @@ module Reek
 
       alias_method :process_class, :process_module
 
-      def process_defn(exp)
+      def process_def(exp)
         inside_new_context(MethodContext, exp) do
-          count_statement_list(exp.body)
+          count_clause(exp.body)
           process_default(exp)
         end
       end
 
       def process_defs(exp)
         inside_new_context(SingletonMethodContext, exp) do
-          count_statement_list(exp.body)
+          count_clause(exp.body)
           process_default(exp)
         end
       end
@@ -57,20 +57,20 @@ module Reek
       # Recording of calls to methods and self
       #
 
-      def process_call(exp)
+      def process_send(exp)
         @element.record_call_to(exp)
         process_default(exp)
       end
 
-      alias_method :process_attrasgn, :process_call
-      alias_method :process_op_asgn1, :process_call
+      alias_method :process_attrasgn, :process_send
+      alias_method :process_op_asgn, :process_send
 
       def process_ivar(exp)
         @element.record_use_of_self
         process_default(exp)
       end
 
-      alias_method :process_iasgn, :process_ivar
+      alias_method :process_ivasgn, :process_ivar
 
       def process_self(_)
         @element.record_use_of_self
@@ -82,16 +82,18 @@ module Reek
       # Statement counting
       #
 
-      def process_iter(exp)
-        count_clause(exp[3])
+      def process_block(exp)
+        count_clause(exp.block)
         process_default(exp)
       end
 
-      def process_block(exp)
-        count_statement_list(exp[1..-1])
+      def process_begin(exp)
+        count_statement_list(exp.children)
         @element.count_statements(-1)
         process_default(exp)
       end
+
+      alias_method :process_kwbegin, :process_begin
 
       def process_if(exp)
         count_clause(exp[2])
@@ -126,14 +128,13 @@ module Reek
       end
 
       def process_case(exp)
-        count_statement_list(exp[2..-1].compact)
+        count_clause(exp.else_body)
         @element.count_statements(-1)
         process_default(exp)
       end
 
       def process_when(exp)
-        count_statement_list(exp[2..-1].compact)
-        @element.count_statements(-1)
+        count_clause(exp.body)
         process_default(exp)
       end
 
@@ -151,7 +152,7 @@ module Reek
         scope = klass.new(@element, exp)
         push(scope) do
           yield
-          check_smells(exp[0])
+          check_smells(exp.type)
         end
         scope
       end

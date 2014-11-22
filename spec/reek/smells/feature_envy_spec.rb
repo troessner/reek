@@ -8,40 +8,43 @@ include Reek::Smells
 describe FeatureEnvy do
   context 'with no smell' do
     it 'should not report use of self' do
-      expect('def simple() self.to_s + self.to_i end').not_to reek
+      expect('def simple() self.to_s + self.to_i end').not_to reek_of(:FeatureEnvy)
     end
     it 'should not report vcall with no argument' do
-      expect('def simple() func; end').not_to reek
+      expect('def simple() func; end').not_to reek_of(:FeatureEnvy)
     end
     it 'should not report single use' do
-      expect('def no_envy(arga) arga.barg(@item) end').not_to reek
+      expect('def no_envy(arga) arga.barg(@item) end').not_to reek_of(:FeatureEnvy)
     end
     it 'should not report return value' do
-      expect('def no_envy(arga) arga.barg(@item); arga end').not_to reek
+      expect('def no_envy(arga) arga.barg(@item); arga end').not_to reek_of(:FeatureEnvy)
     end
     it 'should ignore global variables' do
-      expect('def no_envy() $s2.to_a; $s2[@item] end').not_to reek
+      expect('def no_envy() $s2.to_a; $s2[@item] end').not_to reek_of(:FeatureEnvy)
     end
     it 'should not report class methods' do
-      expect('def simple() self.class.new.flatten_merge(self) end').not_to reek
+      expect('def simple() self.class.new.flatten_merge(self) end').
+        not_to reek_of(:FeatureEnvy)
     end
     it 'should not report single use of an ivar' do
-      expect('def no_envy() @item.to_a end').not_to reek
+      expect('def no_envy() @item.to_a end').not_to reek_of(:FeatureEnvy)
     end
     it 'should not report returning an ivar' do
-      expect('def no_envy() @item.to_a; @item end').not_to reek
+      expect('def no_envy() @item.to_a; @item end').not_to reek_of(:FeatureEnvy)
     end
     it 'should not report ivar usage in a parameter' do
-      expect('def no_envy() @item.price + tax(@item) - savings(@item) end').not_to reek
+      expect('def no_envy() @item.price + tax(@item) - savings(@item) end').
+        not_to reek_of(:FeatureEnvy)
     end
     it 'should not report single use of an lvar' do
-      expect('def no_envy() lv = @item; lv.to_a end').not_to reek
+      expect('def no_envy() lv = @item; lv.to_a end').not_to reek_of(:FeatureEnvy)
     end
     it 'should not report returning an lvar' do
-      expect('def no_envy() lv = @item; lv.to_a; lv end').not_to reek
+      expect('def no_envy() lv = @item; lv.to_a; lv end').not_to reek_of(:FeatureEnvy)
     end
     it 'ignores lvar usage in a parameter' do
-      expect('def no_envy() lv = @item; lv.price + tax(lv) - savings(lv); end').not_to reek
+      expect('def no_envy() lv = @item; lv.price + tax(lv) - savings(lv); end').
+        not_to reek_of(:FeatureEnvy)
     end
     it 'ignores multiple ivars' do
       src = <<EOS
@@ -52,7 +55,7 @@ describe FeatureEnvy do
     @nother.d
   end
 EOS
-      expect(src).not_to reek
+      expect(src).not_to reek_of(:FeatureEnvy)
       #
       # def other.func(me)
       #   a
@@ -120,6 +123,36 @@ EOS
     expect('def func() other.a; other.b; nother.c end').not_to reek_of(:FeatureEnvy)
   end
 
+  it 'counts =~ as a call' do
+    src = <<-EOS
+    def foo arg
+      arg =~ /bar/
+    end
+    EOS
+    expect(src).to reek_of :FeatureEnvy
+  end
+
+  it 'counts += as a call' do
+    src = <<-EOS
+    def foo arg
+      arg += 1
+    end
+    EOS
+    expect(src).to reek_of :FeatureEnvy
+  end
+
+  it 'counts ivar assignment as call to self' do
+    src = <<-EOS
+    def foo
+      bar = baz(1, 2)
+
+      @quuz = bar.qux
+      @zyxy = bar.foobar
+    end
+    EOS
+    expect(src).not_to reek_of :FeatureEnvy
+  end
+
   it 'counts self references correctly' do
     src = <<EOS
 def adopt(other)
@@ -130,7 +163,7 @@ def adopt(other)
   self
 end
 EOS
-    expect(src).not_to reek
+    expect(src).not_to reek_of(:FeatureEnvy)
   end
 end
 
@@ -147,7 +180,7 @@ def report
   @report
 end
 EOS
-    expect(ruby).not_to reek
+    expect(ruby).not_to reek_of(:FeatureEnvy)
   end
 
   it 'interprets << correctly' do
@@ -161,7 +194,7 @@ def report_on(report)
 end
 EOS
 
-    expect(ruby).not_to reek
+    expect(ruby).not_to reek_of(:FeatureEnvy)
   end
 end
 
@@ -186,7 +219,7 @@ end
 EOS
       source = src.to_reek_source
       sniffer = Sniffer.new(source)
-      @mctx = CodeParser.new(sniffer).process_defn(source.syntax_tree)
+      @mctx = CodeParser.new(sniffer).process_def(source.syntax_tree)
       @smells = @detector.examine_context(@mctx)
     end
     it 'reports only that smell' do

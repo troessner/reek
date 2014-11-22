@@ -3,23 +3,15 @@ require 'reek/source/sexp_node'
 module Reek
   module Source
     module SexpExtensions
-      class MethodParameter
-        attr_reader :name
-
-        def initialize(name)
-          @name = name
+      # Base module for utility methods for argument nodes.
+      module ArgNodeBase
+        def name
+          children.first
         end
 
+        # Other is a symbol?
         def ==(other)
-          @name == other
-        end
-
-        def block?
-          @name.to_s =~ /^&/
-        end
-
-        def anonymous_splat?
-          @name == :*
+          name == other
         end
 
         def marked_unused?
@@ -27,27 +19,88 @@ module Reek
         end
 
         def plain_name
-          @plain_name ||= @name.to_s.sub(/^[*&]+/, '')
+          name.to_s
+        end
+
+        def block?
+          false
+        end
+
+        def optional_argument?
+          false
+        end
+
+        def anonymous_splat?
+          false
+        end
+      end
+
+      # Utility methods for :arg nodes.
+      module ArgNode
+        include ArgNodeBase
+      end
+
+      # Utility methods for :optarg nodes.
+      module OptargNode
+        include ArgNodeBase
+
+        def optional_argument?
+          true
+        end
+      end
+
+      # Utility methods for :kwoptarg nodes.
+      module KwoptargNode
+        include ArgNodeBase
+
+        def optional_argument?
+          true
+        end
+      end
+
+      # Utility methods for :blockarg nodes.
+      module BlockargNode
+        include ArgNodeBase
+        def block?
+          true
+        end
+      end
+
+      # Utility methods for :restarg nodes.
+      module RestargNode
+        include ArgNodeBase
+        def anonymous_splat?
+          !name
+        end
+      end
+
+      # Utility methods for :kwrestarg nodes.
+      module KwrestargNode
+        include ArgNodeBase
+        def anonymous_splat?
+          !name
+        end
+      end
+
+      # Base module for utility methods for :and and :or nodes.
+      module LogicOperatorBase
+        def condition() self[1] end
+
+        def body_nodes(type, ignoring = [])
+          self[2].find_nodes type, ignoring
         end
       end
 
       module AndNode
-        def condition() self[1] end
-
-        def body
-          self[2]
-        end
+        include LogicOperatorBase
       end
 
       # Utility methods for :or nodes
       module OrNode
-        def condition() self[1] end
-
-        def body
-          self[2]
-        end
+        include LogicOperatorBase
       end
 
+      # Utility methods for :attrasgn nodes
       module AttrasgnNode
         def args() self[3] end
       end
@@ -56,20 +109,28 @@ module Reek
       module CaseNode
         def condition() self[1] end
 
-        def body
-          self[2..-1].extend SexpNode
+        def body_nodes(type, ignoring = [])
+          children[1..-1].compact.flat_map { |child| child.find_nodes(type, ignoring) }
+        end
+
+        def else_body
+          children.last
         end
       end
 
       # Utility methods for :when nodes
       module WhenNode
         def condition_list
-          self[1][1..-1]
+          children[0..-2]
+        end
+
+        def body
+          children.last
         end
       end
 
-      # Utility methods for :call nodes
-      module CallNode
+      # Utility methods for :send nodes
+      module SendNode
         def receiver() self[1] end
         def method_name() self[2] end
         def args() self[3..-1] end
@@ -83,34 +144,49 @@ module Reek
         end
       end
 
-      module CvarNode
+      # Base module for utility methods for nodes representing variables.
+      module VariableBase
         def name() self[1] end
+      end
+
+      # Utility methods for :cvar nodes.
+      module CvarNode
+        include VariableBase
       end
 
       CvasgnNode = CvarNode
       CvdeclNode = CvarNode
 
+      # Utility methods for :ivar nodes.
+      module IvarNode
+        include VariableBase
+      end
+
+      # Utility methods for :ivasgn nodes.
+      module IvasgnNode
+        include VariableBase
+      end
+
       module LvarNode
         def var_name() self[1] end
       end
 
-      module MethodNode
+      # Base module for utility methods for :def and :defs nodes.
+      module MethodNodeBase
         def arguments
-          @arguments ||= parameters.reject(&:block?)
+          parameters.reject(&:block?)
         end
 
         def arg_names
-          @arg_names ||= arguments.map(&:name)
+          arguments.map(&:name)
         end
 
         def parameters
-          @parameters ||= argslist[1..-1].map do |param|
-            MethodParameter.new(param.is_a?(Sexp) ? param[1] : param)
-          end
+          argslist.children
         end
 
         def parameter_names
-          @parameter_names ||= parameters.map(&:name)
+          parameters.map(&:name)
         end
 
         def name_without_bang
@@ -120,16 +196,25 @@ module Reek
         def ends_with_bang?
           name[-1] == '!'
         end
+
+        def body_nodes(types, ignoring = [])
+          if body
+            body.find_nodes(types, ignoring)
+          else
+            []
+          end
+        end
       end
 
-      module DefnNode
+      # Utility methods for :def nodes.
+      module DefNode
         def name() self[1] end
         def argslist() self[2] end
 
         def body
-          self[3..-1].extend SexpNode
+          self[3]
         end
-        include MethodNode
+        include MethodNodeBase
         def full_name(outer)
           prefix = outer == '' ? '' : "#{outer}#"
           "#{prefix}#{name}"
@@ -142,9 +227,10 @@ module Reek
         def argslist() self[3] end
 
         def body
-          self[4..-1].extend SexpNode
+          self[4]
         end
-        include MethodNode
+
+        include MethodNodeBase
         def full_name(outer)
           prefix = outer == '' ? '' : "#{outer}#"
           "#{prefix}#{SexpNode.format(receiver)}.#{name}"
@@ -155,12 +241,13 @@ module Reek
       module IfNode
         def condition() self[1] end
 
-        def body
-          self[2..-1].extend SexpNode
+        def body_nodes(type, ignoring = [])
+          children[1..-1].compact.flat_map { |child| child.find_nodes(type, ignoring) }
         end
       end
 
-      module IterNode
+      # Utility methods for :block nodes.
+      module BlockNode
         def call() self[1] end
         def args() self[2] end
         def block() self[3] end
@@ -171,36 +258,23 @@ module Reek
         end
       end
 
-      # Utility methods for :nil nodes
-      module NilNode
-        def nil_node?
-          true
-        end
-      end
-
       module LitNode
         def value() self[1] end
       end
 
-      module Colon2Node
-        def name
-          self[2]
-        end
-
+      # Utility methods for :const nodes.
+      module ConstNode
         def simple_name
-          if name.is_a? Colon2Node
-            name.simple_name
-          else
-            name
-          end
+          children.last
         end
       end
 
+      # Utility methods for :module nodes.
       module ModuleNode
         def name() self[1] end
 
         def simple_name
-          name.is_a?(Sexp) ? name.simple_name : name
+          name.is_a?(AST::Node) ? name.simple_name : name
         end
 
         def full_name(outer)

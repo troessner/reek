@@ -17,40 +17,66 @@ describe TooManyInstanceVariables do
 
   context 'counting instance variables' do
     it 'should not report 9 ivars' do
-      expect('# clean class for testing purposes
-class Empty;def ivars() @aa=@ab=@ac=@ad=@ae=@af=@ag=@ah=@ai=4; end;end').not_to reek
+      src = <<-EOS
+        class Empty
+          def ivars
+            @aa=@ab=@ac=@ad=@ae=@af=@ag=@ah=@ai=4
+          end
+        end
+      EOS
+      expect(src).not_to reek_of(:TooManyInstanceVariables)
     end
 
     it 'counts each ivar only once' do
-      expect('# clean class for testing purposes
-class Empty;def ivars() @aa=@ab=@ac=@ad=@ae=@af=@ag=@ah=@ai=4;@aa=3; end;end').not_to reek
+      src = <<-EOS
+        class Empty
+          def ivars
+            @aa=@ab=@ac=@ad=@ae=@af=@ag=@ah=@ai=4
+            @aa=3
+          end
+        end
+      EOS
+      expect(src).not_to reek_of(:TooManyInstanceVariables)
     end
 
     it 'should report 10 ivars' do
-      expect('# smelly class for testing purposes
-class Empty;def ivars() @aa=@ab=@ac=@ad=@ae=@af=@ag=@ah=@ai=@aj=4; end;end').to reek_only_of(:TooManyInstanceVariables)
+      src = <<-EOS
+        class Empty
+          def ivars
+            @aa=@ab=@ac=@ad=@ae=@af=@ag=@ah=@ai=@aj=4
+          end
+        end
+      EOS
+      expect(src).to reek_of(:TooManyInstanceVariables)
     end
 
     it 'should not report 10 ivars in 2 extensions' do
-      src = <<EOS
-# clean class for testing purposes
-class Full;def ivars_a() @aa=@ab=@ac=@ad=@ae; end;end
-# clean class for testing purposes
-class Full;def ivars_b() @af=@ag=@ah=@ai=@aj; end;end
-EOS
-      expect(src).not_to reek
+      src = <<-EOS
+        class Full
+          def ivars_a
+            @aa=@ab=@ac=@ad=@ae
+          end
+        end
+
+        class Full
+          def ivars_b
+            @af=@ag=@ah=@ai=@aj
+          end
+        end
+      EOS
+      expect(src).not_to reek_of(:TooManyInstanceVariables)
     end
   end
 
   it 'reports correctly when the class has 10 instance variables' do
-    src = <<EOS
-# smelly class for testing purposes
-class Empty
-  def ivars
-    @aa=@ab=@ac=@ad=@ae=@af=@ag=@ah=@ai=@aj=4
-  end
-end
-EOS
+    src = <<-EOS
+      # Comment
+      class Empty
+        def ivars
+          @aa=@ab=@ac=@ad=@ae=@af=@ag=@ah=@ai=@aj=4
+        end
+      end
+    EOS
     ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
     @warning = @detector.examine_context(ctx)[0]
     expect(@warning.source).to eq(@source_name)

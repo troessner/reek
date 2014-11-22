@@ -8,7 +8,9 @@ module Reek
     # Configures all available smell detectors and applies them to a source.
     #
     class Sniffer
-      def initialize(src, extra_config_files = [], smell_repository = Core::SmellRepository.new(src.desc))
+      def initialize(src,
+                     extra_config_files = [],
+                     smell_repository = Core::SmellRepository.new(src.desc))
         @smell_repository = smell_repository
         @source = src
 

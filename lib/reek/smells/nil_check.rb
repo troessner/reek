@@ -10,7 +10,7 @@ module Reek
       SMELL_SUBCLASS = name.split(/::/)[-1]
 
       def examine_context(ctx)
-        call_node_finder = NodeFinder.new(ctx, :call, NilCallNodeDetector)
+        call_node_finder = NodeFinder.new(ctx, :send, NilCallNodeDetector)
         case_node_finder = NodeFinder.new(ctx, :when, NilWhenNodeDetector)
         smelly_nodes = call_node_finder.smelly_nodes + case_node_finder.smelly_nodes
 
@@ -58,7 +58,7 @@ module Reek
         end
 
         def involves_nil?(call)
-          call.receiver.nil_node? || call.args.any?(&:nil_node?)
+          call.participants.any? { |it| it.type == :nil }
         end
 
         def comparison_methods
@@ -71,7 +71,7 @@ module Reek
         module_function
 
         def detect(node)
-          node.condition_list.any?(&:nil_node?)
+          node.condition_list.any? { |it| it.type == :nil }
         end
       end
     end

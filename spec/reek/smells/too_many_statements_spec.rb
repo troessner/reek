@@ -10,7 +10,7 @@ include Reek::Smells
 def process_method(src)
   source = src.to_reek_source
   sniffer = Core::Sniffer.new(source)
-  Core::CodeParser.new(sniffer).process_defn(source.syntax_tree)
+  Core::CodeParser.new(sniffer).process_def(source.syntax_tree)
 end
 
 def process_singleton_method(src)
@@ -148,6 +148,11 @@ describe TooManyStatements, 'does not count control statements' do
     expect(method.num_statements).to eq(0)
   end
 
+  it 'counts extra statements in an if condition' do
+    method = process_method('def one() if begin val = callee(); val < 4 end; end; end')
+    expect(method.num_statements).to eq(1)
+  end
+
   it 'counts 1 statement in a while loop' do
     method = process_method('def one() while val < 4; callee(); end; end')
     expect(method.num_statements).to eq(1)
@@ -156,6 +161,11 @@ describe TooManyStatements, 'does not count control statements' do
   it 'counts 3 statements in a while loop' do
     method = process_method('def one() while val < 4; callee(); callee(); callee(); end; end')
     expect(method.num_statements).to eq(3)
+  end
+
+  it 'counts extra statements in a while condition' do
+    method = process_method('def one() while begin val = callee(); val < 4 end; end; end')
+    expect(method.num_statements).to eq(1)
   end
 
   it 'counts 1 statement in a until loop' do

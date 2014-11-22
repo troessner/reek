@@ -23,6 +23,7 @@ module Reek
     class RepeatedConditional < SmellDetector
       SMELL_CLASS = 'SimulatedPolymorphism'
       SMELL_SUBCLASS = name.split(/::/)[-1]
+      BLOCK_GIVEN_CONDITION = AST::Node.new(:send, [nil, :block_given?])
 
       def self.contexts      # :nodoc:
         [:class]
@@ -65,8 +66,8 @@ module Reek
       def conditional_counts(sexp)
         result = Hash.new { |hash, key| hash[key] = [] }
         collector = proc do |node|
-          condition = node.condition
-          next if condition.nil? || condition == s(:call, nil, :block_given?)
+          next unless (condition = node.condition)
+          next if condition == BLOCK_GIVEN_CONDITION
           result[condition].push(condition.line)
         end
         [:if, :case].each { |stmt| sexp.local_nodes(stmt, &collector) }

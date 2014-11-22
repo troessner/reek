@@ -46,7 +46,7 @@ module Reek
 
       class << self
         def contexts      # :nodoc:
-          [:defn]
+          [:def]
         end
 
         def default_config
@@ -77,7 +77,7 @@ module Reek
       end
 
       def num_helper_methods(method_ctx)
-        method_ctx.local_nodes(:call).length
+        method_ctx.local_nodes(:send).length
       end
     end
   end

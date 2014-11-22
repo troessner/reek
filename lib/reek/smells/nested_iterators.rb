@@ -62,7 +62,7 @@ module Reek
       end
 
       def find_iters(exp, depth)
-        exp.unnested_nodes([:iter]).flat_map do |elem|
+        exp.find_nodes([:block]).flat_map do |elem|
           find_iters_for_iter_node(elem, depth)
         end
       end

@@ -42,7 +42,7 @@ module Reek
       end
 
       def self.contexts      # :nodoc:
-        [:module, :class, :defn, :defs]
+        [:module, :class, :def, :defs]
       end
 
       #
@@ -76,11 +76,11 @@ module Reek
       end
 
       def find_assignment_variable_names(exp, accumulator)
-        assignment_nodes = exp.each_node(:lasgn, [:class, :module, :defs, :defn])
+        assignment_nodes = exp.each_node(:lvasgn, [:class, :module, :defs, :def])
 
         case exp.first
         when :class, :module
-          assignment_nodes += exp.each_node(:iasgn, [:class, :module])
+          assignment_nodes += exp.each_node(:ivasgn, [:class, :module])
         end
 
         assignment_nodes.each { |asgn| accumulator[asgn[1]].push(asgn.line) }
@@ -90,11 +90,12 @@ module Reek
         arg_search_exp = case exp.first
                          when :class, :module
                            exp
-                         when :defs, :defn
+                         when :defs, :def
                            exp.body
                          end
 
-        args_nodes = arg_search_exp.each_node(:args, [:class, :module, :defs, :defn])
+        return unless arg_search_exp
+        args_nodes = arg_search_exp.each_node(:args, [:class, :module, :defs, :def])
 
         args_nodes.each do |args_node|
           recursively_record_variable_names(accumulator, args_node)
@@ -102,11 +103,12 @@ module Reek
       end
 
       def recursively_record_variable_names(accumulator, exp)
-        exp[1..-1].each do |subexp|
-          if subexp.is_a? Symbol
-            record_variable_name(exp, subexp, accumulator)
-          elsif subexp.first == :masgn
+        exp.children.each do |subexp|
+          case subexp.type
+          when :mlhs
             recursively_record_variable_names(accumulator, subexp)
+          else
+            record_variable_name(exp, subexp.name, accumulator)
           end
         end
       end
