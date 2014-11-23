@@ -33,7 +33,7 @@ describe UncommunicativeMethodName do
       it_should_behave_like 'common fields set correctly'
 
       it 'reports the correct values' do
-        expect(@warning.smell[UncommunicativeMethodName::METHOD_NAME_KEY]).to eq(method_name)
+        expect(@warning.parameters[:name]).to eq(method_name)
         expect(@warning.lines).to eq([1])
         expect(@warning.context).to eq(method_name)
       end

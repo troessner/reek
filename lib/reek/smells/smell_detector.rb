@@ -14,6 +14,9 @@ module Reek
     # Shared responsibilities of all smell detectors.
     #
     class SmellDetector
+      attr_writer :smell_class, :smell_sub_class
+      attr_reader :source
+
       # The name of the config field that lists the names of code contexts
       # that should not be checked. Add this field to the config for each
       # smell that should ignore this code element.
@@ -34,9 +37,31 @@ module Reek
             EXCLUDE_KEY => DEFAULT_EXCLUDE_SET.dup
           }
         end
+      end
 
-        def smell_class_name
-          name.split(/::/)[-1]
+      def smell_class
+        @smell_class || default_smell_class
+      end
+
+      def smell_sub_class
+        @smell_sub_class || default_smell_class
+      end
+
+      def default_smell_class
+        self.class.name.split(/::/)[-1]
+      end
+
+      def smell_classes
+        [smell_class, smell_sub_class]
+      end
+
+      # TODO tmp hack
+      class << self
+        def smell_class
+          new('').smell_class
+        end
+        def smell_sub_class
+          new('').smell_sub_class
         end
       end
 

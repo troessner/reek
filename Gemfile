@@ -5,4 +5,5 @@ gemspec
 
 group :local_development do
   gem 'pry'
+  gem 'byebug'
 end

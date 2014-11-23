@@ -6,8 +6,13 @@ module Reek
     # Checking for nil is a special kind of type check, and therefore a case of
     # SimulatedPolymorphism.
     class NilCheck < SmellDetector
-      SMELL_CLASS = 'SimulatedPolymorphism'
-      SMELL_SUBCLASS = name.split(/::/)[-1]
+      def smell_class_name
+        'SimulatedPolymorphism'
+      end
+
+      def message_template
+        "performs a nil-check."
+      end
 
       def examine_context(ctx)
         call_node_finder = NodeFinder.new(ctx, :send, NilCallNodeDetector)
@@ -15,9 +20,7 @@ module Reek
         smelly_nodes = call_node_finder.smelly_nodes + case_node_finder.smelly_nodes
 
         smelly_nodes.map do |node|
-          SmellWarning.new(SMELL_CLASS, ctx.full_name, Array(node.line),
-                           'performs a nil-check.',
-                           @source, SMELL_SUBCLASS)
+          SmellWarning.new self, context: ctx.full_name, lines: [node.line]
         end
       end
 

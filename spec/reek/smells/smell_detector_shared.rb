@@ -33,9 +33,9 @@ shared_examples_for 'common fields set correctly' do
     expect(@warning.source).to eq(@source_name)
   end
   it 'reports the class' do
-    expect(@warning.smell_class).to eq(@detector.class::SMELL_CLASS)
+    expect(@warning.smell_class).to eq(@detector.smell_class)
   end
   it 'reports the subclass' do
-    expect(@warning.subclass).to eq(@detector.class::SMELL_SUBCLASS)
+    expect(@warning.smell_sub_class).to eq(@detector.smell_sub_class)
   end
 end

@@ -39,72 +39,72 @@ describe ControlParameter do
   context 'parameter only used to determine code path' do
     it 'reports a ternary check on a parameter' do
       src = 'def simple(arga) arga ? @ivar : 3 end'
-      expect(src).to smell_of(ControlParameter, ControlParameter::PARAMETER_KEY => 'arga')
+      expect(src).to smell_of(ControlParameter, 'name' => 'arga')
     end
 
     it 'reports a couple inside a block' do
       src = 'def blocks(arg) @text.map { |blk| arg ? blk : "#{blk}" } end'
-      expect(src).to smell_of(ControlParameter, ControlParameter::PARAMETER_KEY => 'arg')
+      expect(src).to smell_of(ControlParameter, 'name' => 'arg')
     end
 
     it 'reports on an if statement modifier' do
       src = 'def simple(arg) args = {}; args.merge(\'a\' => \'A\') if arg end'
-      expect(src).to smell_of(ControlParameter, ControlParameter::PARAMETER_KEY => 'arg')
+      expect(src).to smell_of(ControlParameter, 'name' => 'arg')
     end
 
     it 'reports on an unless statement modifier' do
       src = 'def simple(arg) args = {}; args.merge(\'a\' => \'A\') unless arg end'
-      expect(src).to smell_of(ControlParameter, ControlParameter::PARAMETER_KEY => 'arg')
+      expect(src).to smell_of(ControlParameter, 'name' => 'arg')
     end
 
     it 'reports on if control expression' do
       src = 'def simple(arg) args = {}; if arg then args.merge(\'a\' => \'A\') end end'
-      expect(src).to smell_of(ControlParameter, ControlParameter::PARAMETER_KEY => 'arg')
+      expect(src).to smell_of(ControlParameter, 'name' => 'arg')
     end
 
     it 'reports on if control expression with &&' do
       src = 'def simple(arg) if arg && true then puts "arg" end end'
-      expect(src).to smell_of(ControlParameter, ControlParameter::PARAMETER_KEY => 'arg')
+      expect(src).to smell_of(ControlParameter, 'name' => 'arg')
     end
 
     it 'reports on if control expression with preceding &&' do
       src = 'def simple(arg) if true && arg then puts "arg" end end'
-      expect(src).to smell_of(ControlParameter, ControlParameter::PARAMETER_KEY => 'arg')
+      expect(src).to smell_of(ControlParameter, 'name' => 'arg')
     end
 
     it 'reports on if control expression with two && conditions' do
       src = 'def simple(a) ag = {}; if a && true && true then puts "2" end end'
-      expect(src).to smell_of(ControlParameter, ControlParameter::PARAMETER_KEY => 'a')
+      expect(src).to smell_of(ControlParameter, 'name' => 'a')
     end
 
     it 'reports on if control expression with ||' do
       src = 'def simple(arg) args = {}; if arg || true then puts "arg" end end'
-      expect(src).to smell_of(ControlParameter, ControlParameter::PARAMETER_KEY => 'arg')
+      expect(src).to smell_of(ControlParameter, 'name' => 'arg')
     end
 
     it 'reports on if control expression with or' do
       src = 'def simple(arg) args = {}; if arg or true then puts "arg" end end'
-      expect(src).to smell_of(ControlParameter, ControlParameter::PARAMETER_KEY => 'arg')
+      expect(src).to smell_of(ControlParameter, 'name' => 'arg')
     end
 
     it 'reports on if control expression with if' do
       src = 'def simple(arg) args = {}; if (arg if true) then puts "arg" end end'
-      expect(src).to smell_of(ControlParameter, ControlParameter::PARAMETER_KEY => 'arg')
+      expect(src).to smell_of(ControlParameter, 'name' => 'arg')
     end
 
     it 'reports on && notation' do
       src = 'def simple(arg) args = {}; arg && args.merge(\'a\' => \'A\') end'
-      expect(src).to smell_of(ControlParameter, ControlParameter::PARAMETER_KEY => 'arg')
+      expect(src).to smell_of(ControlParameter, 'name' => 'arg')
     end
 
     it 'reports on || notation' do
       src = 'def simple(arg) args = {}; arg || args.merge(\'a\' => \'A\') end'
-      expect(src).to smell_of(ControlParameter, ControlParameter::PARAMETER_KEY => 'arg')
+      expect(src).to smell_of(ControlParameter, 'name' => 'arg')
     end
 
     it 'reports on case statement' do
       src = 'def simple(arg) case arg when nil; nil when false; nil else nil end end'
-      expect(src).to smell_of(ControlParameter, ControlParameter::PARAMETER_KEY => 'arg')
+      expect(src).to smell_of(ControlParameter, 'name' => 'arg')
     end
 
     it 'reports on nested if statements that are both control parameters' do
@@ -116,7 +116,7 @@ describe ControlParameter do
           end
         end
       EOS
-      expect(src).to smell_of(ControlParameter, ControlParameter::PARAMETER_KEY => 'arg')
+      expect(src).to smell_of(ControlParameter, 'name' => 'arg')
     end
 
     it 'reports on nested if statements where the inner if is a control parameter' do
@@ -128,7 +128,7 @@ describe ControlParameter do
           end
         end
       EOS
-      expect(src).to smell_of(ControlParameter, ControlParameter::PARAMETER_KEY => 'arg')
+      expect(src).to smell_of(ControlParameter, 'name' => 'arg')
     end
 
     it 'reports on explicit comparison in the condition' do
@@ -285,7 +285,7 @@ describe ControlParameter do
     it_should_behave_like 'common fields set correctly'
 
     it 'has the correct fields' do
-      expect(@warning.smell[ControlParameter::PARAMETER_KEY]).to eq('arg')
+      expect(@warning.parameters['name']).to eq('arg')
       expect(@warning.lines).to eq([3, 5])
     end
   end

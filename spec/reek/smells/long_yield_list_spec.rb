@@ -26,7 +26,7 @@ describe LongYieldList do
     end
     it 'should report yield with many parameters' do
       src = 'def simple(arga, argb, &blk) f(3);yield arga,argb,arga,argb; end'
-      expect(src).to smell_of(LongYieldList, LongYieldList::PARAMETER_COUNT_KEY => 4)
+      expect(src).to smell_of(LongYieldList, 'count' => 4)
     end
     it 'should not report yield of a long expression' do
       src = 'def simple(arga, argb, &blk) f(3);yield(if @dec then argb else 5+3 end); end'
@@ -50,7 +50,7 @@ EOS
     it_should_behave_like 'common fields set correctly'
 
     it 'reports the correct values' do
-      expect(@warning.smell['parameter_count']).to eq(4)
+      expect(@warning.parameters['count']).to eq(4)
       expect(@warning.lines).to eq([3])
     end
   end

@@ -232,7 +232,7 @@ EOS
       expect(@smells[0].smell_class).to eq(FeatureEnvy::SMELL_CLASS)
     end
     it 'reports the subclass' do
-      expect(@smells[0].subclass).to eq(FeatureEnvy::SMELL_SUBCLASS)
+      expect(@smells[0].smell_sub_class).to eq(FeatureEnvy::SMELL_SUBCLASS)
     end
     it 'reports the envious receiver' do
       expect(@smells[0].smell[FeatureEnvy::RECEIVER_KEY]).to eq(@receiver)

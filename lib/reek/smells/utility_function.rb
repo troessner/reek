@@ -33,16 +33,20 @@ module Reek
     # likely belong there.
     #
     class UtilityFunction < SmellDetector
-      SMELL_SUBCLASS = name.split(/::/)[-1]
-      SMELL_CLASS = 'LowCohesion'
-
       # The name of the config field that sets the maximum number of
       # calls permitted within a helper method. Any method with more than
       # this number of method calls on other objects will be considered a
       # candidate Utility Function.
       HELPER_CALLS_LIMIT_KEY = 'max_helper_calls'
-
       DEFAULT_HELPER_CALLS_LIMIT = 1
+
+      def smell_class_name
+        'LowCohesion'
+      end
+
+      def message_template
+        "doesn't depend on instance state"
+      end
 
       class << self
         def contexts      # :nodoc:
@@ -63,11 +67,8 @@ module Reek
         return [] if method_ctx.num_statements == 0
         return [] if depends_on_instance?(method_ctx.exp)
         return [] if num_helper_methods(method_ctx) <= value(HELPER_CALLS_LIMIT_KEY, method_ctx, DEFAULT_HELPER_CALLS_LIMIT)
-        # SMELL: loads of calls to value{} with the above pattern
-        smell = SmellWarning.new(SMELL_CLASS, method_ctx.full_name, [method_ctx.exp.line],
-                                 "doesn't depend on instance state",
-                                 @source, SMELL_SUBCLASS)
-        [smell]
+
+        [ SmellWarning.new( self, context: method_ctx.full_name, lines: [method_ctx.exp.line] ) ]
       end
 
       private

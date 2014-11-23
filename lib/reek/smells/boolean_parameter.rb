@@ -12,10 +12,13 @@ module Reek
     # default initializer.
     #
     class BooleanParameter < SmellDetector
-      SMELL_CLASS = 'ControlCouple'
-      SMELL_SUBCLASS = name.split(/::/)[-1]
+      def smell_class_name
+        'ControlCouple'
+      end
 
-      PARAMETER_KEY = 'parameter'
+      def message_template
+        "has boolean parameter '%{name}'"
+      end
 
       #
       # Checks whether the given method has any Boolean parameters.
@@ -25,11 +28,8 @@ module Reek
       def examine_context(method_ctx)
         method_ctx.parameters.default_assignments.select do |_param, value|
           [:true, :false].include?(value[0])
-        end.map do |param, _value|
-          param_name = param.to_s
-          SmellWarning.new(SMELL_CLASS, method_ctx.full_name, [method_ctx.exp.line],
-                           "has boolean parameter '#{param_name}'",
-                           @source, SMELL_SUBCLASS, PARAMETER_KEY => param_name)
+        end.map do |parameter, _value|
+          SmellWarning.new self, context: method_ctx.full_name, lines: [method_ctx.exp.line], parameters: { 'name' => parameter.to_s }
         end
       end
     end
