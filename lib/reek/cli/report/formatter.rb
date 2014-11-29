@@ -26,7 +26,7 @@ module Reek
         end
 
         def explanatory_link(warning)
-          "#{BASE_URL_FOR_HELP_LINK}#{class_name_to_param(warning.subclass)}"
+          "#{BASE_URL_FOR_HELP_LINK}#{class_name_to_param(warning.smell_sub_class)}"
         end
 
         def class_name_to_param(name)
@@ -36,7 +36,7 @@ module Reek
 
       module SimpleWarningFormatter
         def self.format(warning)
-          "#{warning.context} #{warning.message} (#{warning.subclass})"
+          "#{warning.context} #{warning.message} (#{warning.smell_sub_class})"
         end
       end
 

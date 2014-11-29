@@ -23,10 +23,7 @@ module Reek
     # Such a method is called PrimaDonnaMethod and is reported as a smell.
     #
     class PrimaDonnaMethod < SmellDetector
-      SMELL_CLASS    = smell_class_name
-      SMELL_SUBCLASS = smell_class_name
-
-      def self.contexts
+      def self.contexts # :nodoc:
         [:class]
       end
 
@@ -39,9 +36,10 @@ module Reek
           end
           next if version_without_bang
 
-          SmellWarning.new(SMELL_CLASS, ctx.full_name, [ctx.exp.line],
-                           "has prima donna method `#{method_sexp.name}`",
-                           @source, SMELL_SUBCLASS)
+          SmellWarning.new self,
+                           context: ctx.full_name,
+                           lines: [ctx.exp.line],
+                           message: "has prima donna method `#{method_sexp.name}`"
         end.compact
       end
     end

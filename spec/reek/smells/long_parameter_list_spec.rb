@@ -85,7 +85,7 @@ EOS
     it_should_behave_like 'common fields set correctly'
 
     it 'reports the number of parameters' do
-      expect(@warning.smell[LongParameterList::PARAMETER_COUNT_KEY]).to eq(4)
+      expect(@warning.parameters[LongParameterList::PARAMETER_COUNT_KEY]).to eq(4)
     end
     it 'reports the line number of the method' do
       expect(@warning.lines).to eq([1])

@@ -181,7 +181,7 @@ EOS
     it_should_behave_like 'common fields set correctly'
 
     it 'reports correct values' do
-      expect(@warning.smell[NestedIterators::NESTING_DEPTH_KEY]).to eq(2)
+      expect(@warning.parameters[NestedIterators::NESTING_DEPTH_KEY]).to eq(2)
       expect(@warning.lines).to eq([3])
     end
   end

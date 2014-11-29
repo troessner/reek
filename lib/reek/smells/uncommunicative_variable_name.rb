@@ -17,22 +17,21 @@ module Reek
     # * names ending with a number
     #
     class UncommunicativeVariableName < SmellDetector
-      SMELL_CLASS = 'UncommunicativeName'
-      SMELL_SUBCLASS = name.split(/::/)[-1]
       VARIABLE_NAME_KEY = 'variable_name'
-
       # The name of the config field that lists the regexps of
       # smelly names to be reported.
       REJECT_KEY = 'reject'
-
       DEFAULT_REJECT_SET = [/^.$/, /[0-9]$/, /[A-Z]/]
 
       # The name of the config field that lists the specific names that are
       # to be treated as exceptions; these names will not be reported as
       # uncommunicative.
       ACCEPT_KEY = 'accept'
-
       DEFAULT_ACCEPT_SET = ['_']
+
+      def smell_class
+        'UncommunicativeName'
+      end
 
       def self.default_config
         super.merge(
@@ -56,9 +55,11 @@ module Reek
         variable_names(ctx.exp).select do |name, _lines|
           bad_name?(name, ctx)
         end.map do |name, lines|
-          SmellWarning.new(SMELL_CLASS, ctx.full_name, lines,
-                           "has the variable name '#{name}'",
-                           @source, SMELL_SUBCLASS, VARIABLE_NAME_KEY => name.to_s)
+          SmellWarning.new(self,
+                           context: ctx.full_name,
+                           lines: lines,
+                           message: "has the variable name '#{name}'",
+                           parameters: { VARIABLE_NAME_KEY => name.to_s })
         end
       end
 

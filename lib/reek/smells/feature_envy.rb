@@ -32,12 +32,12 @@ module Reek
     #
     class FeatureEnvy < SmellDetector
       include ExcludeInitialize
-
-      SMELL_CLASS = 'LowCohesion'
-      SMELL_SUBCLASS = name.split(/::/)[-1]
-
       RECEIVER_KEY = 'receiver'
       REFERENCES_KEY = 'references'
+
+      def smell_class
+        'LowCohesion'
+      end
 
       #
       # Checks whether the given +context+ includes any code fragment that
@@ -48,9 +48,11 @@ module Reek
       def examine_context(method_ctx)
         method_ctx.envious_receivers.map do |ref, occurs|
           target = ref.format_ruby
-          SmellWarning.new(SMELL_CLASS, method_ctx.full_name, [method_ctx.exp.line],
-                           "refers to #{target} more than self",
-                           @source, SMELL_SUBCLASS, RECEIVER_KEY => target, REFERENCES_KEY => occurs)
+          SmellWarning.new self,
+                           context: method_ctx.full_name,
+                           lines: [method_ctx.exp.line],
+                           message: "refers to #{target} more than self",
+                           parameters: { RECEIVER_KEY => target, REFERENCES_KEY => occurs }
         end
       end
     end

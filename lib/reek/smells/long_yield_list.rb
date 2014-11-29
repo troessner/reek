@@ -8,23 +8,18 @@ module Reek
     # passed to a block by a +yield+ call.
     #
     class LongYieldList < SmellDetector
-      SMELL_CLASS = 'LongParameterList'
-      SMELL_SUBCLASS = name.split(/::/)[-1]
-
+      PARAMETER_COUNT_KEY = 'parameter_count'
       # The name of the config field that sets the maximum number of
       # parameters permitted in any method or block.
       MAX_ALLOWED_PARAMS_KEY = 'max_params'
-
-      # The default value of the +MAX_ALLOWED_PARAMS_KEY+ configuration
-      # value.
       DEFAULT_MAX_ALLOWED_PARAMS = 3
 
-      PARAMETER_COUNT_KEY = 'parameter_count'
+      def smell_class
+        'LongParameterList'
+      end
 
       def self.default_config
-        super.merge(
-          MAX_ALLOWED_PARAMS_KEY => DEFAULT_MAX_ALLOWED_PARAMS
-        )
+        super.merge MAX_ALLOWED_PARAMS_KEY => DEFAULT_MAX_ALLOWED_PARAMS
       end
 
       #
@@ -37,10 +32,12 @@ module Reek
         method_ctx.local_nodes(:yield).select do |yield_node|
           yield_node.args.length > @max_allowed_params
         end.map do |yield_node|
-          num_params = yield_node.args.length
-          SmellWarning.new(SMELL_CLASS, method_ctx.full_name, [yield_node.line],
-                           "yields #{num_params} parameters",
-                           @source, SMELL_SUBCLASS, PARAMETER_COUNT_KEY => num_params)
+          count = yield_node.args.length
+          SmellWarning.new self,
+                           context: method_ctx.full_name,
+                           lines: [yield_node.line],
+                           message: "yields #{count} parameters",
+                           parameters: { PARAMETER_COUNT_KEY => count }
         end
       end
     end

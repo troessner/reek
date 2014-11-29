@@ -36,7 +36,7 @@ describe ClassVariable do
         expect(@smells.length).to eq(1)
       end
       it 'records the variable name' do
-        expect(@smells[0].smell[ClassVariable::VARIABLE_KEY]).to eq(@class_variable)
+        expect(@smells[0].parameters[ClassVariable::VARIABLE_KEY]).to eq(@class_variable)
       end
     end
 
@@ -92,9 +92,9 @@ EOS
     ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
     @warning = @detector.examine_context(ctx)[0]
     expect(@warning.source).to eq(@source_name)
-    expect(@warning.smell_class).to eq(ClassVariable::SMELL_CLASS)
-    expect(@warning.subclass).to eq(ClassVariable::SMELL_SUBCLASS)
-    expect(@warning.smell[ClassVariable::VARIABLE_KEY]).to eq(@class_variable)
+    expect(@warning.smell_class).to eq(ClassVariable.smell_class)
+    expect(@warning.smell_sub_class).to eq(ClassVariable.smell_sub_class)
+    expect(@warning.parameters[ClassVariable::VARIABLE_KEY]).to eq(@class_variable)
     expect(@warning.lines).to eq([2])
   end
 end

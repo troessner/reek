@@ -39,4 +39,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency('cucumber', ['~> 1.3'])
   s.add_development_dependency('rspec', ['~> 3.0'])
   s.add_development_dependency('yard', ['>= 0.8.7', '< 0.9'])
+  s.add_development_dependency('factory_girl', ['~> 4.0'])
 end

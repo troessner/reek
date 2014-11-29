@@ -9,21 +9,15 @@ module Reek
     # +NestedIterators+ reports failing methods only once.
     #
     class NestedIterators < SmellDetector
-      SMELL_CLASS = name.split(/::/)[-1]
-      SMELL_SUBCLASS = SMELL_CLASS
-      # SMELL: should be a subclass of UnnecessaryComplexity
       NESTING_DEPTH_KEY = 'depth'
-
       # The name of the config field that sets the maximum depth
       # of nested iterators to be permitted within any single method.
       MAX_ALLOWED_NESTING_KEY = 'max_allowed_nesting'
-
       DEFAULT_MAX_ALLOWED_NESTING = 1
 
       # The name of the config field that sets the names of any
       # methods for which nesting should not be considered
       IGNORE_ITERATORS_KEY = 'ignore_iterators'
-
       DEFAULT_IGNORE_ITERATORS = []
 
       def self.default_config
@@ -42,11 +36,11 @@ module Reek
         exp, depth = *find_deepest_iterator(ctx)
 
         if depth && depth > value(MAX_ALLOWED_NESTING_KEY, ctx, DEFAULT_MAX_ALLOWED_NESTING)
-          smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [exp.line],
-                                   "contains iterators nested #{depth} deep",
-                                   @source, SMELL_SUBCLASS,
-                                   NESTING_DEPTH_KEY => depth)
-          [smell]
+          [SmellWarning.new(self,
+                            context: ctx.full_name,
+                            lines: [exp.line],
+                            message: "contains iterators nested #{depth} deep",
+                            parameters: { NESTING_DEPTH_KEY => depth })]
         else
           []
         end

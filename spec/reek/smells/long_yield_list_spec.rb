@@ -50,7 +50,7 @@ EOS
     it_should_behave_like 'common fields set correctly'
 
     it 'reports the correct values' do
-      expect(@warning.smell['parameter_count']).to eq(4)
+      expect(@warning.parameters[LongYieldList::PARAMETER_COUNT_KEY]).to eq(4)
       expect(@warning.lines).to eq([3])
     end
   end

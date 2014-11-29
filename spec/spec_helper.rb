@@ -2,6 +2,15 @@ require 'reek/spec'
 require 'reek/source/ast_node_class_map'
 
 require 'matchers/smell_of_matcher'
+require 'factory_girl'
+
+begin
+  require 'pry'
+  require 'byebug'
+rescue LoadError
+end
+
+FactoryGirl.find_definitions
 
 SAMPLES_DIR = 'spec/samples'
 
@@ -19,4 +28,5 @@ end
 RSpec.configure do |config|
   config.filter_run :focus
   config.run_all_when_everything_filtered = true
+  config.include FactoryGirl::Syntax::Methods
 end

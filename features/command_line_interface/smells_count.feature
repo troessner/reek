@@ -10,8 +10,8 @@ Feature: Reports total number of code smells
     """
     spec/samples/not_quite_masked/dirty.rb -- 5 warnings:
       [5]:Dirty has the variable name '@s' (UncommunicativeVariableName)
-      [4, 6]:Dirty#a calls @s.title twice (DuplicateMethodCall)
-      [4, 6]:Dirty#a calls puts(@s.title) twice (DuplicateMethodCall)
+      [4, 6]:Dirty#a calls @s.title 2 times (DuplicateMethodCall)
+      [4, 6]:Dirty#a calls puts(@s.title) 2 times (DuplicateMethodCall)
       [5]:Dirty#a contains iterators nested 2 deep (NestedIterators)
       [3]:Dirty#a has the name 'a' (UncommunicativeMethodName)
     """
@@ -23,15 +23,15 @@ Feature: Reports total number of code smells
     """
     spec/samples/two_smelly_files/dirty_one.rb -- 6 warnings:
       [5]:Dirty has the variable name '@s' (UncommunicativeVariableName)
-      [4, 6]:Dirty#a calls @s.title twice (DuplicateMethodCall)
-      [4, 6]:Dirty#a calls puts(@s.title) twice (DuplicateMethodCall)
+      [4, 6]:Dirty#a calls @s.title 2 times (DuplicateMethodCall)
+      [4, 6]:Dirty#a calls puts(@s.title) 2 times (DuplicateMethodCall)
       [5]:Dirty#a contains iterators nested 2 deep (NestedIterators)
       [3]:Dirty#a has the name 'a' (UncommunicativeMethodName)
       [5]:Dirty#a has the variable name 'x' (UncommunicativeVariableName)
     spec/samples/two_smelly_files/dirty_two.rb -- 6 warnings:
       [5]:Dirty has the variable name '@s' (UncommunicativeVariableName)
-      [4, 6]:Dirty#a calls @s.title twice (DuplicateMethodCall)
-      [4, 6]:Dirty#a calls puts(@s.title) twice (DuplicateMethodCall)
+      [4, 6]:Dirty#a calls @s.title 2 times (DuplicateMethodCall)
+      [4, 6]:Dirty#a calls puts(@s.title) 2 times (DuplicateMethodCall)
       [5]:Dirty#a contains iterators nested 2 deep (NestedIterators)
       [3]:Dirty#a has the name 'a' (UncommunicativeMethodName)
       [5]:Dirty#a has the variable name 'x' (UncommunicativeVariableName)

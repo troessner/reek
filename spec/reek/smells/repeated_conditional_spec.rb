@@ -75,32 +75,6 @@ EOS
     it 'knows there are three copies' do
       expect(@conds.values[1].length).to eq(3)
     end
-
-    context 'looking at the YAML' do
-      before :each do
-        @detector.examine(@ctx)
-        warning = @detector.smells_found.to_a[0]   # SMELL: too cumbersome!
-        @yaml = warning.to_yaml
-      end
-      it 'reports the source' do
-        expect(@yaml).to match(/source:\s*#{@source_name}/)
-      end
-      it 'reports the class' do
-        expect(@yaml).to match(/class:\s*SimulatedPolymorphism/)
-      end
-      it 'reports the subclass' do
-        expect(@yaml).to match(/subclass:\s*RepeatedConditional/)
-      end
-      it 'reports the expression' do
-        expect(@yaml).to match(/expression:\s*(! )?['"]?#{@cond}["']?/)
-      end
-      it 'reports the number of occurrences' do
-        expect(@yaml).to match(/occurrences:\s*3/)
-      end
-      it 'reports the referring lines' do
-        expect(@yaml).to match(/lines:\s*- 4\s*- 7\s*- 12/)
-      end
-    end
   end
 
   context 'with a matching if and case' do

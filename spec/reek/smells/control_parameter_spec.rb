@@ -285,7 +285,7 @@ describe ControlParameter do
     it_should_behave_like 'common fields set correctly'
 
     it 'has the correct fields' do
-      expect(@warning.smell[ControlParameter::PARAMETER_KEY]).to eq('arg')
+      expect(@warning.parameters[ControlParameter::PARAMETER_KEY]).to eq('arg')
       expect(@warning.lines).to eq([3, 5])
     end
   end

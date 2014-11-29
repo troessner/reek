@@ -4,6 +4,10 @@ require 'reek/smell_warning'
 include Reek
 
 describe SmellWarning do
+  let(:duplication_detector)      { build(:smell_detector, smell_class: 'Duplication')}
+  let(:feature_envy_detector)     { build(:smell_detector, smell_class: 'FeatureEnvy')}
+  let(:utility_function_detector) { build(:smell_detector, smell_class: 'UtilityFunction')}
+
   context 'sort order' do
     shared_examples_for 'first sorts ahead of second' do
       it 'hash differently' do
@@ -23,8 +27,8 @@ describe SmellWarning do
 
     context 'smells differing only by detector' do
       before :each do
-        @first = SmellWarning.new('Duplication', 'self', 27, 'self', false)
-        @second = SmellWarning.new('FeatureEnvy', 'self', 27, 'self', true)
+        @first  = build(:smell_warning, smell_detector: duplication_detector)
+        @second = build(:smell_warning, smell_detector: feature_envy_detector)
       end
 
       it_should_behave_like 'first sorts ahead of second'
@@ -32,8 +36,8 @@ describe SmellWarning do
 
     context 'smells differing only by context' do
       before :each do
-        @first = SmellWarning.new('FeatureEnvy', 'first', 27, 'self', true)
-        @second = SmellWarning.new('FeatureEnvy', 'second', 27, 'self', false)
+        @first  = build(:smell_warning, smell_detector: duplication_detector, context: 'first')
+        @second = build(:smell_warning, smell_detector: duplication_detector, context: 'second')
       end
 
       it_should_behave_like 'first sorts ahead of second'
@@ -41,8 +45,8 @@ describe SmellWarning do
 
     context 'smells differing only by message' do
       before :each do
-        @first = SmellWarning.new('FeatureEnvy', 'context', 27, 'first', true)
-        @second = SmellWarning.new('FeatureEnvy', 'context', 27, 'second', false)
+        @first  = build(:smell_warning, smell_detector: duplication_detector, context: 'ctx', message: 'first message')
+        @second = build(:smell_warning, smell_detector: duplication_detector, context: 'ctx', message: 'second message')
       end
 
       it_should_behave_like 'first sorts ahead of second'
@@ -50,8 +54,8 @@ describe SmellWarning do
 
     context 'message takes precedence over smell name' do
       before :each do
-        @first = SmellWarning.new('UtilityFunction', 'context', 27, 'first', true)
-        @second = SmellWarning.new('FeatureEnvy', 'context', 27, 'second', false)
+        @first  = build(:smell_warning, smell_detector: utility_function_detector, message: 'first message')
+        @second = build(:smell_warning, smell_detector: feature_envy_detector,     message: 'second message')
       end
 
       it_should_behave_like 'first sorts ahead of second'
@@ -59,8 +63,14 @@ describe SmellWarning do
 
     context 'smells differing everywhere' do
       before :each do
-        @first = SmellWarning.new('UncommunicativeName', 'Dirty', 27, "has the variable name '@s'", true)
-        @second = SmellWarning.new('Duplication', 'Dirty#a', 27, 'calls @s.title twice', false)
+        uncommunicative_name_detector = build(:smell_detector, smell_class: 'UncommunicativeName', source: true)
+        duplication_detector =          build(:smell_detector, smell_class: 'Duplication',         source: false)
+        @first  = build(:smell_warning, smell_detector: uncommunicative_name_detector,
+                                        context: 'Dirty',
+                                        message: "has the variable name '@s'")
+        @second = build(:smell_warning, smell_detector: duplication_detector,
+                                        context: 'Dirty#a',
+                                        message: 'calls @s.title twice')
       end
 
       it_should_behave_like 'first sorts ahead of second'
@@ -96,17 +106,18 @@ describe SmellWarning do
     context 'with all details specified' do
       before :each do
         @source = 'a/ruby/source/file.rb'
-        @subclass = 'TooManyParties'
+        @sub_class = 'FeatureEnvy'
         @parameters = { 'one' => 34, 'two' => 'second' }
-        @warning = SmellWarning.new(@class, @context_name, @lines, @message,
-                                    @source, @subclass, @parameters)
+        @detector = Reek::Smells::FeatureEnvy.new @source
+        @warning = SmellWarning.new(@detector, context: @context_name, lines: @lines, message: @message,
+                                    parameters: @parameters)
         @yaml = @warning.to_yaml
       end
 
       it_should_behave_like 'common fields'
 
-      it 'includes the subclass' do
-        expect(@yaml).to match(/subclass:\s*#{@subclass}/)
+      it 'includes the smell sub class' do
+        expect(@yaml).to match(/smell_sub_class:\s*#{@sub_class}/)
       end
       it 'includes the source' do
         expect(@yaml).to match(/source:\s*#{@source}/)
@@ -115,25 +126,6 @@ describe SmellWarning do
         @parameters.each do |key, value|
           expect(@yaml).to match(/#{key}:\s*#{value}/)
         end
-      end
-    end
-
-    context 'with all defaults used' do
-      before :each do
-        warning = SmellWarning.new(@class, @context_name, @lines, @message)
-        @yaml = warning.to_yaml
-      end
-
-      it_should_behave_like 'common fields'
-
-      it 'includes no subclass' do
-        expect(@yaml).to match(/subclass: ["']{2}/)
-      end
-      it 'includes no source' do
-        expect(@yaml).to match(/source: ["']{2}/)
-      end
-      it 'includes empty parameters' do
-        expect(@yaml).not_to match(/parameter/)
       end
     end
   end
