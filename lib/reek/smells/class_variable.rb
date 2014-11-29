@@ -1,4 +1,4 @@
-require 'set'
+  require 'set'
 require 'reek/smells/smell_detector'
 require 'reek/smell_warning'
 
@@ -13,12 +13,11 @@ module Reek
     # the context of the test includes all global state).
     #
     class ClassVariable < SmellDetector
-      SMELL_CLASS = name.split(/::/)[-1]
-      SMELL_SUBCLASS = SMELL_CLASS
+      def message_template
+        "declares the class variable '%{name}'"
+      end
 
-      VARIABLE_KEY = 'variable'
-
-      def self.contexts      # :nodoc:
+      def self.contexts # :nodoc:
         [:class, :module]
       end
 
@@ -28,13 +27,8 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       def examine_context(ctx)
-        class_variables_in(ctx.exp).map do |attr_name, lines|
-          attr_name = attr_name.to_s
-          smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, lines,
-                                   "declares the class variable #{attr_name}",
-                                   @source, SMELL_SUBCLASS,
-                                   VARIABLE_KEY => attr_name)
-          smell
+        class_variables_in(ctx.exp).map do |variable, lines|
+          SmellWarning.new self, context: ctx.full_name, lines: lines, parameters: { 'name' => variable.to_s }
         end
       end
 

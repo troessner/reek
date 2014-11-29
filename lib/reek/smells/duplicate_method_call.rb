@@ -17,24 +17,24 @@ module Reek
     #   end
     #
     class DuplicateMethodCall < SmellDetector
-      SMELL_CLASS = 'Duplication'
-      SMELL_SUBCLASS = name.split(/::/)[-1]
-
-      CALL_KEY = 'call'
-      OCCURRENCES_KEY = 'occurrences'
-
       # The name of the config field that sets the maximum number of
       # identical calls to be permitted within any single method.
       MAX_ALLOWED_CALLS_KEY = 'max_calls'
-
       DEFAULT_MAX_CALLS = 1
 
       # The name of the config field that sets the names of any
       # methods for which identical calls should be to be permitted
       # within any single method.
       ALLOW_CALLS_KEY = 'allow_calls'
-
       DEFAULT_ALLOW_CALLS = []
+
+      def smell_class_name
+        'Duplication'
+      end
+
+      def message_template
+        "calls '%{name}' %{count} times"
+      end
 
       def self.default_config
         super.merge(
@@ -53,10 +53,10 @@ module Reek
         allow_calls = value(ALLOW_CALLS_KEY, ctx, DEFAULT_ALLOW_CALLS)
 
         CallCollector.new(ctx, max_allowed_calls, allow_calls).smelly_calls.map do |found_call|
-          SmellWarning.new(SMELL_CLASS, ctx.full_name, found_call.lines,
-                           found_call.smell_message,
-                           @source, SMELL_SUBCLASS,
-                           CALL_KEY => found_call.call, OCCURRENCES_KEY => found_call.occurs)
+          SmellWarning.new self,
+                           context: ctx.full_name,
+                           lines: [found_call.lines],
+                           parameters: { 'name' => found_call.call, 'count' => found_call.occurs }
         end
       end
 
@@ -69,11 +69,6 @@ module Reek
 
         def record(occurence)
           @occurences.push occurence
-        end
-
-        def smell_message
-          multiple = occurs == 2 ? 'twice' : "#{occurs} times"
-          "calls #{call} #{multiple}"
         end
 
         def call

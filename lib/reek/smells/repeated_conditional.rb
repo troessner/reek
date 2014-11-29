@@ -21,19 +21,24 @@ module Reek
     # testing the same value throughout a single class.
     #
     class RepeatedConditional < SmellDetector
-      SMELL_CLASS = 'SimulatedPolymorphism'
-      SMELL_SUBCLASS = name.split(/::/)[-1]
+      # The name of the config field that sets the maximum number of
+      # identical conditionals permitted within any single class.
+      MAX_IDENTICAL_IFS_KEY = 'max_ifs'
+      DEFAULT_MAX_IFS = 2
+
+      def smell_class_name
+        'SimulatedPolymorphism'
+      end
+
+      def message_template
+        "tests #{name} at least #{count} times"
+      end
+
       BLOCK_GIVEN_CONDITION = AST::Node.new(:send, [nil, :block_given?])
 
       def self.contexts      # :nodoc:
         [:class]
       end
-
-      # The name of the config field that sets the maximum number of
-      # identical conditionals permitted within any single class.
-      MAX_IDENTICAL_IFS_KEY = 'max_ifs'
-
-      DEFAULT_MAX_IFS = 2
 
       def self.default_config
         super.merge(MAX_IDENTICAL_IFS_KEY => DEFAULT_MAX_IFS)
@@ -50,11 +55,8 @@ module Reek
           lines.length > @max_identical_ifs
         end.map do |key, lines|
           occurs = lines.length
-          expr = key.format_ruby
-          SmellWarning.new(SMELL_CLASS, ctx.full_name, lines,
-                           "tests #{expr} at least #{occurs} times",
-                           @source, SMELL_SUBCLASS,
-                           'expression' => expr, 'occurrences' => occurs)
+          expression = key.format_ruby
+          SmellWarning.new self, context: ctx.full_name, lines: lines, parameters: { 'name' => expression, 'count' => occurs }
         end
       end
 

@@ -23,8 +23,8 @@ describe SmellWarning do
 
     context 'smells differing only by detector' do
       before :each do
-        @first = SmellWarning.new('Duplication', 'self', 27, 'self', false)
-        @second = SmellWarning.new('FeatureEnvy', 'self', 27, 'self', true)
+        @first  = build(:smell_warning, class_name: 'Duplication')
+        @second = build(:smell_warning, class_name: 'FeatureEnvy')
       end
 
       it_should_behave_like 'first sorts ahead of second'
@@ -32,8 +32,8 @@ describe SmellWarning do
 
     context 'smells differing only by context' do
       before :each do
-        @first = SmellWarning.new('FeatureEnvy', 'first', 27, 'self', true)
-        @second = SmellWarning.new('FeatureEnvy', 'second', 27, 'self', false)
+        @first  = build(:smell_warning, class_name: 'Duplication', context: 'first')
+        @second = build(:smell_warning, class_name: 'Duplication', context: 'second')
       end
 
       it_should_behave_like 'first sorts ahead of second'
@@ -41,8 +41,8 @@ describe SmellWarning do
 
     context 'smells differing only by message' do
       before :each do
-        @first = SmellWarning.new('FeatureEnvy', 'context', 27, 'first', true)
-        @second = SmellWarning.new('FeatureEnvy', 'context', 27, 'second', false)
+        @first  = build(:smell_warning, class_name: 'Duplication', context: 'ctx', message: 'first message')
+        @second = build(:smell_warning, class_name: 'Duplication', context: 'ctx', message: 'second message')
       end
 
       it_should_behave_like 'first sorts ahead of second'
@@ -50,8 +50,8 @@ describe SmellWarning do
 
     context 'message takes precedence over smell name' do
       before :each do
-        @first = SmellWarning.new('UtilityFunction', 'context', 27, 'first', true)
-        @second = SmellWarning.new('FeatureEnvy', 'context', 27, 'second', false)
+        @first  = build(:smell_warning, class_name: 'UtilityFunction', message: 'first message')
+        @second = build(:smell_warning, class_name: 'FeatureEnvy',     message: 'second message')
       end
 
       it_should_behave_like 'first sorts ahead of second'
@@ -59,8 +59,14 @@ describe SmellWarning do
 
     context 'smells differing everywhere' do
       before :each do
-        @first = SmellWarning.new('UncommunicativeName', 'Dirty', 27, "has the variable name '@s'", true)
-        @second = SmellWarning.new('Duplication', 'Dirty#a', 27, 'calls @s.title twice', false)
+        @first  = build(:smell_warning, class_name: 'UncommunicativeName',
+                                        context: 'Dirty',   
+                                        message: "has the variable name '@s'",
+                                        source: true)
+        @second = build(:smell_warning, class_name: 'Duplication',
+                                        context: 'Dirty#a',
+                                        message: 'calls @s.title twice',
+                                        source: false)
       end
 
       it_should_behave_like 'first sorts ahead of second'

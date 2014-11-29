@@ -41,9 +41,13 @@ module Reek
     # the source code.
     #
     class ControlParameter < SmellDetector
-      SMELL_CLASS = 'ControlCouple'
-      SMELL_SUBCLASS = name.split(/::/)[-1]
-      PARAMETER_KEY = 'parameter'
+      def smell_class_name
+        'ControlCouple'
+      end
+
+      def message_template
+        "is controlled by argument '%{name}'"
+      end
 
       #
       # Checks whether the given method chooses its execution path
@@ -53,10 +57,7 @@ module Reek
       #
       def examine_context(ctx)
         ControlParameterCollector.new(ctx).control_parameters.map do |control_parameter|
-          SmellWarning.new(SMELL_CLASS, ctx.full_name, control_parameter.lines,
-                           control_parameter.smell_message,
-                           @source, SMELL_SUBCLASS,
-                           PARAMETER_KEY => control_parameter.name)
+          SmellWarning.new self, context: ctx.full_name, lines: control_parameter.lines, parameters: { 'name' => control_parameter.name.to_s }
         end
       end
 
@@ -71,10 +72,6 @@ module Reek
 
         def smells?
           @occurences.any?
-        end
-
-        def smell_message
-          "is controlled by argument #{name}"
         end
 
         def lines

@@ -34,7 +34,7 @@ describe UncommunicativeModuleName do
       smells = @detector.examine_context(ctx)
       expect(smells.length).to eq(1)
       expect(smells[0].smell_class).to eq(UncommunicativeModuleName::SMELL_CLASS)
-      expect(smells[0].subclass).to eq(UncommunicativeModuleName::SMELL_SUBCLASS)
+      expect(smells[0].smell_sub_class).to eq(UncommunicativeModuleName::SMELL_SUBCLASS)
       expect(smells[0].smell[UncommunicativeModuleName::MODULE_NAME_KEY]).to eq('X')
       expect(smells[0].context).to match(/#{smells[0].smell[UncommunicativeModuleName::MODULE_NAME_KEY]}/)
     end

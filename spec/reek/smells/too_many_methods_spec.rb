@@ -46,7 +46,7 @@ EOS
       ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
       smells = @detector.examine_context(ctx)
       expect(smells.length).to eq(1)
-      expect(smells[0].subclass).to eq(TooManyMethods::SMELL_SUBCLASS)
+      expect(smells[0].smell_sub_class).to eq(TooManyMethods::SMELL_SUBCLASS)
       expect(smells[0].smell[TooManyMethods::METHOD_COUNT_KEY]).to eq(26)
     end
   end
@@ -83,7 +83,7 @@ EOS
     @warning = @detector.examine_context(ctx)[0]
     expect(@warning.source).to eq(@source_name)
     expect(@warning.smell_class).to eq('LargeClass')
-    expect(@warning.subclass).to eq(TooManyMethods::SMELL_SUBCLASS)
+    expect(@warning.smell_sub_class).to eq(TooManyMethods::SMELL_SUBCLASS)
     expect(@warning.smell[TooManyMethods::METHOD_COUNT_KEY]).to eq(26)
     expect(@warning.lines).to eq([1])
   end

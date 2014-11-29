@@ -41,21 +41,21 @@ describe LongParameterList do
   describe 'for methods with too many parameters' do
     it 'should report 4 parameters' do
       src = 'def simple(arga, argb, argc, argd) f(3);true end'
-      expect(src).to smell_of(LongParameterList, LongParameterList::PARAMETER_COUNT_KEY => 4)
+      expect(src).to smell_of(LongParameterList, 'count' => 4)
     end
     it 'should report 8 parameters' do
       src = 'def simple(arga, argb, argc, argd,arge, argf, argg, argh) f(3);true end'
-      expect(src).to smell_of(LongParameterList, LongParameterList::PARAMETER_COUNT_KEY => 8)
+      expect(src).to smell_of(LongParameterList, 'count' => 8)
     end
 
     describe 'and default values' do
       it 'should report 3 with 1 defaulted' do
         src = 'def simple(polly, queue, yep, zero=nil) f(3);false end'
-        expect(src).to smell_of(LongParameterList, LongParameterList::PARAMETER_COUNT_KEY => 4)
+        expect(src).to smell_of(LongParameterList, 'count' => 4)
       end
       it 'should report with 3 defaulted' do
         src = 'def simple(aarg, polly=2, yep=:truth, zero=nil) f(3);false end'
-        expect(src).to smell_of(LongParameterList, LongParameterList::PARAMETER_COUNT_KEY => 4)
+        expect(src).to smell_of(LongParameterList, 'count' => 4)
       end
     end
   end
@@ -85,7 +85,7 @@ EOS
     it_should_behave_like 'common fields set correctly'
 
     it 'reports the number of parameters' do
-      expect(@warning.smell[LongParameterList::PARAMETER_COUNT_KEY]).to eq(4)
+      expect(@warning.smell['count']).to eq(4)
     end
     it 'reports the line number of the method' do
       expect(@warning.lines).to eq([1])

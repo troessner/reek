@@ -17,12 +17,11 @@ module Reek
     # TODO: Catch attributes declared "by hand"
     #
     class Attribute < SmellDetector
-      SMELL_CLASS = name.split(/::/)[-1]
-      SMELL_SUBCLASS = SMELL_CLASS
+      def message_template
+        "declares the attribute '%{name}'"
+      end
 
-      ATTRIBUTE_KEY = 'attribute'
-
-      def self.contexts      # :nodoc:
+      def self.contexts # :nodoc:
         [:class, :module]
       end
 
@@ -36,12 +35,8 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       def examine_context(ctx)
-        attributes_in(ctx).map do |attr, line|
-          smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [line],
-                                   "declares the attribute #{attr}",
-                                   @source, SMELL_SUBCLASS,
-                                   ATTRIBUTE_KEY => attr.to_s)
-          smell
+        attributes_in(ctx).map do |attribute, line|
+          SmellWarning.new self, context: ctx.full_name, lines: [line], parameters: { 'name' => attribute.to_s }
         end
       end
 

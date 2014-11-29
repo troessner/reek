@@ -259,14 +259,17 @@ describe TooManyStatements do
       expect(ctx).to receive(:config_for).with(TooManyStatements).and_return({})
       @smells = @detector.examine_context(ctx)
     end
+
     it 'reports only 1 smell' do
       expect(@smells.length).to eq(1)
     end
+
     it 'reports the number of statements' do
-      expect(@smells[0].smell[TooManyStatements::STATEMENT_COUNT_KEY]).to eq(@num_statements)
+      expect(@smells[0].parameters[:count]).to eq(@num_statements)
     end
+
     it 'reports the correct subclass' do
-      expect(@smells[0].subclass).to eq(TooManyStatements::SMELL_SUBCLASS)
+      expect(@smells[0].smell_sub_class).to eq(TooManyStatements.smell_sub_class)
     end
   end
 end

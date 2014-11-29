@@ -11,15 +11,18 @@ module Reek
     # configurable number of instance variables.
     #
     class TooManyInstanceVariables < SmellDetector
-      SMELL_CLASS = 'LargeClass'
-      SMELL_SUBCLASS = name.split(/::/)[-1]
-      IVAR_COUNT_KEY = 'ivar_count'
-
       # The name of the config field that sets the maximum number of instance
       # variables permitted in a class.
       MAX_ALLOWED_IVARS_KEY = 'max_instance_variables'
-
       DEFAULT_MAX_IVARS = 9
+
+      def smell_class_name
+        'LargeClass'
+      end
+
+      def message_template
+        "has at least %{count} instance variables"
+      end
 
       def self.contexts      # :nodoc:
         [:class]
@@ -47,11 +50,7 @@ module Reek
       def check_num_ivars(ctx)  # :nodoc:
         count = ctx.local_nodes(:ivasgn).map { |ivasgn| ivasgn[1] }.uniq.length
         return [] if count <= @max_allowed_ivars
-        smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [ctx.exp.line],
-                                 "has at least #{count} instance variables",
-                                 @source, SMELL_SUBCLASS,
-                                 IVAR_COUNT_KEY => count)
-        [smell]
+        [ SmellWarning.new( self, context: ctx.full_name, lines: [ctx.exp.line], parameters: { 'count' => count } ) ]
       end
     end
   end

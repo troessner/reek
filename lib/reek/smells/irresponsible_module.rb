@@ -9,10 +9,9 @@ module Reek
     # with a brief comment outlining its responsibilities.
     #
     class IrresponsibleModule < SmellDetector
-      SMELL_CLASS = name.split(/::/)[-1]
-      SMELL_SUBCLASS = SMELL_CLASS
-
-      MODULE_NAME_KEY = 'module_name'
+      def message_template
+        'has no descriptive comment'
+      end
 
       def self.contexts      # :nodoc:
         [:class]
@@ -30,10 +29,7 @@ module Reek
       def examine_context(ctx)
         comment = Source::CodeComment.new(ctx.exp.comments)
         return [] if self.class.descriptive[ctx.full_name] ||= comment.descriptive?
-        smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [ctx.exp.line],
-                                 'has no descriptive comment',
-                                 @source, SMELL_SUBCLASS, MODULE_NAME_KEY => ctx.exp.text_name)
-        [smell]
+        [ SmellWarning.new( self, context: ctx.full_name, lines: [ctx.exp.line] ) ]
       end
     end
   end
