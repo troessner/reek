@@ -1,3 +1,8 @@
+== 1.5.0
+
+* (mvz) Parse with the parse gem
+* (mvz) Add ModuleInitialize smell
+
 == 1.4.0
 
 * (Gilles Leblanc) Corrects UnusedParameter with keyword arguments with splat
