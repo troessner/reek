@@ -24,7 +24,7 @@ module Reek
       end
 
       def local_nodes(type, &blk)
-        each_node(type, [:class, :module], &blk)
+        each_node(type, [:casgn, :class, :module], &blk)
       end
 
       def each_node(type, ignoring, &blk)

@@ -16,5 +16,31 @@ describe ModuleInitialize do
         expect(src).to smell_of(ModuleInitialize)
       end
     end
+
+    context 'with method named initialize in a nested class' do
+      it 'does not smell' do
+        src = <<-EOF
+          module A
+            class B
+              def initialize; end
+            end
+          end
+        EOF
+        expect(src).not_to smell_of(ModuleInitialize)
+      end
+    end
+
+    context 'with method named initialize in a nested struct' do
+      it 'does not smell' do
+        src = <<-EOF
+          module A
+            B = Struct.new(:c) do
+              def initialize; end
+            end
+          end
+        EOF
+        expect(src).not_to smell_of(ModuleInitialize)
+      end
+    end
   end
 end
