@@ -1,3 +1,6 @@
+* (chastell) Add keyword arguments support after switching to 'parser'
+* (mvz) Handle nil-block in iterators
+
 == 1.5.0
 
 * (mvz) Parse with the parse gem
