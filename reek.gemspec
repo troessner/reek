@@ -30,8 +30,8 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 1.9.3'
   s.summary = 'Code smell detector for Ruby'
 
-  s.add_runtime_dependency('parser', ['~> 2.2.0.pre.7'])
-  s.add_runtime_dependency('unparser', ['~> 0.1.16'])
+  s.add_runtime_dependency('parser', ['~> 2.1.9'])
+  s.add_runtime_dependency('unparser', ['~> 0.1.14'])
   s.add_runtime_dependency('rainbow', ['>= 1.99', '< 3.0'])
 
   s.add_development_dependency('bundler', ['~> 1.1'])
