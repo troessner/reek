@@ -40,6 +40,11 @@ module Reek
         include ArgNodeBase
       end
 
+      # Utility methods for :kwarg nodes.
+      module KwargNode
+        include ArgNodeBase
+      end
+
       # Utility methods for :optarg nodes.
       module OptargNode
         include ArgNodeBase
