@@ -44,6 +44,15 @@ EOS
     expect(src).not_to smell_of(NestedIterators)
   end
 
+  it 'detects an iterator with an empty block' do
+    src = <<-EOS
+      def foo
+        bar { baz { } }
+      end
+    EOS
+    expect(src).to smell_of(NestedIterators, {})
+  end
+
   it 'should report nested iterators only once per method' do
     src = <<EOS
 def bad(fred)

@@ -62,6 +62,7 @@ module Reek
       end
 
       def find_iters(exp, depth)
+        return [] unless exp
         exp.find_nodes([:block]).flat_map do |elem|
           find_iters_for_iter_node(elem, depth)
         end
