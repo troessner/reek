@@ -27,11 +27,9 @@ EOS
   def third(pa, pb) pa - pb + @fred; end
 end
 EOS
-      ctx = CodeContext.new(nil, @src.to_reek_source.syntax_tree)
+      ctx = ModuleContext.new(nil, @src.to_reek_source.syntax_tree)
       detector = DataClump.new('newt')
       @smells = detector.examine_context(ctx)
-      @warning = @smells[0]   # SMELL: too cumbersome!
-      @yaml = @warning.to_yaml
     end
     it 'records only the one smell' do
       expect(@smells.length).to eq(1)
@@ -138,6 +136,18 @@ EOS
         def fa(p1, p2, p3) end
         def fb(p1, p3, p2) end
         def fc(p4, p1, p2) end
+      end
+    EOS
+    expect(src).to smell_of(DataClump,
+                            DataClump::PARAMETERS_KEY => %w(p1 p2))
+  end
+
+  it 'ignores anonymous parameters' do
+    src = <<-EOS
+      #{@context} Smelly
+        def fa(p1, p2, *) end
+        def fb(p1, p2, *) end
+        def fc(p1, p2, *) end
       end
     EOS
     expect(src).to smell_of(DataClump,

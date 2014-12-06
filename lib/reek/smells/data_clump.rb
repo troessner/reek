@@ -118,11 +118,10 @@ module Reek
   class CandidateMethod
     def initialize(defn_node)
       @defn = defn_node
-      @params = defn_node.arg_names.clone.sort { |first, second| first.to_s <=> second.to_s }
     end
 
     def arg_names
-      @params
+      @arg_names ||= @defn.arg_names.compact.sort
     end
 
     def line

@@ -17,7 +17,7 @@ describe PrimaDonnaMethod do
   describe 'the right smell' do
     let(:detector) { PrimaDonnaMethod.new('dummy_source') }
     let(:src)      { 'class C; def m!; end; end' }
-    let(:ctx)      { CodeContext.new(nil, src.to_reek_source.syntax_tree) }
+    let(:ctx)      { ModuleContext.new(nil, src.to_reek_source.syntax_tree) }
 
     it 'should be reported' do
       smells = detector.examine_context(ctx)

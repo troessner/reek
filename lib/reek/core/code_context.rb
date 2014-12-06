@@ -19,10 +19,6 @@ module Reek
         @exp.name
       end
 
-      def node_instance_methods
-        local_nodes(:def)
-      end
-
       def local_nodes(type, &blk)
         each_node(type, [:casgn, :class, :module], &blk)
       end
