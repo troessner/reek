@@ -19,10 +19,6 @@ module Reek
       MAX_ALLOWED_PARAMS_KEY = 'max_params'
       DEFAULT_MAX_ALLOWED_PARAMS = 3
 
-      def smell_class
-        'LongParameterList'
-      end
-
       def self.default_config
         super.merge(
           MAX_ALLOWED_PARAMS_KEY => DEFAULT_MAX_ALLOWED_PARAMS,

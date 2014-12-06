@@ -43,7 +43,7 @@ module Reek
     class ControlParameter < SmellDetector
       PARAMETER_KEY = 'parameter'
 
-      def smell_class
+      def self.smell_class
         'ControlCouple'
       end
 

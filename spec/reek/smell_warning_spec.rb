@@ -4,9 +4,9 @@ require 'reek/smell_warning'
 include Reek
 
 describe SmellWarning do
-  let(:duplication_detector)      { build(:smell_detector, smell_class: 'Duplication')}
-  let(:feature_envy_detector)     { build(:smell_detector, smell_class: 'FeatureEnvy')}
-  let(:utility_function_detector) { build(:smell_detector, smell_class: 'UtilityFunction')}
+  let(:duplication_detector)      { build(:smell_detector, smell_sub_class: 'DuplicateMethodCall')}
+  let(:feature_envy_detector)     { build(:smell_detector, smell_sub_class: 'FeatureEnvy')}
+  let(:utility_function_detector) { build(:smell_detector, smell_sub_class: 'UtilityFunction')}
 
   context 'sort order' do
     shared_examples_for 'first sorts ahead of second' do
@@ -63,8 +63,8 @@ describe SmellWarning do
 
     context 'smells differing everywhere' do
       before :each do
-        uncommunicative_name_detector = build(:smell_detector, smell_class: 'UncommunicativeName', source: true)
-        duplication_detector =          build(:smell_detector, smell_class: 'Duplication',         source: false)
+        uncommunicative_name_detector = build(:smell_detector, smell_sub_class: 'UncommunicativeVariableName', source: true)
+        duplication_detector =          build(:smell_detector, smell_sub_class: 'DuplicateMethodCall',         source: false)
         @first  = build(:smell_warning, smell_detector: uncommunicative_name_detector,
                                         context: 'Dirty',
                                         message: "has the variable name '@s'")

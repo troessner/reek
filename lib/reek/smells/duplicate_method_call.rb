@@ -30,7 +30,7 @@ module Reek
       ALLOW_CALLS_KEY = 'allow_calls'
       DEFAULT_ALLOW_CALLS = []
 
-      def smell_class
+      def self.smell_class
         'Duplication'
       end
 

@@ -19,7 +19,7 @@ module Reek
       MAX_ALLOWED_METHODS_KEY = 'max_methods'
       DEFAULT_MAX_METHODS = 25
 
-      def smell_class
+      def self.smell_class
         'LargeClass'
       end
 

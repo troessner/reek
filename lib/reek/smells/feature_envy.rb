@@ -35,7 +35,7 @@ module Reek
       RECEIVER_KEY = 'receiver'
       REFERENCES_KEY = 'references'
 
-      def smell_class
+      def self.smell_class
         'LowCohesion'
       end
 
