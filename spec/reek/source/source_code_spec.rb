@@ -11,6 +11,18 @@ describe SourceCode do
       result = source_code.syntax_tree
       expect(result.comments).to eq "# this is\n# a comment"
     end
+
+    it 'cleanly processes empty source' do
+      source_code = SourceCode.new('', '(string)')
+      result = source_code.syntax_tree
+      expect(result).to be_nil
+    end
+
+    it 'cleanly processes empty source with comments' do
+      source_code = SourceCode.new("# this is\n# a comment\n", '(string)')
+      result = source_code.syntax_tree
+      expect(result).to be_nil
+    end
   end
 
   context 'when the parser fails' do
@@ -31,7 +43,7 @@ describe SourceCode do
       end
 
       it 'returns an empty syntax tree' do
-        expect(src.syntax_tree).to eq(s(:empty))
+        expect(src.syntax_tree).to be_nil
       end
 
       it 'records the syntax error' do

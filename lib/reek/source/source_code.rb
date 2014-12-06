@@ -13,7 +13,7 @@ module Reek
     class SourceCode
       attr_reader :desc
 
-      def initialize(code, desc, parser = Parser::Ruby21.new)
+      def initialize(code, desc, parser = Parser::Ruby21)
         @source = code
         @desc = desc
         @parser = parser
@@ -26,18 +26,13 @@ module Reek
       def syntax_tree
         @syntax_tree ||=
           begin
-            buffer = Parser::Source::Buffer.new(@desc)
-            buffer.source = @source
-
             begin
-              ast, comments = @parser.parse_with_comments(buffer)
+              ast, comments = @parser.parse_with_comments(@source, @desc)
             rescue Racc::ParseError, Parser::SyntaxError => error
               $stderr.puts "#{desc}: #{error.class.name}: #{error}"
             end
-            ast ||= AstNode.new(:empty)
-            comments ||= []
 
-            comment_map = Parser::Source::Comment.associate(ast, comments)
+            comment_map = Parser::Source::Comment.associate(ast, comments) if ast
             TreeDresser.new.dress(ast, comment_map)
           end
       end
