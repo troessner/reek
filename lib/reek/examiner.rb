@@ -31,8 +31,16 @@ module Reek
       @collector = Core::WarningCollector.new
 
       smell_classes = Core::SmellRepository.smell_classes
+
       if smell_names.any?
-        smell_classes.select! { |klass| smell_names.include? klass.smell_class_name }
+        # In reek a "smell class" is something arbitrary that does not
+        # correspond to any real class name (for instance "Duplication" is the
+        # "smell name" but the concrete detector and subclass is
+        # "DuplicateMethodCall"). When the user passes us a "smell" as CLI
+        # argument he's basically talking about a specific smell (so a
+        # "smell sub class", not a "smell class") which is why we check for
+        # the "smell_sub_class" below.
+        smell_classes.select! { |klass| smell_names.include? klass.smell_sub_class }
       end
 
       sources.each do |src|

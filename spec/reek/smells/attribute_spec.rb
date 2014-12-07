@@ -36,15 +36,19 @@ describe Attribute do
       it 'records only that attribute' do
         expect(@smells.length).to eq(1)
       end
+
       it 'reports the attribute name' do
-        expect(@smells[0].smell[Attribute::ATTRIBUTE_KEY]).to eq(@attr_name)
+        expect(@smells[0].parameters[Attribute::ATTRIBUTE_KEY]).to eq(@attr_name)
       end
+
       it 'reports the declaration line number' do
         expect(@smells[0].lines).to eq([1])
       end
+
       it 'reports the correct smell class' do
-        expect(@smells[0].smell_class).to eq(Attribute::SMELL_CLASS)
+        expect(@smells[0].smell_class).to eq(Attribute.smell_class)
       end
+
       it 'reports the context fq name' do
         expect(@smells[0].context).to eq('Fred')
       end

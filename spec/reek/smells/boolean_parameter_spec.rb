@@ -55,11 +55,10 @@ describe BooleanParameter do
       @detector.examine(ctx)
       smells = @detector.smells_found.to_a
       expect(smells.length).to eq(1)
-      expect(smells[0].smell_class).to eq(BooleanParameter::SMELL_CLASS)
-      expect(smells[0].smell[BooleanParameter::PARAMETER_KEY]).to eq('arga')
+      expect(smells[0].smell_class).to eq(BooleanParameter.smell_class)
+      expect(smells[0].parameters[BooleanParameter::PARAMETER_KEY]).to eq('arga')
       expect(smells[0].source).to eq(@source_name)
-      expect(smells[0].smell_class).to eq(BooleanParameter::SMELL_CLASS)
-      expect(smells[0].subclass).to eq(BooleanParameter::SMELL_SUBCLASS)
+      expect(smells[0].smell_sub_class).to eq(BooleanParameter.smell_sub_class)
       expect(smells[0].lines).to eq([1])
     end
   end

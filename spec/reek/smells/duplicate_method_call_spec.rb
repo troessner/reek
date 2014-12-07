@@ -30,7 +30,7 @@ EOS
     it_should_behave_like 'common fields set correctly'
 
     it 'reports the call' do
-      expect(@warning.smell[DuplicateMethodCall::CALL_KEY]).to eq('other[@thing]')
+      expect(@warning.parameters[DuplicateMethodCall::CALL_KEY]).to eq('other[@thing]')
     end
     it 'reports the correct lines' do
       expect(@warning.lines).to eq([2, 4])

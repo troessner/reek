@@ -78,7 +78,7 @@ describe UncommunicativeParameterName do
     it_should_behave_like 'common fields set correctly'
 
     it 'reports the correct values' do
-      expect(@warning.smell[UncommunicativeParameterName::PARAMETER_NAME_KEY]).to eq('bad2')
+      expect(@warning.parameters[UncommunicativeParameterName::PARAMETER_NAME_KEY]).to eq('bad2')
       expect(@warning.lines).to eq([1])
     end
   end

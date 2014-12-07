@@ -18,50 +18,34 @@ Feature: Report smells using simple YAML layout
     And it reports this yaml:
       """
       ---
-      - !ruby/object:Reek::SmellWarning
-        location:
-          lines:
-          - 4
-          - 6
-          context: Dirty#a
-          source: spec/samples/masked/dirty.rb
-        smell:
-          class: Duplication
-          occurrences: 2
-          subclass: DuplicateMethodCall
-          call: "@s.title"
-          message: calls @s.title twice
-        status:
-          is_active: true
-      - !ruby/object:Reek::SmellWarning
-        location:
-          lines:
-          - 5
-          - 7
-          context: Dirty#a
-          source: spec/samples/masked/dirty.rb
-        smell:
-          class: Duplication
-          occurrences: 2
-          subclass: DuplicateMethodCall
-          call: puts(@s.title)
-          message: calls puts(@s.title) twice
-        status:
-          is_active: true
-      - !ruby/object:Reek::SmellWarning
-        location:
-          lines:
-          - 5
-          context: Dirty#a
-          source: spec/samples/masked/dirty.rb
-        smell:
-          class: NestedIterators
-          depth: 2
-          subclass: NestedIterators
-          message: contains iterators nested 2 deep
-        status:
-          is_active: true
-
+      - smell_class: Duplication
+        smell_sub_class: DuplicateMethodCall
+        source: spec/samples/masked/dirty.rb
+        context: Dirty#a
+        lines:
+        - 4
+        - 6
+        message: calls @s.title 2 times
+        call: "@s.title"
+        occurrences: 2
+      - smell_class: Duplication
+        smell_sub_class: DuplicateMethodCall
+        source: spec/samples/masked/dirty.rb
+        context: Dirty#a
+        lines:
+        - 4
+        - 6
+        message: calls puts(@s.title) 2 times
+        call: puts(@s.title)
+        occurrences: 2
+      - smell_class: NestedIterators
+        smell_sub_class: NestedIterators
+        source: spec/samples/masked/dirty.rb
+        context: Dirty#a
+        lines:
+        - 5
+        message: contains iterators nested 2 deep
+        depth: 2
       """
 
   @stdin
@@ -71,18 +55,12 @@ Feature: Report smells using simple YAML layout
     And it reports this yaml:
       """
       ---
-      - !ruby/object:Reek::SmellWarning
-        location:
-          lines:
-          - 1
-          context: Turn
-          source: $stdin
-        smell:
-          class: IrresponsibleModule
-          subclass: IrresponsibleModule
-          module_name: Turn
-          message: has no descriptive comment
-        status:
-          is_active: true
-
+      - smell_class: IrresponsibleModule
+        smell_sub_class: IrresponsibleModule
+        source: "$stdin"
+        context: Turn
+        lines:
+        - 1
+        message: has no descriptive comment
+        module_name: Turn
       """

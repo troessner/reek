@@ -9,10 +9,7 @@ module Reek
     # in a module is usually a bad idea
     #
     class ModuleInitialize < SmellDetector
-      SMELL_CLASS = smell_class_name
-      SMELL_SUBCLASS = SMELL_CLASS
-
-      def self.contexts      # :nodoc:
+      def self.contexts # :nodoc:
         [:module]
       end
 
@@ -25,9 +22,7 @@ module Reek
         module_ctx.local_nodes(:def) do |node| # FIXME: also search for :defs?
           if node.name.to_s == 'initialize'
             return [
-              SmellWarning.new(SMELL_CLASS, module_ctx.full_name, [module_ctx.exp.line],
-                               'has initialize method',
-                               @source, SMELL_SUBCLASS, {})
+              SmellWarning.new(self, context: module_ctx.full_name, lines: [module_ctx.exp.line], message: 'has initialize method')
             ]
           end
         end

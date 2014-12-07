@@ -228,17 +228,17 @@ EOS
     it 'reports the source' do
       expect(@smells[0].source).to eq(@source_name)
     end
-    it 'reports the class' do
-      expect(@smells[0].smell_class).to eq(FeatureEnvy::SMELL_CLASS)
+    it 'reports the smell class' do
+      expect(@smells[0].smell_class).to eq(FeatureEnvy.smell_class)
     end
-    it 'reports the subclass' do
-      expect(@smells[0].subclass).to eq(FeatureEnvy::SMELL_SUBCLASS)
+    it 'reports the smell sub class' do
+      expect(@smells[0].smell_sub_class).to eq(FeatureEnvy.smell_sub_class)
     end
     it 'reports the envious receiver' do
-      expect(@smells[0].smell[FeatureEnvy::RECEIVER_KEY]).to eq(@receiver)
+      expect(@smells[0].parameters[FeatureEnvy::RECEIVER_KEY]).to eq(@receiver)
     end
     it 'reports the number of references' do
-      expect(@smells[0].smell[FeatureEnvy::REFERENCES_KEY]).to eq(3)
+      expect(@smells[0].parameters[FeatureEnvy::REFERENCES_KEY]).to eq(3)
     end
     it 'reports the referring lines' do
       skip

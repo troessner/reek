@@ -17,18 +17,9 @@ module Reek
     # the same names that are expected by three or more methods of a class.
     #
     class DataClump < SmellDetector
-      SMELL_CLASS = name.split(/::/)[-1]
-      SMELL_SUBCLASS = name.split(/::/)[-1]
-
       METHODS_KEY = 'methods'
       OCCURRENCES_KEY = 'occurrences'
       PARAMETERS_KEY = 'parameters'
-
-      # @private
-      def self.contexts
-        [:class, :module]
-      end
-
       #
       # The name of the config field that sets the maximum allowed
       # copies of any clump. No group of common parameters will be
@@ -46,6 +37,10 @@ module Reek
       MIN_CLUMP_SIZE_KEY = 'min_clump_size'
       DEFAULT_MIN_CLUMP_SIZE = 2
 
+      def self.contexts # :nodoc:
+        [:class, :module]
+      end
+
       def self.default_config
         super.merge(
           MAX_COPIES_KEY => DEFAULT_MAX_COPIES,
@@ -62,13 +57,15 @@ module Reek
         @max_copies = value(MAX_COPIES_KEY, ctx, DEFAULT_MAX_COPIES)
         @min_clump_size = value(MIN_CLUMP_SIZE_KEY, ctx, DEFAULT_MIN_CLUMP_SIZE)
         MethodGroup.new(ctx, @min_clump_size, @max_copies).clumps.map do |clump, methods|
-          SmellWarning.new(SMELL_CLASS, ctx.full_name,
-                           methods.map(&:line),
-                           "takes parameters #{DataClump.print_clump(clump)} to #{methods.length} methods",
-                           @source, SMELL_SUBCLASS,
-                           PARAMETERS_KEY => clump.map(&:to_s),
-                           OCCURRENCES_KEY => methods.length,
-                           METHODS_KEY => methods.map(&:name))
+          SmellWarning.new self,
+                           context: ctx.full_name,
+                           lines: methods.map(&:line),
+                           message: "takes parameters #{DataClump.print_clump(clump)} to #{methods.length} methods",
+                           parameters: {
+                             PARAMETERS_KEY => clump.map(&:to_s),
+                             OCCURRENCES_KEY => methods.length,
+                             METHODS_KEY => methods.map(&:name)
+                           }
         end
       end
 

@@ -13,17 +13,17 @@ module Reek
     # modules.
     #
     class TooManyMethods < SmellDetector
-      SMELL_CLASS = 'LargeClass'
-      SMELL_SUBCLASS = name.split(/::/)[-1]
       METHOD_COUNT_KEY = 'method_count'
-
       # The name of the config field that sets the maximum number of methods
       # permitted in a class.
       MAX_ALLOWED_METHODS_KEY = 'max_methods'
-
       DEFAULT_MAX_METHODS = 25
 
-      def self.contexts      # :nodoc:
+      def smell_class
+        'LargeClass'
+      end
+
+      def self.contexts # :nodoc:
         [:class]
       end
 
@@ -41,19 +41,13 @@ module Reek
       #
       def examine_context(ctx)
         @max_allowed_methods = value(MAX_ALLOWED_METHODS_KEY, ctx, DEFAULT_MAX_METHODS)
-        check_num_methods(ctx)
-      end
-
-      private
-
-      def check_num_methods(ctx)  # :nodoc:
         actual = ctx.node_instance_methods.length
         return [] if actual <= @max_allowed_methods
-        smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [ctx.exp.line],
-                                 "has at least #{actual} methods",
-                                 @source, SMELL_SUBCLASS,
-                                 METHOD_COUNT_KEY => actual)
-        [smell]
+        [SmellWarning.new(self,
+                          context: ctx.full_name,
+                          lines: [ctx.exp.line],
+                          message:  "has at least #{actual} methods",
+                          parameters: { METHOD_COUNT_KEY => actual })]
       end
     end
   end

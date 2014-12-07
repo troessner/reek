@@ -24,7 +24,7 @@ describe PrimaDonnaMethod do
       warning = smells[0]
 
       expect(warning.smell_class).to eq('PrimaDonnaMethod')
-      expect(warning.subclass).to eq('PrimaDonnaMethod')
+      expect(warning.smell_sub_class).to eq('PrimaDonnaMethod')
       expect(warning.lines).to eq([1])
     end
   end

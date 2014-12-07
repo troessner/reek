@@ -41,18 +41,23 @@ describe ShouldReekOnlyOf do
   end
 
   context 'with 1 non-matching smell' do
+    let(:control_couple_detector) { build(:smell_detector, smell_class: 'ControlCouple', smell_sub_class: 'ControlParameter')}
+
     def smells
-      [SmellWarning.new('ControlCouple', 'context', [1], 'any old message')]
+      [build(:smell_warning, smell_detector: control_couple_detector)]
     end
 
     it_should_behave_like 'no match'
   end
 
   context 'with 2 non-matching smells' do
+    let(:control_couple_detector) { build(:smell_detector, smell_class: 'ControlCouple', smell_sub_class: 'ControlParameter')}
+    let(:feature_envy_detector) { build(:smell_detector, smell_class: 'FeatureEnvy', smell_sub_class: 'FeatureEnvy')}
+
     def smells
       [
-        SmellWarning.new('ControlCouple', 'context', [1], 'any old message'),
-        SmellWarning.new('FeatureEnvy', 'context', [1], 'any old message')
+        build(:smell_warning, smell_detector: control_couple_detector),
+        build(:smell_warning, smell_detector: feature_envy_detector)
       ]
     end
 
@@ -60,10 +65,14 @@ describe ShouldReekOnlyOf do
   end
 
   context 'with 1 non-matching and 1 matching smell' do
+    let(:control_couple_detector) { build(:smell_detector, smell_class: 'ControlCouple', smell_sub_class: 'ControlParameter')}
+
     def smells
+      detector = build(:smell_detector)
+      detector.smell_class = @expected_smell_class.to_s
       [
-        SmellWarning.new('ControlCouple', 'context', [1], 'any old message'),
-        SmellWarning.new(@expected_smell_class.to_s, 'context', [1], "message mentioning #{@expected_context_name}")
+        build(:smell_warning, smell_detector: control_couple_detector),
+        build(:smell_warning, smell_detector: detector, message: "message mentioning #{@expected_context_name}")
       ]
     end
 
@@ -72,7 +81,10 @@ describe ShouldReekOnlyOf do
 
   context 'with 1 matching smell' do
     def smells
-      [SmellWarning.new(@expected_smell_class.to_s, nil, [1], "message mentioning #{@expected_context_name}")]
+      detector = build(:smell_detector)
+      detector.smell_class = @expected_smell_class.to_s
+
+      [build(:smell_warning, smell_detector: detector, message: "message mentioning #{@expected_context_name}")]
     end
     it 'matches' do
       expect(@match).to be_truthy

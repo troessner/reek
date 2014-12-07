@@ -1,4 +1,4 @@
-require 'reek/smell_description'
+require 'forwardable'
 
 module Reek
   #
@@ -6,40 +6,21 @@ module Reek
   #
   class SmellWarning
     include Comparable
+    extend Forwardable
+    attr_accessor :smell_detector, :context, :lines, :message, :parameters
+    def_delegators :smell_detector, :smell_class, :smell_sub_class, :source
 
-    def initialize(class_name, context, lines, message,
-        source = '', subclass_name = '', parameters = {})
-      @smell = SmellDescription.new(class_name, subclass_name, message, parameters)
-      @location = {
-        'context' => context.to_s,
-        'lines'   => lines,
-        'source'  => source
-      }
+    def initialize(smell_detector, options = {})
+      self.smell_detector = smell_detector
+      self.context        = options.fetch(:context, '').to_s
+      self.lines          = options.fetch(:lines)
+      self.message        = options.fetch(:message)
+      self.parameters     = options.fetch(:parameters, {})
     end
 
-    #
-    # Details of the smell found, including its class, subclass and summary message.
-    #
-    # @return [Hash{String => String}]
-    #
-    attr_reader :smell
-
-    def smell_classes() [smell_class, subclass] end
-    def smell_class() @smell.smell_class end
-    def subclass() @smell.smell_subclass end
-    def message() @smell.message end
-
-    #
-    # Details of the smell's location, including its context,
-    # the line numbers on which it occurs and the source file
-    #
-    # @return [Hash{String => String, Array<Number>}]
-    #
-    attr_reader :location
-
-    def context() @location.fetch('context') end
-    def lines() @location.fetch('lines') end
-    def source() @location.fetch('source') end
+    def smell_classes()
+      [smell_detector.smell_class, smell_detector.smell_sub_class]
+    end
 
     def hash
       sort_key.hash
@@ -61,16 +42,17 @@ module Reek
       listener.found_smell(self)
     end
 
-    def init_with(coder)
-      @location = coder['location']
-      smell_attributes = coder['smell']
-      smell_class = smell_attributes.delete('class')
-      smell_subclass = smell_attributes.delete('subclass')
-      smell_message = smell_attributes.delete('message')
-      @smell = SmellDescription.new(smell_class,
-                                    smell_subclass,
-                                    smell_message,
-                                    smell_attributes)
+    def encode_with(coder)
+      coder.tag = nil
+      coder['smell_class']     = smell_detector.smell_class
+      coder['smell_sub_class'] = smell_detector.smell_sub_class
+      coder['source']          = smell_detector.source
+      coder['context']         = context
+      coder['lines']           = lines
+      coder['message']         = message
+      parameters.each do |key, value|
+        coder[key] = value
+      end
     end
 
     protected

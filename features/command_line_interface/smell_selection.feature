@@ -9,11 +9,11 @@ Feature: Smell selection
     And it reports:
       """
       spec/samples/two_smelly_files/dirty_one.rb -- 2 warnings:
-        Dirty#a calls @s.title twice (DuplicateMethodCall)
-        Dirty#a calls puts(@s.title) twice (DuplicateMethodCall)
+        Dirty#a calls @s.title 2 times (DuplicateMethodCall)
+        Dirty#a calls puts(@s.title) 2 times (DuplicateMethodCall)
       spec/samples/two_smelly_files/dirty_two.rb -- 2 warnings:
-        Dirty#a calls @s.title twice (DuplicateMethodCall)
-        Dirty#a calls puts(@s.title) twice (DuplicateMethodCall)
+        Dirty#a calls @s.title 2 times (DuplicateMethodCall)
+        Dirty#a calls puts(@s.title) 2 times (DuplicateMethodCall)
       4 total warnings
 
       """

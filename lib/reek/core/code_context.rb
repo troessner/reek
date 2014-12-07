@@ -51,7 +51,7 @@ module Reek
 
       def config_for(detector_class)
         outer_config_for(detector_class).merge(
-          config[detector_class.smell_class_name] || {})
+          config[detector_class.smell_sub_class] || {})
       end
 
       private

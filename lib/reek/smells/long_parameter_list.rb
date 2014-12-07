@@ -13,18 +13,15 @@ module Reek
     # many parameters.
     #
     class LongParameterList < SmellDetector
-      SMELL_CLASS = 'LongParameterList'
-      SMELL_SUBCLASS = name.split(/::/)[-1]
-
       PARAMETER_COUNT_KEY = 'parameter_count'
-
       # The name of the config field that sets the maximum number of
       # parameters permitted in any method or block.
       MAX_ALLOWED_PARAMS_KEY = 'max_params'
-
-      # The default value of the +MAX_ALLOWED_PARAMS_KEY+ configuration
-      # value.
       DEFAULT_MAX_ALLOWED_PARAMS = 3
+
+      def smell_class
+        'LongParameterList'
+      end
 
       def self.default_config
         super.merge(
@@ -42,13 +39,13 @@ module Reek
       #
       def examine_context(ctx)
         @max_allowed_params = value(MAX_ALLOWED_PARAMS_KEY, ctx, DEFAULT_MAX_ALLOWED_PARAMS)
-        num_params = ctx.exp.arg_names.length
-        return [] if num_params <= @max_allowed_params
-        smell = SmellWarning.new(SMELL_CLASS, ctx.full_name, [ctx.exp.line],
-                                 "has #{num_params} parameters",
-                                 @source, SMELL_SUBCLASS,
-                                 PARAMETER_COUNT_KEY => num_params)
-        [smell]
+        count = ctx.exp.arg_names.length
+        return [] if count <= @max_allowed_params
+        [SmellWarning.new(self,
+                          context: ctx.full_name,
+                          lines: [ctx.exp.line],
+                          message: "has #{count} parameters",
+                          parameters: { PARAMETER_COUNT_KEY => count })]
       end
     end
   end

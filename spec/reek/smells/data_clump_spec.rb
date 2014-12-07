@@ -35,19 +35,19 @@ EOS
       expect(@smells.length).to eq(1)
     end
     it 'reports all parameters' do
-      expect(@smells[0].smell[DataClump::PARAMETERS_KEY]).to eq(['pa', 'pb'])
+      expect(@smells[0].parameters[DataClump::PARAMETERS_KEY]).to eq(['pa', 'pb'])
     end
     it 'reports the number of occurrences' do
-      expect(@smells[0].smell[DataClump::OCCURRENCES_KEY]).to eq(3)
+      expect(@smells[0].parameters[DataClump::OCCURRENCES_KEY]).to eq(3)
     end
     it 'reports all methods' do
-      expect(@smells[0].smell[DataClump::METHODS_KEY]).to eq(['first', 'second', 'third'])
+      expect(@smells[0].parameters[DataClump::METHODS_KEY]).to eq(['first', 'second', 'third'])
     end
     it 'reports the declaration line numbers' do
       expect(@smells[0].lines).to eq([2, 3, 4])
     end
     it 'reports the correct smell class' do
-      expect(@smells[0].smell_class).to eq(DataClump::SMELL_CLASS)
+      expect(@smells[0].smell_class).to eq(DataClump.smell_class)
     end
     it 'reports the context fq name' do
       expect(@smells[0].context).to eq(@module_name)
