@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :smell_detector, class: Reek::Smells::SmellDetector do
     skip_create
     transient do
-      smell_sub_class 'FeatureEnvy'
+      smell_type 'FeatureEnvy'
     end
     source           'dummy_file'
 
@@ -10,7 +10,7 @@ FactoryGirl.define do
       # The odd looking const_get is necessary for ruby 1.9.3 compatibility.
       Kernel.const_get("Reek")
             .const_get("Smells")
-            .const_get(smell_sub_class).new(source)
+            .const_get(smell_type).new(source)
     end
   end
 

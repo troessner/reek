@@ -18,8 +18,8 @@ Feature: Report smells using simple YAML layout
     And it reports this yaml:
       """
       ---
-      - smell_class: Duplication
-        smell_sub_class: DuplicateMethodCall
+      - smell_category: Duplication
+        smell_type: DuplicateMethodCall
         source: spec/samples/masked/dirty.rb
         context: Dirty#a
         lines:
@@ -28,8 +28,8 @@ Feature: Report smells using simple YAML layout
         message: calls @s.title 2 times
         call: "@s.title"
         occurrences: 2
-      - smell_class: Duplication
-        smell_sub_class: DuplicateMethodCall
+      - smell_category: Duplication
+        smell_type: DuplicateMethodCall
         source: spec/samples/masked/dirty.rb
         context: Dirty#a
         lines:
@@ -38,8 +38,8 @@ Feature: Report smells using simple YAML layout
         message: calls puts(@s.title) 2 times
         call: puts(@s.title)
         occurrences: 2
-      - smell_class: NestedIterators
-        smell_sub_class: NestedIterators
+      - smell_category: NestedIterators
+        smell_type: NestedIterators
         source: spec/samples/masked/dirty.rb
         context: Dirty#a
         lines:
@@ -55,8 +55,8 @@ Feature: Report smells using simple YAML layout
     And it reports this yaml:
       """
       ---
-      - smell_class: IrresponsibleModule
-        smell_sub_class: IrresponsibleModule
+      - smell_category: IrresponsibleModule
+        smell_type: IrresponsibleModule
         source: "$stdin"
         context: Turn
         lines:

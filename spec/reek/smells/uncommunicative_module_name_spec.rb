@@ -33,8 +33,8 @@ describe UncommunicativeModuleName do
       ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
       smells = @detector.examine_context(ctx)
       expect(smells.length).to eq(1)
-      expect(smells[0].smell_class).to eq(UncommunicativeModuleName.smell_class)
-      expect(smells[0].smell_sub_class).to eq(UncommunicativeModuleName.smell_sub_class)
+      expect(smells[0].smell_category).to eq(UncommunicativeModuleName.smell_category)
+      expect(smells[0].smell_type).to eq(UncommunicativeModuleName.smell_type)
       expect(smells[0].parameters[UncommunicativeModuleName::MODULE_NAME_KEY]).to eq('X')
       expect(smells[0].context).to match(/#{smells[0].parameters[UncommunicativeModuleName::MODULE_NAME_KEY]}/)
     end

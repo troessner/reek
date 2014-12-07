@@ -59,7 +59,7 @@ describe UncommunicativeVariableName do
       ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
       smells = @detector.examine_context(ctx)
       expect(smells.length).to eq(1)
-      expect(smells[0].smell_sub_class).to eq(UncommunicativeVariableName.smell_sub_class)
+      expect(smells[0].smell_type).to eq(UncommunicativeVariableName.smell_type)
       expect(smells[0].parameters[UncommunicativeVariableName::VARIABLE_NAME_KEY]).to eq('x')
       expect(smells[0].lines).to eq([1, 1])
     end

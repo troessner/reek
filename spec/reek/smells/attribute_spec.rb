@@ -46,7 +46,7 @@ describe Attribute do
       end
 
       it 'reports the correct smell class' do
-        expect(@smells[0].smell_class).to eq(Attribute.smell_class)
+        expect(@smells[0].smell_category).to eq(Attribute.smell_category)
       end
 
       it 'reports the context fq name' do

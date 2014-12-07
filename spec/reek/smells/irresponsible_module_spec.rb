@@ -35,8 +35,8 @@ describe IrresponsibleModule do
     ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
     smells = @detector.examine_context(ctx)
     expect(smells.length).to eq(1)
-    expect(smells[0].smell_class).to eq(IrresponsibleModule.smell_class)
-    expect(smells[0].smell_sub_class).to eq(IrresponsibleModule.smell_sub_class)
+    expect(smells[0].smell_category).to eq(IrresponsibleModule.smell_category)
+    expect(smells[0].smell_type).to eq(IrresponsibleModule.smell_type)
     expect(smells[0].lines).to eq([1])
     expect(smells[0].parameters[IrresponsibleModule::MODULE_NAME_KEY]).to eq(@bad_module_name)
   end
@@ -67,8 +67,8 @@ describe IrresponsibleModule do
     ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
     smells = @detector.examine_context(ctx)
     expect(smells.length).to eq(1)
-    expect(smells[0].smell_class).to eq(IrresponsibleModule.smell_class)
-    expect(smells[0].smell_sub_class).to eq(IrresponsibleModule.smell_sub_class)
+    expect(smells[0].smell_category).to eq(IrresponsibleModule.smell_category)
+    expect(smells[0].smell_type).to eq(IrresponsibleModule.smell_type)
     expect(smells[0].parameters[IrresponsibleModule::MODULE_NAME_KEY]).to eq('Foo::Bar')
     expect(smells[0].context).to match(/#{smells[0].parameters['name']}/)
   end

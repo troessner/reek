@@ -29,7 +29,7 @@ module Reek
       ACCEPT_KEY = 'accept'
       DEFAULT_ACCEPT_SET = []
 
-      def self.smell_class
+      def self.smell_category
         'UncommunicativeName'
       end
 

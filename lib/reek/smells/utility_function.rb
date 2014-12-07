@@ -40,7 +40,7 @@ module Reek
       HELPER_CALLS_LIMIT_KEY = 'max_helper_calls'
       DEFAULT_HELPER_CALLS_LIMIT = 1
 
-      def self.smell_class
+      def self.smell_category
         'LowCohesion'
       end
 

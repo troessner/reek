@@ -34,8 +34,8 @@ module Reek
     # As for reek_of, but the matched smell warning must be the only warning of
     # any kind in the target source code's Reek report.
     #
-    def reek_only_of(smell_class, *patterns)
-      ShouldReekOnlyOf.new(smell_class, patterns)
+    def reek_only_of(smell_category, *patterns)
+      ShouldReekOnlyOf.new(smell_category, patterns)
     end
   end
 end

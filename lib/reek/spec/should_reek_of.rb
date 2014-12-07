@@ -28,12 +28,12 @@ module Reek
     end
 
     #
-    # Checks the target source code for instances of +smell_class+,
+    # Checks the target source code for instances of +smell_category+,
     # and returns +true+ only if one of them has a report string matching
     # all of the +patterns+.
     #
-    def reek_of(smell_class, *patterns)
-      ShouldReekOf.new(smell_class, patterns)
+    def reek_of(smell_category, *patterns)
+      ShouldReekOf.new(smell_category, patterns)
     end
   end
 end
