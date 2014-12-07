@@ -269,7 +269,7 @@ describe TooManyStatements do
     end
 
     it 'reports the correct smell sub class' do
-      expect(@smells[0].smell_sub_class).to eq(TooManyStatements.smell_sub_class)
+      expect(@smells[0].smell_type).to eq(TooManyStatements.smell_type)
     end
   end
 end

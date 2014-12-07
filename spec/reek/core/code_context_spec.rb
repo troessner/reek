@@ -164,7 +164,7 @@ EOS
     let(:sniffer) { double('sniffer') }
 
     before :each do
-      allow(sniffer).to receive(:smell_sub_class).and_return('DuplicateMethodCall')
+      allow(sniffer).to receive(:smell_type).and_return('DuplicateMethodCall')
       allow(exp).to receive(:comments).and_return(
         ':reek:DuplicateMethodCall: { allow_calls: [ puts ] }')
     end

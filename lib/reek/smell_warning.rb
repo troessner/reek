@@ -8,7 +8,7 @@ module Reek
     include Comparable
     extend Forwardable
     attr_accessor :smell_detector, :context, :lines, :message, :parameters
-    def_delegators :smell_detector, :smell_class, :smell_sub_class, :source
+    def_delegators :smell_detector, :smell_category, :smell_type, :source
 
     def initialize(smell_detector, options = {})
       self.smell_detector = smell_detector
@@ -19,7 +19,7 @@ module Reek
     end
 
     def smell_classes()
-      [smell_detector.smell_class, smell_detector.smell_sub_class]
+      [smell_detector.smell_category, smell_detector.smell_type]
     end
 
     def hash
@@ -44,8 +44,8 @@ module Reek
 
     def encode_with(coder)
       coder.tag = nil
-      coder['smell_class']     = smell_detector.smell_class
-      coder['smell_sub_class'] = smell_detector.smell_sub_class
+      coder['smell_category']  = smell_detector.smell_category
+      coder['smell_type']      = smell_detector.smell_type
       coder['source']          = smell_detector.source
       coder['context']         = context
       coder['lines']           = lines
@@ -63,7 +63,7 @@ module Reek
     end
 
     def sort_key
-      [context, message, smell_class]
+      [context, message, smell_category]
     end
   end
 end

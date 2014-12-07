@@ -25,26 +25,19 @@ module Reek
     #   and if it is an Array, it is assumed to be a list of file paths,
     #   each of which is opened and parsed for source code.
     #
-    def initialize(source, config_files = [], smell_names = [])
+    def initialize(source, config_files = [], smell_types_to_filter_by = [])
       sources = Source::SourceRepository.parse(source)
       @description = sources.description
       @collector = Core::WarningCollector.new
 
-      smell_classes = Core::SmellRepository.smell_classes
+      smell_types = Core::SmellRepository.smell_types
 
-      if smell_names.any?
-        # In reek a "smell class" is something arbitrary that does not
-        # correspond to any real class name (for instance "Duplication" is the
-        # "smell name" but the concrete detector and subclass is
-        # "DuplicateMethodCall"). When the user passes us a "smell" as CLI
-        # argument he's basically talking about a specific smell (so a
-        # "smell sub class", not a "smell class") which is why we check for
-        # the "smell_sub_class" below.
-        smell_classes.select! { |klass| smell_names.include? klass.smell_sub_class }
+      if smell_types_to_filter_by.any?
+        smell_types.select! { |klass| smell_types_to_filter_by.include? klass.smell_type }
       end
 
       sources.each do |src|
-        repository = Core::SmellRepository.new(src.desc, smell_classes)
+        repository = Core::SmellRepository.new(src.desc, smell_types)
         Core::Sniffer.new(src, config_files, repository).report_on(@collector)
       end
     end

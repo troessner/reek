@@ -14,7 +14,7 @@ module Reek
     # Shared responsibilities of all smell detectors.
     #
     class SmellDetector
-      attr_reader :source, :smell_class, :smell_sub_class
+      attr_reader :source, :smell_category, :smell_type
 
       # The name of the config field that lists the names of code contexts
       # that should not be checked. Add this field to the config for each
@@ -38,24 +38,24 @@ module Reek
         end
       end
 
-      def smell_class
-        self.class.smell_class
+      def smell_category
+        self.class.smell_category
       end
 
-      def smell_sub_class
-        self.class.smell_sub_class
+      def smell_type
+        self.class.smell_type
       end
 
       class << self
-        def smell_class
-          @smell_class ||= default_smell_class
+        def smell_category
+          @smell_category ||= default_smell_category
         end
 
-        def smell_sub_class
-          @smell_sub_class ||= default_smell_class
+        def smell_type
+          @smell_type ||= default_smell_category
         end
 
-        def default_smell_class
+        def default_smell_category
           name.split(/::/)[-1]
         end
       end

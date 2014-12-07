@@ -9,7 +9,7 @@ module Reek
     class UnusedParameters < SmellDetector
       PARAMETER_KEY = 'parameter'
 
-      def self.smell_class
+      def self.smell_category
         'UnusedCode'
       end
 

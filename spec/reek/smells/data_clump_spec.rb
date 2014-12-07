@@ -47,7 +47,7 @@ EOS
       expect(@smells[0].lines).to eq([2, 3, 4])
     end
     it 'reports the correct smell class' do
-      expect(@smells[0].smell_class).to eq(DataClump.smell_class)
+      expect(@smells[0].smell_category).to eq(DataClump.smell_category)
     end
     it 'reports the context fq name' do
       expect(@smells[0].context).to eq(@module_name)

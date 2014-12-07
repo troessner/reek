@@ -6,7 +6,7 @@ module Reek
     # Contains all the existing smells and exposes operations on them.
     #
     class SmellRepository
-      def self.smell_classes
+      def self.smell_types
         # SMELL: Duplication -- these should be loaded by listing the files
         [
           Smells::Attribute,
@@ -36,10 +36,10 @@ module Reek
         ]
       end
 
-      def initialize(source_description, smell_classes = SmellRepository.smell_classes)
+      def initialize(source_description, smell_types = SmellRepository.smell_types)
         @typed_detectors = nil
         @detectors = {}
-        smell_classes.each do |klass|
+        smell_types.each do |klass|
           @detectors[klass] = klass.new(source_description)
         end
       end

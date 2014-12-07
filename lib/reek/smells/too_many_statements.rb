@@ -15,7 +15,7 @@ module Reek
       MAX_ALLOWED_STATEMENTS_KEY = 'max_statements'
       DEFAULT_MAX_STATEMENTS = 5
 
-      def self.smell_class
+      def self.smell_category
         'LongMethod'
       end
 

@@ -37,7 +37,7 @@ shared_examples_for 'one smell found' do
     expect(@examiner.smells.length).to eq(1)
   end
   it 'reports the correct smell' do
-    expect(@examiner.smells[0].smell_class).to eq(@expected_first_smell)
+    expect(@examiner.smells[0].smell_category).to eq(@expected_first_smell)
   end
 
   it_should_behave_like 'supports the deprecated api'

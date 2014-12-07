@@ -17,7 +17,7 @@ module Reek
       MAX_ALLOWED_IVARS_KEY = 'max_instance_variables'
       DEFAULT_MAX_IVARS = 9
 
-      def self.smell_class
+      def self.smell_category
         'LargeClass'
       end
 

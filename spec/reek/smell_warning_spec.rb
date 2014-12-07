@@ -4,9 +4,9 @@ require 'reek/smell_warning'
 include Reek
 
 describe SmellWarning do
-  let(:duplication_detector)      { build(:smell_detector, smell_sub_class: 'DuplicateMethodCall')}
-  let(:feature_envy_detector)     { build(:smell_detector, smell_sub_class: 'FeatureEnvy')}
-  let(:utility_function_detector) { build(:smell_detector, smell_sub_class: 'UtilityFunction')}
+  let(:duplication_detector)      { build(:smell_detector, smell_type: 'DuplicateMethodCall')}
+  let(:feature_envy_detector)     { build(:smell_detector, smell_type: 'FeatureEnvy')}
+  let(:utility_function_detector) { build(:smell_detector, smell_type: 'UtilityFunction')}
 
   context 'sort order' do
     shared_examples_for 'first sorts ahead of second' do
@@ -63,8 +63,8 @@ describe SmellWarning do
 
     context 'smells differing everywhere' do
       before :each do
-        uncommunicative_name_detector = build(:smell_detector, smell_sub_class: 'UncommunicativeVariableName', source: true)
-        duplication_detector =          build(:smell_detector, smell_sub_class: 'DuplicateMethodCall',         source: false)
+        uncommunicative_name_detector = build(:smell_detector, smell_type: 'UncommunicativeVariableName', source: true)
+        duplication_detector =          build(:smell_detector, smell_type: 'DuplicateMethodCall',         source: false)
         @first  = build(:smell_warning, smell_detector: uncommunicative_name_detector,
                                         context: 'Dirty',
                                         message: "has the variable name '@s'")
@@ -87,8 +87,8 @@ describe SmellWarning do
     end
 
     shared_examples_for 'common fields' do
-      it 'includes the smell class' do
-        expect(@yaml).to match(/class:\s*FeatureEnvy/)
+      it 'includes the smell type' do
+        expect(@yaml).to match(/smell_type:\s*FeatureEnvy/)
       end
       it 'includes the context' do
         expect(@yaml).to match(/context:\s*#{@context_name}/)
@@ -106,7 +106,7 @@ describe SmellWarning do
     context 'with all details specified' do
       before :each do
         @source = 'a/ruby/source/file.rb'
-        @sub_class = 'FeatureEnvy'
+        @smell_type = 'FeatureEnvy'
         @parameters = { 'one' => 34, 'two' => 'second' }
         @detector = Reek::Smells::FeatureEnvy.new @source
         @warning = SmellWarning.new(@detector, context: @context_name, lines: @lines, message: @message,
@@ -116,8 +116,8 @@ describe SmellWarning do
 
       it_should_behave_like 'common fields'
 
-      it 'includes the smell sub class' do
-        expect(@yaml).to match(/smell_sub_class:\s*#{@sub_class}/)
+      it 'includes the smell type' do
+        expect(@yaml).to match(/smell_type:\s*#{@smell_type}/)
       end
       it 'includes the source' do
         expect(@yaml).to match(/source:\s*#{@source}/)

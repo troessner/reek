@@ -5,7 +5,7 @@ CONFIG_FILE = 'config/defaults.reek'
 file CONFIG_FILE do
   config = {}
   require 'reek/core/sniffer'
-  Reek::Core::SmellRepository.smell_classes.each do |klass|
+  Reek::Core::SmellRepository.smell_types.each do |klass|
     config[klass.name.split(/::/)[-1]] = klass.default_config
   end
   $stderr.puts "Creating #{CONFIG_FILE}"

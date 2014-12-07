@@ -80,8 +80,8 @@ describe TooManyInstanceVariables do
     ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
     @warning = @detector.examine_context(ctx)[0]
     expect(@warning.source).to eq(@source_name)
-    expect(@warning.smell_class).to eq(TooManyInstanceVariables.smell_class)
-    expect(@warning.smell_sub_class).to eq(TooManyInstanceVariables.smell_sub_class)
+    expect(@warning.smell_category).to eq(TooManyInstanceVariables.smell_category)
+    expect(@warning.smell_type).to eq(TooManyInstanceVariables.smell_type)
     expect(@warning.parameters[TooManyInstanceVariables::IVAR_COUNT_KEY]).to eq(10)
     expect(@warning.lines).to eq([2])
   end

@@ -26,7 +26,7 @@ module Reek
       MAX_IDENTICAL_IFS_KEY = 'max_ifs'
       DEFAULT_MAX_IFS = 2
 
-      def self.smell_class
+      def self.smell_category
         'SimulatedPolymorphism'
       end
 
