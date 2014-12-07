@@ -1,11 +1,17 @@
 FactoryGirl.define do
   factory :smell_detector, class: Reek::Smells::SmellDetector do
     skip_create
-    smell_class      'LowCohesion'
-    smell_sub_class  'FeatureEnvy'
+    transient do
+      smell_sub_class 'FeatureEnvy'
+    end
     source           'dummy_file'
 
-    initialize_with { new(source) }
+    initialize_with do
+      # The odd looking const_get is necessary for ruby 1.9.3 compatibility.
+      Kernel.const_get("Reek")
+            .const_get("Smells")
+            .const_get(smell_sub_class).new(source)
+    end
   end
 
   factory :smell_warning, class: Reek::SmellWarning do

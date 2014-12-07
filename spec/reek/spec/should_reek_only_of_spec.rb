@@ -6,9 +6,9 @@ include Reek::Spec
 
 describe ShouldReekOnlyOf do
   before :each do
-    @expected_smell_class = :NestedIterators
+    @expected_smell_sub_class = :NestedIterators
     @expected_context_name = 'SmellyClass#big_method'
-    @matcher = ShouldReekOnlyOf.new(@expected_smell_class, [/#{@expected_context_name}/])
+    @matcher = ShouldReekOnlyOf.new(@expected_smell_sub_class, [/#{@expected_context_name}/])
     @examiner = double('examiner').as_null_object
     expect(@examiner).to receive(:smells) { smells }
     @match = @matcher.matches_examiner?(@examiner)
@@ -27,7 +27,7 @@ describe ShouldReekOnlyOf do
         expect(@matcher.failure_message).to match(@source)
       end
       it 'reports the expected smell class' do
-        expect(@matcher.failure_message).to match(@expected_smell_class.to_s)
+        expect(@matcher.failure_message).to match(@expected_smell_sub_class.to_s)
       end
     end
   end
@@ -41,7 +41,7 @@ describe ShouldReekOnlyOf do
   end
 
   context 'with 1 non-matching smell' do
-    let(:control_couple_detector) { build(:smell_detector, smell_class: 'ControlCouple', smell_sub_class: 'ControlParameter')}
+    let(:control_couple_detector) { build(:smell_detector, smell_sub_class: 'ControlParameter')}
 
     def smells
       [build(:smell_warning, smell_detector: control_couple_detector)]
@@ -51,8 +51,8 @@ describe ShouldReekOnlyOf do
   end
 
   context 'with 2 non-matching smells' do
-    let(:control_couple_detector) { build(:smell_detector, smell_class: 'ControlCouple', smell_sub_class: 'ControlParameter')}
-    let(:feature_envy_detector) { build(:smell_detector, smell_class: 'FeatureEnvy', smell_sub_class: 'FeatureEnvy')}
+    let(:control_couple_detector) { build(:smell_detector, smell_sub_class: 'ControlParameter')}
+    let(:feature_envy_detector) { build(:smell_detector, smell_sub_class: 'FeatureEnvy')}
 
     def smells
       [
@@ -65,11 +65,10 @@ describe ShouldReekOnlyOf do
   end
 
   context 'with 1 non-matching and 1 matching smell' do
-    let(:control_couple_detector) { build(:smell_detector, smell_class: 'ControlCouple', smell_sub_class: 'ControlParameter')}
+    let(:control_couple_detector) { build(:smell_detector, smell_sub_class: 'ControlParameter')}
 
     def smells
-      detector = build(:smell_detector)
-      detector.smell_class = @expected_smell_class.to_s
+      detector = build(:smell_detector, smell_sub_class: @expected_smell_sub_class.to_s)
       [
         build(:smell_warning, smell_detector: control_couple_detector),
         build(:smell_warning, smell_detector: detector, message: "message mentioning #{@expected_context_name}")
@@ -81,8 +80,7 @@ describe ShouldReekOnlyOf do
 
   context 'with 1 matching smell' do
     def smells
-      detector = build(:smell_detector)
-      detector.smell_class = @expected_smell_class.to_s
+      detector = build(:smell_detector, smell_sub_class: @expected_smell_sub_class.to_s)
 
       [build(:smell_warning, smell_detector: detector, message: "message mentioning #{@expected_context_name}")]
     end
@@ -90,7 +88,7 @@ describe ShouldReekOnlyOf do
       expect(@match).to be_truthy
     end
     it 'reports the expected smell when no match was expected' do
-      expect(@matcher.failure_message_when_negated).to match(@expected_smell_class.to_s)
+      expect(@matcher.failure_message_when_negated).to match(@expected_smell_sub_class.to_s)
     end
     it 'reports the source when no match was expected' do
       source = 'the_path/to_a/source_file.rb'
