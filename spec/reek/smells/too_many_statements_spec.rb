@@ -31,7 +31,11 @@ describe TooManyStatements do
   end
 
   it 'should not report initialize' do
-    src = 'def initialize(arga) alf = f(1);@bet = 2;@cut = 3;@dit = 4; @emp = 5;@fry = 6;end'
+    src = '
+      def initialize(arga)
+        alf = f(1); @bet = 2; @cut = 3; @dit = 4; @emp = 5; @fry = 6
+      end
+    '
     expect(src).not_to smell_of(TooManyStatements)
   end
 
@@ -134,7 +138,15 @@ describe TooManyStatements, 'does not count control statements' do
   end
 
   it 'counts 3 statements in an else' do
-    method = process_method('def one() if val == 4; callee(); callee(); callee(); else; callee(); callee(); callee(); end; end')
+    method = process_method('
+      def one()
+        if val == 4
+          callee(); callee(); callee()
+        else
+          callee(); callee(); callee()
+        end
+      end
+    ')
     expect(method.num_statements).to eq(6)
   end
 
@@ -159,8 +171,8 @@ describe TooManyStatements, 'does not count control statements' do
   end
 
   it 'counts 3 statements in a while loop' do
-    method = process_method('def one() while val < 4; callee(); callee(); callee(); end; end')
-    expect(method.num_statements).to eq(3)
+    source = 'def one() while val < 4; callee(); callee(); callee(); end; end'
+    expect(process_method(source).num_statements).to eq(3)
   end
 
   it 'counts extra statements in a while condition' do
@@ -174,8 +186,8 @@ describe TooManyStatements, 'does not count control statements' do
   end
 
   it 'counts 3 statements in a until loop' do
-    method = process_method('def one() until val < 4; callee(); callee(); callee(); end; end')
-    expect(method.num_statements).to eq(3)
+    source = 'def one() until val < 4; callee(); callee(); callee(); end; end'
+    expect(process_method(source).num_statements).to eq(3)
   end
 
   it 'counts 1 statement in a for loop' do
@@ -184,8 +196,8 @@ describe TooManyStatements, 'does not count control statements' do
   end
 
   it 'counts 3 statements in a for loop' do
-    method = process_method('def one() for i in 0..4; callee(); callee(); callee(); end; end')
-    expect(method.num_statements).to eq(3)
+    source = 'def one() for i in 0..4; callee(); callee(); callee(); end; end'
+    expect(process_method(source).num_statements).to eq(3)
   end
 
   it 'counts 1 statement in a rescue' do
@@ -194,7 +206,15 @@ describe TooManyStatements, 'does not count control statements' do
   end
 
   it 'counts 3 statements in a rescue' do
-    method = process_method('def one() begin; callee(); callee(); callee(); rescue; callee(); callee(); callee(); end; end')
+    method = process_method('
+      def one()
+        begin
+          callee(); callee(); callee()
+        rescue
+          callee(); callee(); callee()
+        end
+      end
+    ')
     expect(method.num_statements).to eq(6)
   end
 
@@ -204,17 +224,31 @@ describe TooManyStatements, 'does not count control statements' do
   end
 
   it 'counts 3 statements in a when' do
-    method = process_method('def one() case fred; when "hi"; callee(); callee(); when "lo"; callee(); end; end')
+    method = process_method('
+      def one()
+        case fred
+        when "hi" then callee(); callee()
+        when "lo" then callee()
+        end
+      end
+    ')
     expect(method.num_statements).to eq(3)
   end
 
   it 'counts 1 statement in a case else' do
-    method = process_method('def one() case fred; when "hi"; callee(); else; callee(); end; end')
-    expect(method.num_statements).to eq(2)
+    source = 'def one() case fred; when "hi"; callee(); else; callee(); end; end'
+    expect(process_method(source).num_statements).to eq(2)
   end
 
   it 'counts 3 statements in a case else' do
-    method = process_method('def one() case fred; when "hi"; callee(); callee(); callee(); else; callee(); callee(); callee(); end; end')
+    method = process_method('
+      def one()
+        case fred
+        when "hi" then callee(); callee(); callee()
+        else           callee(); callee(); callee()
+        end
+      end
+    ')
     expect(method.num_statements).to eq(6)
   end
 
@@ -234,8 +268,8 @@ describe TooManyStatements, 'does not count control statements' do
   end
 
   it 'counts 4 statements in an iterator' do
-    method = process_method('def one() fred.each do; callee(); callee(); callee(); end; end')
-    expect(method.num_statements).to eq(4)
+    source = 'def one() fred.each do; callee(); callee(); callee(); end; end'
+    expect(process_method(source).num_statements).to eq(4)
   end
 
   it 'counts 1 statement in a singleton method' do

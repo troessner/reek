@@ -62,7 +62,9 @@ module Reek
       def examine_context(method_ctx)
         return [] if method_ctx.num_statements == 0
         return [] if depends_on_instance?(method_ctx.exp)
-        return [] if num_helper_methods(method_ctx) <= value(HELPER_CALLS_LIMIT_KEY, method_ctx, DEFAULT_HELPER_CALLS_LIMIT)
+        return [] if num_helper_methods(method_ctx) <= value(HELPER_CALLS_LIMIT_KEY,
+                                                             method_ctx,
+                                                             DEFAULT_HELPER_CALLS_LIMIT)
 
         [SmellWarning.new(self,
                           context: method_ctx.full_name,

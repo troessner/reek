@@ -3,8 +3,36 @@ AllCops:
     - 'spec/samples/**/*'
     - 'tmp/**/*'
 
+# FIXME: Lower the ABC size by fixing the biggest offenders
+Metrics/AbcSize:
+  Max: 25
+
+# FIXME: Make the class shorter
+Metrics/ClassLength:
+  Exclude:
+    - lib/reek/core/code_parser.rb
+
+# FIXME: Document these classes
+Style/Documentation:
+  Exclude:
+    - features/support/env.rb
+    - lib/reek/cli/report/formatter.rb
+    - lib/reek/smells/smell_detector.rb
+    - lib/reek/source/sexp_extensions.rb
+    - lib/reek/spec/should_reek_of.rb
+    - lib/reek/spec/should_reek_only_of.rb
+    - lib/reek/spec/should_reek.rb
+    - lib/reek/version.rb
+    - spec/matchers/smell_of_matcher.rb
+
+# FIXME: Lower the method length by fixing the biggest offenders
+Metrics/MethodLength:
+  Max: 46
+
 # Be a little more lenient with line length
 Metrics/LineLength:
+  Exclude:
+    - lib/reek/cli/options.rb
   Max: 100
 
 # Allow small arrays of words with quotes
@@ -18,6 +46,10 @@ Style/SingleLineMethods:
 # Always use raise to signal exceptions
 Style/SignalException:
   EnforcedStyle: only_raise
+
+# Allow multiple Hash parameters to look similar
+Style/BracesAroundHashParameters:
+  EnforcedStyle: context_dependent
 
 # Place . on the previous line
 Style/DotPosition:

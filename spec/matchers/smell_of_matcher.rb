@@ -58,7 +58,8 @@ module SmellOfMatcher
       return false if @expected_smells.empty?
       return false if expected_number_of_smells == actual_number_of_smells
 
-      @reason = "expected #{expected_number_of_smells} smell(s), found #{actual_number_of_smells}"
+      @reason = "expected #{expected_number_of_smells} smell(s), " \
+                "found #{actual_number_of_smells}"
       true
     end
 

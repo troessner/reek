@@ -24,7 +24,6 @@ describe SexpExtensions::DefNode do
     it 'includes no marker in its full name with empty outer scope' do
       expect(@node.full_name('')).to eq 'hello'
     end
-
   end
 
   context 'with 1 parameter' do
@@ -48,7 +47,6 @@ describe SexpExtensions::DefNode do
     it 'includes no marker in its full name with empty outer scope' do
       expect(@node.full_name('')).to eq 'hello'
     end
-
   end
 
   context 'with a block parameter' do
@@ -74,7 +72,6 @@ describe SexpExtensions::DefNode do
     it 'includes no marker in its full name with empty outer scope' do
       expect(@node.full_name('')).to eq 'hello'
     end
-
   end
 
   context 'with 1 defaulted parameter' do
@@ -99,7 +96,6 @@ describe SexpExtensions::DefNode do
     it 'includes no marker in its full name with empty outer scope' do
       expect(@node.full_name('')).to eq 'hello'
     end
-
   end
 
   context 'with a body with 2 statements' do
@@ -160,7 +156,6 @@ describe SexpExtensions::DefsNode do
     it 'includes no marker in its full name with empty outer scope' do
       expect(@node.full_name('')).to eq 'obj.hello'
     end
-
   end
 
   context 'with 1 parameter' do
@@ -184,7 +179,6 @@ describe SexpExtensions::DefsNode do
     it 'includes no marker in its full name with empty outer scope' do
       expect(@node.full_name('')).to eq 'obj.hello'
     end
-
   end
 
   context 'with a block' do
@@ -210,7 +204,6 @@ describe SexpExtensions::DefsNode do
     it 'includes no marker in its full name with empty outer scope' do
       expect(@node.full_name('')).to eq 'obj.hello'
     end
-
   end
 
   context 'with 1 defaulted parameter' do
@@ -235,7 +228,6 @@ describe SexpExtensions::DefsNode do
     it 'includes no marker in its full name with empty outer scope' do
       expect(@node.full_name('')).to eq 'obj.hello'
     end
-
   end
 
   context 'with a body with 2 statements' do
@@ -254,9 +246,7 @@ describe SexpExtensions::DefsNode do
       b = @node.body
       expect(b.class.included_modules.first).to eq SexpNode
     end
-
   end
-
 end
 
 describe SexpExtensions::SendNode do
@@ -268,7 +258,6 @@ describe SexpExtensions::SendNode do
     it 'has no argument names' do
       expect(@node.arg_names).to eq []
     end
-
   end
 
   context 'with 1 literal parameter' do
@@ -279,7 +268,6 @@ describe SexpExtensions::SendNode do
     it 'has 1 argument name' do
       expect(@node.arg_names).to eq [:param]
     end
-
   end
 
   context 'with 2 literal parameters' do
@@ -290,9 +278,7 @@ describe SexpExtensions::SendNode do
     it 'has 2 argument names' do
       expect(@node.arg_names).to eq [:x, :y]
     end
-
   end
-
 end
 
 describe SexpExtensions::BlockNode do
@@ -304,7 +290,6 @@ describe SexpExtensions::BlockNode do
     it 'has no parameter names' do
       expect(@node.parameter_names).to eq []
     end
-
   end
 
   context 'with 1 parameter' do

@@ -15,7 +15,9 @@ module Reek
         @source = src
 
         config_files = extra_config_files + @source.relevant_config_files
-        config_files.each { |cf| Reek::Source::ConfigFile.new(cf).configure(@smell_repository) }
+        config_files.each do |cf|
+          Reek::Source::ConfigFile.new(cf).configure(@smell_repository)
+        end
       end
 
       def report_on(listener)

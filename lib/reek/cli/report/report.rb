@@ -58,12 +58,13 @@ module Reek
         end
 
         def sort_examiners
-          @examiners.sort! { |first, second| second.smells_count <=> first.smells_count } if @sort_by_issue_count
+          @examiners.sort_by!(&:smells_count).reverse! if @sort_by_issue_count
         end
 
         def total_smell_count_message
           colour = smells? ? WARNINGS_COLOR : NO_WARNINGS_COLOR
-          Rainbow("#{@total_smell_count} total warning#{'s' unless @total_smell_count == 1 }\n").color(colour)
+          s = @total_smell_count == 1 ? '' : 's'
+          Rainbow("#{@total_smell_count} total warning#{s}\n").color(colour)
         end
       end
 
@@ -92,11 +93,11 @@ module Reek
 
         require 'erb'
 
-        TEMPLATE = File.read(File.expand_path('../../../../../assets/html_output.html.erb', __FILE__))
-
         def show
+          path = File.expand_path('../../../../../assets/html_output.html.erb',
+                                  __FILE__)
           File.open('reek.html', 'w+') do |file|
-            file.puts ERB.new(TEMPLATE).result(binding)
+            file.puts ERB.new(File.read(path)).result(binding)
           end
           print("Html file saved\n")
         end

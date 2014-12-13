@@ -10,7 +10,8 @@ module Reek
 
         def self.header(examiner)
           count = examiner.smells_count
-          result = Rainbow("#{examiner.description} -- ").cyan + Rainbow("#{count} warning").yellow
+          result = Rainbow("#{examiner.description} -- ").cyan +
+                   Rainbow("#{count} warning").yellow
           result += Rainbow('s').yellow unless count == 1
           result
         end
@@ -22,7 +23,8 @@ module Reek
         module_function
 
         def format(warning)
-          "#{WarningFormatterWithLineNumbers.format(warning)} [#{explanatory_link(warning)}]"
+          "#{WarningFormatterWithLineNumbers.format(warning)} " \
+          "[#{explanatory_link(warning)}]"
         end
 
         def explanatory_link(warning)
@@ -48,7 +50,8 @@ module Reek
 
       module SingleLineWarningFormatter
         def self.format(warning)
-          "#{warning.source}:#{warning.lines.first}: #{SimpleWarningFormatter.format(warning)}"
+          "#{warning.source}:#{warning.lines.first}: " \
+          "#{SimpleWarningFormatter.format(warning)}"
         end
       end
     end

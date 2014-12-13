@@ -69,7 +69,11 @@ EOS
 
   context 'with 2 calls to a parameter' do
     it 'reports the smell' do
-      expect('def envy(arga) arga.b(arga) + arga.c(@fred) end').to reek_only_of(:FeatureEnvy, /arga/)
+      expect('
+        def envy(arga)
+          arga.b(arga) + arga.c(@fred)
+        end
+      ').to reek_only_of(:FeatureEnvy, /arga/)
     end
   end
 
@@ -100,15 +104,30 @@ EOS
   end
 
   it 'should not be fooled by duplication' do
-    expect('def feed(thing) @cow.feed_to(thing.pig); @duck.feed_to(thing.pig) end').to reek_only_of(:Duplication, /thing.pig/)
+    expect('
+      def feed(thing)
+        @cow.feed_to(thing.pig)
+        @duck.feed_to(thing.pig)
+      end
+    ').to reek_only_of(:Duplication, /thing.pig/)
   end
 
   it 'should count local calls' do
-    expect('def feed(thing) cow.feed_to(thing.pig); duck.feed_to(thing.pig) end').to reek_only_of(:Duplication, /thing.pig/)
+    expect('
+      def feed(thing)
+        cow.feed_to(thing.pig)
+        duck.feed_to(thing.pig)
+      end
+    ').to reek_only_of(:Duplication, /thing.pig/)
   end
 
   it 'should report many calls to lvar' do
-    expect('def envy() lv = @item; lv.price + lv.tax; end').to reek_only_of(:FeatureEnvy, /lv/)
+    expect('
+      def envy()
+        lv = @item
+        lv.price + lv.tax
+      end
+    ').to reek_only_of(:FeatureEnvy, /lv/)
     #
     # def moved_version
     #   price + tax

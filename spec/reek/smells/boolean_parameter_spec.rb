@@ -19,7 +19,7 @@ describe BooleanParameter do
         src = 'def cc(nowt, arga = true, argb = false, &blk) end'
         expect(src).to smell_of(BooleanParameter,
                                 { name: 'arga' },
-                                name: 'argb')
+                                { name: 'argb' })
       end
     end
 
@@ -36,7 +36,7 @@ describe BooleanParameter do
         src = 'def Module.cc(nowt, arga = true, argb = false, &blk) end'
         expect(src).to smell_of(BooleanParameter,
                                 { name: 'arga' },
-                                name: 'argb')
+                                { name: 'argb' })
       end
     end
   end

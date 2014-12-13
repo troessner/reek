@@ -6,8 +6,10 @@ module Reek
     #
     # Simulated Polymorphism occurs when
     # * code uses a case statement (especially on a type field);
-    # * or code has several if statements in a row (especially if they're comparing against the same value);
-    # * or code uses instance_of?, kind_of?, is_a?, or === to decide what type it's working with;
+    # * or code has several if statements in a row
+    #   (especially if they're comparing against the same value);
+    # * or code uses instance_of?, kind_of?, is_a?, or ===
+    #   to decide what type it's working with;
     # * or multiple conditionals in different places test the same value.
     #
     # Conditional code is hard to read and understand, because the reader must

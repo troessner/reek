@@ -18,7 +18,7 @@ module Reek
       self.parameters     = options.fetch(:parameters, {})
     end
 
-    def smell_classes()
+    def smell_classes
       [smell_detector.smell_category, smell_detector.smell_type]
     end
 

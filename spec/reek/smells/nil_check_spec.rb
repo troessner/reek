@@ -6,9 +6,7 @@ include Reek
 include Reek::Smells
 
 describe NilCheck do
-
   context 'for methods' do
-
     it 'reports the correct line number' do
       src = <<-EOS
       def nilcheck foo
