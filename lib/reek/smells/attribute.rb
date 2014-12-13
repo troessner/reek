@@ -17,8 +17,6 @@ module Reek
     # TODO: Catch attributes declared "by hand"
     #
     class Attribute < SmellDetector
-      ATTRIBUTE_KEY = 'attribute'
-
       def self.contexts # :nodoc:
         [:class, :module]
       end
@@ -38,7 +36,7 @@ module Reek
                            context: ctx.full_name,
                            lines: [line],
                            message:  "declares the attribute #{attribute}",
-                           parameters: { ATTRIBUTE_KEY => attribute.to_s }
+                           parameters: { name: attribute.to_s }
         end
       end
 

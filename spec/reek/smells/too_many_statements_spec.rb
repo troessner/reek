@@ -265,7 +265,7 @@ describe TooManyStatements do
     end
 
     it 'reports the number of statements' do
-      expect(@smells[0].parameters[TooManyStatements::STATEMENT_COUNT_KEY]).to eq(@num_statements)
+      expect(@smells[0].parameters[:count]).to eq(@num_statements)
     end
 
     it 'reports the correct smell sub class' do

@@ -13,8 +13,6 @@ module Reek
     # the context of the test includes all global state).
     #
     class ClassVariable < SmellDetector
-      VARIABLE_KEY = 'variable'
-
       def self.contexts # :nodoc:
         [:class, :module]
       end
@@ -30,7 +28,7 @@ module Reek
                            context: ctx.full_name,
                            lines: lines,
                            message: "declares the class variable #{variable}",
-                           parameters: { VARIABLE_KEY => variable.to_s }
+                           parameters: { name: variable.to_s }
         end
       end
 

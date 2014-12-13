@@ -35,8 +35,8 @@ describe UncommunicativeModuleName do
       expect(smells.length).to eq(1)
       expect(smells[0].smell_category).to eq(UncommunicativeModuleName.smell_category)
       expect(smells[0].smell_type).to eq(UncommunicativeModuleName.smell_type)
-      expect(smells[0].parameters[UncommunicativeModuleName::MODULE_NAME_KEY]).to eq('X')
-      expect(smells[0].context).to match(/#{smells[0].parameters[UncommunicativeModuleName::MODULE_NAME_KEY]}/)
+      expect(smells[0].parameters[:name]).to eq('X')
+      expect(smells[0].context).to match(/#{smells[0].parameters[:name]}/)
     end
   end
 
@@ -59,7 +59,7 @@ describe UncommunicativeModuleName do
     it_should_behave_like 'common fields set correctly'
 
     it 'reports the correct values' do
-      expect(@warning.parameters[UncommunicativeModuleName::MODULE_NAME_KEY]).to eq('Printer2')
+      expect(@warning.parameters[:name]).to eq('Printer2')
       expect(@warning.lines).to eq([1])
     end
   end

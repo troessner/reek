@@ -85,7 +85,7 @@ EOS
         ) { |qux| qux.quuz }
       end
     EOS
-    expect(src).to smell_of(NestedIterators, NestedIterators::NESTING_DEPTH_KEY => 2)
+    expect(src).to smell_of(NestedIterators, count: 2)
   end
 
   it 'reports the deepest level of nesting only' do
@@ -98,7 +98,7 @@ EOS
         }
       end
     EOS
-    expect(src).to smell_of(NestedIterators, NestedIterators::NESTING_DEPTH_KEY => 3)
+    expect(src).to smell_of(NestedIterators, count: 3)
   end
 
   context 'when the allowed nesting depth is 3' do
@@ -151,17 +151,17 @@ EOS
 
     it 'should report nested iterators inside the ignored iterator' do
       src = 'def bad(fred) @fred.ignore_me {|item| item.each {|ting| ting.each {|other| other.other} } } end'
-      expect(src).to smell_of(NestedIterators, NestedIterators::NESTING_DEPTH_KEY => 2).with_config(@config)
+      expect(src).to smell_of(NestedIterators, count: 2).with_config(@config)
     end
 
     it 'should report nested iterators outside the ignored iterator' do
       src = 'def bad(fred) @fred.each {|item| item.each {|ting| ting.ignore_me {|other| other.other} } } end'
-      expect(src).to smell_of(NestedIterators, NestedIterators::NESTING_DEPTH_KEY => 2).with_config(@config)
+      expect(src).to smell_of(NestedIterators, count: 2).with_config(@config)
     end
 
     it 'should report nested iterators with the ignored iterator between them' do
       src = 'def bad(fred) @fred.each {|item| item.ignore_me {|ting| ting.ting {|other| other.other} } } end'
-      expect(src).to smell_of(NestedIterators, NestedIterators::NESTING_DEPTH_KEY => 2).with_config(@config)
+      expect(src).to smell_of(NestedIterators, count: 2).with_config(@config)
     end
   end
 end
@@ -190,7 +190,7 @@ EOS
     it_should_behave_like 'common fields set correctly'
 
     it 'reports correct values' do
-      expect(@warning.parameters[NestedIterators::NESTING_DEPTH_KEY]).to eq(2)
+      expect(@warning.parameters[:count]).to eq(2)
       expect(@warning.lines).to eq([3])
     end
   end

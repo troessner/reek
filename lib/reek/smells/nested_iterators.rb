@@ -9,7 +9,6 @@ module Reek
     # +NestedIterators+ reports failing methods only once.
     #
     class NestedIterators < SmellDetector
-      NESTING_DEPTH_KEY = 'depth'
       # The name of the config field that sets the maximum depth
       # of nested iterators to be permitted within any single method.
       MAX_ALLOWED_NESTING_KEY = 'max_allowed_nesting'
@@ -40,7 +39,7 @@ module Reek
                             context: ctx.full_name,
                             lines: [exp.line],
                             message: "contains iterators nested #{depth} deep",
-                            parameters: { NESTING_DEPTH_KEY => depth })]
+                            parameters: { count: depth })]
         else
           []
         end

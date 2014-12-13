@@ -51,7 +51,7 @@ module Reek
       coder['lines']           = lines
       coder['message']         = message
       parameters.each do |key, value|
-        coder[key] = value
+        coder[key.to_s] = value
       end
     end
 

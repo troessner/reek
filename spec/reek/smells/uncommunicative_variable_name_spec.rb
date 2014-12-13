@@ -38,20 +38,20 @@ describe UncommunicativeVariableName do
     it 'reports one-letter variable name' do
       src = 'def simple(fred) x = jim(45) end'
       expect(src).to smell_of(UncommunicativeVariableName,
-                              UncommunicativeVariableName::VARIABLE_NAME_KEY => 'x')
+                              name: 'x')
     end
 
     it 'reports name of the form "x2"' do
       src = 'def simple(fred) x2 = jim(45) end'
       expect(src).to smell_of(UncommunicativeVariableName,
-                              UncommunicativeVariableName::VARIABLE_NAME_KEY => 'x2')
+                              name: 'x2')
     end
 
     it 'reports long name ending in a number' do
       @bad_var = 'var123'
       src = "def simple(fred) #{@bad_var} = jim(45) end"
       expect(src).to smell_of(UncommunicativeVariableName,
-                              UncommunicativeVariableName::VARIABLE_NAME_KEY => @bad_var)
+                              name: @bad_var)
     end
 
     it 'reports variable name only once' do
@@ -60,14 +60,14 @@ describe UncommunicativeVariableName do
       smells = @detector.examine_context(ctx)
       expect(smells.length).to eq(1)
       expect(smells[0].smell_type).to eq(UncommunicativeVariableName.smell_type)
-      expect(smells[0].parameters[UncommunicativeVariableName::VARIABLE_NAME_KEY]).to eq('x')
+      expect(smells[0].parameters[:name]).to eq('x')
       expect(smells[0].lines).to eq([1, 1])
     end
 
     it 'reports a bad name inside a block' do
       src = 'def clean(text) text.each { q2 = 3 } end'
       expect(src).to smell_of(UncommunicativeVariableName,
-                              UncommunicativeVariableName::VARIABLE_NAME_KEY => 'q2')
+                              name: 'q2')
     end
 
     it 'reports variable name outside any method' do
@@ -85,7 +85,7 @@ describe UncommunicativeVariableName do
   end
 EOS
       expect(src).to smell_of(UncommunicativeVariableName,
-                              UncommunicativeVariableName::VARIABLE_NAME_KEY => 'x')
+                              name: 'x')
     end
 
     it 'reports all relevant block parameters' do
@@ -95,8 +95,8 @@ EOS
         end
       EOS
       expect(src).to smell_of(UncommunicativeVariableName,
-                              { UncommunicativeVariableName::VARIABLE_NAME_KEY => 'x' },
-                              UncommunicativeVariableName::VARIABLE_NAME_KEY => 'y')
+                              { name: 'x' },
+                              { name: 'y' })
     end
 
     it 'reports block parameters used outside of methods' do
@@ -106,7 +106,7 @@ EOS
       end
       EOS
       expect(src).to smell_of(UncommunicativeVariableName,
-                              UncommunicativeVariableName::VARIABLE_NAME_KEY => 'x')
+                              name: 'x')
     end
 
     it 'reports splatted block parameters correctly' do
@@ -116,7 +116,7 @@ EOS
         end
       EOS
       expect(src).to smell_of(UncommunicativeVariableName,
-                              UncommunicativeVariableName::VARIABLE_NAME_KEY => 'y')
+                              name: 'y')
     end
 
     it 'reports nested block parameters' do
@@ -126,8 +126,8 @@ EOS
         end
       EOS
       expect(src).to smell_of(UncommunicativeVariableName,
-                              { UncommunicativeVariableName::VARIABLE_NAME_KEY => 'x' },
-                              UncommunicativeVariableName::VARIABLE_NAME_KEY => 'y')
+                              { name: 'x' },
+                              { name: 'y' })
     end
 
     it 'reports splatted nested block parameters' do
@@ -137,8 +137,8 @@ EOS
         end
       EOS
       expect(src).to smell_of(UncommunicativeVariableName,
-                              { UncommunicativeVariableName::VARIABLE_NAME_KEY => 'x' },
-                              UncommunicativeVariableName::VARIABLE_NAME_KEY => 'y')
+                              { name: 'x' },
+                              { name: 'y' })
     end
 
     it 'reports deeply nested block parameters' do
@@ -148,9 +148,9 @@ EOS
         end
       EOS
       expect(src).to smell_of(UncommunicativeVariableName,
-                              { UncommunicativeVariableName::VARIABLE_NAME_KEY => 'x' },
-                              { UncommunicativeVariableName::VARIABLE_NAME_KEY => 'y' },
-                              UncommunicativeVariableName::VARIABLE_NAME_KEY => 'z')
+                              { name: 'x' },
+                              { name: 'y' },
+                              { name: 'z' })
     end
 
   end
@@ -174,7 +174,7 @@ EOS
     it_should_behave_like 'common fields set correctly'
 
     it 'reports the correct values' do
-      expect(@warning.parameters[UncommunicativeVariableName::VARIABLE_NAME_KEY]).to eq('x2')
+      expect(@warning.parameters[:name]).to eq('x2')
       expect(@warning.lines).to eq([3, 5])
     end
   end

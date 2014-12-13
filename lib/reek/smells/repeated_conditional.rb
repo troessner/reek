@@ -56,7 +56,7 @@ module Reek
                            context: ctx.full_name,
                            lines: lines,
                            message: "tests #{expression} at least #{occurs} times",
-                           parameters: { 'expression' => expression, 'occurrences' => occurs }
+                           parameters: { name: expression, count: occurs }
         end
       end
 

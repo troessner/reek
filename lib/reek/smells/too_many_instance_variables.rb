@@ -11,7 +11,6 @@ module Reek
     # configurable number of instance variables.
     #
     class TooManyInstanceVariables < SmellDetector
-      IVAR_COUNT_KEY = 'ivar_count'
       # The name of the config field that sets the maximum number of instance
       # variables permitted in a class.
       MAX_ALLOWED_IVARS_KEY = 'max_instance_variables'
@@ -45,7 +44,7 @@ module Reek
                           context: ctx.full_name,
                           lines: [ctx.exp.line],
                           message: "has at least #{count} instance variables",
-                          parameters: { IVAR_COUNT_KEY => count })]
+                          parameters: { count: count })]
       end
     end
   end

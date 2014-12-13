@@ -17,7 +17,6 @@ module Reek
     # * names ending with a number
     #
     class UncommunicativeParameterName < SmellDetector
-      PARAMETER_NAME_KEY = 'parameter_name'
       # The name of the config field that lists the regexps of
       # smelly names to be reported.
       REJECT_KEY = 'reject'
@@ -56,7 +55,7 @@ module Reek
                            context: ctx.full_name,
                            lines: [context_expression.line],
                            message: "has the parameter name '#{name}'",
-                           parameters: { PARAMETER_NAME_KEY => name.to_s })
+                           parameters: { name: name.to_s })
         end
       end
 

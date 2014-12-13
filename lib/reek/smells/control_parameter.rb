@@ -41,8 +41,6 @@ module Reek
     # the source code.
     #
     class ControlParameter < SmellDetector
-      PARAMETER_KEY = 'parameter'
-
       def self.smell_category
         'ControlCouple'
       end
@@ -59,7 +57,7 @@ module Reek
                            context: ctx.full_name,
                            lines: control_parameter.lines,
                            message: "is controlled by argument #{control_parameter.name}",
-                           parameters: { PARAMETER_KEY => control_parameter.name.to_s }
+                           parameters: { name: control_parameter.name.to_s }
         end
       end
 

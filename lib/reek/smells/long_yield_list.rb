@@ -8,7 +8,6 @@ module Reek
     # passed to a block by a +yield+ call.
     #
     class LongYieldList < SmellDetector
-      PARAMETER_COUNT_KEY = 'parameter_count'
       # The name of the config field that sets the maximum number of
       # parameters permitted in any method or block.
       MAX_ALLOWED_PARAMS_KEY = 'max_params'
@@ -37,7 +36,7 @@ module Reek
                            context: method_ctx.full_name,
                            lines: [yield_node.line],
                            message: "yields #{count} parameters",
-                           parameters: { PARAMETER_COUNT_KEY => count }
+                           parameters: { count: count }
         end
       end
     end

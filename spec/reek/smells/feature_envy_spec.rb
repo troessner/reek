@@ -235,10 +235,10 @@ EOS
       expect(@smells[0].smell_type).to eq(FeatureEnvy.smell_type)
     end
     it 'reports the envious receiver' do
-      expect(@smells[0].parameters[FeatureEnvy::RECEIVER_KEY]).to eq(@receiver)
+      expect(@smells[0].parameters[:name]).to eq(@receiver)
     end
     it 'reports the number of references' do
-      expect(@smells[0].parameters[FeatureEnvy::REFERENCES_KEY]).to eq(3)
+      expect(@smells[0].parameters[:count]).to eq(3)
     end
     it 'reports the referring lines' do
       skip

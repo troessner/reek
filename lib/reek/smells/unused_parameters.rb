@@ -7,8 +7,6 @@ module Reek
     # Methods should use their parameters.
     #
     class UnusedParameters < SmellDetector
-      PARAMETER_KEY = 'parameter'
-
       def self.smell_category
         'UnusedCode'
       end
@@ -25,7 +23,7 @@ module Reek
                            context: method_ctx.full_name,
                            lines: [method_ctx.exp.line],
                            message: "has unused parameter '#{param.name}'",
-                           parameters: { PARAMETER_KEY => param.name.to_s })
+                           parameters: { name: param.name.to_s })
         end
       end
     end

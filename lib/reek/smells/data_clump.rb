@@ -17,9 +17,6 @@ module Reek
     # the same names that are expected by three or more methods of a class.
     #
     class DataClump < SmellDetector
-      METHODS_KEY = 'methods'
-      OCCURRENCES_KEY = 'occurrences'
-      PARAMETERS_KEY = 'parameters'
       #
       # The name of the config field that sets the maximum allowed
       # copies of any clump. No group of common parameters will be
@@ -62,9 +59,9 @@ module Reek
                            lines: methods.map(&:line),
                            message: "takes parameters #{DataClump.print_clump(clump)} to #{methods.length} methods",
                            parameters: {
-                             PARAMETERS_KEY => clump.map(&:to_s),
-                             OCCURRENCES_KEY => methods.length,
-                             METHODS_KEY => methods.map(&:name)
+                             parameters: clump.map(&:to_s),
+                             count: methods.length,
+                             methods: methods.map(&:name)
                            }
         end
       end

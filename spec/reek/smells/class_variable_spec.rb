@@ -36,7 +36,7 @@ describe ClassVariable do
         expect(@smells.length).to eq(1)
       end
       it 'records the variable name' do
-        expect(@smells[0].parameters[ClassVariable::VARIABLE_KEY]).to eq(@class_variable)
+        expect(@smells[0].parameters[:name]).to eq(@class_variable)
       end
     end
 
@@ -94,7 +94,7 @@ EOS
     expect(@warning.source).to eq(@source_name)
     expect(@warning.smell_category).to eq(ClassVariable.smell_category)
     expect(@warning.smell_type).to eq(ClassVariable.smell_type)
-    expect(@warning.parameters[ClassVariable::VARIABLE_KEY]).to eq(@class_variable)
+    expect(@warning.parameters[:name]).to eq(@class_variable)
     expect(@warning.lines).to eq([2])
   end
 end

@@ -35,13 +35,13 @@ EOS
       expect(@smells.length).to eq(1)
     end
     it 'reports all parameters' do
-      expect(@smells[0].parameters[DataClump::PARAMETERS_KEY]).to eq(['pa', 'pb'])
+      expect(@smells[0].parameters[:parameters]).to eq(['pa', 'pb'])
     end
     it 'reports the number of occurrences' do
-      expect(@smells[0].parameters[DataClump::OCCURRENCES_KEY]).to eq(3)
+      expect(@smells[0].parameters[:count]).to eq(3)
     end
     it 'reports all methods' do
-      expect(@smells[0].parameters[DataClump::METHODS_KEY]).to eq(['first', 'second', 'third'])
+      expect(@smells[0].parameters[:methods]).to eq(['first', 'second', 'third'])
     end
     it 'reports the declaration line numbers' do
       expect(@smells[0].lines).to eq([2, 3, 4])
@@ -63,8 +63,8 @@ EOS
 end
 EOS
     expect(src).to smell_of(DataClump,
-                            DataClump::OCCURRENCES_KEY => 3,
-                            DataClump::PARAMETERS_KEY => ['pa', 'pb'])
+                            count: 3,
+                            parameters: ['pa', 'pb'])
   end
 
   it 'reports 3 identical parameter sets' do
@@ -76,8 +76,8 @@ EOS
 end
 EOS
     expect(src).to smell_of(DataClump,
-                            DataClump::OCCURRENCES_KEY => 3,
-                            DataClump::PARAMETERS_KEY => ['pa', 'pb', 'pc'])
+                            count: 3,
+                            parameters: ['pa', 'pb', 'pc'])
   end
 
   it 'reports re-ordered identical parameter sets' do
@@ -89,8 +89,8 @@ EOS
 end
 EOS
     expect(src).to smell_of(DataClump,
-                            DataClump::OCCURRENCES_KEY => 3,
-                            DataClump::PARAMETERS_KEY => ['pa', 'pb', 'pc'])
+                            count: 3,
+                            parameters: ['pa', 'pb', 'pc'])
   end
 
   it 'counts only identical parameter sets' do
@@ -114,7 +114,7 @@ EOS
   def c_raw_singleton (src, options) end
 end
 EOS
-    expect(src).to smell_of(DataClump, DataClump::OCCURRENCES_KEY => 5)
+    expect(src).to smell_of(DataClump, count: 5)
   end
 
   it 'correctly checks number of occurences' do
@@ -139,7 +139,7 @@ EOS
       end
     EOS
     expect(src).to smell_of(DataClump,
-                            DataClump::PARAMETERS_KEY => %w(p1 p2))
+                            parameters: %w(p1 p2))
   end
 
   it 'ignores anonymous parameters' do
@@ -151,7 +151,7 @@ EOS
       end
     EOS
     expect(src).to smell_of(DataClump,
-                            DataClump::PARAMETERS_KEY => %w(p1 p2))
+                            parameters: %w(p1 p2))
   end
 end
 

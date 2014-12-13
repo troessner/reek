@@ -13,7 +13,6 @@ module Reek
     # many parameters.
     #
     class LongParameterList < SmellDetector
-      PARAMETER_COUNT_KEY = 'parameter_count'
       # The name of the config field that sets the maximum number of
       # parameters permitted in any method or block.
       MAX_ALLOWED_PARAMS_KEY = 'max_params'
@@ -41,7 +40,7 @@ module Reek
                           context: ctx.full_name,
                           lines: [ctx.exp.line],
                           message: "has #{count} parameters",
-                          parameters: { PARAMETER_COUNT_KEY => count })]
+                          parameters: { count: count })]
       end
     end
   end

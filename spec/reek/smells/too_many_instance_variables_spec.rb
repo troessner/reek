@@ -82,7 +82,7 @@ describe TooManyInstanceVariables do
     expect(@warning.source).to eq(@source_name)
     expect(@warning.smell_category).to eq(TooManyInstanceVariables.smell_category)
     expect(@warning.smell_type).to eq(TooManyInstanceVariables.smell_type)
-    expect(@warning.parameters[TooManyInstanceVariables::IVAR_COUNT_KEY]).to eq(10)
+    expect(@warning.parameters[:count]).to eq(10)
     expect(@warning.lines).to eq([2])
   end
 end

@@ -17,7 +17,6 @@ module Reek
     # * names ending with a number
     #
     class UncommunicativeVariableName < SmellDetector
-      VARIABLE_NAME_KEY = 'variable_name'
       # The name of the config field that lists the regexps of
       # smelly names to be reported.
       REJECT_KEY = 'reject'
@@ -59,7 +58,7 @@ module Reek
                            context: ctx.full_name,
                            lines: lines,
                            message: "has the variable name '#{name}'",
-                           parameters: { VARIABLE_NAME_KEY => name.to_s })
+                           parameters: { name: name.to_s })
         end
       end
 
