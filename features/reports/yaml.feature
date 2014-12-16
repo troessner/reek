@@ -26,8 +26,8 @@ Feature: Report smells using simple YAML layout
         - 4
         - 6
         message: calls @s.title 2 times
-        call: "@s.title"
-        occurrences: 2
+        name: "@s.title"
+        count: 2
       - smell_category: Duplication
         smell_type: DuplicateMethodCall
         source: spec/samples/masked/dirty.rb
@@ -36,8 +36,8 @@ Feature: Report smells using simple YAML layout
         - 4
         - 6
         message: calls puts(@s.title) 2 times
-        call: puts(@s.title)
-        occurrences: 2
+        name: puts(@s.title)
+        count: 2
       - smell_category: NestedIterators
         smell_type: NestedIterators
         source: spec/samples/masked/dirty.rb
@@ -45,7 +45,7 @@ Feature: Report smells using simple YAML layout
         lines:
         - 5
         message: contains iterators nested 2 deep
-        depth: 2
+        count: 2
       """
 
   @stdin
@@ -62,5 +62,5 @@ Feature: Report smells using simple YAML layout
         lines:
         - 1
         message: has no descriptive comment
-        module_name: Turn
+        name: Turn
       """

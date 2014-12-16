@@ -20,14 +20,14 @@ describe UnusedParameters do
     it 'reports for 1 used and 2 unused parameter' do
       src = 'def simple(num,sum,denum); sum end'
       expect(src).to smell_of(UnusedParameters,
-                              { UnusedParameters::PARAMETER_KEY => 'num' },
-                              UnusedParameters::PARAMETER_KEY => 'denum')
+                              { name: 'num' },
+                              { name: 'denum'})
     end
 
     it 'reports for 3 used and 1 unused parameter' do
       src = 'def simple(num,sum,denum,quotient); num + denum + sum end'
       expect(src).to smell_of(UnusedParameters,
-                              UnusedParameters::PARAMETER_KEY => 'quotient')
+                              name: 'quotient')
     end
 
     it 'reports nothing for used splatted parameter' do

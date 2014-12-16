@@ -17,8 +17,6 @@ module Reek
     #   end
     #
     class DuplicateMethodCall < SmellDetector
-      CALL_KEY = 'call'
-      OCCURRENCES_KEY = 'occurrences'
       # The name of the config field that sets the maximum number of
       # identical calls to be permitted within any single method.
       MAX_ALLOWED_CALLS_KEY = 'max_calls'
@@ -55,7 +53,7 @@ module Reek
                            context: ctx.full_name,
                            lines: found_call.lines,
                            message: "calls #{found_call.call} #{found_call.occurs} times",
-                           parameters: { CALL_KEY => found_call.call, OCCURRENCES_KEY => found_call.occurs }
+                           parameters: { name: found_call.call, count: found_call.occurs }
         end
       end
 

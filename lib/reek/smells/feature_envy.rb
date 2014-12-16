@@ -32,8 +32,6 @@ module Reek
     #
     class FeatureEnvy < SmellDetector
       include ExcludeInitialize
-      RECEIVER_KEY = 'receiver'
-      REFERENCES_KEY = 'references'
 
       def self.smell_category
         'LowCohesion'
@@ -52,7 +50,7 @@ module Reek
                            context: method_ctx.full_name,
                            lines: [method_ctx.exp.line],
                            message: "refers to #{target} more than self",
-                           parameters: { RECEIVER_KEY => target, REFERENCES_KEY => occurs }
+                           parameters: { name: target, count: occurs }
         end
       end
     end

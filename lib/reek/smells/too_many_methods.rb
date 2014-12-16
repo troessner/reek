@@ -13,7 +13,6 @@ module Reek
     # modules.
     #
     class TooManyMethods < SmellDetector
-      METHOD_COUNT_KEY = 'method_count'
       # The name of the config field that sets the maximum number of methods
       # permitted in a class.
       MAX_ALLOWED_METHODS_KEY = 'max_methods'
@@ -47,7 +46,7 @@ module Reek
                           context: ctx.full_name,
                           lines: [ctx.exp.line],
                           message:  "has at least #{actual} methods",
-                          parameters: { METHOD_COUNT_KEY => actual })]
+                          parameters: { count: actual })]
       end
     end
   end

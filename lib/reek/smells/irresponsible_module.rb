@@ -9,8 +9,6 @@ module Reek
     # with a brief comment outlining its responsibilities.
     #
     class IrresponsibleModule < SmellDetector
-      MODULE_NAME_KEY = 'module_name'
-
       def self.contexts # :nodoc:
         [:class]
       end
@@ -31,7 +29,7 @@ module Reek
                           context: ctx.full_name,
                           lines: [ctx.exp.line],
                           message: 'has no descriptive comment',
-                          parameters: {  MODULE_NAME_KEY => ctx.exp.text_name })]
+                          parameters: {  name: ctx.exp.text_name })]
       end
     end
   end

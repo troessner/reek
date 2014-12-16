@@ -12,8 +12,6 @@ module Reek
     # default initializer.
     #
     class BooleanParameter < SmellDetector
-      PARAMETER_KEY = 'parameter'
-
       def self.smell_category
         'ControlCouple'
       end
@@ -31,7 +29,7 @@ module Reek
                            context: method_ctx.full_name,
                            lines: [method_ctx.exp.line],
                            message: "has boolean parameter '#{parameter}'",
-                           parameters: { PARAMETER_KEY => parameter.to_s }
+                           parameters: { name: parameter.to_s }
         end
       end
     end

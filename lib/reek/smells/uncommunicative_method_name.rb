@@ -17,7 +17,6 @@ module Reek
     # * names ending with a number
     #
     class UncommunicativeMethodName < SmellDetector
-      METHOD_NAME_KEY = 'method_name'
       # The name of the config field that lists the regexps of
       # smelly names to be reported.
       REJECT_KEY = 'reject'
@@ -57,7 +56,7 @@ module Reek
                           context: ctx.full_name,
                           lines: [ctx.exp.line],
                           message: "has the name '#{name}'",
-                          parameters: { METHOD_NAME_KEY => name.to_s })]
+                          parameters: { name: name })]
       end
     end
   end

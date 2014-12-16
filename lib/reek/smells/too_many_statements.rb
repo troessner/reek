@@ -9,7 +9,6 @@ module Reek
     # +TooManyStatements+ reports any method with more than 5 statements.
     #
     class TooManyStatements < SmellDetector
-      STATEMENT_COUNT_KEY = 'statement_count'
       # The name of the config field that sets the maximum number of
       # statements permitted in any method.
       MAX_ALLOWED_STATEMENTS_KEY = 'max_statements'
@@ -39,7 +38,7 @@ module Reek
                           context: ctx.full_name,
                           lines: [ctx.exp.line],
                           message: "has approx #{count} statements",
-                          parameters: { STATEMENT_COUNT_KEY => count })]
+                          parameters: { count: count })]
       end
     end
   end

@@ -47,7 +47,7 @@ EOS
       smells = @detector.examine_context(ctx)
       expect(smells.length).to eq(1)
       expect(smells[0].smell_type).to eq(TooManyMethods.smell_type)
-      expect(smells[0].parameters[TooManyMethods::METHOD_COUNT_KEY]).to eq(26)
+      expect(smells[0].parameters[:count]).to eq(26)
     end
   end
 
@@ -84,7 +84,7 @@ EOS
     expect(@warning.source).to eq(@source_name)
     expect(@warning.smell_category).to eq(TooManyMethods.smell_category)
     expect(@warning.smell_type).to eq(TooManyMethods.smell_type)
-    expect(@warning.parameters[TooManyMethods::METHOD_COUNT_KEY]).to eq(26)
+    expect(@warning.parameters[:count]).to eq(26)
     expect(@warning.lines).to eq([1])
   end
 end
