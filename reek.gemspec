@@ -18,8 +18,8 @@ Gem::Specification.new do |s|
   s.executables = ['reek']
   s.extra_rdoc_files = ['CHANGELOG', 'License.txt']
   s.files = Dir['.yardopts', 'CHANGELOG', 'License.txt', 'README.md',
-                'Rakefile', 'assets/html_output.html.erb', 'bin/reek', 'config/defaults.reek',
-                '{features,lib,spec,tasks}/**/*',
+                'Rakefile', 'assets/html_output.html.erb', 'bin/reek',
+                'config/defaults.reek', '{features,lib,spec,tasks}/**/*',
                 'reek.gemspec'] & `git ls-files -z`.split("\0")
   s.homepage = 'http://wiki.github.com/troessner/reek'
   s.rdoc_options = ['--main', 'README.md',
@@ -40,4 +40,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency('rspec', ['~> 3.0'])
   s.add_development_dependency('yard', ['>= 0.8.7', '< 0.9'])
   s.add_development_dependency('factory_girl', ['~> 4.0'])
+  s.add_development_dependency('rubocop', ['~> 0.28.0'])
 end

@@ -31,7 +31,9 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       def examine_context(ctx)
-        @max_allowed_statements = value(MAX_ALLOWED_STATEMENTS_KEY, ctx, DEFAULT_MAX_STATEMENTS)
+        @max_allowed_statements = value(MAX_ALLOWED_STATEMENTS_KEY,
+                                        ctx,
+                                        DEFAULT_MAX_STATEMENTS)
         count = ctx.num_statements
         return [] if count <= @max_allowed_statements
         [SmellWarning.new(self,

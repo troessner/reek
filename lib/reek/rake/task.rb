@@ -103,11 +103,11 @@ module Reek
 
       def cmd_words
         [Task.ruby_exe] +
-            ruby_options +
-            [%(reek)] +
-            [sort_option] +
-            config_file_list.map { |fn| ['-c', %("#{fn}")] }.flatten +
-            source_file_list.map { |fn| %("#{fn}") }
+          ruby_options +
+          [%(reek)] +
+          [sort_option] +
+          config_file_list.map { |fn| ['-c', %("#{fn}")] }.flatten +
+          source_file_list.map { |fn| %("#{fn}") }
       end
 
       def config_file_list

@@ -16,7 +16,6 @@ describe TooManyMethods do
   it_should_behave_like 'SmellDetector'
 
   context 'counting methods' do
-
     it 'should not report 25 methods' do
       src = <<EOS
 # smelly class for testing purposes
@@ -59,7 +58,13 @@ class Full
   def me11x()3 end;def me12x()3 end;def me13x()3 end;def me14x()3 end;def me15x()3 end
   def me21x()3 end;def me22x()3 end;def me23x()3 end;def me24x()3 end;def me25x()3 end
   def me31x()3 end;def me32x()3 end;def me33x()3 end;def me34x()3 end;def me35x()3 end
-  module Hidden; def me41x()3 end;def me42x()3 end;def me43x()3 end;def me44x()3 end;def me45x()3 end; end
+  module Hidden
+    def me41x()3 end
+    def me42x()3 end
+    def me43x()3 end
+    def me44x()3 end
+    def me45x()3 end
+  end
   def me51x()3 end
 end
 EOS

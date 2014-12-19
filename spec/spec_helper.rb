@@ -7,7 +7,7 @@ require 'factory_girl'
 begin
   require 'pry'
   require 'byebug'
-rescue LoadError
+rescue LoadError # rubocop:disable Lint/HandleExceptions
 end
 
 FactoryGirl.find_definitions

@@ -17,7 +17,10 @@ describe WarningCollector do
 
   context 'with one warning' do
     before :each do
-      @warning = Reek::SmellWarning.new Reek::Smells::FeatureEnvy.new(''), context: 'fred', lines: [1, 2, 3], message: 'hello'
+      @warning = Reek::SmellWarning.new(Reek::Smells::FeatureEnvy.new(''),
+                                        context: 'fred',
+                                        lines:   [1, 2, 3],
+                                        message: 'hello')
       @collector.found_smell(@warning)
     end
     it 'reports that warning' do

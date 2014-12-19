@@ -6,9 +6,7 @@ include Reek
 include Reek::Smells
 
 describe UnusedParameters do
-
   context 'for methods' do
-
     it 'reports nothing for no parameters' do
       expect('def simple; true end').not_to smell_of(UnusedParameters)
     end
@@ -21,7 +19,7 @@ describe UnusedParameters do
       src = 'def simple(num,sum,denum); sum end'
       expect(src).to smell_of(UnusedParameters,
                               { name: 'num' },
-                              { name: 'denum'})
+                              { name: 'denum' })
     end
 
     it 'reports for 3 used and 1 unused parameter' do

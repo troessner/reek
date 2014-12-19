@@ -22,7 +22,9 @@ module Reek
         module_ctx.local_nodes(:def) do |node| # FIXME: also search for :defs?
           if node.name.to_s == 'initialize'
             return [
-              SmellWarning.new(self, context: module_ctx.full_name, lines: [module_ctx.exp.line], message: 'has initialize method')
+              SmellWarning.new(self, context: module_ctx.full_name,
+                                     lines:   [module_ctx.exp.line],
+                                     message: 'has initialize method')
             ]
           end
         end

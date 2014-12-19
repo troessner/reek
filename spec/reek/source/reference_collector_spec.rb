@@ -4,7 +4,6 @@ require 'reek/source/reference_collector'
 include Reek::Source
 
 describe ReferenceCollector do
-
   context 'counting refs to self' do
     def refs_to_self(src)
       ReferenceCollector.new(src.to_reek_source.syntax_tree).num_refs_to_self

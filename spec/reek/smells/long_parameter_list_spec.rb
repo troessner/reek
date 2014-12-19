@@ -6,7 +6,6 @@ include Reek
 include Reek::Smells
 
 describe LongParameterList do
-
   context 'for methods with few parameters' do
     it 'should report nothing for no parameters' do
       expect('def simple; f(3);true; end').not_to smell_of(LongParameterList)
@@ -18,10 +17,15 @@ describe LongParameterList do
       expect('def simple(yep,zero) f(3);true end').not_to smell_of(LongParameterList)
     end
     it 'should not count an optional block' do
-      expect('def simple(alpha, yep, zero, &opt) f(3);true end').not_to smell_of(LongParameterList)
+      src = 'def simple(alpha, yep, zero, &opt) f(3); true end'
+      expect(src).not_to smell_of(LongParameterList)
     end
     it 'should not report inner block with too many parameters' do
-      src = 'def simple(yep,zero); m[3]; rand(34); f.each { |arga, argb, argc, argd| true}; end'
+      src = '
+        def simple(yep,zero)
+          m[3]; rand(34); f.each { |arga, argb, argc, argd| true}
+        end
+      '
       expect(src).not_to smell_of(LongParameterList)
     end
 
@@ -30,10 +34,12 @@ describe LongParameterList do
         expect('def simple(zero=nil) f(3);false end').not_to smell_of(LongParameterList)
       end
       it 'should report nothing for 2 parameters with 1 default' do
-        expect('def simple(yep, zero=nil) f(3);false end').not_to smell_of(LongParameterList)
+        source = 'def simple(yep, zero=nil) f(3); false end'
+        expect(source).not_to smell_of(LongParameterList)
       end
       it 'should report nothing for 2 defaulted parameters' do
-        expect('def simple(yep=4, zero=nil) f(3);false end').not_to smell_of(LongParameterList)
+        source = 'def simple(yep=4, zero=nil) f(3); false end'
+        expect(source).not_to smell_of(LongParameterList)
       end
     end
   end

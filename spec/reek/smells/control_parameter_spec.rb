@@ -12,7 +12,6 @@ describe ControlParameter do
 
   it_should_behave_like 'SmellDetector'
 
-
   context 'parameter not used to determine code path' do
     it 'does not report a ternary check on an ivar' do
       src = 'def simple(arga) @ivar ? arga : 3 end'
@@ -34,7 +33,6 @@ describe ControlParameter do
       expect(src).not_to smell_of(ControlParameter)
     end
   end
-
 
   context 'parameter only used to determine code path' do
     it 'reports a ternary check on a parameter' do

@@ -27,7 +27,9 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       def examine_context(method_ctx)
-        @max_allowed_params = value(MAX_ALLOWED_PARAMS_KEY, method_ctx, DEFAULT_MAX_ALLOWED_PARAMS)
+        @max_allowed_params = value(MAX_ALLOWED_PARAMS_KEY,
+                                    method_ctx,
+                                    DEFAULT_MAX_ALLOWED_PARAMS)
         method_ctx.local_nodes(:yield).select do |yield_node|
           yield_node.args.length > @max_allowed_params
         end.map do |yield_node|

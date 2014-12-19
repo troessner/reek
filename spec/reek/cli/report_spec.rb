@@ -118,7 +118,8 @@ describe Report::TextReport, ' when empty' do
         end
 
         it 'has a header in color' do
-          expect(@result.first).to start_with "\e[36mstring -- \e[0m\e[33m2 warning\e[0m\e[33ms\e[0m"
+          expect(@result.first).
+            to start_with "\e[36mstring -- \e[0m\e[33m2 warning\e[0m\e[33ms\e[0m"
         end
 
         it 'has a footer in color' do

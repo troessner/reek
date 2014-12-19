@@ -67,7 +67,12 @@ describe ClassVariable do
 
       context "declared and used in a #{scope}" do
         before :each do
-          @src = "#{scope} Fred; #{@class_variable} = {}; def jim() #{@class_variable} = {}; end; end"
+          @src = "
+            #{scope} Fred
+              #{@class_variable} = {}
+              def jim() #{@class_variable} = {}; end
+            end
+          "
         end
 
         it_should_behave_like 'one variable found'
@@ -75,7 +80,12 @@ describe ClassVariable do
 
       context "used twice in a #{scope}" do
         before :each do
-          @src = "#{scope} Fred; def jeff() #{@class_variable} = {}; end; def jim() #{@class_variable} = {}; end; end"
+          @src = "
+            #{scope} Fred
+              def jeff() #{@class_variable} = {}; end
+              def jim()  #{@class_variable} = {}; end
+            end
+          "
         end
 
         it_should_behave_like 'one variable found'

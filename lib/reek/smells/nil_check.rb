@@ -52,10 +52,10 @@ module Reek
         end
 
         def nil_comparison?(call)
-          is_comparison_call?(call) && involves_nil?(call)
+          comparison_call?(call) && involves_nil?(call)
         end
 
-        def is_comparison_call?(call)
+        def comparison_call?(call)
           comparison_methods.include? call.method_name
         end
 

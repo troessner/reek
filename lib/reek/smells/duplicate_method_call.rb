@@ -48,7 +48,8 @@ module Reek
         max_allowed_calls = value(MAX_ALLOWED_CALLS_KEY, ctx, DEFAULT_MAX_CALLS)
         allow_calls = value(ALLOW_CALLS_KEY, ctx, DEFAULT_ALLOW_CALLS)
 
-        CallCollector.new(ctx, max_allowed_calls, allow_calls).smelly_calls.map do |found_call|
+        collector = CallCollector.new(ctx, max_allowed_calls, allow_calls)
+        collector.smelly_calls.map do |found_call|
           SmellWarning.new self,
                            context: ctx.full_name,
                            lines: found_call.lines,

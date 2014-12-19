@@ -59,7 +59,8 @@ describe UtilityFunction do
 
   context 'with two or more calls' do
     it 'reports two calls' do
-      expect('def simple(arga) arga.to_s + arga.to_i end').to reek_of(:UtilityFunction, /simple/)
+      src = 'def simple(arga) arga.to_s + arga.to_i end'
+      expect(src).to reek_of(:UtilityFunction, /simple/)
     end
     it 'counts a local call in a param initializer' do
       expect('def simple(arga=local) arga.to_s end').not_to reek_of(:UtilityFunction)
