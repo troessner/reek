@@ -5,7 +5,7 @@ AllCops:
 
 # Be a little more lenient with line length
 Metrics/LineLength:
-  Max: 92
+  Max: 100
 
 # Allow small arrays of words with quotes
 Style/WordArray:
