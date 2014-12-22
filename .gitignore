@@ -9,3 +9,4 @@ doc
 Gemfile.lock
 *.swp
 tags
+.pryrc

@@ -39,7 +39,9 @@ describe ShouldReek do
     end
 
     it 'masks smells using the relevant configuration' do
-      expect(matcher.matches?(masked_dir)).to be_falsey
+      with_test_config('spec/samples/clean_due_to_masking/masked.reek') do
+        expect(matcher.matches?(masked_dir)).to be_falsey
+      end
     end
 
     it 'reports the smells when should_not fails' do
@@ -62,7 +64,9 @@ describe ShouldReek do
     end
 
     it 'masks smells using the relevant configuration' do
-      expect(matcher.matches?(masked_file)).to be_falsey
+      with_test_config('spec/samples/clean_due_to_masking/masked.reek') do
+        expect(matcher.matches?(masked_file)).to be_falsey
+      end
     end
 
     it 'reports the smells when should_not fails' do

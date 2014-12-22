@@ -10,6 +10,13 @@ module Reek
     # single unit of Ruby source code.
     #
     class SourceRepository
+      # TODO: This method is a least partially broken.
+      # Regardless of how you call reek, be it:
+      #   reek lib/
+      #   reek lib/file_one.rb lib/file_two.rb
+      #   echo "def m; end" | reek
+      # we *always* end up in the "when Source::SourceCode" branch.
+      # So it seems like 80% of this method is never used.
       def self.parse(source)
         case source
         when Array

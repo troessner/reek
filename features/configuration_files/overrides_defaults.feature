@@ -5,7 +5,7 @@ Feature: Overriding current rules by specifying new configuration values
   I want to be able to override the default configuration values
 
   Scenario: List of configuration values is overridden by a lower config file
-    When I run reek spec/samples/overrides_defaults/camel_case.rb
+    When I run reek -c spec/samples/overrides_defaults/config.reek spec/samples/overrides_defaults/camel_case.rb
     Then the exit status indicates smells
     And it reports:
       """

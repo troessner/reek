@@ -1,6 +1,6 @@
 require 'reek/core/code_parser'
 require 'reek/core/smell_repository'
-require 'reek/source/config_file'
+require 'reek/configuration/app_configuration'
 
 module Reek
   module Core
@@ -8,16 +8,12 @@ module Reek
     # Configures all available smell detectors and applies them to a source.
     #
     class Sniffer
-      def initialize(src,
-                     extra_config_files = [],
-                     smell_repository = Core::SmellRepository.new(src.desc))
+      def initialize(source, # Either Source::SourceFile or Source::SourceCode
+                     smell_repository = Core::SmellRepository.new(source.desc))
         @smell_repository = smell_repository
-        @source = src
+        @source = source
 
-        config_files = extra_config_files + @source.relevant_config_files
-        config_files.each do |cf|
-          Reek::Source::ConfigFile.new(cf).configure(@smell_repository)
-        end
+        Configuration::AppConfiguration.configure_smell_repository(@smell_repository)
       end
 
       def report_on(listener)

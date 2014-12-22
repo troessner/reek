@@ -10,7 +10,7 @@ Feature: Basic smell detection
     Then the exit status indicates smells
     And it reports:
     """
-    spec/samples/inline.rb -- 43 warnings:
+    spec/samples/inline.rb -- 44 warnings:
       CompilationError has no descriptive comment (IrresponsibleModule)
       File has no descriptive comment (IrresponsibleModule)
       File#self.write_with_backup has approx 6 statements (TooManyStatements)
@@ -44,6 +44,7 @@ Feature: Basic smell detection
       Inline::C#initialize calls stack.empty? 2 times (DuplicateMethodCall)
       Inline::C#module_name has approx 7 statements (TooManyStatements)
       Inline::C#module_name has the variable name 'm' (UncommunicativeVariableName)
+      Inline::C#module_name has the variable name 'md5' (UncommunicativeVariableName)
       Inline::C#module_name has the variable name 'x' (UncommunicativeVariableName)
       Inline::C#parse_signature has approx 16 statements (TooManyStatements)
       Inline::C#parse_signature has boolean parameter 'raw' (BooleanParameter)

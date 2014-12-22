@@ -1,7 +1,6 @@
 old_verbose, $VERBOSE = $VERBOSE, nil
 require 'parser/current'
 $VERBOSE = old_verbose
-require 'reek/source/config_file'
 require 'reek/source/tree_dresser'
 require 'reek/source/ast_node'
 
@@ -17,10 +16,6 @@ module Reek
         @source = code
         @desc = desc
         @parser = parser
-      end
-
-      def relevant_config_files
-        []
       end
 
       def syntax_tree

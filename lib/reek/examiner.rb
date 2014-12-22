@@ -25,7 +25,7 @@ module Reek
     #   and if it is an Array, it is assumed to be a list of file paths,
     #   each of which is opened and parsed for source code.
     #
-    def initialize(source, config_files = [], smell_types_to_filter_by = [])
+    def initialize(source, smell_types_to_filter_by = [])
       sources = Source::SourceRepository.parse(source)
       @description = sources.description
       @collector = Core::WarningCollector.new
@@ -38,7 +38,7 @@ module Reek
 
       sources.each do |src|
         repository = Core::SmellRepository.new(src.desc, smell_types)
-        Core::Sniffer.new(src, config_files, repository).report_on(@collector)
+        Core::Sniffer.new(src, repository).report_on(@collector)
       end
     end
 
