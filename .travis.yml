@@ -1,3 +1,5 @@
+sudo: false
+cache: bundler
 language: ruby
 bundler_args: --without local_development
 script: bundle exec rake

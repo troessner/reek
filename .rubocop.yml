@@ -2,6 +2,7 @@ AllCops:
   Exclude:
     - 'spec/samples/**/*'
     - 'tmp/**/*'
+    - 'vendor/**/*'
 
 # FIXME: Lower the ABC size by fixing the biggest offenders
 Metrics/AbcSize:
