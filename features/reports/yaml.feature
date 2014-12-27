@@ -11,45 +11,39 @@ Feature: Report smells using simple YAML layout
     --- []
     """
 
-  @masking
-  Scenario: masked smells always appear
-    When I run reek --yaml spec/samples/masked/dirty.rb
+  Scenario: Indicate smells and print them as yaml when using files
+    When I run reek --yaml spec/samples/standard_smelly/minimal_dirty.rb
     Then the exit status indicates smells
     And it reports this yaml:
       """
       ---
-      - smell_category: Duplication
-        smell_type: DuplicateMethodCall
-        source: spec/samples/masked/dirty.rb
-        context: Dirty#a
+      - smell_category: IrresponsibleModule
+        smell_type: IrresponsibleModule
+        source: spec/samples/standard_smelly/minimal_dirty.rb
+        context: C
         lines:
-        - 4
-        - 6
-        message: calls @s.title 2 times
-        name: "@s.title"
-        count: 2
-      - smell_category: Duplication
-        smell_type: DuplicateMethodCall
-        source: spec/samples/masked/dirty.rb
-        context: Dirty#a
+        - 1
+        message: has no descriptive comment
+        name: C
+      - smell_category: UncommunicativeName
+        smell_type: UncommunicativeModuleName
+        source: spec/samples/standard_smelly/minimal_dirty.rb
+        context: C
         lines:
-        - 4
-        - 6
-        message: calls puts(@s.title) 2 times
-        name: puts(@s.title)
-        count: 2
-      - smell_category: NestedIterators
-        smell_type: NestedIterators
-        source: spec/samples/masked/dirty.rb
-        context: Dirty#a
+        - 1
+        message: has the name 'C'
+        name: C
+      - smell_category: UncommunicativeName
+        smell_type: UncommunicativeMethodName
+        source: spec/samples/standard_smelly/minimal_dirty.rb
+        context: C#m
         lines:
-        - 5
-        message: contains iterators nested 2 deep
-        count: 2
+        - 2
+        message: has the name 'm'
+        name: m
       """
 
-  @stdin
-  Scenario: return non-zero status when there are smells
+  Scenario: Indicate smells and print them as yaml when using STDIN
     When I pass "class Turn; end" to reek --yaml
     Then the exit status indicates smells
     And it reports this yaml:

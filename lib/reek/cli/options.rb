@@ -22,7 +22,7 @@ module Reek
         @strategy = Report::Strategy::Quiet
         @warning_formatter = Report::WarningFormatterWithLineNumbers
         @command_class = ReekCommand
-        @config_files = []
+        @config_file = nil
         @sort_by_issue_count = false
         @smells_to_detect = []
         set_options
@@ -72,7 +72,7 @@ EOB
 
         @parser.separator "\nConfiguration:"
         @parser.on('-c', '--config FILE', 'Read configuration options from FILE') do |file|
-          @config_files << file
+          @config_file = file
         end
         @parser.on('--smell SMELL', 'Detect smell SMELL (default is all enabled smells)') do |smell|
           @smells_to_detect << smell
@@ -117,7 +117,7 @@ EOB
         @command_class.new(self)
       end
 
-      attr_reader :config_files
+      attr_reader :config_file
       attr_reader :smells_to_detect
 
       def reporter

@@ -24,9 +24,19 @@ def ast(*args)
   s(*args)
 end
 
+# Simple helpers for our specs.
+module Helpers
+  def with_test_config(path)
+    Configuration::AppConfiguration.load_from_file(path)
+    yield if block_given?
+    Configuration::AppConfiguration.reset
+  end
+end
+
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
   config.filter_run :focus
   config.run_all_when_everything_filtered = true
   config.include FactoryGirl::Syntax::Methods
+  config.include Helpers
 end

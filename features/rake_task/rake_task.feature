@@ -7,34 +7,34 @@ Feature: Reek can be driven through its Task
     When I run rake reek with:
       """
       Reek::Rake::Task.new do |t|
-        t.source_files = 'spec/samples/masked/dirty.rb'
+        t.source_files = 'spec/samples/standard_smelly/minimal_dirty.rb'
         t.reek_opts = '--no-color'
       end
       """
     Then the exit status indicates an error
     And it reports:
       """
-      spec/samples/masked/dirty.rb -- 3 warnings:
-        [4, 6]:Dirty#a calls @s.title 2 times (DuplicateMethodCall)
-        [4, 6]:Dirty#a calls puts(@s.title) 2 times (DuplicateMethodCall)
-        [5]:Dirty#a contains iterators nested 2 deep (NestedIterators)
+      spec/samples/standard_smelly/minimal_dirty.rb -- 3 warnings:
+        [1]:C has no descriptive comment (IrresponsibleModule)
+        [1]:C has the name 'C' (UncommunicativeModuleName)
+        [2]:C#m has the name 'm' (UncommunicativeMethodName)
       """
 
   Scenario: name changes the task name
     When I run rake silky with:
       """
       Reek::Rake::Task.new('silky') do |t|
-        t.source_files = 'spec/samples/masked/dirty.rb'
+        t.source_files = 'spec/samples/standard_smelly/minimal_dirty.rb'
         t.reek_opts = '--no-color'
       end
       """
     Then the exit status indicates an error
     And it reports:
       """
-      spec/samples/masked/dirty.rb -- 3 warnings:
-        [4, 6]:Dirty#a calls @s.title 2 times (DuplicateMethodCall)
-        [4, 6]:Dirty#a calls puts(@s.title) 2 times (DuplicateMethodCall)
-        [5]:Dirty#a contains iterators nested 2 deep (NestedIterators)
+      spec/samples/standard_smelly/minimal_dirty.rb -- 3 warnings:
+        [1]:C has no descriptive comment (IrresponsibleModule)
+        [1]:C has the name 'C' (UncommunicativeModuleName)
+        [2]:C#m has the name 'm' (UncommunicativeMethodName)
       """
 
   Scenario: verbose prints the reek command
@@ -74,8 +74,8 @@ Feature: Reek can be driven through its Task
     When I run rake reek with:
       """
       Reek::Rake::Task.new do |t|
-        t.config_files = 'spec/samples/config/**/*.reek'
-        t.source_files = 'spec/samples/masked/dirty.rb'
+        t.config_file  = 'spec/samples/minimal_smelly_and_masked/config.reek'
+        t.source_files = 'spec/samples/minimal_smelly_and_masked/minimal_dirty.rb'
       end
       """
     Then it succeeds

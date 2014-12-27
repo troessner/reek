@@ -1,3 +1,4 @@
+require 'yaml'
 
 module Reek
   module Source

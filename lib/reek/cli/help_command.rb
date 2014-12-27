@@ -7,7 +7,7 @@ module Reek
     #
     class HelpCommand < Command
       def execute(view)
-        view.output(@parser.help_text)
+        view.output(@options.help_text)
         view.report_success
       end
     end

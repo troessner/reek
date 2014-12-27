@@ -9,8 +9,8 @@ module Reek
     #
     class ReekCommand < Command
       def execute(app)
-        @parser.sources.each do |source|
-          reporter.add_examiner(Examiner.new(source, config_files, smell_names))
+        @options.sources.each do |source|
+          reporter.add_examiner Examiner.new(source, smell_names)
         end
         reporter.smells? ? app.report_smells : app.report_success
         reporter.show
@@ -19,15 +19,11 @@ module Reek
       private
 
       def reporter
-        @reporter ||= @parser.reporter
+        @reporter ||= @options.reporter
       end
 
       def smell_names
-        @smell_names ||= @parser.smells_to_detect
-      end
-
-      def config_files
-        @config_files ||= @parser.config_files
+        @smell_names ||= @options.smells_to_detect
       end
     end
   end

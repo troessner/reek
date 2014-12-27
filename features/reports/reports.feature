@@ -122,16 +122,17 @@ Feature: Correctly formatted reports
       | -V --quiet    |
 
   Scenario Outline: --line-number turns off line numbers
-    When I run reek <option> spec/samples/not_quite_masked/dirty.rb
+    When I run reek <option> spec/samples/standard_smelly/dirty.rb
     Then the exit status indicates smells
     And it reports:
       """
-      spec/samples/not_quite_masked/dirty.rb -- 5 warnings:
+      spec/samples/standard_smelly/dirty.rb -- 6 warnings:
         Dirty has the variable name '@s' (UncommunicativeVariableName)
         Dirty#a calls @s.title 2 times (DuplicateMethodCall)
         Dirty#a calls puts(@s.title) 2 times (DuplicateMethodCall)
         Dirty#a contains iterators nested 2 deep (NestedIterators)
         Dirty#a has the name 'a' (UncommunicativeMethodName)
+        Dirty#a has the variable name 'x' (UncommunicativeVariableName)
       """
 
     Examples:
@@ -142,16 +143,17 @@ Feature: Correctly formatted reports
       | -V -n             |
 
   Scenario Outline: --single-line shows filename and one line number
-    When I run reek <option> spec/samples/not_quite_masked/dirty.rb
+    When I run reek <option> spec/samples/standard_smelly/dirty.rb
     Then the exit status indicates smells
     And it reports:
       """
-      spec/samples/not_quite_masked/dirty.rb -- 5 warnings:
-        spec/samples/not_quite_masked/dirty.rb:5: Dirty has the variable name '@s' (UncommunicativeVariableName)
-        spec/samples/not_quite_masked/dirty.rb:4: Dirty#a calls @s.title 2 times (DuplicateMethodCall)
-        spec/samples/not_quite_masked/dirty.rb:4: Dirty#a calls puts(@s.title) 2 times (DuplicateMethodCall)
-        spec/samples/not_quite_masked/dirty.rb:5: Dirty#a contains iterators nested 2 deep (NestedIterators)
-        spec/samples/not_quite_masked/dirty.rb:3: Dirty#a has the name 'a' (UncommunicativeMethodName)
+      spec/samples/standard_smelly/dirty.rb -- 6 warnings:
+        spec/samples/standard_smelly/dirty.rb:5: Dirty has the variable name '@s' (UncommunicativeVariableName)
+        spec/samples/standard_smelly/dirty.rb:4: Dirty#a calls @s.title 2 times (DuplicateMethodCall)
+        spec/samples/standard_smelly/dirty.rb:4: Dirty#a calls puts(@s.title) 2 times (DuplicateMethodCall)
+        spec/samples/standard_smelly/dirty.rb:5: Dirty#a contains iterators nested 2 deep (NestedIterators)
+        spec/samples/standard_smelly/dirty.rb:3: Dirty#a has the name 'a' (UncommunicativeMethodName)
+        spec/samples/standard_smelly/dirty.rb:5: Dirty#a has the variable name 'x' (UncommunicativeVariableName)
       """
 
     Examples:

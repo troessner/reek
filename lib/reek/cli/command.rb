@@ -4,8 +4,10 @@ module Reek
     # Base class for all commands
     #
     class Command
-      def initialize(parser)
-        @parser = parser
+      attr_reader :options
+
+      def initialize(options)
+        @options = options
       end
     end
   end

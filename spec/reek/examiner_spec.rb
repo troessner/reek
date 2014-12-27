@@ -66,6 +66,12 @@ describe Examiner do
   end
 
   context 'with a partially masked smelly Dir' do
+    around(:each) do |example|
+      with_test_config('spec/samples/all_but_one_masked/masked.reek') do
+        example.run
+      end
+    end
+
     before :each do
       smelly_dir = Dir['spec/samples/all_but_one_masked/*.rb']
       @examiner = Examiner.new(smelly_dir)
@@ -84,6 +90,12 @@ describe Examiner do
   end
 
   context 'with a smelly Dir masked by a dotfile' do
+    around(:each) do |example|
+      with_test_config('spec/samples/masked_by_dotfile/.reek') do
+        example.run
+      end
+    end
+
     before :each do
       smelly_dir = Dir['spec/samples/masked_by_dotfile/*.rb']
       @examiner = Examiner.new(smelly_dir)
@@ -93,6 +105,12 @@ describe Examiner do
   end
 
   context 'with a partially masked smelly File' do
+    around(:each) do |example|
+      with_test_config('spec/samples/all_but_one_masked/masked.reek') do
+        example.run
+      end
+    end
+
     before :each do
       smelly_file = File.new(Dir['spec/samples/all_but_one_masked/d*.rb'][0])
       @examiner = Examiner.new(smelly_file)

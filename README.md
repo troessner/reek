@@ -60,6 +60,8 @@ spec/samples/demo/demo.rb -- 6 warnings:
 
 ## Configuration
 
+### Command line interface
+
 For a basic overview, run
 
 ```Ruby
@@ -68,11 +70,58 @@ reek --help
 
 For a summary of those CLI options see [Command-Line Options](https://github.com/troessner/reek/wiki/Command-Line-Options).
 
-Apart from that, `reek` offers quite a few ways for configuring it:
+### Configuration files
 
-* The first thing you probably want to check out are the [Basic Smell Options](https://github.com/troessner/reek/wiki/Basic-Smell-Options)
-* `reek` is not the police. In case you need to suppress a smell warning for whatever reasons have a look at [Smell Suppression](https://github.com/troessner/reek/wiki/Smell-Suppression)
-* Lastly there are a couple of ways to configure `reek` via [Configuration Files](https://github.com/troessner/reek/wiki/Configuration-Files)
+#### Configuration loading
+
+Configuring `reek` via configuration file is by far the most powerful way.
+
+There are 3 ways of passing `reek` a configuration file:
+
+1. Using the cli "-c" switch (see "Command line interface" above)
+2. Having a file ending with .reek either in your current working directory or in a parent directory (more on that later)
+3. Having a file ending with .reek in your HOME directory
+
+The order in which `reek` tries to find such a configuration file is exactly like above: First `reek` checks if we have given it a configuration file explicitly via CLI. Then it checks the current working directory for a file and if it can't find one, it traverses up the directories until it hits the root directory. And lastly, it checks your HOME directory.
+
+As soon as `reek` detects a configuration file it stops searching immediately, meaning that from `reek`'s point of view there exists one configuration file and one configuration only regardless of how many ".reek" files you might have on your filesystem.
+
+#### Configuration options
+
+The first thing you probably want to check out are the [Basic Smell Options](https://github.com/troessner/reek/wiki/Basic-Smell-Options) which are supported by every smell type.
+Certain smell types offer a configuration that goes beyond that of the basic smell options - for instance [Data Clump](https://github.com/troessner/reek/wiki/Data-Clump).
+All options that go beyond the [Basic Smell Options](https://github.com/troessner/reek/wiki/Basic-Smell-Options) should be documented in the corresponding smell type wiki page but if you want to get a quick and full overview over all possible configurations you can always check out [the default.reek file in this repository](https://github.com/troessner/reek/blob/master/config/defaults.reek).
+
+Here's an excerpt of a `reek` configuration file from a commercial project:
+
+```yaml
+---
+IrresponsibleModule:
+  enabled: false
+NestedIterators:
+  exclude:
+    - "ActiveModelErrorAdder#self.run" # should be refactored
+    - "BookingRequests::Transfer#remote_validation"
+    - "BookingRequestsController#vehicle_options" # respond_to block
+    - "Content::Base#self.expose_fields" # unavoidable due to metaprogramming
+DataClump:
+  max_copies: 3
+  min_clump_size: 3
+```
+
+### Source code comments
+
+`reek` is not the police. In case you need to suppress a smell warning and you can't or don't want to use configuration files for whatever reasons you can also use source code comments like this:
+
+```Ruby
+# This method smells of :reek:NestedIterators
+def smelly_method foo
+  foo.each {|bar| bar.each {|baz| baz.qux}}
+end
+```
+
+This is further explained [here](https://github.com/troessner/reek/wiki/Smell-Suppression)
+
 
 ## Integration
 
@@ -113,7 +162,7 @@ bundle exec rake
 
 From then on continue by following the establish [pull request workflow](https://help.github.com/articles/using-pull-requests/).
 
-If you don't feel like getting your hands dirty with code there a still other ways you can help us:
+If you don't feel like getting your hands dirty with code there are still other ways you can help us:
 
 * Work on the [wiki](https://github.com/troessner/reek/wiki)
 * Open up an [issue](https://github.com/troessner/reek/issues) and report bugs or suggest other improvements

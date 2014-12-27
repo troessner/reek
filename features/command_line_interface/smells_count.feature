@@ -4,16 +4,17 @@ Feature: Reports total number of code smells
   Reek outputs the total number of smells among all files inspected.
 
   Scenario: Does not output total number of smells when inspecting single file
-    When I run reek spec/samples/not_quite_masked/dirty.rb
+    When I run reek spec/samples/standard_smelly/dirty.rb
     Then the exit status indicates smells
     And it reports:
     """
-    spec/samples/not_quite_masked/dirty.rb -- 5 warnings:
+    spec/samples/standard_smelly/dirty.rb -- 6 warnings:
       [5]:Dirty has the variable name '@s' (UncommunicativeVariableName)
       [4, 6]:Dirty#a calls @s.title 2 times (DuplicateMethodCall)
       [4, 6]:Dirty#a calls puts(@s.title) 2 times (DuplicateMethodCall)
       [5]:Dirty#a contains iterators nested 2 deep (NestedIterators)
       [3]:Dirty#a has the name 'a' (UncommunicativeMethodName)
+      [5]:Dirty#a has the variable name 'x' (UncommunicativeVariableName)
     """
 
   Scenario: Output total number of smells when inspecting multiple files
