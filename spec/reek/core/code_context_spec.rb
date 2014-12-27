@@ -33,9 +33,9 @@ describe CodeContext do
     end
 
     context 'when there is an outer' do
+      let(:outer) { double('outer') }
       before :each do
         @outer_name = 'another_random sting'
-        outer = double('outer')
         allow(outer).to receive(:full_name).at_least(:once).and_return(@outer_name)
         allow(outer).to receive(:config).and_return({})
         @ctx = CodeContext.new(outer, @exp)
@@ -158,19 +158,19 @@ EOS
   end
 
   describe '#config_for' do
-    let(:exp) { double('exp') }
+    let(:expression) { double('exp') }
     let(:outer) { nil }
-    let(:ctx) { CodeContext.new(outer, exp) }
+    let(:context) { CodeContext.new(outer, expression) }
     let(:sniffer) { double('sniffer') }
 
     before :each do
       allow(sniffer).to receive(:smell_type).and_return('DuplicateMethodCall')
-      allow(exp).to receive(:comments).and_return(
+      allow(expression).to receive(:comments).and_return(
         ':reek:DuplicateMethodCall: { allow_calls: [ puts ] }')
     end
 
-    it 'gets its configuration from the exp comments' do
-      expect(ctx.config_for(sniffer)).to eq('allow_calls' => ['puts'])
+    it 'gets its configuration from the expression comments' do
+      expect(context.config_for(sniffer)).to eq('allow_calls' => ['puts'])
     end
 
     context 'when there is an outer' do
@@ -182,8 +182,8 @@ EOS
       end
 
       it 'merges the outer config with its own configuration' do
-        expect(ctx.config_for(sniffer)).to eq('allow_calls' => ['puts'],
-                                              'max_calls' => 2)
+        expect(context.config_for(sniffer)).to eq('allow_calls' => ['puts'],
+                                                  'max_calls' => 2)
       end
     end
   end
