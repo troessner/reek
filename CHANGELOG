@@ -1,3 +1,12 @@
+== 1.6.0
+
+* (troessner) Revise configuration handling:
+  Now there are 3 ways of passing reek a configuration file:
+  - Using the cli "-c" switch
+  - Having a file ending with .reek either in your current working directory or in a parent directory (more on that later)
+  - Having a file ending with .reek in your HOME directory
+  The order in which reek tries to find such a configuration file is exactly like above: First reek checks if we have given it a configuration file explicitly via CLI. Then it checks the current working directory for a file and if it can't find one, it traverses up the directories until it hits the root directory. And lastly, it checks your HOME directory.
+  As soon as reek detects a configuration file it stops searching immediately, meaning that from reek's point of view there exists one configuration file and one configuration only regardless of how many ".reek" files you might have on your filesystem.
 * (chastell) Add keyword arguments support after switching to 'parser'
 * (mvz) Handle nil-block in iterators
 
