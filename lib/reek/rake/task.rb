@@ -2,6 +2,7 @@
 
 require 'rake'
 require 'rake/tasklib'
+require 'pathname'
 
 module Reek
   #
@@ -43,6 +44,14 @@ module Reek
       # Setting the REEK_CFG environment variable overrides this.
       # Defaults to 'config/**/*.reek'.
       attr_accessor :config_file
+
+      def config_files=(value)
+        @config_file = value
+      end
+
+      def config_files
+        @config_file
+      end
 
       # Glob pattern to match source files.
       # Setting the REEK_SRC environment variable overrides this.
