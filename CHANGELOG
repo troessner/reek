@@ -1,3 +1,7 @@
+== 1.6.1
+
+* (mvz) Fix regression in rake task: Provide alias for backward compatibility
+
 == 1.6.0
 
 * (troessner) Revise configuration handling:
