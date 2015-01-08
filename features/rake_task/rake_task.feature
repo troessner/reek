@@ -82,15 +82,3 @@ Feature: Reek can be driven through its Task
     And it reports:
       """
       """
-  Scenario: can be configured with config_files
-    When I run rake reek with:
-      """
-      Reek::Rake::Task.new do |t|
-        t.config_files = 'spec/samples/minimal_smelly_and_masked/config.reek'
-        t.source_files = 'spec/samples/minimal_smelly_and_masked/minimal_dirty.rb'
-      end
-      """
-    Then it succeeds
-    And it reports:
-      """
-      """
