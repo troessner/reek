@@ -67,3 +67,15 @@ end
 Then /^it reports the current version$/ do
   expect(@last_stdout).to eq "reek #{Reek::VERSION}\n"
 end
+
+Given(/^"(.*?)" exists in the working directory$/) do |path|
+  FileUtils.cp path, Pathname.pwd
+end
+
+Given(/^"(.*?)" exists in the parent directory of the working directory$/) do |path|
+  FileUtils.cp path, Pathname.pwd.parent
+end
+
+Given(/^"(.*?)" exists in the HOME directory$/) do |path|
+  FileUtils.cp path, Pathname.new(Dir.home)
+end
