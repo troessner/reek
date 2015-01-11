@@ -54,6 +54,43 @@ spec/samples/demo/demo.rb -- 6 warnings:
   Dirty#awful has unused parameter 'y' (UnusedParameters)
 ```
 
+## Sources
+
+There are multiple ways you can have `reek` work on sources, the most common one just being
+
+```Bash
+reek lib/
+```
+
+If you don't pass any source arguments to `reek` it just takes the current working directory as source.
+
+So
+
+```Bash
+reek
+```
+
+is the exact same thing like being explicit:
+
+```Bash
+reek .
+```
+
+Additionally can you pipe code to reek like this:
+
+```Bash
+echo "class C; def m; end; end" | reek
+```
+
+This would print out:
+
+```Bash
+$stdin -- 3 warnings:
+  [1]:C has no descriptive comment (IrresponsibleModule)
+  [1]:C has the name 'C' (UncommunicativeModuleName)
+  [1]:C#m has the name 'm' (UncommunicativeMethodName)
+```
+
 ## Code smells
 
 `reek` currently includes checks for some aspects of [Control Couple](https://github.com/troessner/reek/wiki/Control-Couple), [Data Clump](https://github.com/troessner/reek/wiki/Data-Clump), [Feature Envy](https://github.com/troessner/reek/wiki/Feature-Envy), [Large Class](https://github.com/troessner/reek/wiki/Large-Class), [Long Parameter List](https://github.com/troessner/reek/wiki/Long-Parameter-List), [Simulated Polymorphism](https://github.com/troessner/reek/wiki/Simulated-Polymorphism), [Too Many Statements](https://github.com/troessner/reek/wiki/Too-Many-Statements), [Uncommunicative Name](https://github.com/troessner/reek/wiki/Uncommunicative-Name), [Unused Parameters](https://github.com/troessner/reek/wiki/Unused-Parameters) and more. See the [Code Smells](https://github.com/troessner/reek/wiki/Code-Smells) for up to date details of exactly what `reek` will check in your code.

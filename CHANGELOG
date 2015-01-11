@@ -1,3 +1,7 @@
+== Not yet released
+
+* (troessner) Run on working directory when no source is given.
+
 == 1.6.1
 
 * (mvz) Fix regression in rake task: Provide alias for backward compatibility
