@@ -5,8 +5,7 @@ require 'matchers/smell_of_matcher'
 require 'factory_girl'
 
 begin
-  require 'pry'
-  require 'byebug'
+  require 'pry-byebug'
 rescue LoadError # rubocop:disable Lint/HandleExceptions
 end
 
