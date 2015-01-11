@@ -5,8 +5,7 @@ require 'open3'
 require 'reek/cli/application'
 
 begin
-  require 'pry'
-  require 'byebug'
+  require 'pry-byebug'
 rescue LoadError # rubocop:disable Lint/HandleExceptions
 end
 
