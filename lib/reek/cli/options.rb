@@ -6,7 +6,7 @@ require 'reek/cli/report/strategy'
 require 'reek/cli/reek_command'
 require 'reek/cli/help_command'
 require 'reek/cli/version_command'
-require 'reek/source'
+require 'reek/cli/input'
 
 module Reek
   module Cli
@@ -14,50 +14,38 @@ module Reek
     # Parses the command line
     #
     class Options
+      include CLI::Input
+
+      attr_reader :config_file, :smells_to_detect
+
       def initialize(argv)
-        @argv = argv
-        @parser = OptionParser.new
-        @colored = true
-        @report_class = Report::TextReport
-        @strategy = Report::Strategy::Quiet
-        @warning_formatter = Report::WarningFormatterWithLineNumbers
-        @command_class = ReekCommand
-        @config_file = nil
+        @argv                = argv
+        @parser              = OptionParser.new
+        @colored             = true
+        @report_class        = Report::TextReport
+        @strategy            = Report::Strategy::Quiet
+        @warning_formatter   = Report::WarningFormatterWithLineNumbers
+        @command_class       = ReekCommand
+        @config_file         = nil
         @sort_by_issue_count = false
-        @smells_to_detect = []
+        @smells_to_detect    = []
         set_options
       end
 
       def banner
         progname = @parser.program_name
-        # SMELL:
-        # The following banner isn't really correct. Help, Version and Reek
-        # are really sub-commands (in the git/svn sense) and so the usage
-        # banner should show three different command-lines. The other
-        # options are all flags for the Reek sub-command.
-        #
-        # reek -h|--help           Display a help message
-        #
-        # reek -v|--version        Output the tool's version number
-        #
-        # reek [options] files     List the smells in the given files
-        #      -c|--config file    Specify file(s) with config options
-        #      -n|--line-number    Prefix smelly lines with line numbers
-        #      -q|-[no-]quiet      Only list files that have smells
-        #      files               Names of files or dirs to be checked
-        #
-        <<EOB
-Usage: #{progname} [options] [files]
+        <<-EOB.gsub(/^[ ]+/, '')
+          Usage: #{progname} [options] [files]
 
-Examples:
+          Examples:
 
-#{progname} lib/*.rb
-#{progname} -q lib
-cat my_class.rb | #{progname}
+          #{progname} lib/*.rb
+          #{progname} -q lib
+          cat my_class.rb | #{progname}
 
-See http://wiki.github.com/troessner/reek for detailed help.
+          See http://wiki.github.com/troessner/reek for detailed help.
 
-EOB
+        EOB
       end
 
       def set_options
@@ -117,22 +105,11 @@ EOB
         @command_class.new(self)
       end
 
-      attr_reader :config_file
-      attr_reader :smells_to_detect
-
       def reporter
         @reporter ||= @report_class.new(warning_formatter: @warning_formatter,
                                         report_formatter: Report::Formatter,
                                         sort_by_issue_count: @sort_by_issue_count,
                                         strategy: @strategy)
-      end
-
-      def sources
-        if @argv.empty?
-          return [$stdin.to_reek_source('$stdin')]
-        else
-          return Source::SourceLocator.new(@argv).all_sources
-        end
       end
 
       def program_name
