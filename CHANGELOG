@@ -1,5 +1,6 @@
-== Not yet released
+== 1.6.2
 
+* (mvz) Fix rake task bug when no config file was given explicitly.
 * (troessner) Run on working directory when no source is given.
 
 == 1.6.1
