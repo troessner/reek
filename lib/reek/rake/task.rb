@@ -115,8 +115,16 @@ module Reek
           ruby_options +
           [%(reek)] +
           [sort_option] +
-          ['-c', config_file] +
+          config_option +
           source_file_list.map { |fn| %("#{fn}") }
+      end
+
+      def config_option
+        if config_file
+          ['-c', config_file]
+        else
+          []
+        end
       end
 
       def config_file
