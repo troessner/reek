@@ -60,7 +60,7 @@ module Reek
 
       def initialize(name = :reek)
         @name          = name
-        @reek_opts     = nil
+        @reek_opts     = ''
         @fail_on_error = true
         @source_files  = 'lib/**/*.rb'
         @verbose       = false
@@ -78,12 +78,14 @@ module Reek
 
       def run_task
         puts "\n\n!!! Running 'reek' rake command: #{command}\n\n" if @verbose
-        system command
+        system(*command)
         abort("\n\n!!! `reek` has found smells - exiting!") if sys_call_failed? && @fail_on_error
       end
 
       def command
-        "reek #{config_file_as_argument} #{reek_opts} #{source_files.join(' ')}"
+        ['reek', *config_file_as_argument, *reek_opts_as_arguments, *source_files].
+          compact.
+          reject(&:empty?)
       end
 
       def source_files
@@ -103,8 +105,12 @@ module Reek
       end
 
       def config_file_as_argument
-        return nil unless @config_file
-        "-c #{@config_file}"
+        return [] unless @config_file
+        ['-c', @config_file]
+      end
+
+      def reek_opts_as_arguments
+        reek_opts.split(/\s+/)
       end
     end
   end
