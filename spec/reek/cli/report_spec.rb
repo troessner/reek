@@ -55,8 +55,8 @@ describe Report::TextReport, ' when empty' do
     context 'when output format is yaml' do
       it 'prints empty yaml' do
         yaml_report = report(Report::YamlReport.new(report_options))
-        output = capture_output_stream { yaml_report.show }
-        expect(output).to match(/^--- \[\]\n.*$/)
+        result = capture_output_stream { yaml_report.show }
+        expect(result).to match(/^--- \[\]\n.*$/)
       end
     end
 
@@ -104,8 +104,8 @@ describe Report::TextReport, ' when empty' do
         end
 
         it 'has a footer in color' do
-          output = capture_output_stream { @rpt.show }
-          expect(output).to end_with "\e[32m0 total warnings\n\e[0m"
+          result = capture_output_stream { @rpt.show }
+          expect(result).to end_with "\e[32m0 total warnings\n\e[0m"
         end
       end
 
@@ -123,8 +123,8 @@ describe Report::TextReport, ' when empty' do
         end
 
         it 'has a footer in color' do
-          output = capture_output_stream { @rpt.show }
-          expect(output).to end_with "\e[31m4 total warnings\n\e[0m"
+          result = capture_output_stream { @rpt.show }
+          expect(result).to end_with "\e[31m4 total warnings\n\e[0m"
         end
       end
     end
