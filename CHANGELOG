@@ -1,3 +1,7 @@
+== 1.6.3
+
+* (mvz) Support ruby 2.2
+
 == 1.6.2
 
 * (mvz) Fix rake task bug when no config file was given explicitly.
