@@ -1,4 +1,5 @@
 require 'reek/smells'
+require 'reek/smells/smell_detector'
 
 module Reek
   module Core
@@ -9,36 +10,10 @@ module Reek
       attr_reader :detectors
 
       def self.smell_types
-        # SMELL: Duplication -- these should be loaded by listing the files
-        [
-          Smells::Attribute,
-          Smells::BooleanParameter,
-          Smells::ClassVariable,
-          Smells::ControlParameter,
-          Smells::DataClump,
-          Smells::DuplicateMethodCall,
-          Smells::FeatureEnvy,
-          Smells::IrresponsibleModule,
-          Smells::LongParameterList,
-          Smells::LongYieldList,
-          Smells::ModuleInitialize,
-          Smells::NestedIterators,
-          Smells::NilCheck,
-          Smells::PrimaDonnaMethod,
-          Smells::RepeatedConditional,
-          Smells::TooManyInstanceVariables,
-          Smells::TooManyMethods,
-          Smells::TooManyStatements,
-          Smells::UncommunicativeMethodName,
-          Smells::UncommunicativeModuleName,
-          Smells::UncommunicativeParameterName,
-          Smells::UncommunicativeVariableName,
-          Smells::UnusedParameters,
-          Smells::UtilityFunction
-        ]
+        Reek::Smells::SmellDetector.descendants
       end
 
-      def initialize(source_description, smell_types = SmellRepository.smell_types)
+      def initialize(source_description, smell_types = self.class.smell_types)
         @typed_detectors = nil
         @detectors = {}
         smell_types.each do |klass|

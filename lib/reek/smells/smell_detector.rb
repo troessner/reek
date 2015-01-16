@@ -36,6 +36,15 @@ module Reek
             EXCLUDE_KEY => DEFAULT_EXCLUDE_SET.dup
           }
         end
+
+        def inherited(subclass)
+          @subclasses ||= []
+          @subclasses << subclass
+        end
+
+        def descendants
+          @subclasses
+        end
       end
 
       def smell_category
