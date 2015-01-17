@@ -93,7 +93,6 @@ describe SmellWarning do
     before :each do
       @message = 'test message'
       @lines = [24, 513]
-      @class = 'FeatureEnvy'
       @context_name = 'Module::Class#method/block'
       # Use a random string and a random bool
     end
