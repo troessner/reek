@@ -1,4 +1,5 @@
 require 'forwardable'
+require 'psych'
 
 module Reek
   #
