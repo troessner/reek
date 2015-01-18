@@ -25,29 +25,33 @@ Feature: Reek can be controlled using command-line options
       Examples:
 
       reek lib/*.rb
-      reek -q lib
+      reek -s lib
       cat my_class.rb | reek
 
       See http://wiki.github.com/troessner/reek for detailed help.
-
-      Common options:
-          -h, --help                       Show this message
-          -v, --version                    Show version
 
       Configuration:
           -c, --config FILE                Read configuration options from FILE
               --smell SMELL                Detect smell SMELL (default is all enabled smells)
 
-      Report formatting:
-          -o, --[no-]color                 Use colors for the output (this is the default)
-          -q, --quiet                      Suppress headings for smell-free source files (this is the default)
-          -V, --no-quiet, --verbose        Show headings for smell-free source files
-          -U, --ultra-verbose              Be as explanatory as possible
-          -n, --no-line-numbers            Suppress line numbers from the output
-              --line-numbers               Show line numbers in the output (this is the default)
-          -s, --single-line                Show IDE-compatible single-line-per-warning
-          -S, --sort-by-issue-count        Sort by "issue-count", listing the "smelliest" files first
-          -y, --yaml                       Report smells in YAML format
-          -H, --html                       Report smells in HTML format
+      Report format:
+          -f, --format FORMAT              Report smells in the given format:
+                                             html
+                                             text (default)
+                                             yaml
+
+      Text format options:
+              --[no-]color                 Use colors for the output (this is the default)
+          -V, --[no-]empty-headings        Show headings for smell-free source files
+          -U, --[no-]wiki-links            Show link to related Reek wiki page for each smell
+          -n, --[no-]line-numbers          Show line numbers in the output (this is the default)
+          -s, --single-line                Show location in editor-compatible single-line-per-smell format
+              --sort-by SORTING            Sort reported files by the given criterium:
+                                             smelliness ("smelliest" files first)
+                                             none (default - output in processing order)
+
+      Utility options:
+          -h, --help                       Show this message
+          -v, --version                    Show version
 
       """

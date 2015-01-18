@@ -1,4 +1,5 @@
 require 'reek/cli/options'
+require 'reek/cli/reek_command'
 require 'reek/configuration/app_configuration'
 
 module Reek
@@ -9,17 +10,16 @@ module Reek
     # command line.
     #
     class Application
-      attr_reader :options
-
       STATUS_SUCCESS = 0
       STATUS_ERROR   = 1
       STATUS_SMELLS  = 2
 
       def initialize(argv)
         @status  = STATUS_SUCCESS
-        @options = Options.new(argv)
+        options_parser = Options.new(argv)
         begin
-          @command = @options.parse
+          @options = options_parser.parse
+          @command = ReekCommand.new(OptionInterpreter.new(@options))
           initialize_configuration
         rescue OptionParser::InvalidOption, Reek::Configuration::ConfigFileException => error
           $stderr.puts "Error: #{error}"
@@ -34,7 +34,7 @@ module Reek
       end
 
       def initialize_configuration
-        Configuration::AppConfiguration.initialize_with self
+        Configuration::AppConfiguration.initialize_with @options
       end
 
       def output(text)

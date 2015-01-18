@@ -1,7 +1,5 @@
 require 'reek/examiner'
-require 'reek/cli/report/report'
 require 'reek/cli/report/formatter'
-require 'reek/cli/report/strategy'
 
 module Reek
   module Spec

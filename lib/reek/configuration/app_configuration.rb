@@ -13,9 +13,9 @@ module Reek
       class << self
         attr_reader :configuration
 
-        def initialize_with(application)
+        def initialize_with(options)
           @has_been_initialized = true
-          configuration_file_path = ConfigurationFileFinder.find(application)
+          configuration_file_path = ConfigurationFileFinder.find(options)
           return unless configuration_file_path
           load_from_file configuration_file_path
         end

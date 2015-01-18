@@ -1,7 +1,7 @@
 require 'reek/source'
 
 module Reek
-  module CLI
+  module Cli
     #
     # CLI Input utility
     #

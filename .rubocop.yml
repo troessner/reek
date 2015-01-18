@@ -18,6 +18,7 @@ Style/Documentation:
   Exclude:
     - features/support/env.rb
     - lib/reek/cli/report/formatter.rb
+    - lib/reek/cli/report/location_formatter.rb
     - lib/reek/smells/smell_detector.rb
     - lib/reek/source/sexp_extensions.rb
     - lib/reek/spec/should_reek_of.rb
@@ -32,8 +33,6 @@ Metrics/MethodLength:
 
 # Be a little more lenient with line length
 Metrics/LineLength:
-  Exclude:
-    - lib/reek/cli/options.rb
   Max: 100
 
 # Allow small arrays of words with quotes
