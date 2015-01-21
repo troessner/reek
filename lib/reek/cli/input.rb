@@ -7,14 +7,14 @@ module Reek
     #
     module Input
       def sources
-        if input_was_piped?
-          source_from_pipe
-        else
-          if no_source_files_given?
-            working_directory_as_source
+        if no_source_files_given?
+          if input_was_piped?
+            source_from_pipe
           else
-            sources_from_argv
+            working_directory_as_source
           end
+        else
+          sources_from_argv
         end
       end
 
