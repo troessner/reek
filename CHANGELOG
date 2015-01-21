@@ -1,3 +1,7 @@
+== 1.6.4
+
+* (maser) Fix file arguments without TTY
+
 == 1.6.3
 
 * (mvz) Support ruby 2.2
