@@ -9,10 +9,12 @@ rvm:
   - 2.1
   - 2.2
   - jruby-19mode
+  - jruby-head
   - rbx-2
 matrix:
   allow_failures:
     - rvm: jruby-19mode
+    - rvm: jruby-head
     - rvm: rbx-2
 notifications:
   recipients:
