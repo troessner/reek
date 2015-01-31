@@ -89,28 +89,27 @@ describe SmellWarning do
     end
   end
 
-  context 'YAML representation' do
+  context '#yaml_hash' do
     before :each do
       @message = 'test message'
       @lines = [24, 513]
+      @class = 'FeatureEnvy'
       @context_name = 'Module::Class#method/block'
       # Use a random string and a random bool
     end
 
     shared_examples_for 'common fields' do
       it 'includes the smell type' do
-        expect(@yaml).to match(/smell_type:\s*FeatureEnvy/)
+        expect(@yaml['smell_type']).to eq 'FeatureEnvy'
       end
       it 'includes the context' do
-        expect(@yaml).to match(/context:\s*#{@context_name}/)
+        expect(@yaml['context']).to eq @context_name
       end
       it 'includes the message' do
-        expect(@yaml).to match(/message:\s*#{@message}/)
+        expect(@yaml['message']).to eq @message
       end
       it 'includes the line numbers' do
-        @lines.each do |line|
-          expect(@yaml).to match(/lines:[\s\d-]*- #{line}/)
-        end
+        expect(@yaml['lines']).to match_array @lines
       end
     end
 
@@ -124,20 +123,20 @@ describe SmellWarning do
                                                lines: @lines,
                                                message: @message,
                                                parameters: @parameters)
-        @yaml = @warning.to_yaml
+        @yaml = @warning.yaml_hash
       end
 
       it_should_behave_like 'common fields'
 
       it 'includes the smell type' do
-        expect(@yaml).to match(/smell_type:\s*#{@smell_type}/)
+        expect(@yaml['smell_type']).to eq @smell_type
       end
       it 'includes the source' do
-        expect(@yaml).to match(/source:\s*#{@source}/)
+        expect(@yaml['source']).to eq @source
       end
       it 'includes the parameters' do
         @parameters.each do |key, value|
-          expect(@yaml).to match(/#{key}:\s*#{value}/)
+          expect(@yaml[key]).to eq value
         end
       end
     end

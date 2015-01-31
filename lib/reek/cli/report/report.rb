@@ -78,7 +78,7 @@ module Reek
         end
 
         def show
-          print(smells.to_yaml)
+          print smells.map(&:yaml_hash).to_yaml
         end
       end
 
