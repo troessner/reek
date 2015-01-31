@@ -1,5 +1,4 @@
 require 'forwardable'
-require 'psych'
 
 module Reek
   #
@@ -43,17 +42,19 @@ module Reek
       listener.found_smell(self)
     end
 
-    def encode_with(coder)
-      coder.tag = nil
-      coder['smell_category']  = smell_detector.smell_category
-      coder['smell_type']      = smell_detector.smell_type
-      coder['source']          = smell_detector.source
-      coder['context']         = context
-      coder['lines']           = lines
-      coder['message']         = message
+    def yaml_hash
+      result = {
+        'smell_category' => smell_detector.smell_category,
+        'smell_type'     => smell_detector.smell_type,
+        'source'         => smell_detector.source,
+        'context'        => context,
+        'lines'          => lines,
+        'message'        => message
+      }
       parameters.each do |key, value|
-        coder[key.to_s] = value
+        result[key.to_s] = value
       end
+      result
     end
 
     protected
