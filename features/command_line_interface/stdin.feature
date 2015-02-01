@@ -12,7 +12,7 @@ Feature: Reek reads from $stdin when no files are given
       """
 
   Scenario: outputs nothing on empty stdin
-    When I pass "" to reek --quiet
+    When I pass "" to reek
     Then it succeeds
     And stdout equals ""
 

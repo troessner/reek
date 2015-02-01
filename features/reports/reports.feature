@@ -31,8 +31,8 @@ Feature: Correctly formatted reports
       | spec/samples/two_smelly_files/*.rb |
       | spec/samples/two_smelly_files      |
 
-  Scenario: Do not sort by default (which means report each file as it is read in)
-    When I run reek spec/samples/three_smelly_files/*.rb
+  Scenario Outline: No sorting (which means report each file as it is read in)
+    When I run reek <option> spec/samples/three_smelly_files/*.rb
     Then the exit status indicates smells
     And it reports:
       """
@@ -50,6 +50,12 @@ Feature: Correctly formatted reports
         [3]:Dirty#b has the name 'b' (UncommunicativeMethodName)
       9 total warnings
       """
+
+    Examples:
+      | option         |
+      |                |
+      | --sort-by none |
+      | --sort-by n    |
 
   Scenario Outline: Sort by issue count
     When I run reek <option> spec/samples/three_smelly_files/*.rb
@@ -72,11 +78,11 @@ Feature: Correctly formatted reports
       """
 
     Examples:
-      | option                |
-      | -S                    |
-      | --sort-by-issue-count |
+      | option               |
+      | --sort-by smelliness |
+      | --sort-by s          |
 
-  Scenario Outline: good files show no headers by default
+  Scenario Outline: good files show no headings by default
     When I run reek <args>
     Then it succeeds
     And it reports:
@@ -90,7 +96,7 @@ Feature: Correctly formatted reports
       | spec/samples/three_clean_files/*.rb |
       | spec/samples/three_clean_files      |
 
-  Scenario Outline: --verbose and --no-quiet turn on headers for fragrant files
+  Scenario Outline: --empty-headings turns on headings for fragrant files
     When I run reek <option> spec/samples/three_clean_files/*.rb
     Then it succeeds
     And it reports:
@@ -102,12 +108,11 @@ Feature: Correctly formatted reports
       """
 
     Examples:
-      | option     |
-      | --verbose  |
-      | -V         |
-      | --no-quiet |
+      | option            |
+      | --empty-headings  |
+      | -V                |
 
-  Scenario Outline: --quiet turns off headers for fragrant files
+  Scenario Outline: --no-empty-headings turns off headings for fragrant files
     When I run reek <option> spec/samples/three_clean_files/*.rb
     Then it succeeds
     And it reports:
@@ -117,11 +122,11 @@ Feature: Correctly formatted reports
     """
 
     Examples:
-      | option        |
-      | -V -q         |
-      | -V --quiet    |
+      | option                 |
+      | --no-empty-headings    |
+      | -V --no-empty-headings |
 
-  Scenario Outline: --line-number turns off line numbers
+  Scenario Outline: --no-line-numbers turns off line numbers
     When I run reek <option> spec/samples/standard_smelly/dirty.rb
     Then the exit status indicates smells
     And it reports:
@@ -136,11 +141,30 @@ Feature: Correctly formatted reports
       """
 
     Examples:
-      | option            |
-      | -n                |
-      | --no-line-numbers |
-      | -n -V             |
-      | -V -n             |
+      | option               |
+      | --no-line-numbers    |
+      | --no-line-numbers -V |
+      | -V --no-line-numbers |
+
+  Scenario Outline: --line-numbers turns on line numbers
+    When I run reek <option> spec/samples/standard_smelly/dirty.rb
+    Then the exit status indicates smells
+    And it reports:
+      """
+      spec/samples/standard_smelly/dirty.rb -- 6 warnings:
+        [5]:Dirty has the variable name '@s' (UncommunicativeVariableName)
+        [4, 6]:Dirty#a calls @s.title 2 times (DuplicateMethodCall)
+        [4, 6]:Dirty#a calls puts(@s.title) 2 times (DuplicateMethodCall)
+        [5]:Dirty#a contains iterators nested 2 deep (NestedIterators)
+        [3]:Dirty#a has the name 'a' (UncommunicativeMethodName)
+        [5]:Dirty#a has the variable name 'x' (UncommunicativeVariableName)
+      """
+
+    Examples:
+      | option                           |
+      | --line-numbers                   |
+      | --no-line-numbers --line-numbers |
+      | --no-line-numbers -n             |
 
   Scenario Outline: --single-line shows filename and one line number
     When I run reek <option> spec/samples/standard_smelly/dirty.rb
@@ -190,7 +214,7 @@ Feature: Correctly formatted reports
       | spec/samples/two_smelly_files/ |
       | spec/samples/two_smelly_files  |
 
-  Scenario Outline: -U or --ultra-verbose adds helpful links to smell warnings
+  Scenario Outline: -U or --wiki-links adds helpful links to smell warnings
     When I run reek <option> spec/samples/one_smelly_file/dirty.rb
     Then the exit status indicates smells
     And it reports:
@@ -204,4 +228,20 @@ Feature: Correctly formatted reports
     Examples:
       | option           |
       | -U               |
-      | --ultra-verbose  |
+      | --wiki-links  |
+
+  Scenario Outline: --wiki-links is independent of --line-numbers
+    When I run reek <option> spec/samples/one_smelly_file/dirty.rb
+    Then the exit status indicates smells
+    And it reports:
+      """
+      spec/samples/one_smelly_file/dirty.rb -- 3 warnings:
+        D has no descriptive comment (IrresponsibleModule) [https://github.com/troessner/reek/wiki/Irresponsible-Module]
+        D has the name 'D' (UncommunicativeModuleName) [https://github.com/troessner/reek/wiki/Uncommunicative-Module-Name]
+        D#a has the name 'a' (UncommunicativeMethodName) [https://github.com/troessner/reek/wiki/Uncommunicative-Method-Name]
+      """
+
+    Examples:
+      | option                             |
+      | --no-line-numbers -U               |
+      | --no-line-numbers --wiki-links  |

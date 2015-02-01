@@ -4,7 +4,7 @@ Feature: Report smells using simple YAML layout
   output a list of smells in Yaml.
 
   Scenario: output is empty when there are no smells
-    When I run reek --yaml spec/samples/three_clean_files
+    When I run reek --format yaml spec/samples/three_clean_files
     Then it succeeds
     And it reports this yaml:
     """
@@ -12,7 +12,7 @@ Feature: Report smells using simple YAML layout
     """
 
   Scenario: Indicate smells and print them as yaml when using files
-    When I run reek --yaml spec/samples/standard_smelly/minimal_dirty.rb
+    When I run reek --format yaml spec/samples/standard_smelly/minimal_dirty.rb
     Then the exit status indicates smells
     And it reports this yaml:
       """
@@ -44,7 +44,7 @@ Feature: Report smells using simple YAML layout
       """
 
   Scenario: Indicate smells and print them as yaml when using STDIN
-    When I pass "class Turn; end" to reek --yaml
+    When I pass "class Turn; end" to reek --format yaml
     Then the exit status indicates smells
     And it reports this yaml:
       """

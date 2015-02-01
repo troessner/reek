@@ -1,8 +1,14 @@
+require 'reek/cli/report/location_formatter'
+
 module Reek
   module Cli
     module Report
+      #
+      # Formatter handling the formatting of the report at large. Formatting
+      # the individual warnings is handled by the warning formatter passed in.
+      #
       module Formatter
-        def self.format_list(warnings, formatter = SimpleWarningFormatter)
+        def self.format_list(warnings, formatter = SimpleWarningFormatter.new)
           warnings.map do |warning|
             "  #{formatter.format warning}"
           end.join("\n")
@@ -17,13 +23,35 @@ module Reek
         end
       end
 
-      module UltraVerboseWarningFormattter
-        BASE_URL_FOR_HELP_LINK = 'https://github.com/troessner/reek/wiki/'
-
-        module_function
+      #
+      # Basic formatter that just shows a simple message for each warning,
+      # pre-pended with the result of the passed-in location formatter.
+      #
+      class SimpleWarningFormatter
+        def initialize(location_formatter = BlankLocationFormatter)
+          @location_formatter = location_formatter
+        end
 
         def format(warning)
-          "#{WarningFormatterWithLineNumbers.format(warning)} " \
+          "#{@location_formatter.format(warning)}#{base_format(warning)}"
+        end
+
+        private
+
+        def base_format(warning)
+          "#{warning.context} #{warning.message} (#{warning.smell_type})"
+        end
+      end
+
+      #
+      # Formatter that adds a link to the Wiki to the basic message from
+      # SimpleWarningFormatter.
+      #
+      class WikiLinkWarningFormatter < SimpleWarningFormatter
+        BASE_URL_FOR_HELP_LINK = 'https://github.com/troessner/reek/wiki/'
+
+        def format(warning)
+          "#{super} " \
           "[#{explanatory_link(warning)}]"
         end
 
@@ -33,25 +61,6 @@ module Reek
 
         def class_name_to_param(name)
           name.split(/(?=[A-Z])/).join('-')
-        end
-      end
-
-      module SimpleWarningFormatter
-        def self.format(warning)
-          "#{warning.context} #{warning.message} (#{warning.smell_type})"
-        end
-      end
-
-      module WarningFormatterWithLineNumbers
-        def self.format(warning)
-          "#{warning.lines.inspect}:#{SimpleWarningFormatter.format(warning)}"
-        end
-      end
-
-      module SingleLineWarningFormatter
-        def self.format(warning)
-          "#{warning.source}:#{warning.lines.first}: " \
-          "#{SimpleWarningFormatter.format(warning)}"
         end
       end
     end

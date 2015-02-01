@@ -13,22 +13,22 @@ FactoryGirl.find_definitions
 
 SAMPLES_DIR = 'spec/samples'
 
-# :reek:UncommunicativeMethodName
-def s(type, *children)
-  @klass_map ||= Reek::Source::AstNodeClassMap.new
-  @klass_map.klass_for(type).new(type, children)
-end
-
-def ast(*args)
-  s(*args)
-end
-
 # Simple helpers for our specs.
 module Helpers
   def with_test_config(path)
     Configuration::AppConfiguration.load_from_file(path)
     yield if block_given?
     Configuration::AppConfiguration.reset
+  end
+
+  # :reek:UncommunicativeMethodName
+  def s(type, *children)
+    @klass_map ||= Reek::Source::AstNodeClassMap.new
+    @klass_map.klass_for(type).new(type, children)
+  end
+
+  def ast(*args)
+    s(*args)
   end
 end
 

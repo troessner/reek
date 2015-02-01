@@ -6,26 +6,26 @@ module Reek
     # ConfigurationFileFinder is responsible for finding reeks configuration.
     #
     # There are 3 ways of passing `reek` a configuration file:
-    # 1. Using the cli "-c" switch (see "Command line interface" above)
-    # 2. Having a file ending with .reek either in your current working directory or in a parent
-    #    directory
+    # 1. Using the cli "-c" switch
+    # 2. Having a file ending with .reek either in your current working
+    #    directory or in a parent directory
     # 3. Having a file ending with .reek in your HOME directory
     #
-    # The order in which ConfigurationFileFinder tries to find such a configuration file is exactly
-    # like above.
+    # The order in which ConfigurationFileFinder tries to find such a
+    # configuration file is exactly like above.
     module ConfigurationFileFinder
       class << self
-        def find(application)
-          configuration_by_cli(application) ||
+        def find(options)
+          configuration_by_cli(options) ||
             configuration_in_file_system    ||
             configuration_in_home_directory
         end
 
         private
 
-        def configuration_by_cli(application)
-          return unless application # Return gracefully allowing calls without app context
-          config_file_option = application.options.config_file
+        def configuration_by_cli(options)
+          return unless options # Return gracefully allowing calls without app context
+          config_file_option = options.config_file
           return unless config_file_option
           path_name = Pathname.new config_file_option
           raise ArgumentError, "Config file #{path_name} doesn't exist" unless path_name.exist?
