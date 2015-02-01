@@ -34,8 +34,8 @@ module Reek
       (self <=> other) == 0
     end
 
-    def matches?(klass, patterns)
-      smell_classes.include?(klass.to_s) && contains_all?(patterns)
+    def matches?(klass, other_parameters = {})
+      smell_classes.include?(klass.to_s) && common_parameters_equal?(other_parameters)
     end
 
     def report_on(listener)
@@ -59,13 +59,26 @@ module Reek
 
     protected
 
-    def contains_all?(patterns)
-      rpt = sort_key.to_s
-      patterns.all? { |pattern| pattern =~ rpt }
-    end
-
     def sort_key
       [context, message, smell_category]
+    end
+
+    def common_parameters_equal?(other_parameters)
+      other_parameters.keys.each do |key|
+        unless parameters.key?(key)
+          raise ArgumentError, "The parameter #{key} you want to check for doesn't exist"
+        end
+      end
+
+      # Why not check for strict parameter equality instead of just the common ones?
+      #
+      # In `self`, `parameters` might look like this:  {:name=>"@other.thing", :count=>2}
+      # Coming from specs, 'other_parameters' might look like this, e.g.:
+      # {:name=>"@other.thing"}
+      # So in this spec we are just specifying the "name" parameter but not the "count".
+      # In order to allow for this kind of leniency we just test for common parameter equality,
+      # not for a strict one.
+      parameters.values_at(*other_parameters.keys) == other_parameters.values
     end
   end
 end

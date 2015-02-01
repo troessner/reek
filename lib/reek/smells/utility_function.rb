@@ -69,7 +69,8 @@ module Reek
         [SmellWarning.new(self,
                           context: method_ctx.full_name,
                           lines: [method_ctx.exp.line],
-                          message: "doesn't depend on instance state")]
+                          message: "doesn't depend on instance state",
+                          parameters: { name: method_ctx.full_name })]
       end
 
       private

@@ -18,7 +18,7 @@ describe UncommunicativeMethodName do
   ['help', '+', '-', '/', '*'].each do |method_name|
     it "accepts the method name '#{method_name}'" do
       src = "def #{method_name}(fred) basics(17) end"
-      expect(src).not_to smell_of(UncommunicativeMethodName)
+      expect(src).not_to reek_of(UncommunicativeMethodName)
     end
   end
 

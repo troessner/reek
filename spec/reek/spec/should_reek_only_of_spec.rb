@@ -8,7 +8,7 @@ describe ShouldReekOnlyOf do
   before :each do
     @expected_smell_type = :NestedIterators
     @expected_context_name = 'SmellyClass#big_method'
-    @matcher = ShouldReekOnlyOf.new(@expected_smell_type, [/#{@expected_context_name}/])
+    @matcher = ShouldReekOnlyOf.new(@expected_smell_type)
     @examiner = double('examiner').as_null_object
     expect(@examiner).to receive(:smells) { smells }
     @match = @matcher.matches_examiner?(@examiner)
@@ -18,14 +18,17 @@ describe ShouldReekOnlyOf do
     it 'does not match' do
       expect(@match).to be_falsey
     end
+
     context 'when a match was expected' do
       before :each do
         @source = 'the_path/to_a/source_file.rb'
         expect(@examiner).to receive(:description).and_return(@source)
       end
+
       it 'reports the source' do
         expect(@matcher.failure_message).to match(@source)
       end
+
       it 'reports the expected smell class' do
         expect(@matcher.failure_message).to match(@expected_smell_type.to_s)
       end
@@ -86,12 +89,15 @@ describe ShouldReekOnlyOf do
       [build(:smell_warning, smell_detector: detector,
                              message: "message mentioning #{@expected_context_name}")]
     end
+
     it 'matches' do
       expect(@match).to be_truthy
     end
+
     it 'reports the expected smell when no match was expected' do
       expect(@matcher.failure_message_when_negated).to match(@expected_smell_type.to_s)
     end
+
     it 'reports the source when no match was expected' do
       source = 'the_path/to_a/source_file.rb'
       expect(@examiner).to receive(:description).and_return(source)

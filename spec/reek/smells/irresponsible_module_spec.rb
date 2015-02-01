@@ -48,7 +48,7 @@ describe IrresponsibleModule do
       #
       class #{@bad_module_name}; end
     EOS
-    expect(src).to smell_of IrresponsibleModule
+    expect(src).to reek_of IrresponsibleModule
   end
 
   it 'reports a class with a preceding comment with intermittent material' do

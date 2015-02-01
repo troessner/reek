@@ -10,60 +10,64 @@ describe FeatureEnvy do
     it 'should not report use of self' do
       expect('def simple() self.to_s + self.to_i end').not_to reek_of(:FeatureEnvy)
     end
+
     it 'should not report vcall with no argument' do
       expect('def simple() func; end').not_to reek_of(:FeatureEnvy)
     end
+
     it 'should not report single use' do
       expect('def no_envy(arga) arga.barg(@item) end').not_to reek_of(:FeatureEnvy)
     end
+
     it 'should not report return value' do
       expect('def no_envy(arga) arga.barg(@item); arga end').not_to reek_of(:FeatureEnvy)
     end
+
     it 'should ignore global variables' do
       expect('def no_envy() $s2.to_a; $s2[@item] end').not_to reek_of(:FeatureEnvy)
     end
+
     it 'should not report class methods' do
       expect('def simple() self.class.new.flatten_merge(self) end').
         not_to reek_of(:FeatureEnvy)
     end
+
     it 'should not report single use of an ivar' do
       expect('def no_envy() @item.to_a end').not_to reek_of(:FeatureEnvy)
     end
+
     it 'should not report returning an ivar' do
       expect('def no_envy() @item.to_a; @item end').not_to reek_of(:FeatureEnvy)
     end
+
     it 'should not report ivar usage in a parameter' do
       expect('def no_envy() @item.price + tax(@item) - savings(@item) end').
         not_to reek_of(:FeatureEnvy)
     end
+
     it 'should not report single use of an lvar' do
       expect('def no_envy() lv = @item; lv.to_a end').not_to reek_of(:FeatureEnvy)
     end
+
     it 'should not report returning an lvar' do
       expect('def no_envy() lv = @item; lv.to_a; lv end').not_to reek_of(:FeatureEnvy)
     end
+
     it 'ignores lvar usage in a parameter' do
       expect('def no_envy() lv = @item; lv.price + tax(lv) - savings(lv); end').
         not_to reek_of(:FeatureEnvy)
     end
+
     it 'ignores multiple ivars' do
-      src = <<EOS
-  def func
-    @other.a
-    @other.b
-    @nother.c
-    @nother.d
-  end
-EOS
+      src = <<-EOS
+        def func
+          @other.a
+          @other.b
+          @nother.c
+          @nother.d
+        end
+      EOS
       expect(src).not_to reek_of(:FeatureEnvy)
-      #
-      # def other.func(me)
-      #   a
-      #   b
-      #   me.nother_c
-      #   me.nother_d
-      # end
-      #
     end
   end
 
@@ -73,34 +77,34 @@ EOS
         def envy(arga)
           arga.b(arga) + arga.c(@fred)
         end
-      ').to reek_only_of(:FeatureEnvy, /arga/)
+      ').to reek_only_of(:FeatureEnvy)
     end
   end
 
   it 'should report highest affinity' do
-    src = <<EOS
-def total_envy
-  fred = @item
-  total = 0
-  total += fred.price
-  total += fred.tax
-  total *= 1.15
-end
-EOS
-    expect(src).to reek_only_of(:FeatureEnvy, /total/)
+    src = <<-EOS
+      def total_envy
+        fred = @item
+        total = 0
+        total += fred.price
+        total += fred.tax
+        total *= 1.15
+      end
+      EOS
+    expect(src).to reek_only_of(:FeatureEnvy)
   end
 
   it 'should report multiple affinities' do
-    src = <<EOS
-def total_envy
-  fred = @item
-  total = 0
-  total += fred.price
-  total += fred.tax
-end
-EOS
-    expect(src).to reek_of(:FeatureEnvy, /total/)
-    expect(src).to reek_of(:FeatureEnvy, /fred/)
+    src = <<-EOS
+      def total_envy
+        fred = @item
+        total = 0
+        total += fred.price
+        total += fred.tax
+      end
+      EOS
+    expect(src).to reek_of(:FeatureEnvy,  name: 'total')
+    expect(src).to reek_of(:FeatureEnvy,  name: 'fred')
   end
 
   it 'should not be fooled by duplication' do
@@ -109,7 +113,7 @@ EOS
         @cow.feed_to(thing.pig)
         @duck.feed_to(thing.pig)
       end
-    ').to reek_only_of(:Duplication, /thing.pig/)
+    ').to reek_only_of(:Duplication)
   end
 
   it 'should count local calls' do
@@ -118,7 +122,7 @@ EOS
         cow.feed_to(thing.pig)
         duck.feed_to(thing.pig)
       end
-    ').to reek_only_of(:Duplication, /thing.pig/)
+    ').to reek_only_of(:Duplication)
   end
 
   it 'should report many calls to lvar' do
@@ -127,7 +131,7 @@ EOS
         lv = @item
         lv.price + lv.tax
       end
-    ').to reek_only_of(:FeatureEnvy, /lv/)
+    ').to reek_only_of(:FeatureEnvy)
     #
     # def moved_version
     #   price + tax

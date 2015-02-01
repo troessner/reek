@@ -21,7 +21,6 @@ module Reek
         "Expected no smells, but got:\n#{rpt}"
       end
     end
-
     #
     # Returns +true+ if and only if the target source code contains smells.
     #
