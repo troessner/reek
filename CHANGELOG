@@ -1,3 +1,7 @@
+== 1.6.5
+
+* (mvz) Make NestedIterator not break when iterator is called on super.
+
 == 1.6.4
 
 * (maser) Fix file arguments without TTY
