@@ -7,10 +7,7 @@ FactoryGirl.define do
     source 'dummy_file'
 
     initialize_with do
-      # The odd looking const_get is necessary for ruby 1.9.3 compatibility.
-      Kernel.const_get('Reek').
-        const_get('Smells').
-        const_get(smell_type).new(source)
+      ::Reek::Smells.const_get(smell_type).new(source)
     end
   end
 
