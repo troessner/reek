@@ -88,7 +88,7 @@
           <% smells.each do |smell| %>
           <div class="list-item">
             <div class="content">
-              <div class="heading"><strong><%= smell.context%></strong> <%= smell.message%> (<%= smell.subclass%>)</div>
+              <div class="heading"><strong><%= smell.context%></strong> <%= smell.message%> (<%= smell.smell_type %>)</div>
               <small class="text-muted pull-right">Line <%= smell.lines %></small>
               <p>
               <small><%= smell.source %></small>
