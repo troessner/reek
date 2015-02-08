@@ -187,13 +187,13 @@ describe NestedIterators do
 
   context 'when a smell is reported' do
     before :each do
-      src = <<EOS
-def fred()
-  nothing.each do |item|
-    again.each {|thing| item }
-  end
-end
-EOS
+      src = <<-EOS
+        def fred()
+          nothing.each do |item|
+            again.each {|thing| item }
+          end
+        end
+      EOS
       ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
       @warning = @detector.examine_context(ctx)[0]
     end
@@ -204,5 +204,22 @@ EOS
       expect(@warning.parameters[:count]).to eq(2)
       expect(@warning.lines).to eq([3])
     end
+  end
+
+  context 'super recieves a block' do
+    before :each do
+      src = <<-EOS
+        def super_call_with_block
+          super do |k|
+            nothing.each { |thing| item }
+          end
+        end
+      EOS
+
+      ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+      @warning = @detector.examine_context(ctx)[0]
+    end
+
+    it_should_behave_like 'common fields set correctly'
   end
 end

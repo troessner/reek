@@ -304,6 +304,12 @@ module Reek
           args.map { |arg| arg[1] }
         end
       end
+
+      module ZsuperNode
+        def method_name
+          :super
+        end
+      end
     end
   end
 end
