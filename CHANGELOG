@@ -1,3 +1,12 @@
+== 2.0.0
+
+* (troessner) Revise, improve & refactor our Rspec matcher and remove smell_of
+* (guilhermesimoes) Fix generating HTML report
+* (mvz) Re-organize CLI options
+* (maser) Fix file arguments without TTY
+* (marcofognog) Make NestedIterator not break if iterator is called on super
+* (troessner) Revamp & refactor our rake task
+
 == 1.6.3
 
 * (mvz) Support ruby 2.2
