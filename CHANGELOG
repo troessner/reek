@@ -1,3 +1,7 @@
+== 1.6.6
+
+* (guilhermesimoes) Fix HTML report generation.
+
 == 1.6.5
 
 * (mvz) Make NestedIterator not break when iterator is called on super.
