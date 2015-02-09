@@ -13,7 +13,7 @@ describe ModuleInitialize do
             def initialize; end
           end
         EOF
-        expect(src).to smell_of(ModuleInitialize)
+        expect(src).to reek_of(ModuleInitialize)
       end
     end
 
@@ -26,7 +26,7 @@ describe ModuleInitialize do
             end
           end
         EOF
-        expect(src).not_to smell_of(ModuleInitialize)
+        expect(src).not_to reek_of(ModuleInitialize)
       end
     end
 
@@ -39,7 +39,7 @@ describe ModuleInitialize do
             end
           end
         EOF
-        expect(src).not_to smell_of(ModuleInitialize)
+        expect(src).not_to reek_of(ModuleInitialize)
       end
     end
   end

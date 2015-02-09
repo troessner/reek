@@ -20,7 +20,7 @@ describe NilCheck do
     end
 
     it 'reports nothing when scope includes no nil checks' do
-      expect('def no_nils; end').not_to smell_of(NilCheck)
+      expect('def no_nils; end').not_to reek_of(NilCheck)
     end
 
     it 'reports when scope uses multiple nil? methods' do
@@ -31,7 +31,7 @@ describe NilCheck do
         \"\".nil?
       end
       eos
-      expect(src).to smell_of(NilCheck, {}, {})
+      expect(src).to reek_of(NilCheck)
     end
 
     it 'reports twice when scope uses == nil and === nil' do
@@ -41,11 +41,11 @@ describe NilCheck do
         para === nil
       end
       eos
-      expect(src).to smell_of(NilCheck, {}, {})
+      expect(src).to reek_of(NilCheck)
     end
 
     it 'reports when scope uses nil ==' do
-      expect('def chk_eq_nil_rev(para); nil == para; end').to smell_of(NilCheck)
+      expect('def chk_eq_nil_rev(para); nil == para; end').to reek_of(NilCheck)
     end
 
     it 'reports when scope uses multiple case-clauses checking nil' do
@@ -61,7 +61,7 @@ describe NilCheck do
         end
       end
       eos
-      expect(src).to smell_of(NilCheck, {}, {})
+      expect(src).to reek_of(NilCheck)
     end
 
     it 'reports a when clause that checks nil and other values' do
@@ -72,7 +72,7 @@ describe NilCheck do
         end
       end
       eos
-      expect(src).to smell_of(NilCheck)
+      expect(src).to reek_of(NilCheck)
     end
   end
 end

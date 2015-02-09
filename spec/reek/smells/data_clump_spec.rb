@@ -14,7 +14,7 @@ shared_examples_for 'a data clump detector' do
   def third(pa) pa - pb + @fred; end
 end
 EOS
-    expect(src).not_to smell_of(DataClump)
+    expect(src).not_to reek_of(DataClump)
   end
 
   context 'with 3 identical pairs' do
@@ -62,9 +62,9 @@ EOS
   def tri(pa, pb) pa - pb + @fred; end
 end
 EOS
-    expect(src).to smell_of(DataClump,
-                            count: 3,
-                            parameters: ['pa', 'pb'])
+    expect(src).to reek_of(DataClump,
+                           count: 3,
+                           parameters: ['pa', 'pb'])
   end
 
   it 'reports 3 identical parameter sets' do
@@ -75,9 +75,9 @@ EOS
   def third(pa, pb, pc) pa - pb + @fred; end
 end
 EOS
-    expect(src).to smell_of(DataClump,
-                            count: 3,
-                            parameters: ['pa', 'pb', 'pc'])
+    expect(src).to reek_of(DataClump,
+                           count: 3,
+                           parameters: ['pa', 'pb', 'pc'])
   end
 
   it 'reports re-ordered identical parameter sets' do
@@ -88,9 +88,9 @@ EOS
   def third(pa, pb, pc) pa - pb + @fred; end
 end
 EOS
-    expect(src).to smell_of(DataClump,
-                            count: 3,
-                            parameters: ['pa', 'pb', 'pc'])
+    expect(src).to reek_of(DataClump,
+                           count: 3,
+                           parameters: ['pa', 'pb', 'pc'])
   end
 
   it 'counts only identical parameter sets' do
@@ -101,7 +101,7 @@ EOS
   def fc(name, windowW, windowH) end
 end
 EOS
-    expect(src).not_to smell_of(DataClump)
+    expect(src).not_to reek_of(DataClump)
   end
 
   it 'gets a real example right' do
@@ -114,7 +114,7 @@ EOS
   def c_raw_singleton (src, options) end
 end
 EOS
-    expect(src).to smell_of(DataClump, count: 5)
+    expect(src).to reek_of(DataClump, count: 5)
   end
 
   it 'correctly checks number of occurences' do
@@ -127,7 +127,7 @@ EOS
         def fe(p5, p1, p2) end
       end
     EOS
-    expect(src).not_to smell_of(DataClump)
+    expect(src).not_to reek_of(DataClump)
   end
 
   it 'detects clumps smaller than the total number of arguments' do
@@ -138,8 +138,8 @@ EOS
         def fc(p4, p1, p2) end
       end
     EOS
-    expect(src).to smell_of(DataClump,
-                            parameters: %w(p1 p2))
+    expect(src).to reek_of(DataClump,
+                           parameters: %w(p1 p2))
   end
 
   it 'ignores anonymous parameters' do
@@ -150,8 +150,8 @@ EOS
         def fc(p1, p2, *) end
       end
     EOS
-    expect(src).to smell_of(DataClump,
-                            parameters: %w(p1 p2))
+    expect(src).to reek_of(DataClump,
+                           parameters: %w(p1 p2))
   end
 end
 

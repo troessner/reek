@@ -18,19 +18,19 @@ describe LongYieldList do
   context 'yield' do
     it 'should not report yield with no parameters' do
       src = 'def simple(arga, argb, &blk) f(3);yield; end'
-      expect(src).not_to smell_of(LongYieldList)
+      expect(src).not_to reek_of(LongYieldList)
     end
     it 'should not report yield with few parameters' do
       src = 'def simple(arga, argb, &blk) f(3);yield a,b; end'
-      expect(src).not_to smell_of(LongYieldList)
+      expect(src).not_to reek_of(LongYieldList)
     end
     it 'should report yield with many parameters' do
       src = 'def simple(arga, argb, &blk) f(3);yield arga,argb,arga,argb; end'
-      expect(src).to smell_of(LongYieldList, count: 4)
+      expect(src).to reek_of(LongYieldList, count: 4)
     end
     it 'should not report yield of a long expression' do
       src = 'def simple(arga, argb, &blk) f(3);yield(if @dec then argb else 5+3 end); end'
-      expect(src).not_to smell_of(LongYieldList)
+      expect(src).not_to reek_of(LongYieldList)
     end
   end
 

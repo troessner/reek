@@ -22,12 +22,12 @@ end
 describe TooManyStatements do
   it 'should not report short methods' do
     src = 'def short(arga) alf = f(1);@bet = 2;@cut = 3;@dit = 4; @emp = 5;end'
-    expect(src).not_to smell_of(TooManyStatements)
+    expect(src).not_to reek_of(TooManyStatements)
   end
 
   it 'should report long methods' do
     src = 'def long() alf = f(1);@bet = 2;@cut = 3;@dit = 4; @emp = 5;@fry = 6;end'
-    expect(src).to reek_only_of(:TooManyStatements, /6 statements/)
+    expect(src).to reek_only_of(:TooManyStatements)
   end
 
   it 'should not report initialize' do
@@ -36,45 +36,45 @@ describe TooManyStatements do
         alf = f(1); @bet = 2; @cut = 3; @dit = 4; @emp = 5; @fry = 6
       end
     '
-    expect(src).not_to smell_of(TooManyStatements)
+    expect(src).not_to reek_of(TooManyStatements)
   end
 
   it 'should only report a long method once' do
-    src = <<EOS
-def standard_entries(rbconfig)
-  @abc = rbconfig
-  rubypath = File.join(@abc['bindir'], @abcf['ruby_install_name'] + cff['EXEEXT'])
-  major = yyy['MAJOR'].to_i
-  minor = zzz['MINOR'].to_i
-  teeny = ccc['TEENY'].to_i
-  version = ""
-  if c['rubylibdir']
-    @libruby         = "/lib/ruby"
-    @librubyver      = "/lib/ruby/"
-    @librubyverarch  = "/lib/ruby/"
-    @siteruby        = "lib/ruby/version/site_ruby"
-    @siterubyver     = siteruby
-    @siterubyverarch = "$siterubyver/['arch']}"
-  end
-end
-EOS
+    src = <<-EOS
+      def standard_entries(rbconfig)
+        @abc = rbconfig
+        rubypath = File.join(@abc['bindir'], @abcf['ruby_install_name'] + cff['EXEEXT'])
+        major = yyy['MAJOR'].to_i
+        minor = zzz['MINOR'].to_i
+        teeny = ccc['TEENY'].to_i
+        version = ""
+        if c['rubylibdir']
+          @libruby         = "/lib/ruby"
+          @librubyver      = "/lib/ruby/"
+          @librubyverarch  = "/lib/ruby/"
+          @siteruby        = "lib/ruby/version/site_ruby"
+          @siterubyver     = siteruby
+          @siterubyverarch = "$siterubyver/['arch']}"
+        end
+      end
+    EOS
     expect(src).to reek_only_of(:TooManyStatements)
   end
 
   it 'should report long inner block' do
-    src = <<EOS
-def long()
-  f(3)
-  self.each do |xyzero|
-    xyzero = 1
-    xyzero = 2
-    xyzero = 3
-    xyzero = 4
-    xyzero = 5
-    xyzero = 6
-  end
-end
-EOS
+    src = <<-EOS
+      def long()
+        f(3)
+        self.each do |xyzero|
+          xyzero = 1
+          xyzero = 2
+          xyzero = 3
+          xyzero = 4
+          xyzero = 5
+          xyzero = 6
+        end
+      end
+    EOS
     expect(src).to reek_only_of(:TooManyStatements)
   end
 end

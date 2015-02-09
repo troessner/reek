@@ -1,7 +1,7 @@
 require 'reek/spec'
 require 'reek/source/ast_node_class_map'
+require 'reek/configuration/app_configuration'
 
-require 'matchers/smell_of_matcher'
 require 'factory_girl'
 
 begin
@@ -15,10 +15,18 @@ SAMPLES_DIR = 'spec/samples'
 
 # Simple helpers for our specs.
 module Helpers
-  def with_test_config(path)
-    Configuration::AppConfiguration.load_from_file(path)
+  def with_test_config(config)
+    if config.is_a? String
+      Reek::Configuration::AppConfiguration.load_from_file(config)
+    elsif config.is_a? Hash
+      Reek::Configuration::AppConfiguration.class_eval do
+        @configuration = config
+      end
+    else
+      raise "Unknown config given in `with_test_config`: #{config.inspect}"
+    end
     yield if block_given?
-    Configuration::AppConfiguration.reset
+    Reek::Configuration::AppConfiguration.reset
   end
 
   # :reek:UncommunicativeMethodName

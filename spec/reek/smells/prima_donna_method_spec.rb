@@ -7,11 +7,11 @@ include Reek::Smells
 
 describe PrimaDonnaMethod do
   it 'should report nothing when method and bang counterpart exist' do
-    expect('class C; def m; end; def m!; end; end').not_to smell_of(PrimaDonnaMethod)
+    expect('class C; def m; end; def m!; end; end').not_to reek_of(PrimaDonnaMethod)
   end
 
   it 'should report PrimaDonnaMethod when only bang method exists' do
-    expect('class C; def m!; end; end').to smell_of(PrimaDonnaMethod)
+    expect('class C; def m!; end; end').to reek_of(PrimaDonnaMethod)
   end
 
   describe 'the right smell' do
