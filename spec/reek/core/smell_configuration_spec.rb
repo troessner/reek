@@ -47,9 +47,9 @@ describe SmellConfiguration do
 
     it 'should override multiple values' do
       expect(@smell_config.merge!('enabled' => false, 'accept' => [/[A-Z]$/])).to eq(
-                           'enabled' => false, 'exclude' => [],
-                           'reject' => [/^.$/, /[0-9]$/, /[A-Z]/],
-                           'accept' => [/[A-Z]$/]
+        'enabled' => false, 'exclude' => [],
+        'reject' => [/^.$/, /[0-9]$/, /[A-Z]/],
+        'accept' => [/[A-Z]$/]
       )
     end
   end
