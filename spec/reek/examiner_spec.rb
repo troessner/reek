@@ -3,21 +3,6 @@ require 'reek/examiner'
 
 include Reek
 
-shared_examples_for 'supports the deprecated api' do
-  it 'returns all smells as active' do
-    expect(@examiner.all_active_smells).to eq(@examiner.smells)
-  end
-  it 'returns all smells as active' do
-    expect(@examiner.all_smells).to eq(@examiner.smells)
-  end
-  it 'counts all smells as active smells' do
-    expect(@examiner.num_active_smells).to eq(@examiner.smells.length)
-  end
-  it 'never reports masked smells' do
-    expect(@examiner.num_masked_smells).to eq(0)
-  end
-end
-
 shared_examples_for 'no smells found' do
   it 'is not smelly' do
     expect(@examiner).not_to be_smelly
@@ -25,8 +10,6 @@ shared_examples_for 'no smells found' do
   it 'finds no smells' do
     expect(@examiner.smells.length).to eq(0)
   end
-
-  it_should_behave_like 'supports the deprecated api'
 end
 
 shared_examples_for 'one smell found' do
@@ -39,8 +22,6 @@ shared_examples_for 'one smell found' do
   it 'reports the correct smell' do
     expect(@examiner.smells[0].smell_category).to eq(@expected_first_smell)
   end
-
-  it_should_behave_like 'supports the deprecated api'
 end
 
 describe Examiner do
