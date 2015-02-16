@@ -33,6 +33,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency('parser', ['~> 2.2'])
   s.add_runtime_dependency('unparser', ['~> 0.2.2'])
   s.add_runtime_dependency('rainbow', ['~> 2.0'])
+  s.add_runtime_dependency('require_all', ['~> 1.3'])
 
   s.add_development_dependency('bundler', ['~> 1.1'])
   s.add_development_dependency('rake', ['~> 10.0'])
