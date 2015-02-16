@@ -1,10 +1,8 @@
-@samples
 Feature: Basic smell detection
   In order to write better software
   As a developer
   I want to detect the smells in my Ruby code
 
-  @inline
   Scenario: Correct smells from inline.rb
     When I run reek --no-line-numbers spec/samples/inline.rb
     Then the exit status indicates smells
@@ -282,7 +280,6 @@ Feature: Basic smell detection
       RedCloth#to_html has approx 26 statements (TooManyStatements)
     """
 
-  @ruby20
   Scenario: Correct smells from a source file with Ruby 2.0 specific syntax
     When I run reek spec/samples/ruby20_syntax.rb
     Then the exit status indicates smells
@@ -292,7 +289,6 @@ Feature: Basic smell detection
       [1]:SomeClass has no descriptive comment (IrresponsibleModule)
     """
 
-  @ruby21
   Scenario: Correct smells from a source file with Ruby 2.1 specific syntax
     When I run reek spec/samples/ruby21_syntax.rb
     Then the exit status indicates smells

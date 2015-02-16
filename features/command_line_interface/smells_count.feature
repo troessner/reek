@@ -1,4 +1,3 @@
-@smells_count
 Feature: Reports total number of code smells
   In order to monitor the total number of smells
   Reek outputs the total number of smells among all files inspected.

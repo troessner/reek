@@ -1,4 +1,3 @@
-@overrides_defaults
 Feature: Overriding current rules by specifying new configuration values
   In order to customize Reek to suit my needs
   As a developer

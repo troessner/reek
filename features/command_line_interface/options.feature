@@ -1,4 +1,3 @@
-@options
 Feature: Reek can be controlled using command-line options
   In order to change reek's default behaviour
   As a developer

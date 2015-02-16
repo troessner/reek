@@ -1,4 +1,3 @@
-@stdin
 Feature: Reek reads from $stdin when no files are given
   In order to use reek with pipelines
   As a developer
@@ -37,7 +36,6 @@ Feature: Reek reads from $stdin when no files are given
 
       """
 
-  @stderr
   Scenario: syntax error causes the source to be ignored
     When I pass "def incomplete" to reek
     Then it reports a parsing error
