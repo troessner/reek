@@ -1,16 +1,12 @@
 require 'spec_helper'
+require 'reek/core/code_context'
 require 'reek/smells/long_yield_list'
 require 'reek/smells/smell_detector_shared'
 
-include Reek
-include Reek::Smells
-
-describe LongYieldList do
+describe Reek::Smells::LongYieldList do
   before(:each) do
-    @source_name = 'oo la la'
-    @detector = LongYieldList.new(@source_name)
-    # SMELL: can't use the default config, because that contains an override,
-    # which causes the mocked matches?() method to be called twice!!
+    @source_name = 'dummy_source'
+    @detector = build(:smell_detector, smell_type: :LongYieldList, source: @source_name)
   end
 
   it_should_behave_like 'SmellDetector'
@@ -18,31 +14,31 @@ describe LongYieldList do
   context 'yield' do
     it 'should not report yield with no parameters' do
       src = 'def simple(arga, argb, &blk) f(3);yield; end'
-      expect(src).not_to reek_of(LongYieldList)
+      expect(src).not_to reek_of(:LongYieldList)
     end
     it 'should not report yield with few parameters' do
       src = 'def simple(arga, argb, &blk) f(3);yield a,b; end'
-      expect(src).not_to reek_of(LongYieldList)
+      expect(src).not_to reek_of(:LongYieldList)
     end
     it 'should report yield with many parameters' do
       src = 'def simple(arga, argb, &blk) f(3);yield arga,argb,arga,argb; end'
-      expect(src).to reek_of(LongYieldList, count: 4)
+      expect(src).to reek_of(:LongYieldList, count: 4)
     end
     it 'should not report yield of a long expression' do
       src = 'def simple(arga, argb, &blk) f(3);yield(if @dec then argb else 5+3 end); end'
-      expect(src).not_to reek_of(LongYieldList)
+      expect(src).not_to reek_of(:LongYieldList)
     end
   end
 
   context 'when a smells is reported' do
     before :each do
-      src = <<EOS
-def simple(arga, argb, &blk)
-  f(3)
-  yield(arga,argb,arga,argb)
-  end
-EOS
-      ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+      src = <<-EOS
+        def simple(arga, argb, &blk)
+          f(3)
+          yield(arga,argb,arga,argb)
+          end
+      EOS
+      ctx = Reek::Core::CodeContext.new(nil, src.to_reek_source.syntax_tree)
       @smells = @detector.examine_context(ctx)
       @warning = @smells[0]
     end

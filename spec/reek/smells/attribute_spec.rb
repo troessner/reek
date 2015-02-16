@@ -3,13 +3,10 @@ require 'reek/smells/attribute'
 require 'reek/core/module_context'
 require 'reek/smells/smell_detector_shared'
 
-include Reek::Core
-include Reek::Smells
-
-describe Attribute do
+describe Reek::Smells::Attribute do
   before :each do
-    @source_name = 'ticker'
-    @detector = Attribute.new(@source_name)
+    @source_name = 'dummy_source'
+    @detector = build(:smell_detector, smell_type: :Attribute, source: @source_name)
   end
 
   it_should_behave_like 'SmellDetector'
@@ -17,7 +14,7 @@ describe Attribute do
   context 'with no attributes' do
     it 'records nothing in the module' do
       src = 'module Fred; end'
-      ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+      ctx = Reek::Core::CodeContext.new(nil, src.to_reek_source.syntax_tree)
       expect(@detector.examine_context(ctx)).to be_empty
     end
   end
@@ -29,7 +26,7 @@ describe Attribute do
 
     shared_examples_for 'one attribute found' do
       before :each do
-        ctx = CodeContext.new(nil, @src.to_reek_source.syntax_tree)
+        ctx = Reek::Core::CodeContext.new(nil, @src.to_reek_source.syntax_tree)
         @smells = @detector.examine_context(ctx)
       end
 
@@ -46,7 +43,7 @@ describe Attribute do
       end
 
       it 'reports the correct smell class' do
-        expect(@smells[0].smell_category).to eq(Attribute.smell_category)
+        expect(@smells[0].smell_category).to eq(described_class.smell_category)
       end
 
       it 'reports the context fq name' do

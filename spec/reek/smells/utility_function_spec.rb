@@ -2,13 +2,10 @@ require 'spec_helper'
 require 'reek/smells/utility_function'
 require 'reek/smells/smell_detector_shared'
 
-include Reek
-include Reek::Smells
-
-describe UtilityFunction do
+describe Reek::Smells::UtilityFunction do
   before(:each) do
-    @source_name = 'loser'
-    @detector = UtilityFunction.new(@source_name)
+    @source_name = 'dummy_source'
+    @detector = build(:smell_detector, smell_type: :UtilityFunction, source: @source_name)
   end
 
   it_should_behave_like 'SmellDetector'
@@ -17,7 +14,7 @@ describe UtilityFunction do
     ['self', 'local_call', '$global'].each do |receiver|
       it 'ignores the receiver' do
         src = "def #{receiver}.simple(arga) arga.to_s + arga.to_i end"
-        ctx = MethodContext.new(nil, src.to_reek_source.syntax_tree)
+        ctx = Reek::Core::MethodContext.new(nil, src.to_reek_source.syntax_tree)
         expect(@detector.examine_context(ctx)).to be_empty
       end
     end
@@ -26,7 +23,7 @@ describe UtilityFunction do
   context 'with no calls' do
     it 'does not report empty method' do
       src = 'def simple(arga) end'
-      ctx = MethodContext.new(nil, src.to_reek_source.syntax_tree)
+      ctx = Reek::Core::MethodContext.new(nil, src.to_reek_source.syntax_tree)
       expect(@detector.examine_context(ctx)).to be_empty
     end
 
@@ -122,8 +119,8 @@ describe UtilityFunction do
         end
       EOS
       source = src.to_reek_source
-      sniffer = Sniffer.new(source)
-      mctx = CodeParser.new(sniffer).process_def(source.syntax_tree)
+      sniffer = Reek::Core::Sniffer.new(source)
+      mctx = Reek::Core::CodeParser.new(sniffer).process_def(source.syntax_tree)
       @warning = @detector.examine_context(mctx)[0]   # SMELL: too cumbersome!
     end
 

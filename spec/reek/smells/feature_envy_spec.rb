@@ -2,10 +2,7 @@ require 'spec_helper'
 require 'reek/smells/feature_envy'
 require 'reek/smells/smell_detector_shared'
 
-include Reek
-include Reek::Smells
-
-describe FeatureEnvy do
+describe Reek::Smells::FeatureEnvy do
   context 'with no smell' do
     it 'should not report use of self' do
       expect('def simple() self.to_s + self.to_i end').not_to reek_of(:FeatureEnvy)
@@ -132,14 +129,6 @@ describe FeatureEnvy do
         lv.price + lv.tax
       end
     ').to reek_only_of(:FeatureEnvy)
-    #
-    # def moved_version
-    #   price + tax
-    # end
-    #
-    # def envy
-    #   @item.moved_version
-    # end
   end
 
   it 'ignores frequent use of a call' do
@@ -177,54 +166,54 @@ describe FeatureEnvy do
   end
 
   it 'counts self references correctly' do
-    src = <<EOS
-def adopt(other)
-  other.keys.each do |key|
-    self[key] += 3
-    self[key] = o4
-  end
-  self
-end
-EOS
+    src = <<-EOS
+      def adopt(other)
+        other.keys.each do |key|
+          self[key] += 3
+          self[key] = o4
+        end
+        self
+      end
+    EOS
     expect(src).not_to reek_of(:FeatureEnvy)
   end
 end
 
-describe FeatureEnvy do
+describe Reek::Smells::FeatureEnvy do
   it 'counts references to self correctly' do
-    ruby = <<EOS
-def report
-  unless @report
-    @report = Report.new
-    cf = SmellConfig.new
-    cf = cf.load_local(@dir) if @dir
-    CodeParser.new(@report, cf.smell_listeners).check_source(@source)
-  end
-  @report
-end
-EOS
+    ruby = <<-EOS
+      def report
+        unless @report
+          @report = Report.new
+          cf = SmellConfig.new
+          cf = cf.load_local(@dir) if @dir
+          CodeParser.new(@report, cf.smell_listeners).check_source(@source)
+        end
+        @report
+      end
+    EOS
     expect(ruby).not_to reek_of(:FeatureEnvy)
   end
 
   it 'interprets << correctly' do
-    ruby = <<EOS
-def report_on(report)
-  if @is_doubled
-    report.record_doubled_smell(self)
-  else
-    report << self
-  end
-end
-EOS
+    ruby = <<-EOS
+      def report_on(report)
+        if @is_doubled
+          report.record_doubled_smell(self)
+        else
+          report << self
+        end
+      end
+    EOS
 
     expect(ruby).not_to reek_of(:FeatureEnvy)
   end
 end
 
-describe FeatureEnvy do
+describe Reek::Smells::FeatureEnvy do
   before(:each) do
-    @source_name = 'green as a cucumber'
-    @detector = FeatureEnvy.new(@source_name)
+    @source_name = 'dummy_source'
+    @detector = build(:smell_detector, smell_type: :FeatureEnvy, source: @source_name)
   end
 
   it_should_behave_like 'SmellDetector'
@@ -232,37 +221,44 @@ describe FeatureEnvy do
   context 'when reporting yaml' do
     before :each do
       @receiver = 'other'
-      src = <<EOS
-def envious(other)
-  #{@receiver}.call
-  self.do_nothing
-  #{@receiver}.other
-  #{@receiver}.fred
-end
-EOS
+      src = <<-EOS
+        def envious(other)
+          #{@receiver}.call
+          self.do_nothing
+          #{@receiver}.other
+          #{@receiver}.fred
+        end
+      EOS
       source = src.to_reek_source
-      sniffer = Sniffer.new(source)
-      @mctx = CodeParser.new(sniffer).process_def(source.syntax_tree)
+      sniffer = Reek::Core::Sniffer.new(source)
+      @mctx = Reek::Core::CodeParser.new(sniffer).process_def(source.syntax_tree)
       @smells = @detector.examine_context(@mctx)
     end
+
     it 'reports only that smell' do
       expect(@smells.length).to eq(1)
     end
+
     it 'reports the source' do
       expect(@smells[0].source).to eq(@source_name)
     end
+
     it 'reports the smell class' do
-      expect(@smells[0].smell_category).to eq(FeatureEnvy.smell_category)
+      expect(@smells[0].smell_category).to eq(described_class.smell_category)
     end
+
     it 'reports the smell sub class' do
-      expect(@smells[0].smell_type).to eq(FeatureEnvy.smell_type)
+      expect(@smells[0].smell_type).to eq(described_class.smell_type)
     end
+
     it 'reports the envious receiver' do
       expect(@smells[0].parameters[:name]).to eq(@receiver)
     end
+
     it 'reports the number of references' do
       expect(@smells[0].parameters[:count]).to eq(3)
     end
+
     it 'reports the referring lines' do
       skip
       expect(@smells[0].lines).to eq([2, 4, 5])

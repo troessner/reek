@@ -1,16 +1,11 @@
 require 'spec_helper'
 require 'reek/smells/uncommunicative_method_name'
 require 'reek/smells/smell_detector_shared'
-require 'reek/core/code_parser'
-require 'reek/core/sniffer'
 
-include Reek
-include Reek::Smells
-
-describe UncommunicativeMethodName do
-  before :each do
-    @source_name = 'wallamalloo'
-    @detector = UncommunicativeMethodName.new(@source_name)
+describe Reek::Smells::UncommunicativeMethodName do
+  before do
+    @source_name = 'dummy_source'
+    @detector = build(:smell_detector, smell_type: :UncommunicativeMethodName, source: @source_name)
   end
 
   it_should_behave_like 'SmellDetector'
@@ -18,7 +13,7 @@ describe UncommunicativeMethodName do
   ['help', '+', '-', '/', '*'].each do |method_name|
     it "accepts the method name '#{method_name}'" do
       src = "def #{method_name}(fred) basics(17) end"
-      expect(src).not_to reek_of(UncommunicativeMethodName)
+      expect(src).not_to reek_of(:UncommunicativeMethodName)
     end
   end
 
@@ -26,7 +21,7 @@ describe UncommunicativeMethodName do
     context 'with a bad name' do
       before do
         src = "def #{method_name}; end"
-        ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+        ctx = Reek::Core::CodeContext.new(nil, src.to_reek_source.syntax_tree)
         smells = @detector.examine_context(ctx)
         @warning = smells[0]
       end
