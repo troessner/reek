@@ -58,12 +58,11 @@ module Reek
         private
 
         def display_summary
-          print smells.reject(&:empty?).join("\n")
+          smells.reject(&:empty?).each { |smell| puts smell }
         end
 
         def display_total_smell_count
           return unless @examiners.size > 1
-          print "\n"
           print total_smell_count_message
         end
 

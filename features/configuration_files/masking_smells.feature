@@ -23,9 +23,7 @@ Feature: Masking smells using config files
     When I run reek -c spec/samples/corrupt_config_file/corrupt.reek spec/samples/corrupt_config_file
     Then it reports the error 'Error: Invalid configuration file "corrupt.reek" -- Not a hash'
     And the exit status indicates an error
-    And it reports:
-      """
-      """
+    And it reports nothing
 
   Scenario: missing source file is an error
     When I run reek spec/samples/missing_source_file/dirty.rb

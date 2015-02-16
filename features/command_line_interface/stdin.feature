@@ -7,14 +7,12 @@ Feature: Reek reads from $stdin when no files are given
   Scenario: return zero status with no smells
     When I pass "def simple() @fred = 3 end" to reek
     Then it succeeds
-    And it reports:
-      """
-      """
+    And it reports nothing
 
   Scenario: outputs nothing on empty stdin
     When I pass "" to reek
     Then it succeeds
-    And stdout equals ""
+    And it reports nothing
 
   Scenario: outputs header only on empty stdin in verbose mode
     When I pass "" to reek -V
@@ -22,7 +20,6 @@ Feature: Reek reads from $stdin when no files are given
     And it reports:
       """
       $stdin -- 0 warnings
-
       """
 
   Scenario: return non-zero status when there are smells
@@ -34,7 +31,6 @@ Feature: Reek reads from $stdin when no files are given
         [1]:Turn has no descriptive comment (IrresponsibleModule)
         [1]:Turn has the variable name '@x' (UncommunicativeVariableName)
         [1]:Turn#y has the name 'y' (UncommunicativeMethodName)
-
       """
 
   @stderr
@@ -42,5 +38,4 @@ Feature: Reek reads from $stdin when no files are given
     When I pass "def incomplete" to reek
     Then it reports a parsing error
     Then it succeeds
-    And stdout equals ""
-
+    And it reports nothing

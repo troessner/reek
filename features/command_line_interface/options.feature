@@ -8,7 +8,7 @@ Feature: Reek can be controlled using command-line options
     When I run reek --no-such-option
     Then the exit status indicates an error
     And it reports the error "Error: invalid option: --no-such-option"
-    And stdout equals ""
+    And there is no output on stdout
 
   Scenario: display the current version number
     When I run reek --version
@@ -53,5 +53,4 @@ Feature: Reek can be controlled using command-line options
       Utility options:
           -h, --help                       Show this message
           -v, --version                    Show version
-
       """

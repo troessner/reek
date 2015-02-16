@@ -79,6 +79,4 @@ Feature: Reek can be driven through its Task
       end
       """
     Then it succeeds
-    And it reports:
-      """
-      """
+    And it reports nothing

@@ -10,8 +10,12 @@ When /^I run rake (\w*) with:$/ do |name, task_def|
   rake(name, task_def)
 end
 
-Then /^stdout equals "([^\"]*)"$/ do |report|
-  expect(@last_stdout).to eq report
+Then /^it reports nothing$/ do
+  expect(@last_stdout).to eq ''
+end
+
+Then /^there is no output on stdout$/ do
+  expect(@last_stdout).to eq ''
 end
 
 Then /^stdout includes "(.*)"$/ do |text|
@@ -31,7 +35,7 @@ Then /^the exit status indicates smells$/ do
 end
 
 Then /^it reports:$/ do |report|
-  expect(@last_stdout.chomp).to eq report.chomp
+  expect(@last_stdout).to eq "#{report}\n"
 end
 
 Then /^it reports this yaml:$/ do |expected_yaml|

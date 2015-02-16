@@ -44,6 +44,5 @@ Feature: Reports total number of code smells
     Then it succeeds
     And it reports:
     """
-
     0 total warnings
     """
