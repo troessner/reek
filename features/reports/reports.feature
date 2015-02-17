@@ -86,7 +86,6 @@ Feature: Correctly formatted reports
     Then it succeeds
     And it reports:
       """
-
       0 total warnings
       """
 
@@ -116,7 +115,6 @@ Feature: Correctly formatted reports
     Then it succeeds
     And it reports:
     """
-
     0 total warnings
     """
 

@@ -15,5 +15,4 @@ Feature: Smell selection
         Dirty#a calls @s.title 2 times (DuplicateMethodCall)
         Dirty#a calls puts(@s.title) 2 times (DuplicateMethodCall)
       4 total warnings
-
       """
