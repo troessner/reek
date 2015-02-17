@@ -1,4 +1,3 @@
-@masking
 Feature: The Reek API maintains backwards compatibility
   In order to use Reek without fuss
   As a developer

@@ -1,4 +1,3 @@
-@masking
 Feature: Masking smells using config files
   In order to keep my reports meaningful
   As a developer
@@ -65,7 +64,6 @@ Feature: Masking smells using config files
         [5]:Dirty#a contains iterators nested 2 deep (NestedIterators)
       """
 
-  @comments
   Scenario: provide extra masking inline in comments
     When I run reek -c spec/samples/inline_config/masked.reek spec/samples/inline_config
     Then the exit status indicates smells

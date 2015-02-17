@@ -1,4 +1,3 @@
-@reports
 Feature: Correctly formatted reports
   In order to get the most out of reek
   As a developer

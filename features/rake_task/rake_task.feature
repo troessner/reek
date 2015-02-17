@@ -1,4 +1,3 @@
-@rake
 Feature: Reek can be driven through its Task
   Reek provides an easy way to integrate its use into Rakefiles,
   via the Task class. These scenarios test its various options.
