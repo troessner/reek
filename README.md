@@ -229,3 +229,13 @@ Colorful output for `reek`: [Preek](https://github.com/joenas/preek) (also with
 
 * [Stack Overflow](http://stackoverflow.com/questions/tagged/reek)
 * [RDoc](http://rdoc.info/projects/troessner/reek)
+
+## Contributors
+
+A non exhaustive list:
+
+* Kevin Rutherford
+* Matijs van Zuijlen
+* Andrew Wagner
+* Gilles Leblanc
+* Timo Rößner
