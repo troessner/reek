@@ -13,20 +13,25 @@ module Reek
     # each context to the smell repository.
     # SMELL: This class has a name that doesn't match its responsibility.
     class CodeParser
-      def initialize(smell_repository, ctx = StopContext.new)
+      def initialize(smell_repository)
         @smell_repository = smell_repository
-        @element = ctx
+        @element = StopContext.new
       end
 
       def process(exp)
-        meth = "process_#{exp.type}"
-        meth = :process_default unless self.respond_to?(meth)
-        send(meth, exp)
+        context_processor = "process_#{exp.type}"
+        if context_processor_exists?(context_processor)
+          send(context_processor, exp)
+        else
+          process_default exp
+        end
         @element
       end
 
       def process_default(exp)
-        exp.children.each { |sub| process(sub) if sub.is_a? AST::Node }
+        exp.children.each do |child|
+          process(child) if child.is_a? AST::Node
+        end
       end
 
       def process_module(exp)
@@ -139,6 +144,10 @@ module Reek
       end
 
       private
+
+      def context_processor_exists?(name)
+        respond_to?(name)
+      end
 
       def count_clause(sexp)
         @element.count_statements(1) if sexp

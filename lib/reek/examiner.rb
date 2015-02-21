@@ -16,9 +16,6 @@ module Reek
     #
     # Creates an Examiner which scans the given +source+ for code smells.
     #
-    # The smells reported against any source file can be "masked" by
-    # creating *.reek files. See TBS for details.
-    #
     # @param [Source::SourceCode, Array<String>, #to_reek_source]
     #   If +source+ is a String it is assumed to be Ruby source code;
     #   if it is a File, the file is opened and parsed for Ruby source code;
