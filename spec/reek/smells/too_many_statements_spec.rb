@@ -1,28 +1,23 @@
 require 'spec_helper'
 require 'reek/smells/too_many_statements'
-require 'reek/core/code_parser'
-require 'reek/core/sniffer'
 require 'reek/smells/smell_detector_shared'
-
-include Reek
-include Reek::Smells
 
 def process_method(src)
   source = src.to_reek_source
-  sniffer = Core::Sniffer.new(source)
-  Core::CodeParser.new(sniffer).process_def(source.syntax_tree)
+  sniffer = Reek::Core::Sniffer.new(source)
+  Reek::Core::CodeParser.new(sniffer).process_def(source.syntax_tree)
 end
 
 def process_singleton_method(src)
   source = src.to_reek_source
-  sniffer = Core::Sniffer.new(source)
-  Core::CodeParser.new(sniffer).process_defs(source.syntax_tree)
+  sniffer = Reek::Core::Sniffer.new(source)
+  Reek::Core::CodeParser.new(sniffer).process_defs(source.syntax_tree)
 end
 
-describe TooManyStatements do
+describe Reek::Smells::TooManyStatements do
   it 'should not report short methods' do
     src = 'def short(arga) alf = f(1);@bet = 2;@cut = 3;@dit = 4; @emp = 5;end'
-    expect(src).not_to reek_of(TooManyStatements)
+    expect(src).not_to reek_of(:TooManyStatements)
   end
 
   it 'should report long methods' do
@@ -31,34 +26,12 @@ describe TooManyStatements do
   end
 
   it 'should not report initialize' do
-    src = '
+    src = <<-EOS
       def initialize(arga)
         alf = f(1); @bet = 2; @cut = 3; @dit = 4; @emp = 5; @fry = 6
       end
-    '
-    expect(src).not_to reek_of(TooManyStatements)
-  end
-
-  it 'should only report a long method once' do
-    src = <<-EOS
-      def standard_entries(rbconfig)
-        @abc = rbconfig
-        rubypath = File.join(@abc['bindir'], @abcf['ruby_install_name'] + cff['EXEEXT'])
-        major = yyy['MAJOR'].to_i
-        minor = zzz['MINOR'].to_i
-        teeny = ccc['TEENY'].to_i
-        version = ""
-        if c['rubylibdir']
-          @libruby         = "/lib/ruby"
-          @librubyver      = "/lib/ruby/"
-          @librubyverarch  = "/lib/ruby/"
-          @siteruby        = "lib/ruby/version/site_ruby"
-          @siterubyver     = siteruby
-          @siterubyverarch = "$siterubyver/['arch']}"
-        end
-      end
     EOS
-    expect(src).to reek_only_of(:TooManyStatements)
+    expect(src).not_to reek_of(:TooManyStatements)
   end
 
   it 'should report long inner block' do
@@ -79,7 +52,7 @@ describe TooManyStatements do
   end
 end
 
-describe TooManyStatements do
+describe Reek::Smells::TooManyStatements do
   it 'counts 1 assignment' do
     method = process_method('def one() val = 4; end')
     expect(method.num_statements).to eq(1)
@@ -121,7 +94,7 @@ describe TooManyStatements do
   end
 end
 
-describe TooManyStatements, 'does not count control statements' do
+describe Reek::Smells::TooManyStatements, 'does not count control statements' do
   it 'counts 1 statement in a conditional expression' do
     method = process_method('def one() if val == 4; callee(); end; end')
     expect(method.num_statements).to eq(1)
@@ -278,9 +251,9 @@ describe TooManyStatements, 'does not count control statements' do
   end
 end
 
-describe TooManyStatements do
+describe Reek::Smells::TooManyStatements do
   before(:each) do
-    @detector = TooManyStatements.new('silver')
+    @detector = build(:smell_detector, smell_type: :TooManyStatements, source: 'source_name')
   end
 
   it_should_behave_like 'SmellDetector'
@@ -290,7 +263,7 @@ describe TooManyStatements do
       @num_statements = 30
       ctx = double('method_context').as_null_object
       expect(ctx).to receive(:num_statements).and_return(@num_statements)
-      expect(ctx).to receive(:config_for).with(TooManyStatements).and_return({})
+      expect(ctx).to receive(:config_for).with(described_class).and_return({})
       @smells = @detector.examine_context(ctx)
     end
 
@@ -303,7 +276,7 @@ describe TooManyStatements do
     end
 
     it 'reports the correct smell sub class' do
-      expect(@smells[0].smell_type).to eq(TooManyStatements.smell_type)
+      expect(@smells[0].smell_type).to eq(described_class.smell_type)
     end
   end
 end

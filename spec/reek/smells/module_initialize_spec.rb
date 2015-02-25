@@ -2,9 +2,7 @@ require 'spec_helper'
 require 'reek/smells/module_initialize'
 require 'reek/smells/smell_detector_shared'
 
-include Reek::Smells
-
-describe ModuleInitialize do
+describe Reek::Smells::ModuleInitialize do
   context 'module' do
     context 'with method named initialize' do
       it 'smells' do
@@ -13,7 +11,7 @@ describe ModuleInitialize do
             def initialize; end
           end
         EOF
-        expect(src).to reek_of(ModuleInitialize)
+        expect(src).to reek_of(:ModuleInitialize)
       end
     end
 
@@ -26,7 +24,7 @@ describe ModuleInitialize do
             end
           end
         EOF
-        expect(src).not_to reek_of(ModuleInitialize)
+        expect(src).not_to reek_of(:ModuleInitialize)
       end
     end
 
@@ -39,7 +37,7 @@ describe ModuleInitialize do
             end
           end
         EOF
-        expect(src).not_to reek_of(ModuleInitialize)
+        expect(src).not_to reek_of(:ModuleInitialize)
       end
     end
   end

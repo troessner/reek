@@ -2,26 +2,24 @@ require 'spec_helper'
 require 'reek/smells/nested_iterators'
 require 'reek/smells/smell_detector_shared'
 
-include Reek::Smells
-
-describe NestedIterators do
+describe Reek::Smells::NestedIterators do
   context 'with no iterators' do
     it 'reports no smells' do
       src = 'def fred() nothing = true; end'
-      expect(src).not_to reek_of(NestedIterators)
+      expect(src).not_to reek_of(:NestedIterators)
     end
   end
 
   context 'with one iterator' do
     it 'reports no smells' do
       src = 'def fred() nothing.each {|item| item}; end'
-      expect(src).not_to reek_of(NestedIterators)
+      expect(src).not_to reek_of(:NestedIterators)
     end
   end
 
   it 'should report nested iterators in a method' do
     src = 'def bad(fred) @fred.each {|item| item.each {|ting| ting.ting} } end'
-    expect(src).to reek_of(NestedIterators)
+    expect(src).to reek_of(:NestedIterators)
   end
 
   it 'should not report method with successive iterators' do
@@ -31,7 +29,7 @@ describe NestedIterators do
         @jim.each {|ting| ting.each }
       end
     EOS
-    expect(src).not_to reek_of(NestedIterators)
+    expect(src).not_to reek_of(:NestedIterators)
   end
 
   it 'should not report method with chained iterators' do
@@ -40,7 +38,7 @@ describe NestedIterators do
         @sig.keys.sort_by { |xray| xray.to_s }.each { |min| md5 << min.to_s }
       end
     EOS
-    expect(src).not_to reek_of(NestedIterators)
+    expect(src).not_to reek_of(:NestedIterators)
   end
 
   it 'detects an iterator with an empty block' do
@@ -49,7 +47,7 @@ describe NestedIterators do
         bar { baz { } }
       end
     EOS
-    expect(src).to reek_of(NestedIterators)
+    expect(src).to reek_of(:NestedIterators)
   end
 
   it 'should report nested iterators only once per method' do
@@ -59,7 +57,7 @@ describe NestedIterators do
         @jim.each {|ting| ting.each {|piece| @hal.send} }
       end
     EOS
-    expect(src).to reek_of(NestedIterators)
+    expect(src).to reek_of(:NestedIterators)
   end
 
   it 'reports nested iterators only once per method even if levels are different' do
@@ -69,7 +67,7 @@ describe NestedIterators do
         @jim.each {|ting| ting.each {|piece| piece.each {|atom| atom.foo } } }
       end
     EOS
-    expect(src).to reek_of(NestedIterators)
+    expect(src).to reek_of(:NestedIterators)
   end
 
   it 'reports nesting inside iterator arguments' do
@@ -84,7 +82,7 @@ describe NestedIterators do
         ) { |qux| qux.quuz }
       end
     EOS
-    expect(src).to reek_of(NestedIterators, count: 2)
+    expect(src).to reek_of(:NestedIterators, count: 2)
   end
 
   it 'reports the deepest level of nesting only' do
@@ -97,12 +95,13 @@ describe NestedIterators do
         }
       end
     EOS
-    expect(src).to reek_of(NestedIterators, count: 3)
+    expect(src).to reek_of(:NestedIterators, count: 3)
   end
 
   context 'when the allowed nesting depth is 3' do
     before :each do
-      @config = { NestedIterators: { NestedIterators::MAX_ALLOWED_NESTING_KEY => 3 } }
+      @config = { NestedIterators:
+                  { Reek::Smells::NestedIterators::MAX_ALLOWED_NESTING_KEY => 3 } }
     end
 
     it 'should not report nested iterators 2 levels deep' do
@@ -113,7 +112,7 @@ describe NestedIterators do
       EOS
 
       with_test_config(@config) do
-        expect(src).not_to reek_of(NestedIterators)
+        expect(src).not_to reek_of(:NestedIterators)
       end
     end
 
@@ -125,7 +124,7 @@ describe NestedIterators do
       EOS
 
       with_test_config(@config) do
-        expect(src).not_to reek_of(NestedIterators)
+        expect(src).not_to reek_of(:NestedIterators)
       end
     end
 
@@ -137,27 +136,28 @@ describe NestedIterators do
       EOS
 
       with_test_config(@config) do
-        expect(src).to reek_of(NestedIterators)
+        expect(src).to reek_of(:NestedIterators)
       end
     end
   end
 
   context 'when ignoring iterators' do
     before :each do
-      @config = { NestedIterators: { NestedIterators::IGNORE_ITERATORS_KEY => ['ignore_me'] } }
+      @config = { NestedIterators:
+                  { Reek::Smells::NestedIterators::IGNORE_ITERATORS_KEY => ['ignore_me'] } }
     end
 
     it 'should not report nesting the ignored iterator inside another' do
       src = 'def bad(fred) @fred.each {|item| item.ignore_me {|ting| ting.ting} } end'
       with_test_config(@config) do
-        expect(src).not_to reek_of(NestedIterators)
+        expect(src).not_to reek_of(:NestedIterators)
       end
     end
 
     it 'should not report nesting inside the ignored iterator' do
       src = 'def bad(fred) @fred.ignore_me {|item| item.each {|ting| ting.ting} } end'
       with_test_config(@config) do
-        expect(src).not_to reek_of(NestedIterators)
+        expect(src).not_to reek_of(:NestedIterators)
       end
     end
 
@@ -168,7 +168,7 @@ describe NestedIterators do
         end
       '
       with_test_config(@config) do
-        expect(src).to reek_of(NestedIterators, count: 2)
+        expect(src).to reek_of(:NestedIterators, count: 2)
       end
     end
 
@@ -179,7 +179,7 @@ describe NestedIterators do
         end
       '
       with_test_config(@config) do
-        expect(src).to reek_of(NestedIterators, count: 2)
+        expect(src).to reek_of(:NestedIterators, count: 2)
       end
     end
 
@@ -190,16 +190,16 @@ describe NestedIterators do
         end
       '
       with_test_config(@config) do
-        expect(src).to reek_of(NestedIterators, count: 2)
+        expect(src).to reek_of(:NestedIterators, count: 2)
       end
     end
   end
 end
 
-describe NestedIterators do
+describe Reek::Smells::NestedIterators do
   before(:each) do
-    @source_name = 'cuckoo'
-    @detector = NestedIterators.new(@source_name)
+    @source_name = 'dummy_source'
+    @detector = build(:smell_detector, smell_type: :NestedIterators, source: @source_name)
   end
 
   it_should_behave_like 'SmellDetector'
@@ -213,7 +213,7 @@ describe NestedIterators do
           end
         end
       EOS
-      ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+      ctx = Reek::Core::CodeContext.new(nil, src.to_reek_source.syntax_tree)
       @warning = @detector.examine_context(ctx)[0]
     end
 
@@ -235,7 +235,7 @@ describe NestedIterators do
         end
       EOS
 
-      ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+      ctx = Reek::Core::CodeContext.new(nil, src.to_reek_source.syntax_tree)
       @warning = @detector.examine_context(ctx)[0]
     end
 

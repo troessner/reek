@@ -1,11 +1,9 @@
 require 'spec_helper'
+require 'reek/core/code_context'
 require 'reek/smells/nil_check'
 require 'reek/smells/smell_detector_shared'
 
-include Reek
-include Reek::Smells
-
-describe NilCheck do
+describe Reek::Smells::NilCheck do
   context 'for methods' do
     it 'reports the correct line number' do
       src = <<-EOS
@@ -13,43 +11,43 @@ describe NilCheck do
         foo.nil?
       end
       EOS
-      ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
-      detector = NilCheck.new('source_name')
+      ctx = Reek::Core::CodeContext.new(nil, src.to_reek_source.syntax_tree)
+      detector = build(:smell_detector, smell_type: :NilCheck, source: 'source_name')
       smells = detector.examine_context(ctx)
       expect(smells[0].lines).to eq [2]
     end
 
     it 'reports nothing when scope includes no nil checks' do
-      expect('def no_nils; end').not_to reek_of(NilCheck)
+      expect('def no_nils; end').not_to reek_of(:NilCheck)
     end
 
     it 'reports when scope uses multiple nil? methods' do
-      src = <<-eos
+      src = <<-EOS
       def chk_multi_nil(para)
         para.nil?
         puts "Hello"
         \"\".nil?
       end
-      eos
-      expect(src).to reek_of(NilCheck)
+      EOS
+      expect(src).to reek_of(:NilCheck)
     end
 
     it 'reports twice when scope uses == nil and === nil' do
-      src = <<-eos
+      src = <<-EOS
       def chk_eq_nil(para)
         para == nil
         para === nil
       end
-      eos
-      expect(src).to reek_of(NilCheck)
+      EOS
+      expect(src).to reek_of(:NilCheck)
     end
 
     it 'reports when scope uses nil ==' do
-      expect('def chk_eq_nil_rev(para); nil == para; end').to reek_of(NilCheck)
+      expect('def chk_eq_nil_rev(para); nil == para; end').to reek_of(:NilCheck)
     end
 
     it 'reports when scope uses multiple case-clauses checking nil' do
-      src = <<-eos
+      src = <<-EOS
       def case_nil
         case @inst_var
         when nil then puts "Nil"
@@ -60,19 +58,19 @@ describe NilCheck do
         when nil then puts nil.inspect
         end
       end
-      eos
-      expect(src).to reek_of(NilCheck)
+      EOS
+      expect(src).to reek_of(:NilCheck)
     end
 
     it 'reports a when clause that checks nil and other values' do
-      src = <<-eos
+      src = <<-EOS
       def case_nil
         case @inst_var
         when nil, false then puts "Hello"
         end
       end
-      eos
-      expect(src).to reek_of(NilCheck)
+      EOS
+      expect(src).to reek_of(:NilCheck)
     end
   end
 end

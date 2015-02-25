@@ -1,16 +1,11 @@
 require 'spec_helper'
 require 'reek/smells/too_many_instance_variables'
-require 'reek/examiner'
-require 'reek/core/code_parser'
 require 'reek/smells/smell_detector_shared'
 
-include Reek
-include Reek::Smells
-
-describe TooManyInstanceVariables do
+describe Reek::Smells::TooManyInstanceVariables do
   before(:each) do
-    @source_name = 'elephant'
-    @detector = TooManyInstanceVariables.new(@source_name)
+    @source_name = 'dummy_source'
+    @detector = build(:smell_detector, smell_type: :TooManyInstanceVariables, source: @source_name)
   end
 
   it_should_behave_like 'SmellDetector'
@@ -77,11 +72,11 @@ describe TooManyInstanceVariables do
         end
       end
     EOS
-    ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+    ctx = Reek::Core::CodeContext.new(nil, src.to_reek_source.syntax_tree)
     @warning = @detector.examine_context(ctx)[0]
     expect(@warning.source).to eq(@source_name)
-    expect(@warning.smell_category).to eq(TooManyInstanceVariables.smell_category)
-    expect(@warning.smell_type).to eq(TooManyInstanceVariables.smell_type)
+    expect(@warning.smell_category).to eq(Reek::Smells::TooManyInstanceVariables.smell_category)
+    expect(@warning.smell_type).to eq(Reek::Smells::TooManyInstanceVariables.smell_type)
     expect(@warning.parameters[:count]).to eq(10)
     expect(@warning.lines).to eq([2])
   end

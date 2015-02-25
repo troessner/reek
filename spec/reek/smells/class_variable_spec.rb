@@ -3,13 +3,10 @@ require 'reek/smells/class_variable'
 require 'reek/core/module_context'
 require 'reek/smells/smell_detector_shared'
 
-include Reek::Core
-include Reek::Smells
-
-describe ClassVariable do
+describe Reek::Smells::ClassVariable do
   before :each do
-    @source_name = 'raffles'
-    @detector = ClassVariable.new(@source_name)
+    @source_name = 'dummy_source'
+    @detector = build(:smell_detector, smell_type: :ClassVariable, source: @source_name)
     @class_variable = '@@things'
   end
 
@@ -18,11 +15,12 @@ describe ClassVariable do
   context 'with no class variables' do
     it 'records nothing in the class' do
       exp = ast(:class, :Fred)
-      expect(@detector.examine_context(CodeContext.new(nil, exp))).to be_empty
+      expect(@detector.examine_context(Reek::Core::CodeContext.new(nil, exp))).to be_empty
     end
+
     it 'records nothing in the module' do
       exp = ast(:module, :Fred)
-      expect(@detector.examine_context(CodeContext.new(nil, exp))).to be_empty
+      expect(@detector.examine_context(Reek::Core::CodeContext.new(nil, exp))).to be_empty
     end
   end
 
@@ -30,11 +28,13 @@ describe ClassVariable do
     shared_examples_for 'one variable found' do
       before :each do
         ast = @src.to_reek_source.syntax_tree
-        @smells = @detector.examine_context(CodeContext.new(nil, ast))
+        @smells = @detector.examine_context(Reek::Core::CodeContext.new(nil, ast))
       end
+
       it 'records only that class variable' do
         expect(@smells.length).to eq(1)
       end
+
       it 'records the variable name' do
         expect(@smells[0].parameters[:name]).to eq(@class_variable)
       end
@@ -94,16 +94,16 @@ describe ClassVariable do
   end
 
   it 'reports the correct fields' do
-    src = <<EOS
-module Fred
-  #{@class_variable} = {}
-end
-EOS
-    ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+    src = <<-EOS
+      module Fred
+        #{@class_variable} = {}
+      end
+    EOS
+    ctx = Reek::Core::CodeContext.new(nil, src.to_reek_source.syntax_tree)
     @warning = @detector.examine_context(ctx)[0]
     expect(@warning.source).to eq(@source_name)
-    expect(@warning.smell_category).to eq(ClassVariable.smell_category)
-    expect(@warning.smell_type).to eq(ClassVariable.smell_type)
+    expect(@warning.smell_category).to eq(described_class.smell_category)
+    expect(@warning.smell_type).to eq(described_class.smell_type)
     expect(@warning.parameters[:name]).to eq(@class_variable)
     expect(@warning.lines).to eq([2])
   end
