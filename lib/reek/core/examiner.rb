@@ -24,7 +24,7 @@ module Reek
       #
       # Creates an Examiner which scans the given +source+ for code smells.
       #
-      # @param [Source::SourceCode, Array<String>, #to_reek_source]
+      # @param source [Source::SourceCode, Array<String>, #to_reek_source]
       #   If +source+ is a String it is assumed to be Ruby source code;
       #   if it is a File, the file is opened and parsed for Ruby source code;
       #   and if it is an Array, it is assumed to be a list of file paths,
@@ -40,23 +40,21 @@ module Reek
       end
 
       #
-      # List the smells found in the source.
-      #
-      # @return [Array<SmellWarning>]
+      # @return [Array<SmellWarning>] the smells found in the source
       #
       def smells
         @smells ||= @collector.warnings
       end
 
       #
-      # Returns the number of smells found in the source
+      # @return [Integer] the number of smells found in the source
       #
       def smells_count
         smells.length
       end
 
       #
-      # True if and only if there are code smells in the source.
+      # @return [Boolean] true if and only if there are code smells in the source.
       #
       def smelly?
         !smells.empty?
