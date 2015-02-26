@@ -5,6 +5,10 @@ gemspec
 
 group :local_development do
   gem 'pry'
-  gem 'byebug'
-  gem 'pry-byebug'
+  platforms :mri do
+    if RUBY_VERSION >= '2.0.0'
+      gem 'byebug'
+      gem 'pry-byebug'
+    end
+  end
 end
