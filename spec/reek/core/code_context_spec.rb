@@ -25,11 +25,17 @@ describe CodeContext do
     it 'does not match when its own short name is not given' do
       expect(@ctx.matches?(['banana'])).to eq(false)
     end
+    it 'does not let pipe-ended Strings make matching ignore the rest' do
+      expect(@ctx.matches?(['banana|'])).to eq(false)
+    end
     it 'recognises its own short name' do
       expect(@ctx.matches?(['banana', @exp_name])).to eq(true)
     end
     it 'recognises its short name as a regex' do
       expect(@ctx.matches?([/banana/, /#{@exp_name}/])).to eq(true)
+    end
+    it 'does not blow up on []-ended Strings' do
+      expect(@ctx.matches?(['banana[]', @exp_name])).to eq(true)
     end
 
     context 'when there is an outer' do

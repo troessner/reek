@@ -29,7 +29,10 @@ module Reek
 
       def matches?(candidates)
         my_fq_name = full_name
-        candidates.any? { |str| /#{str}/ =~ my_fq_name }
+        candidates.any? do |candidate|
+          candidate = Regexp.quote(candidate) if candidate.is_a?(String)
+          /#{candidate}/ =~ my_fq_name
+        end
       end
 
       #
