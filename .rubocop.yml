@@ -11,7 +11,7 @@ Metrics/AbcSize:
 # FIXME: Make the class shorter
 Metrics/ClassLength:
   Exclude:
-    - lib/reek/core/code_parser.rb
+    - lib/reek/core/tree_walker.rb
 
 # FIXME: Lower the method length by fixing the biggest offenders
 Metrics/MethodLength:

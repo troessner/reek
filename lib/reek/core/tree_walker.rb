@@ -12,7 +12,7 @@ module Reek
     # SMELL: This class is responsible for counting statements and for feeding
     # each context to the smell repository.
     # SMELL: This class has a name that doesn't match its responsibility.
-    class CodeParser
+    class TreeWalker
       def initialize(smell_repository)
         @smell_repository = smell_repository
         @element = StopContext.new

@@ -5,13 +5,13 @@ require 'reek/smells/smell_detector_shared'
 def process_method(src)
   source = src.to_reek_source
   sniffer = Reek::Core::Sniffer.new(source)
-  Reek::Core::CodeParser.new(sniffer).process_def(source.syntax_tree)
+  Reek::Core::TreeWalker.new(sniffer).process_def(source.syntax_tree)
 end
 
 def process_singleton_method(src)
   source = src.to_reek_source
   sniffer = Reek::Core::Sniffer.new(source)
-  Reek::Core::CodeParser.new(sniffer).process_defs(source.syntax_tree)
+  Reek::Core::TreeWalker.new(sniffer).process_defs(source.syntax_tree)
 end
 
 describe Reek::Smells::TooManyStatements do
