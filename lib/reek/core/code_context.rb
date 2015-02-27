@@ -10,9 +10,45 @@ module Reek
     class CodeContext
       attr_reader :exp
 
-      def initialize(outer, exp)
-        @outer = outer
-        @exp = exp
+      # Initializes a new CodeContext.
+      #
+      # context - *_context from the `core` namespace
+      # exp - Reek::Source::AstNode
+      #
+      # Examples:
+      #
+      # Given something like:
+      #
+      #   class Omg; def foo(x); puts x; end; end
+      #
+      # the first time this is instantianted from CodeParser `context` is a StopContext:
+      #
+      #   #<Reek::Core::StopContext:0x00000002231098 @name="">
+      #
+      # and `exp` looks like this:
+      #
+      #  (class
+      #    (const nil :Omg) nil
+      #    (def :foo
+      #      (args
+      #        (arg :x))
+      #      (send nil :puts
+      #        (lvar :x))))
+      #
+      # The next time we instantiate a CodeContext via CodeParser `context` would be:
+      #
+      #   Reek::Core::ModuleContext
+      #
+      # and `exp` is:
+      #
+      # (def :foo
+      #   (args
+      #     (arg :x))
+      #   (send nil :puts
+      #     (lvar :x)))
+      def initialize(context, exp)
+        @context = context
+        @exp     = exp
       end
 
       def name
@@ -40,7 +76,7 @@ module Reek
       # that knows how to deal with the request.
       #
       def method_missing(method, *args)
-        @outer.send(method, *args)
+        @context.send(method, *args)
       end
 
       def num_methods
@@ -48,12 +84,12 @@ module Reek
       end
 
       def full_name
-        outer = @outer ? @outer.full_name : ''
-        exp.full_name(outer)
+        context = @context ? @context.full_name : ''
+        exp.full_name(context)
       end
 
       def config_for(detector_class)
-        outer_config_for(detector_class).merge(
+        context_config_for(detector_class).merge(
           config[detector_class.smell_type] || {})
       end
 
@@ -67,8 +103,8 @@ module Reek
                     end
       end
 
-      def outer_config_for(detector_class)
-        @outer ? @outer.config_for(detector_class) : {}
+      def context_config_for(detector_class)
+        @context ? @context.config_for(detector_class) : {}
       end
     end
   end
