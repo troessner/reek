@@ -13,20 +13,6 @@ Metrics/ClassLength:
   Exclude:
     - lib/reek/core/code_parser.rb
 
-# FIXME: Document these classes
-Style/Documentation:
-  Exclude:
-    - features/support/env.rb
-    - lib/reek/cli/report/formatter.rb
-    - lib/reek/cli/report/location_formatter.rb
-    - lib/reek/smells/smell_detector.rb
-    - lib/reek/source/sexp_extensions.rb
-    - lib/reek/spec/should_reek_of.rb
-    - lib/reek/spec/should_reek_only_of.rb
-    - lib/reek/spec/should_reek.rb
-    - lib/reek/version.rb
-    - spec/matchers/smell_of_matcher.rb
-
 # FIXME: Lower the method length by fixing the biggest offenders
 Metrics/MethodLength:
   Max: 46

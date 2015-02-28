@@ -4,7 +4,7 @@ require 'reek/version'
 
 Gem::Specification.new do |s|
   s.name = 'reek'
-  s.version = Reek::VERSION
+  s.version = Reek::Version::STRING
 
   s.authors = ['Kevin Rutherford', 'Timo Roessner', 'Matijs van Zuijlen']
   s.default_executable = 'reek'

@@ -1,3 +1,8 @@
 module Reek
-  VERSION = '2.0.0'
+  #
+  # This module holds the Reek version informations
+  #
+  module Version
+    STRING = '2.0.0'
+  end
 end

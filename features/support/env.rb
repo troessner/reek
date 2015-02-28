@@ -9,6 +9,9 @@ begin
 rescue LoadError # rubocop:disable Lint/HandleExceptions
 end
 
+#
+# Provides runner methods used in the cucumber steps.
+#
 class ReekWorld
   def run(cmd)
     stderr_file = Tempfile.new('reek-world')
