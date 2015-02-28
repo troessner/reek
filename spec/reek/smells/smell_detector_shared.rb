@@ -9,6 +9,7 @@ shared_examples_for 'SmellDetector' do
       @ctx = double('context')
       allow(@ctx).to receive(:config_for).and_return({})
     end
+
     it 'when false' do
       expect(@ctx).to receive(:matches?).at_least(:once).and_return(false)
       expect(@detector.exception?(@ctx)).to eq(false)
