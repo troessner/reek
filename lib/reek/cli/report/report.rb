@@ -1,4 +1,5 @@
 require 'rainbow'
+require 'json'
 
 module Reek
   module Cli
@@ -98,6 +99,15 @@ module Reek
       class YamlReport < Base
         def show
           print smells.map(&:yaml_hash).to_yaml
+        end
+      end
+
+      #
+      # Displays a list of smells in JSON format
+      # JSON with empty array for 0 smells
+      class JsonReport < Base
+        def show
+          print ::JSON.generate(smells.map(&:yaml_hash))
         end
       end
 

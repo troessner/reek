@@ -34,6 +34,8 @@ module Reek
         case @options.report_format
         when :yaml
           Report::YamlReport
+        when :json
+          Report::JsonReport
         when :html
           Report::HtmlReport
         else # :text
