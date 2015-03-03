@@ -211,6 +211,7 @@ If you don't feel like getting your hands dirty with code there are still other 
 * plain text (default)
 * html (`--format html`)
 * yaml (`--format yaml`)
+* json (`--format json`)
 
 ## Additional resources
 

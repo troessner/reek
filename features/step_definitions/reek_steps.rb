@@ -44,6 +44,12 @@ Then /^it reports this yaml:$/ do |expected_yaml|
   expect(actual_warnings).to eq expected_warnings
 end
 
+Then /^it reports this JSON:$/ do |expected_json|
+  expected_warnings = JSON.parse(expected_json.chomp)
+  actual_warnings = JSON.parse(@last_stdout)
+  expect(actual_warnings).to eq expected_warnings
+end
+
 Then /^stderr reports:$/ do |report|
   expect(@last_stderr).to eq report
 end
