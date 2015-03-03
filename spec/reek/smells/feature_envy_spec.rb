@@ -187,7 +187,7 @@ describe Reek::Smells::FeatureEnvy do
           @report = Report.new
           cf = SmellConfig.new
           cf = cf.load_local(@dir) if @dir
-          CodeParser.new(@report, cf.smell_listeners).check_source(@source)
+          TreeWalker.new(@report, cf.smell_listeners).check_source(@source)
         end
         @report
       end
@@ -231,7 +231,7 @@ describe Reek::Smells::FeatureEnvy do
       EOS
       source = src.to_reek_source
       sniffer = Reek::Core::Sniffer.new(source)
-      @mctx = Reek::Core::CodeParser.new(sniffer).process_def(source.syntax_tree)
+      @mctx = Reek::Core::TreeWalker.new(sniffer).process_def(source.syntax_tree)
       @smells = @detector.examine_context(@mctx)
     end
 

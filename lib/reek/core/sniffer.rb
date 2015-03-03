@@ -1,4 +1,4 @@
-require 'reek/core/code_parser'
+require 'reek/core/tree_walker'
 require 'reek/core/smell_repository'
 require 'reek/configuration/app_configuration'
 
@@ -17,7 +17,7 @@ module Reek
       end
 
       def report_on(listener)
-        CodeParser.new(@smell_repository).process(syntax_tree) if syntax_tree
+        TreeWalker.new(@smell_repository).process(syntax_tree) if syntax_tree
         @smell_repository.report_on(listener)
       end
 

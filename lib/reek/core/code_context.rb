@@ -21,7 +21,7 @@ module Reek
       #
       #   class Omg; def foo(x); puts x; end; end
       #
-      # the first time this is instantianted from CodeParser `context` is a StopContext:
+      # the first time this is instantianted from TreeWalker `context` is a StopContext:
       #
       #   #<Reek::Core::StopContext:0x00000002231098 @name="">
       #
@@ -35,7 +35,7 @@ module Reek
       #      (send nil :puts
       #        (lvar :x))))
       #
-      # The next time we instantiate a CodeContext via CodeParser `context` would be:
+      # The next time we instantiate a CodeContext via TreeWalker `context` would be:
       #
       #   Reek::Core::ModuleContext
       #
