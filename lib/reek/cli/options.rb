@@ -2,6 +2,7 @@ require 'optparse'
 require 'ostruct'
 require 'rainbow'
 require 'reek/cli/option_interpreter'
+require 'reek/version'
 
 module Reek
   module Cli
