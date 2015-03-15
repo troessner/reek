@@ -1,3 +1,7 @@
+== 2.0.2
+
+* (troessner) Fix version command
+
 == 2.0.1
 
 * (leonelgalan) Add support for json reports
