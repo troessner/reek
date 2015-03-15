@@ -2,7 +2,6 @@ require 'spec_helper'
 require 'reek/smells/duplicate_method_call'
 require 'reek/core/code_context'
 require 'reek/core/tree_walker'
-require 'reek/core/sniffer'
 require 'reek/smells/smell_detector_shared'
 
 describe Reek::Smells::DuplicateMethodCall do

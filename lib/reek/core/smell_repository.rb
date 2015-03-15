@@ -13,12 +13,13 @@ module Reek
         Reek::Smells::SmellDetector.descendants
       end
 
-      def initialize(source_description, smell_types = self.class.smell_types)
+      def initialize(source_description = nil, smell_types = self.class.smell_types)
         @typed_detectors = nil
         @detectors = {}
         smell_types.each do |klass|
           @detectors[klass] = klass.new(source_description)
         end
+        Configuration::AppConfiguration.configure_smell_repository self
       end
 
       def configure(klass, config)

@@ -1,10 +1,11 @@
-require 'reek/core/sniffer'
-require 'reek/core/warning_collector'
 require 'reek/source/source_repository'
+require 'reek/core/warning_collector'
+require 'reek/core/smell_repository'
+require 'reek/core/tree_walker'
 
 module Reek
   #
-  # Finds the active code smells in Ruby source code.
+  # Applies all available smell detectors to a source.
   #
   class Examiner
     #
@@ -23,20 +24,12 @@ module Reek
     #   each of which is opened and parsed for source code.
     #
     def initialize(source, smell_types_to_filter_by = [])
-      sources = Source::SourceRepository.parse(source)
-      @description = sources.description
-      @collector = Core::WarningCollector.new
+      @sources      = Source::SourceRepository.parse(source)
+      @description  = @sources.description
+      @collector    = Core::WarningCollector.new
+      @smell_types  = eligible_smell_types(smell_types_to_filter_by)
 
-      smell_types = Core::SmellRepository.smell_types
-
-      if smell_types_to_filter_by.any?
-        smell_types.select! { |klass| smell_types_to_filter_by.include? klass.smell_type }
-      end
-
-      sources.each do |src|
-        repository = Core::SmellRepository.new(src.desc, smell_types)
-        Core::Sniffer.new(src, repository).report_on(@collector)
-      end
+      run
     end
 
     #
@@ -60,6 +53,27 @@ module Reek
     #
     def smelly?
       !smells.empty?
+    end
+
+    private
+
+    def run
+      @sources.each do |source|
+        smell_repository = Core::SmellRepository.new(source.desc, @smell_types)
+        syntax_tree = source.syntax_tree
+        Core::TreeWalker.new(smell_repository).process(syntax_tree) if syntax_tree
+        smell_repository.report_on(@collector)
+      end
+    end
+
+    def eligible_smell_types(smell_types_to_filter_by = [])
+      if smell_types_to_filter_by.any?
+        Core::SmellRepository.smell_types.select do |klass|
+          smell_types_to_filter_by.include? klass.smell_type
+        end
+      else
+        Core::SmellRepository.smell_types
+      end
     end
   end
 end

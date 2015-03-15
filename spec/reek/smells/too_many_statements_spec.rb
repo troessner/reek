@@ -2,16 +2,12 @@ require 'spec_helper'
 require 'reek/smells/too_many_statements'
 require 'reek/smells/smell_detector_shared'
 
-def process_method(src)
-  source = src.to_reek_source
-  sniffer = Reek::Core::Sniffer.new(source)
-  Reek::Core::TreeWalker.new(sniffer).process_def(source.syntax_tree)
+def process_method(source)
+  Reek::Core::TreeWalker.new.process_def(source.to_reek_source.syntax_tree)
 end
 
-def process_singleton_method(src)
-  source = src.to_reek_source
-  sniffer = Reek::Core::Sniffer.new(source)
-  Reek::Core::TreeWalker.new(sniffer).process_defs(source.syntax_tree)
+def process_singleton_method(source)
+  Reek::Core::TreeWalker.new.process_defs(source.to_reek_source.syntax_tree)
 end
 
 describe Reek::Smells::TooManyStatements do

@@ -119,8 +119,7 @@ describe Reek::Smells::UtilityFunction do
         end
       EOS
       source = src.to_reek_source
-      sniffer = Reek::Core::Sniffer.new(source)
-      mctx = Reek::Core::TreeWalker.new(sniffer).process_def(source.syntax_tree)
+      mctx = Reek::Core::TreeWalker.new.process_def(source.syntax_tree)
       @warning = @detector.examine_context(mctx)[0]   # SMELL: too cumbersome!
     end
 
