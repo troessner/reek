@@ -107,6 +107,8 @@ module Reek
           case subexp.type
           when :mlhs
             recursively_record_variable_names(accumulator, subexp)
+          when :shadowarg
+            record_variable_name(exp, subexp.shadowarg, accumulator)
           else
             record_variable_name(exp, subexp.name, accumulator)
           end
