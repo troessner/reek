@@ -4,7 +4,7 @@ module Reek
   module Configuration
     class ConfigFileException < StandardError; end
     #
-    # Reeks singleton configuration instance.
+    # Reek's singleton configuration instance.
     #
     module AppConfiguration
       @configuration = {}

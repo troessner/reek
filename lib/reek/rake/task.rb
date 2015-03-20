@@ -36,7 +36,7 @@ module Reek
       # Name of reek task. Defaults to :reek.
       attr_writer :name
 
-      # Path to reeks config file.
+      # Path to reek's config file.
       # Setting the REEK_CFG environment variable overrides this.
       attr_writer :config_file
 
