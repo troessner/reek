@@ -3,7 +3,7 @@ require 'pathname'
 module Reek
   module Configuration
     #
-    # ConfigurationFileFinder is responsible for finding reeks configuration.
+    # ConfigurationFileFinder is responsible for finding reek's configuration.
     #
     # There are 3 ways of passing `reek` a configuration file:
     # 1. Using the cli "-c" switch
