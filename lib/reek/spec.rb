@@ -45,17 +45,17 @@ module Reek
     # and returns true only if it can find one of them that matches.
     #
     # Remember that this includes our "smell types" as well. So it could be the
-    # "smell type" UtilityFunction, which is represented as a concrete class
+    # "smell type" FeatureEnvy, which is represented as a concrete class
     # in reek but it could also be "Duplication" which is a "smell categgory".
     #
     # In theory you could pass many different types of input here:
-    #   - :UtilityFunction
-    #   - "UtilityFunction"
-    #   - UtilityFunction (this works in our specs because we tend to do "include Reek:Smells")
-    #   - Reek::Smells::UtilityFunction (the right way if you really want to pass a class)
+    #   - :FeatureEnvy
+    #   - "FeatureEnvy"
+    #   - FeatureEnvy (this works in our specs because we tend to do "include Reek:Smells")
+    #   - Reek::Smells::FeatureEnvy (the right way if you really want to pass a class)
     #   - "Duplication" or :Duplication which is an abstract "smell category"
     #
-    # It is recommended to pass this as a symbol like :UtilityFunction. However we don't
+    # It is recommended to pass this as a symbol like :FeatureEnvy. However we don't
     # enforce this.
     #
     # Additionally you can be more specific and pass in "smell_details" you
@@ -74,7 +74,7 @@ module Reek
     #   Without smell_details:
     #
     #   reek_of(:FeatureEnvy)
-    #   reek_of(Reek::Smells::UtilityFunction)
+    #   reek_of(Reek::Smells::FeatureEnvy)
     #
     #   With smell_details:
     #
