@@ -74,7 +74,7 @@ describe Reek::Smells::FeatureEnvy do
         def envy(arga)
           arga.b(arga) + arga.c(@fred)
         end
-      ').to reek_only_of(:FeatureEnvy)
+      ').to reek_of(:FeatureEnvy, name: 'arga')
     end
   end
 
@@ -88,7 +88,8 @@ describe Reek::Smells::FeatureEnvy do
         total *= 1.15
       end
       EOS
-    expect(src).to reek_only_of(:FeatureEnvy)
+    expect(src).to reek_of(:FeatureEnvy, name: 'total')
+    expect(src).not_to reek_of(:FeatureEnvy, name: 'fred')
   end
 
   it 'should report multiple affinities' do
@@ -100,8 +101,8 @@ describe Reek::Smells::FeatureEnvy do
         total += fred.tax
       end
       EOS
-    expect(src).to reek_of(:FeatureEnvy,  name: 'total')
-    expect(src).to reek_of(:FeatureEnvy,  name: 'fred')
+    expect(src).to reek_of(:FeatureEnvy, name: 'total')
+    expect(src).to reek_of(:FeatureEnvy, name: 'fred')
   end
 
   it 'should not be fooled by duplication' do
@@ -179,9 +180,7 @@ describe Reek::Smells::FeatureEnvy do
     EOS
     expect(src).not_to reek_of(:FeatureEnvy)
   end
-end
 
-describe Reek::Smells::FeatureEnvy do
   it 'counts references to self correctly' do
     ruby = <<-EOS
       def report
