@@ -76,7 +76,7 @@ module Reek
       private
 
       def depends_on_instance?(exp)
-        Reek::Source::ReferenceCollector.new(exp).num_refs_to_self > 0
+        exp.depends_on_instance?
       end
 
       def num_helper_methods(method_ctx)

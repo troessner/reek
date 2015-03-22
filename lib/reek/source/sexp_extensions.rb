@@ -1,4 +1,5 @@
 require 'reek/source/sexp_node'
+require 'reek/source/reference_collector'
 
 module Reek
   module Source
@@ -233,6 +234,10 @@ module Reek
         def full_name(outer)
           prefix = outer == '' ? '' : "#{outer}#"
           "#{prefix}#{name}"
+        end
+
+        def depends_on_instance?
+          ReferenceCollector.new(self).num_refs_to_self > 0
         end
       end
 
