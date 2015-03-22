@@ -1,4 +1,5 @@
 require_relative 'sexp_node'
+require_relative 'reference_collector'
 
 module Reek
   module Source
@@ -239,6 +240,10 @@ module Reek
           prefix = outer == '' ? '' : "#{outer}#"
           "#{prefix}#{name}"
         end
+
+        def depends_on_instance?
+          ReferenceCollector.new(self).num_refs_to_self > 0
+        end
       end
 
       # Utility methods for :defs nodes.
@@ -255,6 +260,10 @@ module Reek
         def full_name(outer)
           prefix = outer == '' ? '' : "#{outer}#"
           "#{prefix}#{SexpNode.format(receiver)}.#{name}"
+        end
+
+        def depends_on_instance?
+          false
         end
       end
 

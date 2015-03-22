@@ -30,6 +30,9 @@ module Reek
     # Currently +FeatureEnvy+ reports any method that refers to self less
     # often than it refers to (ie. send messages to) some other object.
     #
+    # If the method doesn't reference self at all, +UtilityFunction+ is
+    # reported instead.
+    #
     class FeatureEnvy < SmellDetector
       def self.smell_category
         'LowCohesion'
@@ -42,6 +45,7 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       def examine_context(method_ctx)
+        return [] unless method_ctx.references_self?
         method_ctx.envious_receivers.map do |ref, occurs|
           target = ref.to_s
           SmellWarning.new self,

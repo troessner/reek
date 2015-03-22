@@ -72,7 +72,7 @@ describe Report::TextReport do
 
       it 'should mention every smell name' do
         expect { instance.show }.to output(/UncommunicativeParameterName/).to_stdout
-        expect { instance.show }.to output(/FeatureEnvy/).to_stdout
+        expect { instance.show }.to output(/UtilityFunction/).to_stdout
       end
     end
 

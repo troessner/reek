@@ -58,6 +58,10 @@ module Reek
         @refs.max_keys
       end
 
+      def references_self?
+        exp.depends_on_instance?
+      end
+
       def uses_param?(param)
         local_nodes(:lvar).find { |node| node.var_name == param.to_sym }
       end

@@ -3,28 +3,48 @@ require_relative '../../../lib/reek/smells/utility_function'
 require_relative 'smell_detector_shared'
 
 describe Reek::Smells::UtilityFunction do
-  before(:each) do
-    @source_name = 'dummy_source'
-    @detector = build(:smell_detector, smell_type: :UtilityFunction, source: @source_name)
-  end
+  describe 'a detector' do
+    before(:each) do
+      @source_name = 'dummy_source'
+      @detector = build(:smell_detector,
+                        smell_type: :UtilityFunction,
+                        source: @source_name)
+    end
 
-  it_should_behave_like 'SmellDetector'
+    it_should_behave_like 'SmellDetector'
+
+    context 'when a smells is reported' do
+      before :each do
+        src = <<-EOS
+        def simple(arga)
+          arga.b.c
+        end
+        EOS
+        source = Reek::Source::SourceCode.from(src)
+        mctx = Reek::Core::TreeWalker.new.process_def(source.syntax_tree)
+        @warning = @detector.examine_context(mctx)[0]   # SMELL: too cumbersome!
+      end
+
+      it_should_behave_like 'common fields set correctly'
+
+      it 'reports the line number of the method' do
+        expect(@warning.lines).to eq([1])
+      end
+    end
+  end
 
   context 'with a singleton method' do
     ['self', 'local_call', '$global'].each do |receiver|
       it 'ignores the receiver' do
         src = "def #{receiver}.simple(arga) arga.to_s + arga.to_i end"
-        ctx = Reek::Core::MethodContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
-        expect(@detector.examine_context(ctx)).to be_empty
+        expect(src).not_to reek_of(:UtilityFunction)
       end
     end
   end
 
   context 'with no calls' do
     it 'does not report empty method' do
-      src = 'def simple(arga) end'
-      ctx = Reek::Core::MethodContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
-      expect(@detector.examine_context(ctx)).to be_empty
+      expect('def simple(arga) end').not_to reek_of(:UtilityFunction)
     end
 
     it 'does not report literal' do
@@ -53,12 +73,12 @@ describe Reek::Smells::UtilityFunction do
   end
 
   context 'with only one call' do
-    it 'does not report a call to a parameter' do
-      expect('def simple(arga) arga.to_s end').not_to reek_of(:UtilityFunction,  name: 'simple')
+    it 'reports a call to a parameter' do
+      expect('def simple(arga) arga.to_s end').to reek_of(:UtilityFunction,  name: 'simple')
     end
 
-    it 'does not report a call to a constant' do
-      expect('def simple(arga) FIELDS[arga] end').not_to reek_of(:UtilityFunction)
+    it 'reports a call to a constant' do
+      expect('def simple(arga) FIELDS[arga] end').to reek_of(:UtilityFunction)
     end
   end
 
@@ -66,6 +86,7 @@ describe Reek::Smells::UtilityFunction do
     it 'reports two calls' do
       src = 'def simple(arga) arga.to_s + arga.to_i end'
       expect(src).to reek_of(:UtilityFunction,  name: 'simple')
+      expect(src).not_to reek_of(:FeatureEnvy)
     end
 
     it 'counts a local call in a param initializer' do
@@ -88,7 +109,9 @@ describe Reek::Smells::UtilityFunction do
     end
 
     it 'should report message chain' do
-      expect('def simple(arga) arga.b.c end').to reek_of(:UtilityFunction,  name: 'simple')
+      src = 'def simple(arga) arga.b.c end'
+      expect(src).to reek_of(:UtilityFunction,  name: 'simple')
+      expect(src).not_to reek_of(:FeatureEnvy)
     end
 
     it 'does not report a method that calls super' do
@@ -108,25 +131,6 @@ describe Reek::Smells::UtilityFunction do
         end
       EOS
       expect(src).not_to reek_of(:UtilityFunction)
-    end
-  end
-
-  context 'when a smells is reported' do
-    before :each do
-      src = <<-EOS
-        def simple(arga)
-          arga.b.c
-        end
-      EOS
-      source = Reek::Source::SourceCode.from(src)
-      mctx = Reek::Core::TreeWalker.new.process_def(source.syntax_tree)
-      @warning = @detector.examine_context(mctx)[0]   # SMELL: too cumbersome!
-    end
-
-    it_should_behave_like 'common fields set correctly'
-
-    it 'reports the line number of the method' do
-      expect(@warning.lines).to eq([1])
     end
   end
 end
