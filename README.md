@@ -31,7 +31,7 @@ class Dirty
   # This method smells of :reek:NestedIterators but ignores them
   def awful(x, y, offset = 0, log = false)
     puts @screen.title
-    @screen = widgets.map {|w| w.each {|key| key += 3}}
+    @screen = widgets.map {|w| w.each {|key| key += 3 * x}}
     puts @screen.contents
   end
 end
@@ -41,17 +41,15 @@ Reek will report the following code smells in this file:
 
 ```
 $ reek demo.rb
-spec/samples/demo/demo.rb -- 6 warnings:
-  Dirty has no descriptive comment (IrresponsibleModule)
-  Dirty#awful has 4 parameters (LongParameterList)
-  Dirty#awful has boolean parameter 'log' (ControlCouple)
-  Dirty#awful has the parameter name 'x' (UncommunicativeName)
-  Dirty#awful has the parameter name 'y' (UncommunicativeName)
-  Dirty#awful has the variable name 'w' (UncommunicativeName)
-  Dirty#awful has unused parameter 'log' (UnusedParameters)
-  Dirty#awful has unused parameter 'offset' (UnusedParameters)
-  Dirty#awful has unused parameter 'x' (UnusedParameters)
-  Dirty#awful has unused parameter 'y' (UnusedParameters)
+demo.rb -- 8 warnings:
+  [1]:Dirty has no descriptive comment (IrresponsibleModule)
+  [3]:Dirty#awful has 4 parameters (LongParameterList)
+  [3]:Dirty#awful has boolean parameter 'log' (BooleanParameter)
+  [3]:Dirty#awful has the parameter name 'x' (UncommunicativeParameterName)
+  [5]:Dirty#awful has the variable name 'w' (UncommunicativeVariableName)
+  [3]:Dirty#awful has unused parameter 'log' (UnusedParameters)
+  [3]:Dirty#awful has unused parameter 'offset' (UnusedParameters)
+  [3]:Dirty#awful has unused parameter 'y' (UnusedParameters)
 ```
 
 ## Sources
