@@ -66,7 +66,7 @@ module Reek
         @parser.on('-c', '--config FILE', 'Read configuration options from FILE') do |file|
           @options.config_file = file
         end
-        @parser.on('--smell SMELL', 'Detect smell SMELL (default is all enabled smells)') do |smell|
+        @parser.on('--smell SMELL', 'Detect smell SMELL (default is: all enabled smells)') do |smell|
           @options.smells_to_detect << smell
         end
       end
@@ -80,25 +80,25 @@ module Reek
       end
 
       def set_up_color_option
-        @parser.on('--[no-]color', 'Use colors for the output (this is the default)') do |opt|
+        @parser.on('--[no-]color', 'Use colors for the output (default: true)') do |opt|
           @options.colored = opt
         end
       end
 
       def set_up_verbosity_options
         @parser.on('-V', '--[no-]empty-headings',
-                   'Show headings for smell-free source files') do |show_empty|
+                   'Show headings for smell-free source files (default:false)') do |show_empty|
           @options.show_empty = show_empty
         end
         @parser.on('-U', '--[no-]wiki-links',
-                   'Show link to related Reek wiki page for each smell') do |show_links|
+                   'Show link to related Reek wiki page for each smell (default:false)') do |show_links|
           @options.show_links = show_links
         end
       end
 
       def set_up_location_formatting_options
         @parser.on('-n', '--[no-]line-numbers',
-                   'Show line numbers in the output (this is the default)') do |show_numbers|
+                   'Show line numbers in the output (default: true)') do |show_numbers|
           @options.location_format = show_numbers ? :numbers : :plain
         end
         @parser.on('-s', '--single-line',
