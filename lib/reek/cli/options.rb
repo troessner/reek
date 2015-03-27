@@ -66,7 +66,7 @@ module Reek
         @parser.on('-c', '--config FILE', 'Read configuration options from FILE') do |file|
           @options.config_file = file
         end
-        @parser.on('--smell SMELL', 'Detect smell SMELL (default is: all enabled smells)') do |smell|
+        @parser.on('--smell SMELL', 'Detect smell SMELL (default: all enabled smells)') do |smell|
           @options.smells_to_detect << smell
         end
       end
@@ -87,11 +87,11 @@ module Reek
 
       def set_up_verbosity_options
         @parser.on('-V', '--[no-]empty-headings',
-                   'Show headings for smell-free source files (default:false)') do |show_empty|
+                   'Show headings for smell-free source files (default: false)') do |show_empty|
           @options.show_empty = show_empty
         end
         @parser.on('-U', '--[no-]wiki-links',
-                   'Show link to related Reek wiki page for each smell (default:false)') do |show_links|
+                   'Show link to related wiki page for each smell (default: false)') do |show_links|
           @options.show_links = show_links
         end
       end

@@ -31,7 +31,7 @@ Feature: Reek can be controlled using command-line options
 
       Configuration:
           -c, --config FILE                Read configuration options from FILE
-              --smell SMELL                Detect smell SMELL (default is all enabled smells)
+              --smell SMELL                Detect smell SMELL (default: all enabled smells)
 
       Report format:
           -f, --format FORMAT              Report smells in the given format:
@@ -41,10 +41,10 @@ Feature: Reek can be controlled using command-line options
                                              json
 
       Text format options:
-              --[no-]color                 Use colors for the output (this is the default)
-          -V, --[no-]empty-headings        Show headings for smell-free source files
-          -U, --[no-]wiki-links            Show link to related Reek wiki page for each smell
-          -n, --[no-]line-numbers          Show line numbers in the output (this is the default)
+              --[no-]color                 Use colors for the output (default: true)
+          -V, --[no-]empty-headings        Show headings for smell-free source files (default: false)
+          -U, --[no-]wiki-links            Show link to related wiki page for each smell (default: false)
+          -n, --[no-]line-numbers          Show line numbers in the output (default: true)
           -s, --single-line                Show location in editor-compatible single-line-per-smell format
               --sort-by SORTING            Sort reported files by the given criterium:
                                              smelliness ("smelliest" files first)
