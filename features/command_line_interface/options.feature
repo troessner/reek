@@ -27,7 +27,7 @@ Feature: Reek can be controlled using command-line options
       reek -s lib
       cat my_class.rb | reek
 
-      See http://wiki.github.com/troessner/reek for detailed help.
+      See https://wiki.github.com/troessner/reek for detailed help.
 
       Configuration:
           -c, --config FILE                Read configuration options from FILE

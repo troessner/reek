@@ -3,10 +3,10 @@
 ## Overview
 
 
-[![Build Status](https://secure.travis-ci.org/troessner/reek.png?branch=master)](http://travis-ci.org/troessner/reek?branch=master)
-[![Gem Version](https://badge.fury.io/rb/reek.png)](http://badge.fury.io/rb/reek)
+[![Build Status](https://secure.travis-ci.org/troessner/reek.png?branch=master)](https://travis-ci.org/troessner/reek?branch=master)
+[![Gem Version](https://badge.fury.io/rb/reek.png)](https://badge.fury.io/rb/reek)
 [![Dependency Status](https://gemnasium.com/troessner/reek.png)](https://gemnasium.com/troessner/reek)
-[![Inline docs](http://inch-ci.org/github/troessner/reek.png)](http://inch-ci.org/github/troessner/reek)
+[![Inline docs](https://inch-ci.org/github/troessner/reek.png)](https://inch-ci.org/github/troessner/reek)
 
 ## Quickstart
 
@@ -228,7 +228,7 @@ Colorful output for `reek`: [Preek](https://github.com/joenas/preek) (also with
 
 ### Find out more:
 
-* [Stack Overflow](http://stackoverflow.com/questions/tagged/reek)
+* [Stack Overflow](https://stackoverflow.com/questions/tagged/reek)
 * [RDoc](http://rdoc.info/projects/troessner/reek)
 
 ## Contributors

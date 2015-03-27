@@ -45,7 +45,7 @@ module Reek
           #{program_name} -s lib
           cat my_class.rb | #{program_name}
 
-          See http://wiki.github.com/troessner/reek for detailed help.
+          See https://wiki.github.com/troessner/reek for detailed help.
 
         EOB
       end

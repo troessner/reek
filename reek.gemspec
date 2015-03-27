@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
                 'Rakefile', 'assets/html_output.html.erb', 'bin/reek',
                 'config/defaults.reek', '{features,lib,spec,tasks}/**/*',
                 'reek.gemspec'] & `git ls-files -z`.split("\0")
-  s.homepage = 'http://wiki.github.com/troessner/reek'
+  s.homepage = 'https://wiki.github.com/troessner/reek'
   s.rdoc_options = ['--main', 'README.md',
                     '-x', 'assets/|bin/|config/|features/|spec/|tasks/']
   s.require_paths = ['lib']
