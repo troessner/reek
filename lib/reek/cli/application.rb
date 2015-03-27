@@ -15,7 +15,7 @@ module Reek
       STATUS_SMELLS  = 2
 
       def initialize(argv)
-        @status  = STATUS_SUCCESS
+        @status = STATUS_SUCCESS
         options_parser = Options.new(argv)
         begin
           @options = options_parser.parse
