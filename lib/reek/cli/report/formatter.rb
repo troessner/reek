@@ -4,8 +4,9 @@ module Reek
   module Cli
     module Report
       #
-      # Formatter handling the formatting of the report at large. Formatting
-      # the individual warnings is handled by the warning formatter passed in.
+      # Formatter handling the formatting of the report at large.
+      # Formatting of the individual warnings is handled by the
+      # passed-in warning formatter.
       #
       module Formatter
         def self.format_list(warnings, formatter = SimpleWarningFormatter.new)
@@ -25,7 +26,7 @@ module Reek
 
       #
       # Basic formatter that just shows a simple message for each warning,
-      # pre-pended with the result of the passed-in location formatter.
+      # prepended with the result of the passed-in location formatter.
       #
       class SimpleWarningFormatter
         def initialize(location_formatter = BlankLocationFormatter)
@@ -44,7 +45,7 @@ module Reek
       end
 
       #
-      # Formatter that adds a link to the Wiki to the basic message from
+      # Formatter that adds a link to the wiki to the basic message from
       # SimpleWarningFormatter.
       #
       class WikiLinkWarningFormatter < SimpleWarningFormatter
