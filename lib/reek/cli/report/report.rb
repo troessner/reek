@@ -12,9 +12,13 @@ module Reek
         NO_WARNINGS_COLOR = :green
         WARNINGS_COLOR = :red
 
-        def initialize(_options = {})
+        def initialize(options = {})
           @examiners           = []
           @total_smell_count   = 0
+          @options             = options
+          @warning_formatter   = options.fetch :warning_formatter, SimpleWarningFormatter.new
+          @report_formatter    = options.fetch :report_formatter, Formatter
+          @sort_by_issue_count = options.fetch :sort_by_issue_count, false
         end
 
         def add_examiner(examiner)
@@ -36,14 +40,6 @@ module Reek
       # Generates a sorted, text summary of smells in examiners
       #
       class TextReport < Base
-        def initialize(options = {})
-          super options
-          @options = options
-          @warning_formatter   = options.fetch :warning_formatter, SimpleWarningFormatter.new
-          @report_formatter    = options.fetch :report_formatter, Formatter
-          @sort_by_issue_count = options.fetch :sort_by_issue_count, false
-        end
-
         def show
           sort_examiners if smells?
           display_summary
@@ -107,7 +103,11 @@ module Reek
       # JSON with empty array for 0 smells
       class JsonReport < Base
         def show
-          print ::JSON.generate(smells.map(&:yaml_hash))
+          print ::JSON.generate(
+            smells.map do |smell|
+              smell.yaml_hash(@warning_formatter)
+            end
+          )
         end
       end
 
