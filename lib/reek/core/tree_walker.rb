@@ -55,8 +55,6 @@ module Reek
         end
       end
 
-      def process_args(_) end
-
       #
       # Recording of calls to methods and self
       #
