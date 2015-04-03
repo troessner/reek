@@ -44,6 +44,8 @@ module Reek
           @refs.record_reference_to(receiver.name)
         when :lvar
           @refs.record_reference_to(receiver.name) unless meth == :new
+        when :send
+          @refs.record_reference_to(receiver.name) if receiver.method_name == :new
         when :self
           @refs.record_reference_to(:self)
         end
