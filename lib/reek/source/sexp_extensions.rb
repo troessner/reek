@@ -289,6 +289,20 @@ module Reek
         def simple_name
           children.last
         end
+
+        def name
+          if scope
+            "#{scope.name}::#{simple_name}"
+          else
+            simple_name
+          end
+        end
+
+        private
+
+        def scope
+          children.first
+        end
       end
 
       # Utility methods for :module nodes.
