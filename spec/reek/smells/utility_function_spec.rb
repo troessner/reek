@@ -47,8 +47,8 @@ describe Reek::Smells::FeatureEnvy do
       expect('def simple(arga) arga.to_s end').to reek_of(:FeatureEnvy, name: 'arga')
     end
 
-    it 'does not report a call to a constant' do
-      expect('def simple(arga) FIELDS[arga] end').not_to reek_of(:FeatureEnvy)
+    it 'reports a call to a constant' do
+      expect('def simple(arga) FIELDS[arga] end').to reek_of(:FeatureEnvy)
     end
   end
 
