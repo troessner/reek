@@ -43,7 +43,7 @@ module Reek
       #
       def examine_context(method_ctx)
         method_ctx.envious_receivers.map do |ref, occurs|
-          target = ref.format_ruby
+          target = ref.to_s
           SmellWarning.new self,
                            context: method_ctx.full_name,
                            lines: [method_ctx.exp.line],

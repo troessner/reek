@@ -41,9 +41,9 @@ module Reek
         receiver ||= [:self]
         case receiver[0]
         when :lvasgn
-          @refs.record_reference_to(receiver.updated(:lvar))
+          @refs.record_reference_to(receiver.name)
         when :lvar
-          @refs.record_reference_to(receiver) unless meth == :new
+          @refs.record_reference_to(receiver.name) unless meth == :new
         when :self
           @refs.record_reference_to(:self)
         end
