@@ -37,14 +37,9 @@ module Reek
       end
 
       def record_call_to(exp)
-        receiver, meth = exp[1..2]
-        receiver ||= [:self]
+        receiver = exp[1] || [:self]
         case receiver[0]
-        when :lvasgn
-          @refs.record_reference_to(receiver.name)
-        when :lvar
-          @refs.record_reference_to(receiver.name) unless meth == :new
-        when :const
+        when :lvasgn, :lvar, :const
           @refs.record_reference_to(receiver.name)
         when :self
           @refs.record_reference_to(:self)
