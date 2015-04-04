@@ -8,7 +8,7 @@ Feature: Basic smell detection
     Then the exit status indicates smells
     And it reports:
     """
-    spec/samples/inline.rb -- 43 warnings:
+    spec/samples/inline.rb -- 44 warnings:
       CompilationError has no descriptive comment (IrresponsibleModule)
       File has no descriptive comment (IrresponsibleModule)
       File#self.write_with_backup has approx 6 statements (TooManyStatements)
@@ -35,6 +35,7 @@ Feature: Basic smell detection
       Inline::C#build has the variable name 't' (UncommunicativeVariableName)
       Inline::C#c has the name 'c' (UncommunicativeMethodName)
       Inline::C#crap_for_windoze calls Config::CONFIG["libdir"] 2 times (DuplicateMethodCall)
+      Inline::C#crap_for_windoze refers to Config::CONFIG more than self (FeatureEnvy)
       Inline::C#generate calls result.sub!(/\A\n/, "") 2 times (DuplicateMethodCall)
       Inline::C#generate calls signature["args"] 2 times (DuplicateMethodCall)
       Inline::C#generate calls signature["args"].map 2 times (DuplicateMethodCall)
@@ -59,7 +60,7 @@ Feature: Basic smell detection
     Then the exit status indicates smells
     And it reports:
     """
-    spec/samples/optparse.rb -- 111 warnings:
+    spec/samples/optparse.rb -- 113 warnings:
       OptionParser has at least 42 methods (TooManyMethods)
       OptionParser has the variable name 'f' (UncommunicativeVariableName)
       OptionParser has the variable name 'k' (UncommunicativeVariableName)
@@ -75,10 +76,12 @@ Feature: Basic smell detection
       OptionParser#complete has 4 parameters (LongParameterList)
       OptionParser#complete has approx 6 statements (TooManyStatements)
       OptionParser#complete has boolean parameter 'icase' (BooleanParameter)
+      OptionParser#environment refers to ENV more than self (FeatureEnvy)
       OptionParser#getopts calls result[opt] = false 2 times (DuplicateMethodCall)
       OptionParser#getopts has approx 18 statements (TooManyStatements)
       OptionParser#load has approx 6 statements (TooManyStatements)
       OptionParser#load has the variable name 's' (UncommunicativeVariableName)
+      OptionParser#load refers to File more than self (FeatureEnvy)
       OptionParser#make_switch calls default_style.guess(arg = a) 4 times (DuplicateMethodCall)
       OptionParser#make_switch calls long << (o = q.downcase) 2 times (DuplicateMethodCall)
       OptionParser#make_switch calls notwice(NilClass, klass, "type") 2 times (DuplicateMethodCall)
@@ -178,7 +181,7 @@ Feature: Basic smell detection
     Then the exit status indicates smells
     And it reports:
     """
-    spec/samples/redcloth.rb -- 94 warnings:
+    spec/samples/redcloth.rb -- 96 warnings:
       RedCloth has at least 44 methods (TooManyMethods)
       RedCloth has the variable name 'a' (UncommunicativeVariableName)
       RedCloth has the variable name 'b' (UncommunicativeVariableName)
@@ -223,6 +226,7 @@ Feature: Basic smell detection
       RedCloth#flush_left refers to text more than self (FeatureEnvy)
       RedCloth#footnote_ref refers to text more than self (FeatureEnvy)
       RedCloth#glyphs_textile has approx 10 statements (TooManyStatements)
+      RedCloth#h_align refers to H_ALGN_VALS more than self (FeatureEnvy)
       RedCloth#htmlesc is controlled by argument mode (ControlParameter)
       RedCloth#htmlesc refers to str more than self (FeatureEnvy)
       RedCloth#incoming_entities refers to text more than self (FeatureEnvy)
@@ -273,6 +277,7 @@ Feature: Basic smell detection
       RedCloth#textile_popup_help has the parameter name 'windowH' (UncommunicativeParameterName)
       RedCloth#textile_popup_help has the parameter name 'windowW' (UncommunicativeParameterName)
       RedCloth#to_html has approx 26 statements (TooManyStatements)
+      RedCloth#v_align refers to V_ALGN_VALS more than self (FeatureEnvy)
     """
 
   Scenario: Correct smells from a source file with Ruby 2.0 specific syntax
