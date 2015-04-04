@@ -179,8 +179,12 @@ module Reek
 
       # Utility methods for :lvar nodes.
       module LvarNode
+        include VariableBase
+        # TODO: Replace with name().
         def var_name() self[1] end
       end
+
+      LvasgnNode = LvarNode
 
       # Base module for utility methods for :def and :defs nodes.
       module MethodNodeBase
