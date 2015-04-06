@@ -106,7 +106,3 @@ UncommunicativeVariableName:
 UnusedParameters:
   enabled: true
   exclude: []
-UtilityFunction:
-  enabled: true
-  exclude: []
-  max_helper_calls: 1

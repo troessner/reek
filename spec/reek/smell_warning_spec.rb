@@ -6,7 +6,7 @@ include Reek
 describe SmellWarning do
   let(:duplication_detector)  { build(:smell_detector, smell_type: 'DuplicateMethodCall') }
   let(:feature_envy_detector) { build(:smell_detector, smell_type: 'FeatureEnvy') }
-  let(:utility_function_detector) { build(:smell_detector, smell_type: 'UtilityFunction') }
+  let(:too_many_methods_detector) { build(:smell_detector, smell_type: 'TooManyMethods') }
 
   context 'sort order' do
     shared_examples_for 'first sorts ahead of second' do
@@ -60,7 +60,7 @@ describe SmellWarning do
 
     context 'message takes precedence over smell name' do
       before :each do
-        @first  = build(:smell_warning, smell_detector: utility_function_detector,
+        @first  = build(:smell_warning, smell_detector: too_many_methods_detector,
                                         message: 'first message')
         @second = build(:smell_warning, smell_detector: feature_envy_detector,
                                         message: 'second message')

@@ -1,4 +1,5 @@
 require 'reek/source/sexp_node'
+require 'reek/source/reference_collector'
 
 module Reek
   module Source
@@ -234,6 +235,10 @@ module Reek
           prefix = outer == '' ? '' : "#{outer}#"
           "#{prefix}#{name}"
         end
+
+        def depends_on_instance?
+          ReferenceCollector.new(self).num_refs_to_self > 0
+        end
       end
 
       # Utility methods for :defs nodes.
@@ -283,6 +288,20 @@ module Reek
       module ConstNode
         def simple_name
           children.last
+        end
+
+        def name
+          if scope
+            "#{scope.name}::#{simple_name}"
+          else
+            simple_name
+          end
+        end
+
+        private
+
+        def scope
+          children.first
         end
       end
 

@@ -1,3 +1,7 @@
+== Unreleased
+
+* (mvz) Remove UtilityFunction
+
 == 2.0.2
 
 * (troessner) Fix version command
