@@ -324,12 +324,14 @@ module Reek
         end
       end
 
-      # Utility methods for :zsuper nodes.
-      module ZsuperNode
+      # Utility methods for :super nodes.
+      module SuperNode
         def method_name
           :super
         end
       end
+
+      ZsuperNode = SuperNode
     end
   end
 end
