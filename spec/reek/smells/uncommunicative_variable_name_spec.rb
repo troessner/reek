@@ -140,6 +140,16 @@ describe Reek::Smells::UncommunicativeVariableName do
       expect(src).to reek_of(:UncommunicativeVariableName, name: 'y')
       expect(src).to reek_of(:UncommunicativeVariableName, name: 'z')
     end
+
+    it 'reports shadowed block parameters' do
+      src = <<-EOS
+        def bad
+          @foo.map { |x; y| y = x * 2 }
+        end
+      EOS
+      expect(src).to reek_of(:UncommunicativeVariableName, name: 'x')
+      expect(src).to reek_of(:UncommunicativeVariableName, name: 'y')
+    end
   end
 
   context 'when a smell is reported' do
