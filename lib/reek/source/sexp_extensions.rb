@@ -91,6 +91,11 @@ module Reek
         end
       end
 
+      # Utility methods for :shadowarg nodes.
+      module ShadowargNode
+        include ArgNodeBase
+      end
+
       # Base module for utility methods for :and and :or nodes.
       module LogicOperatorBase
         def condition() self[1] end
