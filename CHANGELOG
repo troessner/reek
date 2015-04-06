@@ -1,3 +1,10 @@
+== 2.0.3
+
+* (mvz) Make NestedIterators handle super with arguments
+* (mvz) Handle shadow block arguments
+* (CoralineAda) Allow all formatters to support -U (wiki links)
+* (tuexss) Make defaults transparent in help message
+
 == 2.0.2
 
 * (troessner) Fix version command
