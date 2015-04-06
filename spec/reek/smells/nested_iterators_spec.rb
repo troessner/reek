@@ -98,6 +98,30 @@ describe Reek::Smells::NestedIterators do
     expect(src).to reek_of(:NestedIterators, count: 3)
   end
 
+  it 'handles the case where super recieves a block' do
+    src = <<-EOS
+      def super_call_with_block
+        super do |k|
+          nothing.each { |thing| item }
+        end
+      end
+    EOS
+
+    expect(src).to reek_of(:NestedIterators)
+  end
+
+  it 'handles the case where super recieves a block and arguments' do
+    src = <<-EOS
+      def super_call_with_block
+        super(foo) do |k|
+          nothing.each { |thing| item }
+        end
+      end
+    EOS
+
+    expect(src).to reek_of(:NestedIterators)
+  end
+
   context 'when the allowed nesting depth is 3' do
     before :each do
       @config = { NestedIterators:
@@ -223,22 +247,5 @@ describe Reek::Smells::NestedIterators do
       expect(@warning.parameters[:count]).to eq(2)
       expect(@warning.lines).to eq([3])
     end
-  end
-
-  context 'super recieves a block' do
-    before :each do
-      src = <<-EOS
-        def super_call_with_block
-          super do |k|
-            nothing.each { |thing| item }
-          end
-        end
-      EOS
-
-      ctx = Reek::Core::CodeContext.new(nil, src.to_reek_source.syntax_tree)
-      @warning = @detector.examine_context(ctx)[0]
-    end
-
-    it_should_behave_like 'common fields set correctly'
   end
 end
