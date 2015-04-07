@@ -1,4 +1,4 @@
-require 'reek/core/method_context'
+require_relative 'method_context'
 
 module Reek
   module Core

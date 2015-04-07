@@ -1,8 +1,8 @@
 require 'forwardable'
-require 'reek/cli/input'
-require 'reek/cli/report/report'
-require 'reek/cli/report/formatter'
-require 'reek/cli/report/heading_formatter'
+require_relative 'input'
+require_relative 'report/report'
+require_relative 'report/formatter'
+require_relative 'report/heading_formatter'
 
 module Reek
   module Cli

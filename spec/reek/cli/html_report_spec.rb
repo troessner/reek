@@ -1,6 +1,6 @@
-require 'spec_helper'
-require 'reek/examiner'
-require 'reek/cli/report/report'
+require_relative '../../spec_helper'
+require_relative '../../../lib/reek/examiner'
+require_relative '../../../lib/reek/cli/report/report'
 
 include Reek
 include Reek::Cli

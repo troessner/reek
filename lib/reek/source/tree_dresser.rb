@@ -1,4 +1,4 @@
-require 'reek/source/ast_node_class_map'
+require_relative 'ast_node_class_map'
 
 module Reek
   module Source

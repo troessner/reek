@@ -1,6 +1,6 @@
-require 'spec_helper'
-require 'reek/smells/boolean_parameter'
-require 'reek/smells/smell_detector_shared'
+require_relative '../../spec_helper'
+require_relative '../../../lib/reek/smells/boolean_parameter'
+require_relative 'smell_detector_shared'
 
 describe Reek::Smells::BooleanParameter do
   context 'parameter defaulted with boolean' do

@@ -1,4 +1,4 @@
-require 'reek/examiner'
+require_relative '../examiner'
 
 module Reek
   module Spec

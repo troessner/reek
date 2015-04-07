@@ -1,5 +1,5 @@
 require 'rake/clean'
-require 'reek/core/smell_repository'
+require_relative '../lib/reek/core/smell_repository'
 
 CONFIG_FILE = 'config/defaults.reek'
 

@@ -1,6 +1,6 @@
-require 'reek/source/ast_node'
-require 'reek/source/sexp_node'
-require 'reek/source/sexp_extensions'
+require_relative 'ast_node'
+require_relative 'sexp_node'
+require_relative 'sexp_extensions'
 
 module Reek
   module Source

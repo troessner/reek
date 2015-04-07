@@ -1,6 +1,6 @@
-require 'reek/smells/smell_detector'
-require 'reek/smell_warning'
-require 'reek/source/code_comment'
+require_relative 'smell_detector'
+require_relative '../smell_warning'
+require_relative '../source/code_comment'
 
 module Reek
   module Smells

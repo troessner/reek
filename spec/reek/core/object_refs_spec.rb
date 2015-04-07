@@ -1,5 +1,5 @@
-require 'spec_helper'
-require 'reek/core/object_refs'
+require_relative '../../spec_helper'
+require_relative '../../../lib/reek/core/object_refs'
 
 include Reek::Core
 

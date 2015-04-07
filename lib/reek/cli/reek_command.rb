@@ -1,5 +1,5 @@
-require 'reek/cli/command'
-require 'reek/examiner'
+require_relative 'command'
+require_relative '../examiner'
 
 module Reek
   module Cli

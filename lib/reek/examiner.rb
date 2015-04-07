@@ -1,7 +1,7 @@
-require 'reek/source/source_repository'
-require 'reek/core/warning_collector'
-require 'reek/core/smell_repository'
-require 'reek/core/tree_walker'
+require_relative 'source/source_repository'
+require_relative 'core/warning_collector'
+require_relative 'core/smell_repository'
+require_relative 'core/tree_walker'
 
 module Reek
   #

@@ -1,5 +1,5 @@
-require 'reek/core/code_context'
-require 'reek/source/sexp_formatter'
+require_relative 'code_context'
+require_relative '../source/sexp_formatter'
 
 module Reek
   module Core

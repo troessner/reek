@@ -1,4 +1,4 @@
-require 'reek/cli/report/location_formatter'
+require_relative 'location_formatter'
 
 module Reek
   module Cli

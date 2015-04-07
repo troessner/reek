@@ -2,7 +2,7 @@ require 'English'
 require 'tempfile'
 require 'fileutils'
 require 'open3'
-require 'reek/cli/application'
+require_relative '../../lib/reek/cli/application'
 
 begin
   require 'pry-byebug'
@@ -31,8 +31,7 @@ class ReekWorld
 
   def rake(name, task_def)
     header = <<EOS
-$:.unshift('lib')
-require 'reek/rake/task'
+require_relative 'lib/reek/rake/task'
 
 EOS
     rakefile = Tempfile.new('rake_task', '.')

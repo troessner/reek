@@ -1,5 +1,5 @@
-require 'spec_helper'
-require 'reek/spec'
+require_relative '../../spec_helper'
+require_relative '../../../lib/reek/spec'
 
 include Reek
 include Reek::Spec

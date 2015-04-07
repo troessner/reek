@@ -1,6 +1,6 @@
-require 'spec_helper'
-require 'reek/smells/unused_parameters'
-require 'reek/smells/smell_detector_shared'
+require_relative '../../spec_helper'
+require_relative '../../../lib/reek/smells/unused_parameters'
+require_relative 'smell_detector_shared'
 
 describe Reek::Smells::UnusedParameters do
   context 'for methods' do

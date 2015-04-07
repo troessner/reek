@@ -1,8 +1,8 @@
-require 'spec_helper'
-require 'reek/smells/repeated_conditional'
-require 'reek/core/code_context'
-require 'reek/smells/smell_detector_shared'
-require 'reek/source/source_code'
+require_relative '../../spec_helper'
+require_relative '../../../lib/reek/smells/repeated_conditional'
+require_relative '../../../lib/reek/core/code_context'
+require_relative 'smell_detector_shared'
+require_relative '../../../lib/reek/source/source_code'
 
 describe Reek::Smells::RepeatedConditional do
   before(:each) do

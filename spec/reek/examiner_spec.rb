@@ -1,5 +1,5 @@
-require 'spec_helper'
-require 'reek/examiner'
+require_relative '../spec_helper'
+require_relative '../../lib/reek/examiner'
 
 include Reek
 

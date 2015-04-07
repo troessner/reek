@@ -1,8 +1,8 @@
-require 'spec_helper'
-require 'reek/smells/duplicate_method_call'
-require 'reek/core/code_context'
-require 'reek/core/tree_walker'
-require 'reek/smells/smell_detector_shared'
+require_relative '../../spec_helper'
+require_relative '../../../lib/reek/smells/duplicate_method_call'
+require_relative '../../../lib/reek/core/code_context'
+require_relative '../../../lib/reek/core/tree_walker'
+require_relative 'smell_detector_shared'
 
 describe Reek::Smells::DuplicateMethodCall do
   context 'when a smell is reported' do

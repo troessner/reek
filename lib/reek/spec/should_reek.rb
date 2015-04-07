@@ -1,5 +1,5 @@
-require 'reek/examiner'
-require 'reek/cli/report/formatter'
+require_relative '../examiner'
+require_relative '../cli/report/formatter'
 
 module Reek
   module Spec

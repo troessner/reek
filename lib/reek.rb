@@ -1,6 +1,6 @@
 #
 # Reek's core functionality
 #
-require 'reek/version'
-require 'reek/examiner'
-require 'reek/smell_warning'
+require_relative 'reek/version'
+require_relative 'reek/examiner'
+require_relative 'reek/smell_warning'

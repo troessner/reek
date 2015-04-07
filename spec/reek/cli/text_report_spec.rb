@@ -1,8 +1,8 @@
-require 'spec_helper'
-require 'reek/examiner'
-require 'reek/cli/report/report'
-require 'reek/cli/report/formatter'
-require 'reek/cli/report/heading_formatter'
+require_relative '../../spec_helper'
+require_relative '../../../lib/reek/examiner'
+require_relative '../../../lib/reek/cli/report/report'
+require_relative '../../../lib/reek/cli/report/formatter'
+require_relative '../../../lib/reek/cli/report/heading_formatter'
 require 'rainbow'
 
 include Reek

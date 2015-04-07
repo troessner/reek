@@ -6,6 +6,6 @@
 # Author: Kevin Rutherford
 #
 
-require 'reek/cli/application'
+require_relative '../lib/reek/cli/application'
 
 exit Reek::Cli::Application.new(ARGV).execute

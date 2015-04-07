@@ -1,5 +1,5 @@
-require 'reek/core/code_context'
-require 'reek/core/object_refs'
+require_relative 'code_context'
+require_relative 'object_refs'
 
 module Reek
   module Core
