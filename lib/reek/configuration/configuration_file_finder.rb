@@ -48,7 +48,7 @@ module Reek
         end
 
         def detect_configuration_in_directory(directory)
-          Pathname.glob(directory.join('*.reek')).detect(&:file?)
+          directory.children.select(&:file?).find { |path| path.to_s.end_with?('.reek') }
         end
       end
     end
