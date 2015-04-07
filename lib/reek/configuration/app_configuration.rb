@@ -15,7 +15,7 @@ module Reek
 
         def initialize_with(options)
           @has_been_initialized = true
-          configuration_file_path = ConfigurationFileFinder.find(options)
+          configuration_file_path = ConfigurationFileFinder.find(options: options)
           return unless configuration_file_path
           load_from_file configuration_file_path
         end
