@@ -1,3 +1,7 @@
+== 2.0.4
+
+* (chastell)  Recognise .reek as a valid configuration file
+
 == 2.0.3
 
 * (mvz) Make NestedIterators handle super with arguments
