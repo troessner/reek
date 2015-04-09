@@ -15,31 +15,24 @@ Gem::Specification.new do |s|
 
   s.license = 'MIT'
   s.email = ['timo.roessner@googlemail.com']
-  s.executables = ['reek']
   s.extra_rdoc_files = ['CHANGELOG', 'License.txt']
-  s.files = Dir['.yardopts', 'CHANGELOG', 'License.txt', 'README.md',
-                'Rakefile', 'assets/html_output.html.erb', 'bin/reek',
-                'config/defaults.reek', '{features,lib,spec,tasks}/**/*',
-                'reek.gemspec'] & `git ls-files -z`.split("\0")
-  s.homepage = 'https://wiki.github.com/troessner/reek'
-  s.rdoc_options = ['--main', 'README.md',
-                    '-x', 'assets/|bin/|config/|features/|spec/|tasks/']
-  s.require_paths = ['lib']
-  s.rubyforge_project = 'reek'
-  s.rubygems_version = '1.3.6'
+  s.files = `git ls-files -z`.split("\0")
+  s.executables = s.files.grep(%r{^bin/}).map { |path| File.basename(path) }
+  s.homepage = 'https://github.com/troessner/reek/wiki'
+  s.rdoc_options = %w(--main README.md -x assets/|bin/|config/|features/|spec/|tasks/)
   s.required_ruby_version = '>= 1.9.3'
   s.summary = 'Code smell detector for Ruby'
 
-  s.add_runtime_dependency('parser', ['~> 2.2'])
-  s.add_runtime_dependency('unparser', ['~> 0.2.2'])
-  s.add_runtime_dependency('rainbow', ['~> 2.0'])
-  s.add_runtime_dependency('require_all', ['~> 1.3'])
+  s.add_runtime_dependency 'parser',      '~> 2.2'
+  s.add_runtime_dependency 'rainbow',     '~> 2.0'
+  s.add_runtime_dependency 'require_all', '~> 1.3'
+  s.add_runtime_dependency 'unparser',    '~> 0.2.2'
 
-  s.add_development_dependency('bundler', ['~> 1.1'])
-  s.add_development_dependency('rake', ['~> 10.0'])
-  s.add_development_dependency('cucumber', ['~> 1.3', '>= 1.3.18'])
-  s.add_development_dependency('rspec', ['~> 3.0'])
-  s.add_development_dependency('yard', ['>= 0.8.7', '< 0.9'])
-  s.add_development_dependency('factory_girl', ['~> 4.0'])
-  s.add_development_dependency('rubocop', ['~> 0.29.0'])
+  s.add_development_dependency 'bundler',      '~> 1.1'
+  s.add_development_dependency 'cucumber',     '~> 2.0'
+  s.add_development_dependency 'factory_girl', '~> 4.0'
+  s.add_development_dependency 'rake',         '~> 10.0'
+  s.add_development_dependency 'rspec',        '~> 3.0'
+  s.add_development_dependency 'rubocop',      '~> 0.30.0'
+  s.add_development_dependency 'yard',         '~> 0.8.7'
 end
