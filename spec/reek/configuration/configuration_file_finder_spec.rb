@@ -28,7 +28,7 @@ describe ConfigurationFileFinder do
 
     it 'returns the file in a parent dir if none in current dir' do
       current = Pathname.new('spec/samples/no_config_file')
-      found = ConfigurationFileFinder.find(options: nil, current: current)
+      found = ConfigurationFileFinder.find(current: current)
       expect(found).to eq(Pathname.new('spec/samples/exceptions.reek'))
     end
 
