@@ -14,41 +14,26 @@ module Reek
     # The order in which ConfigurationFileFinder tries to find such a
     # configuration file is exactly like above.
     module ConfigurationFileFinder
-      class << self
-        def find(options)
-          configuration_by_cli(options) ||
-            configuration_in_file_system    ||
-            configuration_in_home_directory
-        end
+      module_function
 
-        private
+      # FIXME: switch to kwargs on upgrade to Ruby 2 and drop `params.fetch` calls:
+      # def find(options: nil, current: Pathname.pwd, home: Pathname.new(Dir.home))
+      def find(params = {})
+        options = params.fetch(:options) { nil                    }
+        current = params.fetch(:current) { Pathname.pwd           }
+        home    = params.fetch(:home)    { Pathname.new(Dir.home) }
+        find_by_cli(options) || find_by_dir(current) || find_by_dir(home)
+      end
 
-        def configuration_by_cli(options)
-          return unless options # Return gracefully allowing calls without app context
-          config_file_option = options.config_file
-          return unless config_file_option
-          path_name = Pathname.new config_file_option
-          raise ArgumentError, "Config file #{path_name} doesn't exist" unless path_name.exist?
-          path_name
-        end
+      def find_by_cli(options)
+        options && options.config_file
+      end
 
-        def configuration_in_file_system
-          detect_or_traverse_up Pathname.pwd
-        end
-
-        def configuration_in_home_directory
-          detect_configuration_in_directory Pathname.new(Dir.home)
-        end
-
-        def detect_or_traverse_up(directory)
-          file = detect_configuration_in_directory(directory)
-          return file unless file.nil?
-          return if directory.root?
-          detect_or_traverse_up directory.parent
-        end
-
-        def detect_configuration_in_directory(directory)
-          directory.children.select(&:file?).find { |path| path.to_s.end_with?('.reek') }
+      def find_by_dir(start)
+        start.ascend do |dir|
+          files = dir.children.select(&:file?)
+          found = files.find { |file| file.to_s.end_with?('.reek') }
+          return found if found
         end
       end
     end
