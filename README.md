@@ -217,14 +217,11 @@ If you don't feel like getting your hands dirty with code there are still other 
 
 ### Tools
 
-There's a vim plugin for `reek`:
-[https://github.com/rainerborene/vim-reek](https://github.com/rainerborene/vim-reek)
-
-TextMate Bundle for `reek`:
-[https://github.com/peeyush1234/reek.tmbundle](https://github.com/peeyush1234/reek.tmbundle)
-
-Colorful output for `reek`: [Preek](https://github.com/joenas/preek) (also with
-[Guard::Preek](https://github.com/joenas/guard-preek))
+* [Vim plugin for `reek`](https://github.com/rainerborene/vim-reek)
+* [TextMate Bundle for `reek`](https://github.com/peeyush1234/reek.tmbundle)
+* [Colorful output for `reek`](https://github.com/joenas/preek)
+  (also with [Guard::Preek](https://github.com/joenas/guard-preek))
+* [Atom plugin for `reek`](https://atom.io/packages/linter-reek)
 
 ### Find out more:
 
