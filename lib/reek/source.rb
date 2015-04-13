@@ -1,5 +1,4 @@
 require 'reek/source/code_comment'
-require 'reek/source/core_extras'
 require 'reek/source/sexp_formatter'
 require 'reek/source/source_code'
 require 'reek/source/source_file'

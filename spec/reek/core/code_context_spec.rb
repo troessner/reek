@@ -73,7 +73,7 @@ describe CodeContext do
       before :each do
         @module_name = 'Emptiness'
         src = "module #{@module_name}; end"
-        ast = src.to_reek_source.syntax_tree
+        ast = Reek::Source::SourceCode.from(src).syntax_tree
         @ctx = CodeContext.new(nil, ast)
       end
 
@@ -105,7 +105,7 @@ describe CodeContext do
         @module_name = 'Loneliness'
         @method_name = 'calloo'
         src = "module #{@module_name}; def #{@method_name}; puts('hello') end; end"
-        ast = src.to_reek_source.syntax_tree
+        ast = Reek::Source::SourceCode.from(src).syntax_tree
         @ctx = CodeContext.new(nil, ast)
       end
       it 'yields no ifs' do
@@ -157,7 +157,7 @@ class Scrunch
 end
 EOS
 
-      ast = src.to_reek_source.syntax_tree
+      ast = Reek::Source::SourceCode.from(src).syntax_tree
       ctx = CodeContext.new(nil, ast)
       expect(ctx.each_node(:if, []).length).to eq(3)
     end

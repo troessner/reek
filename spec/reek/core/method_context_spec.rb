@@ -47,7 +47,7 @@ end
 
 describe MethodParameters, 'default assignments' do
   def assignments_from(src)
-    exp = src.to_reek_source.syntax_tree
+    exp = Reek::Source::SourceCode.from(src).syntax_tree
     ctx = MethodContext.new(StopContext.new, exp)
     ctx.parameters.default_assignments
   end

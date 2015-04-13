@@ -27,7 +27,7 @@ describe Reek::Smells::ClassVariable do
   context 'with one class variable' do
     shared_examples_for 'one variable found' do
       before :each do
-        ast = @src.to_reek_source.syntax_tree
+        ast = Reek::Source::SourceCode.from(@src).syntax_tree
         @smells = @detector.examine_context(Reek::Core::CodeContext.new(nil, ast))
       end
 
@@ -99,7 +99,7 @@ describe Reek::Smells::ClassVariable do
         #{@class_variable} = {}
       end
     EOS
-    ctx = Reek::Core::CodeContext.new(nil, src.to_reek_source.syntax_tree)
+    ctx = Reek::Core::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
     @warning = @detector.examine_context(ctx)[0]
     expect(@warning.source).to eq(@source_name)
     expect(@warning.smell_category).to eq(described_class.smell_category)

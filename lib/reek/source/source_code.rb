@@ -18,6 +18,14 @@ module Reek
         @parser = parser
       end
 
+      def self.from(source)
+        case source
+        when File   then SourceFile.new(source.path)
+        when IO     then new(source.readlines.join, 'STDIN')
+        when String then new(source, 'string')
+        end
+      end
+
       def syntax_tree
         @syntax_tree ||=
           begin

@@ -14,7 +14,7 @@ describe Reek::Smells::Attribute do
   context 'with no attributes' do
     it 'records nothing in the module' do
       src = 'module Fred; end'
-      ctx = Reek::Core::CodeContext.new(nil, src.to_reek_source.syntax_tree)
+      ctx = Reek::Core::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
       expect(@detector.examine_context(ctx)).to be_empty
     end
   end
@@ -26,7 +26,7 @@ describe Reek::Smells::Attribute do
 
     shared_examples_for 'one attribute found' do
       before :each do
-        ctx = Reek::Core::CodeContext.new(nil, @src.to_reek_source.syntax_tree)
+        ctx = Reek::Core::CodeContext.new(nil, Reek::Source::SourceCode.from(@src).syntax_tree)
         @smells = @detector.examine_context(ctx)
       end
 

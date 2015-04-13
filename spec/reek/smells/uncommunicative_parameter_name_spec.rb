@@ -69,7 +69,7 @@ describe Reek::Smells::UncommunicativeParameterName do
   context 'looking at the smell result fields' do
     before :each do
       src = 'def bad(good, bad2, good_again); basics(good, bad2, good_again); end'
-      ctx = Reek::Core::MethodContext.new(nil, src.to_reek_source.syntax_tree)
+      ctx = Reek::Core::MethodContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
       @smells = @detector.examine_context(ctx)
       @warning = @smells[0]
     end

@@ -272,7 +272,7 @@ describe Reek::Smells::ControlParameter do
           puts "hello" if arg
         end
       EOS
-      ctx = Reek::Core::MethodContext.new(nil, src.to_reek_source.syntax_tree)
+      ctx = Reek::Core::MethodContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
       smells = @detector.examine(ctx)
       expect(smells.length).to eq(1)
       @warning = smells[0]
