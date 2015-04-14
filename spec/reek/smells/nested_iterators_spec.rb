@@ -237,7 +237,7 @@ describe Reek::Smells::NestedIterators do
           end
         end
       EOS
-      ctx = Reek::Core::CodeContext.new(nil, src.to_reek_source.syntax_tree)
+      ctx = Reek::Core::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
       @warning = @detector.examine_context(ctx)[0]
     end
 

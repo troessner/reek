@@ -16,7 +16,7 @@ describe Reek::Smells::DuplicateMethodCall do
           other[@thing]
         end
       EOS
-      ctx = Reek::Core::CodeContext.new(nil, src.to_reek_source.syntax_tree)
+      ctx = Reek::Core::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
       smells = @detector.examine_context(ctx)
       expect(smells.length).to eq(1)
       @warning = smells[0]

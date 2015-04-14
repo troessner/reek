@@ -50,7 +50,7 @@ Feature: Report smells using simple YAML layout
       ---
       - smell_category: IrresponsibleModule
         smell_type: IrresponsibleModule
-        source: "$stdin"
+        source: "STDIN"
         context: Turn
         lines:
         - 1

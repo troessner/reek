@@ -14,7 +14,7 @@ describe Reek::Smells::UtilityFunction do
     ['self', 'local_call', '$global'].each do |receiver|
       it 'ignores the receiver' do
         src = "def #{receiver}.simple(arga) arga.to_s + arga.to_i end"
-        ctx = Reek::Core::MethodContext.new(nil, src.to_reek_source.syntax_tree)
+        ctx = Reek::Core::MethodContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
         expect(@detector.examine_context(ctx)).to be_empty
       end
     end
@@ -23,7 +23,7 @@ describe Reek::Smells::UtilityFunction do
   context 'with no calls' do
     it 'does not report empty method' do
       src = 'def simple(arga) end'
-      ctx = Reek::Core::MethodContext.new(nil, src.to_reek_source.syntax_tree)
+      ctx = Reek::Core::MethodContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
       expect(@detector.examine_context(ctx)).to be_empty
     end
 
@@ -118,7 +118,7 @@ describe Reek::Smells::UtilityFunction do
           arga.b.c
         end
       EOS
-      source = src.to_reek_source
+      source = Reek::Source::SourceCode.from(src)
       mctx = Reek::Core::TreeWalker.new.process_def(source.syntax_tree)
       @warning = @detector.examine_context(mctx)[0]   # SMELL: too cumbersome!
     end

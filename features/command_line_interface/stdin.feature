@@ -18,7 +18,7 @@ Feature: Reek reads from $stdin when no files are given
     Then it succeeds
     And it reports:
       """
-      $stdin -- 0 warnings
+      STDIN -- 0 warnings
       """
 
   Scenario: return non-zero status when there are smells
@@ -26,7 +26,7 @@ Feature: Reek reads from $stdin when no files are given
     Then the exit status indicates smells
     And it reports:
       """
-      $stdin -- 3 warnings:
+      STDIN -- 3 warnings:
         [1]:Turn has no descriptive comment (IrresponsibleModule)
         [1]:Turn has the variable name '@x' (UncommunicativeVariableName)
         [1]:Turn#y has the name 'y' (UncommunicativeMethodName)

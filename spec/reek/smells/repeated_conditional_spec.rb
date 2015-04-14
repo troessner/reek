@@ -2,6 +2,7 @@ require 'spec_helper'
 require 'reek/smells/repeated_conditional'
 require 'reek/core/code_context'
 require 'reek/smells/smell_detector_shared'
+require 'reek/source/source_code'
 
 describe Reek::Smells::RepeatedConditional do
   before(:each) do
@@ -13,7 +14,7 @@ describe Reek::Smells::RepeatedConditional do
 
   context 'with no conditionals' do
     it 'gathers an empty hash' do
-      ast = 'module Stable; end'.to_reek_source.syntax_tree
+      ast = Reek::Source::SourceCode.from('module Stable; end').syntax_tree
       ctx = Reek::Core::CodeContext.new(nil, ast)
       expect(@detector.conditional_counts(ctx).length).to eq(0)
     end
@@ -21,7 +22,7 @@ describe Reek::Smells::RepeatedConditional do
 
   context 'with a test of block_given?' do
     it 'does not record the condition' do
-      ast = 'def fred() yield(3) if block_given?; end'.to_reek_source.syntax_tree
+      ast = Reek::Source::SourceCode.from('def fred() yield(3) if block_given?; end').syntax_tree
       ctx = Reek::Core::CodeContext.new(nil, ast)
       expect(@detector.conditional_counts(ctx).length).to eq(0)
     end
@@ -29,7 +30,7 @@ describe Reek::Smells::RepeatedConditional do
 
   context 'with an empty condition' do
     it 'does not record the condition' do
-      ast = 'def fred() case; when 3; end; end'.to_reek_source.syntax_tree
+      ast = Reek::Source::SourceCode.from('def fred() case; when 3; end; end').syntax_tree
       ctx = Reek::Core::CodeContext.new(nil, ast)
       expect(@detector.conditional_counts(ctx).length).to eq(0)
     end
@@ -38,7 +39,7 @@ describe Reek::Smells::RepeatedConditional do
   context 'with three identical conditionals' do
     before :each do
       @cond = '@field == :sym'
-      @cond_expr = @cond.to_reek_source.syntax_tree
+      @cond_expr = Reek::Source::SourceCode.from(@cond).syntax_tree
       src = <<-EOS
         class Scrunch
           def first
@@ -56,7 +57,7 @@ describe Reek::Smells::RepeatedConditional do
         end
       EOS
 
-      ast = src.to_reek_source.syntax_tree
+      ast = Reek::Source::SourceCode.from(src).syntax_tree
       @ctx = Reek::Core::CodeContext.new(nil, ast)
       @conds = @detector.conditional_counts(@ctx)
     end
@@ -77,7 +78,7 @@ describe Reek::Smells::RepeatedConditional do
   context 'with a matching if and case' do
     before :each do
       cond = '@field == :sym'
-      @cond_expr = cond.to_reek_source.syntax_tree
+      @cond_expr = Reek::Source::SourceCode.from(cond).syntax_tree
       src = <<-EOS
         class Scrunch
           def alpha
@@ -92,7 +93,7 @@ describe Reek::Smells::RepeatedConditional do
         end
       EOS
 
-      ast = src.to_reek_source.syntax_tree
+      ast = Reek::Source::SourceCode.from(src).syntax_tree
       ctx = Reek::Core::CodeContext.new(nil, ast)
       @conds = @detector.conditional_counts(ctx)
     end

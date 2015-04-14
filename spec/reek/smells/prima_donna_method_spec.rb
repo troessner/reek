@@ -14,7 +14,10 @@ describe Reek::Smells::PrimaDonnaMethod do
   describe 'the right smell' do
     let(:detector) { build(:smell_detector, smell_type: :PrimaDonnaMethod, source: 'source_name') }
     let(:src)      { 'class C; def m!; end; end' }
-    let(:ctx)      { Reek::Core::ModuleContext.new(nil, src.to_reek_source.syntax_tree) }
+    let(:ctx)      do
+      Reek::Core::ModuleContext.new(nil,
+                                    Reek::Source::SourceCode.from(src).syntax_tree)
+    end
 
     it 'should be reported' do
       smells = detector.examine_context(ctx)

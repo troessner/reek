@@ -61,7 +61,7 @@ Feature: Report smells using simple JSON layout
           {
               "smell_category": "IrresponsibleModule",
               "smell_type": "IrresponsibleModule",
-              "source": "$stdin",
+              "source": "STDIN",
               "context": "Turn",
               "lines": [
                   1

@@ -38,7 +38,7 @@ describe Reek::Smells::LongYieldList do
           yield(arga,argb,arga,argb)
           end
       EOS
-      ctx = Reek::Core::CodeContext.new(nil, src.to_reek_source.syntax_tree)
+      ctx = Reek::Core::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
       @smells = @detector.examine_context(ctx)
       @warning = @smells[0]
     end

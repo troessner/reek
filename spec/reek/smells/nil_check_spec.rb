@@ -11,7 +11,7 @@ describe Reek::Smells::NilCheck do
         foo.nil?
       end
       EOS
-      ctx = Reek::Core::CodeContext.new(nil, src.to_reek_source.syntax_tree)
+      ctx = Reek::Core::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
       detector = build(:smell_detector, smell_type: :NilCheck, source: 'source_name')
       smells = detector.examine_context(ctx)
       expect(smells[0].lines).to eq [2]

@@ -1,5 +1,3 @@
-require 'reek/source/core_extras'
-
 module Reek
   module Source
     #
@@ -11,7 +9,7 @@ module Reek
       end
 
       def all_sources
-        valid_paths.map { |path| File.new(path).to_reek_source }
+        valid_paths.map { |path| Source::SourceCode.from File.new(path) }
       end
 
       private

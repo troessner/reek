@@ -49,7 +49,7 @@ describe Reek::Smells::BooleanParameter do
 
     it 'reports the fields correctly' do
       src = 'def cc(arga = true) end'
-      ctx = Reek::Core::MethodContext.new(nil, src.to_reek_source.syntax_tree)
+      ctx = Reek::Core::MethodContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
       @detector.examine(ctx)
       smells = @detector.smells_found.to_a
       expect(smells.length).to eq(1)

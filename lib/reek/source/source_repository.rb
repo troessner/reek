@@ -1,4 +1,3 @@
-require 'reek/source/core_extras'
 require 'reek/source/source_code'
 require 'reek/source/source_locator'
 
@@ -24,7 +23,7 @@ module Reek
         when Source::SourceCode
           new source.desc, [source]
         else
-          src = source.to_reek_source
+          src = Source::SourceCode.from source
           new src.desc, [src]
         end
       end

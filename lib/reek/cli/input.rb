@@ -39,7 +39,7 @@ module Reek
       end
 
       def source_from_pipe
-        [$stdin.to_reek_source('$stdin')]
+        [Source::SourceCode.from($stdin)]
       end
     end
   end

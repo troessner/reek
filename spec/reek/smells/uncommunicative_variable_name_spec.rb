@@ -52,7 +52,7 @@ describe Reek::Smells::UncommunicativeVariableName do
 
     it 'reports variable name only once' do
       src = 'def simple(fred) x = jim(45); x = y end'
-      ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+      ctx = CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
       smells = @detector.examine_context(ctx)
       expect(smells.length).to eq(1)
       expect(smells[0].smell_type).to eq(described_class.smell_type)
@@ -163,7 +163,7 @@ describe Reek::Smells::UncommunicativeVariableName do
           end
         end
       EOS
-      ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+      ctx = CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
       @smells = @detector.examine_context(ctx)
       @warning = @smells[0]
     end
@@ -179,7 +179,7 @@ describe Reek::Smells::UncommunicativeVariableName do
   context 'when a smell is reported in a singleton method' do
     before :each do
       src = 'def self.bad() x2 = 4; end'
-      ctx = CodeContext.new(nil, src.to_reek_source.syntax_tree)
+      ctx = CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
       @smells = @detector.examine_context(ctx)
       @warning = @smells[0]
     end
