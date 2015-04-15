@@ -1,6 +1,5 @@
 require 'reek/smells/smell_detector'
 require 'reek/smell_warning'
-require 'reek/source'
 
 module Reek
   module Smells

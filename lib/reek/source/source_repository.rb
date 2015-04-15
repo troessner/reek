@@ -1,5 +1,6 @@
 require 'reek/source/source_code'
 require 'reek/source/source_locator'
+require 'reek/source/source_file'
 
 module Reek
   module Source

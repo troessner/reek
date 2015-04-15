@@ -1,5 +1,3 @@
-require 'reek/source'
-
 module Reek
   module Cli
     #
