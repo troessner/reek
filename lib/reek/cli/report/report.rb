@@ -2,7 +2,7 @@ require 'rainbow'
 require 'json'
 
 module Reek
-  module Cli
+  module CLI
     module Report
       #
       # A report that contains the smells and smell counts following source code analysis.
@@ -92,7 +92,7 @@ module Reek
       #
       # Displays a list of smells in YAML format
       # YAML with empty array for 0 smells
-      class YamlReport < Base
+      class YAMLReport < Base
         def show
           print smells.map(&:yaml_hash).to_yaml
         end
@@ -101,7 +101,7 @@ module Reek
       #
       # Displays a list of smells in JSON format
       # JSON with empty array for 0 smells
-      class JsonReport < Base
+      class JSONReport < Base
         def show
           print ::JSON.generate(
             smells.map do |smell|
@@ -114,7 +114,7 @@ module Reek
       #
       # Saves the report as a HTML file
       #
-      class HtmlReport < Base
+      class HTMLReport < Base
         require 'erb'
 
         def show

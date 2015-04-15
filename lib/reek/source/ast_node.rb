@@ -4,7 +4,7 @@ module Reek
   module Source
     # Base class for AST nodes extended with utility methods. Contains some
     # methods to ease the transition from Sexp to AST::Node.
-    class AstNode < Parser::AST::Node
+    class ASTNode < Parser::AST::Node
       def initialize(type, children = [], options = {})
         @comments = options.fetch(:comments, [])
         super

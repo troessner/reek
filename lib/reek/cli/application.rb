@@ -3,7 +3,7 @@ require_relative 'reek_command'
 require_relative '../configuration/app_configuration'
 
 module Reek
-  module Cli
+  module CLI
     #
     # Represents an instance of a Reek application.
     # This is the entry point for all invocations of Reek from the

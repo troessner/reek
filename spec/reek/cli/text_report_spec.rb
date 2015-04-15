@@ -6,7 +6,7 @@ require_relative '../../../lib/reek/cli/report/heading_formatter'
 require 'rainbow'
 
 include Reek
-include Reek::Cli
+include Reek::CLI
 
 describe Report::TextReport do
   let(:report_options) do

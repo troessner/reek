@@ -5,7 +5,7 @@ require_relative 'option_interpreter'
 require_relative '../version'
 
 module Reek
-  module Cli
+  module CLI
     #
     # Parses the command line
     #

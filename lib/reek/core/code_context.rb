@@ -13,7 +13,7 @@ module Reek
       # Initializes a new CodeContext.
       #
       # context - *_context from the `core` namespace
-      # exp - Reek::Source::AstNode
+      # exp - Reek::Source::ASTNode
       #
       # Examples:
       #

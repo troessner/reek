@@ -8,4 +8,4 @@
 
 require_relative '../lib/reek/cli/application'
 
-exit Reek::Cli::Application.new(ARGV).execute
+exit Reek::CLI::Application.new(ARGV).execute

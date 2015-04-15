@@ -31,7 +31,7 @@ module Helpers
 
   # :reek:UncommunicativeMethodName
   def s(type, *children)
-    @klass_map ||= Reek::Source::AstNodeClassMap.new
+    @klass_map ||= Reek::Source::ASTNodeClassMap.new
     @klass_map.klass_for(type).new(type, children)
   end
 

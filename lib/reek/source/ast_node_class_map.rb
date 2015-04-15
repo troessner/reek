@@ -4,9 +4,9 @@ require_relative 'sexp_extensions'
 
 module Reek
   module Source
-    # Maps AST node types to sublasses of AstNode extended with the relevant
+    # Maps AST node types to sublasses of ASTNode extended with the relevant
     # utility modules.
-    class AstNodeClassMap
+    class ASTNodeClassMap
       def initialize
         @klass_map = {}
       end
@@ -14,7 +14,7 @@ module Reek
       def klass_for(type)
         @klass_map[type] ||=
           begin
-            klass = Class.new(AstNode)
+            klass = Class.new(ASTNode)
             klass.send :include, extension_map[type] if extension_map[type]
             klass.send :include, SexpNode
           end

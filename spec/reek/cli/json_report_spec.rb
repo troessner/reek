@@ -3,8 +3,8 @@ require_relative '../../../lib/reek/examiner'
 require_relative '../../../lib/reek/cli/report/report'
 require_relative '../../../lib/reek/cli/report/formatter'
 
-describe Reek::Cli::Report::JsonReport do
-  let(:instance) { Reek::Cli::Report::JsonReport.new }
+describe Reek::CLI::Report::JSONReport do
+  let(:instance) { Reek::CLI::Report::JSONReport.new }
 
   context 'empty source' do
     let(:examiner) { Reek::Examiner.new('') }

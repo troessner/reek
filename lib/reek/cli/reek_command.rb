@@ -2,7 +2,7 @@ require_relative 'command'
 require_relative '../examiner'
 
 module Reek
-  module Cli
+  module CLI
     #
     # A command to collect smells from a set of sources and write them out in
     # text report format.

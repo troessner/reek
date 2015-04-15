@@ -1,5 +1,5 @@
 module Reek
-  module Cli
+  module CLI
     module Report
       #
       # Formats the location of a warning as an empty string.

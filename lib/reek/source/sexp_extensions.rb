@@ -3,7 +3,7 @@ require_relative 'sexp_node'
 module Reek
   module Source
     #
-    # Extension modules providing utility methods to AstNode objects, depending
+    # Extension modules providing utility methods to ASTNode objects, depending
     # on their type.
     #
     module SexpExtensions
