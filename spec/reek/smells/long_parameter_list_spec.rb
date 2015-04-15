@@ -1,7 +1,7 @@
-require 'spec_helper'
-require 'reek/core/code_context'
-require 'reek/smells/long_parameter_list'
-require 'reek/smells/smell_detector_shared'
+require_relative '../../spec_helper'
+require_relative '../../../lib/reek/core/code_context'
+require_relative '../../../lib/reek/smells/long_parameter_list'
+require_relative 'smell_detector_shared'
 
 describe Reek::Smells::LongParameterList do
   context 'for methods with few parameters' do

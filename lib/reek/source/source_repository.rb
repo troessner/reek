@@ -1,6 +1,6 @@
-require 'reek/source/source_code'
-require 'reek/source/source_locator'
-require 'reek/source/source_file'
+require_relative 'source_code'
+require_relative 'source_locator'
+require_relative 'source_file'
 
 module Reek
   module Source

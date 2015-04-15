@@ -2,7 +2,7 @@
 
 require 'pathname'
 require 'tmpdir'
-require 'spec_helper'
+require_relative '../../spec_helper'
 
 describe ConfigurationFileFinder do
   describe '.find' do

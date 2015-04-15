@@ -1,4 +1,4 @@
-require 'spec_helper'
+require_relative '../spec_helper'
 require 'find'
 
 release_timestamp_file = 'build/.last-release'

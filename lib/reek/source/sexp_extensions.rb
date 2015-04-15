@@ -1,4 +1,4 @@
-require 'reek/source/sexp_node'
+require_relative 'sexp_node'
 
 module Reek
   module Source

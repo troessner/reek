@@ -1,7 +1,7 @@
-require 'reek/core/method_context'
-require 'reek/core/module_context'
-require 'reek/core/stop_context'
-require 'reek/core/singleton_method_context'
+require_relative 'method_context'
+require_relative 'module_context'
+require_relative 'stop_context'
+require_relative 'singleton_method_context'
 
 module Reek
   module Core

@@ -1,6 +1,6 @@
-require 'spec_helper'
-require 'reek/smells/module_initialize'
-require 'reek/smells/smell_detector_shared'
+require_relative '../../spec_helper'
+require_relative '../../../lib/reek/smells/module_initialize'
+require_relative 'smell_detector_shared'
 
 describe Reek::Smells::ModuleInitialize do
   context 'module' do

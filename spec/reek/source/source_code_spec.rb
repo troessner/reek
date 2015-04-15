@@ -1,6 +1,6 @@
-require 'spec_helper'
+require_relative '../../spec_helper'
 require 'stringio'
-require 'reek/source/source_code'
+require_relative '../../../lib/reek/source/source_code'
 
 include Reek::Source
 

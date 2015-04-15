@@ -1,6 +1,6 @@
-require 'spec_helper'
-require 'reek/core/warning_collector'
-require 'reek/smell_warning'
+require_relative '../../spec_helper'
+require_relative '../../../lib/reek/core/warning_collector'
+require_relative '../../../lib/reek/smell_warning'
 
 include Reek::Core
 

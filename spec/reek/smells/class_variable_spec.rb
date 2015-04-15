@@ -1,7 +1,7 @@
-require 'spec_helper'
-require 'reek/smells/class_variable'
-require 'reek/core/module_context'
-require 'reek/smells/smell_detector_shared'
+require_relative '../../spec_helper'
+require_relative '../../../lib/reek/smells/class_variable'
+require_relative '../../../lib/reek/core/module_context'
+require_relative 'smell_detector_shared'
 
 describe Reek::Smells::ClassVariable do
   before :each do

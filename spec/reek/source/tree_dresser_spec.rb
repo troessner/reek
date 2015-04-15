@@ -1,5 +1,5 @@
-require 'spec_helper'
-require 'reek/source/tree_dresser'
+require_relative '../../spec_helper'
+require_relative '../../../lib/reek/source/tree_dresser'
 
 include Reek::Source
 

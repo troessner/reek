@@ -1,4 +1,4 @@
-require 'spec_helper'
+require_relative '../spec_helper'
 
 describe 'Reek source code' do
   it 'has no smells' do

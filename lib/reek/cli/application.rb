@@ -1,6 +1,6 @@
-require 'reek/cli/options'
-require 'reek/cli/reek_command'
-require 'reek/configuration/app_configuration'
+require_relative 'options'
+require_relative 'reek_command'
+require_relative '../configuration/app_configuration'
 
 module Reek
   module Cli

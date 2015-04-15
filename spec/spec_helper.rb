@@ -1,6 +1,6 @@
-require 'reek/spec'
-require 'reek/source/ast_node_class_map'
-require 'reek/configuration/app_configuration'
+require_relative '../lib/reek/spec'
+require_relative '../lib/reek/source/ast_node_class_map'
+require_relative '../lib/reek/configuration/app_configuration'
 
 require 'factory_girl'
 

@@ -1,5 +1,5 @@
-require 'spec_helper'
-require 'reek/source/code_comment'
+require_relative '../../spec_helper'
+require_relative '../../../lib/reek/source/code_comment'
 
 include Reek::Source
 

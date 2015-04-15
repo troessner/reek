@@ -1,6 +1,6 @@
-require 'spec_helper'
-require 'reek/core/module_context'
-require 'reek/core/stop_context'
+require_relative '../../spec_helper'
+require_relative '../../../lib/reek/core/module_context'
+require_relative '../../../lib/reek/core/stop_context'
 
 include Reek::Core
 

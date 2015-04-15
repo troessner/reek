@@ -1,6 +1,6 @@
-require 'spec_helper'
-require 'reek/smells/control_parameter'
-require 'reek/smells/smell_detector_shared'
+require_relative '../../spec_helper'
+require_relative '../../../lib/reek/smells/control_parameter'
+require_relative 'smell_detector_shared'
 
 describe Reek::Smells::ControlParameter do
   before(:each) do

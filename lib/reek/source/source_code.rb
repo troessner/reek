@@ -1,8 +1,8 @@
 old_verbose, $VERBOSE = $VERBOSE, nil
 require 'parser/current'
 $VERBOSE = old_verbose
-require 'reek/source/tree_dresser'
-require 'reek/source/ast_node'
+require_relative 'tree_dresser'
+require_relative 'ast_node'
 
 module Reek
   module Source

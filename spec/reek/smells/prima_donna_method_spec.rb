@@ -1,6 +1,6 @@
-require 'spec_helper'
-require 'reek/core/module_context'
-require 'reek/smells/smell_detector_shared'
+require_relative '../../spec_helper'
+require_relative '../../../lib/reek/core/module_context'
+require_relative 'smell_detector_shared'
 
 describe Reek::Smells::PrimaDonnaMethod do
   it 'should report nothing when method and bang counterpart exist' do

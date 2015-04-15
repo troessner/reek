@@ -1,7 +1,7 @@
-require 'spec_helper'
-require 'reek/core/code_context'
-require 'reek/smells/nil_check'
-require 'reek/smells/smell_detector_shared'
+require_relative '../../spec_helper'
+require_relative '../../../lib/reek/core/code_context'
+require_relative '../../../lib/reek/smells/nil_check'
+require_relative 'smell_detector_shared'
 
 describe Reek::Smells::NilCheck do
   context 'for methods' do

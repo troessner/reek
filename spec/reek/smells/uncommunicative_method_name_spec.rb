@@ -1,6 +1,6 @@
-require 'spec_helper'
-require 'reek/smells/uncommunicative_method_name'
-require 'reek/smells/smell_detector_shared'
+require_relative '../../spec_helper'
+require_relative '../../../lib/reek/smells/uncommunicative_method_name'
+require_relative 'smell_detector_shared'
 
 describe Reek::Smells::UncommunicativeMethodName do
   before do

@@ -1,7 +1,7 @@
-require 'spec_helper'
-require 'reek/smells/uncommunicative_module_name'
-require 'reek/smells/smell_detector_shared'
-require 'reek/core/code_context'
+require_relative '../../spec_helper'
+require_relative '../../../lib/reek/smells/uncommunicative_module_name'
+require_relative 'smell_detector_shared'
+require_relative '../../../lib/reek/core/code_context'
 
 describe Reek::Smells::UncommunicativeModuleName do
   before do

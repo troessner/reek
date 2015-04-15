@@ -1,5 +1,5 @@
-require 'spec_helper'
-require 'reek/core/smell_repository'
+require_relative '../../spec_helper'
+require_relative '../../../lib/reek/core/smell_repository'
 
 include Reek::Core
 

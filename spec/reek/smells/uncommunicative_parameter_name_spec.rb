@@ -1,7 +1,7 @@
-require 'spec_helper'
-require 'reek/smells/uncommunicative_parameter_name'
-require 'reek/smells/smell_detector_shared'
-require 'reek/core/method_context'
+require_relative '../../spec_helper'
+require_relative '../../../lib/reek/smells/uncommunicative_parameter_name'
+require_relative 'smell_detector_shared'
+require_relative '../../../lib/reek/core/method_context'
 
 describe Reek::Smells::UncommunicativeParameterName do
   before :each do

@@ -1,4 +1,4 @@
-require 'reek/smells'
+require_relative '../../lib/reek/smells'
 
 FactoryGirl.define do
   factory :smell_detector, class: Reek::Smells::SmellDetector do

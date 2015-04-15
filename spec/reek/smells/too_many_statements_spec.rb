@@ -1,7 +1,7 @@
-require 'spec_helper'
-require 'reek/smells/too_many_statements'
-require 'reek/smells/smell_detector_shared'
-require 'reek/source/source_code'
+require_relative '../../spec_helper'
+require_relative '../../../lib/reek/smells/too_many_statements'
+require_relative 'smell_detector_shared'
+require_relative '../../../lib/reek/source/source_code'
 
 def process_method(source)
   Reek::Core::TreeWalker.new.process_def(Reek::Source::SourceCode.from(source).syntax_tree)

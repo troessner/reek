@@ -1,5 +1,5 @@
-require 'spec_helper'
-require 'reek/source/sexp_extensions'
+require_relative '../../spec_helper'
+require_relative '../../../lib/reek/source/sexp_extensions'
 
 include Reek::Source
 

@@ -1,5 +1,5 @@
-require 'spec_helper'
-require 'reek/smell_warning'
+require_relative '../spec_helper'
+require_relative '../../lib/reek/smell_warning'
 
 include Reek
 

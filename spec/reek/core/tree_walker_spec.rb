@@ -1,5 +1,5 @@
-require 'spec_helper'
-require 'reek/core/tree_walker'
+require_relative '../../spec_helper'
+require_relative '../../../lib/reek/core/tree_walker'
 
 include Reek::Core
 

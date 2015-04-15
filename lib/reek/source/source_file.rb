@@ -1,4 +1,4 @@
-require 'reek/source/source_code'
+require_relative 'source_code'
 
 module Reek
   module Source

@@ -1,5 +1,5 @@
-require 'reek/smells'
-require 'reek/smells/smell_detector'
+require_relative '../smells'
+require_relative '../smells/smell_detector'
 
 module Reek
   module Core

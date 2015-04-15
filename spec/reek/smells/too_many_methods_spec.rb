@@ -1,6 +1,6 @@
-require 'spec_helper'
-require 'reek/smells/too_many_methods'
-require 'reek/smells/smell_detector_shared'
+require_relative '../../spec_helper'
+require_relative '../../../lib/reek/smells/too_many_methods'
+require_relative 'smell_detector_shared'
 
 describe Reek::Smells::TooManyMethods do
   before(:each) do

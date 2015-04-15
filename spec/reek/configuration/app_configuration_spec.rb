@@ -1,6 +1,6 @@
-require 'spec_helper'
-require 'reek/configuration/app_configuration'
-require 'reek/core/smell_repository'
+require_relative '../../spec_helper'
+require_relative '../../../lib/reek/configuration/app_configuration'
+require_relative '../../../lib/reek/core/smell_repository'
 
 include Reek::Configuration
 include Reek::Core
