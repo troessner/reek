@@ -1,7 +1,7 @@
 require_relative 'location_formatter'
 
 module Reek
-  module Cli
+  module CLI
     module Report
       #
       # Formatter handling the formatting of the report at large.

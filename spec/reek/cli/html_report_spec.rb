@@ -3,10 +3,10 @@ require_relative '../../../lib/reek/examiner'
 require_relative '../../../lib/reek/cli/report/report'
 
 include Reek
-include Reek::Cli
+include Reek::CLI
 
-describe Report::HtmlReport do
-  let(:instance) { Report::HtmlReport.new }
+describe Report::HTMLReport do
+  let(:instance) { Report::HTMLReport.new }
 
   context 'with an empty source' do
     let(:examiner) { Examiner.new('') }

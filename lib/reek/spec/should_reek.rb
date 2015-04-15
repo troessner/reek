@@ -17,7 +17,7 @@ module Reek
       end
 
       def failure_message_when_negated
-        rpt = Cli::Report::Formatter.format_list(@examiner.smells)
+        rpt = CLI::Report::Formatter.format_list(@examiner.smells)
         "Expected no smells, but got:\n#{rpt}"
       end
     end

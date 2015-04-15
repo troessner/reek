@@ -5,12 +5,12 @@ require_relative 'report/formatter'
 require_relative 'report/heading_formatter'
 
 module Reek
-  module Cli
+  module CLI
     #
     # Interprets the options set from the command line
     #
     class OptionInterpreter
-      include Cli::Input
+      include CLI::Input
 
       extend Forwardable
 
@@ -33,11 +33,11 @@ module Reek
       def report_class
         case @options.report_format
         when :yaml
-          Report::YamlReport
+          Report::YAMLReport
         when :json
-          Report::JsonReport
+          Report::JSONReport
         when :html
-          Report::HtmlReport
+          Report::HTMLReport
         else # :text
           Report::TextReport
         end

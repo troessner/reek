@@ -20,7 +20,7 @@ module Reek
       end
 
       def failure_message
-        rpt = Cli::Report::Formatter.format_list(@warnings)
+        rpt = CLI::Report::Formatter.format_list(@warnings)
         "Expected #{@examiner.description} to reek only of #{@smell_category}, but got:\n#{rpt}"
       end
 

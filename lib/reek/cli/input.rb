@@ -1,5 +1,5 @@
 module Reek
-  module Cli
+  module CLI
     #
     # CLI Input utility
     #

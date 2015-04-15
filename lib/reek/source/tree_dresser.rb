@@ -7,7 +7,7 @@ module Reek
     # the tree more understandable and less implementation-dependent.
     #
     class TreeDresser
-      def initialize(klass_map = AstNodeClassMap.new)
+      def initialize(klass_map = ASTNodeClassMap.new)
         @klass_map = klass_map
       end
 
