@@ -20,7 +20,7 @@ module Reek
 
       def self.from(source)
         case source
-        when File   then SourceFile.new(source.path)
+        when File   then new(source.read, source.path)
         when IO     then new(source.readlines.join, 'STDIN')
         when String then new(source, 'string')
         end

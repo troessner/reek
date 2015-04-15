@@ -1,6 +1,5 @@
 require_relative 'source_code'
 require_relative 'source_locator'
-require_relative 'source_file'
 
 module Reek
   module Source
