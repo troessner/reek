@@ -31,7 +31,7 @@ module Reek
 
       def find_by_dir(start)
         start.ascend do |dir|
-          files = dir.children.select(&:file?)
+          files = dir.children.select(&:file?).sort
           found = files.find { |file| file.to_s.end_with?('.reek') }
           return found if found
         end
