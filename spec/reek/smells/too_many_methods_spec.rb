@@ -19,7 +19,8 @@ describe Reek::Smells::TooManyMethods do
           def m2; end
         end
       EOS
-      ctx = ModuleContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
+      syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
+      ctx = Reek::Core::ModuleContext.new(nil, syntax_tree)
       expect(@detector.examine_context(ctx)).to be_empty
     end
 
@@ -31,7 +32,8 @@ describe Reek::Smells::TooManyMethods do
           def m3; end
         end
       EOS
-      ctx = ModuleContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
+      syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
+      ctx = Reek::Core::ModuleContext.new(nil, syntax_tree)
       smells = @detector.examine_context(ctx)
       expect(smells.length).to eq(1)
       expect(smells[0].smell_type).to eq(described_class.smell_type)
@@ -53,7 +55,8 @@ describe Reek::Smells::TooManyMethods do
           end
         end
       EOS
-      ctx = ModuleContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
+      syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
+      ctx = Reek::Core::ModuleContext.new(nil, syntax_tree)
       expect(@detector.examine_context(ctx)).to be_empty
     end
   end
@@ -67,7 +70,8 @@ describe Reek::Smells::TooManyMethods do
       end
     EOS
 
-    ctx = ModuleContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
+    syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
+    ctx = Reek::Core::ModuleContext.new(nil, syntax_tree)
     @warning = @detector.examine_context(ctx)[0]
     expect(@warning.source).to eq(@source_name)
     expect(@warning.smell_category).to eq(described_class.smell_category)

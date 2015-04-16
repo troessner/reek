@@ -1,10 +1,7 @@
 require_relative '../../spec_helper'
 require_relative '../../../lib/reek/spec'
 
-include Reek
-include Reek::Spec
-
-describe ShouldReekOf do
+describe Reek::Spec::ShouldReekOf do
   context 'rdoc demo example' do
     before :each do
       @ruby = 'def double_thing() @other.thing.foo + @other.thing.foo end'
@@ -27,7 +24,8 @@ describe ShouldReekOf do
     before :each do
       @clean_code = 'def good() true; end'
       @smelly_code = 'def x() y = 4; end'
-      @matcher = ShouldReekOf.new(:UncommunicativeVariableName,  name: 'y')
+      @matcher = Reek::Spec::ShouldReekOf.new(:UncommunicativeVariableName,
+                                              name: 'y')
     end
 
     it 'matches a smelly String' do
@@ -47,7 +45,8 @@ describe ShouldReekOf do
   context 'passing in smell_details with unknown parameter name' do
     before :each do
       @smelly_code = 'def x() y = 4; end'
-      @matcher = ShouldReekOf.new(:UncommunicativeVariableName,  foo: 'y')
+      @matcher = Reek::Spec::ShouldReekOf.new(:UncommunicativeVariableName,
+                                              foo: 'y')
     end
 
     it 'raises ArgumentError' do
@@ -59,7 +58,8 @@ describe ShouldReekOf do
     before :each do
       @clean_dir = Dir['spec/samples/three_clean_files/*.rb']
       @smelly_dir = Dir['spec/samples/two_smelly_files/*.rb']
-      @matcher = ShouldReekOf.new(:UncommunicativeVariableName, name: '@s')
+      @matcher = Reek::Spec::ShouldReekOf.new(:UncommunicativeVariableName,
+                                              name: '@s')
     end
 
     it 'matches a smelly String' do
@@ -75,7 +75,8 @@ describe ShouldReekOf do
     before :each do
       @clean_file = File.new(Dir['spec/samples/three_clean_files/*.rb'][0])
       @smelly_file = File.new(Dir['spec/samples/two_smelly_files/*.rb'][0])
-      @matcher = ShouldReekOf.new(:UncommunicativeVariableName, name: '@s')
+      @matcher = Reek::Spec::ShouldReekOf.new(:UncommunicativeVariableName,
+                                              name: '@s')
     end
 
     it 'matches a smelly String' do

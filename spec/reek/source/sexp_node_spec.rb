@@ -1,9 +1,7 @@
 require_relative '../../spec_helper'
 require_relative '../../../lib/reek/source/sexp_node'
 
-include Reek::Source
-
-describe SexpNode do
+describe Reek::Source::SexpNode do
   context 'format' do
     it 'formats self' do
       @node = s(:self)

@@ -2,14 +2,11 @@ require_relative '../../spec_helper'
 require_relative '../../../lib/reek/examiner'
 require_relative '../../../lib/reek/cli/report/report'
 
-include Reek
-include Reek::CLI
-
-describe Report::HTMLReport do
-  let(:instance) { Report::HTMLReport.new }
+describe Reek::CLI::Report::HTMLReport do
+  let(:instance) { Reek::CLI::Report::HTMLReport.new }
 
   context 'with an empty source' do
-    let(:examiner) { Examiner.new('') }
+    let(:examiner) { Reek::Examiner.new('') }
 
     before do
       instance.add_examiner examiner

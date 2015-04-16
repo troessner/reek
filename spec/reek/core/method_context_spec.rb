@@ -2,13 +2,11 @@ require_relative '../../spec_helper'
 require_relative '../../../lib/reek/core/method_context'
 require_relative '../../../lib/reek/core/stop_context'
 
-include Reek::Core
-
-describe MethodContext, 'matching' do
+describe Reek::Core::MethodContext, 'matching' do
   before :each do
     exp = double('exp').as_null_object
     expect(exp).to receive(:full_name).at_least(:once).and_return('mod')
-    @element = MethodContext.new(StopContext.new, exp)
+    @element = Reek::Core::MethodContext.new(Reek::Core::StopContext.new, exp)
   end
 
   it 'should recognise itself in a collection of names' do
@@ -22,33 +20,36 @@ describe MethodContext, 'matching' do
   end
 end
 
-describe MethodContext do
+describe Reek::Core::MethodContext do
   it 'should record ivars as refs to self' do
-    mctx = MethodContext.new(StopContext.new, s(:def, :feed, s(:args), nil))
+    sexp = s(:def, :feed, s(:args), nil)
+    mctx = Reek::Core::MethodContext.new(Reek::Core::StopContext.new, sexp)
     expect(mctx.envious_receivers).to eq([])
     mctx.record_call_to(s(:send, s(:ivar, :@cow), :feed_to))
     expect(mctx.envious_receivers).to eq([])
   end
 
   it 'should count calls to self' do
-    mctx = MethodContext.new(StopContext.new, s(:def, :equals, s(:args), nil))
+    sexp = s(:def, :equals, s(:args), nil)
+    mctx = Reek::Core::MethodContext.new(Reek::Core::StopContext.new, sexp)
     mctx.refs.record_reference_to([:lvar, :other])
     mctx.record_call_to(s(:send, s(:self), :thing))
     expect(mctx.envious_receivers).to be_empty
   end
 
   it 'should recognise a call on self' do
-    mc = MethodContext.new(StopContext.new, s(:def, :deep, s(:args), nil))
+    sexp = s(:def, :deep, s(:args), nil)
+    mc = Reek::Core::MethodContext.new(Reek::Core::StopContext.new, sexp)
     mc.record_call_to(s(:send, s(:lvar, :text), :each, s(:arglist)))
     mc.record_call_to(s(:send, nil, :shelve, s(:arglist)))
     expect(mc.envious_receivers).to be_empty
   end
 end
 
-describe MethodParameters, 'default assignments' do
+describe Reek::Core::MethodParameters, 'default assignments' do
   def assignments_from(src)
     exp = Reek::Source::SourceCode.from(src).syntax_tree
-    ctx = MethodContext.new(StopContext.new, exp)
+    ctx = Reek::Core::MethodContext.new(Reek::Core::StopContext.new, exp)
     ctx.parameters.default_assignments
   end
 

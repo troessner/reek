@@ -1,9 +1,7 @@
 require_relative '../spec_helper'
 require_relative '../../lib/reek/smell_warning'
 
-include Reek
-
-describe SmellWarning do
+describe Reek::SmellWarning do
   let(:duplication_detector)  { build(:smell_detector, smell_type: 'DuplicateMethodCall') }
   let(:feature_envy_detector) { build(:smell_detector, smell_type: 'FeatureEnvy') }
   let(:utility_function_detector) { build(:smell_detector, smell_type: 'UtilityFunction') }
@@ -119,10 +117,10 @@ describe SmellWarning do
         @smell_type = 'FeatureEnvy'
         @parameters = { 'one' => 34, 'two' => 'second' }
         @detector = Reek::Smells::FeatureEnvy.new @source
-        @warning = SmellWarning.new(@detector, context: @context_name,
-                                               lines: @lines,
-                                               message: @message,
-                                               parameters: @parameters)
+        @warning = Reek::SmellWarning.new(@detector, context: @context_name,
+                                                     lines: @lines,
+                                                     message: @message,
+                                                     parameters: @parameters)
         @yaml = @warning.yaml_hash
       end
 

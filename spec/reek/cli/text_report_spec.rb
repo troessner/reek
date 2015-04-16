@@ -5,22 +5,19 @@ require_relative '../../../lib/reek/cli/report/formatter'
 require_relative '../../../lib/reek/cli/report/heading_formatter'
 require 'rainbow'
 
-include Reek
-include Reek::CLI
-
-describe Report::TextReport do
+describe Reek::CLI::Report::TextReport do
   let(:report_options) do
     {
-      warning_formatter: Report::SimpleWarningFormatter.new,
-      report_formatter: Report::Formatter,
-      heading_formatter: Report::HeadingFormatter::Quiet
+      warning_formatter: Reek::CLI::Report::SimpleWarningFormatter.new,
+      report_formatter: Reek::CLI::Report::Formatter,
+      heading_formatter: Reek::CLI::Report::HeadingFormatter::Quiet
     }
   end
-  let(:instance) { Report::TextReport.new report_options }
+  let(:instance) { Reek::CLI::Report::TextReport.new report_options }
 
   context 'with a single empty source' do
     before do
-      instance.add_examiner Examiner.new('')
+      instance.add_examiner Reek::Examiner.new('')
     end
 
     it 'has an empty quiet_report' do
@@ -30,8 +27,8 @@ describe Report::TextReport do
 
   context 'with non smelly files' do
     before do
-      instance.add_examiner(Examiner.new('def simple() puts "a" end'))
-      instance.add_examiner(Examiner.new('def simple() puts "a" end'))
+      instance.add_examiner(Reek::Examiner.new('def simple() puts "a" end'))
+      instance.add_examiner(Reek::Examiner.new('def simple() puts "a" end'))
     end
 
     context 'with colors disabled' do
@@ -57,8 +54,8 @@ describe Report::TextReport do
 
   context 'with a couple of smells' do
     before do
-      instance.add_examiner(Examiner.new('def simple(a) a[3] end'))
-      instance.add_examiner(Examiner.new('def simple(a) a[3] end'))
+      instance.add_examiner(Reek::Examiner.new('def simple(a) a[3] end'))
+      instance.add_examiner(Reek::Examiner.new('def simple(a) a[3] end'))
     end
 
     context 'with colors disabled' do

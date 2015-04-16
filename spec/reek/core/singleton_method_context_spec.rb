@@ -3,7 +3,5 @@ require_relative '../../../lib/reek/core/module_context'
 require_relative '../../../lib/reek/core/singleton_method_context'
 require_relative '../../../lib/reek/core/stop_context'
 
-include Reek::Core
-
-describe SingletonMethodContext do
+describe Reek::Core::SingletonMethodContext do
 end

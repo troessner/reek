@@ -3,14 +3,11 @@ require_relative '../../../lib/reek/examiner'
 require_relative '../../../lib/reek/cli/report/report'
 require_relative '../../../lib/reek/cli/report/formatter'
 
-include Reek
-include Reek::CLI
-
-describe Report::YAMLReport do
-  let(:instance) { Report::YAMLReport.new }
+describe Reek::CLI::Report::YAMLReport do
+  let(:instance) { Reek::CLI::Report::YAMLReport.new }
 
   context 'empty source' do
-    let(:examiner) { Examiner.new('') }
+    let(:examiner) { Reek::Examiner.new('') }
 
     before do
       instance.add_examiner examiner

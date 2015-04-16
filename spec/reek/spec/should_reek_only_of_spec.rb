@@ -1,14 +1,11 @@
 require_relative '../../spec_helper'
 require_relative '../../../lib/reek/spec'
 
-include Reek
-include Reek::Spec
-
-describe ShouldReekOnlyOf do
+describe Reek::Spec::ShouldReekOnlyOf do
   before :each do
     @expected_smell_type = :NestedIterators
     @expected_context_name = 'SmellyClass#big_method'
-    @matcher = ShouldReekOnlyOf.new(@expected_smell_type)
+    @matcher = Reek::Spec::ShouldReekOnlyOf.new(@expected_smell_type)
     @examiner = double('examiner').as_null_object
     expect(@examiner).to receive(:smells) { smells }
     @match = @matcher.matches_examiner?(@examiner)
