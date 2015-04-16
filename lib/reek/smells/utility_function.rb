@@ -32,13 +32,16 @@ module Reek
     # reified into a class, and the utility method will most
     # likely belong there.
     #
+    # If the method does refer to self, but refers to some other object more,
+    # +FeatureEnvy+ is reported instead.
+    #
     class UtilityFunction < SmellDetector
       # The name of the config field that sets the maximum number of
       # calls permitted within a helper method. Any method with more than
       # this number of method calls on other objects will be considered a
       # candidate Utility Function.
       HELPER_CALLS_LIMIT_KEY = 'max_helper_calls'
-      DEFAULT_HELPER_CALLS_LIMIT = 1
+      DEFAULT_HELPER_CALLS_LIMIT = 0
 
       def self.smell_category
         'LowCohesion'
@@ -61,7 +64,7 @@ module Reek
       #
       def examine_context(method_ctx)
         return [] if method_ctx.num_statements == 0
-        return [] if depends_on_instance?(method_ctx.exp)
+        return [] if method_ctx.references_self?
         return [] if num_helper_methods(method_ctx) <= value(HELPER_CALLS_LIMIT_KEY,
                                                              method_ctx,
                                                              DEFAULT_HELPER_CALLS_LIMIT)
@@ -74,10 +77,6 @@ module Reek
       end
 
       private
-
-      def depends_on_instance?(exp)
-        Reek::Source::ReferenceCollector.new(exp).num_refs_to_self > 0
-      end
 
       def num_helper_methods(method_ctx)
         method_ctx.local_nodes(:send).length

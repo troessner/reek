@@ -8,7 +8,7 @@ Feature: Basic smell detection
     Then the exit status indicates smells
     And it reports:
     """
-    spec/samples/inline.rb -- 44 warnings:
+    spec/samples/inline.rb -- 43 warnings:
       CompilationError has no descriptive comment (IrresponsibleModule)
       File has no descriptive comment (IrresponsibleModule)
       File#self.write_with_backup has approx 6 statements (TooManyStatements)
@@ -49,7 +49,6 @@ Feature: Basic smell detection
       Inline::C#parse_signature has the variable name 'x' (UncommunicativeVariableName)
       Inline::C#parse_signature is controlled by argument raw (ControlParameter)
       Inline::C#strip_comments doesn't depend on instance state (UtilityFunction)
-      Inline::C#strip_comments refers to src more than self (FeatureEnvy)
       Module#inline calls Inline.const_get(lang) 2 times (DuplicateMethodCall)
       Module#inline calls options[:testing] 2 times (DuplicateMethodCall)
       Module#inline has approx 12 statements (TooManyStatements)
@@ -179,7 +178,7 @@ Feature: Basic smell detection
     Then the exit status indicates smells
     And it reports:
     """
-    spec/samples/redcloth.rb -- 98 warnings:
+    spec/samples/redcloth.rb -- 95 warnings:
       RedCloth has at least 44 methods (TooManyMethods)
       RedCloth has the variable name 'a' (UncommunicativeVariableName)
       RedCloth has the variable name 'b' (UncommunicativeVariableName)
@@ -191,7 +190,7 @@ Feature: Basic smell detection
       RedCloth#block_markdown_atx refers to text more than self (FeatureEnvy)
       RedCloth#block_markdown_bq has approx 6 statements (TooManyStatements)
       RedCloth#block_markdown_lists has unused parameter 'text' (UnusedParameters)
-      RedCloth#block_markdown_rule refers to text more than self (FeatureEnvy)
+      RedCloth#block_markdown_rule doesn't depend on instance state (UtilityFunction)
       RedCloth#block_markdown_setext refers to text more than self (FeatureEnvy)
       RedCloth#block_textile_lists calls depth.last 5 times (DuplicateMethodCall)
       RedCloth#block_textile_lists calls depth.last.length 2 times (DuplicateMethodCall)
@@ -218,18 +217,15 @@ Feature: Basic smell detection
       RedCloth#clean_html has approx 15 statements (TooManyStatements)
       RedCloth#clean_html has the variable name 'q' (UncommunicativeVariableName)
       RedCloth#clean_html has the variable name 'q2' (UncommunicativeVariableName)
-      RedCloth#clean_html refers to raw more than self (FeatureEnvy)
-      RedCloth#clean_html refers to tags more than self (FeatureEnvy)
       RedCloth#clean_white_space has approx 7 statements (TooManyStatements)
       RedCloth#clean_white_space refers to text more than self (FeatureEnvy)
       RedCloth#flush_left doesn't depend on instance state (UtilityFunction)
-      RedCloth#flush_left refers to text more than self (FeatureEnvy)
-      RedCloth#footnote_ref refers to text more than self (FeatureEnvy)
+      RedCloth#footnote_ref doesn't depend on instance state (UtilityFunction)
       RedCloth#glyphs_textile has approx 10 statements (TooManyStatements)
+      RedCloth#h_align doesn't depend on instance state (UtilityFunction)
       RedCloth#htmlesc doesn't depend on instance state (UtilityFunction)
       RedCloth#htmlesc is controlled by argument mode (ControlParameter)
-      RedCloth#htmlesc refers to str more than self (FeatureEnvy)
-      RedCloth#incoming_entities refers to text more than self (FeatureEnvy)
+      RedCloth#incoming_entities doesn't depend on instance state (UtilityFunction)
       RedCloth#initialize has the variable name 'r' (UncommunicativeVariableName)
       RedCloth#inline contains iterators nested 2 deep (NestedIterators)
       RedCloth#inline_markdown_link has approx 6 statements (TooManyStatements)
@@ -246,11 +242,10 @@ Feature: Basic smell detection
       RedCloth#inline_textile_span contains iterators nested 2 deep (NestedIterators)
       RedCloth#inline_textile_span has approx 9 statements (TooManyStatements)
       RedCloth#inline_textile_span has the variable name 'm' (UncommunicativeVariableName)
+      RedCloth#lT doesn't depend on instance state (UtilityFunction)
       RedCloth#lT has the name 'lT' (UncommunicativeMethodName)
       RedCloth#lT is controlled by argument text (ControlParameter)
-      RedCloth#lT refers to text more than self (FeatureEnvy)
       RedCloth#no_textile doesn't depend on instance state (UtilityFunction)
-      RedCloth#no_textile refers to text more than self (FeatureEnvy)
       RedCloth#pba calls $1.length 2 times (DuplicateMethodCall)
       RedCloth#pba has approx 21 statements (TooManyStatements)
       RedCloth#pba is controlled by argument element (ControlParameter)
@@ -278,6 +273,7 @@ Feature: Basic smell detection
       RedCloth#textile_popup_help has the parameter name 'windowH' (UncommunicativeParameterName)
       RedCloth#textile_popup_help has the parameter name 'windowW' (UncommunicativeParameterName)
       RedCloth#to_html has approx 26 statements (TooManyStatements)
+      RedCloth#v_align doesn't depend on instance state (UtilityFunction)
     """
 
   Scenario: Correct smells from a source file with Ruby 2.0 specific syntax
