@@ -4,6 +4,8 @@ require 'pathname'
 require 'tmpdir'
 require_relative '../../spec_helper'
 
+include Reek::Configuration
+
 describe ConfigurationFileFinder do
   describe '.find' do
     it 'returns the config_file if it’s set' do
