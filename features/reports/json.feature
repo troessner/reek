@@ -3,7 +3,8 @@ Feature: Report smells using simple JSON layout
   output a list of smells in JSON.
 
   Scenario: output is empty when there are no smells
-    When I run reek --format json spec/samples/three_clean_files
+    Given a directory called 'clean_files' containing some clean files
+    When I run reek --format json clean_files
     Then it succeeds
     And it reports this JSON:
     """
@@ -11,41 +12,38 @@ Feature: Report smells using simple JSON layout
     """
 
   Scenario: Indicate smells and print them as JSON when using files
-    When I run reek --format json spec/samples/standard_smelly/minimal_dirty.rb
+    Given a smelly file called 'smelly.rb'
+    When I run reek --format json smelly.rb
     Then the exit status indicates smells
     And it reports this JSON:
       """
       [
           {
-              "smell_category": "IrresponsibleModule",
-              "smell_type": "IrresponsibleModule",
-              "source": "spec/samples/standard_smelly/minimal_dirty.rb",
-              "context": "C",
-              "lines": [
-                  1
-              ],
-              "message": "has no descriptive comment",
-              "name": "C"
+              "smell_category": "Duplication",
+              "smell_type": "DuplicateMethodCall",
+              "source": "smelly.rb",
+              "context": "Smelly#m",
+              "lines": [ 4, 5 ],
+              "message": "calls @foo.bar 2 times",
+              "name": "@foo.bar",
+              "count": 2
           },
           {
-              "smell_category": "UncommunicativeName",
-              "smell_type": "UncommunicativeModuleName",
-              "source": "spec/samples/standard_smelly/minimal_dirty.rb",
-              "context": "C",
-              "lines": [
-                  1
-              ],
-              "message": "has the name 'C'",
-              "name": "C"
+              "smell_category": "Duplication",
+              "smell_type": "DuplicateMethodCall",
+              "source": "smelly.rb",
+              "context": "Smelly#m",
+              "lines": [ 4, 5 ],
+              "message": "calls puts(@foo.bar) 2 times",
+              "name": "puts(@foo.bar)",
+              "count": 2
           },
           {
               "smell_category": "UncommunicativeName",
               "smell_type": "UncommunicativeMethodName",
-              "source": "spec/samples/standard_smelly/minimal_dirty.rb",
-              "context": "C#m",
-              "lines": [
-                  2
-              ],
+              "source": "smelly.rb",
+              "context": "Smelly#m",
+              "lines": [ 3 ],
               "message": "has the name 'm'",
               "name": "m"
           }

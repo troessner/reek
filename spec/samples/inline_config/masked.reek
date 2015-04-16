@@ -1,7 +1,0 @@
----
-IrresponsibleModule:
-  enabled: false
-UncommunicativeVariableName:
-  enabled: false
-UncommunicativeMethodName:
-  enabled: false
