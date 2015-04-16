@@ -1,12 +1,10 @@
 require_relative '../../spec_helper'
 require_relative '../../../lib/reek/source/tree_dresser'
 
-include Reek::Source
-
-describe TreeDresser do
+describe Reek::Source::TreeDresser do
   let(:ifnode) { Parser::AST::Node.new(:if) }
   let(:sendnode) { Parser::AST::Node.new(:send) }
-  let(:dresser) { TreeDresser.new }
+  let(:dresser) { Reek::Source::TreeDresser.new }
 
   it 'dresses :if sexp with IfNode' do
     expect(dresser.dress(ifnode, {})).to be_a Reek::Source::SexpExtensions::IfNode

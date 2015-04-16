@@ -1,9 +1,7 @@
 require_relative '../../spec_helper'
 require_relative '../../../lib/reek/source/sexp_extensions'
 
-include Reek::Source
-
-describe SexpExtensions::DefNode do
+describe Reek::Source::SexpExtensions::DefNode do
   context 'with no parameters' do
     before :each do
       @node = s(:def, :hello, s(:args))
@@ -112,7 +110,7 @@ describe SexpExtensions::DefNode do
 
     it 'has a body extended with SexpNode' do
       b = @node.body
-      expect(b.class.included_modules.first).to eq SexpNode
+      expect(b.class.included_modules.first).to eq Reek::Source::SexpNode
     end
 
     it 'finds nodes in the body with #body_nodes' do
@@ -135,7 +133,7 @@ describe SexpExtensions::DefNode do
   end
 end
 
-describe SexpExtensions::DefsNode do
+describe Reek::Source::SexpExtensions::DefsNode do
   context 'with no parameters' do
     before :each do
       @node = s(:defs, s(:lvar, :obj), :hello, s(:args))
@@ -244,12 +242,12 @@ describe SexpExtensions::DefsNode do
 
     it 'has a body extended with SexpNode' do
       b = @node.body
-      expect(b.class.included_modules.first).to eq SexpNode
+      expect(b.class.included_modules.first).to eq Reek::Source::SexpNode
     end
   end
 end
 
-describe SexpExtensions::SendNode do
+describe Reek::Source::SexpExtensions::SendNode do
   context 'with no parameters' do
     before :each do
       @node = s(:send, nil, :hello)
@@ -281,7 +279,7 @@ describe SexpExtensions::SendNode do
   end
 end
 
-describe SexpExtensions::BlockNode do
+describe Reek::Source::SexpExtensions::BlockNode do
   context 'with no parameters' do
     before :each do
       @node = s(:block, s(:send, nil, :map), s(:args), nil)
@@ -313,7 +311,7 @@ describe SexpExtensions::BlockNode do
   end
 end
 
-describe SexpExtensions::ModuleNode do
+describe Reek::Source::SexpExtensions::ModuleNode do
   context 'with a simple name' do
     subject do
       mod = ast(:module, :Fred, nil)

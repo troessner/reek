@@ -1,12 +1,11 @@
 require_relative '../../spec_helper'
 require_relative '../../../lib/reek/source/reference_collector'
 
-include Reek::Source
-
-describe ReferenceCollector do
+describe Reek::Source::ReferenceCollector do
   context 'counting refs to self' do
     def refs_to_self(src)
-      ReferenceCollector.new(Reek::Source::SourceCode.from(src).syntax_tree).num_refs_to_self
+      syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
+      Reek::Source::ReferenceCollector.new(syntax_tree).num_refs_to_self
     end
     it 'with no refs to self' do
       expect(refs_to_self('def no_envy(arga) arga.barg end')).to eq(0)

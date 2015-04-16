@@ -2,11 +2,9 @@ require_relative '../../spec_helper'
 require_relative '../../../lib/reek/core/warning_collector'
 require_relative '../../../lib/reek/smell_warning'
 
-include Reek::Core
-
-describe WarningCollector do
+describe Reek::Core::WarningCollector do
   before(:each) do
-    @collector = WarningCollector.new
+    @collector = Reek::Core::WarningCollector.new
   end
 
   context 'when empty' do

@@ -1,7 +1,5 @@
 require_relative '../../spec_helper'
 
-include Reek
-
 describe Dir do
   it 'reports correct smells via the Dir matcher' do
     files = Dir['spec/samples/two_smelly_files/*.rb']

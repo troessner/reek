@@ -1,8 +1,6 @@
 require_relative '../spec_helper'
 require_relative '../../lib/reek/examiner'
 
-include Reek
-
 shared_examples_for 'no smells found' do
   it 'is not smelly' do
     expect(@examiner).not_to be_smelly
@@ -24,14 +22,14 @@ shared_examples_for 'one smell found' do
   end
 end
 
-describe Examiner do
+describe Reek::Examiner do
   before :each do
     @expected_first_smell = 'NestedIterators'
   end
 
   context 'with a fragrant String' do
     before :each do
-      @examiner = Examiner.new('def good() true; end')
+      @examiner = Reek::Examiner.new('def good() true; end')
     end
 
     it_should_behave_like 'no smells found'
@@ -39,7 +37,7 @@ describe Examiner do
 
   context 'with a smelly String' do
     before :each do
-      @examiner = Examiner.new('def fine() y = 4; end')
+      @examiner = Reek::Examiner.new('def fine() y = 4; end')
       @expected_first_smell = 'UncommunicativeName'
     end
 
@@ -55,7 +53,7 @@ describe Examiner do
 
     before :each do
       smelly_dir = Dir['spec/samples/all_but_one_masked/*.rb']
-      @examiner = Examiner.new(smelly_dir)
+      @examiner = Reek::Examiner.new(smelly_dir)
     end
 
     it_should_behave_like 'one smell found'
@@ -64,7 +62,7 @@ describe Examiner do
   context 'with a fragrant Dir' do
     before :each do
       clean_dir = Dir['spec/samples/three_clean_files/*.rb']
-      @examiner = Examiner.new(clean_dir)
+      @examiner = Reek::Examiner.new(clean_dir)
     end
 
     it_should_behave_like 'no smells found'
@@ -79,7 +77,7 @@ describe Examiner do
 
     before :each do
       smelly_dir = Dir['spec/samples/masked_by_dotfile/*.rb']
-      @examiner = Examiner.new(smelly_dir)
+      @examiner = Reek::Examiner.new(smelly_dir)
     end
 
     it_should_behave_like 'one smell found'
@@ -94,7 +92,7 @@ describe Examiner do
 
     before :each do
       smelly_file = File.new(Dir['spec/samples/all_but_one_masked/d*.rb'][0])
-      @examiner = Examiner.new(smelly_file)
+      @examiner = Reek::Examiner.new(smelly_file)
     end
 
     it_should_behave_like 'one smell found'
@@ -103,7 +101,7 @@ describe Examiner do
   context 'with a fragrant File' do
     before :each do
       clean_file = File.new(Dir['spec/samples/three_clean_files/*.rb'][0])
-      @examiner = Examiner.new(clean_file)
+      @examiner = Reek::Examiner.new(clean_file)
     end
 
     it_should_behave_like 'no smells found'

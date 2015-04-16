@@ -2,24 +2,24 @@ require_relative '../../spec_helper'
 require 'stringio'
 require_relative '../../../lib/reek/source/source_code'
 
-include Reek::Source
-
-describe SourceCode do
+describe Reek::Source::SourceCode do
   describe '#syntax_tree' do
     it 'associates comments with the AST' do
-      source_code = SourceCode.new("# this is\n# a comment\ndef foo; end", '(string)')
+      source = "# this is\n# a comment\ndef foo; end"
+      source_code = Reek::Source::SourceCode.new(source, '(string)')
       result = source_code.syntax_tree
       expect(result.comments).to eq "# this is\n# a comment"
     end
 
     it 'cleanly processes empty source' do
-      source_code = SourceCode.new('', '(string)')
+      source_code = Reek::Source::SourceCode.new('', '(string)')
       result = source_code.syntax_tree
       expect(result).to be_nil
     end
 
     it 'cleanly processes empty source with comments' do
-      source_code = SourceCode.new("# this is\n# a comment\n", '(string)')
+      source = "# this is\n# a comment\n"
+      source_code = Reek::Source::SourceCode.new(source, '(string)')
       result = source_code.syntax_tree
       expect(result).to be_nil
     end
@@ -29,7 +29,7 @@ describe SourceCode do
     let(:source_name) { 'Test source' }
     let(:error_message) { 'Error message' }
     let(:parser) { double('parser') }
-    let(:src) { SourceCode.new('', source_name, parser) }
+    let(:src) { Reek::Source::SourceCode.new('', source_name, parser) }
 
     before :each do
       @catcher = StringIO.new

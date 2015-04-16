@@ -1,11 +1,8 @@
 require_relative '../../spec_helper'
 require_relative '../../../lib/reek/spec'
 
-include Reek
-include Reek::Spec
-
-describe ShouldReek do
-  let(:matcher) { ShouldReek.new }
+describe Reek::Spec::ShouldReek do
+  let(:matcher) { Reek::Spec::ShouldReek.new }
 
   describe 'checking code in a string' do
     let(:clean_code) { 'def good() true; end' }

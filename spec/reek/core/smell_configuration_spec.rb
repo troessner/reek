@@ -1,11 +1,9 @@
 require_relative '../../spec_helper'
 require_relative '../../../lib/reek/core/smell_configuration'
 
-include Reek::Core
-
-describe SmellConfiguration do
+describe Reek::Core::SmellConfiguration do
   it 'returns the default value when key not found' do
-    cf = SmellConfiguration.new({})
+    cf = Reek::Core::SmellConfiguration.new({})
     expect(cf.value('fred', nil, 27)).to eq(27)
   end
 
@@ -14,7 +12,7 @@ describe SmellConfiguration do
       @base_config = { 'enabled' => true, 'exclude' => [],
                        'reject' => [/^.$/, /[0-9]$/, /[A-Z]/],
                        'accept' => ['_'] }
-      @smell_config = SmellConfiguration.new(@base_config)
+      @smell_config = Reek::Core::SmellConfiguration.new(@base_config)
     end
 
     it { expect(@smell_config.merge!({})).to eq(@base_config) }
