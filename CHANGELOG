@@ -1,3 +1,9 @@
+== 2.1.0
+
+* (mvz) Ensure require 'reek' is enough to use reek's classes
+* (mvz) Pick config file that comes first alphabetically
+* (mvz) Separate FeatureEnvy and UtilityFunction
+
 == 2.0.4
 
 * (chastell)  Recognise .reek as a valid configuration file
