@@ -109,4 +109,3 @@ UnusedParameters:
 UtilityFunction:
   enabled: true
   exclude: []
-  max_helper_calls: 0
