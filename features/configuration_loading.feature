@@ -11,52 +11,55 @@ Feature: Offer different ways how to load configuration
   And finally, it should check your HOME directory.
 
   Scenario: No configuration
-    When I run reek spec/samples/configuration_loading/minimal_dirty.rb
+    Given a smelly file called 'smelly.rb'
+    When I run reek smelly.rb
     Then the exit status indicates smells
     And it reports:
       """
-      spec/samples/configuration_loading/minimal_dirty.rb -- 3 warnings:
-        [1]:C has no descriptive comment (IrresponsibleModule)
-        [1]:C has the name 'C' (UncommunicativeModuleName)
-        [2]:C#m has the name 'm' (UncommunicativeMethodName)
+      smelly.rb -- 3 warnings:
+        [4, 5]:Smelly#m calls @foo.bar 2 times (DuplicateMethodCall)
+        [4, 5]:Smelly#m calls puts(@foo.bar) 2 times (DuplicateMethodCall)
+        [3]:Smelly#m has the name 'm' (UncommunicativeMethodName)
       """
 
   Scenario: Configuration via CLI
-    When I run reek -c spec/samples/minimal_smelly_and_masked/config.reek spec/samples/minimal_smelly_and_masked/minimal_dirty.rb
+    Given a smelly file called 'smelly.rb'
+    And a masking configuration file called 'config.reek'
+    When I run reek -c config.reek smelly.rb
     Then it reports no errors
     And it succeeds
 
-  @remove-disable-smell-config-from-current-dir
   Scenario: Configuration file in working directory
-    Given "spec/samples/configuration_loading/reek-test-run-disable_smells.reek" exists in the working directory
-    When I run reek spec/samples/configuration_loading/minimal_dirty.rb
+    Given a smelly file called 'smelly.rb'
+    And a masking configuration file called 'config.reek'
+    When I run reek smelly.rb
     Then it reports no errors
     And it succeeds
 
-  @remove-disable-smell-config-from-parent-dir
   Scenario: Configuration file in the parent directory of the working directory
-    Given "spec/samples/configuration_loading/reek-test-run-disable_smells.reek" exists in the parent directory of the working directory
-    When I run reek spec/samples/configuration_loading/minimal_dirty.rb
+    Given a smelly file called 'smelly.rb' in a subdirectory
+    And a masking configuration file called 'config.reek'
+    When I run "reek smelly.rb" in the subdirectory
     Then it reports no errors
     And it succeeds
 
-  @remove-disable-smell-config-from-home-dir
   Scenario: Configuration file in the HOME directory
-    Given "spec/samples/configuration_loading/reek-test-run-disable_smells.reek" exists in the HOME directory
-    When I run reek spec/samples/configuration_loading/minimal_dirty.rb
+    Given a smelly file called 'smelly.rb'
+    And a masking configuration file in the HOME directory
+    When I run reek smelly.rb
     Then it reports no errors
     And it succeeds
 
-  @remove-enable-smell-config-from-current-dir @remove-disable-smell-config-from-parent-dir
   Scenario: Two opposing configuration files and we stop after the first one
-    Given "spec/samples/configuration_loading/reek-test-run-enable_smells.reek" exists in the working directory
-    And "spec/samples/configuration_loading/reek-test-run-disable_smells.reek" exists in the parent directory of the working directory
-    When I run reek spec/samples/configuration_loading/minimal_dirty.rb
+    Given a smelly file called 'smelly.rb' in a subdirectory
+    And an enabling configuration file in the subdirectory
+    And a masking configuration file called 'config.reek'
+    When I run "reek smelly.rb" in the subdirectory
     Then the exit status indicates smells
     And it reports:
       """
-      spec/samples/configuration_loading/minimal_dirty.rb -- 3 warnings:
-        [1]:C has no descriptive comment (IrresponsibleModule)
-        [1]:C has the name 'C' (UncommunicativeModuleName)
-        [2]:C#m has the name 'm' (UncommunicativeMethodName)
+      smelly.rb -- 3 warnings:
+        [4, 5]:Smelly#m calls @foo.bar 2 times (DuplicateMethodCall)
+        [4, 5]:Smelly#m calls puts(@foo.bar) 2 times (DuplicateMethodCall)
+        [3]:Smelly#m has the name 'm' (UncommunicativeMethodName)
       """

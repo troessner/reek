@@ -4,11 +4,12 @@ Feature: Basic smell detection
   I want to detect the smells in my Ruby code
 
   Scenario: Correct smells from inline.rb
-    When I run reek --no-line-numbers spec/samples/inline.rb
+    Given the "inline.rb" sample file exists
+    When I run reek --no-line-numbers inline.rb
     Then the exit status indicates smells
     And it reports:
     """
-    spec/samples/inline.rb -- 43 warnings:
+    inline.rb -- 43 warnings:
       CompilationError has no descriptive comment (IrresponsibleModule)
       File has no descriptive comment (IrresponsibleModule)
       File#self.write_with_backup has approx 6 statements (TooManyStatements)
@@ -55,11 +56,12 @@ Feature: Basic smell detection
     """
 
   Scenario: Correct smells from optparse.rb
-    When I run reek --no-line-numbers spec/samples/optparse.rb
+    Given the "optparse.rb" sample file exists
+    When I run reek --no-line-numbers optparse.rb
     Then the exit status indicates smells
     And it reports:
     """
-    spec/samples/optparse.rb -- 111 warnings:
+    optparse.rb -- 111 warnings:
       OptionParser has at least 42 methods (TooManyMethods)
       OptionParser has the variable name 'f' (UncommunicativeVariableName)
       OptionParser has the variable name 'k' (UncommunicativeVariableName)
@@ -174,11 +176,12 @@ Feature: Basic smell detection
     """
 
   Scenario: Correct smells from redcloth.rb
-    When I run reek --no-line-numbers spec/samples/redcloth.rb
+    Given the "redcloth.rb" sample file exists
+    When I run reek --no-line-numbers redcloth.rb
     Then the exit status indicates smells
     And it reports:
     """
-    spec/samples/redcloth.rb -- 95 warnings:
+    redcloth.rb -- 95 warnings:
       RedCloth has at least 44 methods (TooManyMethods)
       RedCloth has the variable name 'a' (UncommunicativeVariableName)
       RedCloth has the variable name 'b' (UncommunicativeVariableName)
@@ -277,19 +280,21 @@ Feature: Basic smell detection
     """
 
   Scenario: Correct smells from a source file with Ruby 2.0 specific syntax
-    When I run reek spec/samples/ruby20_syntax.rb
+    Given the "ruby20_syntax.rb" sample file exists
+    When I run reek ruby20_syntax.rb
     Then the exit status indicates smells
     And it reports:
     """
-    spec/samples/ruby20_syntax.rb -- 1 warning:
+    ruby20_syntax.rb -- 1 warning:
       [1]:SomeClass has no descriptive comment (IrresponsibleModule)
     """
 
   Scenario: Correct smells from a source file with Ruby 2.1 specific syntax
-    When I run reek spec/samples/ruby21_syntax.rb
+    Given the "ruby21_syntax.rb" sample file exists
+    When I run reek ruby21_syntax.rb
     Then the exit status indicates smells
     And it reports:
     """
-    spec/samples/ruby21_syntax.rb -- 1 warning:
+    ruby21_syntax.rb -- 1 warning:
       [1]:SomeClass has no descriptive comment (IrresponsibleModule)
     """
