@@ -1,5 +1,5 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/spec/spec'
+require_relative '../../../lib/reek/spec'
 
 describe Reek::Spec::ShouldReekOf do
   context 'rdoc demo example' do

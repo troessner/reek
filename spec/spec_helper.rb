@@ -1,4 +1,4 @@
-require_relative '../lib/reek/spec/spec'
+require_relative '../lib/reek/spec'
 require_relative '../lib/reek/core/ast_node_class_map'
 require_relative '../lib/reek/configuration/app_configuration'
 

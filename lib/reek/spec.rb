@@ -1,6 +1,6 @@
-require_relative 'should_reek'
-require_relative 'should_reek_of'
-require_relative 'should_reek_only_of'
+require_relative 'spec/should_reek'
+require_relative 'spec/should_reek_of'
+require_relative 'spec/should_reek_only_of'
 
 module Reek
   #
