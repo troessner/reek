@@ -204,12 +204,13 @@ If you don't feel like getting your hands dirty with code there are still other 
 
 ## Output formats
 
-`reek` supports 3 output formats:
+`reek` supports 5 output formats:
 
 * plain text (default)
 * html (`--format html`)
 * yaml (`--format yaml`)
 * json (`--format json`)
+* xml  (`--format xml`)
 
 ## Additional resources
 

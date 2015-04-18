@@ -1,3 +1,7 @@
+== 2.1.1
+
+* (sauliusgrigaitis) Add support for Checkstyle XML reports
+
 == 2.1.0
 
 * (mvz) Ensure require 'reek' is enough to use reek's classes

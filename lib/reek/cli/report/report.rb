@@ -126,6 +126,66 @@ module Reek
           print("Html file saved\n")
         end
       end
+
+      #
+      # Generates a list of smells in XML format
+      #
+      class XMLReport < Base
+        require 'rexml/document'
+
+        def initialize(options = {})
+          super options
+        end
+
+        def show
+          checkstyle = REXML::Element.new('checkstyle', document)
+
+          smells.group_by(&:source).each do |file, file_smells|
+            file_to_xml(file, file_smells, checkstyle)
+          end
+
+          print_xml(checkstyle.parent)
+        end
+
+        private
+
+        def document
+          REXML::Document.new.tap do |doc|
+            doc << REXML::XMLDecl.new
+          end
+        end
+
+        def file_to_xml(file, file_smells, parent)
+          REXML::Element.new('file', parent).tap do |element|
+            element.attributes['name'] = File.realpath(file)
+            smells_to_xml(file_smells, element)
+          end
+        end
+
+        def smells_to_xml(smells, parent)
+          smells.each do |smell|
+            smell_to_xml(smell, parent)
+          end
+        end
+
+        def smell_to_xml(smell, parent)
+          REXML::Element.new('error', parent).tap do |element|
+            attributes = [
+              ['line', smell.lines.first],
+              ['column', 0],
+              ['severity', 'warning'],
+              ['message', smell.message],
+              ['source', 'com.puppycrawl.tools.checkstyle.' + smell.smell_type]
+            ]
+            element.add_attributes(attributes)
+          end
+        end
+
+        def print_xml(document)
+          formatter = REXML::Formatters::Default.new
+          puts formatter.write(document, '')
+        end
+      end
     end
   end
 end
