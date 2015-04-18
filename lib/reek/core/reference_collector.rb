@@ -1,6 +1,5 @@
-
 module Reek
-  module Source
+  module Core
     #
     # Locates references to the current object within a portion
     # of an abstract syntax tree.

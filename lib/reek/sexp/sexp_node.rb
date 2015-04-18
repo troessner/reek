@@ -1,5 +1,5 @@
 module Reek
-  module Source
+  module Sexp
     #
     # Extensions to +Sexp+ to allow +TreeWalker+ to navigate the abstract
     # syntax tree more easily.

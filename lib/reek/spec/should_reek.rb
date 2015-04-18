@@ -1,4 +1,4 @@
-require_relative '../examiner'
+require_relative '../core/examiner'
 require_relative '../cli/report/formatter'
 
 module Reek
@@ -8,7 +8,7 @@ module Reek
     #
     class ShouldReek        # :nodoc:
       def matches?(actual)
-        @examiner = Examiner.new(actual)
+        @examiner = Core::Examiner.new(actual)
         @examiner.smelly?
       end
 

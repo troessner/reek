@@ -1,5 +1,4 @@
 require 'set'
-require_relative '../smell_warning'
 require_relative '../core/smell_configuration'
 
 module Reek

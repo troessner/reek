@@ -97,7 +97,7 @@ module Reek
 
       def config
         @config ||= if @exp
-                      Source::CodeComment.new(@exp.comments || '').config
+                      Core::CodeComment.new(@exp.comments || '').config
                     else
                       {}
                     end

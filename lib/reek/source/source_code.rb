@@ -1,8 +1,8 @@
 old_verbose, $VERBOSE = $VERBOSE, nil
 require 'parser/current'
 $VERBOSE = old_verbose
-require_relative 'tree_dresser'
-require_relative 'ast_node'
+require_relative '../core/tree_dresser'
+require_relative '../core/ast_node'
 
 module Reek
   module Source
@@ -36,7 +36,7 @@ module Reek
             end
 
             comment_map = Parser::Source::Comment.associate(ast, comments) if ast
-            TreeDresser.new.dress(ast, comment_map)
+            Core::TreeDresser.new.dress(ast, comment_map)
           end
       end
     end

@@ -1,8 +1,8 @@
 require_relative 'sexp_node'
-require_relative 'reference_collector'
+require_relative '../core/reference_collector'
 
 module Reek
-  module Source
+  module Sexp
     #
     # Extension modules providing utility methods to ASTNode objects, depending
     # on their type.
@@ -242,7 +242,7 @@ module Reek
         end
 
         def depends_on_instance?
-          ReferenceCollector.new(self).num_refs_to_self > 0
+          Core::ReferenceCollector.new(self).num_refs_to_self > 0
         end
       end
 
