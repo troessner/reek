@@ -1,6 +1,6 @@
-require 'require_all'
-
-require_rel '.'
+Dir["#{File.dirname(__FILE__)}/*.rb"].each do |file|
+  require_relative File.basename(file, '.rb') unless file == __FILE__
+end
 
 module Reek
   #
