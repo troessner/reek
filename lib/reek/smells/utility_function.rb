@@ -1,6 +1,5 @@
 require_relative 'smell_detector'
-require_relative '../smell_warning'
-require_relative '../source/reference_collector'
+require_relative '../core/reference_collector'
 
 module Reek
   module Smells
@@ -36,13 +35,6 @@ module Reek
     # +FeatureEnvy+ is reported instead.
     #
     class UtilityFunction < SmellDetector
-      # The name of the config field that sets the maximum number of
-      # calls permitted within a helper method. Any method with more than
-      # this number of method calls on other objects will be considered a
-      # candidate Utility Function.
-      HELPER_CALLS_LIMIT_KEY = 'max_helper_calls'
-      DEFAULT_HELPER_CALLS_LIMIT = 0
-
       def self.smell_category
         'LowCohesion'
       end
@@ -50,10 +42,6 @@ module Reek
       class << self
         def contexts      # :nodoc:
           [:def]
-        end
-
-        def default_config
-          super.merge(HELPER_CALLS_LIMIT_KEY => DEFAULT_HELPER_CALLS_LIMIT)
         end
       end
 
@@ -65,9 +53,7 @@ module Reek
       def examine_context(method_ctx)
         return [] if method_ctx.num_statements == 0
         return [] if method_ctx.references_self?
-        return [] if num_helper_methods(method_ctx) <= value(HELPER_CALLS_LIMIT_KEY,
-                                                             method_ctx,
-                                                             DEFAULT_HELPER_CALLS_LIMIT)
+        return [] if num_helper_methods(method_ctx).zero?
 
         [SmellWarning.new(self,
                           context: method_ctx.full_name,

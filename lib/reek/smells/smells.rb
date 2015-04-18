@@ -1,6 +1,6 @@
 require 'require_all'
 
-require_rel 'smells'
+require_rel '.'
 
 module Reek
   #

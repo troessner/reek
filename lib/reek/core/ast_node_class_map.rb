@@ -1,9 +1,9 @@
 require_relative 'ast_node'
-require_relative 'sexp_node'
-require_relative 'sexp_extensions'
+require_relative '../sexp/sexp_node'
+require_relative '../sexp/sexp_extensions'
 
 module Reek
-  module Source
+  module Core
     # Maps AST node types to sublasses of ASTNode extended with the relevant
     # utility modules.
     class ASTNodeClassMap
@@ -16,17 +16,17 @@ module Reek
           begin
             klass = Class.new(ASTNode)
             klass.send :include, extension_map[type] if extension_map[type]
-            klass.send :include, SexpNode
+            klass.send :include, Sexp::SexpNode
           end
       end
 
       def extension_map
         @extension_map ||=
           begin
-            assoc = SexpExtensions.constants.map do |const|
+            assoc = Sexp::SexpExtensions.constants.map do |const|
               [
                 const.to_s.sub(/Node$/, '').downcase.to_sym,
-                SexpExtensions.const_get(const)
+                Sexp::SexpExtensions.const_get(const)
               ]
             end
             Hash[assoc]

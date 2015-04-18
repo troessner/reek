@@ -1,7 +1,7 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/source/sexp_extensions'
+require_relative '../../../lib/reek/sexp/sexp_extensions'
 
-describe Reek::Source::SexpExtensions::DefNode do
+describe Reek::Sexp::SexpExtensions::DefNode do
   context 'with no parameters' do
     before :each do
       @node = s(:def, :hello, s(:args))
@@ -110,7 +110,7 @@ describe Reek::Source::SexpExtensions::DefNode do
 
     it 'has a body extended with SexpNode' do
       b = @node.body
-      expect(b.class.included_modules.first).to eq Reek::Source::SexpNode
+      expect(b.class.included_modules.first).to eq Reek::Sexp::SexpNode
     end
 
     it 'finds nodes in the body with #body_nodes' do
@@ -133,7 +133,7 @@ describe Reek::Source::SexpExtensions::DefNode do
   end
 end
 
-describe Reek::Source::SexpExtensions::DefsNode do
+describe Reek::Sexp::SexpExtensions::DefsNode do
   context 'with no parameters' do
     before :each do
       @node = s(:defs, s(:lvar, :obj), :hello, s(:args))
@@ -242,12 +242,12 @@ describe Reek::Source::SexpExtensions::DefsNode do
 
     it 'has a body extended with SexpNode' do
       b = @node.body
-      expect(b.class.included_modules.first).to eq Reek::Source::SexpNode
+      expect(b.class.included_modules.first).to eq Reek::Sexp::SexpNode
     end
   end
 end
 
-describe Reek::Source::SexpExtensions::SendNode do
+describe Reek::Sexp::SexpExtensions::SendNode do
   context 'with no parameters' do
     before :each do
       @node = s(:send, nil, :hello)
@@ -279,7 +279,7 @@ describe Reek::Source::SexpExtensions::SendNode do
   end
 end
 
-describe Reek::Source::SexpExtensions::BlockNode do
+describe Reek::Sexp::SexpExtensions::BlockNode do
   context 'with no parameters' do
     before :each do
       @node = s(:block, s(:send, nil, :map), s(:args), nil)
@@ -311,7 +311,7 @@ describe Reek::Source::SexpExtensions::BlockNode do
   end
 end
 
-describe Reek::Source::SexpExtensions::ModuleNode do
+describe Reek::Sexp::SexpExtensions::ModuleNode do
   context 'with a simple name' do
     subject do
       mod = ast(:module, :Fred, nil)

@@ -1,4 +1,4 @@
-require_relative '../examiner'
+require_relative '../core/examiner'
 
 module Reek
   module Spec
@@ -13,7 +13,7 @@ module Reek
       end
 
       def matches?(actual)
-        @examiner = Examiner.new(actual)
+        @examiner = Core::Examiner.new(actual)
         @all_smells = @examiner.smells
         @all_smells.any? { |warning| warning.matches?(@smell_category, @smell_details) }
       end

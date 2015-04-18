@@ -1,5 +1,5 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/spec'
+require_relative '../../../lib/reek/spec/spec'
 
 describe Reek::Spec::ShouldReek do
   let(:matcher) { Reek::Spec::ShouldReek.new }
