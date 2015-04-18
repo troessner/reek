@@ -38,6 +38,8 @@ module Reek
           Report::JSONReport
         when :html
           Report::HTMLReport
+        when :xml
+          Report::XMLReport
         else # :text
           Report::TextReport
         end
