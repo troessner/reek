@@ -3,7 +3,7 @@ require 'unparser'
 $VERBOSE = old_verbose
 
 module Reek
-  module Source
+  module Sexp
     #
     # Formats snippets of syntax tree back into Ruby source code.
     #

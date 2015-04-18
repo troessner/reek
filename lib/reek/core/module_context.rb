@@ -1,5 +1,5 @@
 require_relative 'code_context'
-require_relative '../source/sexp_formatter'
+require_relative '../sexp/sexp_formatter'
 
 module Reek
   module Core
@@ -9,7 +9,7 @@ module Reek
     class ModuleContext < CodeContext
       def initialize(outer, exp)
         super(outer, exp)
-        @name = Source::SexpFormatter.format(exp.children.first)
+        @name = Sexp::SexpFormatter.format(exp.children.first)
       end
 
       def node_instance_methods

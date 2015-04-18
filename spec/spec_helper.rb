@@ -1,5 +1,5 @@
-require_relative '../lib/reek/spec'
-require_relative '../lib/reek/source/ast_node_class_map'
+require_relative '../lib/reek/spec/spec'
+require_relative '../lib/reek/core/ast_node_class_map'
 require_relative '../lib/reek/configuration/app_configuration'
 
 require 'factory_girl'
@@ -31,7 +31,7 @@ module Helpers
 
   # :reek:UncommunicativeMethodName
   def s(type, *children)
-    @klass_map ||= Reek::Source::ASTNodeClassMap.new
+    @klass_map ||= Reek::Core::ASTNodeClassMap.new
     @klass_map.klass_for(type).new(type, children)
   end
 

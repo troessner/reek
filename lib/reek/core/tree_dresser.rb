@@ -1,7 +1,7 @@
 require_relative 'ast_node_class_map'
 
 module Reek
-  module Source
+  module Core
     #
     # Adorns an abstract syntax tree with mix-in modules to make accessing
     # the tree more understandable and less implementation-dependent.
