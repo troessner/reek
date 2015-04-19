@@ -21,28 +21,33 @@ describe Reek::Core::MethodContext, 'matching' do
 end
 
 describe Reek::Core::MethodContext do
-  it 'should record ivars as refs to self' do
-    sexp = s(:def, :feed, s(:args), nil)
-    mctx = Reek::Core::MethodContext.new(Reek::Core::StopContext.new, sexp)
-    expect(mctx.envious_receivers).to eq([])
-    mctx.record_call_to(s(:send, s(:ivar, :@cow), :feed_to))
-    expect(mctx.envious_receivers).to eq([])
+  let(:mc) do
+    sexp = s(:def, :foo, s(:args, s(:arg, :bar)), nil)
+    Reek::Core::MethodContext.new(Reek::Core::StopContext.new, sexp)
   end
 
-  it 'should count calls to self' do
-    sexp = s(:def, :equals, s(:args), nil)
-    mctx = Reek::Core::MethodContext.new(Reek::Core::StopContext.new, sexp)
-    mctx.refs.record_reference_to([:lvar, :other])
-    mctx.record_call_to(s(:send, s(:self), :thing))
-    expect(mctx.envious_receivers).to be_empty
-  end
+  describe '#envious_receivers' do
+    it 'should ignore ivars as refs to self' do
+      mc.record_call_to s(:send, s(:ivar, :@cow), :feed_to)
+      expect(mc.envious_receivers).to be_empty
+    end
 
-  it 'should recognise a call on self' do
-    sexp = s(:def, :deep, s(:args), nil)
-    mc = Reek::Core::MethodContext.new(Reek::Core::StopContext.new, sexp)
-    mc.record_call_to(s(:send, s(:lvar, :text), :each, s(:arglist)))
-    mc.record_call_to(s(:send, nil, :shelve, s(:arglist)))
-    expect(mc.envious_receivers).to be_empty
+    it 'should ignore explicit calls to self' do
+      mc.refs.record_reference_to [:lvar, :other]
+      mc.record_call_to s(:send, s(:self), :thing)
+      expect(mc.envious_receivers).to be_empty
+    end
+
+    it 'should ignore implicit calls to self' do
+      mc.record_call_to s(:send, s(:lvar, :text), :each, s(:arglist))
+      mc.record_call_to s(:send, nil, :shelve, s(:arglist))
+      expect(mc.envious_receivers).to be_empty
+    end
+
+    it 'should record envious calls' do
+      mc.record_call_to s(:send, s(:lvar, :bar), :baz)
+      expect(mc.envious_receivers).to eq(bar: 1)
+    end
   end
 end
 

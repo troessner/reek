@@ -25,7 +25,7 @@ module Reek
       attr_reader :num_statements
 
       def initialize(outer, exp)
-        super(outer, exp)
+        super
         @parameters = exp.parameters.dup
         @parameters.extend MethodParameters
         @num_statements = 0
