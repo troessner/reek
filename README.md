@@ -1,16 +1,18 @@
-# Reek -- code smell detection for Ruby
+# `reek`: code smell detection for Ruby
 
 ## Overview
 
 
 [![Build Status](https://secure.travis-ci.org/troessner/reek.png?branch=master)](https://travis-ci.org/troessner/reek?branch=master)
-[![Gem Version](https://badge.fury.io/rb/reek.png)](https://badge.fury.io/rb/reek)
+[![Gem Version](https://badge.fury.io/rb/reek.svg)](https://badge.fury.io/rb/reek)
 [![Dependency Status](https://gemnasium.com/troessner/reek.png)](https://gemnasium.com/troessner/reek)
 [![Inline docs](https://inch-ci.org/github/troessner/reek.png)](https://inch-ci.org/github/troessner/reek)
 
 ## Quickstart
 
-`reek` is a tool that examines Ruby classes, modules and methods and reports any [Code Smells](https://github.com/troessner/reek/wiki/Code-Smells) it finds. Install it like this:
+`reek` is a tool that examines Ruby classes, modules and methods and reports any
+[Code Smells](https://github.com/troessner/reek/wiki/Code-Smells) it finds.
+Install it like this:
 
 ```Bash
 gem install reek
@@ -24,20 +26,20 @@ reek [options] [dir_or_source_file]*
 
 ## Example
 
-Imagine a source file <tt>demo.rb</tt> containing:
+Imagine a source file `demo.rb` containing:
 
 ```Ruby
 class Dirty
   # This method smells of :reek:NestedIterators but ignores them
   def awful(x, y, offset = 0, log = false)
     puts @screen.title
-    @screen = widgets.map {|w| w.each {|key| key += 3 * x}}
+    @screen = widgets.map { |w| w.each { |key| key += 3 * x } }
     puts @screen.contents
   end
 end
 ```
 
-Reek will report the following code smells in this file:
+`reek` will report the following code smells in this file:
 
 ```
 $ reek demo.rb
@@ -68,13 +70,13 @@ So
 reek
 ```
 
-is the exact same thing like being explicit:
+is the exact same thing as being explicit:
 
 ```Bash
 reek .
 ```
 
-Additionally can you pipe code to reek like this:
+Additionally you can pipe code to `reek` like this:
 
 ```Bash
 echo "class C; def m; end; end" | reek
@@ -91,11 +93,22 @@ $stdin -- 3 warnings:
 
 ## Code smells
 
-`reek` currently includes checks for some aspects of [Control Couple](https://github.com/troessner/reek/wiki/Control-Couple), [Data Clump](https://github.com/troessner/reek/wiki/Data-Clump), [Feature Envy](https://github.com/troessner/reek/wiki/Feature-Envy), [Large Class](https://github.com/troessner/reek/wiki/Large-Class), [Long Parameter List](https://github.com/troessner/reek/wiki/Long-Parameter-List), [Simulated Polymorphism](https://github.com/troessner/reek/wiki/Simulated-Polymorphism), [Too Many Statements](https://github.com/troessner/reek/wiki/Too-Many-Statements), [Uncommunicative Name](https://github.com/troessner/reek/wiki/Uncommunicative-Name), [Unused Parameters](https://github.com/troessner/reek/wiki/Unused-Parameters) and more. See the [Code Smells](https://github.com/troessner/reek/wiki/Code-Smells) for up to date details of exactly what `reek` will check in your code.
+`reek` currently includes checks for some aspects of
+[Control Couple](https://github.com/troessner/reek/wiki/Control-Couple),
+[Data Clump](https://github.com/troessner/reek/wiki/Data-Clump),
+[Feature Envy](https://github.com/troessner/reek/wiki/Feature-Envy),
+[Large Class](https://github.com/troessner/reek/wiki/Large-Class),
+[Long Parameter List](https://github.com/troessner/reek/wiki/Long-Parameter-List),
+[Simulated Polymorphism](https://github.com/troessner/reek/wiki/Simulated-Polymorphism),
+[Too Many Statements](https://github.com/troessner/reek/wiki/Too-Many-Statements),
+[Uncommunicative Name](https://github.com/troessner/reek/wiki/Uncommunicative-Name),
+[Unused Parameters](https://github.com/troessner/reek/wiki/Unused-Parameters)
+and more. See the [Code Smells](https://github.com/troessner/reek/wiki/Code-Smells)
+for up to date details of exactly what `reek` will check in your code.
 
 ## Configuration
 
-### Command line interface
+### Command-line interface
 
 For a basic overview, run
 
@@ -105,27 +118,43 @@ reek --help
 
 For a summary of those CLI options see [Command-Line Options](https://github.com/troessner/reek/wiki/Command-Line-Options).
 
-### Configuration files
+### Configuration file
 
 #### Configuration loading
 
-Configuring `reek` via configuration file is by far the most powerful way.
+Configuring `reek` via a configuration file is by far the most powerful way.
 
-There are 3 ways of passing `reek` a configuration file:
+There are three ways of passing `reek` a configuration file:
 
-1. Using the cli "-c" switch (see "Command line interface" above)
-2. Having a file ending with .reek either in your current working directory or in a parent directory (more on that later)
-3. Having a file ending with .reek in your HOME directory
+1. Using the CLI `-c` switch (see [_Command-line interface_](#command-line-interface) above)
+2. Having a file ending with `.reek` either in your current working directory or in a parent directory (more on that later)
+3. Having a file ending with `.reek` in your home directory
 
-The order in which `reek` tries to find such a configuration file is exactly like above: First `reek` checks if we have given it a configuration file explicitly via CLI. Then it checks the current working directory for a file and if it can't find one, it traverses up the directories until it hits the root directory. And lastly, it checks your HOME directory.
+The order in which `reek` tries to find such a configuration
+file is exactly the above: first it checks if we have given
+it a configuration file explicitly via CLI; then it checks
+the current working directory for a file and if it can't
+find one, it traverses up the directories until it hits the
+root directory; lastly, it checks your home directory.
 
-As soon as `reek` detects a configuration file it stops searching immediately, meaning that from `reek`'s point of view there exists one configuration file and one configuration only regardless of how many ".reek" files you might have on your filesystem.
+As soon as `reek` detects a configuration file it stops searching
+immediately, meaning that from `reek`'s point of view there exists
+exactly one configuration file and one configuration, regardless
+of how many `*.reek` files you might have on your filesystem.
 
 #### Configuration options
 
-The first thing you probably want to check out are the [Basic Smell Options](https://github.com/troessner/reek/wiki/Basic-Smell-Options) which are supported by every smell type.
-Certain smell types offer a configuration that goes beyond that of the basic smell options - for instance [Data Clump](https://github.com/troessner/reek/wiki/Data-Clump).
-All options that go beyond the [Basic Smell Options](https://github.com/troessner/reek/wiki/Basic-Smell-Options) should be documented in the corresponding smell type wiki page but if you want to get a quick and full overview over all possible configurations you can always check out [the default.reek file in this repository](https://github.com/troessner/reek/blob/master/config/defaults.reek).
+The first thing you probably want to check out are the
+[Basic Smell Options](https://github.com/troessner/reek/wiki/Basic-Smell-Options)
+which are supported by every smell type. Certain smell
+types offer a configuration that goes beyond that
+of the basic smell options, for instance
+[Data Clump](https://github.com/troessner/reek/wiki/Data-Clump).
+All options that go beyond the [Basic Smell Options](https://github.com/troessner/reek/wiki/Basic-Smell-Options)
+should be documented in the corresponding smell type wiki page,
+but if you want to get a quick and full overview over all possible
+configurations you can always check out [the `config/default.reek`
+file in this repository](config/defaults.reek).
 
 Here's an excerpt of a `reek` configuration file from a commercial project:
 
@@ -133,12 +162,14 @@ Here's an excerpt of a `reek` configuration file from a commercial project:
 ---
 IrresponsibleModule:
   enabled: false
+
 NestedIterators:
   exclude:
     - "ActiveModelErrorAdder#self.run" # should be refactored
     - "BookingRequests::Transfer#remote_validation"
     - "BookingRequestsController#vehicle_options" # respond_to block
     - "Content::Base#self.expose_fields" # unavoidable due to metaprogramming
+
 DataClump:
   max_copies: 3
   min_clump_size: 3
@@ -146,7 +177,9 @@ DataClump:
 
 ### Source code comments
 
-`reek` is not the police. In case you need to suppress a smell warning and you can't or don't want to use configuration files for whatever reasons you can also use source code comments like this:
+`reek` is not the police. In case you need to suppress a smell
+warning and you can't or don't want to use configuration files for
+whatever reasons you can also use source code comments like this:
 
 ```Ruby
 # This method smells of :reek:NestedIterators
@@ -155,7 +188,7 @@ def smelly_method foo
 end
 ```
 
-This is further explained [here](https://github.com/troessner/reek/wiki/Smell-Suppression)
+This is further explained under [Smell Suppresion](https://github.com/troessner/reek/wiki/Smell-Suppression).
 
 
 ## Integration
@@ -166,21 +199,21 @@ Besides the obvious
 reek [options] [dir_or_source_file]*
 ```
 
-there are quite a few other ways how to use reek in your projects:
+there are quite a few other ways how to use `reek` in your projects:
 
-* Use `reek`'s [Rake Task](https://github.com/troessner/reek/wiki/Rake-Task) to automate detecting code smells
+* Use `reek`'s [Rake task](https://github.com/troessner/reek/wiki/Rake-Task) to automate detecting code smells
 * Add `reek`'s custom matcher to your [RSpec examples](https://github.com/troessner/reek/wiki/RSpec-matchers)
 * Include `reek` using the [Developer API](https://github.com/troessner/reek/wiki/Developer-Api)
 
-## Developing reek / Contributing
+## Developing `reek` / Contributing
 
-The first thing you want to do after checking out the source code is to run bundler
+The first thing you want to do after checking out the source code is to run Bundler:
 
 ```
 bundle install
 ```
 
-and then to run the tests:
+and then run the tests:
 
 ```bash
 bundle exec rspec spec/your/file_spec.rb            # Runs all tests in spec/your/file_spec.rb
@@ -189,13 +222,13 @@ bundle exec cucumber features/your_file.feature     # Runs all scenarios in your
 bundle exec cucumber features/your_file.feature:23  # Runs scenario at line 23
 ```
 
-Or just run the whole test suite by running
+Or just run the whole test suite:
 
 ```
 bundle exec rake
 ```
 
-From then on continue by following the establish [pull request workflow](https://help.github.com/articles/using-pull-requests/).
+From then on please check out [the contributing guide](CONTRIBUTING.md).
 
 If you don't feel like getting your hands dirty with code there are still other ways you can help us:
 
@@ -207,9 +240,9 @@ If you don't feel like getting your hands dirty with code there are still other 
 `reek` supports 3 output formats:
 
 * plain text (default)
-* html (`--format html`)
-* yaml (`--format yaml`)
-* json (`--format json`)
+* HTML (`--format html`)
+* YAML (`--format yaml`)
+* JSON (`--format json`)
 
 ## Additional resources
 
@@ -221,14 +254,14 @@ If you don't feel like getting your hands dirty with code there are still other 
   (also with [Guard::Preek](https://github.com/joenas/guard-preek))
 * [Atom plugin for `reek`](https://atom.io/packages/linter-reek)
 
-### Find out more:
+### More information
 
 * [Stack Overflow](https://stackoverflow.com/questions/tagged/reek)
-* [RDoc](http://rdoc.info/projects/troessner/reek)
+* [RubyDoc.info](http://www.rubydoc.info/gems/reek)
 
 ## Contributors
 
-A non exhaustive list:
+A non-exhaustive list:
 
 * Kevin Rutherford
 * Matijs van Zuijlen
