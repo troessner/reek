@@ -13,5 +13,9 @@ describe Reek::Core::SmellRepository do
     it 'should exclude certain smell_types' do
       expect(smell_types).to_not include(Reek::Smells::SmellDetector)
     end
+
+    it 'should return the smell types in alphabetic order' do
+      expect(smell_types).to eq(smell_types.sort_by(&:name))
+    end
   end
 end
