@@ -220,6 +220,8 @@ If you don't feel like getting your hands dirty with code there are still other 
 * [Colorful output for `reek`](https://github.com/joenas/preek)
   (also with [Guard::Preek](https://github.com/joenas/guard-preek))
 * [Atom plugin for `reek`](https://atom.io/packages/linter-reek)
+* [overcommit, a Git commit hook manager with support for
+  `reek`](https://github.com/brigade/overcommit)
 
 ### Find out more:
 
