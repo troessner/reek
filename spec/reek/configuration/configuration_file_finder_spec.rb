@@ -1,5 +1,6 @@
 # encoding: UTF-8
 
+require 'fileutils'
 require 'pathname'
 require 'tmpdir'
 require_relative '../../spec_helper'
@@ -53,6 +54,17 @@ describe Reek::Configuration::ConfigurationFileFinder do
         home    = Pathname.new(tempdir)
         found = described_class.find(current: current, home: home)
         expect(found).to be_nil
+      end
+    end
+
+    it 'works with paths that need escaping' do
+      Dir.mktmpdir("ma\ngic d*r") do |tempdir|
+        config = Pathname.new("#{tempdir}/ma\ngic f*le.reek")
+        subdir = Pathname.new("#{tempdir}/ma\ngic subd*r")
+        FileUtils.touch config
+        FileUtils.mkdir subdir
+        found = described_class.find(current: subdir)
+        expect(found).to eq(config)
       end
     end
   end
