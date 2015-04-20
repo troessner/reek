@@ -40,6 +40,7 @@ describe Reek::Configuration::ConfigurationFileFinder do
     end
 
     it 'returns the file in home if traversing from the current dir fails' do
+      skip_if_a_config_in_tempdir
       Dir.mktmpdir do |tempdir|
         current = Pathname.new(tempdir)
         home    = Pathname.new('spec/samples')
@@ -49,6 +50,7 @@ describe Reek::Configuration::ConfigurationFileFinder do
     end
 
     it 'returns nil when there are no files to find' do
+      skip_if_a_config_in_tempdir
       Dir.mktmpdir do |tempdir|
         current = Pathname.new(tempdir)
         home    = Pathname.new(tempdir)
@@ -66,6 +68,13 @@ describe Reek::Configuration::ConfigurationFileFinder do
         found = described_class.find(current: subdir)
         expect(found).to eq(config)
       end
+    end
+
+    private
+
+    def skip_if_a_config_in_tempdir
+      found = described_class.find(current: Pathname.new(Dir.tmpdir))
+      skip "skipped: #{found} exists and would fail this test" if found
     end
   end
 end
