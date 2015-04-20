@@ -44,21 +44,10 @@ module Reek
       end
 
       def yaml_hash(warning_formatter = nil)
-        result = {
-          'smell_category' => smell_detector.smell_category,
-          'smell_type'     => smell_detector.smell_type,
-          'source'         => smell_detector.source,
-          'context'        => context,
-          'lines'          => lines,
-          'message'        => message
-        }
-        if warning_formatter.respond_to?(:explanatory_link)
-          result.merge!('wiki_link' => warning_formatter.explanatory_link(smell_detector))
-        end
-        parameters.each do |key, value|
-          result[key.to_s] = value
-        end
-        result
+        stringified_params = Hash[parameters.map { |key, val| [key.to_s, val] }]
+        core_yaml_hash.
+          merge(stringified_params).
+          merge(wiki_link_hash(warning_formatter))
       end
 
       protected
@@ -66,6 +55,8 @@ module Reek
       def sort_key
         [context, message, smell_category]
       end
+
+      private
 
       def common_parameters_equal?(other_parameters)
         other_parameters.keys.each do |key|
@@ -83,6 +74,25 @@ module Reek
         # In order to allow for this kind of leniency we just test for common parameter equality,
         # not for a strict one.
         parameters.values_at(*other_parameters.keys) == other_parameters.values
+      end
+
+      def core_yaml_hash
+        {
+          'context'        => context,
+          'lines'          => lines,
+          'message'        => message,
+          'smell_category' => smell_detector.smell_category,
+          'smell_type'     => smell_detector.smell_type,
+          'source'         => smell_detector.source
+        }
+      end
+
+      def wiki_link_hash(warning_formatter)
+        if warning_formatter.respond_to?(:explanatory_link)
+          { 'wiki_link' => warning_formatter.explanatory_link(smell_detector) }
+        else
+          {}
+        end
       end
     end
   end
