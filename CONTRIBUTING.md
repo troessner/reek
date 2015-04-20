@@ -46,13 +46,18 @@ bundle exec rake
 ```
 
 Once you’re sure your copy of reek works (and that there are no
-failing tests on master…) create your own branch and start hacking:
+failing tests on the "develop" branch) create your own branch from our "develop" branch.
+
+We are using the popular [gitflow branch model](http://nvie.com/posts/a-successful-git-branching-model/) and
+require contributions to follow to this model as well.
+This probably sounds more complicated than it is, for you this just means that you should branch off
+of our "develop" branch for your pull request, not master (which is the default already):
 
 ```
 git checkout -b your_feature_or_fix_name
 ```
 
-Add new tests which make sure that your new feature works or
+Then start hacking and add new tests which make sure that your new feature works or
 demonstrate that your fix was needed; please also [write good commit
 messages](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html).
 
@@ -100,7 +105,7 @@ If there were any fixes to your pull request we’ll ask you to
 all of the commits into one:
 
 ```
-git rebase -i master
+git rebase -i develop
 # squash squash squash
 git push -f origin
 ```
