@@ -18,7 +18,7 @@ module Reek
           SmellWarning.new self,
                            context: ctx.full_name,
                            lines: [node.line],
-                           message: 'performs a nil-check.'
+                           message: 'performs a nil-check'
         end
       end
 
