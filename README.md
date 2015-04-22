@@ -237,12 +237,13 @@ If you don't feel like getting your hands dirty with code there are still other 
 
 ## Output formats
 
-`reek` supports 3 output formats:
+`reek` supports 5 output formats:
 
 * plain text (default)
 * HTML (`--format html`)
 * YAML (`--format yaml`)
 * JSON (`--format json`)
+* XML  (`--format xml`)
 
 ## Additional resources
 
