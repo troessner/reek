@@ -9,6 +9,13 @@ module Reek
     # single unit of Ruby source code.
     #
     class SourceRepository
+      attr_reader :description
+
+      def initialize(description, sources)
+        @description = description
+        @sources     = sources
+      end
+
       # TODO: This method is a least partially broken.
       # Regardless of how you call reek, be it:
       #   reek lib/
@@ -19,21 +26,13 @@ module Reek
       def self.parse(source)
         case source
         when Array
-          new 'dir', Source::SourceLocator.new(source).all_sources
+          new 'dir', Source::SourceLocator.new(source).sources
         when Source::SourceCode
-          new source.desc, [source]
+          new source.description, [source]
         else
           src = Source::SourceCode.from source
-          new src.desc, [src]
+          new src.description, [src]
         end
-      end
-
-      include Enumerable
-      attr_reader :description
-
-      def initialize(description, sources)
-        @description = description
-        @sources = sources
       end
 
       def each(&block)
