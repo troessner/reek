@@ -4,10 +4,6 @@ AllCops:
     - 'tmp/**/*'
     - 'vendor/**/*'
 
-# FIXME: Lower the ABC size by fixing the biggest offenders
-Metrics/AbcSize:
-  Max: 16
-
 # FIXME: Make the class shorter
 Metrics/ClassLength:
   Exclude:
