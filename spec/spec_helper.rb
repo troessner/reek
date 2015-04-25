@@ -2,7 +2,13 @@ require_relative '../lib/reek/spec'
 require_relative '../lib/reek/core/ast_node_class_map'
 require_relative '../lib/reek/configuration/app_configuration'
 
-require 'factory_girl'
+Reek::CLI::Silencer.silently do
+  require 'factory_girl'
+end
+if Gem.loaded_specs['factory_girl'].version > Gem::Version.create('4.5.0')
+  raise 'Remove the above silencer as well as this check now that ' \
+        '`factory_girl` gem is updated to version greater than 4.5.0!'
+end
 
 begin
   require 'pry-byebug'
