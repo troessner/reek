@@ -60,7 +60,7 @@ module Reek
 
       def run
         @sources.each do |source|
-          smell_repository = Core::SmellRepository.new(source.desc, @smell_types)
+          smell_repository = Core::SmellRepository.new(source.description, @smell_types)
           syntax_tree = source.syntax_tree
           Core::TreeWalker.new(smell_repository).process(syntax_tree) if syntax_tree
           smell_repository.report_on(@collector)
