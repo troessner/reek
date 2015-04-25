@@ -25,5 +25,11 @@ describe Reek::Sexp::SexpFormatter do
 
       expect(result).to eq 'if foo ... end'
     end
+
+    it "doesn't reduce two-line ASTs" do
+      ast = s(:def, 'my_method', s(:args))
+      result = described_class.format ast
+      expect(result).to eq 'def my_method; end'
+    end
   end
 end

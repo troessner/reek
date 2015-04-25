@@ -12,12 +12,11 @@ module Reek
       end
 
       def klass_for(type)
-        @klass_map[type] ||=
-          begin
-            klass = Class.new(ASTNode)
-            klass.send :include, extension_map[type] if extension_map[type]
-            klass.send :include, Sexp::SexpNode
-          end
+        @klass_map[type] ||= Class.new(ASTNode).tap do |klass|
+          extension = extension_map[type]
+          klass.send :include, extension if extension
+          klass.send :include, Sexp::SexpNode
+        end
       end
 
       def extension_map
