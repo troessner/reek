@@ -10,10 +10,11 @@ module Reek
     # Parses the command line
     #
     class Options
-      def initialize(argv)
+      def initialize(argv = [])
         @argv    = argv
         @parser  = OptionParser.new
-        @options = OpenStruct.new(colored: true, smells_to_detect: [])
+        @options = OpenStruct.new(colored: color_support?,
+                                  smells_to_detect: [])
         set_up_parser
       end
 
@@ -25,6 +26,10 @@ module Reek
       end
 
       private
+
+      def color_support?
+        $stdout.tty?
+      end
 
       def set_up_parser
         set_banner

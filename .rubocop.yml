@@ -12,6 +12,7 @@ Metrics/AbcSize:
 Metrics/ClassLength:
   Exclude:
     - lib/reek/core/tree_walker.rb
+    - lib/reek/cli/options.rb
 
 # FIXME: Lower the method length by fixing the biggest offenders
 Metrics/MethodLength:
