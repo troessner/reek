@@ -17,6 +17,47 @@ describe Reek::Smells::Attribute do
       ctx = Reek::Core::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
       expect(@detector.examine_context(ctx)).to be_empty
     end
+
+    shared_examples_for 'no attribute found' do
+      before :each do
+        ctx = Reek::Core::CodeContext.new(nil, Reek::Source::SourceCode.from(@src).syntax_tree)
+        @smells = @detector.examine_context(ctx)
+      end
+
+      it 'records no attribute' do
+        expect(@smells.length).to eq(0)
+      end
+    end
+
+    context 'declared in a class' do
+      before :each do
+        @src = "class Fred
+          attr :super_private, :super_private2
+          private :super_private, :super_private2
+          private
+          attr :super_thing
+          public
+          attr :super_thing2
+          private
+          attr :super_thing2
+        end"
+      end
+
+      it_should_behave_like 'no attribute found'
+    end
+
+    context 'declared in a module' do
+      before :each do
+        @src = "module Fred
+          attr :super_private, :super_private2
+          private :super_private, :super_private2
+          private
+          attr :super_thing
+        end"
+      end
+
+      it_should_behave_like 'no attribute found'
+    end
   end
 
   context 'with one attribute' do
@@ -113,6 +154,96 @@ describe Reek::Smells::Attribute do
       end
 
       it_should_behave_like 'one attribute found'
+    end
+
+    context 'declared in a class' do
+      before :each do
+        @src = "class Fred; private; attr :#{@attr_name}
+          public :#{@attr_name}
+          private :#{@attr_name}
+          public :#{@attr_name}
+        end"
+      end
+
+      it_should_behave_like 'one attribute found'
+    end
+
+    context 'declared in a module' do
+      before :each do
+        @src = "module Fred; private; attr :#{@attr_name}
+          public :#{@attr_name}
+          private :#{@attr_name}
+          public :#{@attr_name}
+        end"
+      end
+      it_should_behave_like 'one attribute found'
+    end
+  end
+
+  context 'with two attribute' do
+    before :each do
+      @attr_name = 'super_thing'
+    end
+
+    shared_examples_for 'two attributes found' do
+      before :each do
+        ctx = Reek::Core::CodeContext.new(nil, Reek::Source::SourceCode.from(@src).syntax_tree)
+        @smells = @detector.examine_context(ctx)
+      end
+
+      it 'records only that attribute' do
+        expect(@smells.length).to eq(2)
+      end
+
+      it 'reports the attribute name' do
+        expect(@smells[0].parameters[:name]).to eq(@attr_name)
+      end
+
+      it 'reports the declaration line number' do
+        expect(@smells[0].lines).to eq([1])
+      end
+
+      it 'reports the correct smell class' do
+        expect(@smells[0].smell_category).to eq(described_class.smell_category)
+      end
+
+      it 'reports the context fq name' do
+        expect(@smells[0].context).to eq('Fred')
+      end
+    end
+
+    context 'declared in a class' do
+      before :each do
+        @src = "class Fred; private; attr :#{@attr_name}
+          public
+          attr :#{@attr_name}
+          protected
+          attr :iam_protected
+        end"
+      end
+
+      it_should_behave_like 'two attributes found'
+    end
+
+    context 'declared in a class' do
+      before :each do
+        @src = "class Fred; private; attr :#{@attr_name}
+          public
+          attr :#{@attr_name}
+        end"
+      end
+
+      it_should_behave_like 'two attributes found'
+    end
+
+    context 'declared in a module' do
+      before :each do
+        @src = "module Fred; private; attr :#{@attr_name}
+          public
+          attr :#{@attr_name}
+        end"
+      end
+      it_should_behave_like 'two attributes found'
     end
   end
 end
