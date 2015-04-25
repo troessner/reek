@@ -16,6 +16,7 @@ matrix:
   allow_failures:
     - rvm: jruby-head
     - rvm: ruby-head
+  fast_finish: true
 notifications:
   recipients:
     - timo.roessner@googlemail.com
