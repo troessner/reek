@@ -69,7 +69,7 @@ module Reek
         end
 
         def call
-          @call ||= @call_node.format_ruby
+          @call ||= @call_node.format_to_ruby
         end
 
         def occurs

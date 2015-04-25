@@ -5,7 +5,7 @@ describe Reek::Sexp::SexpNode do
   context 'format' do
     it 'formats self' do
       @node = s(:self)
-      expect(@node.format_ruby).to eq('self')
+      expect(@node.format_to_ruby).to eq('self')
     end
   end
 

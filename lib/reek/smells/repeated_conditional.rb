@@ -53,7 +53,7 @@ module Reek
           lines.length > @max_identical_ifs
         end.map do |key, lines|
           occurs = lines.length
-          expression = key.format_ruby
+          expression = key.format_to_ruby
           SmellWarning.new self,
                            context: ctx.full_name,
                            lines: lines,
