@@ -12,10 +12,19 @@ module Reek
     # +attr_reader+, +attr_writer+ and +attr_accessor+ -- including those
     # that are private.
     #
-    # TODO: Eliminate private attributes
     # TODO: Catch attributes declared "by hand"
     #
     class Attribute < SmellDetector
+      ATTR_DEFN_METHODS = [:attr, :attr_reader, :attr_writer, :attr_accessor]
+      VISIBILITY_MODIFIERS = [:private, :public, :protected]
+
+      def initialize(*args)
+        @visiblity_tracker = {}
+        @visiblity_mode = :public
+        @result = Set.new
+        super
+      end
+
       def self.contexts # :nodoc:
         [:class, :module]
       end
@@ -42,14 +51,33 @@ module Reek
       private
 
       def attributes_in(module_ctx)
-        result = Set.new
-        attr_defn_methods = [:attr, :attr_reader, :attr_writer, :attr_accessor]
         module_ctx.local_nodes(:send) do |call_node|
-          if attr_defn_methods.include?(call_node.method_name)
-            call_node.arg_names.each { |arg| result << [arg, call_node.line] }
+          if visibility_modifier?(call_node)
+            track_visibility(call_node)
+          elsif ATTR_DEFN_METHODS.include?(call_node.method_name)
+            call_node.arg_names.each do |arg|
+              @visiblity_tracker[arg] = @visiblity_mode
+              @result << [arg, call_node.line]
+            end
           end
         end
-        result
+        @result.select { |args| recorded_public_methods.include?(args[0]) }
+      end
+
+      def visibility_modifier?(call_node)
+        VISIBILITY_MODIFIERS.include?(call_node.method_name)
+      end
+
+      def track_visibility(call_node)
+        if call_node.arg_names.any?
+          call_node.arg_names.each { |arg| @visiblity_tracker[arg] = call_node.method_name }
+        else
+          @visiblity_mode = call_node.method_name
+        end
+      end
+
+      def recorded_public_methods
+        @visiblity_tracker.select { |_, visbility| visbility == :public }
       end
     end
   end
