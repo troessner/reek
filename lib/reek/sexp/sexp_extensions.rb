@@ -259,7 +259,7 @@ module Reek
         include MethodNodeBase
         def full_name(outer)
           prefix = outer == '' ? '' : "#{outer}#"
-          "#{prefix}#{SexpNode.format(receiver)}.#{name}"
+          "#{prefix}#{SexpFormatter.format(receiver)}.#{name}"
         end
 
         def depends_on_instance?
@@ -314,7 +314,7 @@ module Reek
         end
 
         def text_name
-          SexpNode.format(name)
+          SexpFormatter.format(name)
         end
       end
 
