@@ -203,7 +203,7 @@ there are quite a few other ways how to use `reek` in your projects:
 
 * Use `reek`'s [Rake task](https://github.com/troessner/reek/wiki/Rake-Task) to automate detecting code smells
 * Add `reek`'s custom matcher to your [RSpec examples](https://github.com/troessner/reek/wiki/RSpec-matchers)
-* Include `reek` using the [Developer API](https://github.com/troessner/reek/wiki/Developer-Api)
+* Include `reek` using the [Developer API](docs/API.md)
 
 ## Developing `reek` / Contributing
 
