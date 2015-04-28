@@ -1,3 +1,9 @@
+# NOTE: tree_walker is required first to ensure unparser is required before
+# parser. This prevents a potentially incompatible version of parser from being
+# loaded first. This is only relevant when running bin/reek straight from a
+# checkout directory without using Bundler.
+#
+# See also https://github.com/troessner/reek/pull/468
 require_relative 'tree_walker'
 require_relative 'smell_repository'
 require_relative 'warning_collector'
