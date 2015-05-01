@@ -105,8 +105,8 @@ module Reek
 
         def collect_calls(result)
           context.each_node(:send, [:mlhs]) do |call_node|
-            next if call_node.method_name == :new
-            next if !call_node.receiver && call_node.args.empty?
+            next if initializer_call? call_node
+            next if simple_method_call? call_node
             result[call_node].record(call_node)
           end
           context.local_nodes(:block) do |call_node|
@@ -116,6 +116,14 @@ module Reek
 
         def smelly_call?(found_call)
           found_call.occurs > @max_allowed_calls && !allow_calls?(found_call.call)
+        end
+
+        def simple_method_call?(call_node)
+          !call_node.receiver && call_node.args.empty?
+        end
+
+        def initializer_call?(call_node)
+          call_node.method_name == :new
         end
 
         def allow_calls?(method)
