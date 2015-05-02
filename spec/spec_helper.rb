@@ -52,4 +52,8 @@ RSpec.configure do |config|
   config.run_all_when_everything_filtered = true
   config.include FactoryGirl::Syntax::Methods
   config.include Helpers
+
+  config.mock_with :rspec do |mocks|
+    mocks.verify_partial_doubles = true
+  end
 end
