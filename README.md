@@ -11,7 +11,7 @@
 ## Quickstart
 
 `reek` is a tool that examines Ruby classes, modules and methods and reports any
-[Code Smells](https://github.com/troessner/reek/wiki/Code-Smells) it finds.
+[Code Smells](docs/Code-Smells.md) it finds.
 Install it like this:
 
 ```Bash
@@ -94,16 +94,16 @@ $stdin -- 3 warnings:
 ## Code smells
 
 `reek` currently includes checks for some aspects of
-[Control Couple](https://github.com/troessner/reek/wiki/Control-Couple),
-[Data Clump](https://github.com/troessner/reek/wiki/Data-Clump),
-[Feature Envy](https://github.com/troessner/reek/wiki/Feature-Envy),
-[Large Class](https://github.com/troessner/reek/wiki/Large-Class),
-[Long Parameter List](https://github.com/troessner/reek/wiki/Long-Parameter-List),
-[Simulated Polymorphism](https://github.com/troessner/reek/wiki/Simulated-Polymorphism),
-[Too Many Statements](https://github.com/troessner/reek/wiki/Too-Many-Statements),
-[Uncommunicative Name](https://github.com/troessner/reek/wiki/Uncommunicative-Name),
-[Unused Parameters](https://github.com/troessner/reek/wiki/Unused-Parameters)
-and more. See the [Code Smells](https://github.com/troessner/reek/wiki/Code-Smells)
+[Control Couple](docs/Control-Couple.md),
+[Data Clump](docs/Data-Clump.md),
+[Feature Envy](docs/Feature-Envy.md),
+[Large Class](docs/Large-Class.md),
+[Long Parameter List](docs/Long-Parameter-List.md),
+[Simulated Polymorphism](docs/Simulated-Polymorphism.md),
+[Too Many Statements](docs/Too-Many-Statements.md),
+[Uncommunicative Name](docs/Uncommunicative-Name.md),
+[Unused Parameters](docs/Unused-Parameters.md)
+and more. See the [Code Smells](docs/Code-Smells.md)
 for up to date details of exactly what `reek` will check in your code.
 
 ## Configuration
@@ -116,7 +116,7 @@ For a basic overview, run
 reek --help
 ```
 
-For a summary of those CLI options see [Command-Line Options](https://github.com/troessner/reek/wiki/Command-Line-Options).
+For a summary of those CLI options see [Command-Line Options](docs/Command-Line-Options.md).
 
 ### Configuration file
 
@@ -145,12 +145,12 @@ of how many `*.reek` files you might have on your filesystem.
 #### Configuration options
 
 The first thing you probably want to check out are the
-[Basic Smell Options](https://github.com/troessner/reek/wiki/Basic-Smell-Options)
+[Basic Smell Options](docs/Basic-Smell-Options.md)
 which are supported by every smell type. Certain smell
 types offer a configuration that goes beyond that
 of the basic smell options, for instance
-[Data Clump](https://github.com/troessner/reek/wiki/Data-Clump).
-All options that go beyond the [Basic Smell Options](https://github.com/troessner/reek/wiki/Basic-Smell-Options)
+[Data Clump](docs/Data-Clump.md).
+All options that go beyond the [Basic Smell Options](docs/Basic-Smell-Options.md)
 should be documented in the corresponding smell type wiki page,
 but if you want to get a quick and full overview over all possible
 configurations you can always check out [the `config/default.reek`
@@ -188,7 +188,7 @@ def smelly_method foo
 end
 ```
 
-This is further explained under [Smell Suppresion](https://github.com/troessner/reek/wiki/Smell-Suppression).
+This is further explained under [Smell Suppresion](docs/Smell-Suppression.md).
 
 
 ## Integration
@@ -201,8 +201,8 @@ reek [options] [dir_or_source_file]*
 
 there are quite a few other ways how to use `reek` in your projects:
 
-* Use `reek`'s [Rake task](https://github.com/troessner/reek/wiki/Rake-Task) to automate detecting code smells
-* Add `reek`'s custom matcher to your [RSpec examples](https://github.com/troessner/reek/wiki/RSpec-matchers)
+* Use `reek`'s [Rake task](docs/Rake-Task.md) to automate detecting code smells
+* Add `reek`'s custom matcher to your [RSpec examples](docs/RSpec-matchers.md)
 * Include `reek` using the [Developer API](docs/API.md)
 
 ## Developing `reek` / Contributing
@@ -232,8 +232,8 @@ From then on please check out [the contributing guide](CONTRIBUTING.md).
 
 If you don't feel like getting your hands dirty with code there are still other ways you can help us:
 
-* Work on the [wiki](https://github.com/troessner/reek/wiki)
-* Open up an [issue](https://github.com/troessner/reek/issues) and report bugs or suggest other improvements
+* Open up an [issue](https://github.com/troessner/reek/issues) and report bugs
+* Suggest other improvements like additional smells for instance
 
 ## Output formats
 
