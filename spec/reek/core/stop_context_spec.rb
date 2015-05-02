@@ -1,7 +1,7 @@
 require_relative '../../spec_helper'
 require_relative '../../../lib/reek/core/stop_context'
 
-describe Reek::Core::StopContext do
+RSpec.describe Reek::Core::StopContext do
   before :each do
     @stop = Reek::Core::StopContext.new
   end

@@ -3,7 +3,7 @@ require_relative '../../../lib/reek/core/examiner'
 require_relative '../../../lib/reek/cli/report/report'
 require_relative '../../../lib/reek/cli/report/formatter'
 
-describe Reek::CLI::Report::YAMLReport do
+RSpec.describe Reek::CLI::Report::YAMLReport do
   let(:instance) { Reek::CLI::Report::YAMLReport.new }
 
   context 'empty source' do

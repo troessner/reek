@@ -2,7 +2,7 @@ require_relative '../../spec_helper'
 require_relative '../../../lib/reek/smells/boolean_parameter'
 require_relative 'smell_detector_shared'
 
-describe Reek::Smells::BooleanParameter do
+RSpec.describe Reek::Smells::BooleanParameter do
   context 'parameter defaulted with boolean' do
     context 'in a method' do
       it 'reports a parameter defaulted to true' do

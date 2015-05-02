@@ -1,7 +1,7 @@
 require_relative '../../spec_helper'
 require_relative '../../../lib/reek/core/smell_configuration'
 
-shared_examples_for 'SmellDetector' do
+RSpec.shared_examples_for 'SmellDetector' do
   context 'exception matching follows the context' do
     before :each do
       @ctx = double('context')
@@ -28,7 +28,7 @@ shared_examples_for 'SmellDetector' do
   end
 end
 
-shared_examples_for 'common fields set correctly' do
+RSpec.shared_examples_for 'common fields set correctly' do
   it 'reports the source' do
     expect(@warning.source).to eq(@source_name)
   end

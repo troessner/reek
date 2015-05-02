@@ -2,7 +2,7 @@ require_relative '../../spec_helper'
 require_relative '../../../lib/reek/smells/module_initialize'
 require_relative 'smell_detector_shared'
 
-describe Reek::Smells::ModuleInitialize do
+RSpec.describe Reek::Smells::ModuleInitialize do
   context 'module' do
     context 'with method named initialize' do
       it 'smells' do

@@ -3,7 +3,7 @@ require_relative '../../../lib/reek/smells/uncommunicative_module_name'
 require_relative 'smell_detector_shared'
 require_relative '../../../lib/reek/core/code_context'
 
-describe Reek::Smells::UncommunicativeModuleName do
+RSpec.describe Reek::Smells::UncommunicativeModuleName do
   before do
     @source_name = 'dummy_source'
     @detector = build(:smell_detector, smell_type: :UncommunicativeModuleName, source: @source_name)

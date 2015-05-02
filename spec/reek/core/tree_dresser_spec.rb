@@ -1,7 +1,7 @@
 require_relative '../../spec_helper'
 require_relative '../../../lib/reek/core/tree_dresser'
 
-describe Reek::Core::TreeDresser do
+RSpec.describe Reek::Core::TreeDresser do
   let(:ifnode) { Parser::AST::Node.new(:if) }
   let(:sendnode) { Parser::AST::Node.new(:send) }
   let(:dresser) { described_class.new }

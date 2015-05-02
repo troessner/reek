@@ -2,7 +2,7 @@ require_relative '../../spec_helper'
 require_relative '../../../lib/reek/core/singleton_method_context'
 require_relative '../../../lib/reek/core/stop_context'
 
-describe Reek::Core::SingletonMethodContext do
+RSpec.describe Reek::Core::SingletonMethodContext do
   let(:smc) do
     sexp = s(:def, :foo, s(:args, s(:arg, :bar)), nil)
     Reek::Core::SingletonMethodContext.new(Reek::Core::StopContext.new, sexp)

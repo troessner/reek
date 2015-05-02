@@ -3,7 +3,7 @@ require_relative '../../../lib/reek/smells/class_variable'
 require_relative '../../../lib/reek/core/module_context'
 require_relative 'smell_detector_shared'
 
-describe Reek::Smells::ClassVariable do
+RSpec.describe Reek::Smells::ClassVariable do
   before :each do
     @source_name = 'dummy_source'
     @detector = build(:smell_detector, smell_type: :ClassVariable, source: @source_name)

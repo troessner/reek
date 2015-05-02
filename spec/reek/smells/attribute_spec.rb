@@ -3,7 +3,7 @@ require_relative '../../../lib/reek/smells/attribute'
 require_relative '../../../lib/reek/core/module_context'
 require_relative 'smell_detector_shared'
 
-describe Reek::Smells::Attribute do
+RSpec.describe Reek::Smells::Attribute do
   before :each do
     @source_name = 'dummy_source'
     @detector = build(:smell_detector, smell_type: :Attribute, source: @source_name)

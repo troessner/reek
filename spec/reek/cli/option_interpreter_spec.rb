@@ -2,7 +2,7 @@ require_relative '../../spec_helper'
 
 require_relative '../../../lib/reek/cli/options'
 
-describe Reek::CLI::OptionInterpreter do
+RSpec.describe Reek::CLI::OptionInterpreter do
   let(:options) { OpenStruct.new }
   let(:instance) { Reek::CLI::OptionInterpreter.new(options) }
 

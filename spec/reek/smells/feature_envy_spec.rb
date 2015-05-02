@@ -2,7 +2,7 @@ require_relative '../../spec_helper'
 require_relative '../../../lib/reek/smells/feature_envy'
 require_relative 'smell_detector_shared'
 
-describe Reek::Smells::FeatureEnvy do
+RSpec.describe Reek::Smells::FeatureEnvy do
   context 'with no smell' do
     it 'should not report use of self' do
       expect('def simple() self.to_s + self.to_i end').not_to reek_of(:FeatureEnvy)
@@ -211,7 +211,7 @@ describe Reek::Smells::FeatureEnvy do
   end
 end
 
-describe Reek::Smells::FeatureEnvy do
+RSpec.describe Reek::Smells::FeatureEnvy do
   before(:each) do
     @source_name = 'dummy_source'
     @detector = build(:smell_detector, smell_type: :FeatureEnvy, source: @source_name)

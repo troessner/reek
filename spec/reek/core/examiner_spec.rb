@@ -1,7 +1,7 @@
 require_relative '../../spec_helper'
 require_relative '../../../lib/reek/core/examiner'
 
-shared_examples_for 'no smells found' do
+RSpec.shared_examples_for 'no smells found' do
   it 'is not smelly' do
     expect(@examiner).not_to be_smelly
   end
@@ -10,7 +10,7 @@ shared_examples_for 'no smells found' do
   end
 end
 
-shared_examples_for 'one smell found' do
+RSpec.shared_examples_for 'one smell found' do
   it 'is smelly' do
     expect(@examiner).to be_smelly
   end
@@ -22,7 +22,7 @@ shared_examples_for 'one smell found' do
   end
 end
 
-describe Reek::Core::Examiner do
+RSpec.describe Reek::Core::Examiner do
   before :each do
     @expected_first_smell = 'NestedIterators'
   end

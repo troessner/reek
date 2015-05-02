@@ -2,7 +2,7 @@ require_relative '../../spec_helper'
 require_relative '../../../lib/reek/smells/too_many_methods'
 require_relative 'smell_detector_shared'
 
-describe Reek::Smells::TooManyMethods do
+RSpec.describe Reek::Smells::TooManyMethods do
   before(:each) do
     @source_name = 'dummy_source'
     @detector = described_class.new(@source_name)

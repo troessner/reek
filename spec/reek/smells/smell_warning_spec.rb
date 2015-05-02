@@ -1,7 +1,7 @@
 require_relative '../../spec_helper'
 require_relative '../../../lib/reek/smells/smell_warning'
 
-describe Reek::Smells::SmellWarning do
+RSpec.describe Reek::Smells::SmellWarning do
   let(:duplication_detector)  { build(:smell_detector, smell_type: 'DuplicateMethodCall') }
   let(:feature_envy_detector) { build(:smell_detector, smell_type: 'FeatureEnvy') }
   let(:utility_function_detector) { build(:smell_detector, smell_type: 'UtilityFunction') }

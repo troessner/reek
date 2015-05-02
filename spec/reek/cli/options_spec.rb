@@ -2,7 +2,7 @@ require_relative '../../spec_helper'
 
 require_relative '../../../lib/reek/cli/options'
 
-describe Reek::CLI::Options do
+RSpec.describe Reek::CLI::Options do
   describe '#initialize' do
     it 'should enable colors when stdout is a TTY' do
       allow($stdout).to receive_messages(tty?: false)

@@ -1,7 +1,7 @@
 require_relative '../../spec_helper'
 require_relative '../../../lib/reek/core/reference_collector'
 
-describe Reek::Core::ReferenceCollector do
+RSpec.describe Reek::Core::ReferenceCollector do
   context 'counting refs to self' do
     def refs_to_self(src)
       syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
