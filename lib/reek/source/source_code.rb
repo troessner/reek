@@ -41,6 +41,9 @@ module Reek
         end
       end
 
+      # Parses the given source into an AST.
+      #
+      #  @return [Reek::Core::ASTNode] the AST presentation of the given source
       def syntax_tree
         @syntax_tree ||=
           begin
