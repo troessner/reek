@@ -1,4 +1,6 @@
-# Using `reek` inside your Ruby application
+# API
+
+## Using `reek` inside your Ruby application
 
 `reek` can be used inside another Ruby project.
 
