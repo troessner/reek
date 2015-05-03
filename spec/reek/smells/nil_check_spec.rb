@@ -3,7 +3,7 @@ require_relative '../../../lib/reek/core/code_context'
 require_relative '../../../lib/reek/smells/nil_check'
 require_relative 'smell_detector_shared'
 
-describe Reek::Smells::NilCheck do
+RSpec.describe Reek::Smells::NilCheck do
   context 'for methods' do
     it 'reports the correct line number' do
       src = <<-EOS

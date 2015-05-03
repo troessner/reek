@@ -1,4 +1,4 @@
-shared_examples_for 'a variable detector' do
+RSpec.shared_examples_for 'a variable detector' do
   context 'with no variables' do
     it "doesn't record a smell" do
       @detector.examine_context(@ctx)

@@ -3,7 +3,7 @@ require_relative '../../../lib/reek/core/method_context'
 require_relative '../../../lib/reek/core/module_context'
 require_relative '../../../lib/reek/core/stop_context'
 
-describe Reek::Core::CodeContext do
+RSpec.describe Reek::Core::CodeContext do
   context 'name recognition' do
     before :each do
       @exp_name = 'random_name'    # SMELL: could use a String.random here

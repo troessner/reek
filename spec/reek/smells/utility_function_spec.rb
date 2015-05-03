@@ -2,7 +2,7 @@ require_relative '../../spec_helper'
 require_relative '../../../lib/reek/smells/utility_function'
 require_relative 'smell_detector_shared'
 
-describe Reek::Smells::UtilityFunction do
+RSpec.describe Reek::Smells::UtilityFunction do
   describe 'a detector' do
     before(:each) do
       @source_name = 'dummy_source'

@@ -1,7 +1,7 @@
 require_relative '../../spec_helper'
 require_relative '../../../lib/reek/spec'
 
-describe Reek::Spec::ShouldReekOf do
+RSpec.describe Reek::Spec::ShouldReekOf do
   context 'rdoc demo example' do
     before :each do
       @ruby = 'def double_thing() @other.thing.foo + @other.thing.foo end'

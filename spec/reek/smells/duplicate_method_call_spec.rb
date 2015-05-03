@@ -4,7 +4,7 @@ require_relative '../../../lib/reek/core/code_context'
 require_relative '../../../lib/reek/core/tree_walker'
 require_relative 'smell_detector_shared'
 
-describe Reek::Smells::DuplicateMethodCall do
+RSpec.describe Reek::Smells::DuplicateMethodCall do
   context 'when a smell is reported' do
     before :each do
       @source_name = 'dummy_source'

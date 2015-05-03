@@ -1,7 +1,7 @@
 require_relative '../../spec_helper'
 require_relative '../../../lib/reek/core/smell_configuration'
 
-describe Reek::Core::SmellConfiguration do
+RSpec.describe Reek::Core::SmellConfiguration do
   it 'returns the default value when key not found' do
     cf = Reek::Core::SmellConfiguration.new({})
     expect(cf.value('fred', nil, 27)).to eq(27)

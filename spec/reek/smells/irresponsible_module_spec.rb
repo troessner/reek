@@ -3,7 +3,7 @@ require_relative '../../../lib/reek/core/code_context'
 require_relative '../../../lib/reek/smells/irresponsible_module'
 require_relative 'smell_detector_shared'
 
-describe Reek::Smells::IrresponsibleModule do
+RSpec.describe Reek::Smells::IrresponsibleModule do
   before(:each) do
     @bad_module_name = 'WrongUn'
     @source_name = 'dummy_source'

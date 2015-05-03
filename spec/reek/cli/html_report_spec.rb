@@ -2,7 +2,7 @@ require_relative '../../spec_helper'
 require_relative '../../../lib/reek/core/examiner'
 require_relative '../../../lib/reek/cli/report/report'
 
-describe Reek::CLI::Report::HTMLReport do
+RSpec.describe Reek::CLI::Report::HTMLReport do
   let(:instance) { Reek::CLI::Report::HTMLReport.new }
 
   context 'with an empty source' do

@@ -2,7 +2,7 @@ require_relative '../../spec_helper'
 require_relative '../../../lib/reek/core/module_context'
 require_relative 'smell_detector_shared'
 
-describe Reek::Smells::PrimaDonnaMethod do
+RSpec.describe Reek::Smells::PrimaDonnaMethod do
   it 'should report nothing when method and bang counterpart exist' do
     expect('class C; def m; end; def m!; end; end').not_to reek_of(:PrimaDonnaMethod)
   end

@@ -2,7 +2,7 @@ require_relative '../../spec_helper'
 require 'stringio'
 require_relative '../../../lib/reek/source/source_code'
 
-describe Reek::Source::SourceCode do
+RSpec.describe Reek::Source::SourceCode do
   describe '#syntax_tree' do
     it 'associates comments with the AST' do
       source = "# this is\n# a comment\ndef foo; end"

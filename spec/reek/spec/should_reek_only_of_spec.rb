@@ -1,7 +1,7 @@
 require_relative '../../spec_helper'
 require_relative '../../../lib/reek/spec'
 
-describe Reek::Spec::ShouldReekOnlyOf do
+RSpec.describe Reek::Spec::ShouldReekOnlyOf do
   before :each do
     @expected_smell_type = :NestedIterators
     @expected_context_name = 'SmellyClass#big_method'

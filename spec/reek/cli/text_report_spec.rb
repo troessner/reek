@@ -5,7 +5,7 @@ require_relative '../../../lib/reek/cli/report/formatter'
 require_relative '../../../lib/reek/cli/report/heading_formatter'
 require 'rainbow'
 
-describe Reek::CLI::Report::TextReport do
+RSpec.describe Reek::CLI::Report::TextReport do
   let(:report_options) do
     {
       warning_formatter: Reek::CLI::Report::SimpleWarningFormatter.new,

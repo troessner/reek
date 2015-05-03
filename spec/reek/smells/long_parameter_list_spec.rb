@@ -3,7 +3,7 @@ require_relative '../../../lib/reek/core/code_context'
 require_relative '../../../lib/reek/smells/long_parameter_list'
 require_relative 'smell_detector_shared'
 
-describe Reek::Smells::LongParameterList do
+RSpec.describe Reek::Smells::LongParameterList do
   context 'for methods with few parameters' do
     it 'should report nothing for no parameters' do
       expect('def simple; f(3);true; end').not_to reek_of(:LongParameterList)
@@ -73,7 +73,7 @@ describe Reek::Smells::LongParameterList do
   end
 end
 
-describe Reek::Smells::LongParameterList do
+RSpec.describe Reek::Smells::LongParameterList do
   before(:each) do
     @source_name = 'dummy_source'
     @detector = build(:smell_detector, smell_type: :LongParameterList, source: @source_name)

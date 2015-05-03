@@ -1,7 +1,7 @@
 require_relative '../spec_helper'
 require 'tempfile'
 
-describe 'yardoc' do
+RSpec.describe 'yardoc' do
   before :each do
     stderr_file = Tempfile.new('yardoc')
     stderr_file.close

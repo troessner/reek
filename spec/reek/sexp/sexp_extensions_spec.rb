@@ -1,7 +1,7 @@
 require_relative '../../spec_helper'
 require_relative '../../../lib/reek/sexp/sexp_extensions'
 
-describe Reek::Sexp::SexpExtensions::DefNode do
+RSpec.describe Reek::Sexp::SexpExtensions::DefNode do
   context 'with no parameters' do
     before :each do
       @node = s(:def, :hello, s(:args))
@@ -133,7 +133,7 @@ describe Reek::Sexp::SexpExtensions::DefNode do
   end
 end
 
-describe Reek::Sexp::SexpExtensions::DefsNode do
+RSpec.describe Reek::Sexp::SexpExtensions::DefsNode do
   context 'with no parameters' do
     before :each do
       @node = s(:defs, s(:lvar, :obj), :hello, s(:args))
@@ -247,7 +247,7 @@ describe Reek::Sexp::SexpExtensions::DefsNode do
   end
 end
 
-describe Reek::Sexp::SexpExtensions::SendNode do
+RSpec.describe Reek::Sexp::SexpExtensions::SendNode do
   context 'with no parameters' do
     before :each do
       @node = s(:send, nil, :hello)
@@ -279,7 +279,7 @@ describe Reek::Sexp::SexpExtensions::SendNode do
   end
 end
 
-describe Reek::Sexp::SexpExtensions::BlockNode do
+RSpec.describe Reek::Sexp::SexpExtensions::BlockNode do
   context 'with no parameters' do
     before :each do
       @node = s(:block, s(:send, nil, :map), s(:args), nil)
@@ -311,7 +311,7 @@ describe Reek::Sexp::SexpExtensions::BlockNode do
   end
 end
 
-describe Reek::Sexp::SexpExtensions::ModuleNode do
+RSpec.describe Reek::Sexp::SexpExtensions::ModuleNode do
   context 'with a simple name' do
     subject do
       mod = ast(:module, :Fred, nil)

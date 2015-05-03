@@ -2,7 +2,7 @@ require_relative '../../spec_helper'
 require_relative '../../../lib/reek/smells/uncommunicative_method_name'
 require_relative 'smell_detector_shared'
 
-describe Reek::Smells::UncommunicativeMethodName do
+RSpec.describe Reek::Smells::UncommunicativeMethodName do
   before do
     @source_name = 'dummy_source'
     @detector = build(:smell_detector, smell_type: :UncommunicativeMethodName, source: @source_name)

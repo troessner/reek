@@ -11,7 +11,7 @@ def process_singleton_method(source)
   Reek::Core::TreeWalker.new.process_defs(Reek::Source::SourceCode.from(source).syntax_tree)
 end
 
-describe Reek::Smells::TooManyStatements do
+RSpec.describe Reek::Smells::TooManyStatements do
   it 'should not report short methods' do
     src = 'def short(arga) alf = f(1);@bet = 2;@cut = 3;@dit = 4; @emp = 5;end'
     expect(src).not_to reek_of(:TooManyStatements)
@@ -49,7 +49,7 @@ describe Reek::Smells::TooManyStatements do
   end
 end
 
-describe Reek::Smells::TooManyStatements do
+RSpec.describe Reek::Smells::TooManyStatements do
   it 'counts 1 assignment' do
     method = process_method('def one() val = 4; end')
     expect(method.num_statements).to eq(1)
@@ -91,7 +91,7 @@ describe Reek::Smells::TooManyStatements do
   end
 end
 
-describe Reek::Smells::TooManyStatements, 'does not count control statements' do
+RSpec.describe Reek::Smells::TooManyStatements, 'does not count control statements' do
   it 'counts 1 statement in a conditional expression' do
     method = process_method('def one() if val == 4; callee(); end; end')
     expect(method.num_statements).to eq(1)
@@ -248,7 +248,7 @@ describe Reek::Smells::TooManyStatements, 'does not count control statements' do
   end
 end
 
-describe Reek::Smells::TooManyStatements do
+RSpec.describe Reek::Smells::TooManyStatements do
   before(:each) do
     @detector = build(:smell_detector, smell_type: :TooManyStatements, source: 'source_name')
   end
