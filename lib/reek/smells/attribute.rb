@@ -30,7 +30,7 @@ module Reek
       end
 
       def self.default_config
-        super.merge(Core::SmellConfiguration::ENABLED_KEY => false)
+        super.merge(Core::SmellConfiguration::ENABLED_KEY => true)
       end
 
       #

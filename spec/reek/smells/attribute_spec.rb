@@ -3,21 +3,9 @@ require_relative '../../../lib/reek/smells/attribute'
 require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::Attribute do
-  let(:config) do
-    {
-      Attribute: { Reek::Core::SmellConfiguration::ENABLED_KEY => true }
-    }
-  end
-
   before(:each) do
     @source_name = 'dummy_source'
     @detector = build(:smell_detector, smell_type: :Attribute, source: @source_name)
-  end
-
-  around(:each) do |example|
-    with_test_config(config) do
-      example.run
-    end
   end
 
   it_should_behave_like 'SmellDetector'
