@@ -9,31 +9,25 @@ module Reek
     # invites client classes to become too intimate with its inner workings,
     # and in particular with its representation of state.
     #
-    # Currently this detector raises a warning for every +attr+,
-    # +attr_reader+, +attr_writer+ and +attr_accessor+ -- including those
-    # that are private.
+    # This detector raises a warning for every
+    # +attr_writer+ and +attr_accessor+
     #
     # See {file:docs/Attribute.md} for details.
     # @api private
     #
     # TODO: Catch attributes declared "by hand"
     class Attribute < SmellDetector
-      ATTR_DEFN_METHODS = [:attr, :attr_reader, :attr_writer, :attr_accessor]
+      ATTR_DEFN_METHODS = [:attr_writer, :attr_accessor]
       VISIBILITY_MODIFIERS = [:private, :public, :protected]
 
       def initialize(*args)
         @visiblity_tracker = {}
         @visiblity_mode = :public
-        @result = Set.new
         super
       end
 
       def self.contexts # :nodoc:
         [:class, :module]
-      end
-
-      def self.default_config
-        super.merge(SmellConfiguration::ENABLED_KEY => false)
       end
 
       #
@@ -46,7 +40,7 @@ module Reek
           SmellWarning.new self,
                            context: ctx.full_name,
                            lines: [line],
-                           message:  "declares the attribute #{attribute}",
+                           message:  "declares the writable attribute #{attribute}",
                            parameters: { name: attribute.to_s }
         end
       end
@@ -54,17 +48,18 @@ module Reek
       private
 
       def attributes_in(module_ctx)
+        result = Set.new
         module_ctx.local_nodes(:send) do |call_node|
           if visibility_modifier?(call_node)
             track_visibility(call_node)
           elsif ATTR_DEFN_METHODS.include?(call_node.method_name)
             call_node.arg_names.each do |arg|
               @visiblity_tracker[arg] = @visiblity_mode
-              @result << [arg, call_node.line]
+              result << [arg, call_node.line]
             end
           end
         end
-        @result.select { |args| recorded_public_methods.include?(args[0]) }
+        result.select { |args| recorded_public_methods.include?(args[0]) }
       end
 
       def visibility_modifier?(call_node)
