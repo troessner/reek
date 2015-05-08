@@ -47,26 +47,10 @@ RSpec.describe Reek::Smells::Attribute do
       ').to_not reek_of(:Attribute)
     end
 
-    it 'records attr attribute in a module' do
+    it 'records attr_writer attribute in a module' do
       expect('
         module Mod
-          attr :my_attr
-        end
-      ').to reek_of(:Attribute, name: 'my_attr')
-    end
-
-    it 'records attr attribute' do
-      expect('
-        class Klass
-          attr :my_attr
-        end
-      ').to reek_of(:Attribute, name: 'my_attr')
-    end
-
-    it 'records reader attribute' do
-      expect('
-        class Klass
-          attr_reader :my_attr
+          attr_writer :my_attr
         end
       ').to reek_of(:Attribute, name: 'my_attr')
     end
@@ -87,11 +71,11 @@ RSpec.describe Reek::Smells::Attribute do
       ').to reek_of(:Attribute, name: 'my_attr')
     end
 
-    it 'records attr attribute after switching visbility' do
+    it 'records attr_writer attribute after switching visbility' do
       expect('
         class Klass
           private
-          attr :my_attr
+          attr_writer :my_attr
           public :my_attr
           private :my_attr
           public :my_attr

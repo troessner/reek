@@ -15,7 +15,7 @@ module Reek
     # TODO: Catch attributes declared "by hand"
     #
     class Attribute < SmellDetector
-      ATTR_DEFN_METHODS = [:attr, :attr_reader, :attr_writer, :attr_accessor]
+      ATTR_DEFN_METHODS = [:attr_writer, :attr_accessor]
       VISIBILITY_MODIFIERS = [:private, :public, :protected]
 
       def initialize(*args)
