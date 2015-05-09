@@ -9,6 +9,7 @@ module Reek
     #
     # Parses the command line
     #
+    # See docs/Command-Line-Options for details.
     class Options
       def initialize(argv = [])
         @argv    = argv

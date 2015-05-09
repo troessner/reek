@@ -11,6 +11,7 @@ module Reek
     # methods, and excludes methods inherited from superclasses or included
     # modules.
     #
+    # See docs/Too-Many-Methods for details.
     class TooManyMethods < SmellDetector
       # The name of the config field that sets the maximum number of methods
       # permitted in a class.

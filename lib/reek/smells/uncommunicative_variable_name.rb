@@ -15,6 +15,7 @@ module Reek
     # * 1-character names
     # * names ending with a number
     #
+    # See docs/Uncommunicative-Variable-Name for details.
     class UncommunicativeVariableName < SmellDetector
       # The name of the config field that lists the regexps of
       # smelly names to be reported.

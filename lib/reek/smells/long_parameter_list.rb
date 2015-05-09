@@ -11,6 +11,7 @@ module Reek
     # Currently +LongParameterList+ reports any method or block with too
     # many parameters.
     #
+    # See docs/Long-Parameter-List for details.
     class LongParameterList < SmellDetector
       # The name of the config field that sets the maximum number of
       # parameters permitted in any method or block.

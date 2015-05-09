@@ -39,6 +39,7 @@ module Reek
     # that remains next to where the caller invokes it in
     # the source code.
     #
+    # See docs/Control-Parameter for details.
     class ControlParameter < SmellDetector
       def self.smell_category
         'ControlCouple'

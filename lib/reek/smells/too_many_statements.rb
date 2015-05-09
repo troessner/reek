@@ -7,6 +7,7 @@ module Reek
     #
     # +TooManyStatements+ reports any method with more than 5 statements.
     #
+    # See docs/Too-Many-Statements for details.
     class TooManyStatements < SmellDetector
       # The name of the config field that sets the maximum number of
       # statements permitted in any method.
