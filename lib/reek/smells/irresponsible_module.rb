@@ -1,6 +1,5 @@
 require_relative 'smell_detector'
-require_relative '../smell_warning'
-require_relative '../source/code_comment'
+require_relative '../core/code_comment'
 
 module Reek
   module Smells
@@ -8,6 +7,7 @@ module Reek
     # It is considered good practice to annotate every class and module
     # with a brief comment outlining its responsibilities.
     #
+    # See docs/Irresponsible-Module for details.
     class IrresponsibleModule < SmellDetector
       def self.contexts # :nodoc:
         [:class]
@@ -23,7 +23,7 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       def examine_context(ctx)
-        comment = Source::CodeComment.new(ctx.exp.comments)
+        comment = Core::CodeComment.new(ctx.exp.comments)
         return [] if self.class.descriptive[ctx.full_name] ||= comment.descriptive?
         [SmellWarning.new(self,
                           context: ctx.full_name,

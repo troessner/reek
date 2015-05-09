@@ -1,7 +1,7 @@
 require_relative '../spec_helper'
 
-describe 'Reek source code' do
+RSpec.describe 'Reek source code' do
   it 'has no smells' do
-    Dir['lib/**/*.rb'].should_not reek
+    expect(Dir['lib/**/*.rb']).to_not reek
   end
 end

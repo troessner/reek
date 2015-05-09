@@ -1,6 +1,5 @@
 require_relative 'smell_detector'
-require_relative '../smell_warning'
-require_relative '../source/ast_node'
+require_relative '../core/ast_node'
 
 module Reek
   module Smells
@@ -23,6 +22,7 @@ module Reek
     # +RepeatedConditional+ checks for multiple conditionals
     # testing the same value throughout a single class.
     #
+    # See docs/Repeated-Conditional for details.
     class RepeatedConditional < SmellDetector
       # The name of the config field that sets the maximum number of
       # identical conditionals permitted within any single class.
@@ -54,7 +54,7 @@ module Reek
           lines.length > @max_identical_ifs
         end.map do |key, lines|
           occurs = lines.length
-          expression = key.format_ruby
+          expression = key.format_to_ruby
           SmellWarning.new self,
                            context: ctx.full_name,
                            lines: lines,

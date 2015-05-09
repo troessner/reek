@@ -1,5 +1,4 @@
 require_relative 'smell_detector'
-require_relative '../smell_warning'
 
 module Reek
   module Smells
@@ -8,6 +7,7 @@ module Reek
     # hard to tell initialization order and parameters so having 'initialize'
     # in a module is usually a bad idea
     #
+    # See docs/Module-Initialize for details.
     class ModuleInitialize < SmellDetector
       def self.contexts # :nodoc:
         [:module]

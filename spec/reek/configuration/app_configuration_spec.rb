@@ -2,7 +2,7 @@ require_relative '../../spec_helper'
 require_relative '../../../lib/reek/configuration/app_configuration'
 require_relative '../../../lib/reek/core/smell_repository'
 
-describe Reek::Configuration::AppConfiguration do
+RSpec.describe Reek::Configuration::AppConfiguration do
   let(:sample_configuration_path) { 'spec/samples/simple_configuration.reek' }
   let(:sample_configuration_loaded) do
     {

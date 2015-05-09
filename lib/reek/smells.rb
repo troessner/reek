@@ -1,6 +1,8 @@
-require 'require_all'
+require 'pathname'
 
-require_rel 'smells'
+(Pathname.new(__FILE__).dirname + 'smells').children.each do |path|
+  require_relative "smells/#{path.basename('.rb')}"
+end
 
 module Reek
   #

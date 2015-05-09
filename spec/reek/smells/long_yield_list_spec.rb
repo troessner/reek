@@ -3,7 +3,7 @@ require_relative '../../../lib/reek/core/code_context'
 require_relative '../../../lib/reek/smells/long_yield_list'
 require_relative 'smell_detector_shared'
 
-describe Reek::Smells::LongYieldList do
+RSpec.describe Reek::Smells::LongYieldList do
   before(:each) do
     @source_name = 'dummy_source'
     @detector = build(:smell_detector, smell_type: :LongYieldList, source: @source_name)

@@ -1,10 +1,7 @@
 --no-private
 --readme README.md
-lib/reek.rb
-lib/reek/*.rb
-lib/reek/smells/*.rb
-lib/reek/source/*.rb
-lib/reek/spec/*.rb
-lib/reek/rake/*.rb
+--load ./docs/yard_plugin.rb
 -
 *.txt
+*.md
+docs/*.md

@@ -1,4 +1,4 @@
-require_relative '../examiner'
+require_relative '../core/examiner'
 require_relative '../cli/report/formatter'
 
 module Reek
@@ -9,7 +9,7 @@ module Reek
     #
     class ShouldReekOnlyOf < ShouldReekOf
       def matches?(actual)
-        matches_examiner?(Examiner.new(actual))
+        matches_examiner?(Core::Examiner.new(actual))
       end
 
       def matches_examiner?(examiner)

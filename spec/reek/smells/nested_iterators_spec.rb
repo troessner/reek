@@ -2,7 +2,7 @@ require_relative '../../spec_helper'
 require_relative '../../../lib/reek/smells/nested_iterators'
 require_relative 'smell_detector_shared'
 
-describe Reek::Smells::NestedIterators do
+RSpec.describe Reek::Smells::NestedIterators do
   context 'with no iterators' do
     it 'reports no smells' do
       src = 'def fred() nothing = true; end'
@@ -220,7 +220,7 @@ describe Reek::Smells::NestedIterators do
   end
 end
 
-describe Reek::Smells::NestedIterators do
+RSpec.describe Reek::Smells::NestedIterators do
   before(:each) do
     @source_name = 'dummy_source'
     @detector = build(:smell_detector, smell_type: :NestedIterators, source: @source_name)

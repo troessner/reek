@@ -2,7 +2,7 @@ require_relative '../../spec_helper'
 require_relative '../../../lib/reek/smells/unused_parameters'
 require_relative 'smell_detector_shared'
 
-describe Reek::Smells::UnusedParameters do
+RSpec.describe Reek::Smells::UnusedParameters do
   context 'for methods' do
     it 'reports nothing for no parameters' do
       expect('def simple; true end').not_to reek_of(:UnusedParameters)

@@ -1,0 +1,2 @@
+<?xml version='1.0'?>
+<checkstyle><file name='/some/path'><error column='0' line='1' message='doesn&apos;t depend on instance state' severity='warning' source='UtilityFunction'/><error column='0' line='1' message='has the parameter name &apos;a&apos;' severity='warning' source='UncommunicativeParameterName'/></file></checkstyle>

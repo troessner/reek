@@ -11,7 +11,7 @@ module Reek
       attr_reader :detectors
 
       def self.smell_types
-        Reek::Smells::SmellDetector.descendants
+        Reek::Smells::SmellDetector.descendants.sort_by(&:name)
       end
 
       def initialize(source_description = nil, smell_types = self.class.smell_types)
@@ -24,7 +24,9 @@ module Reek
       end
 
       def configure(klass, config)
-        @detectors[klass].configure_with(config) if @detectors[klass]
+        detector = @detectors[klass]
+        raise ArgumentError, "Unknown smell type #{klass} found in configuration" unless detector
+        detector.configure_with(config)
       end
 
       def report_on(listener)

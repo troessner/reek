@@ -2,7 +2,7 @@ require_relative '../../spec_helper'
 require_relative '../../../lib/reek/smells/too_many_instance_variables'
 require_relative 'smell_detector_shared'
 
-describe Reek::Smells::TooManyInstanceVariables do
+RSpec.describe Reek::Smells::TooManyInstanceVariables do
   before(:each) do
     @source_name = 'dummy_source'
     @detector = build(:smell_detector, smell_type: :TooManyInstanceVariables, source: @source_name)

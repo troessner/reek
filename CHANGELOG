@@ -1,3 +1,9 @@
+== 2.2.0
+
+* (sauliusgrigaitis) Add support for XML reports
+* (beanieboi) Don’t track private methods in the Attributes smell
+* (Sebastian Boehm) Do not enable colorization if stdout is not a TTY
+
 == 2.1.0
 
 * (mvz) Ensure require 'reek' is enough to use reek's classes

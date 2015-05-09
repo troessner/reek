@@ -2,7 +2,7 @@ require_relative '../../spec_helper'
 require_relative '../../../lib/reek/smells/data_clump'
 require_relative 'smell_detector_shared'
 
-shared_examples_for 'a data clump detector' do
+RSpec.shared_examples_for 'a data clump detector' do
   it 'does not report small parameter sets' do
     src = <<-EOS
       # test module
@@ -160,7 +160,7 @@ shared_examples_for 'a data clump detector' do
   end
 end
 
-describe Reek::Smells::DataClump do
+RSpec.describe Reek::Smells::DataClump do
   before(:each) do
     @detector = build(:smell_detector, smell_type: :DataClump)
   end

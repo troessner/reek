@@ -1,5 +1,4 @@
 require 'set'
-require_relative '../smell_warning'
 require_relative '../core/smell_configuration'
 
 module Reek
@@ -7,6 +6,11 @@ module Reek
     #
     # Shared responsibilities of all smell detectors.
     #
+    # See
+    #   - docs/Basic-Smell-Options
+    #   - docs/Code-Smells
+    #   - docs/Configuration-Files
+    # for details.
     class SmellDetector
       attr_reader :source
 

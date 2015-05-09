@@ -9,11 +9,13 @@ module Reek
     #
     # Parses the command line
     #
+    # See docs/Command-Line-Options for details.
     class Options
-      def initialize(argv)
+      def initialize(argv = [])
         @argv    = argv
         @parser  = OptionParser.new
-        @options = OpenStruct.new(colored: true, smells_to_detect: [])
+        @options = OpenStruct.new(colored: color_support?,
+                                  smells_to_detect: [])
         set_up_parser
       end
 
@@ -25,6 +27,10 @@ module Reek
       end
 
       private
+
+      def color_support?
+        $stdout.tty?
+      end
 
       def set_up_parser
         set_banner
@@ -53,9 +59,9 @@ module Reek
       def set_alternative_formatter_options
         @parser.separator "\nReport format:"
         @parser.on(
-          '-f', '--format FORMAT', [:html, :text, :yaml, :json],
+          '-f', '--format FORMAT', [:html, :text, :yaml, :json, :xml],
           'Report smells in the given format:',
-          '  html', '  text (default)', '  yaml', '  json'
+          '  html', '  text (default)', '  yaml', '  json', '  xml'
         ) do |opt|
           @options.report_format = opt
         end

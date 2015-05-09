@@ -4,18 +4,15 @@ AllCops:
     - 'tmp/**/*'
     - 'vendor/**/*'
 
-# FIXME: Lower the ABC size by fixing the biggest offenders
-Metrics/AbcSize:
-  Max: 25
-
 # FIXME: Make the class shorter
 Metrics/ClassLength:
   Exclude:
     - lib/reek/core/tree_walker.rb
+    - lib/reek/cli/options.rb
 
 # FIXME: Lower the method length by fixing the biggest offenders
 Metrics/MethodLength:
-  Max: 46
+  Max: 15
 
 # Be a little more lenient with line length
 Metrics/LineLength:
@@ -33,10 +30,6 @@ Style/SingleLineMethods:
 Style/SignalException:
   EnforcedStyle: only_raise
 
-# Allow multiple Hash parameters to look similar
-Style/BracesAroundHashParameters:
-  EnforcedStyle: context_dependent
-
 # Place . on the previous line
 Style/DotPosition:
   EnforcedStyle: trailing
@@ -45,14 +38,6 @@ Style/DotPosition:
 Style/EmptyLineBetweenDefs:
   AllowAdjacentOneLineDefs: true
 
-# Enforce GaurdClause if there are 2 or more lines in the body
-Style/GuardClause:
-  MinBodyLength: 2
-
-# Allow s()
-Style/MethodCallParentheses:
-  Enabled: false
-
 # Allow multiline block chains
 Style/MultilineBlockChain:
   Enabled: false
@@ -60,7 +45,3 @@ Style/MultilineBlockChain:
 # Allow Perl-style references to regex matches
 Style/PerlBackrefs:
   Enabled: false
-
-# Only register TrivialAccessors offenses when the name matches
-Style/TrivialAccessors:
-  ExactNameMatch: true

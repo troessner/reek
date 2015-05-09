@@ -1,5 +1,4 @@
 require_relative 'smell_detector'
-require_relative '../smell_warning'
 
 module Reek
   module Smells
@@ -22,6 +21,7 @@ module Reek
     #
     # Such a method is called PrimaDonnaMethod and is reported as a smell.
     #
+    # See docs/Prima-Donna-Method for details.
     class PrimaDonnaMethod < SmellDetector
       def self.contexts # :nodoc:
         [:class]
@@ -29,18 +29,25 @@ module Reek
 
       def examine_context(ctx)
         ctx.node_instance_methods.map do |method_sexp|
-          next unless method_sexp.ends_with_bang?
-
-          version_without_bang = ctx.node_instance_methods.find do |sexp_item|
-            sexp_item.name.to_s == method_sexp.name_without_bang
-          end
-          next if version_without_bang
-
-          SmellWarning.new self,
-                           context: ctx.full_name,
-                           lines: [ctx.exp.line],
-                           message: "has prima donna method `#{method_sexp.name}`"
+          check_for_smells(method_sexp, ctx)
         end.compact
+      end
+
+      private
+
+      def check_for_smells(method_sexp, ctx)
+        return unless method_sexp.ends_with_bang?
+
+        version_without_bang = ctx.node_instance_methods.find do |sexp_item|
+          sexp_item.name.to_s == method_sexp.name_without_bang
+        end
+
+        return if version_without_bang
+
+        SmellWarning.new self,
+                         context: ctx.full_name,
+                         lines: [ctx.exp.line],
+                         message: "has prima donna method `#{method_sexp.name}`"
       end
     end
   end

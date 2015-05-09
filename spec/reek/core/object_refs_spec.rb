@@ -1,7 +1,7 @@
 require_relative '../../spec_helper'
 require_relative '../../../lib/reek/core/object_refs'
 
-describe Reek::Core::ObjectRefs do
+RSpec.describe Reek::Core::ObjectRefs do
   before(:each) do
     @refs = Reek::Core::ObjectRefs.new
   end
