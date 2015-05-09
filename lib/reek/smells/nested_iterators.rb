@@ -7,6 +7,7 @@ module Reek
     #
     # +NestedIterators+ reports failing methods only once.
     #
+    # See docs/Nested-Iterators for details.
     class NestedIterators < SmellDetector
       # The name of the config field that sets the maximum depth
       # of nested iterators to be permitted within any single method.

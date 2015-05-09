@@ -13,6 +13,7 @@ module Reek
     # that are private.
     #
     # TODO: Catch attributes declared "by hand"
+    # See docs/Attribute for details.
     #
     class Attribute < SmellDetector
       ATTR_DEFN_METHODS = [:attr, :attr_reader, :attr_writer, :attr_accessor]

@@ -15,6 +15,7 @@ module Reek
     #     @other.thing + @other.thing
     #   end
     #
+    # See docs/Duplicate-Method-Call for details.
     class DuplicateMethodCall < SmellDetector
       # The name of the config field that sets the maximum number of
       # identical calls to be permitted within any single method.

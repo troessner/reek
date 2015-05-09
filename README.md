@@ -228,7 +228,10 @@ Or just run the whole test suite:
 bundle exec rake
 ```
 
-From then on please check out [the contributing guide](CONTRIBUTING.md).
+From then on you should check out:
+* [How reek works internally](docs/How-reek-works-internally.md)
+* [the contributing guide](CONTRIBUTING.md)
+
 
 If you don't feel like getting your hands dirty with code there are still other ways you can help us:
 
@@ -241,9 +244,17 @@ If you don't feel like getting your hands dirty with code there are still other 
 
 * plain text (default)
 * HTML (`--format html`)
-* YAML (`--format yaml`)
+* YAML (`--format yaml`, see also [YAML Reports](docs/YAML-Reports.md))
 * JSON (`--format json`)
 * XML  (`--format xml`)
+
+## Working with Rails
+
+With current versions of `reek` it's best to examine only your `app/models` folder, because `reek` raises false positives against views and controllers.
+
+For example, `params` is a kind of DTO (data transfer object) close to the system boundary, and so its characteristics should be different than regular code. But Reek doesn't know that (yet); `reek` thinks that all those `params[:something]` calls are a problem, and reports them as smells.
+
+We plan to improve Reek in the near future so that it plays better with Rails. For now though, your best bet is to restrict it to looking at `app/models` and `lib`.
 
 ## Additional resources
 
@@ -256,6 +267,11 @@ If you don't feel like getting your hands dirty with code there are still other 
 * [Atom plugin for `reek`](https://atom.io/packages/linter-reek)
 * [overcommit, a Git commit hook manager with support for
   `reek`](https://github.com/brigade/overcommit)
+
+### Miscellaneous
+
+* [Reek Driven Development](docs/Reek-Driven-Development.md)
+* [Versioning policy](docs/Versioning-Policy.md)
 
 ### More information
 

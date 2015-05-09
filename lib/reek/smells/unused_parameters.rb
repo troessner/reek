@@ -5,6 +5,7 @@ module Reek
     #
     # Methods should use their parameters.
     #
+    # See docs/Unused-Parameters for details.
     class UnusedParameters < SmellDetector
       def self.smell_category
         'UnusedCode'

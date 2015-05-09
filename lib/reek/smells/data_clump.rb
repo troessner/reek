@@ -14,6 +14,7 @@ module Reek
     # Currently Reek looks for a group of two or more parameters with
     # the same names that are expected by three or more methods of a class.
     #
+    # See docs/Data-Clump for details.
     class DataClump < SmellDetector
       #
       # The name of the config field that sets the maximum allowed
