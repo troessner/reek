@@ -63,6 +63,18 @@ RSpec.describe Reek::Smells::UncommunicativeParameterName do
         expect("def #{host}help(_unused) basics(_unused) end").
           to reek_of(:UncommunicativeParameterName)
       end
+
+      it 'reports names inside array decomposition' do
+        src = "def #{host}help((b, nice)) basics(b, nice) end"
+        expect(src).to reek_of(:UncommunicativeParameterName,
+                               name: 'b')
+      end
+
+      it 'reports names inside nested array decomposition' do
+        src = "def #{host}help((foo, (bar, c))) basics(foo, c) end"
+        expect(src).to reek_of(:UncommunicativeParameterName,
+                               name: 'c')
+      end
     end
   end
 
