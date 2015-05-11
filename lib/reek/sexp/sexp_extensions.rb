@@ -38,6 +38,10 @@ module Reek
         def anonymous_splat?
           false
         end
+
+        def components
+          [self]
+        end
       end
 
       # Utility methods for :arg nodes.
@@ -95,6 +99,24 @@ module Reek
       # Utility methods for :shadowarg nodes.
       module ShadowargNode
         include ArgNodeBase
+      end
+
+      # Base module for utility methods for nodes that can contain argument
+      # nodes nested through :mlhs nodes.
+      module NestedAssignables
+        def components
+          children.flat_map(&:components)
+        end
+      end
+
+      # Utility methods for :args nodes.
+      module ArgsNode
+        include NestedAssignables
+      end
+
+      # Utility methods for :mlhs nodes.
+      module MlhsNode
+        include NestedAssignables
       end
 
       # Base module for utility methods for :and and :or nodes.
@@ -203,7 +225,7 @@ module Reek
         end
 
         def parameters
-          argslist.children
+          argslist.components
         end
 
         def parameter_names
