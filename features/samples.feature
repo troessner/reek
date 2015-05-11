@@ -279,22 +279,14 @@ Feature: Basic smell detection
       RedCloth#v_align doesn't depend on instance state (UtilityFunction)
     """
 
-  Scenario: Correct smells from a source file with Ruby 2.0 specific syntax
-    Given the "ruby20_syntax.rb" sample file exists
-    When I run reek ruby20_syntax.rb
+  Scenario: Correct smells from a source file with unusual syntax samples
+    Given the "unusual_syntax.rb" sample file exists
+    When I run reek unusual_syntax.rb
     Then the exit status indicates smells
     And it reports:
     """
-    ruby20_syntax.rb -- 1 warning:
+    unusual_syntax.rb -- 3 warnings:
       [1]:SomeClass has no descriptive comment (IrresponsibleModule)
-    """
-
-  Scenario: Correct smells from a source file with Ruby 2.1 specific syntax
-    Given the "ruby21_syntax.rb" sample file exists
-    When I run reek ruby21_syntax.rb
-    Then the exit status indicates smells
-    And it reports:
-    """
-    ruby21_syntax.rb -- 1 warning:
-      [1]:SomeClass has no descriptive comment (IrresponsibleModule)
+      [18]:SomeClass#method_with_array_decomposition has the parameter name 'a' (UncommunicativeParameterName)
+      [18]:SomeClass#method_with_array_decomposition has the parameter name 'b' (UncommunicativeParameterName)
     """

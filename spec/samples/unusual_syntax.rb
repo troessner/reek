@@ -10,4 +10,12 @@ class SomeClass
   def make_other_symbol_list
     %I(foo bar baz)
   end
+
+  def method_with_required_keyword_arguments(foo:)
+    puts foo
+  end
+
+  def method_with_array_decomposition((a, b))
+    puts "#{a}, #{b}"
+  end
 end
