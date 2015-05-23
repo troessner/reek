@@ -1,5 +1,5 @@
 module Reek
-  module Core
+  module Smells
     #
     # Represents a single set of configuration options for a smell detector
     #

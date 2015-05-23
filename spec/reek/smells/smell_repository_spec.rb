@@ -1,9 +1,9 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/core/smell_repository'
+require_relative '../../../lib/reek/smells/smell_repository'
 
-RSpec.describe Reek::Core::SmellRepository do
+RSpec.describe Reek::Smells::SmellRepository do
   describe '.smell_types' do
-    let(:smell_types) { Reek::Core::SmellRepository.smell_types }
+    let(:smell_types) { described_class.smell_types }
 
     it 'should include existing smell_types' do
       expect(smell_types).to include(Reek::Smells::IrresponsibleModule)
@@ -19,7 +19,7 @@ RSpec.describe Reek::Core::SmellRepository do
     end
 
     it "should raise an ArgumentError if smell to configure doesn't exist" do
-      repository = Reek::Core::SmellRepository.new
+      repository = described_class.new
       expect { repository.configure('SomethingNonExistant', {}) }.
         to raise_error ArgumentError,
                        'Unknown smell type SomethingNonExistant found in configuration'

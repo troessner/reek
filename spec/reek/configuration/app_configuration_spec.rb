@@ -1,6 +1,6 @@
 require_relative '../../spec_helper'
 require_relative '../../../lib/reek/configuration/app_configuration'
-require_relative '../../../lib/reek/core/smell_repository'
+require_relative '../../../lib/reek/smells/smell_repository'
 
 RSpec.describe Reek::Configuration::AppConfiguration do
   let(:sample_configuration_path) { 'spec/samples/simple_configuration.reek' }
@@ -36,7 +36,7 @@ RSpec.describe Reek::Configuration::AppConfiguration do
   describe '.configure_smell_repository' do
     it 'should configure a given smell_repository' do
       Reek::Configuration::AppConfiguration.load_from_file(sample_configuration_path)
-      smell_repository = Reek::Core::SmellRepository.new('def m; end')
+      smell_repository = Reek::Smells::SmellRepository.new('def m; end')
       Reek::Configuration::AppConfiguration.configure_smell_repository smell_repository
 
       expect(smell_repository.detectors[Reek::Smells::DataClump]).to be_enabled

@@ -5,7 +5,7 @@ require_relative 'smell_detector_shared'
 RSpec.describe Reek::Smells::Attribute do
   let(:config) do
     {
-      Attribute: { Reek::Core::SmellConfiguration::ENABLED_KEY => true }
+      Attribute: { Reek::Smells::SmellConfiguration::ENABLED_KEY => true }
     }
   end
 
