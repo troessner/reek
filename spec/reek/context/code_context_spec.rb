@@ -1,9 +1,9 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/core/method_context'
-require_relative '../../../lib/reek/core/module_context'
-require_relative '../../../lib/reek/core/stop_context'
+require_relative '../../../lib/reek/context/method_context'
+require_relative '../../../lib/reek/context/module_context'
+require_relative '../../../lib/reek/context/root_context'
 
-RSpec.describe Reek::Core::CodeContext do
+RSpec.describe Reek::Context::CodeContext do
   context 'name recognition' do
     before :each do
       @exp_name = 'random_name'    # SMELL: could use a String.random here
@@ -12,7 +12,7 @@ RSpec.describe Reek::Core::CodeContext do
       allow(@exp).to receive(:name).and_return(@exp_name)
       allow(@exp).to receive(:full_name).and_return(@full_name)
       allow(@exp).to receive(:comments).and_return('')
-      @ctx = Reek::Core::CodeContext.new(nil, @exp)
+      @ctx = Reek::Context::CodeContext.new(nil, @exp)
     end
     it 'gets its short name from the exp' do
       expect(@ctx.name).to eq(@exp_name)
@@ -42,7 +42,7 @@ RSpec.describe Reek::Core::CodeContext do
         @outer_name = 'another_random sting'
         allow(outer).to receive(:full_name).at_least(:once).and_return(@outer_name)
         allow(outer).to receive(:config).and_return({})
-        @ctx = Reek::Core::CodeContext.new(outer, @exp)
+        @ctx = Reek::Context::CodeContext.new(outer, @exp)
       end
       it 'creates the correct full name' do
         expect(@ctx.full_name).to eq("#{@full_name}")
@@ -58,10 +58,10 @@ RSpec.describe Reek::Core::CodeContext do
 
   context 'generics' do
     it 'should pass unknown method calls down the stack' do
-      stop = Reek::Core::StopContext.new
+      stop = Reek::Context::RootContext.new
       def stop.bananas(arg1, arg2) arg1 + arg2 + 43 end
-      element = Reek::Core::ModuleContext.new(stop, s(:module, :mod, nil))
-      element = Reek::Core::MethodContext.new(element, s(:def, :bad, s(:args), nil))
+      element = Reek::Context::ModuleContext.new(stop, s(:module, :mod, nil))
+      element = Reek::Context::MethodContext.new(element, s(:def, :bad, s(:args), nil))
       expect(element.bananas(17, -5)).to eq(55)
     end
   end
@@ -72,7 +72,7 @@ RSpec.describe Reek::Core::CodeContext do
         @module_name = 'Emptiness'
         src = "module #{@module_name}; end"
         ast = Reek::Source::SourceCode.from(src).syntax_tree
-        @ctx = Reek::Core::CodeContext.new(nil, ast)
+        @ctx = Reek::Context::CodeContext.new(nil, ast)
       end
 
       it 'yields no calls' do
@@ -104,7 +104,7 @@ RSpec.describe Reek::Core::CodeContext do
         @method_name = 'calloo'
         src = "module #{@module_name}; def #{@method_name}; puts('hello') end; end"
         ast = Reek::Source::SourceCode.from(src).syntax_tree
-        @ctx = Reek::Core::CodeContext.new(nil, ast)
+        @ctx = Reek::Context::CodeContext.new(nil, ast)
       end
       it 'yields no ifs' do
         @ctx.each_node(:if, []) { |exp| raise "#{exp} yielded by empty module!" }
@@ -156,7 +156,7 @@ end
 EOS
 
       ast = Reek::Source::SourceCode.from(src).syntax_tree
-      ctx = Reek::Core::CodeContext.new(nil, ast)
+      ctx = Reek::Context::CodeContext.new(nil, ast)
       expect(ctx.each_node(:if, []).length).to eq(3)
     end
   end
@@ -164,7 +164,7 @@ EOS
   describe '#config_for' do
     let(:expression) { double('exp') }
     let(:outer) { nil }
-    let(:context) { Reek::Core::CodeContext.new(outer, expression) }
+    let(:context) { Reek::Context::CodeContext.new(outer, expression) }
     let(:sniffer) { double('sniffer') }
 
     before :each do

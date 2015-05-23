@@ -1,5 +1,5 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/core/module_context'
+require_relative '../../../lib/reek/context/module_context'
 require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::PrimaDonnaMethod do
@@ -15,8 +15,8 @@ RSpec.describe Reek::Smells::PrimaDonnaMethod do
     let(:detector) { build(:smell_detector, smell_type: :PrimaDonnaMethod, source: 'source_name') }
     let(:src)      { 'class C; def m!; end; end' }
     let(:ctx)      do
-      Reek::Core::ModuleContext.new(nil,
-                                    Reek::Source::SourceCode.from(src).syntax_tree)
+      Reek::Context::ModuleContext.new(nil,
+                                       Reek::Source::SourceCode.from(src).syntax_tree)
     end
 
     it 'should be reported' do

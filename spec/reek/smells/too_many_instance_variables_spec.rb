@@ -72,7 +72,7 @@ RSpec.describe Reek::Smells::TooManyInstanceVariables do
         end
       end
     EOS
-    ctx = Reek::Core::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
+    ctx = Reek::Context::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
     @warning = @detector.examine_context(ctx)[0]
     expect(@warning.source).to eq(@source_name)
     expect(@warning.smell_category).to eq(Reek::Smells::TooManyInstanceVariables.smell_category)

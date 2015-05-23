@@ -1,5 +1,5 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/core/code_context'
+require_relative '../../../lib/reek/context/code_context'
 require_relative '../../../lib/reek/smells/irresponsible_module'
 require_relative 'smell_detector_shared'
 
@@ -27,13 +27,13 @@ RSpec.describe Reek::Smells::IrresponsibleModule do
       # test class
       class Responsible; end
     EOS
-    ctx = Reek::Core::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
+    ctx = Reek::Context::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
     expect(@detector.examine_context(ctx)).to be_empty
   end
 
   it 'reports a class without a comment' do
     src = "class #{@bad_module_name}; end"
-    ctx = Reek::Core::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
+    ctx = Reek::Context::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
     smells = @detector.examine_context(ctx)
     expect(smells.length).to eq(1)
     expect(smells[0].smell_category).to eq(Reek::Smells::IrresponsibleModule.smell_category)
@@ -65,7 +65,7 @@ RSpec.describe Reek::Smells::IrresponsibleModule do
 
   it 'reports a fq module name correctly' do
     src = 'class Foo::Bar; end'
-    ctx = Reek::Core::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
+    ctx = Reek::Context::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
     smells = @detector.examine_context(ctx)
     expect(smells.length).to eq(1)
     expect(smells[0].smell_category).to eq(described_class.smell_category)

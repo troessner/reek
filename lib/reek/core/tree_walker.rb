@@ -1,7 +1,7 @@
-require_relative 'method_context'
-require_relative 'module_context'
-require_relative 'stop_context'
-require_relative 'singleton_method_context'
+require_relative '../context/method_context'
+require_relative '../context/module_context'
+require_relative '../context/root_context'
+require_relative '../context/singleton_method_context'
 
 module Reek
   module Core
@@ -14,7 +14,7 @@ module Reek
     class TreeWalker
       def initialize(smell_repository = Core::SmellRepository.new)
         @smell_repository = smell_repository
-        @element = StopContext.new
+        @element = Context::RootContext.new
       end
 
       def process(exp)
@@ -34,7 +34,7 @@ module Reek
       end
 
       def process_module(exp)
-        inside_new_context(ModuleContext, exp) do
+        inside_new_context(Context::ModuleContext, exp) do
           process_default(exp)
         end
       end
@@ -42,14 +42,14 @@ module Reek
       alias_method :process_class, :process_module
 
       def process_def(exp)
-        inside_new_context(MethodContext, exp) do
+        inside_new_context(Context::MethodContext, exp) do
           count_clause(exp.body)
           process_default(exp)
         end
       end
 
       def process_defs(exp)
-        inside_new_context(SingletonMethodContext, exp) do
+        inside_new_context(Context::SingletonMethodContext, exp) do
           count_clause(exp.body)
           process_default(exp)
         end

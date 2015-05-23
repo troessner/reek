@@ -1,8 +1,8 @@
 require_relative 'code_context'
-require_relative 'object_refs'
+require_relative '../core/object_refs'
 
 module Reek
-  module Core
+  module Context
     #
     # The parameters in a method's definition.
     #
@@ -29,7 +29,7 @@ module Reek
         @parameters = exp.parameters.dup
         @parameters.extend MethodParameters
         @num_statements = 0
-        @refs = ObjectRefs.new
+        @refs = Core::ObjectRefs.new
       end
 
       def count_statements(num)

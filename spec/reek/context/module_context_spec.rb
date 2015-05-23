@@ -1,8 +1,8 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/core/module_context'
-require_relative '../../../lib/reek/core/stop_context'
+require_relative '../../../lib/reek/context/module_context'
+require_relative '../../../lib/reek/context/root_context'
 
-RSpec.describe Reek::Core::ModuleContext do
+RSpec.describe Reek::Context::ModuleContext do
   it 'should report module name for smell in method' do
     expect('
       module Fred
@@ -19,7 +19,7 @@ module Fred
   end
 end
 
-RSpec.describe Reek::Core::ModuleContext do
+RSpec.describe Reek::Context::ModuleContext do
   it 'should recognise global constant' do
     expect('# module for test
 module ::Global

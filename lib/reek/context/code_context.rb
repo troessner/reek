@@ -1,6 +1,6 @@
 
 module Reek
-  module Core
+  module Context
     #
     # Superclass for all types of source code context. Each instance represents
     # a code element of some kind, and each provides behaviour relevant to that
@@ -21,9 +21,9 @@ module Reek
       #
       #   class Omg; def foo(x); puts x; end; end
       #
-      # the first time this is instantianted from TreeWalker `context` is a StopContext:
+      # the first time this is instantianted from TreeWalker `context` is a RootContext:
       #
-      #   #<Reek::Core::StopContext:0x00000002231098 @name="">
+      #   #<Reek::Context::RootContext:0x00000002231098 @name="">
       #
       # and `exp` looks like this:
       #
@@ -37,7 +37,7 @@ module Reek
       #
       # The next time we instantiate a CodeContext via TreeWalker `context` would be:
       #
-      #   Reek::Core::ModuleContext
+      #   Reek::Context::ModuleContext
       #
       # and `exp` is:
       #

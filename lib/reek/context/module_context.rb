@@ -2,7 +2,7 @@ require_relative 'code_context'
 require_relative '../sexp/sexp_formatter'
 
 module Reek
-  module Core
+  module Context
     #
     # A context wrapper for any module found in a syntax tree.
     #

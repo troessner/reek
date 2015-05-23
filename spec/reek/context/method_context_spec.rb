@@ -1,12 +1,12 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/core/method_context'
-require_relative '../../../lib/reek/core/stop_context'
+require_relative '../../../lib/reek/context/method_context'
+require_relative '../../../lib/reek/context/root_context'
 
-RSpec.describe Reek::Core::MethodContext, 'matching' do
+RSpec.describe Reek::Context::MethodContext, 'matching' do
   before :each do
     exp = double('exp').as_null_object
     expect(exp).to receive(:full_name).at_least(:once).and_return('mod')
-    @element = Reek::Core::MethodContext.new(Reek::Core::StopContext.new, exp)
+    @element = Reek::Context::MethodContext.new(Reek::Context::RootContext.new, exp)
   end
 
   it 'should recognise itself in a collection of names' do
@@ -20,10 +20,10 @@ RSpec.describe Reek::Core::MethodContext, 'matching' do
   end
 end
 
-RSpec.describe Reek::Core::MethodContext do
+RSpec.describe Reek::Context::MethodContext do
   let(:mc) do
     sexp = s(:def, :foo, s(:args, s(:arg, :bar)), nil)
-    Reek::Core::MethodContext.new(Reek::Core::StopContext.new, sexp)
+    Reek::Context::MethodContext.new(Reek::Context::RootContext.new, sexp)
   end
 
   describe '#envious_receivers' do
@@ -51,10 +51,10 @@ RSpec.describe Reek::Core::MethodContext do
   end
 end
 
-RSpec.describe Reek::Core::MethodParameters, 'default assignments' do
+RSpec.describe Reek::Context::MethodParameters, 'default assignments' do
   def assignments_from(src)
     exp = Reek::Source::SourceCode.from(src).syntax_tree
-    ctx = Reek::Core::MethodContext.new(Reek::Core::StopContext.new, exp)
+    ctx = Reek::Context::MethodContext.new(Reek::Context::RootContext.new, exp)
     ctx.parameters.default_assignments
   end
 
