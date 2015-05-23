@@ -6,7 +6,7 @@
 # See also https://github.com/troessner/reek/pull/468
 require_relative 'tree_walker'
 require_relative 'smell_repository'
-require_relative 'warning_collector'
+require_relative '../cli/warning_collector'
 require_relative '../source/source_repository'
 
 module Reek
@@ -33,7 +33,7 @@ module Reek
       def initialize(source, smell_types_to_filter_by = [])
         @sources      = Source::SourceRepository.parse(source)
         @description  = @sources.description
-        @collector    = Core::WarningCollector.new
+        @collector    = CLI::WarningCollector.new
         @smell_types  = eligible_smell_types(smell_types_to_filter_by)
 
         run

@@ -1,7 +1,7 @@
 require 'set'
 
 module Reek
-  module Core
+  module CLI
     #
     # Collects and sorts smells warnings.
     #
