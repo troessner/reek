@@ -1,44 +1,56 @@
 # How reek works internally
 
-**Using reek via bin/reek:**
 
 ```
-            [bin/reek]
-                |
-                |
-                |
-          Application (cli/application.rb) +
-          Options (cli/options)
-                |
-                |
-                |
-      ReekCommand (cli/reek_command)
-      with Reporter (cli/report/report)
-          /     |    \
-         /      |     \
-        /       |      \
-    Source   Source   Source (source/source_code)
-    |           |          |
-    |           |          |
-    |           |          |
- Examiner   Examiner  Examiner (examiner)
-                |
-                |
-                |
-    Examiner sets up a:
-      - SourceRepository (source/source_repository)
-      - a WarningCollector (core/warning_collector)
-
-    The Examiner then goes through each source:
-      - Initializing a SmellRepository (core/smell_repository)
-      - getting the AST from the source
-      - applying a TreeWalker(core/tree_walker) to process this syntax tree given the SmellRepository
-      - finally have that SmellRepository reporting back on the WarningCollector mentioned above
-                |
-                |
-                |
-    In the last step, the reporter from the ReekCommand:
-      - gathers all the warnings from the collectors of all Examiners (as you can see here https://github.com/troessner/reek/blob/master/lib/reek/cli/report/report.rb#L30)
-      - outputs them with whatever output format we have chose via the cli options
-```
-
+["class C; end" | reek]            [reek lib/*.rb]                             [expect(files).not_to reek_of(:LargeClass)]
+             \                            |                                                          |
+              \                           |                                                          |
+               \                          |                                                          |
+                \             creates a   |                                                          |
+                 \                        |                                                          |
+                  \                       |                                                          |
+                   \                      |                                                          |
+                    \                     |                                                          |
+                     \---------- Application (cli/application.rb) +                                  |
+                                    Options (cli/options)                                            |
+                                          |                                                          |
+                                          |                                                          |
+                                          |                                                          |
+                                          |                                                          |
+                              creates a   |                                                          |
+                                          |                                                          |
+                                          |                                                          |
+                                          |                                                          |
+                                          |                                                          |
+                                ReekCommand (cli/reek_command)                                       |
+                                * uses a reporter (cli/report/report)                                |
+                                * uses a SourceLocator (source/source_locator)                       |
+                                * uses a SourceRepository (source/source_repository)                 |
+                                /         |         \                                                |
+                               /          |          \                                               |
+                              /           |           \                                              |
+                        Source          Source      Source (source/source_code)                      |
+                          |               |            |                                             |
+                          |               |            |                                             |
+                          |               |            |                                             |
+                      Examiner            |         Examiner                                         |
+                                          |                                                          |
+                                          |                                                          |
+                                      Examiner (core/examiner)  --------------------------------------
+                                  * generates the AST out of the given source
+                                  * initializes a SmellRepository with all relevant smells (smells/smell_repository)
+                                  * initializes a WarningCollector (cli/warning_collector)
+                                  * adorns the generated AST via a TreeWalker (core/treewalker)
+                                  * runs all corresponding smell detectors via this Treewalker for the SmellRepository above
+                                  /       |       \
+                                 /        |        \
+                                /         |         \
+                    UtilityFunction   FeatureEnvy   TooManyMethods
+                                \         |         /
+                                 \        |        /
+                                  \       |       /
+                                   WarningCollector
+                                          |
+                                          |
+                                          |
+                                    Application output
