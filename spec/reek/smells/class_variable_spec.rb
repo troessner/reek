@@ -1,6 +1,6 @@
 require_relative '../../spec_helper'
 require_relative '../../../lib/reek/smells/class_variable'
-require_relative '../../../lib/reek/core/module_context'
+require_relative '../../../lib/reek/context/module_context'
 require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::ClassVariable do
@@ -15,12 +15,12 @@ RSpec.describe Reek::Smells::ClassVariable do
   context 'with no class variables' do
     it 'records nothing in the class' do
       exp = ast(:class, :Fred)
-      expect(@detector.examine_context(Reek::Core::CodeContext.new(nil, exp))).to be_empty
+      expect(@detector.examine_context(Reek::Context::CodeContext.new(nil, exp))).to be_empty
     end
 
     it 'records nothing in the module' do
       exp = ast(:module, :Fred)
-      expect(@detector.examine_context(Reek::Core::CodeContext.new(nil, exp))).to be_empty
+      expect(@detector.examine_context(Reek::Context::CodeContext.new(nil, exp))).to be_empty
     end
   end
 
@@ -28,7 +28,7 @@ RSpec.describe Reek::Smells::ClassVariable do
     shared_examples_for 'one variable found' do
       before :each do
         ast = Reek::Source::SourceCode.from(@src).syntax_tree
-        @smells = @detector.examine_context(Reek::Core::CodeContext.new(nil, ast))
+        @smells = @detector.examine_context(Reek::Context::CodeContext.new(nil, ast))
       end
 
       it 'records only that class variable' do
@@ -99,7 +99,7 @@ RSpec.describe Reek::Smells::ClassVariable do
         #{@class_variable} = {}
       end
     EOS
-    ctx = Reek::Core::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
+    ctx = Reek::Context::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
     @warning = @detector.examine_context(ctx)[0]
     expect(@warning.source).to eq(@source_name)
     expect(@warning.smell_category).to eq(described_class.smell_category)

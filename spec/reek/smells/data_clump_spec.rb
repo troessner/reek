@@ -25,7 +25,7 @@ RSpec.shared_examples_for 'a data clump detector' do
           def third(pa, pb) pa - pb + @fred; end
         end
       EOS
-      ctx = Reek::Core::ModuleContext.new(nil, Reek::Source::SourceCode.from(@src).syntax_tree)
+      ctx = Reek::Context::ModuleContext.new(nil, Reek::Source::SourceCode.from(@src).syntax_tree)
       detector = build(:smell_detector, smell_type: :DataClump)
       @smells = detector.examine_context(ctx)
     end

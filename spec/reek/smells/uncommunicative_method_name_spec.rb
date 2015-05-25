@@ -21,7 +21,7 @@ RSpec.describe Reek::Smells::UncommunicativeMethodName do
     context 'with a bad name' do
       before do
         src = "def #{method_name}; end"
-        ctx = Reek::Core::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
+        ctx = Reek::Context::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
         smells = @detector.examine_context(ctx)
         @warning = smells[0]
       end

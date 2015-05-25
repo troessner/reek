@@ -1,11 +1,11 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/core/singleton_method_context'
-require_relative '../../../lib/reek/core/stop_context'
+require_relative '../../../lib/reek/context/singleton_method_context'
+require_relative '../../../lib/reek/context/root_context'
 
-RSpec.describe Reek::Core::SingletonMethodContext do
+RSpec.describe Reek::Context::SingletonMethodContext do
   let(:smc) do
     sexp = s(:def, :foo, s(:args, s(:arg, :bar)), nil)
-    Reek::Core::SingletonMethodContext.new(Reek::Core::StopContext.new, sexp)
+    Reek::Context::SingletonMethodContext.new(Reek::Context::RootContext.new, sexp)
   end
 
   describe '#envious_receivers' do

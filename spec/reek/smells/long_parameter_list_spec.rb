@@ -1,5 +1,5 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/core/code_context'
+require_relative '../../../lib/reek/context/code_context'
 require_relative '../../../lib/reek/smells/long_parameter_list'
 require_relative 'smell_detector_shared'
 
@@ -89,7 +89,7 @@ RSpec.describe Reek::Smells::LongParameterList do
           true
         end
       EOS
-      ctx = Reek::Core::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
+      ctx = Reek::Context::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
       @smells = @detector.examine_context(ctx)
       @warning = @smells[0]
     end

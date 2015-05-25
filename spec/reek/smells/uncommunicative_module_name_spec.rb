@@ -1,7 +1,7 @@
 require_relative '../../spec_helper'
 require_relative '../../../lib/reek/smells/uncommunicative_module_name'
 require_relative 'smell_detector_shared'
-require_relative '../../../lib/reek/core/code_context'
+require_relative '../../../lib/reek/context/code_context'
 
 RSpec.describe Reek::Smells::UncommunicativeModuleName do
   before do
@@ -30,7 +30,7 @@ RSpec.describe Reek::Smells::UncommunicativeModuleName do
 
     it 'reports a bad scoped name' do
       src = "#{type} Foo::X; end"
-      ctx = Reek::Core::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
+      ctx = Reek::Context::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
       smells = @detector.examine_context(ctx)
       expect(smells.length).to eq(1)
       expect(smells[0].smell_category).to eq(Reek::Smells::UncommunicativeModuleName.smell_category)
@@ -43,7 +43,7 @@ RSpec.describe Reek::Smells::UncommunicativeModuleName do
   context 'accepting names' do
     it 'accepts Inline::C' do
       src = 'module Inline::C; end'
-      ctx = Reek::Core::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
+      ctx = Reek::Context::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
       expect(@detector.examine_context(ctx)).to be_empty
     end
   end
@@ -51,7 +51,7 @@ RSpec.describe Reek::Smells::UncommunicativeModuleName do
   context 'looking at the YAML' do
     before :each do
       src = 'module Printer2; end'
-      ctx = Reek::Core::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
+      ctx = Reek::Context::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
       smells = @detector.examine_context(ctx)
       @warning = smells[0]
     end
