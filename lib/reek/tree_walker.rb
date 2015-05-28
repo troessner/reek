@@ -2,7 +2,6 @@ require_relative 'context/method_context'
 require_relative 'context/module_context'
 require_relative 'context/root_context'
 require_relative 'context/singleton_method_context'
-require_relative 'smells/smell_repository'
 require_relative 'ast/node'
 
 module Reek
@@ -15,10 +14,17 @@ module Reek
   #
   # @api private
   class TreeWalker
-    def initialize(smell_repository = Smells::SmellRepository.new)
+    def initialize(smell_repository, exp)
       @smell_repository = smell_repository
-      @element = Context::RootContext.new
+      @exp = exp
+      @element = Context::RootContext.new(exp)
     end
+
+    def walk
+      @result ||= process(@exp)
+    end
+
+    private
 
     def process(exp)
       context_processor = "process_#{exp.type}"
@@ -28,12 +34,6 @@ module Reek
         process_default exp
       end
       @element
-    end
-
-    def process_default(exp)
-      exp.children.each do |child|
-        process(child) if child.is_a? AST::Node
-      end
     end
 
     def process_module(exp)
@@ -55,6 +55,12 @@ module Reek
       inside_new_context(Context::SingletonMethodContext, exp) do
         count_clause(exp.body)
         process_default(exp)
+      end
+    end
+
+    def process_default(exp)
+      exp.children.each do |child|
+        process(child) if child.is_a? AST::Node
       end
     end
 
@@ -145,10 +151,8 @@ module Reek
       process_default(exp)
     end
 
-    private
-
     def context_processor_exists?(name)
-      respond_to?(name)
+      self.class.private_method_defined?(name)
     end
 
     def count_clause(sexp)

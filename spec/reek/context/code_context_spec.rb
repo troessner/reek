@@ -1,7 +1,6 @@
 require_relative '../../spec_helper'
 require_relative '../../../lib/reek/context/method_context'
 require_relative '../../../lib/reek/context/module_context'
-require_relative '../../../lib/reek/context/root_context'
 
 RSpec.describe Reek::Context::CodeContext do
   context 'name recognition' do
@@ -52,16 +51,6 @@ RSpec.describe Reek::Context::CodeContext do
       it 'recognises its full name as a regex' do
         expect(@ctx.matches?([/banana/, /#{@full_name}/])).to eq(true)
       end
-    end
-  end
-
-  context 'generics' do
-    it 'should pass unknown method calls down the stack' do
-      stop = Reek::Context::RootContext.new
-      def stop.bananas(arg1, arg2) arg1 + arg2 + 43 end
-      element = Reek::Context::ModuleContext.new(stop, s(:module, :mod, nil))
-      element = Reek::Context::MethodContext.new(element, s(:def, :bad, s(:args), nil))
-      expect(element.bananas(17, -5)).to eq(55)
     end
   end
 
@@ -161,22 +150,31 @@ EOS
   end
 
   describe '#config_for' do
-    let(:expression) { double('exp') }
+    let(:src) do
+      <<-EOS
+      # :reek:DuplicateMethodCall: { allow_calls: [ puts ] }')
+      def repeated_greeting
+        puts 'Hello!'
+        puts 'Hello!'
+      end
+      EOS
+    end
+    let(:expression) { Reek::Source::SourceCode.from(src).syntax_tree }
     let(:outer) { nil }
     let(:context) { Reek::Context::CodeContext.new(outer, expression) }
     let(:sniffer) { double('sniffer') }
 
     before :each do
       allow(sniffer).to receive(:smell_type).and_return('DuplicateMethodCall')
-      allow(expression).to receive(:full_comment).and_return(
-        ':reek:DuplicateMethodCall: { allow_calls: [ puts ] }')
     end
 
-    it 'gets its configuration from the expression comments' do
-      expect(context.config_for(sniffer)).to eq('allow_calls' => ['puts'])
+    context 'when there is no outer context' do
+      it 'gets its configuration from the expression comments' do
+        expect(context.config_for(sniffer)).to eq('allow_calls' => ['puts'])
+      end
     end
 
-    context 'when there is an outer' do
+    context 'when there is an outer context' do
       let(:outer) { double('outer') }
 
       before :each do

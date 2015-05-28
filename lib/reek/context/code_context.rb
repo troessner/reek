@@ -1,6 +1,8 @@
 require_relative '../code_comment'
+require_relative '../ast/object_refs'
 
 module Reek
+  # @api private
   module Context
     #
     # Superclass for all types of source code context. Each instance represents
@@ -11,6 +13,7 @@ module Reek
     # @api private
     class CodeContext
       attr_reader :exp
+      attr_reader :num_statements
 
       # Initializes a new CodeContext.
       #
@@ -51,6 +54,30 @@ module Reek
       def initialize(context, exp)
         @context = context
         @exp     = exp
+
+        @num_statements = 0
+        @refs = AST::ObjectRefs.new
+      end
+
+      def count_statements(num)
+        @num_statements += num
+      end
+
+      def record_call_to(exp)
+        receiver = exp.receiver
+        type = receiver ? receiver.type : :self
+        case type
+        when :lvar, :lvasgn
+          unless exp.method_name == :new
+            @refs.record_reference_to(receiver.name, line: exp.line)
+          end
+        when :self
+          @refs.record_reference_to(:self, line: exp.line)
+        end
+      end
+
+      def record_use_of_self
+        @refs.record_reference_to(:self)
       end
 
       def name
@@ -71,14 +98,6 @@ module Reek
           candidate = Regexp.quote(candidate) if candidate.is_a?(String)
           /#{candidate}/ =~ my_fq_name
         end
-      end
-
-      #
-      # Bounces messages up the context tree to the first enclosing context
-      # that knows how to deal with the request.
-      #
-      def method_missing(method, *args)
-        @context.send(method, *args)
       end
 
       def num_methods

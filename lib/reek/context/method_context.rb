@@ -1,63 +1,17 @@
 require_relative 'code_context'
-require_relative '../ast/object_refs'
 
 module Reek
   module Context
-    #
-    # The parameters in a method's definition.
-    #
-    # @api private
-    module MethodParameters
-      def default_assignments
-        result = []
-        each do |exp|
-          result << exp[1..2] if exp.optional_argument?
-        end
-        result
-      end
-    end
-
     #
     # A context wrapper for any method definition found in a syntax tree.
     #
     # @api private
     class MethodContext < CodeContext
-      attr_reader :parameters
       attr_reader :refs
-      attr_reader :num_statements
-
-      def initialize(outer, exp)
-        super
-        @parameters = exp.parameters.dup
-        @parameters.extend MethodParameters
-        @num_statements = 0
-        @refs = AST::ObjectRefs.new
-      end
-
-      def count_statements(num)
-        @num_statements += num
-      end
-
-      def record_call_to(exp)
-        receiver, meth = exp[1..2]
-        receiver ||= [:self]
-        case receiver[0]
-        when :lvasgn
-          @refs.record_reference_to(receiver.name, line: exp.line)
-        when :lvar
-          @refs.record_reference_to(receiver.name, line: exp.line) unless meth == :new
-        when :self
-          @refs.record_reference_to(:self, line: exp.line)
-        end
-      end
-
-      def record_use_of_self
-        @refs.record_reference_to(:self)
-      end
 
       def envious_receivers
-        return {} if @refs.self_is_max?
-        @refs.most_popular
+        return {} if refs.self_is_max?
+        refs.most_popular
       end
 
       def references_self?
@@ -78,6 +32,11 @@ module Reek
 
       def uses_super_with_implicit_arguments?
         (body = exp.body) && body.contains_nested_node?(:zsuper)
+      end
+
+      def default_assignments
+        @default_assignments ||=
+          exp.parameters.select(&:optional_argument?).map(&:children)
       end
     end
   end

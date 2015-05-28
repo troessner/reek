@@ -1,11 +1,12 @@
 require_relative '../../spec_helper'
 require_relative '../../../lib/reek/smells/utility_function'
+require_relative '../../../lib/reek/examiner'
 require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::UtilityFunction do
   describe 'a detector' do
     before(:each) do
-      @source_name = 'dummy_source'
+      @source_name = 'string'
       @detector = build(:smell_detector,
                         smell_type: :UtilityFunction,
                         source: @source_name)
@@ -20,9 +21,7 @@ RSpec.describe Reek::Smells::UtilityFunction do
           arga.b.c
         end
         EOS
-        source = Reek::Source::SourceCode.from(src)
-        mctx = Reek::TreeWalker.new.process_def(source.syntax_tree)
-        @warning = @detector.examine_context(mctx)[0]   # SMELL: too cumbersome!
+        @warning = Reek::Examiner.new(src, ['UtilityFunction']).smells[0]
       end
 
       it_should_behave_like 'common fields set correctly'

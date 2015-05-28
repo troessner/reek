@@ -24,7 +24,7 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       def examine_context(method_ctx)
-        method_ctx.parameters.default_assignments.select do |_param, value|
+        method_ctx.default_assignments.select do |_param, value|
           [:true, :false].include?(value[0])
         end.map do |parameter, _value|
           SmellWarning.new self,

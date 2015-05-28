@@ -3,7 +3,9 @@ require_relative '../../../lib/reek/context/root_context'
 
 RSpec.describe Reek::Context::RootContext do
   before :each do
-    @root = Reek::Context::RootContext.new
+    src = 'foo = 1'
+    ast = Reek::Source::SourceCode.from(src).syntax_tree
+    @root = Reek::Context::RootContext.new(ast)
   end
 
   context 'full_name' do

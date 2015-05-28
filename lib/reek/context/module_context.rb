@@ -8,11 +8,6 @@ module Reek
     #
     # @api private
     class ModuleContext < CodeContext
-      def initialize(outer, exp)
-        super(outer, exp)
-        @name = AST::SexpFormatter.format(exp.children.first)
-      end
-
       def node_instance_methods
         local_nodes(:def)
       end
