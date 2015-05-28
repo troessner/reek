@@ -1,5 +1,4 @@
 require_relative 'smell_detector'
-require_relative '../core/smell_configuration'
 
 module Reek
   module Smells
@@ -21,7 +20,7 @@ module Reek
       def self.default_config
         super.merge(
           MAX_ALLOWED_PARAMS_KEY => DEFAULT_MAX_ALLOWED_PARAMS,
-          Core::SmellConfiguration::OVERRIDES_KEY => {
+          SmellConfiguration::OVERRIDES_KEY => {
             'initialize' => { MAX_ALLOWED_PARAMS_KEY => 5 }
           }
         )

@@ -1,11 +1,11 @@
 require 'rake/clean'
-require_relative '../lib/reek/core/smell_repository'
+require_relative '../lib/reek/smells/smell_repository'
 
 CONFIG_FILE = 'config/defaults.reek'
 
 file CONFIG_FILE do
   config = {}
-  Reek::Core::SmellRepository.smell_types.each do |klass|
+  Reek::Smells::SmellRepository.smell_types.each do |klass|
     config[klass.name.split(/::/)[-1]] = klass.default_config
   end
   $stderr.puts "Creating #{CONFIG_FILE}"

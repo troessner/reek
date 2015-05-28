@@ -1,9 +1,9 @@
 require_relative '../smells'
-require_relative '../smells/smell_detector'
+require_relative 'smell_detector'
 require_relative '../configuration/app_configuration'
 
 module Reek
-  module Core
+  module Smells
     #
     # Contains all the existing smells and exposes operations on them.
     #

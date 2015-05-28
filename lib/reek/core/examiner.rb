@@ -5,8 +5,8 @@
 #
 # See also https://github.com/troessner/reek/pull/468
 require_relative 'tree_walker'
-require_relative 'smell_repository'
 require_relative '../cli/warning_collector'
+require_relative '../smells/smell_repository'
 require_relative '../source/source_repository'
 
 module Reek
@@ -64,7 +64,7 @@ module Reek
 
       def run
         @sources.each do |source|
-          smell_repository = Core::SmellRepository.new(source.description, @smell_types)
+          smell_repository = Smells::SmellRepository.new(source.description, @smell_types)
           syntax_tree = source.syntax_tree
           Core::TreeWalker.new(smell_repository).process(syntax_tree) if syntax_tree
           smell_repository.report_on(@collector)
@@ -73,11 +73,11 @@ module Reek
 
       def eligible_smell_types(smell_types_to_filter_by = [])
         if smell_types_to_filter_by.any?
-          Core::SmellRepository.smell_types.select do |klass|
+          Smells::SmellRepository.smell_types.select do |klass|
             smell_types_to_filter_by.include? klass.smell_type
           end
         else
-          Core::SmellRepository.smell_types
+          Smells::SmellRepository.smell_types
         end
       end
     end

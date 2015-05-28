@@ -1,5 +1,5 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/core/smell_configuration'
+require_relative '../../../lib/reek/smells/smell_configuration'
 
 RSpec.shared_examples_for 'SmellDetector' do
   context 'exception matching follows the context' do
@@ -21,7 +21,7 @@ RSpec.shared_examples_for 'SmellDetector' do
 
   context 'configuration' do
     it 'becomes disabled when disabled' do
-      enabled_key = Reek::Core::SmellConfiguration::ENABLED_KEY
+      enabled_key = Reek::Smells::SmellConfiguration::ENABLED_KEY
       @detector.configure_with(enabled_key => false)
       expect(@detector).not_to be_enabled
     end

@@ -1,5 +1,5 @@
 require 'set'
-require_relative '../core/smell_configuration'
+require_relative 'smell_configuration'
 
 module Reek
   module Smells
@@ -30,7 +30,7 @@ module Reek
 
         def default_config
           {
-            Core::SmellConfiguration::ENABLED_KEY => true,
+            SmellConfiguration::ENABLED_KEY => true,
             EXCLUDE_KEY => DEFAULT_EXCLUDE_SET.dup
           }
         end
@@ -71,7 +71,7 @@ module Reek
 
       def initialize(source, config = self.class.default_config)
         @source = source
-        @config = Core::SmellConfiguration.new(config)
+        @config = SmellConfiguration.new(config)
         @smells_found = []
       end
 
@@ -98,7 +98,7 @@ module Reek
       end
 
       def enabled_for?(context)
-        enabled? && config_for(context)[Core::SmellConfiguration::ENABLED_KEY] != false
+        enabled? && config_for(context)[SmellConfiguration::ENABLED_KEY] != false
       end
 
       def exception?(context)

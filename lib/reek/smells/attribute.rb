@@ -1,5 +1,4 @@
 require_relative 'smell_detector'
-require_relative '../core/smell_configuration'
 
 module Reek
   module Smells
@@ -31,7 +30,7 @@ module Reek
       end
 
       def self.default_config
-        super.merge(Core::SmellConfiguration::ENABLED_KEY => false)
+        super.merge(SmellConfiguration::ENABLED_KEY => false)
       end
 
       #
