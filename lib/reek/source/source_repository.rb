@@ -16,13 +16,10 @@ module Reek
         @sources     = sources
       end
 
-      # TODO: This method is a least partially broken.
-      # Regardless of how you call reek, be it:
-      #   reek lib/
-      #   reek lib/file_one.rb lib/file_two.rb
-      #   echo "def m; end" | reek
-      # we *always* end up in the "when Source::SourceCode" branch.
-      # So it seems like 80% of this method is never used.
+      # Parses the given source and tries to convert that to Source::SourceCode.
+      #
+      # @param source [Array|Source::SourceCode|something else] the source
+      # @return [Array] the source converted into a list of Source::SourceCode objects
       def self.parse(source)
         case source
         when Array
@@ -30,8 +27,8 @@ module Reek
         when Source::SourceCode
           new source.description, [source]
         else
-          src = Source::SourceCode.from source
-          new src.description, [src]
+          source_code = Source::SourceCode.from source
+          new source_code.description, [source_code]
         end
       end
 
