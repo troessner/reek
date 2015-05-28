@@ -2,6 +2,7 @@ require_relative 'context/method_context'
 require_relative 'context/module_context'
 require_relative 'context/root_context'
 require_relative 'context/singleton_method_context'
+require_relative 'smells/smell_repository'
 
 module Reek
   #

@@ -1,5 +1,6 @@
-require_relative 'smell_detector'
 require_relative '../ast/ast_node'
+require_relative 'smell_detector'
+require_relative 'smell_warning'
 
 module Reek
   module Smells
