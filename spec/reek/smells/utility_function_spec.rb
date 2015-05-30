@@ -21,7 +21,7 @@ RSpec.describe Reek::Smells::UtilityFunction do
         end
         EOS
         source = Reek::Source::SourceCode.from(src)
-        mctx = Reek::Core::TreeWalker.new.process_def(source.syntax_tree)
+        mctx = Reek::TreeWalker.new.process_def(source.syntax_tree)
         @warning = @detector.examine_context(mctx)[0]   # SMELL: too cumbersome!
       end
 

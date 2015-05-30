@@ -1,5 +1,5 @@
 module Reek
-  module Core
+  module AST
     #
     # Manages and counts the references out of a method to other objects.
     #

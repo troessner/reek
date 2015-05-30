@@ -1,9 +1,9 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/core/object_refs'
+require_relative '../../../lib/reek/ast/object_refs'
 
-RSpec.describe Reek::Core::ObjectRefs do
+RSpec.describe Reek::AST::ObjectRefs do
   before(:each) do
-    @refs = Reek::Core::ObjectRefs.new
+    @refs = Reek::AST::ObjectRefs.new
   end
 
   context 'when empty' do

@@ -231,7 +231,7 @@ RSpec.describe Reek::Smells::FeatureEnvy do
         end
       EOS
       source = Reek::Source::SourceCode.from(src)
-      @mctx = Reek::Core::TreeWalker.new.process_def(source.syntax_tree)
+      @mctx = Reek::TreeWalker.new.process_def(source.syntax_tree)
       @smells = @detector.examine_context(@mctx)
     end
 

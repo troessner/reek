@@ -1,5 +1,5 @@
 require_relative 'smell_detector'
-require_relative '../core/reference_collector'
+require_relative '../ast/reference_collector'
 
 module Reek
   module Smells

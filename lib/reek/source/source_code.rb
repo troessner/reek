@@ -2,8 +2,8 @@ require_relative '../cli/silencer'
 Reek::CLI::Silencer.silently do
   require 'parser/current'
 end
-require_relative '../core/tree_dresser'
-require_relative '../core/ast_node'
+require_relative '../tree_dresser'
+require_relative '../ast/ast_node'
 
 module Reek
   module Source
@@ -43,7 +43,7 @@ module Reek
 
       # Parses the given source into an AST.
       #
-      #  @return [Reek::Core::ASTNode] the AST presentation of the given source
+      #  @return [Reek::AST::ASTNode] the AST presentation of the given source
       def syntax_tree
         @syntax_tree ||=
           begin
@@ -54,7 +54,7 @@ module Reek
             end
 
             comment_map = Parser::Source::Comment.associate(ast, comments) if ast
-            Core::TreeDresser.new.dress(ast, comment_map)
+            TreeDresser.new.dress(ast, comment_map)
           end
       end
     end

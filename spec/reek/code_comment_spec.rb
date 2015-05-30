@@ -1,7 +1,7 @@
-require_relative '../../spec_helper'
-require_relative '../../../lib/reek/core/code_comment'
+require_relative '../spec_helper'
+require_relative '../../lib/reek/code_comment'
 
-RSpec.describe Reek::Core::CodeComment do
+RSpec.describe Reek::CodeComment do
   context 'with an empty comment' do
     before :each do
       @comment = described_class.new('')

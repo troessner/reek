@@ -1,5 +1,5 @@
 require_relative 'smell_detector'
-require_relative '../core/ast_node'
+require_relative '../ast/ast_node'
 
 module Reek
   module Smells
@@ -33,7 +33,7 @@ module Reek
         'SimulatedPolymorphism'
       end
 
-      BLOCK_GIVEN_CONDITION = AST::Node.new(:send, [nil, :block_given?])
+      BLOCK_GIVEN_CONDITION = ::Parser::AST::Node.new(:send, [nil, :block_given?])
 
       def self.contexts      # :nodoc:
         [:class]

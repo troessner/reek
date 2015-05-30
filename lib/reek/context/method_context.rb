@@ -1,5 +1,5 @@
 require_relative 'code_context'
-require_relative '../core/object_refs'
+require_relative '../ast/object_refs'
 
 module Reek
   module Context
@@ -29,7 +29,7 @@ module Reek
         @parameters = exp.parameters.dup
         @parameters.extend MethodParameters
         @num_statements = 0
-        @refs = Core::ObjectRefs.new
+        @refs = AST::ObjectRefs.new
       end
 
       def count_statements(num)
