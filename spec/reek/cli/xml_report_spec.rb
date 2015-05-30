@@ -1,5 +1,5 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/core/examiner'
+require_relative '../../../lib/reek/examiner'
 require_relative '../../../lib/reek/cli/report/report'
 require_relative '../../../lib/reek/cli/report/formatter'
 
@@ -7,7 +7,7 @@ RSpec.describe Reek::CLI::Report::XMLReport do
   let(:instance) { Reek::CLI::Report::XMLReport.new }
 
   context 'empty source' do
-    let(:examiner) { Reek::Core::Examiner.new('') }
+    let(:examiner) { Reek::Examiner.new('') }
 
     before do
       instance.add_examiner examiner
@@ -19,7 +19,7 @@ RSpec.describe Reek::CLI::Report::XMLReport do
   end
 
   context 'source with voliations' do
-    let(:examiner) { Reek::Core::Examiner.new('def simple(a) a[0] end') }
+    let(:examiner) { Reek::Examiner.new('def simple(a) a[0] end') }
 
     before do
       allow(File).to receive(:realpath).and_return('/some/path')

@@ -1,5 +1,5 @@
 module Reek
-  module Sexp
+  module AST
     #
     # Extensions to +Sexp+ to allow +TreeWalker+ to navigate the abstract
     # syntax tree more easily.
@@ -84,7 +84,7 @@ module Reek
       private
 
       def each_sexp
-        children.each { |elem| yield elem if elem.is_a? AST::Node }
+        children.each { |elem| yield elem if elem.is_a? ::Parser::AST::Node }
       end
     end
   end

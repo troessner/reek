@@ -1,7 +1,7 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/sexp/sexp_formatter'
+require_relative '../../../lib/reek/ast/sexp_formatter'
 
-RSpec.describe Reek::Sexp::SexpFormatter do
+RSpec.describe Reek::AST::SexpFormatter do
   describe '::format' do
     it 'formats a simple s-expression' do
       result = described_class.format s(:lvar, :foo)

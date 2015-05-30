@@ -1,8 +1,8 @@
 require_relative 'sexp_node'
-require_relative '../core/reference_collector'
+require_relative 'reference_collector'
 
 module Reek
-  module Sexp
+  module AST
     #
     # Extension modules providing utility methods to ASTNode objects, depending
     # on their type.
@@ -264,7 +264,7 @@ module Reek
         end
 
         def depends_on_instance?
-          Core::ReferenceCollector.new(self).num_refs_to_self > 0
+          AST::ReferenceCollector.new(self).num_refs_to_self > 0
         end
       end
 
@@ -327,7 +327,7 @@ module Reek
         def name() self[1] end
 
         def simple_name
-          name.is_a?(AST::Node) ? name.simple_name : name
+          name.is_a?(::Parser::AST::Node) ? name.simple_name : name
         end
 
         def full_name(outer)

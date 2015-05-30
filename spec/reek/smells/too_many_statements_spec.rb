@@ -4,11 +4,11 @@ require_relative 'smell_detector_shared'
 require_relative '../../../lib/reek/source/source_code'
 
 def process_method(source)
-  Reek::Core::TreeWalker.new.process_def(Reek::Source::SourceCode.from(source).syntax_tree)
+  Reek::TreeWalker.new.process_def(Reek::Source::SourceCode.from(source).syntax_tree)
 end
 
 def process_singleton_method(source)
-  Reek::Core::TreeWalker.new.process_defs(Reek::Source::SourceCode.from(source).syntax_tree)
+  Reek::TreeWalker.new.process_defs(Reek::Source::SourceCode.from(source).syntax_tree)
 end
 
 RSpec.describe Reek::Smells::TooManyStatements do
