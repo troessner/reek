@@ -1,5 +1,4 @@
 require_relative 'smell_detector'
-require_relative '../core/code_comment'
 
 module Reek
   module Smells
@@ -13,7 +12,7 @@ module Reek
         [:class]
       end
 
-      def self.descriptive   # :nodoc:
+      def descriptive   # :nodoc:
         @descriptive ||= {}
       end
 
@@ -23,13 +22,17 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       def examine_context(ctx)
-        comment = Core::CodeComment.new(ctx.exp.comments)
-        return [] if self.class.descriptive[ctx.full_name] ||= comment.descriptive?
+        return [] if descriptive?(ctx)
+        expression = ctx.exp
         [SmellWarning.new(self,
                           context: ctx.full_name,
-                          lines: [ctx.exp.line],
+                          lines: [expression.line],
                           message: 'has no descriptive comment',
-                          parameters: {  name: ctx.exp.text_name })]
+                          parameters: {  name: expression.text_name })]
+      end
+
+      def descriptive?(ctx)
+        descriptive[ctx.full_name] ||= ctx.descriptively_commented?
       end
     end
   end

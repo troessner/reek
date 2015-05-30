@@ -8,7 +8,7 @@ RSpec.describe Reek::Source::SourceCode do
       source = "# this is\n# a comment\ndef foo; end"
       source_code = Reek::Source::SourceCode.new(source, '(string)')
       result = source_code.syntax_tree
-      expect(result.comments).to eq "# this is\n# a comment"
+      expect(result.leading_comment).to eq "# this is\n# a comment"
     end
 
     it 'cleanly processes empty source' do

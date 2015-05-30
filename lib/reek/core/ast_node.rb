@@ -10,8 +10,16 @@ module Reek
         super
       end
 
-      def comments
+      def full_comment
         @comments.map(&:text).join("\n")
+      end
+
+      def leading_comment
+        line = location.line
+        comment_lines = @comments.select do |comment|
+          comment.location.line < line
+        end
+        comment_lines.map(&:text).join("\n")
       end
 
       # @deprecated

@@ -9,9 +9,10 @@ Feature: Basic smell detection
     Then the exit status indicates smells
     And it reports:
     """
-    inline.rb -- 44 warnings:
+    inline.rb -- 45 warnings:
       CompilationError has no descriptive comment (IrresponsibleModule)
       Dir has no descriptive comment (IrresponsibleModule)
+      File has no descriptive comment (IrresponsibleModule)
       File#self.write_with_backup has approx 6 statements (TooManyStatements)
       Inline declares the class variable @@directory (ClassVariable)
       Inline declares the class variable @@rootdir (ClassVariable)
