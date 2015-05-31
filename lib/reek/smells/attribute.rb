@@ -1,4 +1,6 @@
+require_relative 'smell_configuration'
 require_relative 'smell_detector'
+require_relative 'smell_warning'
 
 module Reek
   module Smells

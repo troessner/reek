@@ -1,4 +1,5 @@
 require_relative '../../spec_helper'
+require_relative '../../../lib/reek/smells/smell_detector'
 require_relative '../../../lib/reek/smells/smell_repository'
 
 RSpec.describe Reek::Smells::SmellRepository do
