@@ -4,11 +4,7 @@ source 'https://rubygems.org'
 gemspec
 
 group :local_development do
-  gem 'pry'
   platforms :mri do
-    if RUBY_VERSION >= '2.0.0'
-      gem 'byebug'
-      gem 'pry-byebug'
-    end
+    gem 'pry-byebug'
   end
 end
