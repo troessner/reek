@@ -15,17 +15,17 @@ module Reek
         @klass_map[type] ||= Class.new(ASTNode).tap do |klass|
           extension = extension_map[type]
           klass.send :include, extension if extension
-          klass.send :include, AST::SexpNode
+          klass.send :include, SexpNode
         end
       end
 
       def extension_map
         @extension_map ||=
           begin
-            assoc = AST::SexpExtensions.constants.map do |const|
+            assoc = SexpExtensions.constants.map do |const|
               [
                 const.to_s.sub(/Node$/, '').downcase.to_sym,
-                AST::SexpExtensions.const_get(const)
+                SexpExtensions.const_get(const)
               ]
             end
             Hash[assoc]
