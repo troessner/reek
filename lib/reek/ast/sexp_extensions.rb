@@ -264,7 +264,7 @@ module Reek
         end
 
         def depends_on_instance?
-          AST::ReferenceCollector.new(self).num_refs_to_self > 0
+          ReferenceCollector.new(self).num_refs_to_self > 0
         end
       end
 
