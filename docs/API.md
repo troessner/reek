@@ -14,7 +14,7 @@ You can use reek inside your Ruby file `check_dirty.rb`
 require 'reek'
 require 'reek/source/source_code'
 require 'reek/cli/report/report'
-require 'reek/core/examiner'
+require 'reek/examiner'
 
 source =<<END
 class Dirty
@@ -30,7 +30,7 @@ END
 
 source_code = Reek::Source::SourceCode.from(source)
 reporter = Reek::CLI::Report::TextReport.new
-reporter.add_examiner Reek::Core::Examiner.new(source_code)
+reporter.add_examiner Reek::Examiner.new(source_code)
 puts reporter.show
 ```
 
