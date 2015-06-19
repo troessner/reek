@@ -266,6 +266,11 @@ module Reek
         def depends_on_instance?
           ReferenceCollector.new(self).num_refs_to_self > 0
         end
+
+        def singleton_method?
+          # This catches the case where methods are defined within the "class << self" syntax.
+          parent.type == :sclass if parent
+        end
       end
 
       # Utility methods for :defs nodes.

@@ -10,13 +10,13 @@ module Reek
       @klass_map = klass_map
     end
 
-    def dress(sexp, comment_map)
+    def dress(sexp, comment_map, parent = nil)
       return sexp unless sexp.is_a? ::Parser::AST::Node
       type = sexp.type
-      children = sexp.children.map { |child| dress(child, comment_map) }
+      children = sexp.children.map { |child| dress(child, comment_map, sexp) }
       comments = comment_map[sexp]
       @klass_map.klass_for(type).new(type, children,
-                                     location: sexp.loc, comments: comments)
+                                     location: sexp.loc, comments: comments, parent: parent)
     end
   end
 end

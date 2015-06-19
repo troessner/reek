@@ -42,6 +42,28 @@ RSpec.describe Reek::Smells::UtilityFunction do
     end
   end
 
+  context 'Singleton methods' do
+    it 'for classes with `class << self` notation should not report UtilityFunction' do
+      src = 'class C; class << self; def m(a) a.to_s; end; end; end'
+      expect(src).not_to reek_of(:UtilityFunction)
+    end
+
+    it 'for classes with `self.` notation should not report UtilityFunction' do
+      src = 'class C; def self.m(a) a.to_s; end; end'
+      expect(src).not_to reek_of(:UtilityFunction)
+    end
+
+    it 'for modules with `class << self` notation should not report UtilityFunction' do
+      src = 'module M; class << self; def self.m(a) a.to_s; end; end; end'
+      expect(src).not_to reek_of(:UtilityFunction)
+    end
+
+    it 'for modules with `self.` notation should not report UtilityFunction' do
+      src = 'module M; def self.simple(a) a.to_s; end; end'
+      expect(src).not_to reek_of(:UtilityFunction)
+    end
+  end
+
   context 'with no calls' do
     it 'does not report empty method' do
       expect('def simple(arga) end').not_to reek_of(:UtilityFunction)
