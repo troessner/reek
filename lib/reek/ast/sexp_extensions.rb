@@ -249,6 +249,70 @@ module Reek
         end
       end
 
+      # Checking if a method is a singleton method.
+      module SingletonMethod
+        def singleton_method?
+          singleton_method_via_class_self_notation? ||
+            singleton_method_via_module_function?
+        end
+
+        # Ruby allows us to make a method a singleton_method after having defined the
+        # method via `module_function`.
+        #
+        # To check if we used "module_function" for a method we need to check on the parent
+        # level of the method in question if there is a call to "module_function".
+        # Given someting like
+        #   class C
+        #     def m; 3 + 7; end
+        #     module_function :m
+        #   end
+        # the AST (truncated, without the class definition) would look like this:
+        #   (def :m
+        #     (args)
+        #     (send
+        #       (int 3) :+
+        #       (int 7)))
+        #   (send nil :module_function
+        #     (sym :m))))
+        # With multiple arguments to module_function this gets more complicated:
+        #   (send nil :module_function
+        #     (sym :m1)
+        #     (send nil :m2))
+        #
+        # @return [Boolean]
+        def singleton_method_via_module_function?
+          return unless parent
+          module_function_calls(parent).any? do |module_function_call|
+            method_name_nodes = module_function_call.children[2..-1]
+            method_names = method_name_nodes.map do |node|
+              node.children.last
+            end
+            method_names.include?(name)
+          end
+        end
+
+        # Ruby allows us to make a method a singleton_method using the
+        # class << self syntax.
+        #
+        # To check for this we check if the parent node is of type :sclass.
+        #
+        # @return [Boolean]
+        def singleton_method_via_class_self_notation?
+          return unless parent
+          parent.type == :sclass
+        end
+
+        private
+
+        def module_function_calls(parent)
+          parent.children.select do |elem|
+            elem.is_a?(::Parser::AST::Node) &&
+              elem.type == :send &&
+              elem.children[1] == :module_function
+          end
+        end
+      end
+
       # Utility methods for :def nodes.
       module DefNode
         def name() self[1] end
@@ -257,7 +321,7 @@ module Reek
         def body
           self[3]
         end
-        include MethodNodeBase
+
         def full_name(outer)
           prefix = outer == '' ? '' : "#{outer}#"
           "#{prefix}#{name}"
@@ -267,10 +331,8 @@ module Reek
           ReferenceCollector.new(self).num_refs_to_self > 0
         end
 
-        def singleton_method?
-          # This catches the case where methods are defined within the "class << self" syntax.
-          parent.type == :sclass if parent
-        end
+        include MethodNodeBase
+        include SingletonMethod
       end
 
       # Utility methods for :defs nodes.

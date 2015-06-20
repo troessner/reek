@@ -62,6 +62,24 @@ RSpec.describe Reek::Smells::UtilityFunction do
       src = 'module M; def self.simple(a) a.to_s; end; end'
       expect(src).not_to reek_of(:UtilityFunction)
     end
+
+    context 'by using `module_function`' do
+      it 'should not report UtilityFunction' do
+        src = 'class C; def m(a) a.to_s; end; module_function :m; end'
+        expect(src).not_to reek_of(:UtilityFunction)
+      end
+
+      it 'should not report UtilityFunction also when using multiple arguments' do
+        src = <<-EOS
+          class C
+            def m1(a) a.to_s; end
+            def m2(a) a.to_s; end
+            module_function :m1, m2
+          end
+          EOS
+        expect(src).not_to reek_of(:UtilityFunction)
+      end
+    end
   end
 
   context 'with no calls' do
