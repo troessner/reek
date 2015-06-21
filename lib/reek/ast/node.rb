@@ -4,7 +4,7 @@ module Reek
   module AST
     # Base class for AST nodes extended with utility methods. Contains some
     # methods to ease the transition from Sexp to AST::Node.
-    class ASTNode < ::Parser::AST::Node
+    class Node < ::Parser::AST::Node
       attr_reader :parent
 
       def initialize(type, children = [], options = {})
