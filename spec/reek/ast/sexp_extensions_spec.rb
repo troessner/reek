@@ -108,11 +108,6 @@ RSpec.describe Reek::AST::SexpExtensions::DefNode do
       expect(@node.body).to eq s(:begin, s(:first), s(:second))
     end
 
-    it 'has a body extended with SexpNode' do
-      b = @node.body
-      expect(b.class.included_modules.first).to eq Reek::AST::SexpNode
-    end
-
     it 'finds nodes in the body with #body_nodes' do
       expect(@node.body_nodes([:first])).to eq [s(:first)]
     end
@@ -238,11 +233,6 @@ RSpec.describe Reek::AST::SexpExtensions::DefsNode do
 
     it 'has 2 body statements' do
       expect(@node.body).to eq s(:begin, s(:first), s(:second))
-    end
-
-    it 'has a body extended with SexpNode' do
-      b = @node.body
-      expect(b.class.included_modules.first).to eq Reek::AST::SexpNode
     end
   end
 end

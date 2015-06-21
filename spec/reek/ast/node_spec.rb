@@ -1,7 +1,7 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/ast/sexp_node'
+require_relative '../../../lib/reek/ast/node'
 
-RSpec.describe Reek::AST::SexpNode do
+RSpec.describe Reek::AST::Node do
   context 'format' do
     it 'formats self' do
       @node = s(:self)

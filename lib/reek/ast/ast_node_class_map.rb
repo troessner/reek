@@ -1,5 +1,4 @@
 require_relative 'node'
-require_relative 'sexp_node'
 require_relative 'sexp_extensions'
 
 module Reek
@@ -15,7 +14,6 @@ module Reek
         @klass_map[type] ||= Class.new(Node).tap do |klass|
           extension = extension_map[type]
           klass.send :include, extension if extension
-          klass.send :include, SexpNode
         end
       end
 

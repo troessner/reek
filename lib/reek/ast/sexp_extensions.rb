@@ -1,4 +1,3 @@
-require_relative 'sexp_node'
 require_relative 'reference_collector'
 
 module Reek
