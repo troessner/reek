@@ -6,5 +6,6 @@ gemspec
 group :local_development do
   platforms :mri do
     gem 'pry-byebug'
+    gem 'pry-stack_explorer'
   end
 end
