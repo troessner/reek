@@ -3,6 +3,7 @@ module Reek
     #
     # Base class for all commands
     #
+    # @api private
     class Command
       attr_reader :options
 

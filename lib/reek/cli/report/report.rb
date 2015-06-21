@@ -9,9 +9,11 @@ module Reek
       #
       # A report that contains the smells and smell counts following source code analysis.
       #
+      # @abstract Subclass and override {#show} to create a concrete report class.
       class Base
-        DEFAULT_FORMAT = :text
+        # @api private
         NO_WARNINGS_COLOR = :green
+        # @api private
         WARNINGS_COLOR = :red
 
         def initialize(options = {})
@@ -23,16 +25,27 @@ module Reek
           @sort_by_issue_count = options.fetch :sort_by_issue_count, false
         end
 
+        # Add Examiner to report on. The report will output results for all
+        # added examiners.
+        #
+        # @param [Reek::Examiner] examiner object to report on
         def add_examiner(examiner)
           @total_smell_count += examiner.smells_count
           @examiners << examiner
           self
         end
 
+        # Render the report results on STDOUT
+        def show
+          raise NotImplementedError
+        end
+
+        # @api private
         def smells?
           @total_smell_count > 0
         end
 
+        # @api private
         def smells
           @examiners.map(&:smells).flatten
         end
@@ -48,16 +61,14 @@ module Reek
           display_total_smell_count
         end
 
-        def smells
-          @examiners.each_with_object([]) do |examiner, result|
-            result << summarize_single_examiner(examiner)
-          end
-        end
-
         private
 
+        def smell_summaries
+          @examiners.map { |ex| summarize_single_examiner(ex) }.reject(&:empty?)
+        end
+
         def display_summary
-          smells.reject(&:empty?).each { |smell| puts smell }
+          smell_summaries.each { |smell| puts smell }
         end
 
         def display_total_smell_count
@@ -134,10 +145,6 @@ module Reek
       #
       class XMLReport < Base
         require 'rexml/document'
-
-        def initialize(options = {})
-          super options
-        end
 
         def show
           checkstyle = REXML::Element.new('checkstyle', document)

@@ -12,6 +12,8 @@ module Reek
   #
   # SMELL: This class is responsible for counting statements and for feeding
   # each context to the smell repository.
+  #
+  # @api private
   class TreeWalker
     def initialize(smell_repository = Smells::SmellRepository.new)
       @smell_repository = smell_repository

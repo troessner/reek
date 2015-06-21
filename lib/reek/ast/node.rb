@@ -1,9 +1,12 @@
 require 'parser'
 
 module Reek
+  # @api private
   module AST
     # Base class for AST nodes extended with utility methods. Contains some
     # methods to ease the transition from Sexp to AST::Node.
+    #
+    # @api private
     class Node < ::Parser::AST::Node
       attr_reader :parent
 

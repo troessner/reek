@@ -9,6 +9,7 @@ module Reek
     # This is the entry point for all invocations of Reek from the
     # command line.
     #
+    # @api private
     class Application
       STATUS_SUCCESS = 0
       STATUS_ERROR   = 1

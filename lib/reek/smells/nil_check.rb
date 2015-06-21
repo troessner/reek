@@ -6,7 +6,8 @@ module Reek
     # Checking for nil is a special kind of type check, and therefore a case of
     # SimulatedPolymorphism.
     #
-    # See docs/Nil-Check for details.
+    # See {file:docs/Nil-Check.md} for details.
+    # @api private
     class NilCheck < SmellDetector
       def self.smell_category
         'SimulatedPolymorphism'

@@ -1,7 +1,7 @@
-Feature: The Reek API maintains backwards compatibility
+Feature: The Reek CLI maintains backwards compatibility
   In order to use Reek without fuss
   As a developer
-  I want to have a stable API
+  I want to have a stable basic command line interface
 
   Scenario: the demo example reports as expected
     Given the smelly file 'demo.rb' from the example in the README

@@ -7,6 +7,7 @@ module Reek
     #
     # Contains all the existing smells and exposes operations on them.
     #
+    # @api private
     class SmellRepository
       attr_reader :detectors
 

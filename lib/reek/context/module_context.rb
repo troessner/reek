@@ -6,6 +6,7 @@ module Reek
     #
     # A context wrapper for any module found in a syntax tree.
     #
+    # @api private
     class ModuleContext < CodeContext
       def initialize(outer, exp)
         super(outer, exp)

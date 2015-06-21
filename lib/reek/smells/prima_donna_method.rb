@@ -22,7 +22,8 @@ module Reek
     #
     # Such a method is called PrimaDonnaMethod and is reported as a smell.
     #
-    # See docs/Prima-Donna-Method for details.
+    # See {file:docs/Prima-Donna-Method.md} for details.
+    # @api private
     class PrimaDonnaMethod < SmellDetector
       def self.contexts # :nodoc:
         [:class]

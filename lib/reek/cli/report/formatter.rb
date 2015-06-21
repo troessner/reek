@@ -8,6 +8,7 @@ module Reek
       # Formatting of the individual warnings is handled by the
       # passed-in warning formatter.
       #
+      # @api private
       module Formatter
         def self.format_list(warnings, formatter = SimpleWarningFormatter.new)
           warnings.map do |warning|
@@ -28,6 +29,7 @@ module Reek
       # Basic formatter that just shows a simple message for each warning,
       # prepended with the result of the passed-in location formatter.
       #
+      # @api private
       class SimpleWarningFormatter
         def initialize(location_formatter = BlankLocationFormatter)
           @location_formatter = location_formatter
@@ -48,6 +50,7 @@ module Reek
       # Formatter that adds a link to the wiki to the basic message from
       # SimpleWarningFormatter.
       #
+      # @api private
       class WikiLinkWarningFormatter < SimpleWarningFormatter
         BASE_URL_FOR_HELP_LINK = 'https://github.com/troessner/reek/wiki/'
 

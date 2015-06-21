@@ -23,7 +23,8 @@ module Reek
     # +RepeatedConditional+ checks for multiple conditionals
     # testing the same value throughout a single class.
     #
-    # See docs/Repeated-Conditional for details.
+    # See {file:docs/Repeated-Conditional.md} for details.
+    # @api private
     class RepeatedConditional < SmellDetector
       # The name of the config field that sets the maximum number of
       # identical conditionals permitted within any single class.

@@ -1,11 +1,13 @@
 module Reek
   module CLI
     module Report
+      # @api private
       module HeadingFormatter
         #
         # Base class for heading formatters.
         # Is responsible for formatting the heading emitted for each examiner
         #
+        # @abstract Override {#show_header?} to implement a heading formatter.
         class Base
           attr_reader :report_formatter
 

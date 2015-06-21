@@ -8,13 +8,15 @@ module Reek
     #
     # Formats snippets of syntax tree back into Ruby source code.
     #
-    # :reek:DuplicateMethodCall { max_calls: 2 } is ok for lines.first
+    # @api private
     class SexpFormatter
       # Formats the given sexp.
       #
-      # sexp - S-expression of type AST::Node or something that is at least to_s-able.
+      # @param [AST::Node, #to_s] sexp - The expression to format
       #
-      # Returns a formatted string representation.
+      # @return [String] a formatted string representation.
+      #
+      # :reek:DuplicateMethodCall { max_calls: 2 } is ok for lines.first
       def self.format(sexp)
         return sexp.to_s unless sexp.is_a? ::Parser::AST::Node
         lines = Unparser.unparse(sexp).split "\n"

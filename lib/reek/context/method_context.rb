@@ -6,6 +6,7 @@ module Reek
     #
     # The parameters in a method's definition.
     #
+    # @api private
     module MethodParameters
       def default_assignments
         result = []
@@ -19,6 +20,7 @@ module Reek
     #
     # A context wrapper for any method definition found in a syntax tree.
     #
+    # @api private
     class MethodContext < CodeContext
       attr_reader :parameters
       attr_reader :refs

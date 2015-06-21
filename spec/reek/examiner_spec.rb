@@ -44,45 +44,6 @@ RSpec.describe Reek::Examiner do
     it_should_behave_like 'one smell found'
   end
 
-  context 'with a partially masked smelly Dir' do
-    around(:each) do |example|
-      with_test_config('spec/samples/all_but_one_masked/masked.reek') do
-        example.run
-      end
-    end
-
-    before :each do
-      smelly_dir = Dir['spec/samples/all_but_one_masked/*.rb']
-      @examiner = described_class.new(smelly_dir)
-    end
-
-    it_should_behave_like 'one smell found'
-  end
-
-  context 'with a fragrant Dir' do
-    before :each do
-      clean_dir = Dir['spec/samples/three_clean_files/*.rb']
-      @examiner = described_class.new(clean_dir)
-    end
-
-    it_should_behave_like 'no smells found'
-  end
-
-  context 'with a smelly Dir masked by a dotfile' do
-    around(:each) do |example|
-      with_test_config('spec/samples/masked_by_dotfile/.reek') do
-        example.run
-      end
-    end
-
-    before :each do
-      smelly_dir = Dir['spec/samples/masked_by_dotfile/*.rb']
-      @examiner = described_class.new(smelly_dir)
-    end
-
-    it_should_behave_like 'one smell found'
-  end
-
   context 'with a partially masked smelly File' do
     around(:each) do |example|
       with_test_config('spec/samples/all_but_one_masked/masked.reek') do

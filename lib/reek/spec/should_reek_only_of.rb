@@ -7,6 +7,7 @@ module Reek
     # An rspec matcher that matches when the +actual+ has the specified
     # code smell and no others.
     #
+    # @api private
     class ShouldReekOnlyOf < ShouldReekOf
       def matches?(actual)
         matches_examiner?(Examiner.new(actual))

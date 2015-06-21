@@ -5,9 +5,9 @@
 #
 # See also https://github.com/troessner/reek/pull/468
 require_relative 'tree_walker'
+require_relative 'source/source_code'
 require_relative 'cli/warning_collector'
 require_relative 'smells/smell_repository'
-require_relative 'source/source_repository'
 
 module Reek
   #
@@ -15,27 +15,28 @@ module Reek
   #
   class Examiner
     #
-    # A simple description of the source being analysed for smells.
-    # If the source is a single File, this will be the file's path.
-    #
-    attr_accessor :description
-
-    #
     # Creates an Examiner which scans the given +source+ for code smells.
     #
-    # @param source [Source::SourceCode, Array<String>, #to_reek_source]
+    # @param source [File, IO, String]
     #   If +source+ is a String it is assumed to be Ruby source code;
-    #   if it is a File, the file is opened and parsed for Ruby source code;
-    #   and if it is an Array, it is assumed to be a list of file paths,
-    #   each of which is opened and parsed for source code.
+    #   if it is a File or IO, it is opened and Ruby source code is read from it;
+    #
+    # @param smell_types_to_filter_by [Array<String>]
+    #   List of smell types to filter by.
     #
     def initialize(source, smell_types_to_filter_by = [])
-      @sources      = Source::SourceRepository.parse(source)
-      @description  = @sources.description
+      @source       = Source::SourceCode.from(source)
       @collector    = CLI::WarningCollector.new
       @smell_types  = eligible_smell_types(smell_types_to_filter_by)
 
       run
+    end
+
+    #
+    # @return [String] description of the source being analysed
+    #
+    def description
+      @description ||= @source.description
     end
 
     #
@@ -62,12 +63,10 @@ module Reek
     private
 
     def run
-      @sources.each do |source|
-        smell_repository = Smells::SmellRepository.new(source.description, @smell_types)
-        syntax_tree = source.syntax_tree
-        TreeWalker.new(smell_repository).process(syntax_tree) if syntax_tree
-        smell_repository.report_on(@collector)
-      end
+      smell_repository = Smells::SmellRepository.new(description, @smell_types)
+      syntax_tree = @source.syntax_tree
+      TreeWalker.new(smell_repository).process(syntax_tree) if syntax_tree
+      smell_repository.report_on(@collector)
     end
 
     def eligible_smell_types(smell_types_to_filter_by = [])

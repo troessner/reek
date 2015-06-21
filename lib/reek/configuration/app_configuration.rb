@@ -1,11 +1,14 @@
 require_relative './configuration_file_finder'
 
 module Reek
+  # @api private
   module Configuration
+    # @api private
     class ConfigFileException < StandardError; end
     #
     # Reek's singleton configuration instance.
     #
+    # @api private
     module AppConfiguration
       @configuration = {}
       @has_been_initialized = false
