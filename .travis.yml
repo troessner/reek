@@ -7,13 +7,17 @@ rvm:
   - 2.0.0
   - 2.1
   - 2.2
-  - jruby-19mode
   - rbx-2
   - ruby-head
-  - jruby-head
 matrix:
+  include:
+    - rvm: jruby-19mode
+      env: JRUBY_OPTS='--server -Xcompile.invokedynamic=false'
+    - rvm: jruby-head
+      env: JRUBY_OPTS='--server -Xcompile.invokedynamic=false'
   allow_failures:
     - rvm: jruby-head
+      env: JRUBY_OPTS='--server -Xcompile.invokedynamic=false'
     - rvm: ruby-head
   fast_finish: true
 notifications:
