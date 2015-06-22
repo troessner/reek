@@ -1,5 +1,7 @@
 require 'rainbow'
 require 'json'
+require_relative 'formatter'
+require_relative 'heading_formatter'
 
 module Reek
   module CLI
