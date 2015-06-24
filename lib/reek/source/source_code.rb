@@ -3,7 +3,7 @@ Reek::CLI::Silencer.silently do
   require 'parser/ruby22'
 end
 require_relative '../tree_dresser'
-require_relative '../ast/ast_node'
+require_relative '../ast/node'
 
 module Reek
   module Source
@@ -44,7 +44,7 @@ module Reek
       # Parses the given source into an AST and associates the source code comments with it.
       # This AST is then traversed by a TreeDresser which adorns the nodes in the AST
       # with our SexpExtensions.
-      # Finally this AST is returned where each node is an anonymous subclass of Reek::AST::ASTNode
+      # Finally this AST is returned where each node is an anonymous subclass of Reek::AST::Node
       #
       # Important to note is that reek will not fail on unparseable files but rather print out
       # a warning and then just continue.
@@ -70,7 +70,7 @@ module Reek
       # where each node is possibly adorned with our SexpExtensions (see ast/ast_node_class_map
       # and ast/sexp_extensions for details).
       #
-      #  @return [Anonymous subclass of Reek::AST::ASTNode] the AST presentation
+      #  @return [Anonymous subclass of Reek::AST::Node] the AST presentation
       #          for the given source
       def syntax_tree
         @syntax_tree ||=

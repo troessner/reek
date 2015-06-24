@@ -18,7 +18,7 @@ module Reek
     # @param comment_map [Hash] - see the documentation for SourceCode#syntax_tree
     # @param parent [Parser::AST::Node] - the parent sexp
     #
-    # @return an instance of Reek::AST::ASTNode with type-dependent sexp extensions mixed in.
+    # @return an instance of Reek::AST::Node with type-dependent sexp extensions mixed in.
     def dress(sexp, comment_map, parent = nil)
       return sexp unless sexp.is_a? ::Parser::AST::Node
       type = sexp.type

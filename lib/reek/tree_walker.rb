@@ -3,7 +3,7 @@ require_relative 'context/module_context'
 require_relative 'context/root_context'
 require_relative 'context/singleton_method_context'
 require_relative 'smells/smell_repository'
-require_relative 'ast/ast_node'
+require_relative 'ast/node'
 
 module Reek
   #
@@ -30,7 +30,7 @@ module Reek
 
     def process_default(exp)
       exp.children.each do |child|
-        process(child) if child.is_a? AST::ASTNode
+        process(child) if child.is_a? AST::Node
       end
     end
 
