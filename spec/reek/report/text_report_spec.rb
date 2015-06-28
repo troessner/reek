@@ -1,19 +1,19 @@
 require_relative '../../spec_helper'
 require_relative '../../../lib/reek/examiner'
-require_relative '../../../lib/reek/cli/report/report'
-require_relative '../../../lib/reek/cli/report/formatter'
-require_relative '../../../lib/reek/cli/report/heading_formatter'
+require_relative '../../../lib/reek/report/report'
+require_relative '../../../lib/reek/report/formatter'
+require_relative '../../../lib/reek/report/heading_formatter'
 require 'rainbow'
 
-RSpec.describe Reek::CLI::Report::TextReport do
+RSpec.describe Reek::Report::TextReport do
   let(:report_options) do
     {
-      warning_formatter: Reek::CLI::Report::SimpleWarningFormatter.new,
-      report_formatter: Reek::CLI::Report::Formatter,
-      heading_formatter: Reek::CLI::Report::HeadingFormatter::Quiet
+      warning_formatter: Reek::Report::SimpleWarningFormatter.new,
+      report_formatter: Reek::Report::Formatter,
+      heading_formatter: Reek::Report::HeadingFormatter::Quiet
     }
   end
-  let(:instance) { Reek::CLI::Report::TextReport.new report_options }
+  let(:instance) { Reek::Report::TextReport.new report_options }
 
   context 'with a single empty source' do
     before do
