@@ -5,6 +5,8 @@ module Reek
   module AST
     # Maps AST node types to sublasses of ASTNode extended with the relevant
     # utility modules.
+    #
+    # @api private
     class ASTNodeClassMap
       def initialize
         @klass_map = {}

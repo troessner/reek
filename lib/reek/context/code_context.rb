@@ -8,6 +8,7 @@ module Reek
     # code element. CodeContexts form a tree in the same way the code does,
     # with each context holding a reference to a unique outer context.
     #
+    # @api private
     class CodeContext
       attr_reader :exp
 

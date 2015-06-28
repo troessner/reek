@@ -3,12 +3,12 @@ Feature: Using reek programmatically
   As a developer
   I want to be able to use its classes
 
-  Scenario:
+  Scenario: Accessing smells found by an examiner
     Given a smelly file called 'smelly.rb'
     And a file named "examine.rb" with:
       """
       require 'reek'
-      examiner = Reek::Examiner.new(['smelly.rb'])
+      examiner = Reek::Examiner.new(File.new('smelly.rb'))
       examiner.smells.each do |smell|
         puts smell.message
       end
@@ -22,3 +22,22 @@ Feature: Using reek programmatically
       has the name 'm'
       """
 
+  Scenario: Using reek's built-in report classes
+    Given a smelly file called 'smelly.rb'
+    And a file named "examine.rb" with:
+      """
+      require 'reek'
+      examiner = Reek::Examiner.new(File.new('smelly.rb'))
+      report = Reek::CLI::Report::TextReport.new
+      report.add_examiner examiner
+      report.show
+      """
+    When I run `ruby examine.rb`
+    Then it reports no errors
+    And it reports:
+      """
+      smelly.rb -- 3 warnings:
+        Smelly#m calls @foo.bar 2 times (DuplicateMethodCall)
+        Smelly#m calls puts(@foo.bar) 2 times (DuplicateMethodCall)
+        Smelly#m has the name 'm' (UncommunicativeMethodName)
+      """

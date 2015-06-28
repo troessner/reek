@@ -7,7 +7,8 @@ module Reek
     # It is considered good practice to annotate every class and module
     # with a brief comment outlining its responsibilities.
     #
-    # See docs/Irresponsible-Module for details.
+    # See {file:docs/Irresponsible-Module.md} for details.
+    # @api private
     class IrresponsibleModule < SmellDetector
       def self.contexts # :nodoc:
         [:class]

@@ -10,7 +10,8 @@ module Reek
     # +TooManyInstanceVariables' reports classes having more than a
     # configurable number of instance variables.
     #
-    # See docs/Too-Many-Instance-Variables for details.
+    # See {file:docs/Too-Many-Instance-Variables.md} for details.
+    # @api private
     class TooManyInstanceVariables < SmellDetector
       # The name of the config field that sets the maximum number of instance
       # variables permitted in a class.

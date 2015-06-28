@@ -6,6 +6,7 @@ module Reek
     #
     # An rspec matcher that matches when the +actual+ has code smells.
     #
+    # @api private
     class ShouldReek        # :nodoc:
       def matches?(actual)
         @examiner = Examiner.new(actual)

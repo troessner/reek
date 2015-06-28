@@ -5,6 +5,7 @@ module Reek
   # Adorns an abstract syntax tree with mix-in modules to make accessing
   # the tree more understandable and less implementation-dependent.
   #
+  # @api private
   class TreeDresser
     def initialize(klass_map = AST::ASTNodeClassMap.new)
       @klass_map = klass_map
@@ -12,7 +13,7 @@ module Reek
 
     # Recursively enhance an AST with type-dependent mixins, and comments.
     #
-    # See docs/How-reek-works-internally.md for the big picture of how this works.
+    # See {file:docs/How-reek-works-internally.md} for the big picture of how this works.
     #
     # @param sexp [Parser::AST::Node] - the given sexp
     # @param comment_map [Hash] - see the documentation for SourceCode#syntax_tree

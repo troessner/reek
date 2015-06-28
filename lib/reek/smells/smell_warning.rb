@@ -19,10 +19,6 @@ module Reek
         self.parameters     = options.fetch(:parameters, {})
       end
 
-      def smell_classes
-        [smell_detector.smell_category, smell_detector.smell_type]
-      end
-
       def hash
         sort_key.hash
       end
@@ -35,10 +31,12 @@ module Reek
         (self <=> other) == 0
       end
 
+      # @api private
       def matches?(klass, other_parameters = {})
         smell_classes.include?(klass.to_s) && common_parameters_equal?(other_parameters)
       end
 
+      # @api private
       def report_on(listener)
         listener.found_smell(self)
       end
@@ -57,6 +55,10 @@ module Reek
       end
 
       private
+
+      def smell_classes
+        [smell_detector.smell_category, smell_detector.smell_type]
+      end
 
       def common_parameters_equal?(other_parameters)
         other_parameters.keys.each do |key|

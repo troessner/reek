@@ -9,6 +9,7 @@ module Reek
     #
     # Interprets the options set from the command line
     #
+    # @api private
     class OptionInterpreter
       include CLI::Input
 

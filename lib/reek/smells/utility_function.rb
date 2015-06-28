@@ -35,7 +35,8 @@ module Reek
     # If the method does refer to self, but refers to some other object more,
     # +FeatureEnvy+ is reported instead.
     #
-    # See docs/Utility-Function for details.
+    # See {file:docs/Utility-Function.md} for details.
+    # @api private
     class UtilityFunction < SmellDetector
       def self.smell_category
         'LowCohesion'

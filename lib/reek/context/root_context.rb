@@ -1,8 +1,10 @@
 module Reek
+  # @api private
   module Context
     #
     # A context wrapper representing the root of an abstract syntax tree.
     #
+    # @api private
     class RootContext
       def initialize
         @name = ''

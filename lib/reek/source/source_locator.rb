@@ -3,6 +3,7 @@ module Reek
     #
     # Finds Ruby source files in a filesystem.
     #
+    # @api private
     class SourceLocator
       # Initialize with the paths we want to search.
       #
@@ -14,9 +15,9 @@ module Reek
       # Traverses all paths we initialized the SourceLocator with, finds
       # all relevant ruby files and returns them as a list.
       #
-      # Returns a list of Source::SourceCode.
+      # @return [Array<File>] - Ruby files found
       def sources
-        find_sources.map { |pathname| Source::SourceCode.from File.new(pathname) }
+        find_sources.map { |pathname| File.new(pathname) }
       end
 
       private

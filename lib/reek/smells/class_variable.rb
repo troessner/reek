@@ -12,7 +12,8 @@ module Reek
     # In particular, class variables can make it hard to set up tests (because
     # the context of the test includes all global state).
     #
-    # See docs/Class-Variable for details.
+    # See {file:docs/Class-Variable.md} for details.
+    # @api private
     class ClassVariable < SmellDetector
       def self.contexts # :nodoc:
         [:class, :module]

@@ -7,10 +7,12 @@ module Reek
     # Shared responsibilities of all smell detectors.
     #
     # See
-    #   - docs/Basic-Smell-Options
-    #   - docs/Code-Smells
-    #   - docs/Configuration-Files
+    #   - {file:docs/Basic-Smell-Options.md}
+    #   - {file:docs/Code-Smells.md}
+    #   - {file:docs/Configuration-Files.md}
     # for details.
+    #
+    # @api private
     class SmellDetector
       attr_reader :source
 

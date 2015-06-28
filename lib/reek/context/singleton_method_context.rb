@@ -5,6 +5,7 @@ module Reek
     #
     # A context wrapper for any singleton method definition found in a syntax tree.
     #
+    # @api private
     class SingletonMethodContext < MethodContext
       def envious_receivers
         []

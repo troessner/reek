@@ -6,10 +6,12 @@ require_relative '../tree_dresser'
 require_relative '../ast/node'
 
 module Reek
+  # @api private
   module Source
     #
     # A +Source+ object represents a chunk of Ruby source code.
     #
+    # @api private
     class SourceCode
       attr_reader :description
 

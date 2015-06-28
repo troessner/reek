@@ -27,7 +27,6 @@
                                 ReekCommand (cli/reek_command)                                       |
                                 * uses a reporter (cli/report/report)                                |
                                 * uses a SourceLocator (source/source_locator)                       |
-                                * uses a SourceRepository (source/source_repository)                 |
                                 /         |         \                                                |
                                /          |          \                                               |
                               /           |           \                                              |
