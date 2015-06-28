@@ -1,8 +1,6 @@
 require 'forwardable'
 require_relative 'input'
-require_relative '../report/report'
-require_relative '../report/formatter'
-require_relative '../report/heading_formatter'
+require_relative '../report'
 
 module Reek
   module CLI
@@ -31,48 +29,24 @@ module Reek
             heading_formatter: heading_formatter)
       end
 
-      # TODO: Move report type mapping into Report
       def report_class
-        case @options.report_format
-        when :yaml
-          Report::YAMLReport
-        when :json
-          Report::JSONReport
-        when :html
-          Report::HTMLReport
-        when :xml
-          Report::XMLReport
-        else # :text
-          Report::TextReport
-        end
+        Report.report_class(@options.report_format)
       end
 
       def warning_formatter
-        klass = if @options.show_links
-                  Report::WikiLinkWarningFormatter
-                else
-                  Report::SimpleWarningFormatter
-                end
-        klass.new(location_formatter)
+        warning_formatter_class.new(location_formatter)
+      end
+
+      def warning_formatter_class
+        Report.warning_formatter_class(@options.show_links ? :wiki_links : :simple)
       end
 
       def location_formatter
-        case @options.location_format
-        when :single_line
-          Report::SingleLineLocationFormatter
-        when :plain
-          Report::BlankLocationFormatter
-        else # :numbers
-          Report::DefaultLocationFormatter
-        end
+        Report.location_formatter(@options.location_format)
       end
 
       def heading_formatter
-        if @options.show_empty
-          Report::HeadingFormatter::Verbose
-        else
-          Report::HeadingFormatter::Quiet
-        end
+        Report.heading_formatter(@options.show_empty ? :verbose : :quiet)
       end
 
       def sort_by_issue_count
