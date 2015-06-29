@@ -1,5 +1,5 @@
 require_relative '../examiner'
-require_relative '../cli/report/formatter'
+require_relative '../report/formatter'
 
 module Reek
   module Spec
@@ -18,7 +18,7 @@ module Reek
       end
 
       def failure_message_when_negated
-        rpt = CLI::Report::Formatter.format_list(@examiner.smells)
+        rpt = Report::Formatter.format_list(@examiner.smells)
         "Expected no smells, but got:\n#{rpt}"
       end
     end

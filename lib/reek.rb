@@ -3,4 +3,4 @@
 #
 require_relative 'reek/version'
 require_relative 'reek/examiner'
-require_relative 'reek/cli/report/report'
+require_relative 'reek/report/report'

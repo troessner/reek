@@ -1,10 +1,10 @@
 require_relative '../../spec_helper'
 require_relative '../../../lib/reek/examiner'
-require_relative '../../../lib/reek/cli/report/report'
-require_relative '../../../lib/reek/cli/report/formatter'
+require_relative '../../../lib/reek/report/report'
+require_relative '../../../lib/reek/report/formatter'
 
-RSpec.describe Reek::CLI::Report::JSONReport do
-  let(:instance) { Reek::CLI::Report::JSONReport.new }
+RSpec.describe Reek::Report::JSONReport do
+  let(:instance) { Reek::Report::JSONReport.new }
 
   context 'empty source' do
     let(:examiner) { Reek::Examiner.new('') }

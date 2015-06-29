@@ -28,7 +28,7 @@ Feature: Using reek programmatically
       """
       require 'reek'
       examiner = Reek::Examiner.new(File.new('smelly.rb'))
-      report = Reek::CLI::Report::TextReport.new
+      report = Reek::Report::TextReport.new
       report.add_examiner examiner
       report.show
       """

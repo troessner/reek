@@ -25,7 +25,7 @@ source = <<-END
   end
 END
 
-reporter = Reek::CLI::Report::TextReport.new
+reporter = Reek::Report::TextReport.new
 examiner = Reek::Examiner.new(source)
 reporter.add_examiner examiner
 reporter.show
