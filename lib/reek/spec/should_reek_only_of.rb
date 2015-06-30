@@ -1,5 +1,5 @@
-require_relative '../core/examiner'
-require_relative '../cli/report/formatter'
+require_relative '../examiner'
+require_relative '../report/formatter'
 
 module Reek
   module Spec
@@ -7,9 +7,10 @@ module Reek
     # An rspec matcher that matches when the +actual+ has the specified
     # code smell and no others.
     #
+    # @api private
     class ShouldReekOnlyOf < ShouldReekOf
       def matches?(actual)
-        matches_examiner?(Core::Examiner.new(actual))
+        matches_examiner?(Examiner.new(actual))
       end
 
       def matches_examiner?(examiner)
@@ -20,7 +21,7 @@ module Reek
       end
 
       def failure_message
-        rpt = CLI::Report::Formatter.format_list(@warnings)
+        rpt = Report::Formatter.format_list(@warnings)
         "Expected #{@examiner.description} to reek only of #{@smell_category}, but got:\n#{rpt}"
       end
 

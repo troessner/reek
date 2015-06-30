@@ -1,0 +1,4 @@
+---
+exclude_paths:
+  - spec/samples/source_with_exclude_paths/ignore_me/
+  - spec/samples/source_with_exclude_paths/nested/ignore_me_as_well

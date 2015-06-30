@@ -1,4 +1,5 @@
 require_relative 'smell_detector'
+require_relative 'smell_warning'
 
 module Reek
   module Smells
@@ -11,7 +12,8 @@ module Reek
     # methods, and excludes methods inherited from superclasses or included
     # modules.
     #
-    # See docs/Too-Many-Methods for details.
+    # See {file:docs/Too-Many-Methods.md} for details.
+    # @api private
     class TooManyMethods < SmellDetector
       # The name of the config field that sets the maximum number of methods
       # permitted in a class.

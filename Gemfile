@@ -5,10 +5,12 @@ gemspec
 
 group :local_development do
   gem 'pry'
+  gem 'yard', '~> 0.8.7'
+
   platforms :mri do
-    if RUBY_VERSION >= '2.0.0'
-      gem 'byebug'
-      gem 'pry-byebug'
-    end
+    gem 'pry-byebug'
+    gem 'pry-stack_explorer'
+
+    gem 'redcarpet', '~> 3.3.1'
   end
 end

@@ -1,3 +1,11 @@
+== 3.0.0
+
+* (troessner) Make directories excludable via configuration.
+* (mvz) Define and document public API
+* (troessner) Recognize methods defined with class << self syntax as singleton methods.
+* (troessner)  Use ruby22 instead of ruby21 for parsing.
+* (nTraum) Drop support for Ruby 1.9
+
 == 2.2.1
 
 * (mvz) Support methods using array decomposition arguments

@@ -1,5 +1,6 @@
+require_relative 'smell_configuration'
 require_relative 'smell_detector'
-require_relative '../core/smell_configuration'
+require_relative 'smell_warning'
 
 module Reek
   module Smells
@@ -11,7 +12,8 @@ module Reek
     # Currently +LongParameterList+ reports any method or block with too
     # many parameters.
     #
-    # See docs/Long-Parameter-List for details.
+    # See {file:docs/Long-Parameter-List.md} for details.
+    # @api private
     class LongParameterList < SmellDetector
       # The name of the config field that sets the maximum number of
       # parameters permitted in any method or block.
@@ -21,7 +23,7 @@ module Reek
       def self.default_config
         super.merge(
           MAX_ALLOWED_PARAMS_KEY => DEFAULT_MAX_ALLOWED_PARAMS,
-          Core::SmellConfiguration::OVERRIDES_KEY => {
+          SmellConfiguration::OVERRIDES_KEY => {
             'initialize' => { MAX_ALLOWED_PARAMS_KEY => 5 }
           }
         )

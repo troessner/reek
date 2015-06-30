@@ -1,4 +1,5 @@
 require_relative 'smell_detector'
+require_relative 'smell_warning'
 
 module Reek
   module Smells
@@ -15,7 +16,8 @@ module Reek
     # * 1-character names
     # * names ending with a number
     #
-    # See docs/Uncommunicative-Parameter-Name for details.
+    # See {file:docs/Uncommunicative-Parameter-Name.md} for details.
+    # @api private
     class UncommunicativeParameterName < SmellDetector
       # The name of the config field that lists the regexps of
       # smelly names to be reported.

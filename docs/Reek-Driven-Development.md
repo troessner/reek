@@ -28,14 +28,6 @@ end
 
 By requiring "reek/spec":http://reek.rubyforge.org/rdoc/classes/Reek/Spec.html you gain access to the `reek` matcher, which returns true if and only if `reek` finds smells in your code. And if the test fails, the matcher produces an error message that includes details of all the smells it found.
 
-Note: if you're on ruby 1.9  and RSpec2 you should include Reek::Spec in the configuration block like so,
-
-```Ruby
-RSpec.configure do |c|
-  c.include(Reek::Spec)
-end
-```
-
 ## assert
 
 If you're not yet into BDD with Rspec, you can still gain the benefits of Reek-driven development using assertions:

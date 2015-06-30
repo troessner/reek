@@ -1,8 +1,11 @@
+require_relative '../source/source_locator'
+
 module Reek
   module CLI
     #
     # CLI Input utility
     #
+    # @api private
     module Input
       def sources
         if no_source_files_given?
@@ -37,7 +40,7 @@ module Reek
       end
 
       def source_from_pipe
-        [Source::SourceCode.from($stdin)]
+        [$stdin]
       end
     end
   end

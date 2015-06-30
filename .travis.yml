@@ -2,19 +2,24 @@ sudo: false
 cache: bundler
 language: ruby
 bundler_args: --without local_development
-script: bundle exec rake
+script:
+- bundle exec rake
+- bundle exec ataru check
 rvm:
-  - 1.9.3
   - 2.0.0
   - 2.1
   - 2.2
-  - jruby-19mode
   - rbx-2
   - ruby-head
-  - jruby-head
 matrix:
+  include:
+    - rvm: jruby-19mode
+      env: JRUBY_OPTS='--server -Xcompile.invokedynamic=false'
+    - rvm: jruby-head
+      env: JRUBY_OPTS='--server -Xcompile.invokedynamic=false'
   allow_failures:
     - rvm: jruby-head
+      env: JRUBY_OPTS='--server -Xcompile.invokedynamic=false'
     - rvm: ruby-head
   fast_finish: true
 notifications:

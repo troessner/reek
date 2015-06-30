@@ -1,4 +1,5 @@
 require_relative 'smell_detector'
+require_relative 'smell_warning'
 
 module Reek
   module Smells
@@ -10,7 +11,8 @@ module Reek
     # Currently Reek can only detect a Boolean parameter when it has a
     # default initializer.
     #
-    # See docs/Boolean-Parameter for details.
+    # See {file:docs/Boolean-Parameter.md} for details.
+    # @api private
     class BooleanParameter < SmellDetector
       def self.smell_category
         'ControlCouple'

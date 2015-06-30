@@ -1,11 +1,13 @@
 require_relative 'smell_detector'
+require_relative 'smell_warning'
 
 module Reek
   module Smells
     #
     # Methods should use their parameters.
     #
-    # See docs/Unused-Parameters for details.
+    # See {file:docs/Unused-Parameters.md} for details.
+    # @api private
     class UnusedParameters < SmellDetector
       def self.smell_category
         'UnusedCode'

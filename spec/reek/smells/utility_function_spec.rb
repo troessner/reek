@@ -21,7 +21,7 @@ RSpec.describe Reek::Smells::UtilityFunction do
         end
         EOS
         source = Reek::Source::SourceCode.from(src)
-        mctx = Reek::Core::TreeWalker.new.process_def(source.syntax_tree)
+        mctx = Reek::TreeWalker.new.process_def(source.syntax_tree)
         @warning = @detector.examine_context(mctx)[0]   # SMELL: too cumbersome!
       end
 
@@ -39,6 +39,28 @@ RSpec.describe Reek::Smells::UtilityFunction do
         src = "def #{receiver}.simple(arga) arga.to_s + arga.to_i end"
         expect(src).not_to reek_of(:UtilityFunction)
       end
+    end
+  end
+
+  context 'Singleton methods' do
+    it 'for classes with `class << self` notation should not report UtilityFunction' do
+      src = 'class C; class << self; def m(a) a.to_s; end; end; end'
+      expect(src).not_to reek_of(:UtilityFunction)
+    end
+
+    it 'for classes with `self.` notation should not report UtilityFunction' do
+      src = 'class C; def self.m(a) a.to_s; end; end'
+      expect(src).not_to reek_of(:UtilityFunction)
+    end
+
+    it 'for modules with `class << self` notation should not report UtilityFunction' do
+      src = 'module M; class << self; def self.m(a) a.to_s; end; end; end'
+      expect(src).not_to reek_of(:UtilityFunction)
+    end
+
+    it 'for modules with `self.` notation should not report UtilityFunction' do
+      src = 'module M; def self.simple(a) a.to_s; end; end'
+      expect(src).not_to reek_of(:UtilityFunction)
     end
   end
 

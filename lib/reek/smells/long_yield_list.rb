@@ -1,4 +1,5 @@
 require_relative 'smell_detector'
+require_relative 'smell_warning'
 
 module Reek
   module Smells
@@ -6,7 +7,8 @@ module Reek
     # A variant on LongParameterList that checks the number of items
     # passed to a block by a +yield+ call.
     #
-    # See docs/Long-Yield-List for details.
+    # See {file:docs/Long-Yield-List.md} for details.
+    # @api private
     class LongYieldList < SmellDetector
       # The name of the config field that sets the maximum number of
       # parameters permitted in any method or block.

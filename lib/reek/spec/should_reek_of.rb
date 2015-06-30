@@ -1,4 +1,4 @@
-require_relative '../core/examiner'
+require_relative '../examiner'
 
 module Reek
   module Spec
@@ -6,6 +6,7 @@ module Reek
     # An rspec matcher that matches when the +actual+ has the specified
     # code smell.
     #
+    # @api private
     class ShouldReekOf
       def initialize(smell_category, smell_details = {})
         @smell_category = normalize smell_category
@@ -13,7 +14,7 @@ module Reek
       end
 
       def matches?(actual)
-        @examiner = Core::Examiner.new(actual)
+        @examiner = Examiner.new(actual)
         @all_smells = @examiner.smells
         @all_smells.any? { |warning| warning.matches?(@smell_category, @smell_details) }
       end

@@ -1,14 +1,15 @@
-require_relative '../core/examiner'
-require_relative '../cli/report/formatter'
+require_relative '../examiner'
+require_relative '../report/formatter'
 
 module Reek
   module Spec
     #
     # An rspec matcher that matches when the +actual+ has code smells.
     #
+    # @api private
     class ShouldReek        # :nodoc:
       def matches?(actual)
-        @examiner = Core::Examiner.new(actual)
+        @examiner = Examiner.new(actual)
         @examiner.smelly?
       end
 
@@ -17,7 +18,7 @@ module Reek
       end
 
       def failure_message_when_negated
-        rpt = CLI::Report::Formatter.format_list(@examiner.smells)
+        rpt = Report::Formatter.format_list(@examiner.smells)
         "Expected no smells, but got:\n#{rpt}"
       end
     end

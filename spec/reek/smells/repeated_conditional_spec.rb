@@ -1,6 +1,6 @@
 require_relative '../../spec_helper'
 require_relative '../../../lib/reek/smells/repeated_conditional'
-require_relative '../../../lib/reek/core/code_context'
+require_relative '../../../lib/reek/context/code_context'
 require_relative 'smell_detector_shared'
 require_relative '../../../lib/reek/source/source_code'
 
@@ -15,7 +15,7 @@ RSpec.describe Reek::Smells::RepeatedConditional do
   context 'with no conditionals' do
     it 'gathers an empty hash' do
       ast = Reek::Source::SourceCode.from('module Stable; end').syntax_tree
-      ctx = Reek::Core::CodeContext.new(nil, ast)
+      ctx = Reek::Context::CodeContext.new(nil, ast)
       expect(@detector.conditional_counts(ctx).length).to eq(0)
     end
   end
@@ -23,7 +23,7 @@ RSpec.describe Reek::Smells::RepeatedConditional do
   context 'with a test of block_given?' do
     it 'does not record the condition' do
       ast = Reek::Source::SourceCode.from('def fred() yield(3) if block_given?; end').syntax_tree
-      ctx = Reek::Core::CodeContext.new(nil, ast)
+      ctx = Reek::Context::CodeContext.new(nil, ast)
       expect(@detector.conditional_counts(ctx).length).to eq(0)
     end
   end
@@ -31,7 +31,7 @@ RSpec.describe Reek::Smells::RepeatedConditional do
   context 'with an empty condition' do
     it 'does not record the condition' do
       ast = Reek::Source::SourceCode.from('def fred() case; when 3; end; end').syntax_tree
-      ctx = Reek::Core::CodeContext.new(nil, ast)
+      ctx = Reek::Context::CodeContext.new(nil, ast)
       expect(@detector.conditional_counts(ctx).length).to eq(0)
     end
   end
@@ -58,7 +58,7 @@ RSpec.describe Reek::Smells::RepeatedConditional do
       EOS
 
       ast = Reek::Source::SourceCode.from(src).syntax_tree
-      @ctx = Reek::Core::CodeContext.new(nil, ast)
+      @ctx = Reek::Context::CodeContext.new(nil, ast)
       @conds = @detector.conditional_counts(@ctx)
     end
 
@@ -94,7 +94,7 @@ RSpec.describe Reek::Smells::RepeatedConditional do
       EOS
 
       ast = Reek::Source::SourceCode.from(src).syntax_tree
-      ctx = Reek::Core::CodeContext.new(nil, ast)
+      ctx = Reek::Context::CodeContext.new(nil, ast)
       @conds = @detector.conditional_counts(ctx)
     end
 

@@ -1,16 +1,17 @@
 require 'forwardable'
 require_relative 'input'
-require_relative 'report/report'
-require_relative 'report/formatter'
-require_relative 'report/heading_formatter'
+require_relative '../report/report'
+require_relative '../report/formatter'
+require_relative '../report/heading_formatter'
 
 module Reek
   module CLI
     #
     # Interprets the options set from the command line
     #
+    # @api private
     class OptionInterpreter
-      include CLI::Input
+      include Input
 
       extend Forwardable
 
@@ -30,6 +31,7 @@ module Reek
             heading_formatter: heading_formatter)
       end
 
+      # TODO: Move report type mapping into Report
       def report_class
         case @options.report_format
         when :yaml

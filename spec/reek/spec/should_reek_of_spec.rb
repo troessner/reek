@@ -54,23 +54,6 @@ RSpec.describe Reek::Spec::ShouldReekOf do
     end
   end
 
-  context 'checking code in a Dir' do
-    before :each do
-      @clean_dir = Dir['spec/samples/three_clean_files/*.rb']
-      @smelly_dir = Dir['spec/samples/two_smelly_files/*.rb']
-      @matcher = Reek::Spec::ShouldReekOf.new(:UncommunicativeVariableName,
-                                              name: '@s')
-    end
-
-    it 'matches a smelly String' do
-      expect(@matcher.matches?(@smelly_dir)).to be_truthy
-    end
-
-    it 'doesnt match a fragrant String' do
-      expect(@matcher.matches?(@clean_dir)).to be_falsey
-    end
-  end
-
   context 'checking code in a File' do
     before :each do
       @clean_file = File.new(Dir['spec/samples/three_clean_files/*.rb'][0])
