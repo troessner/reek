@@ -10,7 +10,9 @@ module Reek
     #
     # @api private
     module AppConfiguration
-      @configuration = {}
+      NON_SMELL_TYPE_KEYS   = %w(exclude_paths)
+      EXCLUDE_PATHS_KEY     = 'exclude_paths'
+      @configuration        = {}
       @has_been_initialized = false
 
       class << self
@@ -27,7 +29,7 @@ module Reek
           # Let users call this method directly without having initialized AppConfiguration before
           # and if they do, initialize it without application context
           initialize_with(nil) unless @has_been_initialized
-          @configuration.each do |klass_name, config|
+          for_smell_types.each do |klass_name, config|
             klass = load_smell_type(klass_name)
             smell_repository.configure(klass, config) if klass
           end
@@ -52,7 +54,17 @@ module Reek
           @configuration.clear
         end
 
+        def exclude_paths
+          @exclude_paths ||= @configuration.
+                             fetch(EXCLUDE_PATHS_KEY, []).
+                             map { |path| path.chomp('/') }
+        end
+
         private
+
+        def for_smell_types
+          @configuration.reject { |key, _value| NON_SMELL_TYPE_KEYS.include?(key) }
+        end
 
         def load_smell_type(name)
           Reek::Smells.const_get(name)

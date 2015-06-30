@@ -11,7 +11,7 @@ module Reek
     #
     # @api private
     class OptionInterpreter
-      include CLI::Input
+      include Input
 
       extend Forwardable
 

@@ -1,3 +1,5 @@
+require 'find'
+
 module Reek
   module Source
     #
@@ -17,22 +19,37 @@ module Reek
       #
       # @return [Array<File>] - Ruby files found
       def sources
-        find_sources.map { |pathname| File.new(pathname) }
+        source_paths.map { |pathname| File.new(pathname) }
       end
 
       private
 
-      def find_sources(paths = @paths)
-        paths.map do |path|
-          pathname = Pathname.new(path)
-          if pathname.directory?
-            find_sources(Dir["#{pathname}/**/*.rb"])
-          else
-            next pathname if pathname.file?
-            $stderr.puts "Error: No such file - #{pathname}"
-            nil
+      def source_paths
+        relevant_paths = []
+        @paths.map do |given_path|
+          print_no_such_file_error(given_path) && next unless path_exists?(given_path)
+          Find.find(given_path) do |path|
+            pathname = Pathname.new(path)
+            if pathname.directory?
+              exclude_path?(pathname) ? Find.prune : next
+            else
+              relevant_paths << pathname
+            end
           end
-        end.flatten.sort
+        end
+        relevant_paths.flatten.sort
+      end
+
+      def exclude_path?(pathname)
+        Configuration::AppConfiguration.exclude_paths.include? pathname.to_s
+      end
+
+      def path_exists?(path)
+        Pathname.new(path).exist?
+      end
+
+      def print_no_such_file_error(path)
+        $stderr.puts "Error: No such file - #{path}"
       end
     end
   end

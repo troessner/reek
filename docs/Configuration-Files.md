@@ -14,7 +14,7 @@ The order in which `reek` tries to find such a configuration file is exactly lik
 
 As soon as `reek` detects a configuration file it stops searching immediately, meaning that from `reek`'s point of view there exists one configuration file and one configuration only regardless of how many ".reek" files you might have on your filesystem.
 
-## Configuration options
+## Configuration options for smells
 
 The first thing you probably want to check out are the [Basic Smell Options](Basic-Smell-Options.md) which are supported by every smell type.
 Certain smell types offer a configuration that goes beyond that of the basic smell options - for instance [Data Clump](Data-Clump.md).
@@ -35,4 +35,15 @@ NestedIterators:
 DataClump:
   max_copies: 3
   min_clump_size: 3
+```
+
+## Excluding directories from scans
+
+You can exclude whole directories from scans using `exclude_paths` in your configuration file:
+
+```yaml
+---
+exclude_paths:
+  - app/views
+  - app/controllers
 ```

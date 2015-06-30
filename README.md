@@ -173,7 +173,13 @@ NestedIterators:
 DataClump:
   max_copies: 3
   min_clump_size: 3
+
+exclude_paths:
+  - app/views
+  - app/controllers
 ```
+
+Additionally to the smell configuration you can exclude whole directories from scans using `exclude_paths` as you can see at the end of the configuration above.
 
 ### Source code comments
 
