@@ -3,6 +3,6 @@ module Reek
   # This module holds the Reek version informations
   #
   module Version
-    STRING = '3.0.1'
+    STRING = '3.0.2'
   end
 end
