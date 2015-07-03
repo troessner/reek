@@ -66,7 +66,7 @@ module Reek
       def find_iters_for_iter_node(exp, depth)
         ignored = ignored_iterator? exp
         result = find_iters(exp.call, depth) +
-                 find_iters(exp.block, depth + (ignored ? 0 : 1))
+          find_iters(exp.block, depth + (ignored ? 0 : 1))
         result << [exp, depth] unless ignored
         result
       end

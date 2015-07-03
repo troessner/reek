@@ -56,8 +56,8 @@ module Reek
 
         def exclude_paths
           @exclude_paths ||= @configuration.
-                             fetch(EXCLUDE_PATHS_KEY, []).
-                             map { |path| path.chomp('/') }
+            fetch(EXCLUDE_PATHS_KEY, []).
+            map { |path| path.chomp('/') }
         end
 
         private
