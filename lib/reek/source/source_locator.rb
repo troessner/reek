@@ -31,7 +31,7 @@ module Reek
           Find.find(given_path) do |path|
             pathname = Pathname.new(path)
             if pathname.directory?
-              exclude_path?(pathname) ? Find.prune : next
+              exclude_path?(pathname) || hidden_directory?(pathname) ? Find.prune : next
             else
               relevant_paths << pathname
             end
@@ -50,6 +50,10 @@ module Reek
 
       def print_no_such_file_error(path)
         $stderr.puts "Error: No such file - #{path}"
+      end
+
+      def hidden_directory?(pathname)
+        pathname.basename.to_s.start_with? '.'
       end
     end
   end

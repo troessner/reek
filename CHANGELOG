@@ -1,3 +1,7 @@
+== 3.0.1
+
+* (troessner) Fix reek descending into hidden directories
+
 == 3.0.0
 
 * (troessner) Make directories excludable via configuration.
