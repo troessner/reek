@@ -45,5 +45,27 @@ RSpec.describe Reek::Source::SourceLocator do
         end
       end
     end
+
+    context 'non-ruby files' do
+      let(:path) { 'spec/samples/source_with_non_ruby_files' }
+      let(:expected_files) do
+        ['spec/samples/source_with_non_ruby_files/uncommunicative_parameter_name.rb']
+      end
+      let(:files_that_are_expected_to_be_ignored) do
+        [
+          'spec/samples/source_with_non_ruby_files/gibberish',
+          'spec/samples/source_with_non_ruby_files/python_source.py'
+        ]
+      end
+
+      it 'does only use ruby source files' do
+        sources = described_class.new([path]).sources
+
+        expect(sources.map(&:path)).
+          not_to include(files_that_are_expected_to_be_ignored)
+
+        expect(sources.map(&:path)).to eq expected_files
+      end
+    end
   end
 end
