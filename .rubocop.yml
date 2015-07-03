@@ -18,6 +18,10 @@ Metrics/MethodLength:
 Metrics/LineLength:
   Max: 100
 
+# Indent one level for follow-up lines
+Style/MultilineOperationIndentation:
+  EnforcedStyle: indented
+
 # Allow small arrays of words with quotes
 Style/WordArray:
   MinSize: 3
