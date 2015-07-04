@@ -130,9 +130,8 @@ module Reek
       require 'erb'
 
       def show
-        template_path = '../../../../assets/html_output.html.erb'
-        erb = ERB.new(File.read(File.expand_path(template_path, __FILE__)))
-        puts erb.result(binding)
+        template = File.read("#{__dir__}/html_report.html.erb")
+        puts ERB.new(template).result(binding)
       end
     end
 
