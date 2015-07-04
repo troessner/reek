@@ -1,3 +1,7 @@
+== 3.0.3
+
+* (troessner) Fix finding sources when using just the current directory.
+
 == 3.0.2
 
 * (troessner) Only use ruby source files.
