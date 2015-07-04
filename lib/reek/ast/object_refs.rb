@@ -1,33 +1,30 @@
 module Reek
+  # @api private
   module AST
+    ObjectRef = Struct.new(:name, :line)
     #
     # Manages and counts the references out of a method to other objects.
     #
-    # @api private
-    class ObjectRefs  # :nodoc:
+    class ObjectRefs
       def initialize
-        @refs = Hash.new(0)
+        @refs = Hash.new { |refs, name| refs[name] = [] }
       end
 
-      def record_reference_to(exp)
-        @refs[exp] += 1
+      def most_popular
+        max = @refs.values.map(&:size).max
+        @refs.select { |_name, refs| refs.size == max }
       end
 
-      def references_to(exp)
-        @refs[exp]
+      def record_reference_to(name, line: nil)
+        @refs[name] << ObjectRef.new(name, line)
       end
 
-      def max_refs
-        @refs.values.max || 0
-      end
-
-      def max_keys
-        max = max_refs
-        @refs.select { |_key, val| val == max }
+      def references_to(name)
+        @refs[name]
       end
 
       def self_is_max?
-        max_keys.length == 0 || @refs[:self] == max_refs
+        @refs.empty? || most_popular.keys.include?(:self)
       end
     end
   end
