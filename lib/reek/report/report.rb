@@ -129,11 +129,10 @@ module Reek
     class HTMLReport < Base
       require 'erb'
 
-      def show(target_path = 'reek.html')
+      def show
         template_path = '../../../../assets/html_output.html.erb'
         erb = ERB.new(File.read(File.expand_path(template_path, __FILE__)))
-        File.write target_path, erb.result(binding)
-        puts 'HTML file saved'
+        puts erb.result(binding)
       end
     end
 
