@@ -16,7 +16,7 @@ RSpec.describe Reek::Source::SourceLocator do
         sources = described_class.new([path]).sources
 
         expect(sources.map(&:path)).
-          not_to include(files_that_are_expected_to_be_ignored)
+          not_to include(*files_that_are_expected_to_be_ignored)
 
         expect(sources.map(&:path)).to eq expected_files
       end
@@ -37,7 +37,7 @@ RSpec.describe Reek::Source::SourceLocator do
           sources = described_class.new([path]).sources
 
           expect(sources.map(&:path).sort).
-            not_to include(files_that_are_expected_to_be_ignored)
+            not_to include(*files_that_are_expected_to_be_ignored)
 
           expect(sources.map(&:path).sort).to eq [
             'spec/samples/source_with_exclude_paths/nested/uncommunicative_parameter_name.rb'
@@ -62,9 +62,26 @@ RSpec.describe Reek::Source::SourceLocator do
         sources = described_class.new([path]).sources
 
         expect(sources.map(&:path)).
-          not_to include(files_that_are_expected_to_be_ignored)
+          not_to include(*files_that_are_expected_to_be_ignored)
 
         expect(sources.map(&:path)).to eq expected_files
+      end
+    end
+
+    context 'passing "." or "./" as argument' do
+      let(:expected_files) do
+        [
+          'spec/spec_helper.rb',
+          'lib/reek.rb'
+        ]
+      end
+
+      it 'expands it correctly' do
+        sources_for_dot       = described_class.new(['.']).sources
+        sources_for_dot_slash = described_class.new(['./']).sources
+
+        expect(sources_for_dot.map(&:path)).to include(*expected_files)
+        expect(sources_for_dot.map(&:path)).to eq(sources_for_dot_slash.map(&:path))
       end
     end
   end
