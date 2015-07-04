@@ -11,7 +11,9 @@ module Reek
       #
       # paths - a list of paths as Strings
       def initialize(paths)
-        @paths = paths.map { |path| path.chomp('/') }
+        @pathnames = paths.
+          map { |path| Pathname.new(path.chomp('/')) }.
+          flat_map { |pathname| current_directory?(pathname) ? pathname.entries : pathname }
       end
 
       # Traverses all paths we initialized the SourceLocator with, finds
@@ -25,11 +27,9 @@ module Reek
       private
 
       def source_paths
-        relevant_paths = []
-        @paths.map do |given_path|
-          print_no_such_file_error(given_path) && next unless path_exists?(given_path)
-          Find.find(given_path) do |path|
-            pathname = Pathname.new(path)
+        @pathnames.each_with_object([]) do |given_pathname, relevant_paths|
+          print_no_such_file_error(given_pathname) && next unless path_exists?(given_pathname)
+          given_pathname.find do |pathname|
             if pathname.directory?
               ignore_path?(pathname) ? Find.prune : next
             else
@@ -37,7 +37,6 @@ module Reek
             end
           end
         end
-        relevant_paths.flatten.sort
       end
 
       def path_excluded?(pathname)
@@ -61,7 +60,11 @@ module Reek
       end
 
       def ruby_file?(pathname)
-        pathname.to_s.end_with?('.rb')
+        pathname.extname == '.rb'
+      end
+
+      def current_directory?(pathname)
+        ['.', './'].include? pathname.to_s
       end
     end
   end
