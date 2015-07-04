@@ -27,7 +27,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'unparser', '~> 0.2.2'
 
   s.add_development_dependency 'activesupport', '~> 4.2'
-  s.add_development_dependency 'aruba',         '~> 0.6.2'
+  s.add_development_dependency 'aruba',         '~> 0.7.1'
   s.add_development_dependency 'ataru',         '~> 0.2.0'
   s.add_development_dependency 'bundler',       '~> 1.1'
   s.add_development_dependency 'cucumber',      '~> 2.0'
