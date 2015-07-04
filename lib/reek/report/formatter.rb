@@ -18,7 +18,7 @@ module Reek
       def self.header(examiner)
         count = examiner.smells_count
         result = Rainbow("#{examiner.description} -- ").cyan +
-                 Rainbow("#{count} warning").yellow
+          Rainbow("#{count} warning").yellow
         result += Rainbow('s').yellow unless count == 1
         result
       end

@@ -11,7 +11,9 @@ module Reek
       #
       # paths - a list of paths as Strings
       def initialize(paths)
-        @paths = paths.map { |path| path.chomp('/') }
+        @pathnames = paths.
+          map { |path| Pathname.new(path.chomp('/')) }.
+          flat_map { |pathname| current_directory?(pathname) ? pathname.entries : pathname }
       end
 
       # Traverses all paths we initialized the SourceLocator with, finds
@@ -25,22 +27,19 @@ module Reek
       private
 
       def source_paths
-        relevant_paths = []
-        @paths.map do |given_path|
-          print_no_such_file_error(given_path) && next unless path_exists?(given_path)
-          Find.find(given_path) do |path|
-            pathname = Pathname.new(path)
+        @pathnames.each_with_object([]) do |given_pathname, relevant_paths|
+          print_no_such_file_error(given_pathname) && next unless path_exists?(given_pathname)
+          given_pathname.find do |pathname|
             if pathname.directory?
-              exclude_path?(pathname) || hidden_directory?(pathname) ? Find.prune : next
+              ignore_path?(pathname) ? Find.prune : next
             else
-              relevant_paths << pathname
+              relevant_paths << pathname if ruby_file?(pathname)
             end
           end
         end
-        relevant_paths.flatten.sort
       end
 
-      def exclude_path?(pathname)
+      def path_excluded?(pathname)
         Configuration::AppConfiguration.exclude_paths.include? pathname.to_s
       end
 
@@ -54,6 +53,18 @@ module Reek
 
       def hidden_directory?(pathname)
         pathname.basename.to_s.start_with? '.'
+      end
+
+      def ignore_path?(pathname)
+        path_excluded?(pathname) || hidden_directory?(pathname)
+      end
+
+      def ruby_file?(pathname)
+        pathname.extname == '.rb'
+      end
+
+      def current_directory?(pathname)
+        ['.', './'].include? pathname.to_s
       end
     end
   end
