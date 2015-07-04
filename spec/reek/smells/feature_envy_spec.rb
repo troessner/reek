@@ -260,7 +260,6 @@ RSpec.describe Reek::Smells::FeatureEnvy do
     end
 
     it 'reports the referring lines' do
-      skip
       expect(@smells[0].lines).to eq([2, 4, 5])
     end
   end

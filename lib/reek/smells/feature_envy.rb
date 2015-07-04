@@ -51,7 +51,7 @@ module Reek
         method_ctx.envious_receivers.map do |name, refs|
           SmellWarning.new self,
                            context: method_ctx.full_name,
-                           lines: [method_ctx.exp.line],
+                           lines: refs.map(&:line),
                            message: "refers to #{name} more than self",
                            parameters: { name: name.to_s, count: refs.size }
         end
