@@ -8,7 +8,7 @@ module Reek
     # @api private
     class SingletonMethodContext < MethodContext
       def envious_receivers
-        []
+        {}
       end
     end
   end
