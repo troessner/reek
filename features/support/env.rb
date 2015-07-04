@@ -16,7 +16,7 @@ class ReekWorld
   end
 
   def reek_with_pipe(stdin, args)
-    run_interactive("reek --no-color #{args}")
+    run "reek --no-color #{args}"
     type(stdin)
     close_input
   end
