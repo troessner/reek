@@ -11,7 +11,7 @@ module Reek
     # @api private
     class IrresponsibleModule < SmellDetector
       def self.contexts # :nodoc:
-        [:class]
+        [:class, :module]
       end
 
       def descriptive   # :nodoc:
