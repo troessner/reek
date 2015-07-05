@@ -13,8 +13,8 @@ rvm:
   - ruby-head
 matrix:
   include:
-    - rvm: jruby-19mode
-      env: JRUBY_OPTS='--server -Xcompile.invokedynamic=false'
+    - rvm: jruby
+      env: JRUBY_OPTS='--2.0 --server -Xcompile.invokedynamic=false'
     - rvm: jruby-head
       env: JRUBY_OPTS='--server -Xcompile.invokedynamic=false'
   allow_failures:
