@@ -15,7 +15,9 @@ module Reek
       def initialize(argv = [])
         @argv    = argv
         @parser  = OptionParser.new
-        @options = OpenStruct.new(colored: color_support?,
+        @options = OpenStruct.new(report_format: :text,
+                                  location_format: :numbers,
+                                  colored: color_support?,
                                   smells_to_detect: [])
         set_up_parser
       end
