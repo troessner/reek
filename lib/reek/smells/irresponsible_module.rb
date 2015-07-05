@@ -10,12 +10,8 @@ module Reek
     # See {file:docs/Irresponsible-Module.md} for details.
     # @api private
     class IrresponsibleModule < SmellDetector
-      def self.contexts # :nodoc:
+      def self.contexts
         [:class, :module]
-      end
-
-      def descriptive   # :nodoc:
-        @descriptive ||= {}
       end
 
       #
@@ -24,13 +20,19 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       def examine_context(ctx)
-        return [] if descriptive?(ctx)
+        return [] if descriptive?(ctx) || ctx.namespace_module?
         expression = ctx.exp
         [SmellWarning.new(self,
                           context: ctx.full_name,
                           lines: [expression.line],
                           message: 'has no descriptive comment',
-                          parameters: {  name: expression.text_name })]
+                          parameters: { name: expression.text_name })]
+      end
+
+      private
+
+      def descriptive
+        @descriptive ||= {}
       end
 
       def descriptive?(ctx)
