@@ -9,16 +9,15 @@ module Reek
     # invites client classes to become too intimate with its inner workings,
     # and in particular with its representation of state.
     #
-    # Currently this detector raises a warning for every +attr+,
-    # +attr_reader+, +attr_writer+ and +attr_accessor+ -- including those
-    # that are private.
+    # This detector raises a warning for every
+    # +attr_writer+ and +attr_accessor+
     #
     # See {file:docs/Attribute.md} for details.
     # @api private
     #
     # TODO: Catch attributes declared "by hand"
     class Attribute < SmellDetector
-      ATTR_DEFN_METHODS = [:attr, :attr_reader, :attr_writer, :attr_accessor]
+      ATTR_DEFN_METHODS = [:attr_writer, :attr_accessor]
       VISIBILITY_MODIFIERS = [:private, :public, :protected]
 
       def initialize(*args)
@@ -32,10 +31,6 @@ module Reek
         [:class, :module]
       end
 
-      def self.default_config
-        super.merge(SmellConfiguration::ENABLED_KEY => false)
-      end
-
       #
       # Checks whether the given class declares any attributes.
       #
@@ -46,7 +41,7 @@ module Reek
           SmellWarning.new self,
                            context: ctx.full_name,
                            lines: [line],
-                           message:  "declares the attribute #{attribute}",
+                           message:  "declares the writeable attribute #{attribute}",
                            parameters: { name: attribute.to_s }
         end
       end

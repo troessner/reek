@@ -4,21 +4,9 @@ require_relative '../../../lib/reek/smells/smell_configuration'
 require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::Attribute do
-  let(:config) do
-    {
-      Attribute: { Reek::Smells::SmellConfiguration::ENABLED_KEY => true }
-    }
-  end
-
   before(:each) do
     @source_name = 'dummy_source'
     @detector = build(:smell_detector, smell_type: :Attribute, source: @source_name)
-  end
-
-  around(:each) do |example|
-    with_test_config(config) do
-      example.run
-    end
   end
 
   it_should_behave_like 'SmellDetector'
@@ -48,26 +36,10 @@ RSpec.describe Reek::Smells::Attribute do
       ').to_not reek_of(:Attribute)
     end
 
-    it 'records attr attribute in a module' do
+    it 'records attr_writer attribute in a module' do
       expect('
         module Mod
-          attr :my_attr
-        end
-      ').to reek_of(:Attribute, name: 'my_attr')
-    end
-
-    it 'records attr attribute' do
-      expect('
-        class Klass
-          attr :my_attr
-        end
-      ').to reek_of(:Attribute, name: 'my_attr')
-    end
-
-    it 'records reader attribute' do
-      expect('
-        class Klass
-          attr_reader :my_attr
+          attr_writer :my_attr
         end
       ').to reek_of(:Attribute, name: 'my_attr')
     end
@@ -88,11 +60,11 @@ RSpec.describe Reek::Smells::Attribute do
       ').to reek_of(:Attribute, name: 'my_attr')
     end
 
-    it 'records attr attribute after switching visbility' do
+    it 'records attr_writer attribute after switching visbility' do
       expect('
         class Klass
           private
-          attr :my_attr
+          attr_writer :my_attr
           public :my_attr
           private :my_attr
           public :my_attr
