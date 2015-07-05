@@ -1,4 +1,5 @@
 require_relative 'smell_detector'
+require_relative 'smell_warning'
 
 module Reek
   module Smells
@@ -21,6 +22,8 @@ module Reek
     #
     # Such a method is called PrimaDonnaMethod and is reported as a smell.
     #
+    # See {file:docs/Prima-Donna-Method.md} for details.
+    # @api private
     class PrimaDonnaMethod < SmellDetector
       def self.contexts # :nodoc:
         [:class]

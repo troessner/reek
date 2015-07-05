@@ -13,6 +13,7 @@ module Reek
     #
     # The order in which ConfigurationFileFinder tries to find such a
     # configuration file is exactly like above.
+    # @api private
     module ConfigurationFileFinder
       module_function
 

@@ -1,7 +1,7 @@
 require_relative '../../spec_helper'
 require_relative '../../../lib/reek/smells/duplicate_method_call'
-require_relative '../../../lib/reek/core/code_context'
-require_relative '../../../lib/reek/core/tree_walker'
+require_relative '../../../lib/reek/context/code_context'
+require_relative '../../../lib/reek/tree_walker'
 require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::DuplicateMethodCall do
@@ -16,7 +16,7 @@ RSpec.describe Reek::Smells::DuplicateMethodCall do
           other[@thing]
         end
       EOS
-      ctx = Reek::Core::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
+      ctx = Reek::Context::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
       smells = @detector.examine_context(ctx)
       expect(smells.length).to eq(1)
       @warning = smells[0]

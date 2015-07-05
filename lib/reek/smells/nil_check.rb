@@ -1,9 +1,13 @@
 require_relative 'smell_detector'
+require_relative 'smell_warning'
 
 module Reek
   module Smells
     # Checking for nil is a special kind of type check, and therefore a case of
     # SimulatedPolymorphism.
+    #
+    # See {file:docs/Nil-Check.md} for details.
+    # @api private
     class NilCheck < SmellDetector
       def self.smell_category
         'SimulatedPolymorphism'

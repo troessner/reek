@@ -1,5 +1,6 @@
+require_relative 'smell_configuration'
 require_relative 'smell_detector'
-require_relative '../core/smell_configuration'
+require_relative 'smell_warning'
 
 module Reek
   module Smells
@@ -11,8 +12,10 @@ module Reek
     # This detector raises a warning for every
     # +attr_writer+ and +attr_accessor+
     #
-    # TODO: Catch attributes declared "by hand"
+    # See {file:docs/Attribute.md} for details.
+    # @api private
     #
+    # TODO: Catch attributes declared "by hand"
     class Attribute < SmellDetector
       ATTR_DEFN_METHODS = [:attr_writer, :attr_accessor]
       VISIBILITY_MODIFIERS = [:private, :public, :protected]

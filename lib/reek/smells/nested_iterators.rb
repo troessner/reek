@@ -1,4 +1,5 @@
 require_relative 'smell_detector'
+require_relative 'smell_warning'
 
 module Reek
   module Smells
@@ -7,6 +8,8 @@ module Reek
     #
     # +NestedIterators+ reports failing methods only once.
     #
+    # See {file:docs/Nested-Iterators.md} for details.
+    # @api private
     class NestedIterators < SmellDetector
       # The name of the config field that sets the maximum depth
       # of nested iterators to be permitted within any single method.
@@ -63,7 +66,7 @@ module Reek
       def find_iters_for_iter_node(exp, depth)
         ignored = ignored_iterator? exp
         result = find_iters(exp.call, depth) +
-                 find_iters(exp.block, depth + (ignored ? 0 : 1))
+          find_iters(exp.block, depth + (ignored ? 0 : 1))
         result << [exp, depth] unless ignored
         result
       end

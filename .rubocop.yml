@@ -7,7 +7,7 @@ AllCops:
 # FIXME: Make the class shorter
 Metrics/ClassLength:
   Exclude:
-    - lib/reek/core/tree_walker.rb
+    - lib/reek/tree_walker.rb
     - lib/reek/cli/options.rb
 
 # FIXME: Lower the method length by fixing the biggest offenders
@@ -17,6 +17,10 @@ Metrics/MethodLength:
 # Be a little more lenient with line length
 Metrics/LineLength:
   Max: 100
+
+# Indent one level for follow-up lines
+Style/MultilineOperationIndentation:
+  EnforcedStyle: indented
 
 # Allow small arrays of words with quotes
 Style/WordArray:

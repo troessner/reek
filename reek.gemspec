@@ -19,20 +19,20 @@ Gem::Specification.new do |s|
   s.executables = s.files.grep(%r{^bin/}).map { |path| File.basename(path) }
   s.homepage = 'https://github.com/troessner/reek/wiki'
   s.rdoc_options = %w(--main README.md -x assets/|bin/|config/|features/|spec/|tasks/)
-  s.required_ruby_version = '>= 1.9.3'
+  s.required_ruby_version = '>= 2.0.0'
   s.summary = 'Code smell detector for Ruby'
 
-  s.add_runtime_dependency 'parser',   '~> 2.2'
+  s.add_runtime_dependency 'parser',   '~> 2.2.2.5'
   s.add_runtime_dependency 'rainbow',  '~> 2.0'
   s.add_runtime_dependency 'unparser', '~> 0.2.2'
 
   s.add_development_dependency 'activesupport', '~> 4.2'
-  s.add_development_dependency 'aruba',         '~> 0.6.2'
+  s.add_development_dependency 'aruba',         '~> 0.7.2'
+  s.add_development_dependency 'ataru',         '~> 0.2.0'
   s.add_development_dependency 'bundler',       '~> 1.1'
   s.add_development_dependency 'cucumber',      '~> 2.0'
   s.add_development_dependency 'factory_girl',  '~> 4.0'
   s.add_development_dependency 'rake',          '~> 10.0'
   s.add_development_dependency 'rspec',         '~> 3.0'
-  s.add_development_dependency 'rubocop',       '~> 0.30.0'
-  s.add_development_dependency 'yard',          '~> 0.8.7'
+  s.add_development_dependency 'rubocop',       '~> 0.32.1'
 end

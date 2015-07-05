@@ -37,7 +37,7 @@ end
 Running this via
 
 ```
-rspec reek-integration-spec.rb 
+rspec reek-integration-spec.rb
 ```
 
 would give you:
@@ -65,7 +65,8 @@ rspec ./reek-integration-spec.rb:6 # Reek Integration works with reek
 
 ### `reek`
 
-A very generic matcher that basically just tells you if something reeks, but not after what exactly.
+A very generic matcher that basically just tells you if something reeks, but
+not after what exactly.
 See the "Quickstart" example from above.
 
 ### `reek_of`
@@ -78,27 +79,29 @@ Remember that this includes our "smell types" as well. So it could be the
 in reek but it could also be "Duplication" which is a "smell categgory".
 
 In theory you could pass many different types of input here:
-  - :UtilityFunction
-  - "UtilityFunction"
-  - UtilityFunction (this works in our specs because we tend to do "include Reek:Smells")
-  - Reek::Smells::UtilityFunction (the right way if you really want to pass a class)
-  - "Duplication" or :Duplication which is an abstract "smell category"
+- `:UtilityFunction`
+- `"UtilityFunction"`
+- `UtilityFunction` (this works in our specs because we tend to do "include
+  Reek:Smells")
+- `Reek::Smells::UtilityFunction` (the right way if you really want to pass a
+  class)
+- `"Duplication"` or `:Duplication` which is an abstract "smell category"
 
-It is recommended to pass this as a symbol like :UtilityFunction. However we don't
-enforce this.
+It is recommended to pass this as a symbol like `:UtilityFunction`. However we
+don't enforce this.
 
-Additionally you can be more specific and pass in "smell_details" you
-want to check for as well e.g. "name" or "count" (see the examples below).
-The parameters you can check for are depending on the smell you are checking for.
-For instance "count" doesn't make sense everywhere whereas "name" does in most cases.
-If you pass in a parameter that doesn't exist (e.g. you make a typo like "namme") reek will
-raise an ArgumentError to give you a hint that you passed something that doesn't make
-much sense.
+Additionally you can be more specific and pass in "smell_details" you want to
+check for as well e.g. "name" or "count" (see the examples below). The
+parameters you can check for are depending on the smell you are checking for.
+For instance "count" doesn't make sense everywhere whereas "name" does in most
+cases. If you pass in a parameter that doesn't exist (e.g. you make a typo like
+"namme") reek will raise an ArgumentError to give you a hint that you passed
+something that doesn't make much sense.
 
 So in a nutshell `reek_of` takes the following two arguments:
 
-- smell_category - The "smell category" or "smell_type" we check for.
-- smells_details - A hash containing "smell warning" parameters
+- `smell_category` - The "smell category" or "smell_type" we check for.
+- `smells_details` - A hash containing "smell warning" parameters
 
 **Examples**
 
@@ -128,6 +131,7 @@ See the documentaton for `reek_of`.
 
 **Notable differences to reek_of:**
 
-1.) `reek_of` doesn't mind if there are other smells of a different category. "reek_only_of" will fail in that case.
+1. `reek_of` doesn't mind if there are other smells of a different category.
+   "reek_only_of" will fail in that case.
 
-2.) `reek_only_of` doesn't support the additional smell_details hash.
+2. `reek_only_of` doesn't support the additional smell_details hash.

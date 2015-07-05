@@ -9,8 +9,9 @@ Feature: Basic smell detection
     Then the exit status indicates smells
     And it reports:
     """
-    inline.rb -- 43 warnings:
+    inline.rb -- 45 warnings:
       CompilationError has no descriptive comment (IrresponsibleModule)
+      Dir has no descriptive comment (IrresponsibleModule)
       File has no descriptive comment (IrresponsibleModule)
       File#self.write_with_backup has approx 6 statements (TooManyStatements)
       Inline declares the class variable @@directory (ClassVariable)
@@ -50,6 +51,7 @@ Feature: Basic smell detection
       Inline::C#parse_signature has the variable name 'x' (UncommunicativeVariableName)
       Inline::C#parse_signature is controlled by argument raw (ControlParameter)
       Inline::C#strip_comments doesn't depend on instance state (UtilityFunction)
+      Module has no descriptive comment (IrresponsibleModule)
       Module#inline calls Inline.const_get(lang) 2 times (DuplicateMethodCall)
       Module#inline calls options[:testing] 2 times (DuplicateMethodCall)
       Module#inline has approx 12 statements (TooManyStatements)
@@ -302,22 +304,14 @@ Feature: Basic smell detection
       RedCloth#v_align doesn't depend on instance state (UtilityFunction)
     """
 
-  Scenario: Correct smells from a source file with Ruby 2.0 specific syntax
-    Given the "ruby20_syntax.rb" sample file exists
-    When I run reek ruby20_syntax.rb
+  Scenario: Correct smells from a source file with unusual syntax samples
+    Given the "unusual_syntax.rb" sample file exists
+    When I run reek unusual_syntax.rb
     Then the exit status indicates smells
     And it reports:
     """
-    ruby20_syntax.rb -- 1 warning:
+    unusual_syntax.rb -- 3 warnings:
       [1]:SomeClass has no descriptive comment (IrresponsibleModule)
-    """
-
-  Scenario: Correct smells from a source file with Ruby 2.1 specific syntax
-    Given the "ruby21_syntax.rb" sample file exists
-    When I run reek ruby21_syntax.rb
-    Then the exit status indicates smells
-    And it reports:
-    """
-    ruby21_syntax.rb -- 1 warning:
-      [1]:SomeClass has no descriptive comment (IrresponsibleModule)
+      [18]:SomeClass#method_with_array_decomposition has the parameter name 'a' (UncommunicativeParameterName)
+      [18]:SomeClass#method_with_array_decomposition has the parameter name 'b' (UncommunicativeParameterName)
     """

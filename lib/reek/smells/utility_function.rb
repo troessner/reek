@@ -1,5 +1,6 @@
+require_relative '../ast/reference_collector'
 require_relative 'smell_detector'
-require_relative '../core/reference_collector'
+require_relative 'smell_warning'
 
 module Reek
   module Smells
@@ -34,6 +35,8 @@ module Reek
     # If the method does refer to self, but refers to some other object more,
     # +FeatureEnvy+ is reported instead.
     #
+    # See {file:docs/Utility-Function.md} for details.
+    # @api private
     class UtilityFunction < SmellDetector
       def self.smell_category
         'LowCohesion'
@@ -51,6 +54,7 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       def examine_context(method_ctx)
+        return [] if method_ctx.exp.singleton_method?
         return [] if method_ctx.num_statements == 0
         return [] if method_ctx.references_self?
         return [] if num_helper_methods(method_ctx).zero?

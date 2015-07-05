@@ -1,6 +1,32 @@
-== unreleased
+== 3.0.3
 
-* (sauliusgrigaitis) Add support for Checkstyle XML reports
+* (troessner) Fix finding sources when using just the current directory.
+
+== 3.0.2
+
+* (troessner) Only use ruby source files.
+
+== 3.0.1
+
+* (troessner) Fix reek descending into hidden directories
+
+== 3.0.0
+
+* (troessner) Make directories excludable via configuration.
+* (mvz) Define and document public API
+* (troessner) Recognize methods defined with class << self syntax as singleton methods.
+* (troessner)  Use ruby22 instead of ruby21 for parsing.
+* (nTraum) Drop support for Ruby 1.9
+
+== 2.2.1
+
+* (mvz) Support methods using array decomposition arguments
+
+== 2.2.0
+
+* (sauliusgrigaitis) Add support for XML reports
+* (beanieboi) Don’t track private methods in the Attributes smell
+* (Sebastian Boehm) Do not enable colorization if stdout is not a TTY
 
 == 2.1.0
 

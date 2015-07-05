@@ -1,5 +1,6 @@
+require_relative '../ast/node'
 require_relative 'smell_detector'
-require_relative '../core/ast_node'
+require_relative 'smell_warning'
 
 module Reek
   module Smells
@@ -22,6 +23,8 @@ module Reek
     # +RepeatedConditional+ checks for multiple conditionals
     # testing the same value throughout a single class.
     #
+    # See {file:docs/Repeated-Conditional.md} for details.
+    # @api private
     class RepeatedConditional < SmellDetector
       # The name of the config field that sets the maximum number of
       # identical conditionals permitted within any single class.
@@ -32,7 +35,7 @@ module Reek
         'SimulatedPolymorphism'
       end
 
-      BLOCK_GIVEN_CONDITION = AST::Node.new(:send, [nil, :block_given?])
+      BLOCK_GIVEN_CONDITION = ::Parser::AST::Node.new(:send, [nil, :block_given?])
 
       def self.contexts      # :nodoc:
         [:class]

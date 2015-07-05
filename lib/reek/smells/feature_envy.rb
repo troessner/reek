@@ -1,4 +1,5 @@
 require_relative 'smell_detector'
+require_relative 'smell_warning'
 
 module Reek
   module Smells
@@ -32,6 +33,8 @@ module Reek
     # If the method doesn't reference self at all, +UtilityFunction+ is
     # reported instead.
     #
+    # See {file:docs/Feature-Envy.md} for details.
+    # @api private
     class FeatureEnvy < SmellDetector
       def self.smell_category
         'LowCohesion'

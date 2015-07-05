@@ -20,6 +20,32 @@ RSpec.describe Reek::Smells::BooleanParameter do
         expect(src).to reek_of(:BooleanParameter, name: 'arga')
         expect(src).to reek_of(:BooleanParameter, name: 'argb')
       end
+
+      it 'reports keyword parameters defaulted to booleans' do
+        src = 'def cc(arga: true, argb: false) end'
+        expect(src).to reek_of(:BooleanParameter, name: 'arga')
+        expect(src).to reek_of(:BooleanParameter, name: 'argb')
+      end
+
+      it 'does not report regular parameters' do
+        src = 'def cc(a, b) end'
+        expect(src).not_to reek_of(:BooleanParameter)
+      end
+
+      it 'does not report array decomposition parameters' do
+        src = 'def cc((a, b)) end'
+        expect(src).not_to reek_of(:BooleanParameter)
+      end
+
+      it 'does not report keyword parameters with no default' do
+        src = 'def cc(a:, b:) end'
+        expect(src).not_to reek_of(:BooleanParameter)
+      end
+
+      it 'does not report keyword parameters with non-boolean default' do
+        src = 'def cc(a: 42, b: "32") end'
+        expect(src).not_to reek_of(:BooleanParameter)
+      end
     end
 
     context 'in a singleton method' do
@@ -49,7 +75,7 @@ RSpec.describe Reek::Smells::BooleanParameter do
 
     it 'reports the fields correctly' do
       src = 'def cc(arga = true) end'
-      ctx = Reek::Core::MethodContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
+      ctx = Reek::Context::MethodContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
       @detector.examine(ctx)
       smells = @detector.smells_found.to_a
       expect(smells.length).to eq(1)

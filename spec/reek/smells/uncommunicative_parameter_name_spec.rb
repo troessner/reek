@@ -1,7 +1,7 @@
 require_relative '../../spec_helper'
 require_relative '../../../lib/reek/smells/uncommunicative_parameter_name'
 require_relative 'smell_detector_shared'
-require_relative '../../../lib/reek/core/method_context'
+require_relative '../../../lib/reek/context/method_context'
 
 RSpec.describe Reek::Smells::UncommunicativeParameterName do
   before :each do
@@ -63,13 +63,25 @@ RSpec.describe Reek::Smells::UncommunicativeParameterName do
         expect("def #{host}help(_unused) basics(_unused) end").
           to reek_of(:UncommunicativeParameterName)
       end
+
+      it 'reports names inside array decomposition' do
+        src = "def #{host}help((b, nice)) basics(b, nice) end"
+        expect(src).to reek_of(:UncommunicativeParameterName,
+                               name: 'b')
+      end
+
+      it 'reports names inside nested array decomposition' do
+        src = "def #{host}help((foo, (bar, c))) basics(foo, c) end"
+        expect(src).to reek_of(:UncommunicativeParameterName,
+                               name: 'c')
+      end
     end
   end
 
   context 'looking at the smell result fields' do
     before :each do
       src = 'def bad(good, bad2, good_again); basics(good, bad2, good_again); end'
-      ctx = Reek::Core::MethodContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
+      ctx = Reek::Context::MethodContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
       @smells = @detector.examine_context(ctx)
       @warning = @smells[0]
     end
