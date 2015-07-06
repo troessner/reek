@@ -45,13 +45,7 @@ bundle
 bundle exec rake
 ```
 
-Once you’re sure your copy of reek works (and that there are no
-failing tests on the "develop" branch) create your own branch from our "develop" branch.
-
-We are using the popular [gitflow branch model](http://nvie.com/posts/a-successful-git-branching-model/) and
-require contributions to follow to this model as well.
-This probably sounds more complicated than it is, for you this just means that you should branch off
-of our "develop" branch for your pull request, not master (which is the default already):
+Once you’re sure your copy of reek works create your own feature branch from our "master" branch:
 
 ```
 git checkout -b your_feature_or_fix_name
@@ -81,8 +75,6 @@ Then go to your GitHub fork and [make a pull
 request](https://help.github.com/articles/creating-a-pull-request/)
 to the original repository.
 
-
-
 ## Review and Fixes
 
 Try to gauge and let us know in the pull request whether what
@@ -105,7 +97,15 @@ If there were any fixes to your pull request we’ll ask you to
 all of the commits into one:
 
 ```
-git rebase -i develop
+git rebase -i master
 # squash squash squash
 git push -f origin
 ```
+
+## Versioning policy
+
+We are following [semantic versioning](http://semver.org/).
+
+## Breaking changes
+
+If you're working on a change that is breaking backwards-compatibility according to our versioning policy from above just go ahead with your pull request like normal. We'll discuss this then in the pull request and help you to point your pull request to the right branch.
