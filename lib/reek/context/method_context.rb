@@ -43,11 +43,11 @@ module Reek
         receiver ||= [:self]
         case receiver[0]
         when :lvasgn
-          @refs.record_reference_to(receiver.name)
+          @refs.record_reference_to(receiver.name, line: exp.line)
         when :lvar
-          @refs.record_reference_to(receiver.name) unless meth == :new
+          @refs.record_reference_to(receiver.name, line: exp.line) unless meth == :new
         when :self
-          @refs.record_reference_to(:self)
+          @refs.record_reference_to(:self, line: exp.line)
         end
       end
 
@@ -56,8 +56,8 @@ module Reek
       end
 
       def envious_receivers
-        return [] if @refs.self_is_max?
-        @refs.max_keys
+        return {} if @refs.self_is_max?
+        @refs.most_popular
       end
 
       def references_self?

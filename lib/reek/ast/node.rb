@@ -34,7 +34,7 @@ module Reek
       end
 
       def line
-        loc.line
+        loc.line unless loc.nil?
       end
 
       # @deprecated
