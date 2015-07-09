@@ -14,6 +14,10 @@ module Reek
           @report_formatter = report_formatter
         end
 
+        def show_header?(_examiner)
+          raise NotImplementedError
+        end
+
         def header(examiner)
           if show_header?(examiner)
             report_formatter.header examiner
