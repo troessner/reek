@@ -51,11 +51,11 @@ module Reek
     #
     # @api private
     class WikiLinkWarningFormatter < SimpleWarningFormatter
-      BASE_URL_FOR_HELP_LINK = 'https://github.com/troessner/reek/wiki/'
+      BASE_URL_FOR_HELP_LINK = 'https://github.com/troessner/reek/blob/master/docs/'
 
       def format(warning)
         "#{super} " \
-          "[#{explanatory_link(warning)}]"
+          "[#{explanatory_link(warning)}.md]"
       end
 
       def explanatory_link(warning)
