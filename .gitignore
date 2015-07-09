@@ -11,3 +11,4 @@ Gemfile.lock
 tags
 .pryrc
 .tags*
+.DS_Store
