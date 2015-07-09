@@ -11,6 +11,10 @@ module Reek
         super(nil, exp)
       end
 
+      def type
+        :root
+      end
+
       def full_name
         ''
       end

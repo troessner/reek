@@ -38,6 +38,10 @@ module Reek
         @default_assignments ||=
           exp.parameters.select(&:optional_argument?).map(&:children)
       end
+
+      def singleton_method?
+        exp.singleton_method? || visibility == :module_function
+      end
     end
   end
 end

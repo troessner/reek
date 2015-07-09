@@ -73,9 +73,54 @@ RSpec.describe Reek::Smells::UtilityFunction do
           class C
             def m1(a) a.to_s; end
             def m2(a) a.to_s; end
-            module_function :m1, m2
+            module_function :m1, :m2
           end
           EOS
+        expect(src).not_to reek_of(:UtilityFunction)
+      end
+
+      it 'does not report module functions defined by earlier modifier' do
+        src = <<-EOF
+          module M
+            module_function
+            def simple(a) a.to_s; end
+          end
+        EOF
+        expect(src).not_to reek_of(:UtilityFunction)
+      end
+
+      it 'reports functions preceded by canceled modifier' do
+        src = <<-EOF
+          module M
+            module_function
+            public
+            def simple(a) a.to_s; end
+          end
+        EOF
+        expect(src).to reek_of(:UtilityFunction)
+      end
+
+      it 'does not report when module_function is called in separate scope' do
+        src = <<-EOF
+          class C
+            def m(a) a.to_s; end
+            begin
+              module_function :m
+            end
+          end
+        EOF
+        expect(src).not_to reek_of(:UtilityFunction)
+      end
+
+      it 'does not report when module_function modifier is called in separate scope' do
+        src = <<-EOF
+          class C
+            begin
+              module_function
+            end
+            def m(a) a.to_s; end
+          end
+        EOF
         expect(src).not_to reek_of(:UtilityFunction)
       end
     end

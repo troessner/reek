@@ -38,7 +38,7 @@ end
 # all contexts.
 class TestSmellRepository
   attr_reader :num_statements
-  def examine(context, _type)
+  def examine(context)
     @num_statements = context.num_statements
   end
 end

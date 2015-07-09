@@ -34,8 +34,8 @@ module Reek
         @detectors.each_value { |detector| detector.report_on(listener) }
       end
 
-      def examine(scope, node_type)
-        smell_listeners[node_type].each do |detector|
+      def examine(scope)
+        smell_listeners[scope.type].each do |detector|
           detector.examine(scope)
         end
       end
