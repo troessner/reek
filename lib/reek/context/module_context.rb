@@ -20,6 +20,17 @@ module Reek
       def descriptively_commented?
         CodeComment.new(exp.leading_comment).descriptive?
       end
+
+      # A namespace module is a module (or class) that is only there for namespacing
+      # purposes, and thus contains only nested constants, modules or classes.
+      #
+      # However, if the module is empty, it is not considered a namespace module.
+      #
+      # @return true if the module is a namespace module
+      def namespace_module?
+        contents = exp.children.last
+        contents && contents.find_nodes([:def, :defs], [:class, :module]).empty?
+      end
     end
   end
 end

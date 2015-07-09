@@ -4,6 +4,16 @@ require_relative '../../../lib/reek/smells/irresponsible_module'
 require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::IrresponsibleModule do
+  it 'reports a class without a comment' do
+    src = 'class BadClass; end'
+    expect(src).to reek_of :IrresponsibleModule, name: 'BadClass'
+  end
+
+  it 'reports a module without a comment' do
+    src = 'module BadClass; end'
+    expect(src).to reek_of :IrresponsibleModule, name: 'BadClass'
+  end
+
   it 'does not report re-opened modules' do
     src = <<-EOS
       # Abstract base class
@@ -20,11 +30,6 @@ RSpec.describe Reek::Smells::IrresponsibleModule do
       class Responsible; end
     EOS
     expect(src).not_to reek_of(:IrresponsibleModule)
-  end
-
-  it 'reports a class without a comment' do
-    src = 'class BadClass; end'
-    expect(src).to reek_of :IrresponsibleModule, name: 'BadClass'
   end
 
   it 'reports a class with an empty comment' do
@@ -59,6 +64,80 @@ RSpec.describe Reek::Smells::IrresponsibleModule do
   it 'reports a fully qualified class name correctly' do
     src = 'class Foo::Bar; end'
     expect(src).to reek_of :IrresponsibleModule, name: 'Foo::Bar'
+  end
+
+  it 'does not report modules used only as namespaces' do
+    src = <<-EOS
+      module Foo
+        # Describes Bar
+        class Bar
+          def baz
+          end
+        end
+      end
+    EOS
+    expect(src).not_to reek_of(:IrresponsibleModule)
+  end
+
+  it 'does not report classes used only as namespaces' do
+    src = <<-EOS
+      class Foo
+        # Describes Bar
+        module Bar
+          def qux
+          end
+        end
+      end
+    EOS
+    expect(src).not_to reek_of(:IrresponsibleModule)
+  end
+
+  it 'reports modules that have both nested modules and methods' do
+    src = <<-EOS
+      module Foo
+        def foofoo
+        end
+        # Describes Bar
+        module Bar
+        end
+      end
+    EOS
+    expect(src).to reek_of(:IrresponsibleModule)
+  end
+
+  it 'reports modules that have both nested modules and singleton methods' do
+    src = <<-EOS
+      module Foo
+        def self.foofoo
+        end
+        # Describes Bar
+        module Bar
+        end
+      end
+    EOS
+    expect(src).to reek_of(:IrresponsibleModule)
+  end
+
+  it 'reports modules that have both nested modules and methods on the singleton class' do
+    src = <<-EOS
+      module Foo
+        class << self
+          def foofoo
+          end
+        end
+        # Describes Bar
+        module Bar
+        end
+      end
+    EOS
+    expect(src).to reek_of(:IrresponsibleModule)
+  end
+
+  it 'reports classes that have a defined superclass' do
+    src = <<-EOS
+      class Foo < Bar; end
+    EOS
+    expect(src).to reek_of(:IrresponsibleModule)
   end
 
   context 'when a smell is reported' do
