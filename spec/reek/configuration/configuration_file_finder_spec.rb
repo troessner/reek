@@ -16,44 +16,44 @@ RSpec.describe Reek::Configuration::ConfigurationFileFinder do
 
     it 'returns the file in current dir if config_file is nil' do
       options = double(config_file: nil)
-      current = Pathname.new('spec/samples')
+      current = Pathname('spec/samples')
       found = described_class.find(options: options, current: current)
-      expect(found).to eq(Pathname.new('spec/samples/exceptions.reek'))
+      expect(found).to eq(Pathname('spec/samples/exceptions.reek'))
     end
 
     it 'returns the file in current dir if options is nil' do
-      current = Pathname.new('spec/samples')
+      current = Pathname('spec/samples')
       found = described_class.find(current: current)
-      expect(found).to eq(Pathname.new('spec/samples/exceptions.reek'))
+      expect(found).to eq(Pathname('spec/samples/exceptions.reek'))
     end
 
     it 'returns the file in a parent dir if none in current dir' do
-      current = Pathname.new('spec/samples/no_config_file')
+      current = Pathname('spec/samples/no_config_file')
       found = described_class.find(current: current)
-      expect(found).to eq(Pathname.new('spec/samples/exceptions.reek'))
+      expect(found).to eq(Pathname('spec/samples/exceptions.reek'))
     end
 
     it 'returns the file even if it’s just ‘.reek’' do
-      current = Pathname.new('spec/samples/masked_by_dotfile')
+      current = Pathname('spec/samples/masked_by_dotfile')
       found = described_class.find(current: current)
-      expect(found).to eq(Pathname.new('spec/samples/masked_by_dotfile/.reek'))
+      expect(found).to eq(Pathname('spec/samples/masked_by_dotfile/.reek'))
     end
 
     it 'returns the file in home if traversing from the current dir fails' do
       skip_if_a_config_in_tempdir
       Dir.mktmpdir do |tempdir|
-        current = Pathname.new(tempdir)
-        home    = Pathname.new('spec/samples')
+        current = Pathname(tempdir)
+        home    = Pathname('spec/samples')
         found = described_class.find(current: current, home: home)
-        expect(found).to eq(Pathname.new('spec/samples/exceptions.reek'))
+        expect(found).to eq(Pathname('spec/samples/exceptions.reek'))
       end
     end
 
     it 'returns nil when there are no files to find' do
       skip_if_a_config_in_tempdir
       Dir.mktmpdir do |tempdir|
-        current = Pathname.new(tempdir)
-        home    = Pathname.new(tempdir)
+        current = Pathname(tempdir)
+        home    = Pathname(tempdir)
         found = described_class.find(current: current, home: home)
         expect(found).to be_nil
       end
@@ -61,8 +61,8 @@ RSpec.describe Reek::Configuration::ConfigurationFileFinder do
 
     it 'works with paths that need escaping' do
       Dir.mktmpdir("ma\ngic d*r") do |tempdir|
-        config = Pathname.new("#{tempdir}/ma\ngic f*le.reek")
-        subdir = Pathname.new("#{tempdir}/ma\ngic subd*r")
+        config = Pathname("#{tempdir}/ma\ngic f*le.reek")
+        subdir = Pathname("#{tempdir}/ma\ngic subd*r")
         FileUtils.touch config
         FileUtils.mkdir subdir
         found = described_class.find(current: subdir)
@@ -73,7 +73,7 @@ RSpec.describe Reek::Configuration::ConfigurationFileFinder do
     private
 
     def skip_if_a_config_in_tempdir
-      found = described_class.find(current: Pathname.new(Dir.tmpdir))
+      found = described_class.find(current: Pathname(Dir.tmpdir))
       skip "skipped: #{found} exists and would fail this test" if found
     end
   end

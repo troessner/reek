@@ -1,9 +1,12 @@
+require 'pathname'
 require_relative '../../spec_helper'
 require_relative '../../../lib/reek/configuration/app_configuration'
 require_relative '../../../lib/reek/smells/smell_repository'
 
 RSpec.describe Reek::Configuration::AppConfiguration do
-  let(:sample_configuration_path) { 'spec/samples/configuration/simple_configuration.reek' }
+  let(:sample_configuration_path) do
+    Pathname('spec/samples/configuration/simple_configuration.reek')
+  end
   let(:sample_configuration_loaded) do
     {
       'UncommunicativeVariableName' => { 'enabled' => false },
@@ -47,13 +50,15 @@ RSpec.describe Reek::Configuration::AppConfiguration do
   end
 
   describe '.exclude_paths' do
-    let(:config_path) { 'spec/samples/configuration/with_excluded_paths.reek' }
+    let(:config_path) do
+      Pathname('spec/samples/configuration/with_excluded_paths.reek')
+    end
 
     it 'should return all paths to exclude' do
       with_test_config(config_path) do
         expect(described_class.exclude_paths).to eq [
-          'spec/samples/source_with_exclude_paths/ignore_me',
-          'spec/samples/source_with_exclude_paths/nested/ignore_me_as_well'
+          Pathname('spec/samples/source_with_exclude_paths/ignore_me'),
+          Pathname('spec/samples/source_with_exclude_paths/nested/ignore_me_as_well')
         ]
       end
     end

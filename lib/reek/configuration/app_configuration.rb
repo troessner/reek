@@ -1,3 +1,4 @@
+require 'pathname'
 require_relative './configuration_file_finder'
 
 module Reek
@@ -36,7 +37,7 @@ module Reek
         end
 
         def load_from_file(path)
-          if File.size(path) == 0
+          if path.size.zero?
             report_problem('Empty file', path)
             return
           end
@@ -56,9 +57,11 @@ module Reek
         end
 
         def exclude_paths
-          @exclude_paths ||= @configuration.
-            fetch(EXCLUDE_PATHS_KEY, []).
-            map { |path| path.chomp('/') }
+          @exclude_paths ||= begin
+            @configuration.fetch(EXCLUDE_PATHS_KEY, []).map do |string|
+              Pathname(string.chomp('/'))
+            end
+          end
         end
 
         private

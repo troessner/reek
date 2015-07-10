@@ -26,7 +26,7 @@ Given(/^a smelly file with inline masking called 'inline.rb'$/) do
 end
 
 Given(/^the "(.*?)" sample file exists$/) do |file_name|
-  full_path = File.expand_path file_name, 'spec/samples'
+  full_path = Pathname("#{__dir__}/../../spec/samples/#{file_name}")
   in_current_directory { FileUtils.cp full_path, file_name }
 end
 
@@ -135,7 +135,7 @@ When(/^I run "reek (.*?)" in the subdirectory$/) do |args|
 end
 
 Given(/^a masking configuration file in the HOME directory$/) do
-  set_env('HOME', File.expand_path(File.join(current_directory, 'home')))
+  set_env 'HOME', Pathname("#{__dir__}/../../#{current_directory}/home").to_s
   write_file('home/config.reek', <<-EOS.strip_heredoc)
     ---
     DuplicateMethodCall:
