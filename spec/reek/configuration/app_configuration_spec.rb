@@ -73,6 +73,7 @@ RSpec.describe Reek::Configuration::AppConfiguration do
       expect(described_class.configuration).to eq(sample_configuration_loaded)
       described_class.reset
       expect(described_class.configuration).to eq(default_configuration)
+      expect(described_class.exclude_paths).to be_empty
     end
   end
 end

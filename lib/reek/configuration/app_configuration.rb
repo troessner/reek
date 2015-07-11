@@ -52,6 +52,7 @@ module Reek
 
         def reset
           @configuration.clear
+          @exclude_paths = nil
         end
 
         def exclude_paths
