@@ -45,15 +45,12 @@ RSpec.describe Reek::Examiner do
   end
 
   context 'with a partially masked smelly File' do
-    around(:each) do |example|
-      with_test_config(SAMPLES_PATH.join('all_but_one_masked/masked.reek')) do
-        example.run
-      end
-    end
+    let(:path) { SAMPLES_PATH.join('all_but_one_masked/masked.reek') }
+    let(:configuration) { test_configuration_for(path) }
 
     before :each do
       smelly_file = Pathname.glob(SAMPLES_PATH.join('all_but_one_masked/d*.rb')).first
-      @examiner = described_class.new(smelly_file)
+      @examiner = described_class.new(smelly_file, [], configuration: configuration)
     end
 
     it_should_behave_like 'one smell found'

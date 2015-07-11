@@ -13,6 +13,9 @@ module Reek
     #
     # @api private
     class SourceCode
+      IO_IDENTIFIER     = 'STDIN'
+      STRING_IDENTIFIER = 'string'
+
       attr_reader :description
 
       # Initializer.
@@ -38,9 +41,9 @@ module Reek
       def self.from(source)
         case source
         when File     then new(source.read, source.path)
-        when IO       then new(source.readlines.join, 'STDIN')
+        when IO       then new(source.readlines.join, IO_IDENTIFIER)
         when Pathname then new(source.read, source.to_s)
-        when String   then new(source, 'string')
+        when String   then new(source, STRING_IDENTIFIER)
         end
       end
 

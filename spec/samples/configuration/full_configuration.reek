@@ -1,0 +1,9 @@
+---
+IrresponsibleModule:
+  enabled: false
+"spec/samples/three_clean_files/":
+  UtilityFunction:
+    enabled: false
+exclude_paths:
+  - "spec/samples/two_smelly_files/"
+  - "spec/samples/source_with_non_ruby_files/"

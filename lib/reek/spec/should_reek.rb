@@ -7,9 +7,13 @@ module Reek
     # An rspec matcher that matches when the +actual+ has code smells.
     #
     # @api private
-    class ShouldReek        # :nodoc:
+    class ShouldReek
+      def initialize(configuration = Configuration::AppConfiguration.new)
+        @configuration = configuration
+      end
+
       def matches?(actual)
-        @examiner = Examiner.new(actual)
+        @examiner = Examiner.new(actual, configuration: @configuration)
         @examiner.smelly?
       end
 

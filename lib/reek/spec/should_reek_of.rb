@@ -8,13 +8,16 @@ module Reek
     #
     # @api private
     class ShouldReekOf
-      def initialize(smell_category, smell_details = {})
+      def initialize(smell_category,
+                     smell_details = {},
+                     configuration = Configuration::AppConfiguration.new)
         @smell_category = normalize smell_category
         @smell_details  = smell_details
+        @configuration  = configuration
       end
 
       def matches?(actual)
-        @examiner = Examiner.new(actual)
+        @examiner = Examiner.new(actual, configuration: @configuration)
         @all_smells = @examiner.smells
         @all_smells.any? { |warning| warning.matches?(@smell_category, @smell_details) }
       end

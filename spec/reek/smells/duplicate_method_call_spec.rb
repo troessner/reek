@@ -151,23 +151,20 @@ RSpec.describe Reek::Smells::DuplicateMethodCall do
   end
 
   context 'allowing up to 3 calls' do
-    before :each do
-      @config = { DuplicateMethodCall:
-                  { Reek::Smells::DuplicateMethodCall::MAX_ALLOWED_CALLS_KEY => 3 } }
+    let(:config) do
+      { Reek::Smells::DuplicateMethodCall =>
+        { Reek::Smells::DuplicateMethodCall::MAX_ALLOWED_CALLS_KEY => 3 } }
     end
+    let(:configuration) { test_configuration_for(config) }
 
     it 'does not report double calls' do
       src = 'def double_thing() @other.thing + @other.thing end'
-      with_test_config(@config) do
-        expect(src).not_to reek_of(:DuplicateMethodCall)
-      end
+      expect(src).not_to reek_of(:DuplicateMethodCall, {}, configuration)
     end
 
     it 'does not report triple calls' do
       src = 'def double_thing() @other.thing + @other.thing + @other.thing end'
-      with_test_config(@config) do
-        expect(src).not_to reek_of(:DuplicateMethodCall)
-      end
+      expect(src).not_to reek_of(:DuplicateMethodCall, {}, configuration)
     end
 
     it 'reports quadruple calls' do
@@ -176,41 +173,36 @@ RSpec.describe Reek::Smells::DuplicateMethodCall do
           @other.thing + @other.thing + @other.thing + @other.thing
         end
       '
-      with_test_config(@config) do
-        expect(src).to reek_of(:DuplicateMethodCall, name: '@other.thing', count: 4)
-      end
+      expect(src).to reek_of(:DuplicateMethodCall,
+                             { name: '@other.thing', count: 4 },
+                             configuration)
     end
   end
 
   context 'allowing calls to some methods' do
-    before :each do
-      @config = { DuplicateMethodCall:
-                  { Reek::Smells::DuplicateMethodCall::ALLOW_CALLS_KEY =>
-                    ['@some.thing', /puts/] } }
+    let(:config) do
+      { Reek::Smells::DuplicateMethodCall =>
+        { Reek::Smells::DuplicateMethodCall::ALLOW_CALLS_KEY =>
+          ['@some.thing', /puts/] } }
     end
+    let(:configuration) { test_configuration_for(config) }
 
     it 'does not report calls to some methods' do
       src = 'def double_some_thing() @some.thing + @some.thing end'
 
-      with_test_config(@config) do
-        expect(src).not_to reek_of(:DuplicateMethodCall)
-      end
+      expect(src).not_to reek_of(:DuplicateMethodCall, {}, configuration)
     end
 
     it 'reports calls to other methods' do
       src = 'def double_other_thing() @other.thing + @other.thing end'
 
-      with_test_config(@config) do
-        expect(src).to reek_of(:DuplicateMethodCall, name: '@other.thing')
-      end
+      expect(src).to reek_of(:DuplicateMethodCall, { name: '@other.thing' }, configuration)
     end
 
     it 'does not report calls to methods specifed with a regular expression' do
       src = 'def double_puts() puts @other.thing; puts @other.thing end'
 
-      with_test_config(@config) do
-        expect(src).to reek_of(:DuplicateMethodCall, name: '@other.thing')
-      end
+      expect(src).to reek_of(:DuplicateMethodCall, { name: '@other.thing' }, configuration)
     end
   end
 end

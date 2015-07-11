@@ -144,42 +144,63 @@ of how many `*.reek` files you might have on your filesystem.
 
 #### Configuration options
 
-The first thing you probably want to check out are the
-[Basic Smell Options](docs/Basic-Smell-Options.md)
-which are supported by every smell type. Certain smell
-types offer a configuration that goes beyond that
-of the basic smell options, for instance
-[Data Clump](docs/Data-Clump.md).
-All options that go beyond the [Basic Smell Options](docs/Basic-Smell-Options.md)
-should be documented in the corresponding smell type wiki page,
-but if you want to get a quick and full overview over all possible
-configurations you can always check out [the `config/default.reek`
-file in this repository](config/defaults.reek).
-
-Here's an excerpt of a `reek` configuration file from a commercial project:
+We put a lot of effort into making `reek`'s configuration as self explanatory as possible so the
+best way to understand it is by looking at a simple
+example (e.g. `config.reek` in your project directory):
 
 ```yaml
 ---
+
+### Generic smell configuration
+
+# You can disable smells completely
 IrresponsibleModule:
   enabled: false
 
+# You can use filters to silence reek warnings.
+# Either because you simply disagree with reek (we are not the police) or
+# because you want to fix this at a later point in time.
 NestedIterators:
   exclude:
-    - "ActiveModelErrorAdder#self.run" # should be refactored
-    - "BookingRequests::Transfer#remote_validation"
-    - "BookingRequestsController#vehicle_options" # respond_to block
-    - "Content::Base#self.expose_fields" # unavoidable due to metaprogramming
+    - "MyWorker#self.class_method" # should be refactored
+    - "AnotherWorker#instance_method" # should be refactored as well
 
+# A lot of smells allow fine tuning their configuration. You can look up all available options
+# in the corresponding smell documentation in /docs. In most cases you probably can just go
+# with the defaults we set in config/defaults.reek.
 DataClump:
   max_copies: 3
   min_clump_size: 3
 
+### Directory specific configuration
+
+# You can configure smells on a per-directory base.
+# E.g. the classic Rails case: controllers smell of NestedIterators (see /docs/Nested-Iterators.md) and
+# helpers smell of UtilityFunction (see docs/Utility-Function.md)
+"web_app/app/controllers":
+  NestedIterators:
+    enabled: false
+"web_app/app/helpers":
+  UtilityFunction:
+    enabled: false
+
+### Excluding directories
+
+# Directories below will not be scanned at all
 exclude_paths:
-  - app/views
-  - app/controllers
+  - lib/legacy
+  - lib/rake/legacy_tasks
 ```
 
-Additionally to the smell configuration you can exclude whole directories from scans using `exclude_paths` as you can see at the end of the configuration above.
+Note you do not need a configuration file at all. If you're fine with all the [defaults](config/defaults.reek) we set you can skip this completely.
+
+For more details please check out the [Basic Smell Options](docs/Basic-Smell-Options.md)
+which are supported by every smell type. As you can see above, certain smell
+types offer a configuration that goes beyond that of the basic smell options, for instance
+[Data Clump](docs/Data-Clump.md).
+All options that go beyond the [Basic Smell Options](docs/Basic-Smell-Options.md)
+are documented in the corresponding smell type /docs page (if you want to get a quick overview over all possible
+configurations you can also check out [the `config/default.reek` file in this repository](config/defaults.reek).
 
 ### Source code comments
 

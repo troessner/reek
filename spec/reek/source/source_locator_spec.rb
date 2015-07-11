@@ -11,22 +11,23 @@ RSpec.describe Reek::Source::SourceLocator do
         [SAMPLES_PATH.join('source_with_hidden_directories/uncommunicative_parameter_name.rb')]
       end
       let(:paths_that_are_expected_to_be_ignored) do
-        [SAMPLES_PATH.join('source_with_hidden_directories/.hidden/uncommunicative_method_name.rb')]
+        [SAMPLES_PATH.join('source_with_hidden_directories/.hidden/\
+          uncommunicative_parameter_nameicative_method_name.rb')]
       end
 
       it 'does not scan hidden directories' do
         sources = described_class.new([path]).sources
 
         expect(sources).not_to include(*paths_that_are_expected_to_be_ignored)
-
         expect(sources).to eq expected_paths
-        Reek::Configuration::AppConfiguration.reset
       end
     end
 
     context 'exclude paths' do
-      let(:config) { SAMPLES_PATH.join('configuration/with_excluded_paths.reek') }
-      let(:path)   { SAMPLES_PATH.join('source_with_exclude_paths')              }
+      let(:configuration) do
+        test_configuration_for(SAMPLES_PATH.join('configuration/with_excluded_paths.reek'))
+      end
+      let(:path) { SAMPLES_PATH.join('source_with_exclude_paths') }
       let(:paths_that_are_expected_to_be_ignored) do
         [
           SAMPLES_PATH.join('source_with_exclude_paths/ignore_me/uncommunicative_method_name.rb'),
@@ -36,15 +37,12 @@ RSpec.describe Reek::Source::SourceLocator do
       end
 
       it 'does not use excluded paths' do
-        with_test_config(config) do
-          sources = described_class.new([path]).sources
+        sources = described_class.new([path], configuration: configuration).sources
+        expect(sources).not_to include(*paths_that_are_expected_to_be_ignored)
 
-          expect(sources).not_to include(*paths_that_are_expected_to_be_ignored)
-
-          expect(sources).to eq [
-            SAMPLES_PATH.join('source_with_exclude_paths/nested/uncommunicative_parameter_name.rb')
-          ]
-        end
+        expect(sources).to eq [
+          SAMPLES_PATH.join('source_with_exclude_paths/nested/uncommunicative_parameter_name.rb')
+        ]
       end
     end
 
