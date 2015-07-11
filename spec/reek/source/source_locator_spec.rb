@@ -1,4 +1,5 @@
 require_relative '../../spec_helper'
+require_relative '../../../lib/reek/configuration/app_configuration'
 require_relative '../../../lib/reek/source/source_locator'
 
 RSpec.describe Reek::Source::SourceLocator do
@@ -19,6 +20,8 @@ RSpec.describe Reek::Source::SourceLocator do
           not_to include(*files_that_are_expected_to_be_ignored)
 
         expect(sources.map(&:path)).to eq expected_files
+
+        Reek::Configuration::AppConfiguration.reset
       end
     end
 
