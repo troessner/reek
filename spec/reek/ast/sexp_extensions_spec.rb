@@ -309,15 +309,11 @@ RSpec.describe Reek::AST::SexpExtensions::ModuleNode do
     end
 
     it 'has the correct #name' do
-      expect(subject.name).to eq :Fred
+      expect(subject.name).to eq 'Fred'
     end
 
     it 'has the correct #simple_name' do
-      expect(subject.simple_name).to eq :Fred
-    end
-
-    it 'has the correct #text_name' do
-      expect(subject.text_name).to eq 'Fred'
+      expect(subject.simple_name).to eq 'Fred'
     end
 
     it 'has a simple full_name' do
@@ -335,15 +331,11 @@ RSpec.describe Reek::AST::SexpExtensions::ModuleNode do
     end
 
     it 'has the correct #name' do
-      expect(subject.name).to eq s(:const, s(:const, nil, :Foo), :Bar)
+      expect(subject.name).to eq 'Foo::Bar'
     end
 
     it 'has the correct #simple_name' do
-      expect(subject.simple_name).to eq :Bar
-    end
-
-    it 'has the correct #text_name' do
-      expect(subject.text_name).to eq 'Foo::Bar'
+      expect(subject.simple_name).to eq 'Bar'
     end
 
     it 'has a simple full_name' do

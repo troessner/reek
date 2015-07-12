@@ -133,11 +133,54 @@ RSpec.describe Reek::Smells::IrresponsibleModule do
     expect(src).to reek_of(:IrresponsibleModule)
   end
 
+  it 'does not report namespace modules that have a nested class through assignment' do
+    src = <<-EOS
+      module Qux
+        # Foo is responsible
+        Foo = Class.new Bar do
+          def quux; end
+        end
+      end
+    EOS
+    expect(src).not_to reek_of(:IrresponsibleModule)
+  end
+
   it 'reports classes that have a defined superclass' do
     src = <<-EOS
       class Foo < Bar; end
     EOS
     expect(src).to reek_of(:IrresponsibleModule)
+  end
+
+  it 'reports classes defined through assignment' do
+    src = <<-EOS
+      # Qux is responsible, but Foo is not
+      module Qux
+        Foo = Class.new Bar
+      end
+    EOS
+    expect(src).to reek_of(:IrresponsibleModule, name: 'Foo')
+  end
+
+  it 'reports structs defined through assignment' do
+    src = <<-EOS
+      # Qux is responsible, but Foo is not
+      module Qux
+        Foo = Struct.new(:x, :y)
+      end
+    EOS
+    expect(src).to reek_of(:IrresponsibleModule, name: 'Foo')
+  end
+
+  it 'does not report constants that are not classes' do
+    src = <<-EOS
+      module Qux
+        Foo = 23
+        Bar = Hash.new
+        Quuz = 'foo'.freeze
+      end
+    EOS
+    expect(src).not_to reek_of(:IrresponsibleModule)
   end
 
   context 'when a smell is reported' do

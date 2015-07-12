@@ -82,7 +82,7 @@ module Reek
         type = receiver ? receiver.type : :self
         case type
         when :lvar, :lvasgn
-          unless exp.method_name == :new
+          unless exp.object_creation_call?
             @refs.record_reference_to(receiver.name, line: exp.line)
           end
         when :self

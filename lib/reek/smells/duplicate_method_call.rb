@@ -108,7 +108,7 @@ module Reek
 
         def collect_calls(result)
           context.each_node(:send, [:mlhs]) do |call_node|
-            next if initializer_call? call_node
+            next if call_node.object_creation_call?
             next if simple_method_call? call_node
             result[call_node].record(call_node)
           end
@@ -123,10 +123,6 @@ module Reek
 
         def simple_method_call?(call_node)
           !call_node.receiver && call_node.args.empty?
-        end
-
-        def initializer_call?(call_node)
-          call_node.method_name == :new
         end
 
         def allow_calls?(method)

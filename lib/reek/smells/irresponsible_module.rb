@@ -11,7 +11,7 @@ module Reek
     # @api private
     class IrresponsibleModule < SmellDetector
       def self.contexts
-        [:class, :module]
+        [:casgn, :class, :module]
       end
 
       #
@@ -26,7 +26,7 @@ module Reek
                           context: ctx.full_name,
                           lines: [expression.line],
                           message: 'has no descriptive comment',
-                          parameters: { name: expression.text_name })]
+                          parameters: { name: expression.name })]
       end
 
       private
