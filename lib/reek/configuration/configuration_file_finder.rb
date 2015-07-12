@@ -18,11 +18,11 @@ module Reek
       module_function
 
       # FIXME: switch to kwargs on upgrade to Ruby 2 and drop `params.fetch` calls:
-      # def find(options: nil, current: Pathname.pwd, home: Pathname.new(Dir.home))
+      # def find(options: nil, current: Pathname.pwd, home: Pathname(Dir.home))
       def find(params = {})
-        options = params.fetch(:options) { nil                    }
-        current = params.fetch(:current) { Pathname.pwd           }
-        home    = params.fetch(:home)    { Pathname.new(Dir.home) }
+        options = params.fetch(:options) { nil                }
+        current = params.fetch(:current) { Pathname.pwd       }
+        home    = params.fetch(:home)    { Pathname(Dir.home) }
         find_by_cli(options) || find_by_dir(current) || find_by_dir(home)
       end
 

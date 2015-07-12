@@ -1,3 +1,4 @@
+require 'pathname'
 require_relative '../../spec_helper'
 require_relative '../../../lib/reek/examiner'
 require_relative '../../../lib/reek/report/report'
@@ -27,8 +28,8 @@ RSpec.describe Reek::Report::XMLReport do
     end
 
     it 'prints non-empty checkstyle xml' do
-      sample_path = File.expand_path 'checkstyle.xml', 'spec/samples'
-      expect { instance.show }.to output(File.read(sample_path)).to_stdout
+      sample_path = Pathname("#{__dir__}/../../samples/checkstyle.xml")
+      expect { instance.show }.to output(sample_path.read).to_stdout
     end
   end
 end

@@ -18,7 +18,7 @@ module Reek
       # Initializer.
       #
       # code        - ruby code as String
-      # description - in case of STDIN this is "STDIN" otherwise it's a filepath as String
+      # description - 'STDIN', 'string' or a filepath as String
       # parser      - the parser to use for generating AST's out of the given source
       def initialize(code, description, parser = Parser::Ruby22)
         @source      = code
@@ -27,8 +27,8 @@ module Reek
       end
 
       # Initializes an instance of SourceCode given a source.
-      # This source can come via 3 different ways:
-      # - from files a la `reek lib/reek/`
+      # This source can come via 4 different ways:
+      # - from Files or Pathnames a la `reek lib/reek/`
       # - from IO (STDIN) a la `echo "class Foo; end" | reek`
       # - from String via our rspec matchers a la `expect("class Foo; end").to reek`
       #
@@ -37,9 +37,10 @@ module Reek
       # @return an instance of SourceCode
       def self.from(source)
         case source
-        when File   then new(source.read, source.path)
-        when IO     then new(source.readlines.join, 'STDIN')
-        when String then new(source, 'string')
+        when File     then new(source.read, source.path)
+        when IO       then new(source.readlines.join, 'STDIN')
+        when Pathname then new(source.read, source.to_s)
+        when String   then new(source, 'string')
         end
       end
 

@@ -1,3 +1,4 @@
+require 'pathname'
 require_relative '../lib/reek/spec'
 require_relative '../lib/reek/ast/ast_node_class_map'
 require_relative '../lib/reek/configuration/app_configuration'
@@ -21,12 +22,13 @@ SAMPLES_DIR = 'spec/samples'
 # Simple helpers for our specs.
 module Helpers
   def with_test_config(config)
-    if config.is_a? String
-      Reek::Configuration::AppConfiguration.load_from_file(config)
-    elsif config.is_a? Hash
+    case config
+    when Hash
       Reek::Configuration::AppConfiguration.class_eval do
         @configuration = config
       end
+    when Pathname, String
+      Reek::Configuration::AppConfiguration.load_from_file(Pathname(config))
     else
       raise "Unknown config given in `with_test_config`: #{config.inspect}"
     end

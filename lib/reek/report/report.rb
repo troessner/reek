@@ -1,5 +1,6 @@
-require 'rainbow'
 require 'json'
+require 'pathname'
+require 'rainbow'
 require_relative 'formatter'
 require_relative 'heading_formatter'
 
@@ -129,9 +130,9 @@ module Reek
     class HTMLReport < Base
       require 'erb'
 
-      def show(target_path = 'reek.html')
-        template_path = File.expand_path('../html_report.html.erb', __FILE__)
-        File.write target_path, ERB.new(File.read(template_path)).result(binding)
+      def show(target_path = Pathname('reek.html'))
+        template_path = Pathname("#{__dir__}/html_report.html.erb")
+        File.write target_path, ERB.new(template_path.read).result(binding)
         puts 'HTML file saved'
       end
     end
