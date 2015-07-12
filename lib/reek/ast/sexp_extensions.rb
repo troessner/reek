@@ -169,9 +169,9 @@ module Reek
 
       # Utility methods for :send nodes.
       module SendNode
-        def receiver() self[1] end
-        def method_name() self[2] end
-        def args() self[3..-1] end
+        def receiver; children.first; end
+        def method_name() children[1]; end
+        def args() children[2..-1] end
 
         def participants
           ([receiver] + args).compact
@@ -181,6 +181,8 @@ module Reek
           args.map { |arg| arg[1] }
         end
       end
+
+      Op_AsgnNode = SendNode
 
       # Base module for utility methods for nodes representing variables.
       module VariableBase

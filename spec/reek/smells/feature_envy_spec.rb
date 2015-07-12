@@ -1,5 +1,6 @@
 require_relative '../../spec_helper'
 require_relative '../../../lib/reek/smells/feature_envy'
+require_relative '../../../lib/reek/examiner'
 require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::FeatureEnvy do
@@ -213,13 +214,13 @@ end
 
 RSpec.describe Reek::Smells::FeatureEnvy do
   before(:each) do
-    @source_name = 'dummy_source'
+    @source_name = 'string'
     @detector = build(:smell_detector, smell_type: :FeatureEnvy, source: @source_name)
   end
 
   it_should_behave_like 'SmellDetector'
 
-  context 'when reporting yaml' do
+  context 'when a smell is reported' do
     before :each do
       @receiver = 'other'
       src = <<-EOS
@@ -230,9 +231,7 @@ RSpec.describe Reek::Smells::FeatureEnvy do
           #{@receiver}.fred
         end
       EOS
-      source = Reek::Source::SourceCode.from(src)
-      @mctx = Reek::TreeWalker.new.process_def(source.syntax_tree)
-      @smells = @detector.examine_context(@mctx)
+      @smells = Reek::Examiner.new(src, ['FeatureEnvy']).smells
     end
 
     it 'reports only that smell' do

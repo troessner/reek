@@ -65,7 +65,7 @@ module Reek
     def run
       smell_repository = Smells::SmellRepository.new(description, @smell_types)
       syntax_tree = @source.syntax_tree
-      TreeWalker.new(smell_repository).process(syntax_tree) if syntax_tree
+      TreeWalker.new(smell_repository, syntax_tree).walk if syntax_tree
       smell_repository.report_on(@collector)
     end
 
