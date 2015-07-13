@@ -12,7 +12,7 @@ module Reek
       #
       # paths - a list of paths as Strings
       def initialize(paths)
-        @paths = paths.map(&method(:Pathname)).flat_map do |path|
+        @paths = paths.map { |string| Pathname(string) }.flat_map do |path|
           current_directory?(path) ? path.entries : path
         end
       end
