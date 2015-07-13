@@ -130,8 +130,8 @@ module Reek
     class HTMLReport < Base
       require 'erb'
 
-      def show(target_path = Pathname('reek.html'))
-        template_path = Pathname("#{__dir__}/html_report.html.erb")
+      def show(target_path = Pathname.new('reek.html'))
+        template_path = Pathname.new("#{__dir__}/html_report.html.erb")
         File.write target_path, ERB.new(template_path.read).result(binding)
         puts 'HTML file saved'
       end

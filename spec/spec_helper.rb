@@ -28,7 +28,7 @@ module Helpers
         @configuration = config
       end
     when Pathname, String
-      Reek::Configuration::AppConfiguration.load_from_file(Pathname(config))
+      Reek::Configuration::AppConfiguration.load_from_file(Pathname.new(config))
     else
       raise "Unknown config given in `with_test_config`: #{config.inspect}"
     end

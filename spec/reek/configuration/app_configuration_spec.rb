@@ -5,7 +5,7 @@ require_relative '../../../lib/reek/smells/smell_repository'
 
 RSpec.describe Reek::Configuration::AppConfiguration do
   let(:sample_configuration_path) do
-    Pathname('spec/samples/configuration/simple_configuration.reek')
+    Pathname.new('spec/samples/configuration/simple_configuration.reek')
   end
   let(:sample_configuration_loaded) do
     {
@@ -51,14 +51,14 @@ RSpec.describe Reek::Configuration::AppConfiguration do
 
   describe '.exclude_paths' do
     let(:config_path) do
-      Pathname('spec/samples/configuration/with_excluded_paths.reek')
+      Pathname.new('spec/samples/configuration/with_excluded_paths.reek')
     end
 
     it 'should return all paths to exclude' do
       with_test_config(config_path) do
         expect(described_class.exclude_paths).to eq [
-          Pathname('spec/samples/source_with_exclude_paths/ignore_me'),
-          Pathname('spec/samples/source_with_exclude_paths/nested/ignore_me_as_well')
+          Pathname.new('spec/samples/source_with_exclude_paths/ignore_me'),
+          Pathname.new('spec/samples/source_with_exclude_paths/nested/ignore_me_as_well')
         ]
       end
     end

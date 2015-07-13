@@ -74,7 +74,7 @@ module Reek
         @parser.separator 'Configuration:'
         @parser.on('-c', '--config FILE', 'Read configuration options from FILE') do |file|
           raise ArgumentError, "Config file #{file} doesn't exist" unless File.exist?(file)
-          @options.config_file = Pathname(file)
+          @options.config_file = Pathname.new(file)
         end
         @parser.on('--smell SMELL', 'Detect smell SMELL (default: all enabled smells)') do |smell|
           @options.smells_to_detect << smell
