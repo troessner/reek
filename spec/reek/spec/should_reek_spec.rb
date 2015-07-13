@@ -23,9 +23,9 @@ RSpec.describe Reek::Spec::ShouldReek do
   end
 
   describe 'checking code in a File' do
-    let(:clean_file) { File.new('spec/samples/three_clean_files/clean_one.rb') }
-    let(:smelly_file) { File.new('spec/samples/two_smelly_files/dirty_one.rb') }
-    let(:masked_file) { File.new('spec/samples/clean_due_to_masking/dirty_one.rb') }
+    let(:clean_file)  { SAMPLES_PATH.join('three_clean_files/clean_one.rb')    }
+    let(:smelly_file) { SAMPLES_PATH.join('two_smelly_files/dirty_one.rb')     }
+    let(:masked_file) { SAMPLES_PATH.join('clean_due_to_masking/dirty_one.rb') }
 
     it 'matches a smelly File' do
       expect(matcher.matches?(smelly_file)).to be_truthy
@@ -36,7 +36,7 @@ RSpec.describe Reek::Spec::ShouldReek do
     end
 
     it 'masks smells using the relevant configuration' do
-      with_test_config('spec/samples/clean_due_to_masking/masked.reek') do
+      with_test_config(SAMPLES_PATH.join('clean_due_to_masking/masked.reek')) do
         expect(matcher.matches?(masked_file)).to be_falsey
       end
     end

@@ -17,7 +17,7 @@ end
 
 FactoryGirl.find_definitions
 
-SAMPLES_DIR = 'spec/samples'
+SAMPLES_PATH = Pathname.new("#{__dir__}/samples").relative_path_from(Pathname.pwd)
 
 # Simple helpers for our specs.
 module Helpers

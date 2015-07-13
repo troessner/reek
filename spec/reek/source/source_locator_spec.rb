@@ -6,14 +6,12 @@ require_relative '../../../lib/reek/source/source_locator'
 RSpec.describe Reek::Source::SourceLocator do
   describe '#sources' do
     context 'applied to hidden directories' do
-      let(:path) { 'spec/samples/source_with_hidden_directories' }
+      let(:path) { SAMPLES_PATH.join('source_with_hidden_directories') }
       let(:expected_paths) do
-        [Pathname.new('spec/samples/source_with_hidden_directories/' \
-                      'uncommunicative_parameter_name.rb')]
+        [SAMPLES_PATH.join('source_with_hidden_directories/uncommunicative_parameter_name.rb')]
       end
       let(:paths_that_are_expected_to_be_ignored) do
-        [Pathname.new('spec/samples/source_with_hidden_directories/' \
-                      '.hidden/uncommunicative_method_name.rb')]
+        [SAMPLES_PATH.join('source_with_hidden_directories/.hidden/uncommunicative_method_name.rb')]
       end
 
       it 'does not scan hidden directories' do
@@ -27,16 +25,13 @@ RSpec.describe Reek::Source::SourceLocator do
     end
 
     context 'exclude paths' do
-      let(:config) do
-        Pathname.new('spec/samples/configuration/with_excluded_paths.reek')
-      end
-      let(:path) { 'spec/samples/source_with_exclude_paths' }
+      let(:config) { SAMPLES_PATH.join('configuration/with_excluded_paths.reek') }
+      let(:path)   { SAMPLES_PATH.join('source_with_exclude_paths')              }
       let(:paths_that_are_expected_to_be_ignored) do
         [
-          Pathname.new('spec/samples/source_with_exclude_paths/' \
-                       'ignore_me/uncommunicative_method_name.rb'),
-          Pathname.new('spec/samples/source_with_exclude_paths/' \
-                       'nested/ignore_me_as_well/irresponsible_module.rb')
+          SAMPLES_PATH.join('source_with_exclude_paths/ignore_me/uncommunicative_method_name.rb'),
+          SAMPLES_PATH.join('source_with_exclude_paths/nested/' \
+                            'ignore_me_as_well/irresponsible_module.rb')
         ]
       end
 
@@ -47,23 +42,21 @@ RSpec.describe Reek::Source::SourceLocator do
           expect(sources).not_to include(*paths_that_are_expected_to_be_ignored)
 
           expect(sources).to eq [
-            Pathname.new('spec/samples/source_with_exclude_paths/' \
-                         'nested/uncommunicative_parameter_name.rb')
+            SAMPLES_PATH.join('source_with_exclude_paths/nested/uncommunicative_parameter_name.rb')
           ]
         end
       end
     end
 
     context 'non-ruby paths' do
-      let(:path) { 'spec/samples/source_with_non_ruby_files' }
+      let(:path) { SAMPLES_PATH.join('source_with_non_ruby_files') }
       let(:expected_sources) do
-        [Pathname.new('spec/samples/source_with_non_ruby_files/' \
-                      'uncommunicative_parameter_name.rb')]
+        [SAMPLES_PATH.join('source_with_non_ruby_files/uncommunicative_parameter_name.rb')]
       end
       let(:paths_that_are_expected_to_be_ignored) do
         [
-          Pathname.new('spec/samples/source_with_non_ruby_files/gibberish'),
-          Pathname.new('spec/samples/source_with_non_ruby_files/python_source.py')
+          SAMPLES_PATH.join('source_with_non_ruby_files/gibberish'),
+          SAMPLES_PATH.join('source_with_non_ruby_files/python_source.py')
         ]
       end
 
