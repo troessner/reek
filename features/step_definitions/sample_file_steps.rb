@@ -135,7 +135,7 @@ When(/^I run "reek (.*?)" in the subdirectory$/) do |args|
 end
 
 Given(/^a masking configuration file in the HOME directory$/) do
-  set_env 'HOME', Pathname.new("#{__dir__}/../../#{current_directory}/home").to_s
+  set_env 'HOME', Pathname.new("#{current_directory}/home").expand_path.to_s
   write_file('home/config.reek', <<-EOS.strip_heredoc)
     ---
     DuplicateMethodCall:
