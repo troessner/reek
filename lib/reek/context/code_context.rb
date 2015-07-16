@@ -14,23 +14,26 @@ module Reek
     class CodeContext
       attr_reader :exp
       attr_reader :num_statements
+      attr_reader :children
+      attr_reader :visibility
 
       # Initializes a new CodeContext.
       #
-      # context - *_context from the `core` namespace
-      # exp - Reek::Source::ASTNode
+      # @param context [CodeContext, nil] The parent context
+      # @param exp [Reek::AST::Node] The code described by this context
       #
-      # Examples:
+      # For example, given the following code:
       #
-      # Given something like:
+      #   class Omg
+      #     def foo(x)
+      #       puts x
+      #     end
+      #   end
       #
-      #   class Omg; def foo(x); puts x; end; end
+      # The {TreeWalker} object first instantiates a {RootContext}, which has no parent.
       #
-      # the first time this is instantianted from TreeWalker `context` is a RootContext:
-      #
-      #   #<Reek::Context::RootContext:0x00000002231098 @name="">
-      #
-      # and `exp` looks like this:
+      # Next, it instantiates a {ModuleContext}, with +context+ being the
+      # {RootContext} just created, and +exp+ looking like this:
       #
       #  (class
       #    (const nil :Omg) nil
@@ -40,23 +43,34 @@ module Reek
       #      (send nil :puts
       #        (lvar :x))))
       #
-      # The next time we instantiate a CodeContext via TreeWalker `context` would be:
+      # Finally, {TreeWalker} will instantiate a {MethodContext}. This time,
+      # +context+ is the {ModuleContext} created above, and +exp+ is:
       #
-      #   Reek::Context::ModuleContext
-      #
-      # and `exp` is:
-      #
-      # (def :foo
-      #   (args
-      #     (arg :x))
-      #   (send nil :puts
-      #     (lvar :x)))
+      #   (def :foo
+      #     (args
+      #       (arg :x))
+      #     (send nil :puts
+      #       (lvar :x)))
       def initialize(context, exp)
-        @context = context
-        @exp     = exp
+        @context    = context
+        @exp        = exp
+        @visibility = :public
+        @children   = []
 
         @num_statements = 0
         @refs = AST::ObjectRefs.new
+      end
+
+      # Register a child context. The child's parent context should be equal to
+      # the current context.
+      #
+      # This makes the current context responsible for setting the child's
+      # visibility.
+      #
+      # @param child [CodeContext] the child context to register
+      def append_child_context(child)
+        child.visibility = tracked_visibility
+        @children << child
       end
 
       def count_statements(num)
@@ -114,7 +128,47 @@ module Reek
           config[detector_class.smell_type] || {})
       end
 
+      # Handle the effects of a visibility modifier.
+      #
+      # @example Setting the current visibility
+      #   track_visibility :public
+      #
+      # @example Modifying the visibility of existing children
+      #   track_visibility :private, [:hide_me, :implementation_detail]
+      #
+      # @param visibility [Symbol]
+      # @param names [Array<Symbol>]
+      def track_visibility(visibility, names = [])
+        if names.any?
+          @children.each do |child|
+            child.visibility = visibility if names.include? child.name
+          end
+        else
+          @tracked_visibility = visibility
+        end
+      end
+
+      def type
+        @exp.type
+      end
+
+      # Iterate over +self+ and child contexts.
+      def each(&block)
+        yield self
+        @children.each do |child|
+          child.each(&block)
+        end
+      end
+
+      protected
+
+      attr_writer :visibility
+
       private
+
+      def tracked_visibility
+        @tracked_visibility ||= :public
+      end
 
       def config
         @config ||= if @exp

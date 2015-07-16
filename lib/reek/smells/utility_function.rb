@@ -54,7 +54,7 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       def examine_context(method_ctx)
-        return [] if method_ctx.exp.singleton_method?
+        return [] if method_ctx.singleton_method?
         return [] if method_ctx.num_statements == 0
         return [] if method_ctx.references_self?
         return [] if num_helper_methods(method_ctx).zero?

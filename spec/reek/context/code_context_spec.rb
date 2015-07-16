@@ -188,4 +188,55 @@ EOS
       end
     end
   end
+
+  describe '#append_child_context' do
+    let(:context) { Reek::Context::CodeContext.new(nil, double('exp1')) }
+    let(:first_child) { Reek::Context::CodeContext.new(context, double('exp2')) }
+    let(:second_child) { Reek::Context::CodeContext.new(context, double('exp3')) }
+
+    it 'appends the child to the list of children' do
+      context.append_child_context first_child
+      context.append_child_context second_child
+      expect(context.children).to eq [first_child, second_child]
+    end
+  end
+
+  describe '#track_visibility' do
+    let(:context) { Reek::Context::CodeContext.new(nil, double('exp1')) }
+    let(:first_child) { Reek::Context::CodeContext.new(context, double('exp2', name: :foo)) }
+    let(:second_child) { Reek::Context::CodeContext.new(context, double('exp3')) }
+
+    it 'sets visibility on subsequent child contexts' do
+      context.append_child_context first_child
+      context.track_visibility :private
+      context.append_child_context second_child
+      expect(first_child.visibility).to eq :public
+      expect(second_child.visibility).to eq :private
+    end
+
+    it 'sets visibility on specifically mentioned child contexts' do
+      context.append_child_context first_child
+      context.track_visibility :private, [first_child.name]
+      context.append_child_context second_child
+      expect(first_child.visibility).to eq :private
+      expect(second_child.visibility).to eq :public
+    end
+  end
+
+  describe '#each' do
+    let(:context) { Reek::Context::CodeContext.new(nil, double('exp1')) }
+    let(:first_child) { Reek::Context::CodeContext.new(context, double('exp2')) }
+    let(:second_child) { Reek::Context::CodeContext.new(context, double('exp3')) }
+
+    it 'yields each child' do
+      context.append_child_context first_child
+      context.append_child_context second_child
+      result = []
+      context.each do |ctx|
+        result << ctx
+      end
+
+      expect(result).to eq [context, first_child, second_child]
+    end
+  end
 end

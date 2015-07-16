@@ -6,11 +6,14 @@ require_relative 'ast/node'
 
 module Reek
   #
-  # Traverses a Sexp abstract syntax tree and fires events whenever
-  # it encounters specific node types.
+  # Traverses an abstract syntax tree and fires events whenever it encounters
+  # specific node types.
   #
   # SMELL: This class is responsible for counting statements and for feeding
   # each context to the smell repository.
+  #
+  # TODO: Make TreeWalker responsible only for creating Context objects, and
+  # loop over the created set of contexts elsewhere.
   #
   # @api private
   class TreeWalker
@@ -22,6 +25,9 @@ module Reek
 
     def walk
       @result ||= process(@exp)
+      @result.each do |element|
+        @smell_repository.examine(element)
+      end
     end
 
     private
@@ -71,12 +77,19 @@ module Reek
     #
 
     def process_send(exp)
+      if visibility_modifier? exp
+        @element.track_visibility(exp.method_name, exp.arg_names)
+      end
       @element.record_call_to(exp)
       process_default(exp)
     end
 
-    alias_method :process_attrasgn, :process_send
-    alias_method :process_op_asgn, :process_send
+    def process_attrasgn(exp)
+      @element.record_call_to(exp)
+      process_default(exp)
+    end
+
+    alias_method :process_op_asgn, :process_attrasgn
 
     def process_ivar(exp)
       @element.record_use_of_self
@@ -165,15 +178,11 @@ module Reek
 
     def inside_new_context(klass, exp)
       scope = klass.new(@element, exp)
+      @element.append_child_context(scope)
       push(scope) do
         yield
-        check_smells(exp.type)
       end
       scope
-    end
-
-    def check_smells(type)
-      @smell_repository.examine(@element, type)
     end
 
     def push(scope)
@@ -182,5 +191,12 @@ module Reek
       yield
       @element = orig
     end
+
+    # FIXME: Move to SendNode?
+    def visibility_modifier?(call_node)
+      VISIBILITY_MODIFIERS.include?(call_node.method_name)
+    end
+
+    VISIBILITY_MODIFIERS = [:private, :public, :protected, :module_function]
   end
 end
