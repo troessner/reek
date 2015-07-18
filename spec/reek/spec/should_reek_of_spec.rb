@@ -1,3 +1,4 @@
+require 'pathname'
 require_relative '../../spec_helper'
 require_relative '../../../lib/reek/spec'
 
@@ -56,8 +57,8 @@ RSpec.describe Reek::Spec::ShouldReekOf do
 
   context 'checking code in a File' do
     before :each do
-      @clean_file = File.new(Dir['spec/samples/three_clean_files/*.rb'][0])
-      @smelly_file = File.new(Dir['spec/samples/two_smelly_files/*.rb'][0])
+      @clean_file = Pathname.glob("#{SAMPLES_PATH}/three_clean_files/*.rb").first
+      @smelly_file = Pathname.glob("#{SAMPLES_PATH}/two_smelly_files/*.rb").first
       @matcher = Reek::Spec::ShouldReekOf.new(:UncommunicativeVariableName,
                                               name: '@s')
     end

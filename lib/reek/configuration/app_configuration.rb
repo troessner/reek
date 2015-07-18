@@ -59,7 +59,7 @@ module Reek
         def exclude_paths
           @exclude_paths ||= begin
             @configuration.fetch(EXCLUDE_PATHS_KEY, []).map do |string|
-              Pathname(string.chomp('/'))
+              Pathname.new(string.chomp('/'))
             end
           end
         end

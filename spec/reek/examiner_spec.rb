@@ -46,13 +46,13 @@ RSpec.describe Reek::Examiner do
 
   context 'with a partially masked smelly File' do
     around(:each) do |example|
-      with_test_config('spec/samples/all_but_one_masked/masked.reek') do
+      with_test_config(SAMPLES_PATH.join('all_but_one_masked/masked.reek')) do
         example.run
       end
     end
 
     before :each do
-      smelly_file = File.new(Dir['spec/samples/all_but_one_masked/d*.rb'][0])
+      smelly_file = Pathname.glob(SAMPLES_PATH.join('all_but_one_masked/d*.rb')).first
       @examiner = described_class.new(smelly_file)
     end
 
@@ -61,7 +61,7 @@ RSpec.describe Reek::Examiner do
 
   context 'with a fragrant File' do
     before :each do
-      clean_file = File.new(Dir['spec/samples/three_clean_files/*.rb'][0])
+      clean_file = Pathname.glob(SAMPLES_PATH.join('three_clean_files/*.rb')).first
       @examiner = described_class.new(clean_file)
     end
 

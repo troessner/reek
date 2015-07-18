@@ -17,7 +17,7 @@ end
 
 FactoryGirl.find_definitions
 
-SAMPLES_DIR = 'spec/samples'
+SAMPLES_PATH = Pathname.new("#{__dir__}/samples").relative_path_from(Pathname.pwd)
 
 # Simple helpers for our specs.
 module Helpers
@@ -28,7 +28,7 @@ module Helpers
         @configuration = config
       end
     when Pathname, String
-      Reek::Configuration::AppConfiguration.load_from_file(Pathname(config))
+      Reek::Configuration::AppConfiguration.load_from_file(Pathname.new(config))
     else
       raise "Unknown config given in `with_test_config`: #{config.inspect}"
     end

@@ -28,7 +28,7 @@ RSpec.describe Reek::Report::XMLReport do
     end
 
     it 'prints non-empty checkstyle xml' do
-      sample_path = Pathname("#{__dir__}/../../samples/checkstyle.xml")
+      sample_path = SAMPLES_PATH.join('checkstyle.xml')
       expect { instance.show }.to output(sample_path.read).to_stdout
     end
   end
