@@ -50,6 +50,14 @@ module Reek
 
     alias_method :process_class, :process_module
 
+    def process_casgn(exp)
+      if exp.defines_module?
+        process_module(exp)
+      else
+        process_default(exp)
+      end
+    end
+
     def process_def(exp)
       inside_new_context(Context::MethodContext, exp) do
         count_clause(exp.body)

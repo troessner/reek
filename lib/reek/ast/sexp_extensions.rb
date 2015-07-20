@@ -180,6 +180,10 @@ module Reek
         def arg_names
           args.map { |arg| arg[1] }
         end
+
+        def object_creation_call?
+          method_name == :new
+        end
       end
 
       Op_AsgnNode = SendNode
@@ -302,6 +306,7 @@ module Reek
         end
 
         include MethodNodeBase
+
         def full_name(outer)
           prefix = outer == '' ? '' : "#{outer}#"
           "#{prefix}#{SexpFormatter.format(receiver)}.#{name}"
@@ -345,21 +350,45 @@ module Reek
         end
       end
 
-      # Utility methods for :module nodes.
-      module ModuleNode
-        def name() self[1] end
-
-        def simple_name
-          name.is_a?(::Parser::AST::Node) ? name.simple_name : name
-        end
-
+      # Base module for utility methods for module nodes.
+      module ModuleNodeBase
+        # The full name of the module or class, including the name of any
+        # module or class it is nested inside of.
+        #
+        # For example, given code like this:
+        #
+        #   module Foo
+        #     class Bar::Baz
+        #     end
+        #   end
+        #
+        # The full name for the inner class will be 'Foo::Bar::Baz'. To return
+        # the correct name, the name of the outer context has to be passed into this method.
+        #
+        # @param outer [String] full name of the wrapping module or class
+        # @return the module's full name
         def full_name(outer)
           prefix = outer == '' ? '' : "#{outer}::"
-          "#{prefix}#{text_name}"
+          "#{prefix}#{name}"
         end
 
-        def text_name
-          SexpFormatter.format(name)
+        # The final section of the module or class name. For example, for a
+        # module with name 'Foo::Bar' this will return 'Bar'; for a module with
+        # name 'Foo' this will return 'Foo'.
+        #
+        # @return [String] the final section of the name
+        def simple_name
+          name.split('::').last
+        end
+      end
+
+      # Utility methods for :module nodes.
+      module ModuleNode
+        include ModuleNodeBase
+
+        # @return [String] name as given in the module statement
+        def name
+          SexpFormatter.format(children.first)
         end
       end
 
@@ -367,6 +396,33 @@ module Reek
       module ClassNode
         include ModuleNode
         def superclass() self[2] end
+      end
+
+      # Utility methods for :casgn nodes.
+      module CasgnNode
+        include ModuleNodeBase
+
+        MODULE_DEFINERS = [:Class, :Struct]
+
+        def defines_module?
+          call = case value.type
+                 when :block
+                   value.call
+                 when :send
+                   value
+                 end
+          call &&
+            call.object_creation_call? &&
+            MODULE_DEFINERS.include?(call.receiver.simple_name)
+        end
+
+        def name
+          SexpFormatter.format(children[1])
+        end
+
+        def value
+          children.last
+        end
       end
 
       # Utility methods for :yield nodes.

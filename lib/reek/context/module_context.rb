@@ -23,8 +23,9 @@ module Reek
       #
       # @return true if the module is a namespace module
       def namespace_module?
+        return false if exp.type == :casgn
         contents = exp.children.last
-        contents && contents.find_nodes([:def, :defs], [:class, :module]).empty?
+        contents && contents.find_nodes([:def, :defs], [:casgn, :class, :module]).empty?
       end
     end
   end
