@@ -63,7 +63,15 @@ Feature: Basic smell detection
     Then the exit status indicates smells
     And it reports:
     """
-    optparse.rb -- 111 warnings:
+    optparse.rb -- 128 warnings:
+      OptionParser declares the attribute banner (Attribute)
+      OptionParser declares the attribute default_argv (Attribute)
+      OptionParser declares the attribute program_name (Attribute)
+      OptionParser declares the attribute reason (Attribute)
+      OptionParser declares the attribute release (Attribute)
+      OptionParser declares the attribute summary_indent (Attribute)
+      OptionParser declares the attribute summary_width (Attribute)
+      OptionParser declares the attribute version (Attribute)
       OptionParser has at least 42 methods (TooManyMethods)
       OptionParser has the variable name 'f' (UncommunicativeVariableName)
       OptionParser has the variable name 'k' (UncommunicativeVariableName)
@@ -126,6 +134,10 @@ Feature: Basic smell detection
       OptionParser#summarize has the variable name 'l' (UncommunicativeVariableName)
       OptionParser#summarize is controlled by argument blk (ControlParameter)
       OptionParser#ver has the variable name 'v' (UncommunicativeVariableName)
+      OptionParser::Acceptables declares the attribute reason (Attribute)
+      OptionParser::AmbiguousArgument declares the attribute reason (Attribute)
+      OptionParser::AmbiguousOption declares the attribute reason (Attribute)
+      OptionParser::Arguable declares the attribute reason (Attribute)
       OptionParser::Arguable has initialize method (ModuleInitialize)
       OptionParser::Arguable#options has approx 6 statements (TooManyStatements)
       OptionParser::Arguable#options= is controlled by argument opt (ControlParameter)
@@ -138,6 +150,8 @@ Feature: Basic smell detection
       OptionParser::Completion#complete has the variable name 'v' (UncommunicativeVariableName)
       OptionParser::Completion#complete refers to candidates more than self (FeatureEnvy)
       OptionParser::Completion#convert has unused parameter 'opt' (UnusedParameters)
+      OptionParser::InvalidArgument declares the attribute reason (Attribute)
+      OptionParser::InvalidOption declares the attribute reason (Attribute)
       OptionParser::List#accept has the parameter name 't' (UncommunicativeParameterName)
       OptionParser::List#accept refers to pat more than self (FeatureEnvy)
       OptionParser::List#add_banner refers to opt more than self (FeatureEnvy)
@@ -148,6 +162,9 @@ Feature: Basic smell detection
       OptionParser::List#update has 5 parameters (LongParameterList)
       OptionParser::List#update has approx 10 statements (TooManyStatements)
       OptionParser::List#update has the variable name 'o' (UncommunicativeVariableName)
+      OptionParser::MissingArgument declares the attribute reason (Attribute)
+      OptionParser::NeedlessArgument declares the attribute reason (Attribute)
+      OptionParser::ParseError declares the attribute reason (Attribute)
       OptionParser::ParseError#set_option is controlled by argument eq (ControlParameter)
       OptionParser::Switch#add_banner has the variable name 's' (UncommunicativeVariableName)
       OptionParser::Switch#initialize has 7 parameters (LongParameterList)
@@ -183,7 +200,13 @@ Feature: Basic smell detection
     Then the exit status indicates smells
     And it reports:
     """
-    redcloth.rb -- 95 warnings:
+    redcloth.rb -- 101 warnings:
+      RedCloth declares the attribute filter_html (Attribute)
+      RedCloth declares the attribute filter_styles (Attribute)
+      RedCloth declares the attribute hard_breaks (Attribute)
+      RedCloth declares the attribute lite_mode (Attribute)
+      RedCloth declares the attribute no_span_caps (Attribute)
+      RedCloth declares the attribute rules (Attribute)
       RedCloth has at least 44 methods (TooManyMethods)
       RedCloth has the variable name 'a' (UncommunicativeVariableName)
       RedCloth has the variable name 'b' (UncommunicativeVariableName)
