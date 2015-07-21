@@ -12,83 +12,109 @@ RSpec.describe Reek::Smells::Attribute do
 
   context 'with no attributes' do
     it 'records nothing' do
-      expect('
+      src = <<-EOS
         class Klass
         end
-      ').to_not reek_of(:Attribute, {})
+      EOS
+      expect(src).to_not reek_of(:Attribute)
     end
   end
 
   context 'with attributes' do
-    it 'records nothing' do
-      expect('
+    it 'records nothing for attribute readers' do
+      src = <<-EOS
         class Klass
-          attr :super_private, :super_private2
-          private :super_private, :super_private2
-          private
-          attr :super_thing
-          public
-          attr :super_thing2
-          private
-          attr :super_thing2
+          attr :my_attr
+          attr_reader :my_attr2
         end
-      ').to_not reek_of(:Attribute, {})
-    end
-
-    it 'records attr_writer attribute in a module' do
-      expect('
-        module Mod
-          attr_writer :my_attr
-        end
-      ').to reek_of(:Attribute, name: 'my_attr')
+      EOS
+      expect(src).to_not reek_of(:Attribute)
     end
 
     it 'records writer attribute' do
-      expect('
+      src = <<-EOS
         class Klass
           attr_writer :my_attr
         end
-      ').to reek_of(:Attribute, name: 'my_attr')
+      EOS
+      expect(src).to reek_of(:Attribute, name: 'my_attr')
+    end
+
+    it 'records attr_writer attribute in a module' do
+      src = <<-EOS
+        module Mod
+          attr_writer :my_attr
+        end
+      EOS
+      expect(src).to reek_of(:Attribute, name: 'my_attr')
     end
 
     it 'records accessor attribute' do
-      expect('
+      src = <<-EOS
         class Klass
           attr_accessor :my_attr
         end
-      ').to reek_of(:Attribute, name: 'my_attr')
+      EOS
+      expect(src).to reek_of(:Attribute, name: 'my_attr')
     end
 
-    it 'records attr_writer attribute after switching visbility' do
-      expect('
+    it 'records attr defining a writer' do
+      src = <<-EOS
         class Klass
-          private
-          attr_writer :my_attr
-          public :my_attr
-          private :my_attr
-          public :my_attr
+          attr :my_attr, true
         end
-      ').to reek_of(:Attribute, name: 'my_attr')
+      EOS
+      expect(src).to reek_of(:Attribute, name: 'my_attr')
     end
 
     it "doesn't record protected attributes" do
       src = '
         class Klass
           protected
-          attr :iam_protected
+          attr_writer :attr1
+          attr_accessor :attr2
+          attr :attr3
+          attr :attr4, true
+          attr_reader :attr5
         end
       '
-      expect(src).to_not reek_of(:Attribute, name: 'iam_protected')
+      expect(src).to_not reek_of(:Attribute)
     end
 
     it "doesn't record private attributes" do
       src = '
         class Klass
           private
-          attr :iam_private
+          attr_writer :attr1
+          attr_accessor :attr2
+          attr :attr3
+          attr :attr4, true
+          attr_reader :attr5
         end
       '
-      expect(src).to_not reek_of(:Attribute, name: 'iam_private')
+      expect(src).to_not reek_of(:Attribute)
+    end
+
+    it 'records attr_writer defined in public section' do
+      src = <<-EOS
+        class Klass
+          private
+          public
+          attr_writer :my_attr
+        end
+      EOS
+      expect(src).to reek_of(:Attribute, name: 'my_attr')
+    end
+
+    it 'records attr_writer after switching visbility to public' do
+      src = <<-EOS
+        class Klass
+          private
+          attr_writer :my_attr
+          public :my_attr
+        end
+      EOS
+      expect(src).to reek_of(:Attribute, name: 'my_attr')
     end
   end
 end
