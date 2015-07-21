@@ -2,38 +2,6 @@ require_relative '../spec_helper'
 require_relative '../../lib/reek/tree_walker'
 require_relative '../../lib/reek/source/source_code'
 
-RSpec.describe Reek::TreeWalker, 'with no method definitions' do
-  it 'reports no problems for empty source code' do
-    expect('').not_to reek
-  end
-  it 'reports no problems for empty class' do
-    expect('# clean class for testing purposes
-class Fred; end').not_to reek
-  end
-end
-
-RSpec.describe Reek::TreeWalker, 'with a global method definition' do
-  it 'reports no problems for simple method' do
-    src = 'def Outermost::fred() true; end'
-    expect(src).not_to reek
-  end
-end
-
-RSpec.describe Reek::TreeWalker, 'when a yield is the receiver' do
-  it 'reports no problems' do
-    src = <<EOS
-def values(*args)
-  @to_sql += case
-    when block_given? then yield.to_sql
-    else args.to_sql
-  end
-  self
-end
-EOS
-    expect(src).not_to reek
-  end
-end
-
 # Dummy repository to inject into TreeWalker in order to count statements in
 # all contexts.
 class TestSmellRepository

@@ -14,6 +14,7 @@ module Reek
       STATUS_SUCCESS = 0
       STATUS_ERROR   = 1
       STATUS_SMELLS  = 2
+      attr_reader :configuration
 
       def initialize(argv)
         @status = STATUS_SUCCESS
@@ -21,7 +22,7 @@ module Reek
         begin
           @options = options_parser.parse
           @command = ReekCommand.new(OptionInterpreter.new(@options))
-          initialize_configuration
+          @configuration = Configuration::AppConfiguration.new @options
         rescue OptionParser::InvalidOption, Reek::Configuration::ConfigFileException => error
           $stderr.puts "Error: #{error}"
           @status = STATUS_ERROR
@@ -32,10 +33,6 @@ module Reek
         return @status if error_occured?
         @command.execute self
         @status
-      end
-
-      def initialize_configuration
-        Configuration::AppConfiguration.initialize_with @options
       end
 
       def output(text)

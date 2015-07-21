@@ -9,29 +9,31 @@ module Reek
     #
     # @api private
     class SmellRepository
-      attr_reader :detectors
-
       def self.smell_types
         Reek::Smells::SmellDetector.descendants.sort_by(&:name)
       end
 
-      def initialize(source_description = nil, smell_types = self.class.smell_types)
-        @typed_detectors = nil
-        @detectors = {}
-        smell_types.each do |klass|
-          @detectors[klass] = klass.new(source_description)
+      def initialize(source_description: nil,
+                     smell_types: self.class.smell_types,
+                     configuration: Configuration::AppConfiguration.new)
+        self.source_via         = source_description
+        self.typed_detectors    = nil
+        self.configuration      = configuration
+        self.smell_types        = smell_types
+
+        configuration.directive_for(source_via).each do |klass, config|
+          configure klass, config
         end
-        Configuration::AppConfiguration.configure_smell_repository self
       end
 
       def configure(klass, config)
-        detector = @detectors[klass]
+        detector = detectors[klass]
         raise ArgumentError, "Unknown smell type #{klass} found in configuration" unless detector
         detector.configure_with(config)
       end
 
       def report_on(listener)
-        @detectors.each_value { |detector| detector.report_on(listener) }
+        detectors.each_value { |detector| detector.report_on(listener) }
       end
 
       def examine(scope)
@@ -40,14 +42,26 @@ module Reek
         end
       end
 
+      def detectors
+        @initialized_detectors ||= begin
+          @detectors = {}
+          smell_types.each do |klass|
+            @detectors[klass] = klass.new(source_via)
+          end
+          @detectors
+        end
+      end
+
       private
 
+      attr_accessor :typed_detectors, :configuration, :source_via, :smell_types
+
       def smell_listeners
-        unless @typed_detectors
-          @typed_detectors = Hash.new { |hash, key| hash[key] = [] }
-          @detectors.each_value { |detector| detector.register(@typed_detectors) }
+        unless typed_detectors
+          self.typed_detectors = Hash.new { |hash, key| hash[key] = [] }
+          detectors.each_value { |detector| detector.register(typed_detectors) }
         end
-        @typed_detectors
+        typed_detectors
       end
     end
   end

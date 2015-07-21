@@ -3,20 +3,6 @@ Feature: Masking smells using config files
   As a developer
   I want to mask some smells using config files
 
-  Scenario: empty config file is ignored
-    Given a smelly file called 'smelly.rb'
-    And an empty configuration file called 'empty.reek'
-    When I run reek -c empty.reek smelly.rb
-    Then it reports the error 'Warning: Invalid configuration file "empty.reek" -- Empty file'
-    And the exit status indicates smells
-    And it reports:
-      """
-      smelly.rb -- 3 warnings:
-        [4, 5]:Smelly#m calls @foo.bar 2 times (DuplicateMethodCall)
-        [4, 5]:Smelly#m calls puts(@foo.bar) 2 times (DuplicateMethodCall)
-        [3]:Smelly#m has the name 'm' (UncommunicativeMethodName)
-      """
-
   Scenario: corrupt config file prevents normal output
     Given a smelly file called 'smelly.rb'
     And a corrupt configuration file called 'corrupt.reek'

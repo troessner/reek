@@ -2,6 +2,7 @@ require 'pathname'
 require_relative '../lib/reek/spec'
 require_relative '../lib/reek/ast/ast_node_class_map'
 require_relative '../lib/reek/configuration/app_configuration'
+require 'ostruct'
 
 Reek::CLI::Silencer.silently do
   require 'factory_girl'
@@ -21,19 +22,16 @@ SAMPLES_PATH = Pathname.new("#{__dir__}/samples").relative_path_from(Pathname.pw
 
 # Simple helpers for our specs.
 module Helpers
-  def with_test_config(config)
-    case config
-    when Hash
-      Reek::Configuration::AppConfiguration.class_eval do
-        @configuration = config
-      end
-    when Pathname, String
-      Reek::Configuration::AppConfiguration.load_from_file(Pathname.new(config))
+  def test_configuration_for(config)
+    if config.is_a? Pathname
+      configuration = Reek::Configuration::AppConfiguration.new OpenStruct.new(config_file: config)
+    elsif config.is_a? Hash
+      configuration = Reek::Configuration::AppConfiguration.new
+      configuration.instance_variable_set :@default_directive, config
     else
-      raise "Unknown config given in `with_test_config`: #{config.inspect}"
+      raise "Unknown config given in `test_configuration_for`: #{config.inspect}"
     end
-    yield if block_given?
-    Reek::Configuration::AppConfiguration.reset
+    configuration
   end
 
   # :reek:UncommunicativeMethodName

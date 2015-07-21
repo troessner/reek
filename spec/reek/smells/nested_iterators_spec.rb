@@ -124,9 +124,10 @@ RSpec.describe Reek::Smells::NestedIterators do
 
   context 'when the allowed nesting depth is 3' do
     before :each do
-      @config = { NestedIterators:
+      @config = { Reek::Smells::NestedIterators =>
                   { Reek::Smells::NestedIterators::MAX_ALLOWED_NESTING_KEY => 3 } }
     end
+    let(:configuration) { test_configuration_for(@config) }
 
     it 'should not report nested iterators 2 levels deep' do
       src = <<-EOS
@@ -135,9 +136,7 @@ RSpec.describe Reek::Smells::NestedIterators do
         end
       EOS
 
-      with_test_config(@config) do
-        expect(src).not_to reek_of(:NestedIterators)
-      end
+      expect(src).not_to reek_of(:NestedIterators, {}, configuration)
     end
 
     it 'should not report nested iterators 3 levels deep' do
@@ -147,9 +146,7 @@ RSpec.describe Reek::Smells::NestedIterators do
         end
       EOS
 
-      with_test_config(@config) do
-        expect(src).not_to reek_of(:NestedIterators)
-      end
+      expect(src).not_to reek_of(:NestedIterators, {}, configuration)
     end
 
     it 'should report nested iterators 4 levels deep' do
@@ -159,30 +156,25 @@ RSpec.describe Reek::Smells::NestedIterators do
         end
       EOS
 
-      with_test_config(@config) do
-        expect(src).to reek_of(:NestedIterators)
-      end
+      expect(src).to reek_of(:NestedIterators, {}, configuration)
     end
   end
 
   context 'when ignoring iterators' do
     before :each do
-      @config = { NestedIterators:
+      @config = { Reek::Smells::NestedIterators =>
                   { Reek::Smells::NestedIterators::IGNORE_ITERATORS_KEY => ['ignore_me'] } }
     end
+    let(:configuration) { test_configuration_for(@config) }
 
     it 'should not report nesting the ignored iterator inside another' do
       src = 'def bad(fred) @fred.each {|item| item.ignore_me {|ting| ting.ting} } end'
-      with_test_config(@config) do
-        expect(src).not_to reek_of(:NestedIterators)
-      end
+      expect(src).not_to reek_of(:NestedIterators, {}, configuration)
     end
 
     it 'should not report nesting inside the ignored iterator' do
       src = 'def bad(fred) @fred.ignore_me {|item| item.each {|ting| ting.ting} } end'
-      with_test_config(@config) do
-        expect(src).not_to reek_of(:NestedIterators)
-      end
+      expect(src).not_to reek_of(:NestedIterators, {}, configuration)
     end
 
     it 'should report nested iterators inside the ignored iterator' do
@@ -191,9 +183,7 @@ RSpec.describe Reek::Smells::NestedIterators do
           @fred.ignore_me {|item| item.each {|ting| ting.each {|other| other.other} } }
         end
       '
-      with_test_config(@config) do
-        expect(src).to reek_of(:NestedIterators, count: 2)
-      end
+      expect(src).to reek_of(:NestedIterators, { count: 2 }, configuration)
     end
 
     it 'should report nested iterators outside the ignored iterator' do
@@ -202,9 +192,7 @@ RSpec.describe Reek::Smells::NestedIterators do
           @fred.each {|item| item.each {|ting| ting.ignore_me {|other| other.other} } }
         end
       '
-      with_test_config(@config) do
-        expect(src).to reek_of(:NestedIterators, count: 2)
-      end
+      expect(src).to reek_of(:NestedIterators, { count: 2 }, configuration)
     end
 
     it 'should report nested iterators with the ignored iterator between them' do
@@ -213,9 +201,7 @@ RSpec.describe Reek::Smells::NestedIterators do
           @fred.each {|item| item.ignore_me {|ting| ting.ting {|other| other.other} } }
         end
       '
-      with_test_config(@config) do
-        expect(src).to reek_of(:NestedIterators, count: 2)
-      end
+      expect(src).to reek_of(:NestedIterators, { count: 2 }, configuration)
     end
   end
 end

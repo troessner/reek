@@ -65,6 +65,23 @@ RSpec.describe Reek::Configuration::ConfigurationFileFinder do
       end
     end
 
+    describe '.load_from_file' do
+      let(:sample_configuration_path) do
+        SAMPLES_PATH.join('configuration/simple_configuration.reek')
+      end
+      let(:sample_configuration_loaded) do
+        {
+          'UncommunicativeVariableName' => { 'enabled' => false },
+          'UncommunicativeMethodName'   => { 'enabled' => false }
+        }
+      end
+
+      it 'loads the configuration from given file' do
+        configuration = described_class.load_from_file(sample_configuration_path)
+        expect(configuration).to eq(sample_configuration_loaded)
+      end
+    end
+
     private
 
     def skip_if_a_config_in_tempdir

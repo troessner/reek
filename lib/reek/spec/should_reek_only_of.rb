@@ -10,7 +10,7 @@ module Reek
     # @api private
     class ShouldReekOnlyOf < ShouldReekOf
       def matches?(actual)
-        matches_examiner?(Examiner.new(actual))
+        matches_examiner?(Examiner.new(actual, configuration: @configuration))
       end
 
       def matches_examiner?(examiner)

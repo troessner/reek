@@ -21,13 +21,16 @@ module Reek
     #   If +source+ is a String it is assumed to be Ruby source code;
     #   if it is a File or IO, it is opened and Ruby source code is read from it;
     #
-    # @param smell_types_to_filter_by [Array<String>]
+    # @param filter_by_smells [Array<String>]
     #   List of smell types to filter by.
     #
-    def initialize(source, smell_types_to_filter_by = [])
-      @source       = Source::SourceCode.from(source)
-      @collector    = CLI::WarningCollector.new
-      @smell_types  = eligible_smell_types(smell_types_to_filter_by)
+    def initialize(source,
+                   filter_by_smells = [],
+                   configuration: Configuration::AppConfiguration.new)
+      @source        = Source::SourceCode.from(source)
+      @configuration = configuration
+      @collector     = CLI::WarningCollector.new
+      @smell_types   = eligible_smell_types(filter_by_smells)
 
       run
     end
@@ -63,16 +66,18 @@ module Reek
     private
 
     def run
-      smell_repository = Smells::SmellRepository.new(description, @smell_types)
+      smell_repository = Smells::SmellRepository.new(source_description: description,
+                                                     smell_types: @smell_types,
+                                                     configuration: @configuration)
       syntax_tree = @source.syntax_tree
       TreeWalker.new(smell_repository, syntax_tree).walk if syntax_tree
       smell_repository.report_on(@collector)
     end
 
-    def eligible_smell_types(smell_types_to_filter_by = [])
-      if smell_types_to_filter_by.any?
+    def eligible_smell_types(filter_by_smells = [])
+      if filter_by_smells.any?
         Smells::SmellRepository.smell_types.select do |klass|
-          smell_types_to_filter_by.include? klass.smell_type
+          filter_by_smells.include? klass.smell_type
         end
       else
         Smells::SmellRepository.smell_types

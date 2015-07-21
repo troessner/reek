@@ -11,11 +11,12 @@ module Reek
       # Initialize with the paths we want to search.
       #
       # paths - a list of paths as Strings
-      def initialize(paths)
-        @paths = paths.flat_map do |string|
+      def initialize(paths, configuration: Configuration::AppConfiguration.new)
+        self.paths = paths.flat_map do |string|
           path = Pathname.new(string)
           current_directory?(path) ? path.entries : path
         end
+        self.configuration = configuration
       end
 
       # Traverses all paths we initialized the SourceLocator with, finds
@@ -28,8 +29,10 @@ module Reek
 
       private
 
+      attr_accessor :paths, :configuration
+
       def source_paths
-        @paths.each_with_object([]) do |given_path, relevant_paths|
+        paths.each_with_object([]) do |given_path, relevant_paths|
           print_no_such_file_error(given_path) && next unless given_path.exist?
           given_path.find do |path|
             if path.directory?
@@ -42,7 +45,7 @@ module Reek
       end
 
       def path_excluded?(path)
-        Configuration::AppConfiguration.exclude_paths.include?(path)
+        configuration.exclude_paths.include?(path)
       end
 
       def print_no_such_file_error(path)
