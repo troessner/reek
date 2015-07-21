@@ -1,3 +1,9 @@
+== 3.1
+
+* (troessner) Make smells configurable on a directory base
+* (mvz) Handle modules defined by constant assignment
+* (mvz) Handle modifier style use of module_function for UtilityFunction
+
 == 3.0.4
 
 * (troessner) Fix wiki-link cli option.
