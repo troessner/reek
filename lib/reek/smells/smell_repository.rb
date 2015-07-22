@@ -44,13 +44,9 @@ module Reek
       end
 
       def detectors
-        @initialized_detectors ||= begin
-          @detectors = {}
-          smell_types.each do |klass|
-            @detectors[klass] = klass.new(source_via)
-          end
-          @detectors
-        end
+        @initialized_detectors ||= smell_types.map do |klass|
+          { klass => klass.new(source_via) }
+        end.reduce({}, :merge)
       end
 
       private
