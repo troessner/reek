@@ -20,7 +20,7 @@ module Reek
 
       # Initializer.
       #
-      # code        - ruby code as String
+      # code        - Ruby code as String
       # description - 'STDIN', 'string' or a filepath as String
       # parser      - the parser to use for generating AST's out of the given source
       def initialize(code, description, parser = Parser::Ruby22)

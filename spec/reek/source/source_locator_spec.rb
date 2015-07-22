@@ -46,7 +46,7 @@ RSpec.describe Reek::Source::SourceLocator do
       end
     end
 
-    context 'non-ruby paths' do
+    context 'non-Ruby paths' do
       let(:path) { SAMPLES_PATH.join('source_with_non_ruby_files') }
       let(:expected_sources) do
         [SAMPLES_PATH.join('source_with_non_ruby_files/uncommunicative_parameter_name.rb')]
@@ -58,7 +58,7 @@ RSpec.describe Reek::Source::SourceLocator do
         ]
       end
 
-      it 'does only use ruby source paths' do
+      it 'does only use Ruby source paths' do
         sources = described_class.new([path]).sources
 
         expect(sources).not_to include(*paths_that_are_expected_to_be_ignored)
