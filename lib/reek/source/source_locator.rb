@@ -20,7 +20,7 @@ module Reek
       end
 
       # Traverses all paths we initialized the SourceLocator with, finds
-      # all relevant ruby files and returns them as a list.
+      # all relevant Ruby files and returns them as a list.
       #
       # @return [Array<Pathname>] - Ruby paths found
       def sources

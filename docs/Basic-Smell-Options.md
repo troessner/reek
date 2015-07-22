@@ -23,7 +23,7 @@ ControlCouple:
   - write
 ```
 
-Or a little more sophisticated using a ruby regex like this:
+Or a little more sophisticated using a Ruby regex like this:
 
 ```yaml
 ControlCouple: 

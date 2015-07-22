@@ -38,7 +38,7 @@ RSpec.describe Reek::CodeComment do
       expect(config['Duplication']).to include('enabled')
       expect(config['Duplication']['enabled']).to be_falsey
     end
-    it 'parses hashed options with ruby names' do
+    it 'parses hashed options with Ruby names' do
       comment = '# :reek:nested_iterators: { enabled: true }'
       config = described_class.new(comment).config
       expect(config).to include('NestedIterators')

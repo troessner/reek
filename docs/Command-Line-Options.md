@@ -14,7 +14,7 @@ for details.
 
 ## Telling Reek Which Code to Check
 
-Probably the most standard use case would be to check all ruby files in the lib directory:
+Probably the most standard use case would be to check all Ruby files in the lib directory:
 
 ```Bash
 reek lib/*.rb

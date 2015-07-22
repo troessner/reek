@@ -22,7 +22,7 @@
 
 ## 3.0.2 (2015-07-03)
 
-* (troessner) Only use ruby source files.
+* (troessner) Only use Ruby source files.
 
 ## 3.0.1 (2015-07-03)
 
@@ -33,7 +33,7 @@
 * (troessner) Make directories excludable via configuration.
 * (mvz) Define and document public API
 * (troessner) Recognize methods defined with class << self syntax as singleton methods.
-* (troessner)  Use ruby22 instead of ruby21 for parsing.
+* (troessner)  Use Ruby22 instead of Ruby21 for parsing.
 * (nTraum) Drop support for Ruby 1.9
 
 ## 2.2.1 (2015-05-11)
@@ -83,7 +83,7 @@
 
 ## 1.6.3 (2015-01-15)
 
-* (mvz) Support ruby 2.2
+* (mvz) Support Ruby 2.2
 
 ## 1.6.2 (2015-01-13)
 
@@ -302,7 +302,7 @@ See http://wiki.github.com/kevinrutherford/reek for details
 ## 1.2 2009-09-20
 
 ### Major Changes
-* Reek passes all its tests under ruby 1.8.6, 1.8.7 and 1.9.1 (fixed #16)
+* Reek passes all its tests under Ruby 1.8.6, 1.8.7 and 1.9.1 (fixed #16)
 * New smell -- Data Clump:
   * Looks within a class for 3 or more methods taking the same 2 or more parameters
 * New smell -- Simulated Polymorphism:
