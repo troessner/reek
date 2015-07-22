@@ -21,8 +21,6 @@ module Reek
       VISIBILITY_MODIFIERS = [:private, :public, :protected]
 
       def initialize(*args)
-        @visiblity_tracker = {}
-        @visiblity_mode = :public
         super
       end
 
@@ -36,6 +34,8 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       def examine_context(ctx)
+        @visiblity_tracker = {}
+        @visiblity_mode = :public
         attributes_in(ctx).map do |attribute, line|
           SmellWarning.new self,
                            context: ctx.full_name,

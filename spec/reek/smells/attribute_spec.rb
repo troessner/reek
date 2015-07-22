@@ -116,5 +116,19 @@ RSpec.describe Reek::Smells::Attribute do
       EOS
       expect(src).to reek_of(:Attribute, name: 'my_attr')
     end
+
+    it 'resets visibility in new contexts' do
+      src = '
+        class Klass
+          private
+          attr_writer :attr1
+        end
+
+        class OtherKlass
+          attr_writer :attr1
+        end
+      '
+      expect(src).to reek_of(:Attribute)
+    end
   end
 end
