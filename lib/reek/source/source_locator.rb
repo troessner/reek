@@ -1,5 +1,6 @@
 require 'find'
 require 'pathname'
+require 'private_attr/everywhere'
 
 module Reek
   module Source
@@ -12,11 +13,11 @@ module Reek
       #
       # paths - a list of paths as Strings
       def initialize(paths, configuration: Configuration::AppConfiguration.new)
-        self.paths = paths.flat_map do |string|
+        @paths = paths.flat_map do |string|
           path = Pathname.new(string)
           current_directory?(path) ? path.entries : path
         end
-        self.configuration = configuration
+        @configuration = configuration
       end
 
       # Traverses all paths we initialized the SourceLocator with, finds
@@ -29,7 +30,7 @@ module Reek
 
       private
 
-      attr_accessor :paths, :configuration
+      private_attr_reader :configuration, :paths
 
       def source_paths
         paths.each_with_object([]) do |given_path, relevant_paths|

@@ -1,4 +1,5 @@
 require 'pathname'
+require 'private_attr/everywhere'
 require_relative './configuration_file_finder'
 
 module Reek
@@ -40,9 +41,9 @@ module Reek
       #                      config_file = #<Pathname:config/defaults.reek>,
       #                      argv = [ "lib/reek/spec" ]>
       def initialize(options = nil)
-        self.directory_directives = {}
-        self.default_directive    = {}
-        self.exclude_paths        = []
+        @directory_directives = {}
+        @default_directive    = {}
+        @exclude_paths        = []
 
         load options
       end
@@ -56,7 +57,7 @@ module Reek
 
       private
 
-      attr_writer :exclude_paths, :default_directive, :directory_directives
+      private_attr_writer :exclude_paths
 
       # @param source_via [String] - the source of the code inspected
       # Might be a string, STDIN or Filename / Pathname. We're only interested in the source
