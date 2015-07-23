@@ -1,14 +1,11 @@
+require 'open3'
 require_relative '../spec_helper'
-require 'tempfile'
 
 RSpec.describe 'yardoc' do
-  before :each do
-    stderr_file = Tempfile.new('yardoc')
-    stderr_file.close
-    @stdout = `yardoc 2> #{stderr_file.path}`
-    @stderr = IO.read(stderr_file.path)
-  end
-  it 'raises no warnings' do
-    expect(@stderr).to eq('')
+  it 'executes successfully with no warnings' do
+    stdout, stderr, status = Open3.capture3('yardoc')
+    expect(stdout).to_not include('[warn]')
+    expect(stderr).to be_empty
+    expect(status).to be_success
   end
 end

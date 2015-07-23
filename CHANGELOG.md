@@ -206,8 +206,8 @@
 
 ### Major Changes
 * Smell detectors can be configured or disabled in code comments
-  * Comment with :reek:smell_name disables the named smell for a class, module or method
-  * Comment with :reek:smell_name:{...} for more detailed configuration
+  * Comment with `:reek:smell_name` disables the named smell for a class, module or method
+  * Comment with `:reek:smell_name:{...}` for more detailed configuration
 * Additional config file(s) can be specified:
   * on the command-line using -c
   * via Reek::Rake::Task in the rakefile
