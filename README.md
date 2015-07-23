@@ -277,11 +277,23 @@ If you don't feel like getting your hands dirty with code there are still other 
 
 ## Working with Rails
 
-With current versions of `reek` it's best to examine only your `app/models` folder, because `reek` raises false positives against views and controllers.
+Making `reek` "Rails"-friendly is fairly simple since we support directory specific configurations (`directory directives` in `reek` talk).
+Just add this to your configuration file:
 
-For example, `params` is a kind of DTO (data transfer object) close to the system boundary, and so its characteristics should be different than regular code. But Reek doesn't know that (yet); `reek` thinks that all those `params[:something]` calls are a problem, and reports them as smells.
+```Yaml
+"app/controllers":
+  IrresponsibleModule:
+    enabled: false
+  NestedIterators:
+    max_allowed_nesting: 2
+"app/helpers":
+  IrresponsibleModule:
+    enabled: false
+  UtilityFunction:
+    enabled: false
+```
 
-We plan to improve Reek in the near future so that it plays better with Rails. For now though, your best bet is to restrict it to looking at `app/models` and `lib`.
+Be careful though, `reek` does not merge your configuration entries, so if you already have a directory directive for "app/controllers" or "app/helpers" you need to update those directives instead of copying the above YAML sample into your configuration file.
 
 ## Additional resources
 
