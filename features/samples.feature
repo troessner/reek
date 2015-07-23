@@ -5,7 +5,9 @@ Feature: Basic smell detection
 
   Scenario: Correct smells from inline.rb
     Given the "inline.rb" sample file exists
-    When I run reek --no-line-numbers inline.rb
+    And the "optparse.rb" sample file exists
+    And the "redcloth.rb" sample file exists
+    When I run reek --no-line-numbers inline.rb optparse.rb redcloth.rb
     Then the exit status indicates smells
     And it reports:
     """
@@ -55,14 +57,6 @@ Feature: Basic smell detection
       Module#inline calls Inline.const_get(lang) 2 times (DuplicateMethodCall)
       Module#inline calls options[:testing] 2 times (DuplicateMethodCall)
       Module#inline has approx 12 statements (TooManyStatements)
-    """
-
-  Scenario: Correct smells from optparse.rb
-    Given the "optparse.rb" sample file exists
-    When I run reek --no-line-numbers optparse.rb
-    Then the exit status indicates smells
-    And it reports:
-    """
     optparse.rb -- 111 warnings:
       OptionParser has at least 42 methods (TooManyMethods)
       OptionParser has the variable name 'f' (UncommunicativeVariableName)
@@ -175,14 +169,6 @@ Feature: Basic smell detection
       OptionParser::Switch::NoArgument#parse has unused parameter 'argv' (UnusedParameters)
       OptionParser::Switch::OptionalArgument#parse has unused parameter 'argv' (UnusedParameters)
       OptionParser::Switch::PlacedArgument#parse has approx 6 statements (TooManyStatements)
-    """
-
-  Scenario: Correct smells from redcloth.rb
-    Given the "redcloth.rb" sample file exists
-    When I run reek --no-line-numbers redcloth.rb
-    Then the exit status indicates smells
-    And it reports:
-    """
     redcloth.rb -- 95 warnings:
       RedCloth has at least 44 methods (TooManyMethods)
       RedCloth has the variable name 'a' (UncommunicativeVariableName)
@@ -279,16 +265,5 @@ Feature: Basic smell detection
       RedCloth#textile_popup_help has the parameter name 'windowW' (UncommunicativeParameterName)
       RedCloth#to_html has approx 26 statements (TooManyStatements)
       RedCloth#v_align doesn't depend on instance state (UtilityFunction)
-    """
-
-  Scenario: Correct smells from a source file with unusual syntax samples
-    Given the "unusual_syntax.rb" sample file exists
-    When I run reek unusual_syntax.rb
-    Then the exit status indicates smells
-    And it reports:
-    """
-    unusual_syntax.rb -- 3 warnings:
-      [1]:SomeClass has no descriptive comment (IrresponsibleModule)
-      [18]:SomeClass#method_with_array_decomposition has the parameter name 'a' (UncommunicativeParameterName)
-      [18]:SomeClass#method_with_array_decomposition has the parameter name 'b' (UncommunicativeParameterName)
+    251 total warnings
     """
