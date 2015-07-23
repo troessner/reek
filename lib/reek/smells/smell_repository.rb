@@ -1,3 +1,4 @@
+require 'private_attr/everywhere'
 require_relative '../smells'
 require_relative 'smell_detector'
 require_relative '../configuration/app_configuration'
@@ -16,10 +17,10 @@ module Reek
       def initialize(source_description: nil,
                      smell_types: self.class.smell_types,
                      configuration: Configuration::AppConfiguration.new)
-        self.source_via         = source_description
-        self.typed_detectors    = nil
-        self.configuration      = configuration
-        self.smell_types        = smell_types
+        @source_via      = source_description
+        @typed_detectors = nil
+        @configuration   = configuration
+        @smell_types     = smell_types
 
         configuration.directive_for(source_via).each do |klass, config|
           configure klass, config
@@ -54,11 +55,11 @@ module Reek
 
       private
 
-      attr_accessor :typed_detectors, :configuration, :source_via, :smell_types
+      private_attr_reader :configuration, :source_via, :smell_types, :typed_detectors
 
       def smell_listeners
         unless typed_detectors
-          self.typed_detectors = Hash.new { |hash, key| hash[key] = [] }
+          @typed_detectors = Hash.new { |hash, key| hash[key] = [] }
           detectors.each_value { |detector| detector.register(typed_detectors) }
         end
         typed_detectors
