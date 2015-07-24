@@ -144,52 +144,45 @@ module Reek
       require 'rexml/document'
 
       def show
-        checkstyle = REXML::Element.new('checkstyle', document)
-
-        smells.group_by(&:source).each do |file, file_smells|
-          file_to_xml(file, file_smells, checkstyle)
-        end
-
-        print_xml(checkstyle.parent)
+        document.write output: $stdout, indent: 2
+        $stdout.puts
       end
 
       private
 
       def document
-        REXML::Document.new.tap do |doc|
-          doc << REXML::XMLDecl.new
+        REXML::Document.new.tap do |document|
+          document << REXML::XMLDecl.new << checkstyle
         end
       end
 
-      def file_to_xml(file, file_smells, parent)
-        REXML::Element.new('file', parent).tap do |element|
-          element.attributes['name'] = File.realpath(file)
-          smells_to_xml(file_smells, element)
+      def checkstyle
+        REXML::Element.new('checkstyle').tap do |checkstyle|
+          smells.group_by(&:source).each do |source, source_smells|
+            checkstyle << file(source, source_smells)
+          end
         end
       end
 
-      def smells_to_xml(smells, parent)
-        smells.each do |smell|
-          smell_to_xml(smell, parent)
+      def file(name, smells)
+        REXML::Element.new('file').tap do |file|
+          file.add_attribute 'name', File.realpath(name)
+          smells.each do |smell|
+            smell.lines.each do |line|
+              file << error(smell, line)
+            end
+          end
         end
       end
 
-      def smell_to_xml(smell, parent)
-        REXML::Element.new('error', parent).tap do |element|
-          attributes = [
-            ['line', smell.lines.first],
-            ['column', 0],
-            ['severity', 'warning'],
-            ['message', smell.message],
-            ['source', smell.smell_type]
-          ]
-          element.add_attributes(attributes)
+      def error(smell, line)
+        REXML::Element.new('error').tap do |error|
+          error.add_attributes 'column'   => 0,
+                               'line'     => line,
+                               'message'  => smell.message,
+                               'severity' => 'warning',
+                               'source'   => smell.smell_type
         end
-      end
-
-      def print_xml(document)
-        formatter = REXML::Formatters::Default.new
-        puts formatter.write(document, '')
       end
     end
   end
