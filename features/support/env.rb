@@ -1,3 +1,4 @@
+require_relative '../../lib/reek'
 require_relative '../../lib/reek/cli/application'
 require 'aruba/cucumber'
 require 'active_support/core_ext/string/strip'

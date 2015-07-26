@@ -1,6 +1,5 @@
 require 'find'
 require 'pathname'
-require 'private_attr/everywhere'
 
 module Reek
   module Source

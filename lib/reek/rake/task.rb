@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
+require 'private_attr/everywhere'
 require 'rake'
 require 'rake/tasklib'
 require 'pathname'

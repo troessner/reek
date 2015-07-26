@@ -1,4 +1,5 @@
 require 'pathname'
+require_relative '../lib/reek'
 require_relative '../lib/reek/spec'
 require_relative '../lib/reek/ast/ast_node_class_map'
 require_relative '../lib/reek/configuration/app_configuration'
