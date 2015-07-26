@@ -39,17 +39,17 @@ module Reek
 
       # Path to reek's config file.
       # Setting the REEK_CFG environment variable overrides this.
-      attr_writer :config_file
+      attr_accessor :config_file
 
       # Glob pattern to match source files.
       # Setting the REEK_SRC environment variable overrides this.
       # Defaults to 'lib/**/*.rb'.
-      attr_writer :source_files
+      attr_accessor :source_files
 
       # String containing commandline options to be passed to Reek.
       # Setting the REEK_OPTS environment variable overrides this value.
       # Defaults to ''.
-      attr_writer :reek_opts
+      attr_accessor :reek_opts
 
       # Whether or not to fail Rake when an error occurs (typically when smells are found).
       # Defaults to true.
@@ -60,10 +60,11 @@ module Reek
       attr_writer :verbose
 
       def initialize(name = :reek)
+        @config_file   = ENV['REEK_CFG']
         @name          = name
-        @reek_opts     = ''
+        @reek_opts     = ENV['REEK_OPTS'] || ''
         @fail_on_error = true
-        @source_files  = 'lib/**/*.rb'
+        @source_files  = ENV['REEK_SRC'] || 'lib/**/*.rb'
         @verbose       = false
 
         yield self if block_given?
@@ -72,15 +73,17 @@ module Reek
 
       private
 
+      private_attr_reader :fail_on_error, :name, :verbose
+
       def define_task
         desc 'Check for code smells'
-        task(@name) { run_task }
+        task(name) { run_task }
       end
 
       def run_task
-        puts "\n\n!!! Running 'reek' rake command: #{command}\n\n" if @verbose
+        puts "\n\n!!! Running 'reek' rake command: #{command}\n\n" if verbose
         system(*command)
-        abort("\n\n!!! `reek` has found smells - exiting!") if sys_call_failed? && @fail_on_error
+        abort("\n\n!!! `reek` has found smells - exiting!") if sys_call_failed? && fail_on_error
       end
 
       def command
@@ -89,25 +92,12 @@ module Reek
           reject(&:empty?)
       end
 
-      def source_files
-        FileList[ENV['REEK_SRC'] || @source_files]
-      end
-
-      def reek_opts
-        ENV['REEK_OPTS'] || @reek_opts
-      end
-
-      def config_file
-        ENV['REEK_CFG'] || @config_file
-      end
-
       def sys_call_failed?
         !$CHILD_STATUS.success?
       end
 
       def config_file_as_argument
-        return [] unless @config_file
-        ['-c', @config_file]
+        config_file ? ['-c', config_file] : []
       end
 
       def reek_opts_as_arguments

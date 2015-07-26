@@ -17,8 +17,8 @@ module Reek
         @options = hash
       end
 
-      def merge!(options)
-        @options.merge!(options)
+      def merge!(new_options)
+        options.merge!(new_options)
       end
 
       #
@@ -26,11 +26,11 @@ module Reek
       #--
       #  SMELL: Getter
       def enabled?
-        @options[ENABLED_KEY]
+        options[ENABLED_KEY]
       end
 
       def overrides_for(context)
-        Overrides.new(@options.fetch(OVERRIDES_KEY, {})).for_context(context)
+        Overrides.new(options.fetch(OVERRIDES_KEY, {})).for_context(context)
       end
 
       # Retrieves the value, if any, for the given +key+.
@@ -39,8 +39,12 @@ module Reek
       #
       def value(key, context, fall_back)
         overrides_for(context).each { |conf| return conf[key] if conf.key?(key) }
-        @options.fetch(key, fall_back)
+        options.fetch(key, fall_back)
       end
+
+      private
+
+      private_attr_reader :options
     end
 
     #
@@ -54,9 +58,13 @@ module Reek
 
       # Find any overrides that match the supplied context
       def for_context(context)
-        contexts = @hash.keys.select { |ckey| context.matches?([ckey]) }
-        contexts.map { |exc| @hash[exc] }
+        contexts = hash.keys.select { |ckey| context.matches?([ckey]) }
+        contexts.map { |exc| hash[exc] }
       end
+
+      private
+
+      private_attr_reader :hash
     end
   end
 end

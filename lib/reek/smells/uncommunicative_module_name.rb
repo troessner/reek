@@ -52,15 +52,15 @@ module Reek
       #
       # :reek:Duplication { allow_calls: [ to_s ] }
       def examine_context(ctx)
-        @reject_names = value(REJECT_KEY, ctx, DEFAULT_REJECT_SET)
-        @accept_names = value(ACCEPT_KEY, ctx, DEFAULT_ACCEPT_SET)
+        reject_names = value(REJECT_KEY, ctx, DEFAULT_REJECT_SET)
+        accept_names = value(ACCEPT_KEY, ctx, DEFAULT_ACCEPT_SET)
         exp = ctx.exp
         full_name = ctx.full_name
         name = exp.simple_name.to_s
-        return [] if @accept_names.include?(full_name)
+        return [] if accept_names.include?(full_name)
         var = name.gsub(/^[@\*\&]*/, '')
-        return [] if @accept_names.include?(var)
-        return [] unless @reject_names.find { |patt| patt =~ var }
+        return [] if accept_names.include?(var)
+        return [] unless reject_names.find { |patt| patt =~ var }
         [SmellWarning.new(self,
                           context: full_name,
                           lines: [exp.line],

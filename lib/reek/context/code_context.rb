@@ -70,11 +70,11 @@ module Reek
       # @param child [CodeContext] the child context to register
       def append_child_context(child)
         child.visibility = tracked_visibility
-        @children << child
+        children << child
       end
 
       def count_statements(num)
-        @num_statements += num
+        self.num_statements += num
       end
 
       def record_call_to(exp)
@@ -83,19 +83,19 @@ module Reek
         case type
         when :lvar, :lvasgn
           unless exp.object_creation_call?
-            @refs.record_reference_to(receiver.name, line: exp.line)
+            refs.record_reference_to(receiver.name, line: exp.line)
           end
         when :self
-          @refs.record_reference_to(:self, line: exp.line)
+          refs.record_reference_to(:self, line: exp.line)
         end
       end
 
       def record_use_of_self
-        @refs.record_reference_to(:self)
+        refs.record_reference_to(:self)
       end
 
       def name
-        @exp.name
+        exp.name
       end
 
       def local_nodes(type, &blk)
@@ -103,7 +103,7 @@ module Reek
       end
 
       def each_node(type, ignoring, &blk)
-        @exp.each_node(type, ignoring, &blk)
+        exp.each_node(type, ignoring, &blk)
       end
 
       def matches?(candidates)
@@ -119,8 +119,7 @@ module Reek
       end
 
       def full_name
-        context = @context ? @context.full_name : ''
-        exp.full_name(context)
+        exp.full_name(context ? context.full_name : '')
       end
 
       def config_for(detector_class)
@@ -140,46 +139,49 @@ module Reek
       # @param names [Array<Symbol>]
       def track_visibility(visibility, names = [])
         if names.any?
-          @children.each do |child|
+          children.each do |child|
             child.visibility = visibility if names.include? child.name
           end
         else
-          @tracked_visibility = visibility
+          self.tracked_visibility = visibility
         end
       end
 
       def type
-        @exp.type
+        exp.type
       end
 
       # Iterate over +self+ and child contexts.
       def each(&block)
         yield self
-        @children.each do |child|
+        children.each do |child|
           child.each(&block)
         end
       end
 
       protected
 
-      attr_writer :visibility
+      attr_writer :num_statements, :visibility
 
       private
+
+      private_attr_writer :tracked_visibility
+      private_attr_reader :context, :refs
 
       def tracked_visibility
         @tracked_visibility ||= :public
       end
 
       def config
-        @config ||= if @exp
-                      CodeComment.new(@exp.full_comment || '').config
+        @config ||= if exp
+                      CodeComment.new(exp.full_comment || '').config
                     else
                       {}
                     end
       end
 
       def context_config_for(detector_class)
-        @context ? @context.config_for(detector_class) : {}
+        context ? context.config_for(detector_class) : {}
       end
     end
   end

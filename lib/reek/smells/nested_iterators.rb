@@ -50,8 +50,10 @@ module Reek
 
       private
 
+      private_attr_accessor :ignore_iterators
+
       def find_deepest_iterator(ctx)
-        @ignore_iterators = value(IGNORE_ITERATORS_KEY, ctx, DEFAULT_IGNORE_ITERATORS)
+        self.ignore_iterators = value(IGNORE_ITERATORS_KEY, ctx, DEFAULT_IGNORE_ITERATORS)
 
         find_iters(ctx.exp, 1).sort_by { |item| item[1] }.last
       end
@@ -73,7 +75,7 @@ module Reek
 
       def ignored_iterator?(exp)
         name = exp.call.method_name.to_s
-        @ignore_iterators.any? { |pattern| /#{pattern}/ =~ name }
+        ignore_iterators.any? { |pattern| /#{pattern}/ =~ name }
       end
     end
   end
