@@ -9,7 +9,7 @@ module Reek
     # See
     #   - {file:docs/Basic-Smell-Options.md}
     #   - {file:docs/Code-Smells.md}
-    #   - {file:docs/Configuration-Files.md}
+    #   - {file:README.md}
     # for details.
     #
     # @api private

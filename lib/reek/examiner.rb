@@ -24,6 +24,8 @@ module Reek
     # @param filter_by_smells [Array<String>]
     #   List of smell types to filter by.
     #
+    # @param configuration [Configuration::AppConfiguration]
+    #   The configuration for this Examiner.
     def initialize(source,
                    filter_by_smells = [],
                    configuration: Configuration::AppConfiguration.default)
