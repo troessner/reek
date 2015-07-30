@@ -38,11 +38,11 @@ module Reek
         max_allowed_params = value(MAX_ALLOWED_PARAMS_KEY, ctx, DEFAULT_MAX_ALLOWED_PARAMS)
         count = ctx.exp.arg_names.length
         return [] if count <= max_allowed_params
-        [SmellWarning.new(self,
-                          context: ctx.full_name,
-                          lines: [ctx.exp.line],
-                          message: "has #{count} parameters",
-                          parameters: { count: count })]
+        [smell_warning(
+          context: ctx,
+          lines: [ctx.exp.line],
+          message: "has #{count} parameters",
+          parameters: { count: count })]
       end
     end
   end

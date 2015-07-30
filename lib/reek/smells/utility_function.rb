@@ -53,17 +53,17 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
-      def examine_context(method_ctx)
-        return [] if method_ctx.singleton_method?
-        return [] if method_ctx.num_statements == 0
-        return [] if method_ctx.references_self?
-        return [] if num_helper_methods(method_ctx).zero?
+      def examine_context(ctx)
+        return [] if ctx.singleton_method?
+        return [] if ctx.num_statements == 0
+        return [] if ctx.references_self?
+        return [] if num_helper_methods(ctx).zero?
 
-        [SmellWarning.new(self,
-                          context: method_ctx.full_name,
-                          lines: [method_ctx.exp.line],
-                          message: "doesn't depend on instance state",
-                          parameters: { name: method_ctx.full_name })]
+        [smell_warning(
+          context: ctx,
+          lines: [ctx.exp.line],
+          message: "doesn't depend on instance state",
+          parameters: { name: ctx.full_name })]
       end
 
       private

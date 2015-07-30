@@ -54,11 +54,11 @@ module Reek
         var = name.gsub(/^[@\*\&]*/, '')
         return [] if accept_names.include?(var)
         return [] unless reject_names.find { |patt| patt =~ var }
-        [SmellWarning.new(self,
-                          context: ctx.full_name,
-                          lines: [ctx.exp.line],
-                          message: "has the name '#{name}'",
-                          parameters: { name: name })]
+        [smell_warning(
+          context: ctx,
+          lines: [ctx.exp.line],
+          message: "has the name '#{name}'",
+          parameters: { name: name })]
       end
     end
   end

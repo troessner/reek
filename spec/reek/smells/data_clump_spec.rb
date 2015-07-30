@@ -42,7 +42,7 @@ RSpec.shared_examples_for 'a data clump detector' do
     end
 
     it 'reports all methods' do
-      expect(smells[0].parameters[:methods]).to eq(['first', 'second', 'third'])
+      expect(smells[0].parameters[:methods]).to eq([:first, :second, :third])
     end
 
     it 'reports the declaration line numbers' do

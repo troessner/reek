@@ -57,11 +57,11 @@ module Reek
         end.map do |key, lines|
           occurs = lines.length
           expression = key.format_to_ruby
-          SmellWarning.new self,
-                           context: ctx.full_name,
-                           lines: lines,
-                           message: "tests #{expression} at least #{occurs} times",
-                           parameters: { name: expression, count: occurs }
+          smell_warning(
+            context: ctx,
+            lines: lines,
+            message: "tests #{expression} at least #{occurs} times",
+            parameters: { name: expression, count: occurs })
         end
       end
 

@@ -22,32 +22,6 @@ RSpec.describe Reek::Context::MethodContext do
     end
   end
 
-  describe '#envious_receivers' do
-    let(:exp) { sexp(:def, :foo, sexp(:args, sexp(:arg, :bar)), nil) }
-
-    it 'should ignore ivars as refs to self' do
-      method_context.record_call_to sexp(:send, sexp(:ivar, :@cow), :feed_to)
-      expect(method_context.envious_receivers).to be_empty
-    end
-
-    it 'should ignore explicit calls to self' do
-      method_context.refs.record_reference_to :other
-      method_context.record_call_to sexp(:send, sexp(:self), :thing)
-      expect(method_context.envious_receivers).to be_empty
-    end
-
-    it 'should ignore implicit calls to self' do
-      method_context.record_call_to sexp(:send, sexp(:lvar, :text), :each, sexp(:arglist))
-      method_context.record_call_to sexp(:send, nil, :shelve, sexp(:arglist))
-      expect(method_context.envious_receivers).to be_empty
-    end
-
-    it 'should record envious calls' do
-      method_context.record_call_to sexp(:send, sexp(:lvar, :bar), :baz)
-      expect(method_context.envious_receivers).to include(:bar)
-    end
-  end
-
   describe '#default_assignments' do
     def assignments_from(src)
       exp = Reek::Source::SourceCode.from(src).syntax_tree

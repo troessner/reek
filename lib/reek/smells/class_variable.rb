@@ -26,11 +26,11 @@ module Reek
       #
       def examine_context(ctx)
         class_variables_in(ctx.exp).map do |variable, lines|
-          SmellWarning.new self,
-                           context: ctx.full_name,
-                           lines: lines,
-                           message: "declares the class variable #{variable}",
-                           parameters: { name: variable.to_s }
+          smell_warning(
+            context: ctx,
+            lines: lines,
+            message: "declares the class variable #{variable}",
+            parameters: { name: variable.to_s })
         end
       end
 

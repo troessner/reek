@@ -28,19 +28,19 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
-      def examine_context(method_ctx)
+      def examine_context(ctx)
         max_allowed_params = value(MAX_ALLOWED_PARAMS_KEY,
-                                   method_ctx,
+                                   ctx,
                                    DEFAULT_MAX_ALLOWED_PARAMS)
-        method_ctx.local_nodes(:yield).select do |yield_node|
+        ctx.local_nodes(:yield).select do |yield_node|
           yield_node.args.length > max_allowed_params
         end.map do |yield_node|
           count = yield_node.args.length
-          SmellWarning.new self,
-                           context: method_ctx.full_name,
-                           lines: [yield_node.line],
-                           message: "yields #{count} parameters",
-                           parameters: { count: count }
+          smell_warning(
+            context: ctx,
+            lines: [yield_node.line],
+            message: "yields #{count} parameters",
+            parameters: { count: count })
         end
       end
     end

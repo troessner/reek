@@ -25,6 +25,8 @@ module Reek
         @sort_by_issue_count = sort_by_issue_count
         @total_smell_count   = 0
         @warning_formatter   = warning_formatter
+
+        # TODO: Only used in TextReport and YAMLReport
       end
 
       # Add Examiner to report on. The report will output results for all
@@ -112,8 +114,8 @@ module Reek
     # Displays a list of smells in YAML format
     # YAML with empty array for 0 smells
     class YAMLReport < Base
-      def show
-        print smells.map(&:yaml_hash).to_yaml
+      def show(out = $stdout)
+        out.print smells.map { |smell| warning_formatter.format_hash(smell) }.to_yaml
       end
     end
 
@@ -121,12 +123,8 @@ module Reek
     # Displays a list of smells in JSON format
     # JSON with empty array for 0 smells
     class JSONReport < Base
-      def show
-        print ::JSON.generate(
-          smells.map do |smell|
-            smell.yaml_hash(warning_formatter)
-          end
-        )
+      def show(out = $stdout)
+        out.print ::JSON.generate smells.map { |smell| warning_formatter.format_hash(smell) }
       end
     end
 

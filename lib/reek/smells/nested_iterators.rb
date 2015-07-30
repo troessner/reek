@@ -37,11 +37,11 @@ module Reek
         exp, depth = *find_deepest_iterator(ctx)
 
         if depth && depth > value(MAX_ALLOWED_NESTING_KEY, ctx, DEFAULT_MAX_ALLOWED_NESTING)
-          [SmellWarning.new(self,
-                            context: ctx.full_name,
-                            lines: [exp.line],
-                            message: "contains iterators nested #{depth} deep",
-                            parameters: { name: ctx.full_name, count: depth })]
+          [smell_warning(
+            context: ctx,
+            lines: [exp.line],
+            message: "contains iterators nested #{depth} deep",
+            parameters: { name: ctx.full_name, count: depth })]
         else
           []
         end

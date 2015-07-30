@@ -15,6 +15,7 @@ module Reek
       def klass_for(type)
         klass_map[type] ||= Class.new(Node).tap do |klass|
           extension = extension_map[type]
+          # TODO: map node type to constant directly.
           klass.send :include, extension if extension
         end
       end

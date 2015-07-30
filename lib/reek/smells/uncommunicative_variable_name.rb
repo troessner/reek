@@ -56,11 +56,11 @@ module Reek
         variable_names(ctx.exp).select do |name, _lines|
           bad_name?(name, ctx)
         end.map do |name, lines|
-          SmellWarning.new(self,
-                           context: ctx.full_name,
-                           lines: lines,
-                           message: "has the variable name '#{name}'",
-                           parameters: { name: name.to_s })
+          smell_warning(
+            context: ctx,
+            lines: lines,
+            message: "has the variable name '#{name}'",
+            parameters: { name: name.to_s })
         end
       end
 

@@ -6,7 +6,7 @@ require_relative 'smell_detector_shared'
 RSpec.describe Reek::Smells::ClassVariable do
   let(:class_variable) { '@@things' }
   let(:detector) { build(:smell_detector, smell_type: :ClassVariable, source: source_name) }
-  let(:source_name) { 'dummy_source' }
+  let(:source_name) { 'string' }
 
   it_should_behave_like 'SmellDetector'
 

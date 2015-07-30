@@ -18,12 +18,5 @@ RSpec.describe Reek::Smells::SmellRepository do
     it 'should return the smell types in alphabetic order' do
       expect(smell_types).to eq(smell_types.sort_by(&:name))
     end
-
-    it "should raise an ArgumentError if smell to configure doesn't exist" do
-      repository = described_class.new
-      expect { repository.configure('SomethingNonExistant', {}) }.
-        to raise_error ArgumentError,
-                       'Unknown smell type SomethingNonExistant found in configuration'
-    end
   end
 end

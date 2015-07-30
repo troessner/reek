@@ -32,11 +32,11 @@ module Reek
       #
       def examine_context(ctx)
         attributes_in(ctx).map do |attribute, line|
-          SmellWarning.new self,
-                           context: ctx.full_name,
-                           lines: [line],
-                           message: 'is a writable attribute',
-                           parameters: { name: attribute.to_s }
+          smell_warning(
+            context: ctx,
+            lines: [line],
+            message: 'is a writable attribute',
+            parameters: { name: attribute.to_s })
         end
       end
 

@@ -55,11 +55,11 @@ module Reek
       #
       def examine_context(ctx)
         ControlParameterCollector.new(ctx).control_parameters.map do |control_parameter|
-          SmellWarning.new self,
-                           context: ctx.full_name,
-                           lines: control_parameter.lines,
-                           message: "is controlled by argument #{control_parameter.name}",
-                           parameters: { name: control_parameter.name.to_s }
+          smell_warning(
+            context: ctx,
+            lines: control_parameter.lines,
+            message: "is controlled by argument #{control_parameter.name}",
+            parameters: { name: control_parameter.name.to_s })
         end
       end
 
@@ -160,7 +160,7 @@ module Reek
         end
 
         def uses_param_in_body?
-          nodes = node.body_nodes([:lvar], [:if, :case, :and, :or])
+          nodes = node.body_nodes([:lvar], CONDITIONAL_NODE_TYPES)
           nodes.any? { |lvar_node| lvar_node.var_name == param }
         end
       end
