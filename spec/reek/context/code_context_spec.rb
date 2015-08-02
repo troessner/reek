@@ -5,7 +5,7 @@ require_relative '../../../lib/reek/context/module_context'
 RSpec.describe Reek::Context::CodeContext do
   context 'name recognition' do
     before :each do
-      @exp_name = 'random_name'    # SMELL: could use a String.random here
+      @exp_name = 'random_name' # SMELL: could use a String.random here
       @full_name = "::::::::::::::::::::#{@exp_name}"
       @exp = double('exp')
       allow(@exp).to receive(:name).and_return(@exp_name)

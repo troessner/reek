@@ -10,7 +10,7 @@ module Reek
     class ShouldReekOf
       def initialize(smell_category,
                      smell_details = {},
-                     configuration = Configuration::AppConfiguration.new)
+                     configuration = Configuration::AppConfiguration.default)
         @smell_category = normalize smell_category
         @smell_details  = smell_details
         @configuration  = configuration

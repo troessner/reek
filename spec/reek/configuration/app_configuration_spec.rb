@@ -1,13 +1,19 @@
 require 'pathname'
 require_relative '../../spec_helper'
 require_relative '../../../lib/reek/configuration/app_configuration'
-require_relative '../../../lib/reek/smells/smell_repository'
-require_relative '../../../lib/reek/source/source_code'
+require_relative '../../../lib/reek/configuration/directory_directives'
+require_relative '../../../lib/reek/configuration/default_directive'
+require_relative '../../../lib/reek/configuration/excluded_paths'
 
 RSpec.describe Reek::Configuration::AppConfiguration do
-  describe '#initialize' do
-    let(:full_configuration_path) { SAMPLES_PATH.join('configuration/full_configuration.reek') }
-    let(:expected_exclude_paths) do
+  describe '#new' do
+    it 'raises NotImplementedError' do
+      expect { subject }.to raise_error(NotImplementedError)
+    end
+  end
+
+  describe 'factory methods' do
+    let(:expected_excluded_paths) do
       [SAMPLES_PATH.join('two_smelly_files'),
        SAMPLES_PATH.join('source_with_non_ruby_files')]
     end
@@ -19,13 +25,28 @@ RSpec.describe Reek::Configuration::AppConfiguration do
         { Reek::Smells::UtilityFunction => { 'enabled' => false } } }
     end
 
-    it 'properly loads configuration and processes it' do
-      finder = Reek::Configuration::ConfigurationFileFinder
-      allow(finder).to receive(:find_by_cli).and_return full_configuration_path
+    describe '#from_path' do
+      let(:full_configuration_path) { SAMPLES_PATH.join('configuration/full_configuration.reek') }
 
-      expect(subject.exclude_paths).to eq(expected_exclude_paths)
-      expect(subject.default_directive).to eq(expected_default_directive)
-      expect(subject.directory_directives).to eq(expected_directory_directives)
+      it 'properly loads configuration and processes it' do
+        config = described_class.from_path full_configuration_path
+
+        expect(config.send(:excluded_paths)).to eq(expected_excluded_paths)
+        expect(config.send(:default_directive)).to eq(expected_default_directive)
+        expect(config.send(:directory_directives)).to eq(expected_directory_directives)
+      end
+    end
+
+    describe '#from_map' do
+      it 'properly sets the configuration' do
+        config = described_class.from_map(directory_directives: expected_directory_directives,
+                                          default_directive: expected_default_directive,
+                                          excluded_paths: expected_excluded_paths)
+
+        expect(config.send(:excluded_paths)).to eq(expected_excluded_paths)
+        expect(config.send(:default_directive)).to eq(expected_default_directive)
+        expect(config.send(:directory_directives)).to eq(expected_directory_directives)
+      end
     end
   end
 
@@ -43,64 +64,29 @@ RSpec.describe Reek::Configuration::AppConfiguration do
       let(:source_via) { 'foo/bar/bang/dummy.rb' }
 
       it 'returns the corresponding directive' do
-        allow(subject).to receive(:directory_directives).and_return directory_directives
-        expect(subject.directive_for(source_via)).to eq(bang_config)
+        configuration = described_class.from_map directory_directives: directory_directives
+        expect(configuration.directive_for(source_via)).to eq(bang_config)
       end
     end
 
     context 'our source is not in a directory for which we have a directive' do
-      let(:baz_config)  { { Reek::Smells::IrresponsibleModule => { enabled: false } } }
+      let(:irresponsible_module_config) do
+        { Reek::Smells::IrresponsibleModule => { enabled: false } }
+      end
+      let(:attribute_config) { { Reek::Smells::Attribute => { enabled: false } } }
       let(:default_directive) do
-        { Reek::Smells::Attribute => { enabled: true } }
+        irresponsible_module_config
       end
       let(:directory_directives) do
-        { Pathname.new('foo/bar/baz')  => baz_config }
+        { Pathname.new('foo/bar/baz') => attribute_config }
       end
       let(:source_via) { 'foo/bar/bang/dummy.rb' }
 
       it 'returns the default directive' do
-        allow(subject).to receive(:directory_directives).and_return directory_directives
-        allow(subject).to receive(:default_directive).and_return default_directive
-        expect(subject.directive_for(source_via)).to eq(default_directive)
+        configuration = described_class.from_map directory_directives: directory_directives,
+                                                 default_directive: default_directive
+        expect(configuration.directive_for(source_via)).to eq(irresponsible_module_config)
       end
-    end
-  end
-
-  describe '#best_directory_match_for' do
-    let(:directory_directives) do
-      {
-        Pathname.new('foo/bar/baz')  => {},
-        Pathname.new('foo/bar')      => {},
-        Pathname.new('bar/boo')      => {}
-      }
-    end
-
-    before do
-      allow(subject).to receive(:directory_directives).and_return directory_directives
-    end
-
-    it 'returns the corresponding directory when source_base_dir is a leaf' do
-      source_base_dir = 'foo/bar/baz/bang'
-      hit = subject.send :best_directory_match_for, source_base_dir
-      expect(hit.to_s).to eq('foo/bar/baz')
-    end
-
-    it 'returns the corresponding directory when source_base_dir is in the middle of the tree' do
-      source_base_dir = 'foo/bar'
-      hit = subject.send :best_directory_match_for, source_base_dir
-      expect(hit.to_s).to eq('foo/bar')
-    end
-
-    it 'returns nil we are on top at the top of the and all other directories are below' do
-      source_base_dir = 'foo'
-      hit = subject.send :best_directory_match_for, source_base_dir
-      expect(hit).to be_nil
-    end
-
-    it 'returns nil when there source_base_dir is not part of any directory directive at all' do
-      source_base_dir = 'non/existent'
-      hit = subject.send :best_directory_match_for, source_base_dir
-      expect(hit).to be_nil
     end
   end
 end

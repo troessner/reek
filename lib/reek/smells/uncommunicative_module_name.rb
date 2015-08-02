@@ -41,7 +41,7 @@ module Reek
         )
       end
 
-      def self.contexts      # :nodoc:
+      def self.contexts # :nodoc:
         [:module, :class]
       end
 

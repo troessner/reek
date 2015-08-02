@@ -15,7 +15,7 @@ module Reek
 
       def initialize(source_description: nil,
                      smell_types: self.class.smell_types,
-                     configuration: Configuration::AppConfiguration.new)
+                     configuration: Configuration::AppConfiguration.default)
         @source_via    = source_description
         @configuration = configuration
         @smell_types   = smell_types

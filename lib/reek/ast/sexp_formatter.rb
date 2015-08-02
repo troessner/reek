@@ -1,5 +1,6 @@
 require_relative '../cli/silencer'
-Reek::CLI::Silencer.silently do
+
+Reek::CLI::Silencer.silently stderr: true, stdout: true do
   require 'unparser'
 end
 

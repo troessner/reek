@@ -22,7 +22,7 @@ module Reek
         begin
           options = options_parser.parse
           @command = ReekCommand.new(OptionInterpreter.new(options))
-          @configuration = Configuration::AppConfiguration.new(options)
+          @configuration = Configuration::AppConfiguration.from_path(options.config_file)
         rescue OptionParser::InvalidOption, Reek::Configuration::ConfigFileException => error
           $stderr.puts "Error: #{error}"
           @status = STATUS_ERROR

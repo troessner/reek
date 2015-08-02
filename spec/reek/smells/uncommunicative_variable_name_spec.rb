@@ -19,7 +19,7 @@ RSpec.describe Reek::Smells::UncommunicativeVariableName do
     end
     it 'reports one-letter fieldname in assignment' do
       src = 'class Thing; def simple(fred) @x = fred end end'
-      expect(src).to reek_of(:UncommunicativeVariableName,  name: '@x')
+      expect(src).to reek_of(:UncommunicativeVariableName, name: '@x')
     end
   end
 
@@ -67,7 +67,7 @@ RSpec.describe Reek::Smells::UncommunicativeVariableName do
     end
 
     it 'reports variable name outside any method' do
-      expect('class Simple; x = jim(45); end').to reek_of(:UncommunicativeVariableName,  name: 'x')
+      expect('class Simple; x = jim(45); end').to reek_of(:UncommunicativeVariableName, name: 'x')
     end
   end
 

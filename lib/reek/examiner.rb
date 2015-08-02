@@ -26,7 +26,7 @@ module Reek
     #
     def initialize(source,
                    filter_by_smells = [],
-                   configuration: Configuration::AppConfiguration.new)
+                   configuration: Configuration::AppConfiguration.default)
       @source        = Source::SourceCode.from(source)
       @configuration = configuration
       @collector     = CLI::WarningCollector.new

@@ -18,21 +18,12 @@ module Reek
     module ConfigurationFileFinder
       module_function
 
-      def find_and_load(params = {})
-        load_from_file(find(params))
+      def find_and_load(path: nil)
+        load_from_file(find(path: path))
       end
 
-      # FIXME: switch to kwargs on upgrade to Ruby 2 and drop `params.fetch` calls:
-      # def find(options: nil, current: Pathname.pwd, home: Pathname.new(Dir.home))
-      def find(params = {})
-        options = params.fetch(:options) { nil                    }
-        current = params.fetch(:current) { Pathname.pwd           }
-        home    = params.fetch(:home)    { Pathname.new(Dir.home) }
-        find_by_cli(options) || find_by_dir(current) || find_by_dir(home)
-      end
-
-      def find_by_cli(options)
-        options && options.config_file
+      def find(path: nil, current: Pathname.pwd, home: Pathname.new(Dir.home))
+        path || find_by_dir(current) || find_by_dir(home)
       end
 
       def find_by_dir(start)

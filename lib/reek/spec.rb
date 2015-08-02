@@ -87,7 +87,7 @@ module Reek
     #
     def reek_of(smell_category,
                 smell_details = {},
-                configuration = Configuration::AppConfiguration.new)
+                configuration = Configuration::AppConfiguration.default)
       ShouldReekOf.new(smell_category, smell_details, configuration)
     end
 
@@ -98,14 +98,14 @@ module Reek
     #   1.) "reek_of" doesn't mind if there are other smells of a different category.
     #       "reek_only_of" will fail in that case.
     #   2.) "reek_only_of" doesn't support the additional smell_details hash.
-    def reek_only_of(smell_category, configuration = Configuration::AppConfiguration.new)
+    def reek_only_of(smell_category, configuration = Configuration::AppConfiguration.default)
       ShouldReekOnlyOf.new(smell_category, configuration)
     end
 
     #
     # Returns +true+ if and only if the target source code contains smells.
     #
-    def reek(configuration = Configuration::AppConfiguration.new)
+    def reek(configuration = Configuration::AppConfiguration.default)
       ShouldReek.new configuration
     end
   end

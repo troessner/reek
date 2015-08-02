@@ -43,7 +43,7 @@ module Reek
       end
 
       class << self
-        def contexts      # :nodoc:
+        def contexts # :nodoc:
           [:def]
         end
       end

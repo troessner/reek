@@ -34,8 +34,8 @@ RSpec.describe Reek::Smells::SmellWarning do
 
     context 'smells differing only by context' do
       before :each do
-        @first  = build(:smell_warning, smell_detector: duplication_detector,
-                                        context: 'first')
+        @first = build(:smell_warning, smell_detector: duplication_detector,
+                                       context: 'first')
         @second = build(:smell_warning, smell_detector: duplication_detector,
                                         context: 'second')
       end
@@ -45,9 +45,9 @@ RSpec.describe Reek::Smells::SmellWarning do
 
     context 'smells differing only by message' do
       before :each do
-        @first  = build(:smell_warning, smell_detector: duplication_detector,
-                                        context: 'ctx',
-                                        message: 'first message')
+        @first = build(:smell_warning, smell_detector: duplication_detector,
+                                       context: 'ctx',
+                                       message: 'first message')
         @second = build(:smell_warning, smell_detector: duplication_detector,
                                         context: 'ctx',
                                         message: 'second message')
@@ -58,8 +58,8 @@ RSpec.describe Reek::Smells::SmellWarning do
 
     context 'message takes precedence over smell name' do
       before :each do
-        @first  = build(:smell_warning, smell_detector: utility_function_detector,
-                                        message: 'first message')
+        @first = build(:smell_warning, smell_detector: utility_function_detector,
+                                       message: 'first message')
         @second = build(:smell_warning, smell_detector: feature_envy_detector,
                                         message: 'second message')
       end
@@ -75,9 +75,9 @@ RSpec.describe Reek::Smells::SmellWarning do
         duplication_detector = build(:smell_detector,
                                      smell_type: 'DuplicateMethodCall',
                                      source: false)
-        @first  = build(:smell_warning, smell_detector: uncommunicative_name_detector,
-                                        context: 'Dirty',
-                                        message: "has the variable name '@s'")
+        @first = build(:smell_warning, smell_detector: uncommunicative_name_detector,
+                                       context: 'Dirty',
+                                       message: "has the variable name '@s'")
         @second = build(:smell_warning, smell_detector: duplication_detector,
                                         context: 'Dirty#a',
                                         message: 'calls @s.title twice')

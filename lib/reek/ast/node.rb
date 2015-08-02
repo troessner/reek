@@ -1,4 +1,8 @@
-require 'parser'
+require_relative '../cli/silencer'
+
+Reek::CLI::Silencer.silently stderr: true, stdout: true do
+  require 'parser'
+end
 
 module Reek
   # @api private

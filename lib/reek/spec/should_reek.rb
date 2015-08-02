@@ -8,7 +8,7 @@ module Reek
     #
     # @api private
     class ShouldReek
-      def initialize(configuration = Configuration::AppConfiguration.new)
+      def initialize(configuration = Configuration::AppConfiguration.default)
         @configuration = configuration
       end
 
