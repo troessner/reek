@@ -4,10 +4,8 @@
 
 [Full Changelog](https://github.com/troessner/reek/compare/v3.1...HEAD)
 
-**Closed issues:**
+**Implemented enhancements:**
 
-- Getting rid of 1.6. [\#620](https://github.com/troessner/reek/issues/620)
-- Making smells configurable on a directory base. Oh my [\#597](https://github.com/troessner/reek/issues/597)
 - Write HTMLReport to STDOUT [\#570](https://github.com/troessner/reek/issues/570)
 - Make reek more rails-friendly or add a "rails" mode. [\#529](https://github.com/troessner/reek/issues/529)
 
@@ -24,14 +22,20 @@
 ## [v3.1](https://github.com/troessner/reek/tree/v3.1) (2015-07-21)
 [Full Changelog](https://github.com/troessner/reek/compare/v3.0.4...v3.1)
 
+**Implemented enhancements:**
+
+- An option to show column number? [\#601](https://github.com/troessner/reek/issues/601)
+
+**Fixed bugs:**
+
+- Don’t use singleton configuration [\#594](https://github.com/troessner/reek/issues/594)
+- Recognize singleton methods defined when module\_function is a scoping modifier [\#582](https://github.com/troessner/reek/issues/582)
+- Switch to Pathnames where possible [\#555](https://github.com/troessner/reek/issues/555)
+
 **Closed issues:**
 
 - a new plugin for Atom: Linter-Ruby-Reek [\#603](https://github.com/troessner/reek/issues/603)
 - Failure on valid syntax: Parser::SyntaxError: unexpected token tCOLON [\#602](https://github.com/troessner/reek/issues/602)
-- An option to show column number? [\#601](https://github.com/troessner/reek/issues/601)
-- Don’t use singleton configuration [\#594](https://github.com/troessner/reek/issues/594)
-- Recognize singleton methods defined when module\_function is a scoping modifier [\#582](https://github.com/troessner/reek/issues/582)
-- Switch to Pathnames where possible [\#555](https://github.com/troessner/reek/issues/555)
 
 **Merged pull requests:**
 
@@ -47,16 +51,20 @@
 ## [v3.0.4](https://github.com/troessner/reek/tree/v3.0.4) (2015-07-10)
 [Full Changelog](https://github.com/troessner/reek/compare/v3.0.3...v3.0.4)
 
-**Closed issues:**
+**Implemented enhancements:**
+
+- IrresponsibleModule does not work on modules [\#485](https://github.com/troessner/reek/issues/485)
+
+**Fixed bugs:**
 
 - wiki deleted? [\#586](https://github.com/troessner/reek/issues/586)
-- IrresponsibleModule triggers when a class defined in multiple files does not have descriptive comments for all files [\#573](https://github.com/troessner/reek/issues/573)
-- Dropping gitflow again [\#561](https://github.com/troessner/reek/issues/561)
-- FeatureEnvy threshold? [\#558](https://github.com/troessner/reek/issues/558)
-- Improvements to Ast::AstNode [\#542](https://github.com/troessner/reek/issues/542)
 - IrresponsibleModule does not work on modules [\#485](https://github.com/troessner/reek/issues/485)
 - Last pending spec [\#480](https://github.com/troessner/reek/issues/480)
 - module\_function does not disable Utility Function [\#27](https://github.com/troessner/reek/issues/27)
+
+**Closed issues:**
+
+- IrresponsibleModule triggers when a class defined in multiple files does not have descriptive comments for all files [\#573](https://github.com/troessner/reek/issues/573)
 
 **Merged pull requests:**
 
@@ -75,11 +83,10 @@
 ## [v3.0.3](https://github.com/troessner/reek/tree/v3.0.3) (2015-07-04)
 [Full Changelog](https://github.com/troessner/reek/compare/v3.0.2...v3.0.3)
 
-**Closed issues:**
+**Fixed bugs:**
 
 - reek . is broken [\#562](https://github.com/troessner/reek/issues/562)
 - Reek 3.0 tries to parse everything \(even non ruby files\) [\#557](https://github.com/troessner/reek/issues/557)
-- rubocop multiline chaining [\#553](https://github.com/troessner/reek/issues/553)
 
 **Merged pull requests:**
 
@@ -96,12 +103,14 @@
 ## [v3.0.1](https://github.com/troessner/reek/tree/v3.0.1) (2015-07-03)
 [Full Changelog](https://github.com/troessner/reek/compare/v3.0.0...v3.0.1)
 
+**Implemented enhancements:**
+
+- Global Exclusions? [\#349](https://github.com/troessner/reek/issues/349)
+
 **Closed issues:**
 
 - Getting reek 3 out now [\#549](https://github.com/troessner/reek/issues/549)
 - Define reeks public API [\#528](https://github.com/troessner/reek/issues/528)
-- API for reek v3: The first proposal [\#526](https://github.com/troessner/reek/issues/526)
-- Global Exclusions? [\#349](https://github.com/troessner/reek/issues/349)
 
 **Merged pull requests:**
 
@@ -110,21 +119,26 @@
 ## [v3.0.0](https://github.com/troessner/reek/tree/v3.0.0) (2015-06-30)
 [Full Changelog](https://github.com/troessner/reek/compare/v2.2.1...v3.0.0)
 
-**Closed issues:**
+**Implemented enhancements:**
 
-- Drop ruby 1.9 support [\#527](https://github.com/troessner/reek/issues/527)
+- Odd case of FeatureEnvy [\#260](https://github.com/troessner/reek/issues/260)
+
+**Fixed bugs:**
+
 - Kill the core [\#522](https://github.com/troessner/reek/issues/522)
 - Refactoring /core part 1 [\#517](https://github.com/troessner/reek/issues/517)
-- Stable interface for library usage? [\#516](https://github.com/troessner/reek/issues/516)
-- Git Flow [\#515](https://github.com/troessner/reek/issues/515)
-- Bugfix release 2.2.1 [\#512](https://github.com/troessner/reek/issues/512)
 - random test failures for rbx-2 [\#507](https://github.com/troessner/reek/issues/507)
 - Reek fails on methods with unpacked parameters – undefined method `optional\_argument?' for \(mlhs \(NoMethodError\) ... [\#502](https://github.com/troessner/reek/issues/502)
 - Integrate Ataru to make test codeblocks on documentation files [\#472](https://github.com/troessner/reek/issues/472)
-- Odd case of FeatureEnvy [\#260](https://github.com/troessner/reek/issues/260)
+- FeatureEnvy is inconsistent [\#215](https://github.com/troessner/reek/issues/215)
 - FeatureEnvy is inconsistent [\#215](https://github.com/troessner/reek/issues/215)
 - Class methods defined via the "class \<\< self; end" syntax trigger UtilityFunction [\#112](https://github.com/troessner/reek/issues/112)
 - FeatureEnvy can miss envious instance variables [\#31](https://github.com/troessner/reek/issues/31)
+
+**Closed issues:**
+
+- Drop ruby 1.9 support [\#527](https://github.com/troessner/reek/issues/527)
+- Git Flow [\#515](https://github.com/troessner/reek/issues/515)
 
 **Merged pull requests:**
 
@@ -154,11 +168,14 @@
 ## [v2.2.1](https://github.com/troessner/reek/tree/v2.2.1) (2015-05-11)
 [Full Changelog](https://github.com/troessner/reek/compare/2.2.0...v2.2.1)
 
+**Fixed bugs:**
+
+- Remove all wiki pages [\#508](https://github.com/troessner/reek/issues/508)
+- Fix duplicate method call in SexpFormatter. [\#473](https://github.com/troessner/reek/issues/473)
+
 **Closed issues:**
 
 - New release 2.2! [\#510](https://github.com/troessner/reek/issues/510)
-- Remove all wiki pages [\#508](https://github.com/troessner/reek/issues/508)
-- Fix duplicate method call in SexpFormatter. [\#473](https://github.com/troessner/reek/issues/473)
 
 **Merged pull requests:**
 
@@ -170,25 +187,28 @@
 ## [v2.2.0](https://github.com/troessner/reek/tree/v2.2.0) (2015-05-09)
 [Full Changelog](https://github.com/troessner/reek/compare/v2.1.0...v2.2.0)
 
-**Closed issues:**
+**Fixed bugs:**
 
-- enhance reek\_of matcher to enable smell during testing. [\#505](https://github.com/troessner/reek/issues/505)
-- Can't disable ToomanyStatements in .reek file [\#504](https://github.com/troessner/reek/issues/504)
 - Link to /docs from all relevant source files [\#499](https://github.com/troessner/reek/issues/499)
-- rspec enhancements [\#497](https://github.com/troessner/reek/issues/497)
-- Cleanup Attributes Smell spec [\#495](https://github.com/troessner/reek/issues/495)
-- Detect misused caching [\#484](https://github.com/troessner/reek/issues/484)
 - Move all of our wiki pages into the /docs folder and change inbound links [\#482](https://github.com/troessner/reek/issues/482)
-- `bundle exec rake` noisy, outputs warnings, should this be fixed? [\#470](https://github.com/troessner/reek/issues/470)
-- End warnings with a final newline [\#465](https://github.com/troessner/reek/issues/465)
-- Crash when scanning view helper from Rails project [\#463](https://github.com/troessner/reek/issues/463)
-- release management [\#446](https://github.com/troessner/reek/issues/446)
 - Drop UtilityFunction configuration parameter max\_helper\_calls [\#441](https://github.com/troessner/reek/issues/441)
 - Restructure modules [\#438](https://github.com/troessner/reek/issues/438)
 - Versioning policy? [\#422](https://github.com/troessner/reek/issues/422)
 - Refactor CodeParser and friends [\#395](https://github.com/troessner/reek/issues/395)
 - Isolate integration tests [\#361](https://github.com/troessner/reek/issues/361)
 - Feature Envy reported even when it is reporting Utility Function [\#53](https://github.com/troessner/reek/issues/53)
+
+**Closed issues:**
+
+- enhance reek\_of matcher to enable smell during testing. [\#505](https://github.com/troessner/reek/issues/505)
+- Can't disable ToomanyStatements in .reek file [\#504](https://github.com/troessner/reek/issues/504)
+- rspec enhancements [\#497](https://github.com/troessner/reek/issues/497)
+- Cleanup Attributes Smell spec [\#495](https://github.com/troessner/reek/issues/495)
+- Detect misused caching [\#484](https://github.com/troessner/reek/issues/484)
+- `bundle exec rake` noisy, outputs warnings, should this be fixed? [\#470](https://github.com/troessner/reek/issues/470)
+- End warnings with a final newline [\#465](https://github.com/troessner/reek/issues/465)
+- Crash when scanning view helper from Rails project [\#463](https://github.com/troessner/reek/issues/463)
+- release management [\#446](https://github.com/troessner/reek/issues/446)
 
 **Merged pull requests:**
 
@@ -234,14 +254,17 @@
 ## [v2.1.0](https://github.com/troessner/reek/tree/v2.1.0) (2015-04-17)
 [Full Changelog](https://github.com/troessner/reek/compare/v2.0.4...v2.1.0)
 
-**Closed issues:**
+**Fixed bugs:**
 
 - Test classes by full name [\#443](https://github.com/troessner/reek/issues/443)
 - Remove core\_extras monkeypatches [\#433](https://github.com/troessner/reek/issues/433)
-- I've made a Reek plugin for Atom [\#431](https://github.com/troessner/reek/issues/431)
 - Contribution guidelines [\#423](https://github.com/troessner/reek/issues/423)
 - Make development calls to reek behave more sane [\#406](https://github.com/troessner/reek/issues/406)
 - Refactor our specs [\#330](https://github.com/troessner/reek/issues/330)
+
+**Closed issues:**
+
+- I've made a Reek plugin for Atom [\#431](https://github.com/troessner/reek/issues/431)
 
 **Merged pull requests:**
 
@@ -275,10 +298,13 @@
 ## [v2.0.3](https://github.com/troessner/reek/tree/v2.0.3) (2015-04-06)
 [Full Changelog](https://github.com/troessner/reek/compare/v2.0.2...v2.0.3)
 
+**Fixed bugs:**
+
+- Calls to super with parameter and block gives error [\#404](https://github.com/troessner/reek/issues/404)
+
 **Closed issues:**
 
 - Weird return in display\_total\_smell\_count [\#413](https://github.com/troessner/reek/issues/413)
-- Calls to super with parameter and block gives error [\#404](https://github.com/troessner/reek/issues/404)
 
 **Merged pull requests:**
 
@@ -292,7 +318,7 @@
 ## [v2.0.2](https://github.com/troessner/reek/tree/v2.0.2) (2015-03-15)
 [Full Changelog](https://github.com/troessner/reek/compare/v2.0.1...v2.0.2)
 
-**Closed issues:**
+**Fixed bugs:**
 
 - Document reek internals [\#407](https://github.com/troessner/reek/issues/407)
 
@@ -305,14 +331,17 @@
 ## [v2.0.1](https://github.com/troessner/reek/tree/v2.0.1) (2015-03-03)
 [Full Changelog](https://github.com/troessner/reek/compare/v2.0.0...v2.0.1)
 
+**Fixed bugs:**
+
+- Is anyone using the Cucumber annotations? [\#373](https://github.com/troessner/reek/issues/373)
+- false positive on NestedIterators with begin/rescue [\#268](https://github.com/troessner/reek/issues/268)
+
 **Closed issues:**
 
 - Always emit newline at end of output [\#390](https://github.com/troessner/reek/issues/390)
 - reek 2 release notes [\#385](https://github.com/troessner/reek/issues/385)
 - Update README after 372 [\#383](https://github.com/troessner/reek/issues/383)
-- Is anyone using the Cucumber annotations? [\#373](https://github.com/troessner/reek/issues/373)
 - Reek 2 final spurt: release notes and things left to do [\#365](https://github.com/troessner/reek/issues/365)
-- false positive on NestedIterators with begin/rescue [\#268](https://github.com/troessner/reek/issues/268)
 - Special treatment for utility methods that only raise? [\#181](https://github.com/troessner/reek/issues/181)
 
 **Merged pull requests:**
@@ -336,7 +365,7 @@
 ## [v2.0.0](https://github.com/troessner/reek/tree/v2.0.0) (2015-02-09)
 [Full Changelog](https://github.com/troessner/reek/compare/v1.6.6...v2.0.0)
 
-**Closed issues:**
+**Fixed bugs:**
 
 - Clean up reek\_of/smell\_of matchers [\#319](https://github.com/troessner/reek/issues/319)
 
@@ -356,10 +385,13 @@
 ## [v1.6.5](https://github.com/troessner/reek/tree/v1.6.5) (2015-02-08)
 [Full Changelog](https://github.com/troessner/reek/compare/v1.6.4...v1.6.5)
 
+**Fixed bugs:**
+
+- Clean up/organize command line options [\#254](https://github.com/troessner/reek/issues/254)
+
 **Closed issues:**
 
 - Gemnasium reports outdated dependencies [\#375](https://github.com/troessner/reek/issues/375)
-- Clean up/organize command line options [\#254](https://github.com/troessner/reek/issues/254)
 
 **Merged pull requests:**
 
@@ -372,9 +404,12 @@
 ## [v1.6.4](https://github.com/troessner/reek/tree/v1.6.4) (2015-01-21)
 [Full Changelog](https://github.com/troessner/reek/compare/v1.6.3...v1.6.4)
 
-**Closed issues:**
+**Implemented enhancements:**
 
 - Support Ruby 2.2 [\#357](https://github.com/troessner/reek/issues/357)
+
+**Fixed bugs:**
+
 - Re-visit reek task [\#326](https://github.com/troessner/reek/issues/326)
 
 **Merged pull requests:**
@@ -395,11 +430,14 @@
 ## [v1.6.2](https://github.com/troessner/reek/tree/v1.6.2) (2015-01-13)
 [Full Changelog](https://github.com/troessner/reek/compare/v1.6.1...v1.6.2)
 
-**Closed issues:**
+**Implemented enhancements:**
 
-- Reek 2 - what would you like to see in it? [\#306](https://github.com/troessner/reek/issues/306)
 - Allow more fine grained code context [\#294](https://github.com/troessner/reek/issues/294)
 - Default to running on all files [\#222](https://github.com/troessner/reek/issues/222)
+
+**Fixed bugs:**
+
+- Reek 2 - what would you like to see in it? [\#306](https://github.com/troessner/reek/issues/306)
 
 **Merged pull requests:**
 
@@ -412,7 +450,7 @@
 ## [v1.6.1](https://github.com/troessner/reek/tree/v1.6.1) (2014-12-30)
 [Full Changelog](https://github.com/troessner/reek/compare/v1.6.0...v1.6.1)
 
-**Closed issues:**
+**Implemented enhancements:**
 
 - Improve YAML output [\#313](https://github.com/troessner/reek/issues/313)
 
@@ -423,20 +461,26 @@
 ## [v1.6.0](https://github.com/troessner/reek/tree/v1.6.0) (2014-12-27)
 [Full Changelog](https://github.com/troessner/reek/compare/v1.5.1...v1.6.0)
 
-**Closed issues:**
+**Implemented enhancements:**
 
-- Rethinking configuration in reek [\#351](https://github.com/troessner/reek/issues/351)
+- .reekignore [\#220](https://github.com/troessner/reek/issues/220)
+
+**Fixed bugs:**
+
 - Integrating rubocop in our build process and make it fail on offenses \(or add an exception\) [\#348](https://github.com/troessner/reek/issues/348)
-- Line length limit [\#347](https://github.com/troessner/reek/issues/347)
 - Move smell\_class and smell\_sub\_class to class level [\#344](https://github.com/troessner/reek/issues/344)
 - Rename smell\_class and smell\_sub\_class [\#342](https://github.com/troessner/reek/issues/342)
-- Problems with kw\_args reloaded [\#337](https://github.com/troessner/reek/issues/337)
 - Crash when scanning default seeds.rb with reek 1.5.0 [\#336](https://github.com/troessner/reek/issues/336)
 - Getting rid of the gazillions of constants for the parameter keys [\#332](https://github.com/troessner/reek/issues/332)
 - Getting rid of the class methods "smell\_class" and "smell\_sub\_class" for SmellDetector [\#331](https://github.com/troessner/reek/issues/331)
 - Refactoring SmellWarning's initializer [\#322](https://github.com/troessner/reek/issues/322)
+
+**Closed issues:**
+
+- Rethinking configuration in reek [\#351](https://github.com/troessner/reek/issues/351)
+- Line length limit [\#347](https://github.com/troessner/reek/issues/347)
+- Problems with kw\_args reloaded [\#337](https://github.com/troessner/reek/issues/337)
 - Making reek smell-free [\#231](https://github.com/troessner/reek/issues/231)
-- .reekignore [\#220](https://github.com/troessner/reek/issues/220)
 - Extracting code parser [\#190](https://github.com/troessner/reek/issues/190)
 
 **Merged pull requests:**
@@ -494,10 +538,19 @@
 ## [v1.4.0](https://github.com/troessner/reek/tree/v1.4.0) (2014-11-09)
 [Full Changelog](https://github.com/troessner/reek/compare/v1.3.8...v1.4.0)
 
-**Closed issues:**
+**Implemented enhancements:**
 
 - Be self-documenting [\#302](https://github.com/troessner/reek/issues/302)
+- option to execute a single smell detector [\#13](https://github.com/troessner/reek/issues/13)
+
+**Fixed bugs:**
+
 - Clean up set of debuggers [\#295](https://github.com/troessner/reek/issues/295)
+- Ruby2 keyword arguments with splat gives UnusedParameters [\#262](https://github.com/troessner/reek/issues/262)
+- Underscore treated as uncommunicative parameter name [\#195](https://github.com/troessner/reek/issues/195)
+
+**Closed issues:**
+
 - gem install reek fails with RDoc parser error in 1.9.3 [\#291](https://github.com/troessner/reek/issues/291)
 - Delete some wiki pages [\#290](https://github.com/troessner/reek/issues/290)
 - Output summary is red even if there are no warnings [\#287](https://github.com/troessner/reek/issues/287)
@@ -507,9 +560,6 @@
 - Remove link to mailing list on Wiki page [\#281](https://github.com/troessner/reek/issues/281)
 - Api versions marked as UncommunicativeModuleName [\#271](https://github.com/troessner/reek/issues/271)
 - Use RSpec 3 [\#266](https://github.com/troessner/reek/issues/266)
-- Ruby2 keyword arguments with splat gives UnusedParameters [\#262](https://github.com/troessner/reek/issues/262)
-- Underscore treated as uncommunicative parameter name [\#195](https://github.com/troessner/reek/issues/195)
-- option to execute a single smell detector [\#13](https://github.com/troessner/reek/issues/13)
 
 **Merged pull requests:**
 
@@ -559,14 +609,21 @@
 ## [v1.3.7](https://github.com/troessner/reek/tree/v1.3.7) (2014-03-25)
 [Full Changelog](https://github.com/troessner/reek/compare/v1.3.6...v1.3.7)
 
+**Implemented enhancements:**
+
+- Default `-q` switch:  do not show files without any warnings [\#169](https://github.com/troessner/reek/issues/169)
+- Bang method without non-bang method [\#51](https://github.com/troessner/reek/issues/51)
+
+**Fixed bugs:**
+
+- Fix local configuration handling for CodeContext? [\#203](https://github.com/troessner/reek/issues/203)
+- Bang method without non-bang method [\#51](https://github.com/troessner/reek/issues/51)
+
 **Closed issues:**
 
 - Adding colors to reek's output [\#250](https://github.com/troessner/reek/issues/250)
 - Configuration within comments [\#241](https://github.com/troessner/reek/issues/241)
-- Fix local configuration handling for CodeContext? [\#203](https://github.com/troessner/reek/issues/203)
 - The ControlParameter detector is inconsistent. [\#177](https://github.com/troessner/reek/issues/177)
-- Default `-q` switch:  do not show files without any warnings [\#169](https://github.com/troessner/reek/issues/169)
-- Bang method without non-bang method [\#51](https://github.com/troessner/reek/issues/51)
 
 **Merged pull requests:**
 
@@ -595,22 +652,30 @@
 ## [v1.3.5](https://github.com/troessner/reek/tree/v1.3.5) (2013-12-23)
 [Full Changelog](https://github.com/troessner/reek/compare/v1.3.4...v1.3.5)
 
+**Implemented enhancements:**
+
+- Prioritize files by \# of issues [\#207](https://github.com/troessner/reek/issues/207)
+- Disable smell all subclasses via the smell class [\#67](https://github.com/troessner/reek/issues/67)
+- DataClump not reported on closely related classes [\#54](https://github.com/troessner/reek/issues/54)
+- Temporary Field [\#22](https://github.com/troessner/reek/issues/22)
+
+**Fixed bugs:**
+
+- Runaway Dependencies [\#48](https://github.com/troessner/reek/issues/48)
+- Long Method should count nested assignments [\#32](https://github.com/troessner/reek/issues/32)
+- Long Method should count nested assignments [\#32](https://github.com/troessner/reek/issues/32)
+- Temporary Field [\#22](https://github.com/troessner/reek/issues/22)
+
 **Closed issues:**
 
 - reek hung up [\#234](https://github.com/troessner/reek/issues/234)
 - Timeout::Error: execution expired issue [\#223](https://github.com/troessner/reek/issues/223)
 - Can't customize UncommunicativeVariableName or UncommunicativeParameterName [\#217](https://github.com/troessner/reek/issues/217)
 - Unknown node-type :kwsplat [\#213](https://github.com/troessner/reek/issues/213)
-- Prioritize files by \# of issues [\#207](https://github.com/troessner/reek/issues/207)
 - emacs-compatible line number output [\#206](https://github.com/troessner/reek/issues/206)
 - Improve exception handling [\#204](https://github.com/troessner/reek/issues/204)
 - reek errors when parsing escape sequence in a method [\#201](https://github.com/troessner/reek/issues/201)
 -  reek 1.3.2: Error: unknown arg type :masgn [\#184](https://github.com/troessner/reek/issues/184)
-- Disable smell all subclasses via the smell class [\#67](https://github.com/troessner/reek/issues/67)
-- DataClump not reported on closely related classes [\#54](https://github.com/troessner/reek/issues/54)
-- Runaway Dependencies [\#48](https://github.com/troessner/reek/issues/48)
-- Long Method should count nested assignments [\#32](https://github.com/troessner/reek/issues/32)
-- Temporary Field [\#22](https://github.com/troessner/reek/issues/22)
 
 **Merged pull requests:**
 
@@ -635,6 +700,10 @@
 ## [v1.3.4](https://github.com/troessner/reek/tree/v1.3.4) (2013-10-14)
 [Full Changelog](https://github.com/troessner/reek/compare/v1.3.3...v1.3.4)
 
+**Implemented enhancements:**
+
+- Reek fails on ruby 2.0 keyword arguments [\#165](https://github.com/troessner/reek/issues/165)
+
 **Closed issues:**
 
 - Improve Sexp\#deep\_copy [\#202](https://github.com/troessner/reek/issues/202)
@@ -645,7 +714,6 @@
 - impossible to run reek without parameters. [\#196](https://github.com/troessner/reek/issues/196)
 - Don't add extra slashes to directory names [\#176](https://github.com/troessner/reek/issues/176)
 - Default `-n` [\#170](https://github.com/troessner/reek/issues/170)
-- Reek fails on ruby 2.0 keyword arguments [\#165](https://github.com/troessner/reek/issues/165)
 - `reek` with no arguments should behave as `reek .` [\#155](https://github.com/troessner/reek/issues/155)
 - How to override defaults in UncommunicativeVariableName? [\#154](https://github.com/troessner/reek/issues/154)
 
@@ -661,12 +729,15 @@
 ## [v1.3.3](https://github.com/troessner/reek/tree/v1.3.3) (2013-08-27)
 [Full Changelog](https://github.com/troessner/reek/compare/v1.3.2...v1.3.3)
 
+**Implemented enhancements:**
+
+- Need a way to set different thresholds for the same smell [\#36](https://github.com/troessner/reek/issues/36)
+- Fail on unnecessary exclusions [\#23](https://github.com/troessner/reek/issues/23)
+
 **Closed issues:**
 
 - Trouble with Rake task and Bundler [\#185](https://github.com/troessner/reek/issues/185)
 - Display total warning count [\#175](https://github.com/troessner/reek/issues/175)
-- Need a way to set different thresholds for the same smell [\#36](https://github.com/troessner/reek/issues/36)
-- Fail on unnecessary exclusions [\#23](https://github.com/troessner/reek/issues/23)
 
 **Merged pull requests:**
 
@@ -676,6 +747,29 @@
 
 ## [v1.3.2](https://github.com/troessner/reek/tree/v1.3.2) (2013-08-09)
 [Full Changelog](https://github.com/troessner/reek/compare/v1.3.1...v1.3.2)
+
+**Implemented enhancements:**
+
+- reek doesn't see .reek in my project's toplevel directory [\#150](https://github.com/troessner/reek/issues/150)
+- exceptions.reek uses different names than error messages [\#95](https://github.com/troessner/reek/issues/95)
+- Nested Iterator warns on non-iterating blocks   [\#83](https://github.com/troessner/reek/issues/83)
+- Feature envy for excessive constant usage [\#81](https://github.com/troessner/reek/issues/81)
+- TemplateMethod [\#52](https://github.com/troessner/reek/issues/52)
+- Core extension [\#46](https://github.com/troessner/reek/issues/46)
+- Validate contents of config files [\#42](https://github.com/troessner/reek/issues/42)
+- smell severity [\#30](https://github.com/troessner/reek/issues/30)
+- Adapters are different from domain code [\#20](https://github.com/troessner/reek/issues/20)
+- Feature Envy for blocks and code fragments [\#15](https://github.com/troessner/reek/issues/15)
+- Nil Check [\#8](https://github.com/troessner/reek/issues/8)
+
+**Fixed bugs:**
+
+- UnusedParameters doesn't take `super` into account [\#135](https://github.com/troessner/reek/issues/135)
+- TemplateMethod [\#52](https://github.com/troessner/reek/issues/52)
+- Core extension [\#46](https://github.com/troessner/reek/issues/46)
+- Adapters are different from domain code [\#20](https://github.com/troessner/reek/issues/20)
+- Feature Envy for blocks and code fragments [\#15](https://github.com/troessner/reek/issues/15)
+- Nil Check [\#8](https://github.com/troessner/reek/issues/8)
 
 **Closed issues:**
 
@@ -689,27 +783,15 @@
 - Still links to the old project in rdoc.info [\#153](https://github.com/troessner/reek/issues/153)
 - Mac OS X: reek binary is not being added to PATH [\#152](https://github.com/troessner/reek/issues/152)
 - Bug: `doesn't depend on instance state \(UtilityFunction\)` complains about my module methods [\#151](https://github.com/troessner/reek/issues/151)
-- reek doesn't see .reek in my project's toplevel directory [\#150](https://github.com/troessner/reek/issues/150)
 - Hide "0 warnings" message [\#149](https://github.com/troessner/reek/issues/149)
 - How do I turn on line numbers in my defaults.reek? [\#148](https://github.com/troessner/reek/issues/148)
 - Vim plugin [\#140](https://github.com/troessner/reek/issues/140)
 - Reek reports TooManyStatements, but the actual smell is LongMethod [\#139](https://github.com/troessner/reek/issues/139)
 - Update ruby specified in .rvmrc from 1.8.7 to 1.9.3 [\#138](https://github.com/troessner/reek/issues/138)
 - Add ability to suppress an individual warning [\#137](https://github.com/troessner/reek/issues/137)
-- UnusedParameters doesn't take `super` into account [\#135](https://github.com/troessner/reek/issues/135)
 - nil check gives a different line number output when using -n flag [\#132](https://github.com/troessner/reek/issues/132)
 - Know how to solve the smells [\#128](https://github.com/troessner/reek/issues/128)
 - Dependency problems with flog and flay [\#114](https://github.com/troessner/reek/issues/114)
-- exceptions.reek uses different names than error messages [\#95](https://github.com/troessner/reek/issues/95)
-- Nested Iterator warns on non-iterating blocks   [\#83](https://github.com/troessner/reek/issues/83)
-- Feature envy for excessive constant usage [\#81](https://github.com/troessner/reek/issues/81)
-- TemplateMethod [\#52](https://github.com/troessner/reek/issues/52)
-- Core extension [\#46](https://github.com/troessner/reek/issues/46)
-- Validate contents of config files [\#42](https://github.com/troessner/reek/issues/42)
-- smell severity [\#30](https://github.com/troessner/reek/issues/30)
-- Adapters are different from domain code [\#20](https://github.com/troessner/reek/issues/20)
-- Feature Envy for blocks and code fragments [\#15](https://github.com/troessner/reek/issues/15)
-- Nil Check [\#8](https://github.com/troessner/reek/issues/8)
 
 **Merged pull requests:**
 
@@ -747,12 +829,20 @@
 ## [v1.3](https://github.com/troessner/reek/tree/v1.3) (2013-01-19)
 [Full Changelog](https://github.com/troessner/reek/compare/v1.2.13...v1.3)
 
-**Closed issues:**
+**Implemented enhancements:**
 
-- Error on Sexp [\#125](https://github.com/troessner/reek/issues/125)
 - UncommunicativeName: 'accept' should be called 'allow' [\#40](https://github.com/troessner/reek/issues/40)
 - Large Module [\#12](https://github.com/troessner/reek/issues/12)
 - Unused Parameter [\#7](https://github.com/troessner/reek/issues/7)
+
+**Fixed bugs:**
+
+- Large Module [\#12](https://github.com/troessner/reek/issues/12)
+- Unused Parameter [\#7](https://github.com/troessner/reek/issues/7)
+
+**Closed issues:**
+
+- Error on Sexp [\#125](https://github.com/troessner/reek/issues/125)
 
 **Merged pull requests:**
 
@@ -766,18 +856,24 @@
 ## [v1.2.13](https://github.com/troessner/reek/tree/v1.2.13) (2012-12-07)
 [Full Changelog](https://github.com/troessner/reek/compare/v1.2.12...v1.2.13)
 
+**Implemented enhancements:**
+
+- HTML Report [\#103](https://github.com/troessner/reek/issues/103)
+
+**Fixed bugs:**
+
+- Remove obsolete branches [\#111](https://github.com/troessner/reek/issues/111)
+- SimulatedPolymorphism options ignored [\#92](https://github.com/troessner/reek/issues/92)
+- Split the rspec matchers into a separate gem [\#86](https://github.com/troessner/reek/issues/86)
+- Class methods defined in "class \<\< self; end" not recognised as such [\#29](https://github.com/troessner/reek/issues/29)
+
 **Closed issues:**
 
 - Update to new version of ruby-parser [\#116](https://github.com/troessner/reek/issues/116)
 - should\_not reek matcher not working [\#113](https://github.com/troessner/reek/issues/113)
-- Remove obsolete branches [\#111](https://github.com/troessner/reek/issues/111)
 - Rake task integration fails [\#110](https://github.com/troessner/reek/issues/110)
 - Symbols created with string syntax causes RuntimeError [\#109](https://github.com/troessner/reek/issues/109)
 - Can't redirect output with multiple files [\#106](https://github.com/troessner/reek/issues/106)
-- HTML Report [\#103](https://github.com/troessner/reek/issues/103)
-- SimulatedPolymorphism options ignored [\#92](https://github.com/troessner/reek/issues/92)
-- Split the rspec matchers into a separate gem [\#86](https://github.com/troessner/reek/issues/86)
-- Class methods defined in "class \<\< self; end" not recognised as such [\#29](https://github.com/troessner/reek/issues/29)
 
 **Merged pull requests:**
 
@@ -795,11 +891,14 @@
 ## [v1.2.11](https://github.com/troessner/reek/tree/v1.2.11) (2012-06-08)
 [Full Changelog](https://github.com/troessner/reek/compare/v1.2.10...v1.2.11)
 
-**Closed issues:**
+**Implemented enhancements:**
+
+- RSpec 2 support [\#61](https://github.com/troessner/reek/issues/61)
+
+**Fixed bugs:**
 
 - Reek fails on \(some\) Ruby 1.9 hash syntax  [\#94](https://github.com/troessner/reek/issues/94)
 - reopening a class  : irresponsible module [\#71](https://github.com/troessner/reek/issues/71)
-- RSpec 2 support [\#61](https://github.com/troessner/reek/issues/61)
 - Can't be a UtilityFunction when there's no enclosing module [\#21](https://github.com/troessner/reek/issues/21)
 
 **Merged pull requests:**
@@ -809,32 +908,39 @@
 ## [v1.2.10](https://github.com/troessner/reek/tree/v1.2.10) (2012-06-06)
 [Full Changelog](https://github.com/troessner/reek/compare/v1.2.9...v1.2.10)
 
-**Closed issues:**
+**Fixed bugs:**
 
 - Undefined method `sexp\_type [\#101](https://github.com/troessner/reek/issues/101)
 
 ## [v1.2.9](https://github.com/troessner/reek/tree/v1.2.9) (2012-06-06)
 [Full Changelog](https://github.com/troessner/reek/compare/v1.2.8...v1.2.9)
 
-**Closed issues:**
+**Implemented enhancements:**
 
-- Where did wiki/docs go?  [\#104](https://github.com/troessner/reek/issues/104)
 - Underscore treated as uncommunicative name [\#93](https://github.com/troessner/reek/issues/93)
-- reek matcher ignores configuration [\#89](https://github.com/troessner/reek/issues/89)
-- Reek breaks with ruby2ruby 1.3.1 [\#88](https://github.com/troessner/reek/issues/88)
-- Reek can't exclude a method in a module? [\#87](https://github.com/troessner/reek/issues/87)
-- Create an IRC channel for reek? [\#85](https://github.com/troessner/reek/issues/85)
-- Add a Gemfile and .rvmrc [\#84](https://github.com/troessner/reek/issues/84)
-- Unnecessary duplication warning [\#80](https://github.com/troessner/reek/issues/80)
 - can't find input file in rubinius [\#79](https://github.com/troessner/reek/issues/79)
+- Private Method [\#63](https://github.com/troessner/reek/issues/63)
+- Configure reek per-file, not per-smell [\#37](https://github.com/troessner/reek/issues/37)
+- Large Class should not count added methods from validations / associations in Rails [\#24](https://github.com/troessner/reek/issues/24)
+
+**Fixed bugs:**
+
+- Reek breaks with ruby2ruby 1.3.1 [\#88](https://github.com/troessner/reek/issues/88)
+- Create an IRC channel for reek? [\#85](https://github.com/troessner/reek/issues/85)
 - UncommunicativeName configuration options should be better explained in the wiki [\#75](https://github.com/troessner/reek/issues/75)
-- reek should no analyze code found after \_\_END\_\_ [\#73](https://github.com/troessner/reek/issues/73)
 - reek does not parse 1.9 new hash syntax [\#69](https://github.com/troessner/reek/issues/69)
 - reek doesn't work with jeweler [\#65](https://github.com/troessner/reek/issues/65)
 - Private Method [\#63](https://github.com/troessner/reek/issues/63)
+
+**Closed issues:**
+
+- Where did wiki/docs go?  [\#104](https://github.com/troessner/reek/issues/104)
+- reek matcher ignores configuration [\#89](https://github.com/troessner/reek/issues/89)
+- Reek can't exclude a method in a module? [\#87](https://github.com/troessner/reek/issues/87)
+- Add a Gemfile and .rvmrc [\#84](https://github.com/troessner/reek/issues/84)
+- Unnecessary duplication warning [\#80](https://github.com/troessner/reek/issues/80)
+- reek should no analyze code found after \_\_END\_\_ [\#73](https://github.com/troessner/reek/issues/73)
 - Errors on Mac OSX 10.5.8 Ruby 1.9.1 [\#59](https://github.com/troessner/reek/issues/59)
-- Configure reek per-file, not per-smell [\#37](https://github.com/troessner/reek/issues/37)
-- Large Class should not count added methods from validations / associations in Rails [\#24](https://github.com/troessner/reek/issues/24)
 
 **Merged pull requests:**
 
