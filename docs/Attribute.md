@@ -2,7 +2,11 @@
 
 ## Introduction
 
-A class that publishes a getter or setter for an instance variable invites client classes to become too intimate with its inner workings, and in particular with its representation of state.
+A class that publishes a setter for an instance variable invites
+client classes to become too intimate with its inner workings, and in
+particular with its representation of state.
+
+The same holds to a lesser extent for getters, but Reek doesn't flag those.
 
 ## Example
 
@@ -20,24 +24,16 @@ end
 reek test.rb
 
 test.rb -- 1 warning:
-  [2]:Klass declares the attribute dummy (Attribute)
+  [2]:Klass declares the writable attribute dummy (Attribute)
 ```
 
 ## Support in Reek
 
-Right now this smell is disabled by default since it is highly subjective.
+This detector it raises a warning for every public `attr_writer`,
+`attr_accessor`, and `attr` with the writable flag set to `true`.
 
-When this detector is enabled it raises a warning for every `attr`, `attr_reader`, `attr_writer` and `attr_accessor` -- including those that are private.
+Reek does not raise warnings for read-only attributes.
 
 ## Configuration
-
-If you want to enable it you can do so by placing
-
-```yaml
-Attribute:
-  enabled: true
-```
-
-in your reek configuration file.
 
 `Attribute` supports only the [Basic Smell Options](Basic-Smell-Options.md).
