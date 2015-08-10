@@ -59,7 +59,7 @@ RepeatedConditional:
 TooManyInstanceVariables:
   enabled: true
   exclude: []
-  max_instance_variables: 9
+  max_instance_variables: 4
 TooManyMethods:
   enabled: true
   exclude: []

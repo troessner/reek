@@ -40,4 +40,4 @@ test.rb -- 5 warnings:
 
 | Option         | Value       | Effect  |
 | ---------------|-------------|---------|
-| max_instance_variables     | integer | The maximum number of instance variables that are permitted. Defaults to 9 |
+| max_instance_variables     | integer | The maximum number of instance variables that are permitted. Defaults to 4 |
