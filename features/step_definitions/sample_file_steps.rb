@@ -27,7 +27,7 @@ end
 
 Given(/^the "(.*?)" sample file exists$/) do |file_name|
   full_path = Pathname.new("#{__dir__}/../../spec/samples/#{file_name}")
-  in_current_directory { FileUtils.cp full_path, file_name }
+  cd('.') { FileUtils.cp full_path, file_name }
 end
 
 Given(/^a directory called 'clean_files' containing some clean files$/) do
@@ -135,7 +135,7 @@ When(/^I run "reek (.*?)" in the subdirectory$/) do |args|
 end
 
 Given(/^a masking configuration file in the HOME directory$/) do
-  set_env 'HOME', Pathname.new("#{current_directory}/home").expand_path.to_s
+  set_environment_variable 'HOME', Pathname.new("#{expand_path('.')}/home")
   write_file('home/config.reek', <<-EOS.strip_heredoc)
     ---
     DuplicateMethodCall:
