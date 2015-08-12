@@ -18,14 +18,13 @@ matrix:
     - rvm: jruby-head
       env: JRUBY_OPTS='--server -Xcompile.invokedynamic=false'
   allow_failures:
+    - rvm: jruby
     - rvm: jruby-head
-      env: JRUBY_OPTS='--server -Xcompile.invokedynamic=false'
     - rvm: ruby-head
   fast_finish: true
 notifications:
   recipients:
     - timo.roessner@googlemail.com
     - matijs@matijs.net
-    - emil.rehnberg@gmail.com
     - chastell@chastell.net
   irc: "irc.freenode.org#reek"
