@@ -57,7 +57,7 @@ Feature: Basic smell detection
       Module#inline calls Inline.const_get(lang) 2 times (DuplicateMethodCall)
       Module#inline calls options[:testing] 2 times (DuplicateMethodCall)
       Module#inline has approx 12 statements (TooManyStatements)
-    optparse.rb -- 119 warnings:
+    optparse.rb -- 121 warnings:
       OptionParser declares the writable attribute banner (Attribute)
       OptionParser declares the writable attribute default_argv (Attribute)
       OptionParser declares the writable attribute program_name (Attribute)
@@ -66,6 +66,7 @@ Feature: Basic smell detection
       OptionParser declares the writable attribute summary_width (Attribute)
       OptionParser declares the writable attribute version (Attribute)
       OptionParser has at least 42 methods (TooManyMethods)
+      OptionParser has at least 6 instance variables (TooManyInstanceVariables)
       OptionParser has the variable name 'f' (UncommunicativeVariableName)
       OptionParser has the variable name 'k' (UncommunicativeVariableName)
       OptionParser has the variable name 'o' (UncommunicativeVariableName)
@@ -151,6 +152,7 @@ Feature: Basic smell detection
       OptionParser::List#update has the variable name 'o' (UncommunicativeVariableName)
       OptionParser::ParseError declares the writable attribute reason (Attribute)
       OptionParser::ParseError#set_option is controlled by argument eq (ControlParameter)
+      OptionParser::Switch has at least 7 instance variables (TooManyInstanceVariables)
       OptionParser::Switch#add_banner has the variable name 's' (UncommunicativeVariableName)
       OptionParser::Switch#initialize has 7 parameters (LongParameterList)
       OptionParser::Switch#parse_arg calls s.length 2 times (DuplicateMethodCall)
@@ -279,5 +281,5 @@ Feature: Basic smell detection
       RedCloth#textile_popup_help has the parameter name 'windowW' (UncommunicativeParameterName)
       RedCloth#to_html has approx 26 statements (TooManyStatements)
       RedCloth#v_align doesn't depend on instance state (UtilityFunction)
-    265 total warnings
+    267 total warnings
     """
