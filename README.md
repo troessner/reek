@@ -218,7 +218,7 @@ end
 This is further explained under [Smell Suppresion](docs/Smell-Suppression.md).
 
 
-## Integration
+## Usage
 
 Besides the obvious
 
@@ -295,17 +295,55 @@ Just add this to your configuration file:
 
 Be careful though, `reek` does not merge your configuration entries, so if you already have a directory directive for "app/controllers" or "app/helpers" you need to update those directives instead of copying the above YAML sample into your configuration file.
 
-## Additional resources
+## Integrations
 
-### Tools
+### Editor integrations
 
-* [Vim plugin for `reek`](https://github.com/rainerborene/vim-reek)
-* [TextMate Bundle for `reek`](https://github.com/peeyush1234/reek.tmbundle)
+* [Vim plugin](https://github.com/rainerborene/vim-reek)
+* [TextMate Bundle](https://github.com/peeyush1234/reek.tmbundle)
+* [Atom plugin](https://atom.io/packages/linter-reek)
+
+### Projects that use or support us
+
+* [overcommit](https://github.com/brigade/overcommit) - a Git commit hook manager with support for
+  `reek`
+* [ruby-critic](https://github.com/whitesmith/rubycritic) - gem that wraps around static analysis gems such as `reek`, [flay](https://github.com/seattlerb/flay) and [flog](https://github.com/seattlerb/flog)
+* [pronto-reek](https://github.com/mmozuras/pronto-reek) - `reek` integration for [pronto](https://github.com/mmozuras/pronto)
+
+### Misc
+
 * [Colorful output for `reek`](https://github.com/joenas/preek)
   (also with [Guard::Preek](https://github.com/joenas/guard-preek))
-* [Atom plugin for `reek`](https://atom.io/packages/linter-reek)
-* [overcommit, a Git commit hook manager with support for
-  `reek`](https://github.com/brigade/overcommit)
+
+## Brothers and sisters
+
+A non-exhaustive list of other static code analyzers you might want to look into:
+
+* [debride](https://github.com/seattlerb/debride) - analyze code for potentially uncalled / dead methods
+* [flay](https://github.com/seattlerb/flay) - analyze code for structural similarities
+* [flog](https://github.com/seattlerb/flog) - reports the most tortured code in an easy to read pain
+report
+* [SandiMeter](https://github.com/makaroni4/sandi_meter) - checking your Ruby code for Sandi Metz' four rules
+* [ruby-lint](https://github.com/YorickPeterse/ruby-lint) - static code analysis tool
+* [Fasterer](https://github.com/DamirSvrtan/fasterer) - Fasterer will suggest some speed improvements based on [fast-ruby](https://github.com/JuanitoFatas/fast-ruby)
+
+## Contributors
+
+The `reek` core team consists of:
+
+* [Matijs van Zuijlen](https://github.com/mvz)
+* [Piotr Szotkowski](https://github.com/chastell)
+* [Timo Rößner](https://github.com/troessner)
+
+The original author of `reek` is [Kevin Rutherford](https://github.com/kevinrutherford).
+
+Notable contributions came from:
+
+* [Andrew Wagner](https://github.com/arwagner)
+* [Gilles Leblanc](https://github.com/gilles-leblanc)
+* [Emil Rehnberg](https://github.com/EmilRehnberg)
+
+## Additional resources
 
 ### Miscellaneous
 
@@ -316,13 +354,3 @@ Be careful though, `reek` does not merge your configuration entries, so if you a
 
 * [Stack Overflow](https://stackoverflow.com/questions/tagged/reek)
 * [RubyDoc.info](http://www.rubydoc.info/gems/reek)
-
-## Contributors
-
-A non-exhaustive list:
-
-* Kevin Rutherford
-* Matijs van Zuijlen
-* Andrew Wagner
-* Gilles Leblanc
-* Timo Rößner
