@@ -41,31 +41,29 @@ RSpec.describe Reek::Smells::TooManyStatements do
 end
 
 RSpec.describe Reek::Smells::TooManyStatements do
-  before(:each) do
-    @detector = build(:smell_detector, smell_type: :TooManyStatements, source: 'source_name')
-  end
+  let(:detector) { build(:smell_detector, smell_type: :TooManyStatements, source: 'source_name') }
 
   it_should_behave_like 'SmellDetector'
 
   context 'when the method has 30 statements' do
-    before :each do
-      @num_statements = 30
+    let(:num_statements) { 30 }
+    let(:smells) do
       ctx = double('method_context').as_null_object
-      expect(ctx).to receive(:num_statements).and_return(@num_statements)
+      expect(ctx).to receive(:num_statements).and_return(num_statements)
       expect(ctx).to receive(:config_for).with(described_class).and_return({})
-      @smells = @detector.examine_context(ctx)
+      detector.examine_context(ctx)
     end
 
     it 'reports only 1 smell' do
-      expect(@smells.length).to eq(1)
+      expect(smells.length).to eq(1)
     end
 
     it 'reports the number of statements' do
-      expect(@smells[0].parameters[:count]).to eq(@num_statements)
+      expect(smells[0].parameters[:count]).to eq(num_statements)
     end
 
     it 'reports the correct smell sub class' do
-      expect(@smells[0].smell_type).to eq(described_class.smell_type)
+      expect(smells[0].smell_type).to eq(described_class.smell_type)
     end
   end
 end

@@ -3,14 +3,12 @@ require_relative '../../lib/reek/code_comment'
 
 RSpec.describe Reek::CodeComment do
   context 'with an empty comment' do
-    before :each do
-      @comment = described_class.new('')
-    end
+    let(:comment) { described_class.new('') }
     it 'is not descriptive' do
-      expect(@comment).not_to be_descriptive
+      expect(comment).not_to be_descriptive
     end
     it 'has an empty config' do
-      expect(@comment.config).to be_empty
+      expect(comment.config).to be_empty
     end
   end
 

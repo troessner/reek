@@ -66,22 +66,20 @@ RSpec.describe Reek::Smells::BooleanParameter do
   end
 
   context 'when a smell is reported' do
-    before(:each) do
-      @source_name = 'dummy_source'
-      @detector = build(:smell_detector, smell_type: :BooleanParameter, source: @source_name)
-    end
+    let(:detector) { build(:smell_detector, smell_type: :BooleanParameter, source: source_name) }
+    let(:source_name) { 'dummy_source' }
 
     it_should_behave_like 'SmellDetector'
 
     it 'reports the fields correctly' do
       src = 'def cc(arga = true) end'
       ctx = Reek::Context::MethodContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
-      @detector.examine(ctx)
-      smells = @detector.smells_found.to_a
+      detector.examine(ctx)
+      smells = detector.smells_found.to_a
       expect(smells.length).to eq(1)
       expect(smells[0].smell_category).to eq(described_class.smell_category)
       expect(smells[0].parameters[:name]).to eq('arga')
-      expect(smells[0].source).to eq(@source_name)
+      expect(smells[0].source).to eq(source_name)
       expect(smells[0].smell_type).to eq(described_class.smell_type)
       expect(smells[0].lines).to eq([1])
     end

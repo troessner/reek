@@ -5,29 +5,25 @@ require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::UtilityFunction do
   describe 'a detector' do
-    before(:each) do
-      @source_name = 'string'
-      @detector = build(:smell_detector,
-                        smell_type: :UtilityFunction,
-                        source: @source_name)
-    end
+    let(:detector) { build(:smell_detector, smell_type: :UtilityFunction, source: source_name) }
+    let(:source_name) { 'string' }
 
     it_should_behave_like 'SmellDetector'
 
     context 'when a smells is reported' do
-      before :each do
+      let(:warning) do
         src = <<-EOS
-        def simple(arga)
-          arga.b.c
-        end
+          def simple(arga)
+            arga.b.c
+          end
         EOS
-        @warning = Reek::Examiner.new(src, ['UtilityFunction']).smells[0]
+        Reek::Examiner.new(src, ['UtilityFunction']).smells[0]
       end
 
       it_should_behave_like 'common fields set correctly'
 
       it 'reports the line number of the method' do
-        expect(@warning.lines).to eq([1])
+        expect(warning.lines).to eq([1])
       end
     end
   end

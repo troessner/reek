@@ -3,300 +3,282 @@ require_relative '../../../lib/reek/ast/sexp_extensions'
 
 RSpec.describe Reek::AST::SexpExtensions::DefNode do
   context 'with no parameters' do
-    before :each do
-      @node = s(:def, :hello, s(:args))
-    end
+    let(:node) { s(:def, :hello, s(:args)) }
 
     it 'has no arg names' do
-      expect(@node.arg_names).to eq []
+      expect(node.arg_names).to eq []
     end
 
     it 'has no parameter names' do
-      expect(@node.parameter_names).to eq []
+      expect(node.parameter_names).to eq []
     end
 
     it 'includes outer scope in its full name' do
-      expect(@node.full_name('Fred')).to eq 'Fred#hello'
+      expect(node.full_name('Fred')).to eq 'Fred#hello'
     end
 
     it 'includes no marker in its full name with empty outer scope' do
-      expect(@node.full_name('')).to eq 'hello'
+      expect(node.full_name('')).to eq 'hello'
     end
   end
 
   context 'with 1 parameter' do
-    before :each do
-      @node = s(:def, :hello,
-                s(:args, s(:arg, :param)))
+    let(:node) do
+      s(:def, :hello,
+        s(:args, s(:arg, :param)))
     end
 
     it 'has 1 arg name' do
-      expect(@node.arg_names).to eq [:param]
+      expect(node.arg_names).to eq [:param]
     end
 
     it 'has 1 parameter name' do
-      expect(@node.parameter_names).to eq [:param]
+      expect(node.parameter_names).to eq [:param]
     end
 
     it 'includes outer scope in its full name' do
-      expect(@node.full_name('Fred')).to eq 'Fred#hello'
+      expect(node.full_name('Fred')).to eq 'Fred#hello'
     end
 
     it 'includes no marker in its full name with empty outer scope' do
-      expect(@node.full_name('')).to eq 'hello'
+      expect(node.full_name('')).to eq 'hello'
     end
   end
 
   context 'with a block parameter' do
-    before :each do
-      @node = s(:def, :hello,
-                s(:args,
-                  s(:arg, :param),
-                  s(:blockarg, :blk)))
+    let(:node) do
+      s(:def, :hello,
+        s(:args,
+          s(:arg, :param),
+          s(:blockarg, :blk)))
     end
 
     it 'has 1 arg name' do
-      expect(@node.arg_names).to eq [:param]
+      expect(node.arg_names).to eq [:param]
     end
 
     it 'has 2 parameter names' do
-      expect(@node.parameter_names).to eq [:param, :blk]
+      expect(node.parameter_names).to eq [:param, :blk]
     end
 
     it 'includes outer scope in its full name' do
-      expect(@node.full_name('Fred')).to eq 'Fred#hello'
+      expect(node.full_name('Fred')).to eq 'Fred#hello'
     end
 
     it 'includes no marker in its full name with empty outer scope' do
-      expect(@node.full_name('')).to eq 'hello'
+      expect(node.full_name('')).to eq 'hello'
     end
   end
 
   context 'with 1 defaulted parameter' do
-    before :each do
-      @node = s(:def, :hello,
-                s(:args,
-                  s(:optarg, :param, s(:array))))
+    let(:node) do
+      s(:def, :hello,
+        s(:args,
+          s(:optarg, :param, s(:array))))
     end
 
     it 'has 1 arg name' do
-      expect(@node.arg_names).to eq [:param]
+      expect(node.arg_names).to eq [:param]
     end
 
     it 'has 1 parameter name' do
-      expect(@node.parameter_names).to eq [:param]
+      expect(node.parameter_names).to eq [:param]
     end
 
     it 'includes outer scope in its full name' do
-      expect(@node.full_name('Fred')).to eq 'Fred#hello'
+      expect(node.full_name('Fred')).to eq 'Fred#hello'
     end
 
     it 'includes no marker in its full name with empty outer scope' do
-      expect(@node.full_name('')).to eq 'hello'
+      expect(node.full_name('')).to eq 'hello'
     end
   end
 
   context 'with a body with 2 statements' do
-    before :each do
-      @node = s(:def, :hello, s(:args),
-                s(:begin,
-                  s(:first),
-                  s(:second)))
+    let(:node) do
+      s(:def, :hello, s(:args),
+        s(:begin,
+          s(:first),
+          s(:second)))
     end
 
     it 'has 2 body statements' do
-      expect(@node.body).to eq s(:begin, s(:first), s(:second))
+      expect(node.body).to eq s(:begin, s(:first), s(:second))
     end
 
     it 'finds nodes in the body with #body_nodes' do
-      expect(@node.body_nodes([:first])).to eq [s(:first)]
+      expect(node.body_nodes([:first])).to eq [s(:first)]
     end
   end
 
   context 'with no body' do
-    before :each do
-      @node = s(:def, :hello, s(:args), nil)
-    end
+    let(:node) { s(:def, :hello, s(:args), nil) }
 
     it 'has a body that is nil' do
-      expect(@node.body).to be_nil
+      expect(node.body).to be_nil
     end
 
     it 'finds no nodes in the body' do
-      expect(@node.body_nodes([:foo])).to eq []
+      expect(node.body_nodes([:foo])).to eq []
     end
   end
 end
 
 RSpec.describe Reek::AST::SexpExtensions::DefsNode do
   context 'with no parameters' do
-    before :each do
-      @node = s(:defs, s(:lvar, :obj), :hello, s(:args))
-    end
+    let(:node) { s(:defs, s(:lvar, :obj), :hello, s(:args)) }
 
     it 'has no arg names' do
-      expect(@node.arg_names).to eq []
+      expect(node.arg_names).to eq []
     end
 
     it 'has no parameter names' do
-      expect(@node.parameter_names).to eq []
+      expect(node.parameter_names).to eq []
     end
 
     it 'includes outer scope in its full name' do
-      expect(@node.full_name('Fred')).to eq 'Fred#obj.hello'
+      expect(node.full_name('Fred')).to eq 'Fred#obj.hello'
     end
 
     it 'includes no marker in its full name with empty outer scope' do
-      expect(@node.full_name('')).to eq 'obj.hello'
+      expect(node.full_name('')).to eq 'obj.hello'
     end
   end
 
   context 'with 1 parameter' do
-    before :each do
-      @node = s(:defs, s(:lvar, :obj), :hello,
-                s(:args, s(:arg, :param)))
+    let(:node) do
+      s(:defs, s(:lvar, :obj), :hello,
+        s(:args, s(:arg, :param)))
     end
 
     it 'has 1 arg name' do
-      expect(@node.arg_names).to eq [:param]
+      expect(node.arg_names).to eq [:param]
     end
 
     it 'has 1 parameter name' do
-      expect(@node.parameter_names).to eq [:param]
+      expect(node.parameter_names).to eq [:param]
     end
 
     it 'includes outer scope in its full name' do
-      expect(@node.full_name('Fred')).to eq 'Fred#obj.hello'
+      expect(node.full_name('Fred')).to eq 'Fred#obj.hello'
     end
 
     it 'includes no marker in its full name with empty outer scope' do
-      expect(@node.full_name('')).to eq 'obj.hello'
+      expect(node.full_name('')).to eq 'obj.hello'
     end
   end
 
   context 'with a block' do
-    before :each do
-      @node = s(:defs, s(:lvar, :obj), :hello,
-                s(:args,
-                  s(:arg, :param),
-                  s(:blockarg, :blk)))
+    let(:node) do
+      s(:defs, s(:lvar, :obj), :hello,
+        s(:args,
+          s(:arg, :param),
+          s(:blockarg, :blk)))
     end
 
     it 'has 1 arg name' do
-      expect(@node.arg_names).to eq [:param]
+      expect(node.arg_names).to eq [:param]
     end
 
     it 'has 2 parameter names' do
-      expect(@node.parameter_names).to eq [:param, :blk]
+      expect(node.parameter_names).to eq [:param, :blk]
     end
 
     it 'includes outer scope in its full name' do
-      expect(@node.full_name('Fred')).to eq 'Fred#obj.hello'
+      expect(node.full_name('Fred')).to eq 'Fred#obj.hello'
     end
 
     it 'includes no marker in its full name with empty outer scope' do
-      expect(@node.full_name('')).to eq 'obj.hello'
+      expect(node.full_name('')).to eq 'obj.hello'
     end
   end
 
   context 'with 1 defaulted parameter' do
-    before :each do
-      @node = s(:defs, s(:lvar, :obj), :hello,
-                s(:args,
-                  s(:optarg, :param, s(:array))))
+    let(:node) do
+      s(:defs, s(:lvar, :obj), :hello,
+        s(:args,
+          s(:optarg, :param, s(:array))))
     end
 
     it 'has 1 arg name' do
-      expect(@node.arg_names).to eq [:param]
+      expect(node.arg_names).to eq [:param]
     end
 
     it 'has 1 parameter name' do
-      expect(@node.parameter_names).to eq [:param]
+      expect(node.parameter_names).to eq [:param]
     end
 
     it 'includes outer scope in its full name' do
-      expect(@node.full_name('Fred')).to eq 'Fred#obj.hello'
+      expect(node.full_name('Fred')).to eq 'Fred#obj.hello'
     end
 
     it 'includes no marker in its full name with empty outer scope' do
-      expect(@node.full_name('')).to eq 'obj.hello'
+      expect(node.full_name('')).to eq 'obj.hello'
     end
   end
 
   context 'with a body with 2 statements' do
-    before :each do
-      @node = s(:defs, s(:self), :hello, s(:args),
-                s(:begin,
-                  s(:first),
-                  s(:second)))
+    let(:node) do
+      s(:defs, s(:self), :hello, s(:args),
+        s(:begin,
+          s(:first),
+          s(:second)))
     end
 
     it 'has 2 body statements' do
-      expect(@node.body).to eq s(:begin, s(:first), s(:second))
+      expect(node.body).to eq s(:begin, s(:first), s(:second))
     end
   end
 end
 
 RSpec.describe Reek::AST::SexpExtensions::SendNode do
   context 'with no parameters' do
-    before :each do
-      @node = s(:send, nil, :hello)
-    end
+    let(:node) { s(:send, nil, :hello) }
 
     it 'has no argument names' do
-      expect(@node.arg_names).to eq []
+      expect(node.arg_names).to eq []
     end
   end
 
   context 'with 1 literal parameter' do
-    before :each do
-      @node = s(:send, nil, :hello, s(:lit, :param))
-    end
+    let(:node) { s(:send, nil, :hello, s(:lit, :param)) }
 
     it 'has 1 argument name' do
-      expect(@node.arg_names).to eq [:param]
+      expect(node.arg_names).to eq [:param]
     end
   end
 
   context 'with 2 literal parameters' do
-    before :each do
-      @node = s(:send, nil, :hello, s(:lit, :x), s(:lit, :y))
-    end
+    let(:node) { s(:send, nil, :hello, s(:lit, :x), s(:lit, :y)) }
 
     it 'has 2 argument names' do
-      expect(@node.arg_names).to eq [:x, :y]
+      expect(node.arg_names).to eq [:x, :y]
     end
   end
 end
 
 RSpec.describe Reek::AST::SexpExtensions::BlockNode do
   context 'with no parameters' do
-    before :each do
-      @node = s(:block, s(:send, nil, :map), s(:args), nil)
-    end
+    let(:node) { s(:block, s(:send, nil, :map), s(:args), nil) }
 
     it 'has no parameter names' do
-      expect(@node.parameter_names).to eq []
+      expect(node.parameter_names).to eq []
     end
   end
 
   context 'with 1 parameter' do
-    before :each do
-      @node = s(:block, s(:send, nil, :map), s(:args, :param), nil)
-    end
+    let(:node) { s(:block, s(:send, nil, :map), s(:args, :param), nil) }
 
     it 'has 1 parameter name' do
-      expect(@node.parameter_names).to eq [:param]
+      expect(node.parameter_names).to eq [:param]
     end
   end
 
   context 'with 2 parameters' do
-    before :each do
-      @node = s(:block, s(:send, nil, :map), s(:args, :x, :y), nil)
-    end
+    let(:node) { s(:block, s(:send, nil, :map), s(:args, :x, :y), nil) }
 
     it 'has 2 parameter names' do
-      expect(@node.parameter_names).to eq [:x, :y]
+      expect(node.parameter_names).to eq [:x, :y]
     end
   end
 end

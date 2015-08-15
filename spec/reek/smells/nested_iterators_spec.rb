@@ -123,11 +123,11 @@ RSpec.describe Reek::Smells::NestedIterators do
   end
 
   context 'when the allowed nesting depth is 3' do
-    before :each do
-      @config = { Reek::Smells::NestedIterators =>
-                  { Reek::Smells::NestedIterators::MAX_ALLOWED_NESTING_KEY => 3 } }
+    let(:configuration) do
+      config = { Reek::Smells::NestedIterators =>
+                 { Reek::Smells::NestedIterators::MAX_ALLOWED_NESTING_KEY => 3 } }
+      test_configuration_for(config)
     end
-    let(:configuration) { test_configuration_for(@config) }
 
     it 'should not report nested iterators 2 levels deep' do
       src = <<-EOS
@@ -161,11 +161,11 @@ RSpec.describe Reek::Smells::NestedIterators do
   end
 
   context 'when ignoring iterators' do
-    before :each do
-      @config = { Reek::Smells::NestedIterators =>
-                  { Reek::Smells::NestedIterators::IGNORE_ITERATORS_KEY => ['ignore_me'] } }
+    let(:configuration) do
+      config = { Reek::Smells::NestedIterators =>
+                 { Reek::Smells::NestedIterators::IGNORE_ITERATORS_KEY => ['ignore_me'] } }
+      test_configuration_for(config)
     end
-    let(:configuration) { test_configuration_for(@config) }
 
     it 'should not report nesting the ignored iterator inside another' do
       src = 'def bad(fred) @fred.each {|item| item.ignore_me {|ting| ting.ting} } end'
@@ -207,15 +207,13 @@ RSpec.describe Reek::Smells::NestedIterators do
 end
 
 RSpec.describe Reek::Smells::NestedIterators do
-  before(:each) do
-    @source_name = 'dummy_source'
-    @detector = build(:smell_detector, smell_type: :NestedIterators, source: @source_name)
-  end
+  let(:detector) { build(:smell_detector, smell_type: :NestedIterators, source: source_name) }
+  let(:source_name) { 'dummy_source' }
 
   it_should_behave_like 'SmellDetector'
 
   context 'when a smell is reported' do
-    before :each do
+    let(:warning) do
       src = <<-EOS
         def fred()
           nothing.each do |item|
@@ -224,14 +222,14 @@ RSpec.describe Reek::Smells::NestedIterators do
         end
       EOS
       ctx = Reek::Context::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
-      @warning = @detector.examine_context(ctx)[0]
+      detector.examine_context(ctx).first
     end
 
     it_should_behave_like 'common fields set correctly'
 
     it 'reports correct values' do
-      expect(@warning.parameters[:count]).to eq(2)
-      expect(@warning.lines).to eq([3])
+      expect(warning.parameters[:count]).to eq(2)
+      expect(warning.lines).to eq([3])
     end
   end
 end

@@ -3,10 +3,8 @@ require_relative '../../../lib/reek/smells/control_parameter'
 require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::ControlParameter do
-  before(:each) do
-    @source_name = 'dummy_source'
-    @detector = build(:smell_detector, smell_type: :ControlParameter, source: @source_name)
-  end
+  let(:detector) { build(:smell_detector, smell_type: :ControlParameter, source: source_name) }
+  let(:source_name) { 'dummy_source' }
 
   it_should_behave_like 'SmellDetector'
 
@@ -263,7 +261,7 @@ RSpec.describe Reek::Smells::ControlParameter do
   end
 
   context 'when a smell is reported' do
-    before :each do
+    let(:warning) do
       src = <<-EOS
         def things(arg)
           @text.map do |blk|
@@ -273,16 +271,16 @@ RSpec.describe Reek::Smells::ControlParameter do
         end
       EOS
       ctx = Reek::Context::MethodContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
-      smells = @detector.examine(ctx)
+      smells = detector.examine(ctx)
       expect(smells.length).to eq(1)
-      @warning = smells[0]
+      smells.first
     end
 
     it_should_behave_like 'common fields set correctly'
 
     it 'has the correct fields' do
-      expect(@warning.parameters[:name]).to eq('arg')
-      expect(@warning.lines).to eq([3, 5])
+      expect(warning.parameters[:name]).to eq('arg')
+      expect(warning.lines).to eq([3, 5])
     end
   end
 end

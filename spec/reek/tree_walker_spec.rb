@@ -5,9 +5,9 @@ require_relative '../../lib/reek/source/source_code'
 # Dummy repository to inject into TreeWalker in order to count statements in
 # all contexts.
 class TestSmellRepository
-  attr_reader :num_statements
+  attr_accessor :num_statements
   def examine(context)
-    @num_statements = context.num_statements
+    self.num_statements = context.num_statements
   end
 end
 

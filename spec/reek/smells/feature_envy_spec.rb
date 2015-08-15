@@ -213,53 +213,52 @@ RSpec.describe Reek::Smells::FeatureEnvy do
 end
 
 RSpec.describe Reek::Smells::FeatureEnvy do
-  before(:each) do
-    @source_name = 'string'
-    @detector = build(:smell_detector, smell_type: :FeatureEnvy, source: @source_name)
-  end
+  let(:detector) { build(:smell_detector, smell_type: :FeatureEnvy, source: source_name) }
+  let(:source_name) { 'string' }
 
   it_should_behave_like 'SmellDetector'
 
   context 'when a smell is reported' do
-    before :each do
-      @receiver = 'other'
+    let(:receiver) { 'other' }
+
+    let(:smells) do
       src = <<-EOS
         def envious(other)
-          #{@receiver}.call
+          #{receiver}.call
           self.do_nothing
-          #{@receiver}.other
-          #{@receiver}.fred
+          #{receiver}.other
+          #{receiver}.fred
         end
       EOS
-      @smells = Reek::Examiner.new(src, ['FeatureEnvy']).smells
+      Reek::Examiner.new(src, ['FeatureEnvy']).smells
     end
 
     it 'reports only that smell' do
-      expect(@smells.length).to eq(1)
+      expect(smells.length).to eq(1)
     end
 
     it 'reports the source' do
-      expect(@smells[0].source).to eq(@source_name)
+      expect(smells[0].source).to eq(source_name)
     end
 
     it 'reports the smell class' do
-      expect(@smells[0].smell_category).to eq(described_class.smell_category)
+      expect(smells[0].smell_category).to eq(described_class.smell_category)
     end
 
     it 'reports the smell sub class' do
-      expect(@smells[0].smell_type).to eq(described_class.smell_type)
+      expect(smells[0].smell_type).to eq(described_class.smell_type)
     end
 
     it 'reports the envious receiver' do
-      expect(@smells[0].parameters[:name]).to eq(@receiver)
+      expect(smells[0].parameters[:name]).to eq(receiver)
     end
 
     it 'reports the number of references' do
-      expect(@smells[0].parameters[:count]).to eq(3)
+      expect(smells[0].parameters[:count]).to eq(3)
     end
 
     it 'reports the referring lines' do
-      expect(@smells[0].lines).to eq([2, 4, 5])
+      expect(smells[0].lines).to eq([2, 4, 5])
     end
   end
 end
