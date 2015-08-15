@@ -52,9 +52,9 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       def examine_context(ctx)
-        @max_copies = value(MAX_COPIES_KEY, ctx, DEFAULT_MAX_COPIES)
-        @min_clump_size = value(MIN_CLUMP_SIZE_KEY, ctx, DEFAULT_MIN_CLUMP_SIZE)
-        MethodGroup.new(ctx, @min_clump_size, @max_copies).clumps.map do |clump, methods|
+        max_copies = value(MAX_COPIES_KEY, ctx, DEFAULT_MAX_COPIES)
+        min_clump_size = value(MIN_CLUMP_SIZE_KEY, ctx, DEFAULT_MIN_CLUMP_SIZE)
+        MethodGroup.new(ctx, min_clump_size, max_copies).clumps.map do |clump, methods|
           print_clump = DataClump.print_clump(clump)
           SmellWarning.new self,
                            context: ctx.full_name,
@@ -88,10 +88,10 @@ module Reek
     end
 
     def candidate_clumps
-      @candidate_methods.each_cons(@max_copies + 1).map do |methods|
+      candidate_methods.each_cons(max_copies + 1).map do |methods|
         common_argument_names_for(methods)
       end.select do |clump|
-        clump.length >= @min_clump_size
+        clump.length >= min_clump_size
       end.uniq
     end
 
@@ -100,7 +100,7 @@ module Reek
     end
 
     def methods_containing_clump(clump)
-      @candidate_methods.select { |method| clump & method.arg_names == clump }
+      candidate_methods.select { |method| clump & method.arg_names == clump }
     end
 
     def clumps
@@ -108,6 +108,10 @@ module Reek
         [clump, methods_containing_clump(clump)]
       end
     end
+
+    private
+
+    private_attr_reader :candidate_methods, :max_copies, :min_clump_size
   end
 
   # A method definition and a copy of its parameters
@@ -118,15 +122,19 @@ module Reek
     end
 
     def arg_names
-      @arg_names ||= @defn.arg_names.compact.sort
+      @arg_names ||= defn.arg_names.compact.sort
     end
 
     def line
-      @defn.line
+      defn.line
     end
 
     def name
-      @defn.name.to_s     # BUG: should report the symbols!
+      defn.name.to_s     # BUG: should report the symbols!
     end
+
+    private
+
+    private_attr_reader :defn
   end
 end

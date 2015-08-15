@@ -10,7 +10,7 @@ module Reek
     # @api private
     class ReekCommand < Command
       def execute(app)
-        @options.sources.each do |source|
+        options.sources.each do |source|
           reporter.add_examiner Examiner.new(source, smell_names, configuration: app.configuration)
         end
         reporter.smells? ? app.report_smells : app.report_success
@@ -20,11 +20,11 @@ module Reek
       private
 
       def reporter
-        @reporter ||= @options.reporter
+        @reporter ||= options.reporter
       end
 
       def smell_names
-        @smell_names ||= @options.smells_to_detect
+        @smell_names ||= options.smells_to_detect
       end
     end
   end

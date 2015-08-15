@@ -1,5 +1,4 @@
 require 'pathname'
-require 'private_attr/everywhere'
 require_relative './configuration_file_finder'
 
 module Reek

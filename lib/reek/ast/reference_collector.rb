@@ -18,14 +18,16 @@ module Reek
 
       private
 
+      private_attr_reader :ast
+
       def explicit_self_calls
         [:self, :zsuper, :ivar, :ivasgn].flat_map do |node_type|
-          @ast.each_node(node_type, STOP_NODES)
+          ast.each_node(node_type, STOP_NODES)
         end
       end
 
       def implicit_self_calls
-        @ast.each_node(:send, STOP_NODES).reject(&:receiver)
+        ast.each_node(:send, STOP_NODES).reject(&:receiver)
       end
     end
   end

@@ -10,6 +10,10 @@ module Reek
       def initialize(options)
         @options = options
       end
+
+      private
+
+      private_attr_reader :options
     end
   end
 end

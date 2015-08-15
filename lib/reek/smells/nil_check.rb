@@ -36,10 +36,14 @@ module Reek
         end
 
         def smelly_nodes
-          @nodes.select do |when_node|
-            @detector.detect(when_node)
+          nodes.select do |when_node|
+            detector.detect(when_node)
           end
         end
+
+        private
+
+        private_attr_reader :detector, :nodes
       end
 
       # Detect 'call' nodes which perform a nil check.

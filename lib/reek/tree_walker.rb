@@ -24,13 +24,19 @@ module Reek
     end
 
     def walk
-      @result ||= process(@exp)
-      @result.each do |element|
-        @smell_repository.examine(element)
+      result.each do |element|
+        smell_repository.examine(element)
       end
     end
 
     private
+
+    private_attr_accessor :element
+    private_attr_reader :exp, :smell_repository
+
+    def result
+      @result ||= process(exp)
+    end
 
     def process(exp)
       context_processor = "process_#{exp.type}"
@@ -39,7 +45,7 @@ module Reek
       else
         process_default exp
       end
-      @element
+      element
     end
 
     def process_module(exp)
@@ -86,28 +92,28 @@ module Reek
 
     def process_send(exp)
       if visibility_modifier? exp
-        @element.track_visibility(exp.method_name, exp.arg_names)
+        element.track_visibility(exp.method_name, exp.arg_names)
       end
-      @element.record_call_to(exp)
+      element.record_call_to(exp)
       process_default(exp)
     end
 
     def process_attrasgn(exp)
-      @element.record_call_to(exp)
+      element.record_call_to(exp)
       process_default(exp)
     end
 
     alias_method :process_op_asgn, :process_attrasgn
 
     def process_ivar(exp)
-      @element.record_use_of_self
+      element.record_use_of_self
       process_default(exp)
     end
 
     alias_method :process_ivasgn, :process_ivar
 
     def process_self(_)
-      @element.record_use_of_self
+      element.record_use_of_self
     end
 
     alias_method :process_zsuper, :process_self
@@ -123,7 +129,7 @@ module Reek
 
     def process_begin(exp)
       count_statement_list(exp.children)
-      @element.count_statements(-1)
+      element.count_statements(-1)
       process_default(exp)
     end
 
@@ -132,13 +138,13 @@ module Reek
     def process_if(exp)
       count_clause(exp[2])
       count_clause(exp[3])
-      @element.count_statements(-1)
+      element.count_statements(-1)
       process_default(exp)
     end
 
     def process_while(exp)
       count_clause(exp[2])
-      @element.count_statements(-1)
+      element.count_statements(-1)
       process_default(exp)
     end
 
@@ -146,13 +152,13 @@ module Reek
 
     def process_for(exp)
       count_clause(exp[3])
-      @element.count_statements(-1)
+      element.count_statements(-1)
       process_default(exp)
     end
 
     def process_rescue(exp)
       count_clause(exp[1])
-      @element.count_statements(-1)
+      element.count_statements(-1)
       process_default(exp)
     end
 
@@ -163,7 +169,7 @@ module Reek
 
     def process_case(exp)
       count_clause(exp.else_body)
-      @element.count_statements(-1)
+      element.count_statements(-1)
       process_default(exp)
     end
 
@@ -177,16 +183,16 @@ module Reek
     end
 
     def count_clause(sexp)
-      @element.count_statements(1) if sexp
+      element.count_statements(1) if sexp
     end
 
     def count_statement_list(statement_list)
-      @element.count_statements statement_list.length
+      element.count_statements statement_list.length
     end
 
     def inside_new_context(klass, exp)
-      scope = klass.new(@element, exp)
-      @element.append_child_context(scope)
+      scope = klass.new(element, exp)
+      element.append_child_context(scope)
       push(scope) do
         yield
       end
@@ -194,10 +200,10 @@ module Reek
     end
 
     def push(scope)
-      orig = @element
-      @element = scope
+      orig = element
+      self.element = scope
       yield
-      @element = orig
+      self.element = orig
     end
 
     # FIXME: Move to SendNode?

@@ -21,7 +21,7 @@ module Reek
     end
 
     def descriptive?
-      @text.split(/\s+/).length >= 2
+      text.split(/\s+/).length >= 2
     end
 
     protected
@@ -32,5 +32,9 @@ module Reek
       # TODO: extend this to all configs -------------------^
       # TODO: extend to allow configuration of whole smell class, not just subclass
     end
+
+    private
+
+    private_attr_reader :text
   end
 end

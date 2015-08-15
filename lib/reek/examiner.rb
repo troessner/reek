@@ -39,14 +39,14 @@ module Reek
     # @return [String] description of the source being analysed
     #
     def description
-      @description ||= @source.description
+      @description ||= source.description
     end
 
     #
     # @return [Array<SmellWarning>] the smells found in the source
     #
     def smells
-      @smells ||= @collector.warnings
+      @smells ||= collector.warnings
     end
 
     #
@@ -65,13 +65,15 @@ module Reek
 
     private
 
+    private_attr_reader :configuration, :collector, :smell_types, :source
+
     def run
       smell_repository = Smells::SmellRepository.new(source_description: description,
-                                                     smell_types: @smell_types,
-                                                     configuration: @configuration)
-      syntax_tree = @source.syntax_tree
+                                                     smell_types: smell_types,
+                                                     configuration: configuration)
+      syntax_tree = source.syntax_tree
       TreeWalker.new(smell_repository, syntax_tree).walk if syntax_tree
-      smell_repository.report_on(@collector)
+      smell_repository.report_on(collector)
     end
 
     def eligible_smell_types(filter_by_smells = [])

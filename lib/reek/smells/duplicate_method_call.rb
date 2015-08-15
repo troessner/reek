@@ -68,20 +68,24 @@ module Reek
         end
 
         def record(occurence)
-          @occurences.push occurence
+          occurences.push occurence
         end
 
         def call
-          @call ||= @call_node.format_to_ruby
+          @call ||= call_node.format_to_ruby
         end
 
         def occurs
-          @occurences.length
+          occurences.length
         end
 
         def lines
-          @occurences.map(&:line)
+          occurences.map(&:line)
         end
+
+        private
+
+        private_attr_reader :call_node, :occurences
       end
 
       # Collects all calls in a given context
@@ -106,6 +110,8 @@ module Reek
 
         private
 
+        private_attr_reader :allow_calls, :max_allowed_calls
+
         def collect_calls(result)
           context.each_node(:send, [:mlhs]) do |call_node|
             next if call_node.object_creation_call?
@@ -118,7 +124,7 @@ module Reek
         end
 
         def smelly_call?(found_call)
-          found_call.occurs > @max_allowed_calls && !allow_calls?(found_call.call)
+          found_call.occurs > max_allowed_calls && !allow_calls?(found_call.call)
         end
 
         def simple_method_call?(call_node)
@@ -126,7 +132,7 @@ module Reek
         end
 
         def allow_calls?(method)
-          @allow_calls.any? { |allow| /#{allow}/ =~ method }
+          allow_calls.any? { |allow| /#{allow}/ =~ method }
         end
       end
     end

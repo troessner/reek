@@ -1,5 +1,6 @@
-require 'rake/clean'
 require 'bundler/gem_tasks'
+require 'private_attr/everywhere'
+require 'rake/clean'
 
 Dir['tasks/**/*.rake'].each { |t| load t }
 
