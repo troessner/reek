@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 3.2.1 (2015-08-17)
+
+* Revert 864f0a9 to hotfix issues/642
+
 ## 3.2.0 (2015-08-17)
 
 * (mvz) Detect attribute writers created with `attr` in Attribute smell
