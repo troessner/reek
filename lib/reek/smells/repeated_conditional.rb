@@ -51,9 +51,9 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       def examine_context(ctx)
-        @max_identical_ifs = value(MAX_IDENTICAL_IFS_KEY, ctx, DEFAULT_MAX_IFS)
+        max_identical_ifs = value(MAX_IDENTICAL_IFS_KEY, ctx, DEFAULT_MAX_IFS)
         conditional_counts(ctx).select do |_key, lines|
-          lines.length > @max_identical_ifs
+          lines.length > max_identical_ifs
         end.map do |key, lines|
           occurs = lines.length
           expression = key.format_to_ruby

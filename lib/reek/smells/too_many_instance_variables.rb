@@ -39,9 +39,9 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       def examine_context(ctx)
-        @max_allowed_ivars = value(MAX_ALLOWED_IVARS_KEY, ctx, DEFAULT_MAX_IVARS)
+        max_allowed_ivars = value(MAX_ALLOWED_IVARS_KEY, ctx, DEFAULT_MAX_IVARS)
         count = ctx.local_nodes(:ivasgn).map { |ivasgn| ivasgn[1] }.uniq.length
-        return [] if count <= @max_allowed_ivars
+        return [] if count <= max_allowed_ivars
         [SmellWarning.new(self,
                           context: ctx.full_name,
                           lines: [ctx.exp.line],

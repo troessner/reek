@@ -25,8 +25,12 @@ module Reek
       type = sexp.type
       children = sexp.children.map { |child| dress(child, comment_map, sexp) }
       comments = comment_map[sexp]
-      @klass_map.klass_for(type).new(type, children,
-                                     location: sexp.loc, comments: comments, parent: parent)
+      klass_map.klass_for(type).new(type, children,
+                                    location: sexp.loc, comments: comments, parent: parent)
     end
+
+    private
+
+    private_attr_reader :klass_map
   end
 end

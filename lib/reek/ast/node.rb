@@ -17,12 +17,12 @@ module Reek
       end
 
       def full_comment
-        @comments.map(&:text).join("\n")
+        comments.map(&:text).join("\n")
       end
 
       def leading_comment
         line = location.line
-        comment_lines = @comments.select do |comment|
+        comment_lines = comments.select do |comment|
           comment.location.line < line
         end
         comment_lines.map(&:text).join("\n")
@@ -119,6 +119,8 @@ module Reek
       end
 
       private
+
+      private_attr_reader :comments
 
       def each_sexp
         children.each { |elem| yield elem if elem.is_a? ::Parser::AST::Node }

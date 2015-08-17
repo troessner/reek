@@ -47,13 +47,13 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       def examine_context(ctx)
-        @reject_names = value(REJECT_KEY, ctx, DEFAULT_REJECT_SET)
-        @accept_names = value(ACCEPT_KEY, ctx, DEFAULT_ACCEPT_SET)
+        reject_names = value(REJECT_KEY, ctx, DEFAULT_REJECT_SET)
+        accept_names = value(ACCEPT_KEY, ctx, DEFAULT_ACCEPT_SET)
         name = ctx.name.to_s
-        return [] if @accept_names.include?(ctx.full_name)
+        return [] if accept_names.include?(ctx.full_name)
         var = name.gsub(/^[@\*\&]*/, '')
-        return [] if @accept_names.include?(var)
-        return [] unless @reject_names.find { |patt| patt =~ var }
+        return [] if accept_names.include?(var)
+        return [] unless reject_names.find { |patt| patt =~ var }
         [SmellWarning.new(self,
                           context: ctx.full_name,
                           lines: [ctx.exp.line],

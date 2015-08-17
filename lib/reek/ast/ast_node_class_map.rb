@@ -13,7 +13,7 @@ module Reek
       end
 
       def klass_for(type)
-        @klass_map[type] ||= Class.new(Node).tap do |klass|
+        klass_map[type] ||= Class.new(Node).tap do |klass|
           extension = extension_map[type]
           klass.send :include, extension if extension
         end
@@ -31,6 +31,10 @@ module Reek
             Hash[assoc]
           end
       end
+
+      private
+
+      private_attr_reader :klass_map
     end
   end
 end
