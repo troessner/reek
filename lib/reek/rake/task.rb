@@ -64,7 +64,7 @@ module Reek
         @name          = name
         @reek_opts     = ENV['REEK_OPTS'] || ''
         @fail_on_error = true
-        @source_files  = ENV['REEK_SRC'] || 'lib/**/*.rb'
+        @source_files  = FileList[ENV['REEK_SRC'] || 'lib/**/*.rb']
         @verbose       = false
 
         yield self if block_given?
