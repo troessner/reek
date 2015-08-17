@@ -38,17 +38,12 @@ module Reek
         end
 
         def inherited(subclass)
-          subclasses << subclass
+          @subclasses ||= []
+          @subclasses << subclass
         end
 
         def descendants
-          subclasses
-        end
-
-        private
-
-        def subclasses
-          @subclasses ||= []
+          @subclasses
         end
       end
 
@@ -83,17 +78,17 @@ module Reek
       end
 
       def register(hooks)
-        return unless config.enabled?
+        return unless @config.enabled?
         self.class.contexts.each { |ctx| hooks[ctx] << self }
       end
 
       # SMELL: Getter (only used in 1 test)
       def enabled?
-        config.enabled?
+        @config.enabled?
       end
 
-      def configure_with(new_config)
-        config.merge!(new_config)
+      def configure_with(config)
+        @config.merge!(config)
       end
 
       def examine(context)
@@ -101,7 +96,7 @@ module Reek
         return if exception?(context)
 
         sm = examine_context(context)
-        self.smells_found += sm
+        @smells_found += sm
       end
 
       def enabled_for?(context)
@@ -113,24 +108,16 @@ module Reek
       end
 
       def report_on(report)
-        smells_found.each { |smell| smell.report_on(report) }
+        @smells_found.each { |smell| smell.report_on(report) }
       end
 
       def value(key, ctx, fall_back)
-        config_for(ctx)[key] || config.value(key, ctx, fall_back)
+        config_for(ctx)[key] || @config.value(key, ctx, fall_back)
       end
 
       def config_for(ctx)
         ctx.config_for(self.class)
       end
-
-      protected
-
-      attr_writer :smells_found
-
-      private
-
-      private_attr_reader :config
     end
   end
 end

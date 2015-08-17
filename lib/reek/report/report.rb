@@ -30,8 +30,8 @@ module Reek
       #
       # @param [Reek::Examiner] examiner object to report on
       def add_examiner(examiner)
-        self.total_smell_count += examiner.smells_count
-        examiners << examiner
+        @total_smell_count += examiner.smells_count
+        @examiners << examiner
         self
       end
 
@@ -42,22 +42,13 @@ module Reek
 
       # @api private
       def smells?
-        total_smell_count > 0
+        @total_smell_count > 0
       end
 
       # @api private
       def smells
-        examiners.map(&:smells).flatten
+        @examiners.map(&:smells).flatten
       end
-
-      protected
-
-      attr_accessor :total_smell_count
-
-      private
-
-      private_attr_reader :examiners, :options, :report_formatter,
-                          :sort_by_issue_count, :warning_formatter
     end
 
     #
@@ -73,7 +64,7 @@ module Reek
       private
 
       def smell_summaries
-        examiners.map { |ex| summarize_single_examiner(ex) }.reject(&:empty?)
+        @examiners.map { |ex| summarize_single_examiner(ex) }.reject(&:empty?)
       end
 
       def display_summary
@@ -81,33 +72,33 @@ module Reek
       end
 
       def display_total_smell_count
-        return unless examiners.size > 1
+        return unless @examiners.size > 1
         print total_smell_count_message
       end
 
       def summarize_single_examiner(examiner)
         result = heading_formatter.header(examiner)
         if examiner.smelly?
-          formatted_list = report_formatter.format_list(examiner.smells,
-                                                        warning_formatter)
+          formatted_list = @report_formatter.format_list(examiner.smells,
+                                                         @warning_formatter)
           result += ":\n#{formatted_list}"
         end
         result
       end
 
       def sort_examiners
-        examiners.sort_by!(&:smells_count).reverse! if sort_by_issue_count
+        @examiners.sort_by!(&:smells_count).reverse! if @sort_by_issue_count
       end
 
       def total_smell_count_message
         colour = smells? ? WARNINGS_COLOR : NO_WARNINGS_COLOR
-        s = total_smell_count == 1 ? '' : 's'
-        Rainbow("#{total_smell_count} total warning#{s}\n").color(colour)
+        s = @total_smell_count == 1 ? '' : 's'
+        Rainbow("#{@total_smell_count} total warning#{s}\n").color(colour)
       end
 
       def heading_formatter
         @heading_formatter ||=
-          options.fetch(:heading_formatter, HeadingFormatter::Quiet).new(report_formatter)
+          @options.fetch(:heading_formatter, HeadingFormatter::Quiet).new(@report_formatter)
       end
     end
 
@@ -127,7 +118,7 @@ module Reek
       def show
         print ::JSON.generate(
           smells.map do |smell|
-            smell.yaml_hash(warning_formatter)
+            smell.yaml_hash(@warning_formatter)
           end
         )
       end

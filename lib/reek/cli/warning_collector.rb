@@ -8,20 +8,16 @@ module Reek
     # @api private
     class WarningCollector
       def initialize
-        @warnings_set = Set.new
+        @warnings = Set.new
       end
 
       def found_smell(warning)
-        warnings_set.add(warning)
+        @warnings.add(warning)
       end
 
       def warnings
-        warnings_set.to_a.sort
+        @warnings.to_a.sort
       end
-
-      private
-
-      private_attr_reader :warnings_set
     end
   end
 end

@@ -34,8 +34,8 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       def examine_context(ctx)
-        self.visiblity_tracker = {}
-        self.visiblity_mode = :public
+        @visiblity_tracker = {}
+        @visiblity_mode = :public
         attributes_in(ctx).map do |attribute, line|
           SmellWarning.new self,
                            context: ctx.full_name,
@@ -46,9 +46,6 @@ module Reek
       end
 
       private
-
-      private_attr_accessor :visiblity_mode, :visiblity_tracker
-      private_attr_reader :result
 
       def attributes_in(module_ctx)
         attributes = Set.new
@@ -81,7 +78,7 @@ module Reek
 
       def track_argument(arg, line)
         arg_name = arg.children.first
-        visiblity_tracker[arg_name] = visiblity_mode
+        @visiblity_tracker[arg_name] = @visiblity_mode
         [arg_name, line]
       end
 
@@ -91,14 +88,14 @@ module Reek
 
       def track_visibility(call_node)
         if call_node.arg_names.any?
-          call_node.arg_names.each { |arg| visiblity_tracker[arg] = call_node.method_name }
+          call_node.arg_names.each { |arg| @visiblity_tracker[arg] = call_node.method_name }
         else
-          self.visiblity_mode = call_node.method_name
+          @visiblity_mode = call_node.method_name
         end
       end
 
       def recorded_public_methods
-        visiblity_tracker.select { |_, visbility| visbility == :public }
+        @visiblity_tracker.select { |_, visbility| visbility == :public }
       end
     end
   end

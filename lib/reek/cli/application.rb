@@ -20,9 +20,9 @@ module Reek
         @status = STATUS_SUCCESS
         options_parser = Options.new(argv)
         begin
-          options = options_parser.parse
-          @command = ReekCommand.new(OptionInterpreter.new(options))
-          @configuration = Configuration::AppConfiguration.new(options)
+          @options = options_parser.parse
+          @command = ReekCommand.new(OptionInterpreter.new(@options))
+          @configuration = Configuration::AppConfiguration.new @options
         rescue OptionParser::InvalidOption, Reek::Configuration::ConfigFileException => error
           $stderr.puts "Error: #{error}"
           @status = STATUS_ERROR
@@ -30,9 +30,9 @@ module Reek
       end
 
       def execute
-        return status if error_occured?
-        command.execute self
-        status
+        return @status if error_occured?
+        @command.execute self
+        @status
       end
 
       def output(text)
@@ -40,20 +40,17 @@ module Reek
       end
 
       def report_success
-        self.status = STATUS_SUCCESS
+        @status = STATUS_SUCCESS
       end
 
       def report_smells
-        self.status = STATUS_SMELLS
+        @status = STATUS_SMELLS
       end
 
       private
 
-      private_attr_accessor :status
-      private_attr_reader :command
-
       def error_occured?
-        status == STATUS_ERROR
+        @status == STATUS_ERROR
       end
     end
   end
