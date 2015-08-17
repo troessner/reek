@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## 3.2.0 (2015-08-17)
+
+* (mvz) Detect attribute writers created with `attr` in Attribute smell
+* (beanieboi) Report `attr_writer` and `attr_accessor` in Attribute smell
+* (troessner) Update TooManyInstanceVariables default from 9 to 4
+
 ## 3.1.0 (2015-07-21)
 
 * (troessner) Make smells configurable on a directory base
