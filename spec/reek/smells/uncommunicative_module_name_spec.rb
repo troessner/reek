@@ -17,15 +17,15 @@ RSpec.describe Reek::Smells::UncommunicativeModuleName do
     end
 
     it 'reports one-letter name' do
-      expect("#{type} X; end").to reek_of(:UncommunicativeModuleName,  name: 'X')
+      expect("#{type} X; end").to reek_of(:UncommunicativeModuleName, name: 'X')
     end
 
     it 'reports name of the form "x2"' do
-      expect("#{type} X2; end").to reek_of(:UncommunicativeModuleName,  name: 'X2')
+      expect("#{type} X2; end").to reek_of(:UncommunicativeModuleName, name: 'X2')
     end
 
     it 'reports long name ending in a number' do
-      expect("#{type} Printer2; end").to reek_of(:UncommunicativeModuleName,  name: 'Printer2')
+      expect("#{type} Printer2; end").to reek_of(:UncommunicativeModuleName, name: 'Printer2')
     end
 
     it 'reports a bad scoped name' do

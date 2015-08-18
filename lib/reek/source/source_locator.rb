@@ -11,7 +11,7 @@ module Reek
       # Initialize with the paths we want to search.
       #
       # paths - a list of paths as Strings
-      def initialize(paths, configuration: Configuration::AppConfiguration.new)
+      def initialize(paths, configuration: Configuration::AppConfiguration.default)
         @paths = paths.flat_map do |string|
           path = Pathname.new(string)
           current_directory?(path) ? path.entries : path
@@ -45,7 +45,7 @@ module Reek
       end
 
       def path_excluded?(path)
-        configuration.exclude_paths.include?(path)
+        configuration.path_excluded?(path)
       end
 
       def print_no_such_file_error(path)

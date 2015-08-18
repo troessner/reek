@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
 
   s.license = 'MIT'
   s.email = ['timo.roessner@googlemail.com']
-  s.extra_rdoc_files = ['CHANGELOG', 'License.txt']
+  s.extra_rdoc_files = ['CHANGELOG.md', 'License.txt']
   s.files = `git ls-files -z`.split("\0")
   s.executables = s.files.grep(%r{^bin/}).map { |path| File.basename(path) }
   s.homepage = 'https://github.com/troessner/reek/wiki'

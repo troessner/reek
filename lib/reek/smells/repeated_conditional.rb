@@ -37,7 +37,7 @@ module Reek
 
       BLOCK_GIVEN_CONDITION = ::Parser::AST::Node.new(:send, [nil, :block_given?])
 
-      def self.contexts      # :nodoc:
+      def self.contexts # :nodoc:
         [:class]
       end
 

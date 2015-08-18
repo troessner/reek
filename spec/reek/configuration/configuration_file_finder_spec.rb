@@ -7,16 +7,14 @@ require_relative '../../spec_helper'
 
 RSpec.describe Reek::Configuration::ConfigurationFileFinder do
   describe '.find' do
-    it 'returns the config_file if it’s set' do
-      config_file = double
-      options = double(config_file: config_file)
-      found = described_class.find(options: options)
-      expect(found).to eq(config_file)
+    it 'returns the path if it’s set' do
+      path = Pathname.new 'foo/bar'
+      found = described_class.find(path: path)
+      expect(found).to eq(path)
     end
 
     it 'returns the file in current dir if config_file is nil' do
-      options = double(config_file: nil)
-      found = described_class.find(options: options, current: SAMPLES_PATH)
+      found = described_class.find(current: SAMPLES_PATH)
       expect(found).to eq(SAMPLES_PATH.join('exceptions.reek'))
     end
 

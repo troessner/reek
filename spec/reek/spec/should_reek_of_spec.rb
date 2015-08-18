@@ -9,11 +9,11 @@ RSpec.describe Reek::Spec::ShouldReekOf do
     end
 
     it 'reports duplicate calls to @other.thing' do
-      expect(@ruby).to reek_of(:Duplication,  name: '@other.thing')
+      expect(@ruby).to reek_of(:Duplication, name: '@other.thing')
     end
 
     it 'reports duplicate calls to @other.thing.foo' do
-      expect(@ruby).to reek_of(:Duplication,  name: '@other.thing.foo')
+      expect(@ruby).to reek_of(:Duplication, name: '@other.thing.foo')
     end
 
     it 'does not report any feature envy' do

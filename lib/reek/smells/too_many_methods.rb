@@ -47,7 +47,7 @@ module Reek
         [SmellWarning.new(self,
                           context: ctx.full_name,
                           lines: [ctx.exp.line],
-                          message:  "has at least #{actual} methods",
+                          message: "has at least #{actual} methods",
                           parameters: { count: actual })]
       end
     end

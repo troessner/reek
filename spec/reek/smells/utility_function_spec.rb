@@ -158,7 +158,7 @@ RSpec.describe Reek::Smells::UtilityFunction do
 
   context 'with only one call' do
     it 'reports a call to a parameter' do
-      expect('def simple(arga) arga.to_s end').to reek_of(:UtilityFunction,  name: 'simple')
+      expect('def simple(arga) arga.to_s end').to reek_of(:UtilityFunction, name: 'simple')
     end
 
     it 'reports a call to a constant' do
@@ -169,7 +169,7 @@ RSpec.describe Reek::Smells::UtilityFunction do
   context 'with two or more calls' do
     it 'reports two calls' do
       src = 'def simple(arga) arga.to_s + arga.to_i end'
-      expect(src).to reek_of(:UtilityFunction,  name: 'simple')
+      expect(src).to reek_of(:UtilityFunction, name: 'simple')
       expect(src).not_to reek_of(:FeatureEnvy)
     end
 
@@ -194,7 +194,7 @@ RSpec.describe Reek::Smells::UtilityFunction do
 
     it 'should report message chain' do
       src = 'def simple(arga) arga.b.c end'
-      expect(src).to reek_of(:UtilityFunction,  name: 'simple')
+      expect(src).to reek_of(:UtilityFunction, name: 'simple')
       expect(src).not_to reek_of(:FeatureEnvy)
     end
 

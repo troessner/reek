@@ -74,7 +74,7 @@ module Reek
         end
       end
 
-      attr_reader :smells_found   # SMELL: only published for tests
+      attr_reader :smells_found # SMELL: only published for tests
 
       def initialize(source, config = self.class.default_config)
         @source = source
