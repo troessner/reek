@@ -13,18 +13,23 @@ module Reek
       end
 
       def matches?(actual)
-        @examiner = Examiner.new(actual, configuration: @configuration)
-        @examiner.smelly?
+        self.examiner = Examiner.new(actual, configuration: configuration)
+        examiner.smelly?
       end
 
       def failure_message
-        "Expected #{@examiner.description} to reek, but it didn't"
+        "Expected #{examiner.description} to reek, but it didn't"
       end
 
       def failure_message_when_negated
-        rpt = Report::Formatter.format_list(@examiner.smells)
+        rpt = Report::Formatter.format_list(examiner.smells)
         "Expected no smells, but got:\n#{rpt}"
       end
+
+      private
+
+      private_attr_reader :configuration
+      private_attr_accessor :examiner
     end
   end
 end

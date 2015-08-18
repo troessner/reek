@@ -8,15 +8,15 @@ module Reek
     class SmellWarning
       include Comparable
       extend Forwardable
-      attr_accessor :smell_detector, :context, :lines, :message, :parameters
+      attr_reader :context, :lines, :message, :parameters, :smell_detector
       def_delegators :smell_detector, :smell_category, :smell_type, :source
 
       def initialize(smell_detector, options = {})
-        self.smell_detector = smell_detector
-        self.context        = options.fetch(:context, '').to_s
-        self.lines          = options.fetch(:lines)
-        self.message        = options.fetch(:message)
-        self.parameters     = options.fetch(:parameters, {})
+        @smell_detector = smell_detector
+        @context        = options.fetch(:context, '').to_s
+        @lines          = options.fetch(:lines)
+        @message        = options.fetch(:message)
+        @parameters     = options.fetch(:parameters, {})
       end
 
       def hash

@@ -73,16 +73,20 @@ module Reek
         end
 
         def smells?
-          @occurences.any?
+          occurences.any?
         end
 
         def lines
-          @occurences.map(&:line)
+          occurences.map(&:line)
         end
 
         def name
-          @param.to_s
+          param.to_s
         end
+
+        private
+
+        private_attr_reader :occurences, :param
       end
 
       # Finds cases of ControlParameter in a particular node for a particular parameter
@@ -108,13 +112,15 @@ module Reek
 
         private
 
+        private_attr_reader :node, :param
+
         def conditional_nodes
-          @node.body_nodes(CONDITIONAL_NODE_TYPES)
+          node.body_nodes(CONDITIONAL_NODE_TYPES)
         end
 
         def nested_finders
           @nested_finders ||= conditional_nodes.flat_map do |node|
-            self.class.new(node, @param)
+            self.class.new(node, param)
           end
         end
 
@@ -129,12 +135,12 @@ module Reek
 
         def uses_of_param_in_condition
           return [] unless condition
-          condition.each_node(:lvar).select { |inner| inner.var_name == @param }
+          condition.each_node(:lvar).select { |inner| inner.var_name == param }
         end
 
         def condition
-          return nil unless CONDITIONAL_NODE_TYPES.include? @node.type
-          @node.condition
+          return nil unless CONDITIONAL_NODE_TYPES.include? node.type
+          node.condition
         end
 
         def regular_call_involving_param?(call_node)
@@ -150,12 +156,12 @@ module Reek
         end
 
         def call_involving_param?(call_node)
-          call_node.each_node(:lvar).any? { |it| it.var_name == @param }
+          call_node.each_node(:lvar).any? { |it| it.var_name == param }
         end
 
         def uses_param_in_body?
-          nodes = @node.body_nodes([:lvar], [:if, :case, :and, :or])
-          nodes.any? { |lvar_node| lvar_node.var_name == @param }
+          nodes = node.body_nodes([:lvar], [:if, :case, :and, :or])
+          nodes.any? { |lvar_node| lvar_node.var_name == param }
         end
       end
 
@@ -175,12 +181,14 @@ module Reek
 
         private
 
+        private_attr_reader :context
+
         def potential_parameters
-          @context.exp.parameter_names
+          context.exp.parameter_names
         end
 
         def find_matches(param)
-          ControlParameterFinder.new(@context.exp, param).find_matches
+          ControlParameterFinder.new(context.exp, param).find_matches
         end
       end
     end

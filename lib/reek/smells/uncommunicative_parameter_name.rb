@@ -47,8 +47,8 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       def examine_context(ctx)
-        @reject_names = value(REJECT_KEY, ctx, DEFAULT_REJECT_SET)
-        @accept_names = value(ACCEPT_KEY, ctx, DEFAULT_ACCEPT_SET)
+        self.reject_names = value(REJECT_KEY, ctx, DEFAULT_REJECT_SET)
+        self.accept_names = value(ACCEPT_KEY, ctx, DEFAULT_ACCEPT_SET)
         context_expression = ctx.exp
         context_expression.parameter_names.select do |name|
           bad_name?(name) && ctx.uses_param?(name)
@@ -63,9 +63,13 @@ module Reek
 
       def bad_name?(name)
         var = name.to_s.gsub(/^[@\*\&]*/, '')
-        return false if var == '*' || @accept_names.include?(var)
-        @reject_names.find { |patt| patt =~ var }
+        return false if var == '*' || accept_names.include?(var)
+        reject_names.find { |patt| patt =~ var }
       end
+
+      private
+
+      private_attr_accessor :accept_names, :reject_names
     end
   end
 end

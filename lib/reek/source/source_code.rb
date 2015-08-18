@@ -82,7 +82,7 @@ module Reek
         @syntax_tree ||=
           begin
             begin
-              ast, comments = @parser.parse_with_comments(@source, @description)
+              ast, comments = parser.parse_with_comments(source, description)
             rescue Racc::ParseError, Parser::SyntaxError => error
               $stderr.puts "#{description}: #{error.class.name}: #{error}"
             end
@@ -92,6 +92,10 @@ module Reek
             TreeDresser.new.dress(ast, comment_map)
           end
       end
+
+      private
+
+      private_attr_reader :parser, :source
     end
   end
 end
