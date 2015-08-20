@@ -95,6 +95,18 @@ RSpec.describe Reek::TreeWalker, 'statement counting' do
       expect(method.num_statements).to eq(6)
     end
 
+    it 'does not count constant assignment with or equals' do
+      source = 'class Hi; CONST ||= 1; end'
+      klass = process_method(source)
+      expect(klass.num_statements).to eq(0)
+    end
+
+    it 'does not count multi constant assignment' do
+      source = 'class Hi; CONST, OTHER_CONST = 1, 2; end'
+      klass = process_method(source)
+      expect(klass.num_statements).to eq(0)
+    end
+
     it 'does not count empty conditional expression' do
       method = process_method('def one() if val == 4; ; end; end')
       expect(method.num_statements).to eq(0)

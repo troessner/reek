@@ -347,3 +347,15 @@ RSpec.describe Reek::AST::SexpExtensions::ModuleNode do
     end
   end
 end
+
+RSpec.describe Reek::AST::SexpExtensions::CasgnNode do
+  context 'with single assignment' do
+    subject do
+      s(:casgn, nil, :Foo)
+    end
+
+    it 'does not define a module' do
+      expect(subject.defines_module?).to eq(false)
+    end
+  end
+end

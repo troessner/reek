@@ -405,6 +405,7 @@ module Reek
         MODULE_DEFINERS = [:Class, :Struct]
 
         def defines_module?
+          return false if value.nil?
           call = case value.type
                  when :block
                    value.call
@@ -420,8 +421,18 @@ module Reek
           SexpFormatter.format(children[1])
         end
 
+        # there are two valid forms of the casgn sexp
+        # (casgn <namespace> <name> <value>) and
+        # (casgn <namespace> <name>) used in or-asgn and mlhs
+        #
+        # source = "class Hi; THIS ||= 3; end"
+        # (class
+        #   (const nil :Hi) nil
+        #   (or-asgn
+        #    (casgn nil :THIS)
+        #    (int 3)))
         def value
-          children.last
+          children[2]
         end
       end
 
