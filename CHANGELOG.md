@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## 3.3.0 (2015-08-23)
+
+* (HParker / Adam Hess) add support for or-assign constants
+* (troessner) Update TooManyMethods default value to 15
+
 ## 3.2.1 (2015-08-17)
 
 * Revert 864f0a9 to hotfix issues/642
