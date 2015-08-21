@@ -2,9 +2,11 @@
 
 ## Unreleased
 
+* (mvz) Ensure all YAML methods are loaded (workaround for #653)
+
 ## 3.2.1 (2015-08-17)
 
-* Revert 864f0a9 to hotfix issues/642
+* (troessner) Revert 864f0a9 to hotfix #642
 
 ## 3.2.0 (2015-08-17)
 
