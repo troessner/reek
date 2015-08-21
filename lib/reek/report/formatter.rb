@@ -1,3 +1,4 @@
+require 'private_attr/everywhere'
 require_relative 'location_formatter'
 
 module Reek
