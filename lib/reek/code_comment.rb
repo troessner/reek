@@ -1,6 +1,9 @@
 require 'yaml'
 require 'private_attr/everywhere'
 
+# NOTE: Work-around for https://github.com/tenderlove/psych/issues/223
+require 'psych.rb' if Object.const_defined?(:Psych)
+
 module Reek
   #
   # A comment header from an abstract syntax tree; found directly above
