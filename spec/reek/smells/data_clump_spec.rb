@@ -6,7 +6,7 @@ RSpec.shared_examples_for 'a data clump detector' do
   it 'does not report small parameter sets' do
     src = <<-EOS
       # test module
-      #{@context} Scrunch
+      #{context} Scrunch
         def first(pa) @field == :sym ? 0 : 3; end
         def second(pa) @field == :sym; end
         def third(pa) pa - pb + @fred; end
@@ -16,52 +16,51 @@ RSpec.shared_examples_for 'a data clump detector' do
   end
 
   context 'with 3 identical pairs' do
-    before :each do
-      @module_name = 'Scrunch'
-      @src = <<-EOS
-        #{@context} #{@module_name}
+    let(:module_name) { 'Scrunch' }
+    let(:smells) do
+      src = <<-EOS
+        #{context} #{module_name}
           def first(pa, pb) @field == :sym ? 0 : 3; end
           def second(pa, pb) @field == :sym; end
           def third(pa, pb) pa - pb + @fred; end
         end
       EOS
-      ctx = Reek::Context::ModuleContext.new(nil, Reek::Source::SourceCode.from(@src).syntax_tree)
-      detector = build(:smell_detector, smell_type: :DataClump)
-      @smells = detector.examine_context(ctx)
+      ctx = Reek::Context::ModuleContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
+      build(:smell_detector, smell_type: :DataClump).examine_context(ctx)
     end
 
     it 'records only the one smell' do
-      expect(@smells.length).to eq(1)
+      expect(smells.length).to eq(1)
     end
 
     it 'reports all parameters' do
-      expect(@smells[0].parameters[:parameters]).to eq(['pa', 'pb'])
+      expect(smells[0].parameters[:parameters]).to eq(['pa', 'pb'])
     end
 
     it 'reports the number of occurrences' do
-      expect(@smells[0].parameters[:count]).to eq(3)
+      expect(smells[0].parameters[:count]).to eq(3)
     end
 
     it 'reports all methods' do
-      expect(@smells[0].parameters[:methods]).to eq(['first', 'second', 'third'])
+      expect(smells[0].parameters[:methods]).to eq(['first', 'second', 'third'])
     end
 
     it 'reports the declaration line numbers' do
-      expect(@smells[0].lines).to eq([2, 3, 4])
+      expect(smells[0].lines).to eq([2, 3, 4])
     end
 
     it 'reports the correct smell class' do
-      expect(@smells[0].smell_category).to eq(Reek::Smells::DataClump.smell_category)
+      expect(smells[0].smell_category).to eq(Reek::Smells::DataClump.smell_category)
     end
 
     it 'reports the context fq name' do
-      expect(@smells[0].context).to eq(@module_name)
+      expect(smells[0].context).to eq(module_name)
     end
   end
 
   it 'reports 3 swapped pairs' do
     src = <<-EOS
-      #{@context} Scrunch
+      #{context} Scrunch
         def one(pa, pb) @field == :sym ? 0 : 3; end
         def two(pb, pa) @field == :sym; end
         def tri(pa, pb) pa - pb + @fred; end
@@ -74,7 +73,7 @@ RSpec.shared_examples_for 'a data clump detector' do
 
   it 'reports 3 identical parameter sets' do
     src = <<-EOS
-      #{@context} Scrunch
+      #{context} Scrunch
         def first(pa, pb, pc) @field == :sym ? 0 : 3; end
         def second(pa, pb, pc) @field == :sym; end
         def third(pa, pb, pc) pa - pb + @fred; end
@@ -87,7 +86,7 @@ RSpec.shared_examples_for 'a data clump detector' do
 
   it 'reports re-ordered identical parameter sets' do
     src = <<-EOS
-      #{@context} Scrunch
+      #{context} Scrunch
         def first(pb, pa, pc) @field == :sym ? 0 : 3; end
         def second(pc, pb, pa) @field == :sym; end
         def third(pa, pb, pc) pa - pb + @fred; end
@@ -100,7 +99,7 @@ RSpec.shared_examples_for 'a data clump detector' do
 
   it 'counts only identical parameter sets' do
     src = <<-EOS
-      #{@context} RedCloth
+      #{context} RedCloth
         def fa(p1, p2, p3, conten) end
         def fb(p1, p2, p3, conten) end
         def fc(name, windowW, windowH) end
@@ -111,7 +110,7 @@ RSpec.shared_examples_for 'a data clump detector' do
 
   it 'gets a real example right' do
     src = <<-EOS
-      #{@context} Inline
+      #{context} Inline
         def generate(src, options) end
         def c (src, options) end
         def c_singleton (src, options) end
@@ -124,7 +123,7 @@ RSpec.shared_examples_for 'a data clump detector' do
 
   it 'correctly checks number of occurences' do
     src = <<-EOS
-      #{@context} Smelly
+      #{context} Smelly
         def fa(p1, p2, p3) end
         def fb(p2, p3, p4) end
         def fc(p3, p4, p5) end
@@ -137,7 +136,7 @@ RSpec.shared_examples_for 'a data clump detector' do
 
   it 'detects clumps smaller than the total number of arguments' do
     src = <<-EOS
-      #{@context} Smelly
+      #{context} Smelly
         def fa(p1, p2, p3) end
         def fb(p1, p3, p2) end
         def fc(p4, p1, p2) end
@@ -149,7 +148,7 @@ RSpec.shared_examples_for 'a data clump detector' do
 
   it 'ignores anonymous parameters' do
     src = <<-EOS
-      #{@context} Smelly
+      #{context} Smelly
         def fa(p1, p2, *) end
         def fb(p1, p2, *) end
         def fc(p1, p2, *) end
@@ -161,24 +160,18 @@ RSpec.shared_examples_for 'a data clump detector' do
 end
 
 RSpec.describe Reek::Smells::DataClump do
-  before(:each) do
-    @detector = build(:smell_detector, smell_type: :DataClump)
-  end
+  let(:detector) { build(:smell_detector, smell_type: :DataClump) }
 
   it_should_behave_like 'SmellDetector'
 
   context 'in a class' do
-    before :each do
-      @context = 'class'
-    end
+    let(:context) { 'class' }
 
     it_should_behave_like 'a data clump detector'
   end
 
   context 'in a module' do
-    before :each do
-      @context = 'module'
-    end
+    let(:context) { 'module' }
 
     it_should_behave_like 'a data clump detector'
   end

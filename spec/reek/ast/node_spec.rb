@@ -4,8 +4,7 @@ require_relative '../../../lib/reek/ast/node'
 RSpec.describe Reek::AST::Node do
   context 'format' do
     it 'formats self' do
-      @node = s(:self)
-      expect(@node.format_to_ruby).to eq('self')
+      expect(s(:self).format_to_ruby).to eq('self')
     end
   end
 

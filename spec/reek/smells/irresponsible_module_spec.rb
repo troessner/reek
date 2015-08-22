@@ -184,10 +184,8 @@ RSpec.describe Reek::Smells::IrresponsibleModule do
   end
 
   context 'when a smell is reported' do
-    before do
-      @source_name = 'dummy_source'
-      @detector = build(:smell_detector, smell_type: :IrresponsibleModule, source: @source_name)
-    end
+    let(:detector) { build(:smell_detector, smell_type: :IrresponsibleModule, source: source_name) }
+    let(:source_name) { 'dummy_source' }
 
     it_should_behave_like 'SmellDetector'
   end

@@ -4,12 +4,10 @@ require_relative 'smell_detector_shared'
 require_relative '../../../lib/reek/context/method_context'
 
 RSpec.describe Reek::Smells::UncommunicativeParameterName do
-  before :each do
-    @source_name = 'dummy_source'
-    @detector = build(:smell_detector,
-                      smell_type: :UncommunicativeParameterName,
-                      source: @source_name)
+  let(:detector) do
+    build(:smell_detector, smell_type: :UncommunicativeParameterName, source: source_name)
   end
+  let(:source_name) { 'dummy_source' }
 
   it_should_behave_like 'SmellDetector'
 
@@ -79,18 +77,17 @@ RSpec.describe Reek::Smells::UncommunicativeParameterName do
   end
 
   context 'looking at the smell result fields' do
-    before :each do
+    let(:warning) do
       src = 'def bad(good, bad2, good_again); basics(good, bad2, good_again); end'
       ctx = Reek::Context::MethodContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
-      @smells = @detector.examine_context(ctx)
-      @warning = @smells[0]
+      detector.examine_context(ctx).first
     end
 
     it_should_behave_like 'common fields set correctly'
 
     it 'reports the correct values' do
-      expect(@warning.parameters[:name]).to eq('bad2')
-      expect(@warning.lines).to eq([1])
+      expect(warning.parameters[:name]).to eq('bad2')
+      expect(warning.lines).to eq([1])
     end
   end
 end

@@ -3,11 +3,9 @@ require_relative '../../../lib/reek/smells/uncommunicative_variable_name'
 require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::UncommunicativeVariableName do
-  before :each do
-    @source_name = 'dummy_source'
-    @detector = build(:smell_detector,
-                      smell_type: :UncommunicativeVariableName,
-                      source: @source_name)
+  let(:source_name) { 'dummy_source' }
+  let(:detector) do
+    build(:smell_detector, smell_type: :UncommunicativeVariableName, source: source_name)
   end
 
   it_should_behave_like 'SmellDetector'
@@ -44,17 +42,17 @@ RSpec.describe Reek::Smells::UncommunicativeVariableName do
     end
 
     it 'reports long name ending in a number' do
-      @bad_var = 'var123'
-      src = "def simple(fred) #{@bad_var} = jim(45) end"
+      bad_var = 'var123'
+      src = "def simple(fred) #{bad_var} = jim(45) end"
       expect(src).to reek_of(:UncommunicativeVariableName,
-                             name: @bad_var)
+                             name: bad_var)
     end
 
     it 'reports variable name only once' do
       src = 'def simple(fred) x = jim(45); x = y end'
       syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
       ctx = Reek::Context::CodeContext.new(nil, syntax_tree)
-      smells = @detector.examine_context(ctx)
+      smells = detector.examine_context(ctx)
       expect(smells.length).to eq(1)
       expect(smells[0].smell_type).to eq(described_class.smell_type)
       expect(smells[0].parameters[:name]).to eq('x')
@@ -154,7 +152,7 @@ RSpec.describe Reek::Smells::UncommunicativeVariableName do
   end
 
   context 'when a smell is reported' do
-    before :each do
+    let(:warning) do
       src = <<-EOS
         def bad
           unless @mod then
@@ -166,31 +164,29 @@ RSpec.describe Reek::Smells::UncommunicativeVariableName do
       EOS
       syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
       ctx = Reek::Context::CodeContext.new(nil, syntax_tree)
-      @smells = @detector.examine_context(ctx)
-      @warning = @smells[0]
+      detector.examine_context(ctx).first
     end
 
     it_should_behave_like 'common fields set correctly'
 
     it 'reports the correct values' do
-      expect(@warning.parameters[:name]).to eq('x2')
-      expect(@warning.lines).to eq([3, 5])
+      expect(warning.parameters[:name]).to eq('x2')
+      expect(warning.lines).to eq([3, 5])
     end
   end
 
   context 'when a smell is reported in a singleton method' do
-    before :each do
+    let(:warning) do
       src = 'def self.bad() x2 = 4; end'
       syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
       ctx = Reek::Context::CodeContext.new(nil, syntax_tree)
-      @smells = @detector.examine_context(ctx)
-      @warning = @smells[0]
+      detector.examine_context(ctx).first
     end
 
     it_should_behave_like 'common fields set correctly'
 
     it 'reports the fq context' do
-      expect(@warning.context).to eq('self.bad')
+      expect(warning.context).to eq('self.bad')
     end
   end
 end

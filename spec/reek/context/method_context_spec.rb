@@ -63,33 +63,29 @@ RSpec.describe Reek::Context::MethodContext do
     end
 
     context 'with 1 default' do
-      before :each do
-        src = 'def meth(arga, argb=456, &blk) end'
-        @defaults = assignments_from(src)
-      end
+      let(:defaults) { assignments_from('def meth(arga, argb=456, &blk) end') }
 
       it 'returns the param-value pair' do
-        expect(@defaults[0]).to eq [:argb, s(:int, 456)]
+        expect(defaults[0]).to eq [:argb, s(:int, 456)]
       end
 
       it 'returns the nothing else' do
-        expect(@defaults.length).to eq(1)
+        expect(defaults.length).to eq(1)
       end
     end
 
     context 'with 2 defaults' do
-      before :each do
-        src = 'def meth(arga=123, argb=456, &blk) end'
-        @defaults = assignments_from(src)
+      let(:defaults) do
+        assignments_from('def meth(arga=123, argb=456, &blk) end')
       end
 
       it 'returns both param-value pairs' do
-        expect(@defaults[0]).to eq [:arga, s(:int, 123)]
-        expect(@defaults[1]).to eq [:argb, s(:int, 456)]
+        expect(defaults[0]).to eq [:arga, s(:int, 123)]
+        expect(defaults[1]).to eq [:argb, s(:int, 456)]
       end
 
       it 'returns nothing else' do
-        expect(@defaults.length).to eq(2)
+        expect(defaults.length).to eq(2)
       end
     end
   end

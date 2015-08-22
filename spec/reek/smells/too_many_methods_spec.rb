@@ -3,11 +3,10 @@ require_relative '../../../lib/reek/smells/too_many_methods'
 require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::TooManyMethods do
-  before(:each) do
-    @source_name = 'dummy_source'
-    @detector = described_class.new(@source_name)
-    @detector.configure_with 'max_methods' => 2
-  end
+  let(:detector) { described_class.new(source_name) }
+  let(:source_name) { 'dummy_name' }
+
+  before(:each) { detector.configure_with 'max_methods' => 2 }
 
   it_should_behave_like 'SmellDetector'
 
@@ -21,7 +20,7 @@ RSpec.describe Reek::Smells::TooManyMethods do
       EOS
       syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
       ctx = Reek::Context::ModuleContext.new(nil, syntax_tree)
-      expect(@detector.examine_context(ctx)).to be_empty
+      expect(detector.examine_context(ctx)).to be_empty
     end
 
     it 'should report if we exceed max_methods' do
@@ -34,7 +33,7 @@ RSpec.describe Reek::Smells::TooManyMethods do
       EOS
       syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
       ctx = Reek::Context::ModuleContext.new(nil, syntax_tree)
-      smells = @detector.examine_context(ctx)
+      smells = detector.examine_context(ctx)
       expect(smells.length).to eq(1)
       expect(smells[0].smell_type).to eq(described_class.smell_type)
       expect(smells[0].parameters[:count]).to eq(3)
@@ -57,7 +56,7 @@ RSpec.describe Reek::Smells::TooManyMethods do
       EOS
       syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
       ctx = Reek::Context::ModuleContext.new(nil, syntax_tree)
-      expect(@detector.examine_context(ctx)).to be_empty
+      expect(detector.examine_context(ctx)).to be_empty
     end
   end
 
@@ -72,11 +71,11 @@ RSpec.describe Reek::Smells::TooManyMethods do
 
     syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
     ctx = Reek::Context::ModuleContext.new(nil, syntax_tree)
-    @warning = @detector.examine_context(ctx)[0]
-    expect(@warning.source).to eq(@source_name)
-    expect(@warning.smell_category).to eq(described_class.smell_category)
-    expect(@warning.smell_type).to eq(described_class.smell_type)
-    expect(@warning.parameters[:count]).to eq(3)
-    expect(@warning.lines).to eq([1])
+    warning = detector.examine_context(ctx)[0]
+    expect(warning.source).to eq(source_name)
+    expect(warning.smell_category).to eq(described_class.smell_category)
+    expect(warning.smell_type).to eq(described_class.smell_type)
+    expect(warning.parameters[:count]).to eq(3)
+    expect(warning.lines).to eq([1])
   end
 end

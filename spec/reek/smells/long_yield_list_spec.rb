@@ -4,10 +4,8 @@ require_relative '../../../lib/reek/smells/long_yield_list'
 require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::LongYieldList do
-  before(:each) do
-    @source_name = 'dummy_source'
-    @detector = build(:smell_detector, smell_type: :LongYieldList, source: @source_name)
-  end
+  let(:detector) { build(:smell_detector, smell_type: :LongYieldList, source: source_name) }
+  let(:source_name) { 'dummy_source' }
 
   it_should_behave_like 'SmellDetector'
 
@@ -31,7 +29,7 @@ RSpec.describe Reek::Smells::LongYieldList do
   end
 
   context 'when a smells is reported' do
-    before :each do
+    let(:warning) do
       src = <<-EOS
         def simple(arga, argb, &blk)
           f(3)
@@ -39,15 +37,14 @@ RSpec.describe Reek::Smells::LongYieldList do
           end
       EOS
       ctx = Reek::Context::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
-      @smells = @detector.examine_context(ctx)
-      @warning = @smells[0]
+      detector.examine_context(ctx).first
     end
 
     it_should_behave_like 'common fields set correctly'
 
     it 'reports the correct values' do
-      expect(@warning.parameters[:count]).to eq(4)
-      expect(@warning.lines).to eq([3])
+      expect(warning.parameters[:count]).to eq(4)
+      expect(warning.lines).to eq([3])
     end
   end
 end

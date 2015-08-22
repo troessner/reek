@@ -74,15 +74,13 @@ RSpec.describe Reek::Smells::LongParameterList do
 end
 
 RSpec.describe Reek::Smells::LongParameterList do
-  before(:each) do
-    @source_name = 'dummy_source'
-    @detector = build(:smell_detector, smell_type: :LongParameterList, source: @source_name)
-  end
+  let(:detector) { build(:smell_detector, smell_type: :LongParameterList, source: source_name) }
+  let(:source_name) { 'dummy_source' }
 
   it_should_behave_like 'SmellDetector'
 
   context 'when a smell is reported' do
-    before :each do
+    let(:warning) do
       src = <<-EOS
         def badguy(arga, argb, argc, argd)
           f(3)
@@ -90,18 +88,17 @@ RSpec.describe Reek::Smells::LongParameterList do
         end
       EOS
       ctx = Reek::Context::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
-      @smells = @detector.examine_context(ctx)
-      @warning = @smells[0]
+      detector.examine_context(ctx).first
     end
 
     it_should_behave_like 'common fields set correctly'
 
     it 'reports the number of parameters' do
-      expect(@warning.parameters[:count]).to eq(4)
+      expect(warning.parameters[:count]).to eq(4)
     end
 
     it 'reports the line number of the method' do
-      expect(@warning.lines).to eq([1])
+      expect(warning.lines).to eq([1])
     end
   end
 end

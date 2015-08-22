@@ -4,9 +4,9 @@ require_relative 'smell_detector_shared'
 require_relative '../../../lib/reek/context/code_context'
 
 RSpec.describe Reek::Smells::UncommunicativeModuleName do
-  before do
-    @source_name = 'dummy_source'
-    @detector = build(:smell_detector, smell_type: :UncommunicativeModuleName, source: @source_name)
+  let(:source_name) { 'dummy_source' }
+  let(:detector) do
+    build(:smell_detector, smell_type: :UncommunicativeModuleName, source: source_name)
   end
 
   it_should_behave_like 'SmellDetector'
@@ -31,7 +31,7 @@ RSpec.describe Reek::Smells::UncommunicativeModuleName do
     it 'reports a bad scoped name' do
       src = "#{type} Foo::X; end"
       ctx = Reek::Context::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
-      smells = @detector.examine_context(ctx)
+      smells = detector.examine_context(ctx)
       expect(smells.length).to eq(1)
       expect(smells[0].smell_category).to eq(Reek::Smells::UncommunicativeModuleName.smell_category)
       expect(smells[0].smell_type).to eq(Reek::Smells::UncommunicativeModuleName.smell_type)
@@ -44,23 +44,22 @@ RSpec.describe Reek::Smells::UncommunicativeModuleName do
     it 'accepts Inline::C' do
       src = 'module Inline::C; end'
       ctx = Reek::Context::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
-      expect(@detector.examine_context(ctx)).to be_empty
+      expect(detector.examine_context(ctx)).to be_empty
     end
   end
 
   context 'looking at the YAML' do
-    before :each do
+    let(:warning) do
       src = 'module Printer2; end'
       ctx = Reek::Context::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
-      smells = @detector.examine_context(ctx)
-      @warning = smells[0]
+      detector.examine_context(ctx).first
     end
 
     it_should_behave_like 'common fields set correctly'
 
     it 'reports the correct values' do
-      expect(@warning.parameters[:name]).to eq('Printer2')
-      expect(@warning.lines).to eq([1])
+      expect(warning.parameters[:name]).to eq('Printer2')
+      expect(warning.lines).to eq([1])
     end
   end
 end

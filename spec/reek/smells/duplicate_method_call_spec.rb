@@ -6,9 +6,10 @@ require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::DuplicateMethodCall do
   context 'when a smell is reported' do
-    before :each do
-      @source_name = 'dummy_source'
-      @detector = build(:smell_detector, smell_type: :DuplicateMethodCall, source: @source_name)
+    let(:detector) { build(:smell_detector, smell_type: :DuplicateMethodCall, source: source_name) }
+    let(:source_name) { 'dummy_source' }
+
+    let(:warning) do
       src = <<-EOS
         def double_thing(other)
           other[@thing]
@@ -17,20 +18,20 @@ RSpec.describe Reek::Smells::DuplicateMethodCall do
         end
       EOS
       ctx = Reek::Context::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
-      smells = @detector.examine_context(ctx)
+      smells = detector.examine_context(ctx)
       expect(smells.length).to eq(1)
-      @warning = smells[0]
+      smells.first
     end
 
     it_should_behave_like 'SmellDetector'
     it_should_behave_like 'common fields set correctly'
 
     it 'reports the call' do
-      expect(@warning.parameters[:name]).to eq('other[@thing]')
+      expect(warning.parameters[:name]).to eq('other[@thing]')
     end
 
     it 'reports the correct lines' do
-      expect(@warning.lines).to eq([2, 4])
+      expect(warning.lines).to eq([2, 4])
     end
   end
 
