@@ -91,8 +91,14 @@ module Reek
     #
 
     def process_send(exp)
-      if visibility_modifier? exp
+      if exp.visibility_modifier?
         element.track_visibility(exp.method_name, exp.arg_names)
+      end
+      if exp.attribute_writer?
+        exp.args.each do |arg|
+          next unless arg.type == :sym
+          new_context(Context::MethodContext, arg)
+        end
       end
       element.record_call_to(exp)
       process_default(exp)
@@ -191,12 +197,15 @@ module Reek
     end
 
     def inside_new_context(klass, exp)
-      scope = klass.new(element, exp)
-      element.append_child_context(scope)
-      push(scope) do
+      push(new_context(klass, exp)) do
         yield
       end
-      scope
+    end
+
+    def new_context(klass, exp)
+      klass.new(element, exp).tap do |scope|
+        element.append_child_context(scope)
+      end
     end
 
     def push(scope)
@@ -205,12 +214,5 @@ module Reek
       yield
       self.element = orig
     end
-
-    # FIXME: Move to SendNode?
-    def visibility_modifier?(call_node)
-      VISIBILITY_MODIFIERS.include?(call_node.method_name)
-    end
-
-    VISIBILITY_MODIFIERS = [:private, :public, :protected, :module_function]
   end
 end

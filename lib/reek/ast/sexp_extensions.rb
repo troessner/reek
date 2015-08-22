@@ -184,6 +184,24 @@ module Reek
         def object_creation_call?
           method_name == :new
         end
+
+        def visibility_modifier?
+          VISIBILITY_MODIFIERS.include?(method_name)
+        end
+
+        def attribute_writer?
+          ATTR_DEFN_METHODS.include?(method_name) ||
+            attr_with_writable_flag?
+        end
+
+        # Handles the case where we create an attribute writer via:
+        # attr :foo, true
+        def attr_with_writable_flag?
+          method_name == :attr && args.last.type == :true
+        end
+
+        VISIBILITY_MODIFIERS = [:private, :public, :protected, :module_function]
+        ATTR_DEFN_METHODS = [:attr_writer, :attr_accessor]
       end
 
       Op_AsgnNode = SendNode
@@ -453,6 +471,18 @@ module Reek
       end
 
       ZsuperNode = SuperNode
+
+      # Utility methods for :sym nodes.
+      module SymNode
+        def name
+          children.first
+        end
+
+        def full_name(outer)
+          prefix = outer == '' ? '' : "#{outer}#"
+          "#{prefix}#{name}"
+        end
+      end
     end
   end
 end
