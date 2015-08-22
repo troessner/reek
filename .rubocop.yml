@@ -14,9 +14,9 @@ Metrics/ClassLength:
 Metrics/MethodLength:
   Max: 15
 
-# Be a little more lenient with line length
+# Be rather lenient with line length
 Metrics/LineLength:
-  Max: 100
+  Max: 120
 
 # Indent one level for follow-up lines
 Style/MultilineOperationIndentation:
