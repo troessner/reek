@@ -7,11 +7,6 @@ namespace 'test' do
     t.ruby_opts = ['-Ilib -w']
   end
 
-  desc 'Tests various release attributes of the gem'
-  RSpec::Core::RakeTask.new('gem') do |t|
-    t.pattern = 'spec/gem/**/*_spec.rb'
-  end
-
   desc 'Tests code quality'
   RSpec::Core::RakeTask.new('quality') do |t|
     t.pattern = 'spec/quality/**/*_spec.rb'
