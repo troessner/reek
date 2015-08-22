@@ -3,7 +3,6 @@ require_relative '../lib/reek'
 require_relative '../lib/reek/spec'
 require_relative '../lib/reek/ast/ast_node_class_map'
 require_relative '../lib/reek/configuration/app_configuration'
-require 'ostruct'
 
 Reek::CLI::Silencer.silently do
   require 'factory_girl'
@@ -35,17 +34,12 @@ module Helpers
   end
 
   # :reek:UncommunicativeMethodName
-  def s(type, *children)
+  def sexp(type, *children)
     @klass_map ||= Reek::AST::ASTNodeClassMap.new
     @klass_map.klass_for(type).new(type, children)
   end
-
-  def ast(*args)
-    s(*args)
-  end
 end
 
-# See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
   config.filter_run :focus
   config.run_all_when_everything_filtered = true

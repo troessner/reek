@@ -78,7 +78,7 @@ RSpec.describe Reek::Context::CodeContext do
 
       it "yields the module's full AST" do
         ctx.each_node(:module, []) do |exp|
-          expect(exp).to eq(s(:module, s(:const, nil, :Emptiness), nil))
+          expect(exp).to eq(sexp(:module, sexp(:const, nil, :Emptiness), nil))
         end
       end
 
@@ -105,11 +105,11 @@ RSpec.describe Reek::Context::CodeContext do
 
       it "yields the module's full AST" do
         ctx.each_node(:module, []) do |exp|
-          expect(exp).to eq s(:module,
-                              s(:const, nil, :Loneliness),
-                              s(:def, :calloo,
-                                s(:args),
-                                s(:send, nil, :puts, s(:str, 'hello'))))
+          expect(exp).to eq sexp(:module,
+                                 sexp(:const, nil, :Loneliness),
+                                 sexp(:def, :calloo,
+                                      sexp(:args),
+                                      sexp(:send, nil, :puts, sexp(:str, 'hello'))))
         end
       end
 

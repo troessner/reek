@@ -3,7 +3,7 @@ require_relative '../../../lib/reek/ast/sexp_extensions'
 
 RSpec.describe Reek::AST::SexpExtensions::DefNode do
   context 'with no parameters' do
-    let(:node) { s(:def, :hello, s(:args)) }
+    let(:node) { sexp(:def, :hello, sexp(:args)) }
 
     it 'has no arg names' do
       expect(node.arg_names).to eq []
@@ -24,8 +24,8 @@ RSpec.describe Reek::AST::SexpExtensions::DefNode do
 
   context 'with 1 parameter' do
     let(:node) do
-      s(:def, :hello,
-        s(:args, s(:arg, :param)))
+      sexp(:def, :hello,
+           sexp(:args, sexp(:arg, :param)))
     end
 
     it 'has 1 arg name' do
@@ -47,10 +47,10 @@ RSpec.describe Reek::AST::SexpExtensions::DefNode do
 
   context 'with a block parameter' do
     let(:node) do
-      s(:def, :hello,
-        s(:args,
-          s(:arg, :param),
-          s(:blockarg, :blk)))
+      sexp(:def, :hello,
+           sexp(:args,
+                sexp(:arg, :param),
+                sexp(:blockarg, :blk)))
     end
 
     it 'has 1 arg name' do
@@ -72,9 +72,9 @@ RSpec.describe Reek::AST::SexpExtensions::DefNode do
 
   context 'with 1 defaulted parameter' do
     let(:node) do
-      s(:def, :hello,
-        s(:args,
-          s(:optarg, :param, s(:array))))
+      sexp(:def, :hello,
+           sexp(:args,
+                sexp(:optarg, :param, sexp(:array))))
     end
 
     it 'has 1 arg name' do
@@ -96,23 +96,23 @@ RSpec.describe Reek::AST::SexpExtensions::DefNode do
 
   context 'with a body with 2 statements' do
     let(:node) do
-      s(:def, :hello, s(:args),
-        s(:begin,
-          s(:first),
-          s(:second)))
+      sexp(:def, :hello, sexp(:args),
+           sexp(:begin,
+                sexp(:first),
+                sexp(:second)))
     end
 
     it 'has 2 body statements' do
-      expect(node.body).to eq s(:begin, s(:first), s(:second))
+      expect(node.body).to eq sexp(:begin, sexp(:first), sexp(:second))
     end
 
     it 'finds nodes in the body with #body_nodes' do
-      expect(node.body_nodes([:first])).to eq [s(:first)]
+      expect(node.body_nodes([:first])).to eq [sexp(:first)]
     end
   end
 
   context 'with no body' do
-    let(:node) { s(:def, :hello, s(:args), nil) }
+    let(:node) { sexp(:def, :hello, sexp(:args), nil) }
 
     it 'has a body that is nil' do
       expect(node.body).to be_nil
@@ -126,7 +126,7 @@ end
 
 RSpec.describe Reek::AST::SexpExtensions::DefsNode do
   context 'with no parameters' do
-    let(:node) { s(:defs, s(:lvar, :obj), :hello, s(:args)) }
+    let(:node) { sexp(:defs, sexp(:lvar, :obj), :hello, sexp(:args)) }
 
     it 'has no arg names' do
       expect(node.arg_names).to eq []
@@ -147,8 +147,8 @@ RSpec.describe Reek::AST::SexpExtensions::DefsNode do
 
   context 'with 1 parameter' do
     let(:node) do
-      s(:defs, s(:lvar, :obj), :hello,
-        s(:args, s(:arg, :param)))
+      sexp(:defs, sexp(:lvar, :obj), :hello,
+           sexp(:args, sexp(:arg, :param)))
     end
 
     it 'has 1 arg name' do
@@ -170,10 +170,10 @@ RSpec.describe Reek::AST::SexpExtensions::DefsNode do
 
   context 'with a block' do
     let(:node) do
-      s(:defs, s(:lvar, :obj), :hello,
-        s(:args,
-          s(:arg, :param),
-          s(:blockarg, :blk)))
+      sexp(:defs, sexp(:lvar, :obj), :hello,
+           sexp(:args,
+                sexp(:arg, :param),
+                sexp(:blockarg, :blk)))
     end
 
     it 'has 1 arg name' do
@@ -195,9 +195,9 @@ RSpec.describe Reek::AST::SexpExtensions::DefsNode do
 
   context 'with 1 defaulted parameter' do
     let(:node) do
-      s(:defs, s(:lvar, :obj), :hello,
-        s(:args,
-          s(:optarg, :param, s(:array))))
+      sexp(:defs, sexp(:lvar, :obj), :hello,
+           sexp(:args,
+                sexp(:optarg, :param, sexp(:array))))
     end
 
     it 'has 1 arg name' do
@@ -219,21 +219,21 @@ RSpec.describe Reek::AST::SexpExtensions::DefsNode do
 
   context 'with a body with 2 statements' do
     let(:node) do
-      s(:defs, s(:self), :hello, s(:args),
-        s(:begin,
-          s(:first),
-          s(:second)))
+      sexp(:defs, sexp(:self), :hello, sexp(:args),
+           sexp(:begin,
+                sexp(:first),
+                sexp(:second)))
     end
 
     it 'has 2 body statements' do
-      expect(node.body).to eq s(:begin, s(:first), s(:second))
+      expect(node.body).to eq sexp(:begin, sexp(:first), sexp(:second))
     end
   end
 end
 
 RSpec.describe Reek::AST::SexpExtensions::SendNode do
   context 'with no parameters' do
-    let(:node) { s(:send, nil, :hello) }
+    let(:node) { sexp(:send, nil, :hello) }
 
     it 'has no argument names' do
       expect(node.arg_names).to eq []
@@ -241,7 +241,7 @@ RSpec.describe Reek::AST::SexpExtensions::SendNode do
   end
 
   context 'with 1 literal parameter' do
-    let(:node) { s(:send, nil, :hello, s(:lit, :param)) }
+    let(:node) { sexp(:send, nil, :hello, sexp(:lit, :param)) }
 
     it 'has 1 argument name' do
       expect(node.arg_names).to eq [:param]
@@ -249,7 +249,7 @@ RSpec.describe Reek::AST::SexpExtensions::SendNode do
   end
 
   context 'with 2 literal parameters' do
-    let(:node) { s(:send, nil, :hello, s(:lit, :x), s(:lit, :y)) }
+    let(:node) { sexp(:send, nil, :hello, sexp(:lit, :x), sexp(:lit, :y)) }
 
     it 'has 2 argument names' do
       expect(node.arg_names).to eq [:x, :y]
@@ -259,7 +259,7 @@ end
 
 RSpec.describe Reek::AST::SexpExtensions::BlockNode do
   context 'with no parameters' do
-    let(:node) { s(:block, s(:send, nil, :map), s(:args), nil) }
+    let(:node) { sexp(:block, sexp(:send, nil, :map), sexp(:args), nil) }
 
     it 'has no parameter names' do
       expect(node.parameter_names).to eq []
@@ -267,7 +267,7 @@ RSpec.describe Reek::AST::SexpExtensions::BlockNode do
   end
 
   context 'with 1 parameter' do
-    let(:node) { s(:block, s(:send, nil, :map), s(:args, :param), nil) }
+    let(:node) { sexp(:block, sexp(:send, nil, :map), sexp(:args, :param), nil) }
 
     it 'has 1 parameter name' do
       expect(node.parameter_names).to eq [:param]
@@ -275,7 +275,7 @@ RSpec.describe Reek::AST::SexpExtensions::BlockNode do
   end
 
   context 'with 2 parameters' do
-    let(:node) { s(:block, s(:send, nil, :map), s(:args, :x, :y), nil) }
+    let(:node) { sexp(:block, sexp(:send, nil, :map), sexp(:args, :x, :y), nil) }
 
     it 'has 2 parameter names' do
       expect(node.parameter_names).to eq [:x, :y]
@@ -286,7 +286,7 @@ end
 RSpec.describe Reek::AST::SexpExtensions::ModuleNode do
   context 'with a simple name' do
     subject do
-      mod = ast(:module, :Fred, nil)
+      mod = sexp(:module, :Fred, nil)
       mod
     end
 
@@ -309,7 +309,7 @@ RSpec.describe Reek::AST::SexpExtensions::ModuleNode do
 
   context 'with a scoped name' do
     subject do
-      s(:module, s(:const, s(:const, nil, :Foo), :Bar), nil)
+      sexp(:module, sexp(:const, sexp(:const, nil, :Foo), :Bar), nil)
     end
 
     it 'has the correct #name' do
@@ -333,7 +333,7 @@ end
 RSpec.describe Reek::AST::SexpExtensions::CasgnNode do
   context 'with single assignment' do
     subject do
-      s(:casgn, nil, :Foo)
+      sexp(:casgn, nil, :Foo)
     end
 
     it 'does not define a module' do

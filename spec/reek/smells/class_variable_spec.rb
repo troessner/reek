@@ -12,12 +12,12 @@ RSpec.describe Reek::Smells::ClassVariable do
 
   context 'with no class variables' do
     it 'records nothing in the class' do
-      exp = ast(:class, :Fred)
+      exp = sexp(:class, :Fred)
       expect(detector.examine_context(Reek::Context::CodeContext.new(nil, exp))).to be_empty
     end
 
     it 'records nothing in the module' do
-      exp = ast(:module, :Fred)
+      exp = sexp(:module, :Fred)
       expect(detector.examine_context(Reek::Context::CodeContext.new(nil, exp))).to be_empty
     end
   end
