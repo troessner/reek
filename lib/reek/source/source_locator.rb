@@ -1,3 +1,4 @@
+require 'private_attr/everywhere'
 require 'find'
 require 'pathname'
 

@@ -1,4 +1,5 @@
 require 'yaml'
+require 'private_attr/everywhere'
 
 module Reek
   #

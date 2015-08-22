@@ -1,3 +1,5 @@
+require 'private_attr/everywhere'
+
 module Reek
   module CLI
     #
