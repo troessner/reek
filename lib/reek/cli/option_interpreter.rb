@@ -34,7 +34,7 @@ module Reek
       end
 
       def warning_formatter
-        warning_formatter_class.new(location_formatter)
+        warning_formatter_class.new(location_formatter: location_formatter)
       end
 
       def warning_formatter_class

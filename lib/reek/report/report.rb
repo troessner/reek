@@ -16,13 +16,15 @@ module Reek
       # @api private
       WARNINGS_COLOR = :red
 
-      def initialize(options = {})
+      def initialize(heading_formatter: HeadingFormatter::Quiet,
+                     report_formatter: Formatter, sort_by_issue_count: false,
+                     warning_formatter: SimpleWarningFormatter.new)
         @examiners           = []
+        @heading_formatter   = heading_formatter.new(report_formatter)
+        @report_formatter    = report_formatter
+        @sort_by_issue_count = sort_by_issue_count
         @total_smell_count   = 0
-        @options             = options
-        @warning_formatter   = options.fetch :warning_formatter, SimpleWarningFormatter.new
-        @report_formatter    = options.fetch :report_formatter, Formatter
-        @sort_by_issue_count = options.fetch :sort_by_issue_count, false
+        @warning_formatter   = warning_formatter
       end
 
       # Add Examiner to report on. The report will output results for all
@@ -56,7 +58,7 @@ module Reek
 
       private
 
-      private_attr_reader :examiners, :options, :report_formatter,
+      private_attr_reader :examiners, :heading_formatter, :report_formatter,
                           :sort_by_issue_count, :warning_formatter
     end
 
@@ -89,7 +91,7 @@ module Reek
         result = heading_formatter.header(examiner)
         if examiner.smelly?
           formatted_list = report_formatter.format_list(examiner.smells,
-                                                        warning_formatter)
+                                                        formatter: warning_formatter)
           result += ":\n#{formatted_list}"
         end
         result
@@ -103,11 +105,6 @@ module Reek
         colour = smells? ? WARNINGS_COLOR : NO_WARNINGS_COLOR
         s = total_smell_count == 1 ? '' : 's'
         Rainbow("#{total_smell_count} total warning#{s}\n").color(colour)
-      end
-
-      def heading_formatter
-        @heading_formatter ||=
-          options.fetch(:heading_formatter, HeadingFormatter::Quiet).new(report_formatter)
       end
     end
 
@@ -139,7 +136,7 @@ module Reek
     class HTMLReport < Base
       require 'erb'
 
-      def show(target_path = Pathname.new('reek.html'))
+      def show(target_path: Pathname.new('reek.html'))
         template_path = Pathname.new("#{__dir__}/html_report.html.erb")
         File.write target_path, ERB.new(template_path.read).result(binding)
         puts 'HTML file saved'
