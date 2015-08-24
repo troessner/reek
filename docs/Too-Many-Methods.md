@@ -52,4 +52,4 @@ would cause reek to emit the same warning as in the example above.
 
 | Option         | Value       | Effect  |
 | ---------------|-------------|---------|
-| max_methods     | integer | The maximum number of methods that are permitted. Defaults to 25 |
+| max_methods     | integer | The maximum number of methods that are permitted. Defaults to 15 |
