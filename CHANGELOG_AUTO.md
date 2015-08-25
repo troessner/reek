@@ -2,19 +2,81 @@
 
 ## [Unreleased](https://github.com/troessner/reek/tree/HEAD)
 
-[Full Changelog](https://github.com/troessner/reek/compare/v3.1...HEAD)
+[Full Changelog](https://github.com/troessner/reek/compare/v3.3.0...HEAD)
+
+**Closed issues:**
+
+- Where are our stars? [\#655](https://github.com/troessner/reek/issues/655)
+
+**Merged pull requests:**
+
+- Attribute no longer disabled by default [\#670](https://github.com/troessner/reek/pull/670) ([tansaku](https://github.com/tansaku))
+- Update max\_methods default value in the docs [\#669](https://github.com/troessner/reek/pull/669) ([apuratepp](https://github.com/apuratepp))
+- Ensure full psych is loaded [\#664](https://github.com/troessner/reek/pull/664) ([mvz](https://github.com/mvz))
+- Improve specs and docs for TreeDresser. [\#663](https://github.com/troessner/reek/pull/663) ([troessner](https://github.com/troessner))
+- Increase rubocop's line length limit. [\#661](https://github.com/troessner/reek/pull/661) ([troessner](https://github.com/troessner))
+- Refactor spec\_helper. [\#660](https://github.com/troessner/reek/pull/660) ([troessner](https://github.com/troessner))
+- Update API docs. [\#623](https://github.com/troessner/reek/pull/623) ([troessner](https://github.com/troessner))
+
+## [v3.3.0](https://github.com/troessner/reek/tree/v3.3.0) (2015-08-22)
+[Full Changelog](https://github.com/troessner/reek/compare/v3.2.1...v3.3.0)
+
+**Fixed bugs:**
+
+- Rake release doesn't work anymore with latest bundler [\#643](https://github.com/troessner/reek/issues/643)
+- Rake task blows up with ‘Error: No such file - lib/\*\*/\*.rb’ [\#642](https://github.com/troessner/reek/issues/642)
+- Make AppConfiguration's initializer flexible enough to deal with different inputs [\#608](https://github.com/troessner/reek/issues/608)
+
+**Closed issues:**
+
+- private method `load' called for Psych:Module [\#653](https://github.com/troessner/reek/issues/653)
+
+**Merged pull requests:**
+
+- Remove spec/gem directory. [\#659](https://github.com/troessner/reek/pull/659) ([troessner](https://github.com/troessner))
+- Ensure each file can be individually required [\#658](https://github.com/troessner/reek/pull/658) ([mvz](https://github.com/mvz))
+- Use of StringIO requires stringio [\#657](https://github.com/troessner/reek/pull/657) ([mvz](https://github.com/mvz))
+- specs: turn all ivars into lets [\#656](https://github.com/troessner/reek/pull/656) ([chastell](https://github.com/chastell))
+- Ensure full psych is loaded [\#654](https://github.com/troessner/reek/pull/654) ([mvz](https://github.com/mvz))
+- Prepare 3.3.0 release. [\#652](https://github.com/troessner/reek/pull/652) ([troessner](https://github.com/troessner))
+- Remove obsolete docs/Configuration-Files.md \(because it's now directly in the README\). [\#649](https://github.com/troessner/reek/pull/649) ([troessner](https://github.com/troessner))
+- Add Piotr as author. [\#647](https://github.com/troessner/reek/pull/647) ([troessner](https://github.com/troessner))
+- Update TooManyMethods default value to 15. [\#646](https://github.com/troessner/reek/pull/646) ([troessner](https://github.com/troessner))
+- Reintroduce access ivar only in constructors [\#644](https://github.com/troessner/reek/pull/644) ([troessner](https://github.com/troessner))
+- Check casgn value responds to type [\#639](https://github.com/troessner/reek/pull/639) ([HParker](https://github.com/HParker))
+- Refactor configuration loading and make AppConfiguration's initializer more flexible. [\#625](https://github.com/troessner/reek/pull/625) ([troessner](https://github.com/troessner))
+- Unify visibility detectors [\#614](https://github.com/troessner/reek/pull/614) ([mvz](https://github.com/mvz))
+
+## [v3.2.1](https://github.com/troessner/reek/tree/v3.2.1) (2015-08-17)
+[Full Changelog](https://github.com/troessner/reek/compare/v3.2...v3.2.1)
+
+## [v3.2](https://github.com/troessner/reek/tree/v3.2) (2015-08-17)
+[Full Changelog](https://github.com/troessner/reek/compare/v3.1...v3.2)
 
 **Implemented enhancements:**
 
 - Write HTMLReport to STDOUT [\#570](https://github.com/troessner/reek/issues/570)
 - Make reek more rails-friendly or add a "rails" mode. [\#529](https://github.com/troessner/reek/issues/529)
+- Assigning class variables smell [\#483](https://github.com/troessner/reek/issues/483)
+
+**Fixed bugs:**
+
+- Assigning class variables smell [\#483](https://github.com/troessner/reek/issues/483)
 
 **Merged pull requests:**
 
+- Bump and changelog for 3.2. release. [\#640](https://github.com/troessner/reek/pull/640) ([troessner](https://github.com/troessner))
+- Instance variable access clean-up [\#638](https://github.com/troessner/reek/pull/638) ([chastell](https://github.com/chastell))
+- Temporarily allow jruby failures. [\#637](https://github.com/troessner/reek/pull/637) ([troessner](https://github.com/troessner))
+- Bump Aruba [\#636](https://github.com/troessner/reek/pull/636) ([chastell](https://github.com/chastell))
+- Improve README: Tools, integrations and authors. [\#635](https://github.com/troessner/reek/pull/635) ([troessner](https://github.com/troessner))
+- Update TooManyInstanceVariables default. [\#634](https://github.com/troessner/reek/pull/634) ([troessner](https://github.com/troessner))
+- Refactor our samples cucumber feature. [\#631](https://github.com/troessner/reek/pull/631) ([troessner](https://github.com/troessner))
 - I accidentally the whole XMLReport [\#619](https://github.com/troessner/reek/pull/619) ([chastell](https://github.com/chastell))
 - Add Rails-friendly mode to README. [\#618](https://github.com/troessner/reek/pull/618) ([troessner](https://github.com/troessner))
 - Reimplement yardoc spec and fix a warning [\#616](https://github.com/troessner/reek/pull/616) ([chastell](https://github.com/chastell))
 - Capitalise ‘Ruby’ properly [\#615](https://github.com/troessner/reek/pull/615) ([chastell](https://github.com/chastell))
+- Attributes smell no readers [\#613](https://github.com/troessner/reek/pull/613) ([mvz](https://github.com/mvz))
 - HTMLReport\#show: print to stdout like all the other reports [\#611](https://github.com/troessner/reek/pull/611) ([chastell](https://github.com/chastell))
 - Use private\_attr to silence ‘private attribute?’ warnings and refactor SmellRepository a bit [\#610](https://github.com/troessner/reek/pull/610) ([chastell](https://github.com/chastell))
 - Improve change log [\#607](https://github.com/troessner/reek/pull/607) ([mvz](https://github.com/mvz))
