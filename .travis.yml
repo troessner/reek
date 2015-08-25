@@ -20,11 +20,12 @@ matrix:
   allow_failures:
     - rvm: jruby
     - rvm: jruby-head
+    - rvm: rbx-2
     - rvm: ruby-head
   fast_finish: true
 notifications:
-  recipients:
+  email:
     - timo.roessner@googlemail.com
     - matijs@matijs.net
     - chastell@chastell.net
-  irc: "irc.freenode.org#reek"
+  irc: irc.freenode.org#reek
