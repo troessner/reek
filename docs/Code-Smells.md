@@ -4,7 +4,7 @@ Smells are indicators of where your code might be hard to read, maintain or evol
 
 Reek currently includes checks for the following smells:
 
-* [Attribute](Attribute.md) (disabled by default)
+* [Attribute](Attribute.md)
 * [Class Variable](Class-Variable.md)
 * [Control Couple](Control-Couple.md), including
   * [Boolean Parameter](Boolean-Parameter.md)
