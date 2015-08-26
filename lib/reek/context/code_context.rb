@@ -137,7 +137,7 @@ module Reek
       #
       # @param visibility [Symbol]
       # @param names [Array<Symbol>]
-      def track_visibility(visibility, names = [])
+      def track_visibility(visibility, names)
         if names.any?
           children.each do |child|
             child.visibility = visibility if names.include? child.name
