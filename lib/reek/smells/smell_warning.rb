@@ -49,6 +49,10 @@ module Reek
           merge(stringified_params)
       end
 
+      def base_message
+        "#{context} #{message} (#{smell_type})"
+      end
+
       protected
 
       def sort_key

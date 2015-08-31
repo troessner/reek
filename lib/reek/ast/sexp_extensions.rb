@@ -422,7 +422,7 @@ module Reek
         MODULE_DEFINERS = [:Class, :Struct]
 
         def defines_module?
-          return false if value.nil?
+          return false unless value
           call = case value.type
                  when :block
                    value.call
