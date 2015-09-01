@@ -2,7 +2,6 @@ require_relative '../code_comment'
 require_relative '../ast/object_refs'
 
 module Reek
-  # @api private
   module Context
     #
     # Superclass for all types of source code context. Each instance represents
@@ -10,7 +9,6 @@ module Reek
     # code element. CodeContexts form a tree in the same way the code does,
     # with each context holding a reference to a unique outer context.
     #
-    # @api private
     class CodeContext
       attr_reader :exp
       attr_reader :num_statements

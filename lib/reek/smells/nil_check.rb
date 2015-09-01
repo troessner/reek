@@ -7,7 +7,6 @@ module Reek
     # SimulatedPolymorphism.
     #
     # See {file:docs/Nil-Check.md} for details.
-    # @api private
     class NilCheck < SmellDetector
       def self.smell_category
         'SimulatedPolymorphism'

@@ -3,7 +3,6 @@ require 'stringio'
 module Reek
   module CLI
     # CLI silencer
-    # @api private
     module Silencer
       module_function
 

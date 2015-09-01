@@ -13,7 +13,6 @@ module Reek
     # modules.
     #
     # See {file:docs/Too-Many-Methods.md} for details.
-    # @api private
     class TooManyMethods < SmellDetector
       # The name of the config field that sets the maximum number of methods
       # permitted in a class.

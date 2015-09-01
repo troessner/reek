@@ -9,7 +9,6 @@ module Reek
     #
     # Formats snippets of syntax tree back into Ruby source code.
     #
-    # @api private
     class SexpFormatter
       # Formats the given sexp.
       #

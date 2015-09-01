@@ -6,7 +6,6 @@ module Reek
     #
     # An rspec matcher that matches when the +actual+ has code smells.
     #
-    # @api private
     class ShouldReek
       def initialize(configuration: Configuration::AppConfiguration.default)
         @configuration = configuration

@@ -5,7 +5,6 @@ module Reek
     #
     # A context wrapper representing the root of an abstract syntax tree.
     #
-    # @api private
     class RootContext < CodeContext
       def initialize(exp)
         super(nil, exp)

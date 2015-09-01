@@ -9,7 +9,6 @@ module Reek
     # in a module is usually a bad idea
     #
     # See {file:docs/Module-Initialize.md} for details.
-    # @api private
     class ModuleInitialize < SmellDetector
       def self.contexts # :nodoc:
         [:module]

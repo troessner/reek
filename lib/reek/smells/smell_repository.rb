@@ -7,7 +7,6 @@ module Reek
     #
     # Contains all the existing smells and exposes operations on them.
     #
-    # @api private
     class SmellRepository
       def self.smell_types
         Reek::Smells::SmellDetector.descendants.sort_by(&:name)

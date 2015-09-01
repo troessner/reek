@@ -6,7 +6,6 @@ module Reek
     # Locates references to the current object within a portion
     # of an abstract syntax tree.
     #
-    # @api private
     class ReferenceCollector
       STOP_NODES = [:class, :module, :def, :defs]
 

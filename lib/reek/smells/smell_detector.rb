@@ -12,7 +12,6 @@ module Reek
     #   - {file:README.md}
     # for details.
     #
-    # @api private
     class SmellDetector
       # The name of the config field that lists the names of code contexts
       # that should not be checked. Add this field to the config for each

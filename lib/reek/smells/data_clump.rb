@@ -16,7 +16,6 @@ module Reek
     # the same names that are expected by three or more methods of a class.
     #
     # See {file:docs/Data-Clump.md} for details.
-    # @api private
     class DataClump < SmellDetector
       #
       # The name of the config field that sets the maximum allowed

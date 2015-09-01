@@ -8,7 +8,6 @@ module Reek
     # passed to a block by a +yield+ call.
     #
     # See {file:docs/Long-Yield-List.md} for details.
-    # @api private
     class LongYieldList < SmellDetector
       # The name of the config field that sets the maximum number of
       # parameters permitted in any method or block.

@@ -5,7 +5,6 @@ module Reek
     #
     # Represents a single set of configuration options for a smell detector
     #
-    # @api private
     class SmellConfiguration
       # The name of the config field that specifies whether a smell is
       # enabled. Set to +true+ or +false+.
@@ -52,7 +51,6 @@ module Reek
     #
     # A set of context-specific overrides for smell detectors.
     #
-    # @api private
     class Overrides
       def initialize(hash)
         @hash = hash

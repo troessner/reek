@@ -7,13 +7,10 @@ require_relative './directory_directives'
 require_relative './excluded_paths'
 
 module Reek
-  # @api private
   module Configuration
-    # @api private
     #
     # Reek's singleton configuration instance.
     #
-    # @api private
     class AppConfiguration
       include ConfigurationValidator
       EXCLUDE_PATHS_KEY = 'exclude_paths'

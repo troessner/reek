@@ -10,7 +10,6 @@ module Reek
     # Parses the command line
     #
     # See {file:docs/Command-Line-Options.md} for details.
-    # @api private
     class Options
       def initialize(argv = [])
         @argv    = argv
