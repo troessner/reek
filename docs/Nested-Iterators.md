@@ -32,6 +32,7 @@ test.rb -- 1 warning:
 ## Current Support in Reek
 
 Nested Iterators reports failing methods only once.
+`Object#tap` is ignored by default and thus does not count as iterator.
 
 ## Configuration
 

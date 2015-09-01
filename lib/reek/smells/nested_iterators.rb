@@ -19,7 +19,7 @@ module Reek
       # The name of the config field that sets the names of any
       # methods for which nesting should not be considered
       IGNORE_ITERATORS_KEY = 'ignore_iterators'
-      DEFAULT_IGNORE_ITERATORS = []
+      DEFAULT_IGNORE_ITERATORS = ['tap']
 
       def self.default_config
         super.merge(

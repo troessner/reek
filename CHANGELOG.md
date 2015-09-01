@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* (troessner) Ignore `Object#tap` for NestedIterators
 * (mvz) Ensure all YAML methods are loaded (workaround for #653)
 
 ## 3.3.0 (2015-08-23)

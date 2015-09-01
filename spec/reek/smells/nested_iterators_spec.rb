@@ -22,6 +22,11 @@ RSpec.describe Reek::Smells::NestedIterators do
     expect(src).to reek_of(:NestedIterators)
   end
 
+  it 'should not report nested iterators for Object#tap' do
+    src = 'def do_stuff(*params); [].tap {|list| params.map {|param| list << (param + param)} } end'
+    expect(src).not_to reek_of(:NestedIterators)
+  end
+
   it 'should not report method with successive iterators' do
     src = <<-EOS
       def bad(fred)
