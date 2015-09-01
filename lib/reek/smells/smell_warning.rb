@@ -11,12 +11,14 @@ module Reek
       attr_reader :context, :lines, :message, :parameters, :smell_detector
       def_delegators :smell_detector, :smell_category, :smell_type, :source
 
-      def initialize(smell_detector, options = {})
+      # FIXME: switch to required kwargs when dropping Ruby 2.0 compatibility
+      def initialize(smell_detector, context: '', lines: raise, message: raise,
+                                     parameters: {})
         @smell_detector = smell_detector
-        @context        = options.fetch(:context, '').to_s
-        @lines          = options.fetch(:lines)
-        @message        = options.fetch(:message)
-        @parameters     = options.fetch(:parameters, {})
+        @context        = context.to_s
+        @lines          = lines
+        @message        = message
+        @parameters     = parameters
       end
 
       def hash

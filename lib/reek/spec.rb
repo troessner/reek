@@ -106,7 +106,7 @@ module Reek
     # Returns +true+ if and only if the target source code contains smells.
     #
     def reek(configuration = Configuration::AppConfiguration.default)
-      ShouldReek.new configuration
+      ShouldReek.new(configuration: configuration)
     end
   end
 end

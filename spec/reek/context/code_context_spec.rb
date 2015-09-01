@@ -209,7 +209,7 @@ RSpec.describe Reek::Context::CodeContext do
 
     it 'sets visibility on subsequent child contexts' do
       context.append_child_context first_child
-      context.track_visibility :private
+      context.track_visibility :private, []
       context.append_child_context second_child
       expect(first_child.visibility).to eq :public
       expect(second_child.visibility).to eq :private

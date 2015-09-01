@@ -16,7 +16,8 @@ RSpec.describe Reek::Report::HTMLReport do
     it 'has the text 0 total warnings' do
       tempfile = Tempfile.new(['Reek::Report::HTMLReport.', '.html'])
       response = "HTML file saved\n"
-      expect { instance.show tempfile.path }.to output(response).to_stdout
+      expect { instance.show(target_path: tempfile.path) }.
+        to output(response).to_stdout
       expect(tempfile.read).to include('0 total warnings')
     end
   end

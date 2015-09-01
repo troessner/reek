@@ -10,7 +10,7 @@ module Reek
     #
     # @api private
     module Formatter
-      def self.format_list(warnings, formatter = SimpleWarningFormatter.new)
+      def self.format_list(warnings, formatter: SimpleWarningFormatter.new)
         warnings.map do |warning|
           "  #{formatter.format warning}"
         end.join("\n")
@@ -31,7 +31,7 @@ module Reek
     #
     # @api private
     class SimpleWarningFormatter
-      def initialize(location_formatter = BlankLocationFormatter)
+      def initialize(location_formatter: BlankLocationFormatter)
         @location_formatter = location_formatter
       end
 

@@ -30,7 +30,7 @@ RSpec.describe Reek::Source::SourceCode do
     let(:source_name) { 'Test source' }
     let(:error_message) { 'Error message' }
     let(:parser) { double('parser') }
-    let(:src) { Reek::Source::SourceCode.new('', source_name, parser) }
+    let(:src) { Reek::Source::SourceCode.new('', source_name, parser: parser) }
 
     before { $stderr = catcher }
 

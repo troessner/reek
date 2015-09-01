@@ -30,7 +30,7 @@ module Reek
       # A base class that allows to work on all nodes of a certain type.
       #
       class NodeFinder
-        def initialize(ctx, type, detector = nil)
+        def initialize(ctx, type, detector)
           @nodes = ctx.local_nodes(type)
           @detector = detector
         end

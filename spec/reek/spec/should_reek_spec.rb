@@ -46,7 +46,7 @@ RSpec.describe Reek::Spec::ShouldReek do
     context 'matcher without masking' do
       let(:path) { SAMPLES_PATH.join('clean_due_to_masking/masked.reek') }
       let(:configuration) { test_configuration_for(path) }
-      let(:matcher) { Reek::Spec::ShouldReek.new configuration }
+      let(:matcher) { Reek::Spec::ShouldReek.new(configuration: configuration) }
       let(:masked_file) { SAMPLES_PATH.join('clean_due_to_masking/dirty_one.rb') }
 
       it 'masks smells using the relevant configuration' do
