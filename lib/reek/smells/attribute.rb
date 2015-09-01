@@ -35,7 +35,7 @@ module Reek
           SmellWarning.new self,
                            context: ctx.full_name,
                            lines: [line],
-                           message:  'is a writable attribute',
+                           message: 'is a writable attribute',
                            parameters: { name: attribute.to_s }
         end
       end

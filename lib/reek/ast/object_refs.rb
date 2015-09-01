@@ -3,6 +3,7 @@ require 'private_attr/everywhere'
 module Reek
   # @api private
   module AST
+    # Responsible for holding one specific object reference
     ObjectRef = Struct.new(:name, :line)
     #
     # Manages and counts the references out of a method to other objects.
