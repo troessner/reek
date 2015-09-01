@@ -12,3 +12,4 @@ tags
 .pryrc
 .tags*
 .DS_Store
+.idea/
