@@ -44,7 +44,7 @@ module Reek
       # Glob pattern to match source files.
       # Setting the REEK_SRC environment variable overrides this.
       # Defaults to 'lib/**/*.rb'.
-      attr_accessor :source_files
+      attr_reader :source_files
 
       # String containing commandline options to be passed to Reek.
       # Setting the REEK_OPTS environment variable overrides this value.
@@ -71,9 +71,18 @@ module Reek
         define_task
       end
 
+      def source_files=(files)
+        raise ArgumentError, no_string_given_for_file_list_warning unless files.is_a?(String)
+        @source_files = FileList[files]
+      end
+
       private
 
       private_attr_reader :fail_on_error, :name, :verbose
+
+      def no_string_given_for_file_list_warning
+        "File list should be a String that can contain a glob pattern, e.g. '{app,lib,spec}/**/*.rb'"
+      end
 
       def define_task
         desc 'Check for code smells'
