@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+## 3.3.1 (2015-09-03)
+
+* (troessner) Fix file list as argument in rake task
 * (troessner) Ignore `Object#tap` for NestedIterators
 * (mvz) Ensure all YAML methods are loaded (workaround for #653)
 
