@@ -20,13 +20,14 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
-      def examine_context(module_ctx)
-        module_ctx.local_nodes(:def) do |node| # FIXME: also search for :defs?
+      def examine_context(ctx)
+        ctx.local_nodes(:def) do |node| # FIXME: also search for :defs?
           if node.name.to_s == 'initialize'
             return [
-              SmellWarning.new(self, context: module_ctx.full_name,
-                                     lines:   [module_ctx.exp.line],
-                                     message: 'has initialize method')
+              smell_warning(
+                context: ctx,
+                lines:   [ctx.exp.line],
+                message: 'has initialize method')
             ]
           end
         end

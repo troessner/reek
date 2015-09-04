@@ -18,6 +18,10 @@ Metrics/MethodLength:
 Metrics/LineLength:
   Max: 120
 
+# Keyword arguments make long parameter lists readable
+Metrics/ParameterLists:
+  CountKeywordArgs: false
+
 # Indent one level for follow-up lines
 Style/MultilineOperationIndentation:
   EnforcedStyle: indented

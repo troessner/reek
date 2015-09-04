@@ -52,11 +52,11 @@ module Reek
 
         collector = CallCollector.new(ctx, max_allowed_calls, allow_calls)
         collector.smelly_calls.map do |found_call|
-          SmellWarning.new self,
-                           context: ctx.full_name,
-                           lines: found_call.lines,
-                           message: "calls #{found_call.call} #{found_call.occurs} times",
-                           parameters: { name: found_call.call, count: found_call.occurs }
+          smell_warning(
+            context: ctx,
+            lines: found_call.lines,
+            message: "calls #{found_call.call} #{found_call.occurs} times",
+            parameters: { name: found_call.call, count: found_call.occurs })
         end
       end
 

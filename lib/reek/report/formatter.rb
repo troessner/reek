@@ -39,13 +39,15 @@ module Reek
         "#{location_formatter.format(warning)}#{base_format(warning)}"
       end
 
+      def format_hash(warning)
+        warning.yaml_hash
+      end
+
       private
 
       def base_format(warning)
         "#{warning.context} #{warning.message} (#{warning.smell_type})"
       end
-
-      private
 
       private_attr_reader :location_formatter
     end
@@ -60,11 +62,17 @@ module Reek
 
       def format(warning)
         "#{super} " \
-          "[#{explanatory_link(warning)}.md]"
+          "[#{explanatory_link(warning)}]"
       end
 
+      def format_hash(warning)
+        super(warning).merge('wiki_link' => explanatory_link(warning))
+      end
+
+      private
+
       def explanatory_link(warning)
-        "#{BASE_URL_FOR_HELP_LINK}#{class_name_to_param(warning.smell_type)}"
+        "#{BASE_URL_FOR_HELP_LINK}#{class_name_to_param(warning.smell_type)}.md"
       end
 
       def class_name_to_param(name)

@@ -22,11 +22,11 @@ module Reek
       def examine_context(ctx)
         return [] if descriptive?(ctx) || ctx.namespace_module?
         expression = ctx.exp
-        [SmellWarning.new(self,
-                          context: ctx.full_name,
-                          lines: [expression.line],
-                          message: 'has no descriptive comment',
-                          parameters: { name: expression.name })]
+        [smell_warning(
+          context: ctx,
+          lines: [expression.line],
+          message: 'has no descriptive comment',
+          parameters: { name: expression.name })]
       end
 
       private

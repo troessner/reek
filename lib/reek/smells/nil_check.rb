@@ -19,10 +19,10 @@ module Reek
         smelly_nodes = call_node_finder.smelly_nodes + case_node_finder.smelly_nodes
 
         smelly_nodes.map do |node|
-          SmellWarning.new self,
-                           context: ctx.full_name,
-                           lines: [node.line],
-                           message: 'performs a nil-check'
+          smell_warning(
+            context: ctx,
+            lines: [node.line],
+            message: 'performs a nil-check')
         end
       end
 

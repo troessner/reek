@@ -4,7 +4,7 @@ require_relative 'smell_detector_shared'
 require_relative '../../../lib/reek/context/code_context'
 
 RSpec.describe Reek::Smells::UncommunicativeModuleName do
-  let(:source_name) { 'dummy_source' }
+  let(:source_name) { 'string' }
   let(:detector) do
     build(:smell_detector, smell_type: :UncommunicativeModuleName, source: source_name)
   end

@@ -108,12 +108,13 @@ RSpec.describe Reek::Smells::SmellWarning do
     end
 
     context 'with all details specified' do
-      let(:detector) { Reek::Smells::FeatureEnvy.new source }
+      let(:detector) { Reek::Smells::FeatureEnvy.new }
       let(:parameters) { { 'one' => 34, 'two' => 'second' } }
       let(:smell_type) { 'FeatureEnvy' }
       let(:source) { 'a/ruby/source/file.rb' }
       let(:yaml) do
-        warning = Reek::Smells::SmellWarning.new(detector, context: context_name,
+        warning = Reek::Smells::SmellWarning.new(detector, source: source,
+                                                           context: context_name,
                                                            lines: lines,
                                                            message: message,
                                                            parameters: parameters)

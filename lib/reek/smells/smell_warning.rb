@@ -8,13 +8,15 @@ module Reek
     class SmellWarning
       include Comparable
       extend Forwardable
-      attr_reader :context, :lines, :message, :parameters, :smell_detector
-      def_delegators :smell_detector, :smell_category, :smell_type, :source
+      attr_reader :context, :lines, :message, :parameters, :smell_detector, :source
+      attr_reader :source
+      def_delegators :smell_detector, :smell_category, :smell_type
 
       # FIXME: switch to required kwargs when dropping Ruby 2.0 compatibility
       def initialize(smell_detector, context: '', lines: raise, message: raise,
-                                     parameters: {})
+                                     source: raise, parameters: {})
         @smell_detector = smell_detector
+        @source         = source
         @context        = context.to_s
         @lines          = lines
         @message        = message
@@ -43,11 +45,10 @@ module Reek
         listener.found_smell(self)
       end
 
-      def yaml_hash(warning_formatter = nil)
+      def yaml_hash
         stringified_params = Hash[parameters.map { |key, val| [key.to_s, val] }]
         core_yaml_hash.
-          merge(stringified_params).
-          merge(wiki_link_hash(warning_formatter))
+          merge(stringified_params)
       end
 
       protected
@@ -85,18 +86,10 @@ module Reek
           'context'        => context,
           'lines'          => lines,
           'message'        => message,
-          'smell_category' => smell_detector.smell_category,
-          'smell_type'     => smell_detector.smell_type,
-          'source'         => smell_detector.source
+          'smell_category' => smell_category,
+          'smell_type'     => smell_type,
+          'source'         => source
         }
-      end
-
-      def wiki_link_hash(warning_formatter)
-        if warning_formatter.respond_to?(:explanatory_link)
-          { 'wiki_link' => warning_formatter.explanatory_link(smell_detector) }
-        else
-          {}
-        end
       end
     end
   end

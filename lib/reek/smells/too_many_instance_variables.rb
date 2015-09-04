@@ -42,11 +42,11 @@ module Reek
         max_allowed_ivars = value(MAX_ALLOWED_IVARS_KEY, ctx, DEFAULT_MAX_IVARS)
         count = ctx.local_nodes(:ivasgn).map { |ivasgn| ivasgn[1] }.uniq.length
         return [] if count <= max_allowed_ivars
-        [SmellWarning.new(self,
-                          context: ctx.full_name,
-                          lines: [ctx.exp.line],
-                          message: "has at least #{count} instance variables",
-                          parameters: { count: count })]
+        [smell_warning(
+          context: ctx,
+          lines: [ctx.exp.line],
+          message: "has at least #{count} instance variables",
+          parameters: { count: count })]
       end
     end
   end

@@ -3,6 +3,7 @@ require_relative '../../../lib/reek/smells/utility_function'
 require_relative '../../../lib/reek/examiner'
 require_relative 'smell_detector_shared'
 
+# TODO: Bring specs in line with specs for other detectors
 RSpec.describe Reek::Smells::UtilityFunction do
   describe 'a detector' do
     let(:detector) { build(:smell_detector, smell_type: :UtilityFunction, source: source_name) }

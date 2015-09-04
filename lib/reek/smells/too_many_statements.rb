@@ -38,11 +38,11 @@ module Reek
                                        DEFAULT_MAX_STATEMENTS)
         count = ctx.num_statements
         return [] if count <= max_allowed_statements
-        [SmellWarning.new(self,
-                          context: ctx.full_name,
-                          lines: [ctx.exp.line],
-                          message: "has approx #{count} statements",
-                          parameters: { count: count })]
+        [smell_warning(
+          context: ctx,
+          lines: [ctx.exp.line],
+          message: "has approx #{count} statements",
+          parameters: { count: count })]
       end
     end
   end

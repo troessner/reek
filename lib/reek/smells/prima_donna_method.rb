@@ -46,10 +46,10 @@ module Reek
 
         return if version_without_bang
 
-        SmellWarning.new self,
-                         context: ctx.full_name,
-                         lines: [ctx.exp.line],
-                         message: "has prima donna method `#{method_sexp.name}`"
+        smell_warning(
+          context: ctx,
+          lines: [ctx.exp.line],
+          message: "has prima donna method `#{method_sexp.name}`")
       end
     end
   end

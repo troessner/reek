@@ -23,15 +23,15 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
-      def examine_context(method_ctx)
-        method_ctx.default_assignments.select do |_param, value|
+      def examine_context(ctx)
+        ctx.default_assignments.select do |_param, value|
           [:true, :false].include?(value[0])
         end.map do |parameter, _value|
-          SmellWarning.new self,
-                           context: method_ctx.full_name,
-                           lines: [method_ctx.exp.line],
-                           message: "has boolean parameter '#{parameter}'",
-                           parameters: { name: parameter.to_s }
+          smell_warning(
+            context: ctx,
+            lines: [ctx.exp.line],
+            message: "has boolean parameter '#{parameter}'",
+            parameters: { name: parameter.to_s })
         end
       end
     end

@@ -42,13 +42,14 @@ module Reek
       #
       def examine_context(ctx)
         max_allowed_methods = value(MAX_ALLOWED_METHODS_KEY, ctx, DEFAULT_MAX_METHODS)
+        # TODO: Only checks instance methods!
         actual = ctx.node_instance_methods.length
         return [] if actual <= max_allowed_methods
-        [SmellWarning.new(self,
-                          context: ctx.full_name,
-                          lines: [ctx.exp.line],
-                          message: "has at least #{actual} methods",
-                          parameters: { count: actual })]
+        [smell_warning(
+          context: ctx,
+          lines: [ctx.exp.line],
+          message: "has at least #{actual} methods",
+          parameters: { count: actual })]
       end
     end
   end

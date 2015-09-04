@@ -6,7 +6,7 @@ require_relative '../../../lib/reek/source/source_code'
 
 RSpec.describe Reek::Smells::RepeatedConditional do
   let(:detector) { build(:smell_detector, smell_type: :RepeatedConditional, source: source_name) }
-  let(:source_name) { 'dummy_source' }
+  let(:source_name) { 'string' }
 
   it_should_behave_like 'SmellDetector'
 

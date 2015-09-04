@@ -53,11 +53,11 @@ module Reek
         context_expression.parameter_names.select do |name|
           bad_name?(name) && ctx.uses_param?(name)
         end.map do |name|
-          SmellWarning.new(self,
-                           context: ctx.full_name,
-                           lines: [context_expression.line],
-                           message: "has the parameter name '#{name}'",
-                           parameters: { name: name.to_s })
+          smell_warning(
+            context: ctx,
+            lines: [context_expression.line],
+            message: "has the parameter name '#{name}'",
+            parameters: { name: name.to_s })
         end
       end
 

@@ -14,8 +14,6 @@ module Reek
     #
     # @api private
     class SmellDetector
-      attr_reader :source
-
       # The name of the config field that lists the names of code contexts
       # that should not be checked. Add this field to the config for each
       # smell that should ignore this code element.
@@ -74,10 +72,8 @@ module Reek
         end
       end
 
-      attr_reader :smells_found # SMELL: only published for tests
-
-      def initialize(source, config = self.class.default_config)
-        @source = source
+      def initialize(config = {})
+        config = self.class.default_config.merge(config)
         @config = SmellConfiguration.new(config)
         @smells_found = []
       end
@@ -85,15 +81,6 @@ module Reek
       def register(hooks)
         return unless config.enabled?
         self.class.contexts.each { |ctx| hooks[ctx] << self }
-      end
-
-      # SMELL: Getter (only used in 1 test)
-      def enabled?
-        config.enabled?
-      end
-
-      def configure_with(new_config)
-        config.merge!(new_config)
       end
 
       def examine(context)
@@ -104,16 +91,23 @@ module Reek
         self.smells_found += sm
       end
 
-      def enabled_for?(context)
-        enabled? && config_for(context)[SmellConfiguration::ENABLED_KEY] != false
+      def report_on(report)
+        smells_found.each { |smell| smell.report_on(report) }
       end
 
       def exception?(context)
         context.matches?(value(EXCLUDE_KEY, context, DEFAULT_EXCLUDE_SET))
       end
 
-      def report_on(report)
-        smells_found.each { |smell| smell.report_on(report) }
+      protected
+
+      # NOTE: Needs to be protected so += works for Ruby < 2.2
+      attr_accessor :smells_found
+
+      private
+
+      def enabled_for?(context)
+        config.enabled? && config_for(context)[SmellConfiguration::ENABLED_KEY] != false
       end
 
       def value(key, ctx, fall_back)
@@ -124,11 +118,17 @@ module Reek
         ctx.config_for(self.class)
       end
 
-      protected
-
-      attr_writer :smells_found
-
-      private
+      def smell_warning(options = {})
+        context = options.fetch(:context)
+        exp = context.exp
+        ctx_source = exp.loc.expression.source_buffer.name
+        SmellWarning.new(self,
+                         source: ctx_source,
+                         context: context.full_name,
+                         lines: options.fetch(:lines),
+                         message: options.fetch(:message),
+                         parameters: options.fetch(:parameters, {}))
+      end
 
       private_attr_reader :config
     end

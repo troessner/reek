@@ -62,6 +62,7 @@ module Reek
       #   context.each_node(:lvar).any? { |it| it.var_name == 'something' }
       #
       # Returns an array with all matching nodes.
+      # TODO: without a block, this doesn't do what one might expect
       def each_node(target_type, ignoring = [], &blk)
         if block_given?
           look_for_type(target_type, ignoring, &blk)

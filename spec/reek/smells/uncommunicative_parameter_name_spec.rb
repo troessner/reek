@@ -7,7 +7,7 @@ RSpec.describe Reek::Smells::UncommunicativeParameterName do
   let(:detector) do
     build(:smell_detector, smell_type: :UncommunicativeParameterName, source: source_name)
   end
-  let(:source_name) { 'dummy_source' }
+  let(:source_name) { 'string' }
 
   it_should_behave_like 'SmellDetector'
 
