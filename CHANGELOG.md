@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+* (mvz) Do not fail on explicit configuration for unselected smells when
+  selecting smells on the command line
+
 ## 3.3.1 (2015-09-03)
 
 * (troessner) Fix file list as argument in rake task
