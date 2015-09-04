@@ -72,25 +72,6 @@ Given(/^a smelly file called 'smelly.rb'( in a subdirectory)?$/) do |in_subdir|
   EOS
 end
 
-Given(/^a file with smelly variable names called 'camel_case.rb'$/) do
-  write_file('camel_case.rb', <<-EOS.strip_heredoc)
-    # Class containing camelCase variable which would normally smell
-    class CamelCase
-      def initialize
-        # These next two would normally smell if it weren't for overridden config values
-        camelCaseVariable = []
-        anotherOne = 1
-
-        # this next one should still smell
-        x1 = 0
-
-        # this next one should not smell
-        should_not_smell = true
-      end
-    end
-  EOS
-end
-
 Given(/^an empty configuration file called 'empty.reek'$/) do
   write_file('empty.reek', '')
 end
@@ -115,17 +96,6 @@ Given(/^a configuration file masking some duplication smells called 'config.reek
     DuplicateMethodCall:
       allow_calls:
         - puts\\(@foo.bar\\)
-  EOS
-end
-
-Given(/^a configuration file allowing camel case variables$/) do
-  write_file('config.reek', <<-EOS.strip_heredoc)
-    ---
-    UncommunicativeVariableName:
-      enabled: true
-      reject:
-      - !ruby/regexp /^.$/
-      - !ruby/regexp /[0-9]$/
   EOS
 end
 
