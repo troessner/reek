@@ -12,3 +12,4 @@ module LocalLinkHelper
 end
 
 YARD::Templates::Template.extra_includes << LocalLinkHelper
+YARD::Templates::Engine.register_template_path File.join(File.dirname(__FILE__), 'templates')
