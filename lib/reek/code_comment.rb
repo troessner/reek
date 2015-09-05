@@ -9,7 +9,6 @@ module Reek
   # A comment header from an abstract syntax tree; found directly above
   # module, class and method definitions.
   #
-  # @api private
   class CodeComment
     CONFIG_REGEX = /:reek:(\w+)(:\s*\{.*?\})?/
 

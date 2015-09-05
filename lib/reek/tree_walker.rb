@@ -15,7 +15,6 @@ module Reek
   # TODO: Make TreeWalker responsible only for creating Context objects, and
   # loop over the created set of contexts elsewhere.
   #
-  # @api private
   class TreeWalker
     def initialize(smell_repository, exp)
       @smell_repository = smell_repository

@@ -6,7 +6,6 @@ module Reek
     #
     # Collects and sorts smells warnings.
     #
-    # @api private
     class WarningCollector
       def initialize
         @warnings_set = Set.new

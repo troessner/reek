@@ -5,7 +5,6 @@ module Reek
     #
     # CLI Input utility
     #
-    # @api private
     module Input
       def sources
         if no_source_files_given?

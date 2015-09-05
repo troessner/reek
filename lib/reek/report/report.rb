@@ -11,9 +11,7 @@ module Reek
     #
     # @abstract Subclass and override {#show} to create a concrete report class.
     class Base
-      # @api private
       NO_WARNINGS_COLOR = :green
-      # @api private
       WARNINGS_COLOR = :red
 
       def initialize(heading_formatter: HeadingFormatter::Quiet,
@@ -44,12 +42,10 @@ module Reek
         raise NotImplementedError
       end
 
-      # @api private
       def smells?
         total_smell_count > 0
       end
 
-      # @api private
       def smells
         examiners.map(&:smells).flatten
       end

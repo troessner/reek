@@ -7,7 +7,6 @@ module Reek
     #
     # Finds Ruby source files in a filesystem.
     #
-    # @api private
     class SourceLocator
       # Initialize with the paths we want to search.
       #

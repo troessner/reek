@@ -6,7 +6,6 @@ module Reek
     #
     # A context wrapper for any module found in a syntax tree.
     #
-    # @api private
     class ModuleContext < CodeContext
       def node_instance_methods
         local_nodes(:def)

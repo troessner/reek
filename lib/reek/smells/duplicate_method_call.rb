@@ -17,7 +17,6 @@ module Reek
     #   end
     #
     # See {file:docs/Duplicate-Method-Call.md} for details.
-    # @api private
     class DuplicateMethodCall < SmellDetector
       # The name of the config field that sets the maximum number of
       # identical calls to be permitted within any single method.

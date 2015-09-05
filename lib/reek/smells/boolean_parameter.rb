@@ -12,7 +12,6 @@ module Reek
     # default initializer.
     #
     # See {file:docs/Boolean-Parameter.md} for details.
-    # @api private
     class BooleanParameter < SmellDetector
       def self.smell_category
         'ControlCouple'

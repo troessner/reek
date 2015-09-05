@@ -6,7 +6,6 @@ module Reek
     # Extension modules providing utility methods to ASTNode objects, depending
     # on their type.
     #
-    # @api private
     module SexpExtensions
       # Base module for utility methods for argument nodes.
       module ArgNodeBase

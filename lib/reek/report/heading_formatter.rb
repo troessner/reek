@@ -1,6 +1,5 @@
 module Reek
   module Report
-    # @api private
     module HeadingFormatter
       #
       # Base class for heading formatters.

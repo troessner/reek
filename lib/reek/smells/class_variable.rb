@@ -13,7 +13,6 @@ module Reek
     # the context of the test includes all global state).
     #
     # See {file:docs/Class-Variable.md} for details.
-    # @api private
     class ClassVariable < SmellDetector
       def self.contexts # :nodoc:
         [:class, :module]

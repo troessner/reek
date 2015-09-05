@@ -35,12 +35,10 @@ module Reek
         (self <=> other) == 0
       end
 
-      # @api private
       def matches?(klass, other_parameters = {})
         smell_classes.include?(klass.to_s) && common_parameters_equal?(other_parameters)
       end
 
-      # @api private
       def report_on(listener)
         listener.found_smell(self)
       end

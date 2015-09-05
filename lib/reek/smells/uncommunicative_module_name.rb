@@ -17,7 +17,6 @@ module Reek
     # * names ending with a number
     #
     # See {file:docs/Uncommunicative-Module-Name.md} for details.
-    # @api private
     class UncommunicativeModuleName < SmellDetector
       # The name of the config field that lists the regexps of
       # smelly names to be reported.

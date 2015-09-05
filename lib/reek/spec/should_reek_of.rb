@@ -6,7 +6,6 @@ module Reek
     # An rspec matcher that matches when the +actual+ has the specified
     # code smell.
     #
-    # @api private
     class ShouldReekOf
       def initialize(smell_category,
                      smell_details = {},

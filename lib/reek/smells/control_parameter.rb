@@ -41,7 +41,6 @@ module Reek
     # the source code.
     #
     # See {file:docs/Control-Parameter.md} for details.
-    # @api private
     class ControlParameter < SmellDetector
       def self.smell_category
         'ControlCouple'

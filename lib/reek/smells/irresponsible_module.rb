@@ -8,7 +8,6 @@ module Reek
     # with a brief comment outlining its responsibilities.
     #
     # See {file:docs/Irresponsible-Module.md} for details.
-    # @api private
     class IrresponsibleModule < SmellDetector
       def self.contexts
         [:casgn, :class, :module]

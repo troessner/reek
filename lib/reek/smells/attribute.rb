@@ -13,7 +13,6 @@ module Reek
     # +attr_accessor+, and +attr+ with the writable flag set to +true+.
     #
     # See {file:docs/Attribute.md} for details.
-    # @api private
     #
     # TODO: Catch attributes declared "by hand"
     class Attribute < SmellDetector

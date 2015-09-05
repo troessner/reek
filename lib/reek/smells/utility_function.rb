@@ -36,7 +36,6 @@ module Reek
     # +FeatureEnvy+ is reported instead.
     #
     # See {file:docs/Utility-Function.md} for details.
-    # @api private
     class UtilityFunction < SmellDetector
       def self.smell_category
         'LowCohesion'

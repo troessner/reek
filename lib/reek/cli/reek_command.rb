@@ -7,7 +7,6 @@ module Reek
     # A command to collect smells from a set of sources and write them out in
     # text report format.
     #
-    # @api private
     class ReekCommand < Command
       def execute(app)
         options.sources.each do |source|

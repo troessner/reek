@@ -34,7 +34,6 @@ module Reek
     # reported instead.
     #
     # See {file:docs/Feature-Envy.md} for details.
-    # @api private
     class FeatureEnvy < SmellDetector
       def self.smell_category
         'LowCohesion'
