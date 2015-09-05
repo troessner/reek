@@ -36,17 +36,11 @@ RSpec.describe Reek::CodeComment do
       expect(config['Duplication']).to include('enabled')
       expect(config['Duplication']['enabled']).to be_falsey
     end
-    it 'parses hashed options with Ruby names' do
-      comment = '# :reek:nested_iterators: { enabled: true }'
-      config = described_class.new(comment).config
-      expect(config).to include('NestedIterators')
-      expect(config['NestedIterators']).to include('enabled')
-      expect(config['NestedIterators']['enabled']).to be_truthy
-    end
+
     it 'parses multiple hashed options' do
       config = described_class.new('
         # :reek:Duplication: { enabled: false }
-        :reek:nested_iterators: { enabled: true }
+        # :reek:NestedIterators: { enabled: true }
       ').config
       expect(config).to include('Duplication', 'NestedIterators')
       expect(config['Duplication']).to include('enabled')
@@ -54,9 +48,10 @@ RSpec.describe Reek::CodeComment do
       expect(config['NestedIterators']).to include('enabled')
       expect(config['NestedIterators']['enabled']).to be_truthy
     end
+
     it 'parses multiple hashed options on the same line' do
       config = described_class.new('
-        #:reek:Duplication: { enabled: false } and :reek:nested_iterators: { enabled: true }
+        #:reek:Duplication: { enabled: false } and :reek:NestedIterators: { enabled: true }
       ').config
       expect(config).to include('Duplication', 'NestedIterators')
       expect(config['Duplication']).to include('enabled')
@@ -64,8 +59,9 @@ RSpec.describe Reek::CodeComment do
       expect(config['NestedIterators']).to include('enabled')
       expect(config['NestedIterators']['enabled']).to be_truthy
     end
+
     it 'parses multiple unhashed options on the same line' do
-      comment = '# :reek:Duplication and :reek:nested_iterators'
+      comment = '# :reek:Duplication and :reek:NestedIterators'
       config = described_class.new(comment).config
       expect(config).to include('Duplication', 'NestedIterators')
       expect(config['Duplication']).to include('enabled')
@@ -73,12 +69,14 @@ RSpec.describe Reek::CodeComment do
       expect(config['NestedIterators']).to include('enabled')
       expect(config['NestedIterators']['enabled']).to be_falsey
     end
+
     it 'disables the smell if no options are specifed' do
       config = described_class.new('# :reek:Duplication').config
       expect(config).to include('Duplication')
       expect(config['Duplication']).to include('enabled')
       expect(config['Duplication']['enabled']).to be_falsey
     end
+
     it 'ignores smells after a space' do
       config = described_class.new('# :reek: Duplication').config
       expect(config).not_to include('Duplication')
