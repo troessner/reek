@@ -11,7 +11,7 @@ RSpec.describe Reek::Smells::SmellRepository do
       expect(smell_types).to include(Reek::Smells::TooManyStatements)
     end
 
-    it 'should exclude certain smell_types' do
+    it 'should exclude the smell detector base class' do
       expect(smell_types).to_not include(Reek::Smells::SmellDetector)
     end
 
