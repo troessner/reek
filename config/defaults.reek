@@ -85,7 +85,7 @@ UncommunicativeModuleName:
   - !ruby/regexp /^.$/
   - !ruby/regexp /[0-9]$/
   accept:
-  - Inline::C
+  - !ruby/regexp /Inline::C/
 UncommunicativeParameterName:
   enabled: true
   exclude: []
