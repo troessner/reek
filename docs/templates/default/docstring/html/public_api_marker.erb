@@ -1,0 +1,6 @@
+<% if object.tags(:api).any? { |tag| tag.text == 'public' } %>
+  <div class="note notetag">
+    <strong>Note:</strong>
+    <div class="inline"><p>This <%= object.type %> is part of Reek's public API.</p></div>
+  </div>
+<% end %>
