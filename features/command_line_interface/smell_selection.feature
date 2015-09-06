@@ -5,6 +5,7 @@ Feature: Smell selection
 
   Scenario: --smell selects a smell to detect
     Given a smelly file called 'smelly.rb'
+    And a configuration file masking some duplication smells called 'config.reek'
     When I run reek --no-line-numbers --smell UncommunicativeMethodName smelly.rb
     Then the exit status indicates smells
     And it reports:
