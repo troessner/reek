@@ -43,6 +43,7 @@ module Reek
     #
     # @return [String] description of the source being analysed
     #
+    # @public
     def description
       @description ||= source.description
     end
@@ -50,6 +51,7 @@ module Reek
     #
     # @return [Array<SmellWarning>] the smells found in the source
     #
+    # @public
     def smells
       @smells ||= collector.warnings
     end
@@ -57,6 +59,7 @@ module Reek
     #
     # @return [Integer] the number of smells found in the source
     #
+    # @public
     def smells_count
       smells.length
     end
@@ -64,6 +67,7 @@ module Reek
     #
     # @return [Boolean] true if and only if there are code smells in the source.
     #
+    # @public
     def smelly?
       !smells.empty?
     end

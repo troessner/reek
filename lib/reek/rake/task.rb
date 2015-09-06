@@ -12,6 +12,7 @@ module Reek
   # (Classes here will be configured via the Rakefile, and therefore will
   # possess a :reek:attribute or two.)
   #
+  # @public
   module Rake
     # A Rake task that runs reek on a set of source files.
     #
@@ -36,30 +37,37 @@ module Reek
     # @public
     class Task < ::Rake::TaskLib
       # Name of reek task. Defaults to :reek.
+      # @public
       attr_writer :name
 
       # Path to reek's config file.
       # Setting the REEK_CFG environment variable overrides this.
+      # @public
       attr_accessor :config_file
 
       # Glob pattern to match source files.
       # Setting the REEK_SRC environment variable overrides this.
       # Defaults to 'lib/**/*.rb'.
+      # @public
       attr_reader :source_files
 
       # String containing commandline options to be passed to Reek.
       # Setting the REEK_OPTS environment variable overrides this value.
       # Defaults to ''.
+      # @public
       attr_accessor :reek_opts
 
       # Whether or not to fail Rake when an error occurs (typically when smells are found).
       # Defaults to true.
+      # @public
       attr_writer :fail_on_error
 
       # Use verbose output. If this is set to true, the task will print
       # the reek command to stdout. Defaults to false.
+      # @public
       attr_writer :verbose
 
+      # @public
       def initialize(name = :reek)
         @config_file   = ENV['REEK_CFG']
         @name          = name
@@ -72,6 +80,7 @@ module Reek
         define_task
       end
 
+      # @public
       def source_files=(files)
         raise ArgumentError, no_string_given_for_file_list_warning unless files.is_a?(String)
         @source_files = FileList[files]
