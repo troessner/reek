@@ -33,7 +33,7 @@ module Reek
     #   rake reek REEK_SRC=just_one_file.rb      # checks a single source file
     #   rake reek REEK_OPTS=-s                   # sorts the report by smell
     #
-    # @api public
+    # @public
     class Task < ::Rake::TaskLib
       # Name of reek task. Defaults to :reek.
       attr_writer :name
