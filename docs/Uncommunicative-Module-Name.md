@@ -20,4 +20,4 @@ Poor names make it hard for the reader to build a mental picture of what's going
 | Option         | Value       | Effect  |
 | ---------------|-------------|---------|
 | `reject` | array of regular expressions | The set of regular expressions that `reek` uses to check for bad names. Defaults to `[/^.$/, /[0-9]$/]`. |
-| `accept` | array of strings or regular expressions | Name that will be accepted (not reported) even if they match one of the `reject` expressions. Defaults to `['Inline::C']`.|
+| `accept` | array of names as strings | List of names that will be accepted (not reported) even if they match one of the `reject` expressions. Empty by default.|
