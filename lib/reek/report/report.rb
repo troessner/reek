@@ -111,8 +111,7 @@ module Reek
 
       def total_smell_count_message
         colour = smells? ? WARNINGS_COLOR : NO_WARNINGS_COLOR
-        s = total_smell_count == 1 ? '' : 's'
-        Rainbow("#{total_smell_count} total warning#{s}\n").color(colour)
+        Rainbow("#{total_smell_count} total warning#{total_smell_count == 1 ? '' : 's'}\n").color(colour)
       end
     end
 

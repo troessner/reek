@@ -2,6 +2,7 @@ require 'pathname'
 
 module Reek
   module Configuration
+    # Raised when config file is not properly readable.
     class ConfigFileException < StandardError; end
     #
     # ConfigurationFileFinder is responsible for finding reek's configuration.

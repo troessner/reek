@@ -34,17 +34,11 @@ module Reek
       end
 
       def format(warning)
-        "#{location_formatter.format(warning)}#{base_format(warning)}"
+        "#{location_formatter.format(warning)}#{warning.base_message}"
       end
 
       def format_hash(warning)
         warning.yaml_hash
-      end
-
-      private
-
-      def base_format(warning)
-        "#{warning.context} #{warning.message} (#{warning.smell_type})"
       end
 
       private_attr_reader :location_formatter

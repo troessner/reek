@@ -3,7 +3,7 @@ require 'private_attr/everywhere'
 module Reek
   # Represents functionality related to an Abstract Syntax Tree.
   module AST
-    # Responsible for holding one specific object reference
+    # Responsible for holding one specific object reference.
     ObjectRef = Struct.new(:name, :line)
     #
     # Manages and counts the references out of a method to other objects.
