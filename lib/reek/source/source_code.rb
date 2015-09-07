@@ -14,17 +14,17 @@ module Reek
       IO_IDENTIFIER     = 'STDIN'
       STRING_IDENTIFIER = 'string'
 
-      attr_reader :description
+      attr_reader :origin
 
       # Initializer.
       #
-      # code        - Ruby code as String
-      # description - 'STDIN', 'string' or a filepath as String
-      # parser      - the parser to use for generating AST's out of the given source
-      def initialize(code, description, parser: Parser::Ruby22)
-        @source      = code
-        @description = description
-        @parser      = parser
+      # code   - Ruby code as String
+      # origin - 'STDIN', 'string' or a filepath as String
+      # parser - the parser to use for generating AST's out of the given source
+      def initialize(code, origin, parser: Parser::Ruby22)
+        @source = code
+        @origin = origin
+        @parser = parser
       end
 
       # Initializes an instance of SourceCode given a source.
@@ -80,9 +80,9 @@ module Reek
         @syntax_tree ||=
           begin
             begin
-              ast, comments = parser.parse_with_comments(source, description)
+              ast, comments = parser.parse_with_comments(source, origin)
             rescue Racc::ParseError, Parser::SyntaxError => error
-              $stderr.puts "#{description}: #{error.class.name}: #{error}"
+              $stderr.puts "#{origin}: #{error.class.name}: #{error}"
             end
 
             # See https://whitequark.github.io/parser/Parser/Source/Comment/Associator.html
