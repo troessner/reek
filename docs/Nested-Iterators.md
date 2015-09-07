@@ -36,4 +36,9 @@ Nested Iterators reports failing methods only once.
 
 ## Configuration
 
-`Nested Iterators` offers the [Basic Smell Options](Basic-Smell-Options.md).
+`Nested Iterators` offers the [Basic Smell Options](Basic-Smell-Options.md), plus:
+
+| Option         | Value       | Effect  |
+| ---------------|-------------|---------|
+| max_allowed_nesting | integer | The maximum depth of nested iterators. Defaults to 1 |
+| ignore_iterators | Array | List of iterators to be excluded from the smell check. Includes only `tap` at the moment|
