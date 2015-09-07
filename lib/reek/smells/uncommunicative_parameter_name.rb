@@ -21,13 +21,13 @@ module Reek
       # The name of the config field that lists the regexps of
       # smelly names to be reported.
       REJECT_KEY = 'reject'
-      DEFAULT_REJECT_SET = [/^.$/, /[0-9]$/, /[A-Z]/, /^_/]
+      DEFAULT_REJECT_PATTERNS = [/^.$/, /[0-9]$/, /[A-Z]/, /^_/]
 
       # The name of the config field that lists the specific names that are
       # to be treated as exceptions; these names will not be reported as
       # uncommunicative.
       ACCEPT_KEY = 'accept'
-      DEFAULT_ACCEPT_SET = []
+      DEFAULT_ACCEPT_NAMES = []
 
       def self.smell_category
         'UncommunicativeName'
@@ -35,8 +35,8 @@ module Reek
 
       def self.default_config
         super.merge(
-          REJECT_KEY => DEFAULT_REJECT_SET,
-          ACCEPT_KEY => DEFAULT_ACCEPT_SET
+          REJECT_KEY => DEFAULT_REJECT_PATTERNS,
+          ACCEPT_KEY => DEFAULT_ACCEPT_NAMES
         )
       end
 
@@ -46,11 +46,9 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       def examine_context(ctx)
-        self.reject_names = value(REJECT_KEY, ctx, DEFAULT_REJECT_SET)
-        self.accept_names = value(ACCEPT_KEY, ctx, DEFAULT_ACCEPT_SET)
         context_expression = ctx.exp
         context_expression.parameter_names.select do |name|
-          bad_name?(name) && ctx.uses_param?(name)
+          bad_name?(ctx, name) && ctx.uses_param?(name)
         end.map do |name|
           smell_warning(
             context: ctx,
@@ -60,15 +58,26 @@ module Reek
         end
       end
 
-      def bad_name?(name)
-        var = name.to_s.gsub(/^[@\*\&]*/, '')
-        return false if var == '*' || accept_names.include?(var)
-        reject_names.find { |patt| patt =~ var }
-      end
-
       private
 
-      private_attr_accessor :accept_names, :reject_names
+      def bad_name?(ctx, name)
+        sanitized_name = sanitize name
+        return false if sanitized_name == '*' || accept_names(ctx).include?(sanitized_name)
+        reject_patterns(ctx).any? { |pattern| sanitized_name.match pattern }
+      end
+
+      def reject_patterns(context)
+        value(REJECT_KEY, context, DEFAULT_REJECT_PATTERNS)
+      end
+
+      def accept_names(context)
+        value(ACCEPT_KEY, context, DEFAULT_ACCEPT_NAMES)
+      end
+
+      # :reek:UtilityFunction
+      def sanitize(name)
+        name.to_s.gsub(/^[@\*\&]*/, '')
+      end
     end
   end
 end

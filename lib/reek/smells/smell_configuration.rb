@@ -18,7 +18,7 @@ module Reek
         @options = hash
       end
 
-      def merge!(new_options)
+      def merge(new_options)
         options.merge!(new_options)
       end
 

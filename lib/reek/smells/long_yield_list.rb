@@ -27,6 +27,8 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
+      # :reek:FeatureEnvy
+      # :reek:DuplicateMethodCall: { max_calls: 2 }
       def examine_context(ctx)
         max_allowed_params = value(MAX_ALLOWED_PARAMS_KEY,
                                    ctx,

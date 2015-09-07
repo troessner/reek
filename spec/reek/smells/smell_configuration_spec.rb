@@ -19,21 +19,21 @@ RSpec.describe Reek::Smells::SmellConfiguration do
 
     let(:smell_config) { described_class.new(base_config) }
 
-    it { expect(smell_config.merge!({})).to eq(base_config) }
-    it { expect(smell_config.merge!('enabled' => true)).to eq(base_config) }
-    it { expect(smell_config.merge!('exclude' => [])).to eq(base_config) }
-    it { expect(smell_config.merge!('accept' => ['_'])).to eq(base_config) }
+    it { expect(smell_config.merge({})).to eq(base_config) }
+    it { expect(smell_config.merge('enabled' => true)).to eq(base_config) }
+    it { expect(smell_config.merge('exclude' => [])).to eq(base_config) }
+    it { expect(smell_config.merge('accept' => ['_'])).to eq(base_config) }
     it do
-      updated = smell_config.merge!('reject' => [/^.$/, /[0-9]$/, /[A-Z]/])
+      updated = smell_config.merge('reject' => [/^.$/, /[0-9]$/, /[A-Z]/])
       expect(updated).to eq(base_config)
     end
     it do
-      updated = smell_config.merge!('accept' => ['_'], 'enabled' => true)
+      updated = smell_config.merge('accept' => ['_'], 'enabled' => true)
       expect(updated).to eq(base_config)
     end
 
     it 'should override single values' do
-      updated = smell_config.merge!('enabled' => false)
+      updated = smell_config.merge('enabled' => false)
       expect(updated).to eq('accept'  => ['_'],
                             'enabled' => false,
                             'exclude' => [],
@@ -41,7 +41,7 @@ RSpec.describe Reek::Smells::SmellConfiguration do
     end
 
     it 'should override arrays of values' do
-      updated = smell_config.merge!('reject' => [/^.$/, /[3-9]$/])
+      updated = smell_config.merge('reject' => [/^.$/, /[3-9]$/])
       expect(updated).to eq('accept'  => ['_'],
                             'enabled' => true,
                             'exclude' => [],
@@ -49,7 +49,7 @@ RSpec.describe Reek::Smells::SmellConfiguration do
     end
 
     it 'should override multiple values' do
-      updated = smell_config.merge!('accept' => [/[A-Z]$/], 'enabled' => false)
+      updated = smell_config.merge('accept' => [/[A-Z]$/], 'enabled' => false)
       expect(updated).to eq('accept'  => [/[A-Z]$/],
                             'enabled' => false,
                             'exclude' => [],

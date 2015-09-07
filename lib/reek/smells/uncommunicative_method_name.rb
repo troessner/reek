@@ -45,6 +45,7 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
+      # :reek:TooManyStatements: { max_statements: 9 }
       def examine_context(ctx)
         reject_names = value(REJECT_KEY, ctx, DEFAULT_REJECT_SET)
         accept_names = value(ACCEPT_KEY, ctx, DEFAULT_ACCEPT_SET)

@@ -13,6 +13,7 @@ module Reek
           @report_formatter = report_formatter
         end
 
+        # :reek:UtilityFunction
         def show_header?(_examiner)
           raise NotImplementedError
         end
@@ -39,6 +40,7 @@ module Reek
       # Lists only smelly examiners
       #
       class Quiet < Base
+        # :reek:UtilityFunction
         def show_header?(examiner)
           examiner.smelly?
         end

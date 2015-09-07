@@ -22,10 +22,12 @@ module Reek
         load_from_file(find(path: path))
       end
 
+      # :reek:ControlParameter
       def find(path: nil, current: Pathname.pwd, home: Pathname.new(Dir.home))
         path || find_by_dir(current) || find_by_dir(home)
       end
 
+      # :reek:NestedIterators: { max_allowed_nesting: 2 }
       def find_by_dir(start)
         start.ascend do |dir|
           files = dir.children.select(&:file?).sort
@@ -34,6 +36,7 @@ module Reek
         end
       end
 
+      # :reek:TooManyStatements: { max_statements: 6 }
       def load_from_file(path)
         return {} unless path
         begin

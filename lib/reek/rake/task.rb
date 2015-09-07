@@ -35,6 +35,9 @@ module Reek
     #   rake reek REEK_OPTS=-s                   # sorts the report by smell
     #
     # @public
+    #
+    # :reek:TooManyInstanceVariables: { max_instance_variables: 6 }
+    # :reek:Attribute
     class Task < ::Rake::TaskLib
       # Name of reek task. Defaults to :reek.
       # @public
@@ -111,6 +114,7 @@ module Reek
           reject(&:empty?)
       end
 
+      # :reek:UtilityFunction
       def sys_call_failed?
         !$CHILD_STATUS.success?
       end

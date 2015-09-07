@@ -52,6 +52,7 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
+      # :reek:FeatureEnvy
       def examine_context(ctx)
         return [] if ctx.singleton_method?
         return [] if ctx.num_statements == 0
@@ -67,6 +68,7 @@ module Reek
 
       private
 
+      # :reek:UtilityFunction
       def num_helper_methods(method_ctx)
         method_ctx.local_nodes(:send).length
       end

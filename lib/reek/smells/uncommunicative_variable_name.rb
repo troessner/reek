@@ -17,6 +17,8 @@ module Reek
     # * names ending with a number
     #
     # See {file:docs/Uncommunicative-Variable-Name.md} for details.
+    #
+    # :reek:DataClump: { max_copies: 4 }
     class UncommunicativeVariableName < SmellDetector
       # The name of the config field that lists the regexps of
       # smelly names to be reported.
@@ -40,7 +42,7 @@ module Reek
         )
       end
 
-      def self.contexts # :nodoc:
+      def self.contexts
         [:module, :class, :def, :defs]
       end
 
@@ -69,6 +71,7 @@ module Reek
         reject_names.find { |patt| patt =~ var }
       end
 
+      # :reek:TooManyStatements: { max_statements: 6 }
       def variable_names(exp)
         result = Hash.new { |hash, key| hash[key] = [] }
         find_assignment_variable_names(exp, result)
@@ -76,6 +79,7 @@ module Reek
         result.to_a.sort_by { |name, _| name.to_s }
       end
 
+      # :reek:UtilityFunction
       def find_assignment_variable_names(exp, accumulator)
         assignment_nodes = exp.each_node(:lvasgn, [:class, :module, :defs, :def])
 
@@ -87,6 +91,8 @@ module Reek
         assignment_nodes.each { |asgn| accumulator[asgn[1]].push(asgn.line) }
       end
 
+      # :reek:FeatureEnvy
+      # :reek:TooManyStatements: { max_statements: 6 }
       def find_block_argument_variable_names(exp, accumulator)
         arg_search_exp = case exp.first
                          when :class, :module
@@ -114,6 +120,7 @@ module Reek
         end
       end
 
+      # :reek:UtilityFunction
       def record_variable_name(exp, symbol, accumulator)
         varname = symbol.to_s.sub(/^\*/, '')
         return if varname == ''

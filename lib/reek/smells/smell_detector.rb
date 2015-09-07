@@ -12,6 +12,8 @@ module Reek
     #   - {file:README.md}
     # for details.
     #
+    # :reek:TooManyMethods: { max_methods: 19 }
+    # :reek:TooManyInstanceVariables: { max_instance_variables: 5 }
     class SmellDetector
       # The name of the config field that lists the names of code contexts
       # that should not be checked. Add this field to the config for each
@@ -27,6 +29,7 @@ module Reek
           [:def, :defs]
         end
 
+        # :reek:UtilityFunction
         def default_config
           {
             SmellConfiguration::ENABLED_KEY => true,
@@ -117,6 +120,7 @@ module Reek
         ctx.config_for(self.class)
       end
 
+      # :reek:FeatureEnvy
       def smell_warning(options = {})
         context = options.fetch(:context)
         exp = context.exp

@@ -9,6 +9,8 @@ module Reek
     # code element. CodeContexts form a tree in the same way the code does,
     # with each context holding a reference to a unique outer context.
     #
+    # :reek:TooManyMethods: { max_methods: 18 }
+    # :reek:TooManyInstanceVariables: { max_instance_variables: 8 }
     class CodeContext
       attr_reader :exp
       attr_reader :num_statements
@@ -75,16 +77,19 @@ module Reek
         self.num_statements += num
       end
 
+      # :reek:TooManyStatements: { max_statements: 6 }
+      # :reek:FeatureEnvy
       def record_call_to(exp)
         receiver = exp.receiver
         type = receiver ? receiver.type : :self
+        line = exp.line
         case type
         when :lvar, :lvasgn
           unless exp.object_creation_call?
-            refs.record_reference_to(receiver.name, line: exp.line)
+            refs.record_reference_to(receiver.name, line: line)
           end
         when :self
-          refs.record_reference_to(:self, line: exp.line)
+          refs.record_reference_to(:self, line: line)
         end
       end
 

@@ -20,6 +20,7 @@ module Reek
 
       private
 
+      # :reek:UtilityFunction
       def input_was_piped?
         !$stdin.tty?
       end
@@ -30,6 +31,7 @@ module Reek
         argv.empty?
       end
 
+      # :reek:UtilityFunction
       def working_directory_as_source
         Source::SourceLocator.new(['.']).sources
       end

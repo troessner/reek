@@ -14,6 +14,8 @@ module Reek
   # Applies all available smell detectors to a source.
   #
   # @public
+  #
+  # :reek:TooManyInstanceVariables: { max_instance_variables: 6 }
   class Examiner
     #
     # Creates an Examiner which scans the given +source+ for code smells.
@@ -35,7 +37,7 @@ module Reek
       @source        = Source::SourceCode.from(source)
       @configuration = configuration
       @collector     = CLI::WarningCollector.new
-      @smell_types   = eligible_smell_types(filter_by_smells)
+      @smell_types   = Smells::SmellRepository.eligible_smell_types(filter_by_smells)
 
       run
     end
@@ -84,16 +86,6 @@ module Reek
       syntax_tree = source.syntax_tree
       TreeWalker.new(smell_repository, syntax_tree).walk if syntax_tree
       smell_repository.report_on(collector)
-    end
-
-    def eligible_smell_types(filter_by_smells = [])
-      if filter_by_smells.any?
-        Smells::SmellRepository.smell_types.select do |klass|
-          filter_by_smells.include? klass.smell_type
-        end
-      else
-        Smells::SmellRepository.smell_types
-      end
     end
   end
 end
