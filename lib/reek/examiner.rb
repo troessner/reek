@@ -13,6 +13,7 @@ module Reek
   #
   # Applies all available smell detectors to a source.
   #
+  # @public
   class Examiner
     #
     # Creates an Examiner which scans the given +source+ for code smells.
@@ -26,6 +27,8 @@ module Reek
     #
     # @param configuration [Configuration::AppConfiguration]
     #   The configuration for this Examiner.
+    #
+    # @public
     def initialize(source,
                    filter_by_smells = [],
                    configuration: Configuration::AppConfiguration.default)
@@ -40,6 +43,7 @@ module Reek
     #
     # @return [String] description of the source being analysed
     #
+    # @public
     def description
       @description ||= source.description
     end
@@ -47,6 +51,7 @@ module Reek
     #
     # @return [Array<SmellWarning>] the smells found in the source
     #
+    # @public
     def smells
       @smells ||= collector.warnings
     end
@@ -54,6 +59,7 @@ module Reek
     #
     # @return [Integer] the number of smells found in the source
     #
+    # @public
     def smells_count
       smells.length
     end
@@ -61,6 +67,7 @@ module Reek
     #
     # @return [Boolean] true if and only if there are code smells in the source.
     #
+    # @public
     def smelly?
       !smells.empty?
     end

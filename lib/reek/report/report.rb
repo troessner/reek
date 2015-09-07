@@ -5,15 +5,19 @@ require_relative 'formatter'
 require_relative 'heading_formatter'
 
 module Reek
+  # @public
   module Report
     #
     # A report that contains the smells and smell counts following source code analysis.
     #
     # @abstract Subclass and override {#show} to create a concrete report class.
+    #
+    # @public
     class Base
       NO_WARNINGS_COLOR = :green
       WARNINGS_COLOR = :red
 
+      # @public
       def initialize(heading_formatter: HeadingFormatter::Quiet,
                      report_formatter: Formatter, sort_by_issue_count: false,
                      warning_formatter: SimpleWarningFormatter.new)
@@ -31,6 +35,8 @@ module Reek
       # added examiners.
       #
       # @param [Reek::Examiner] examiner object to report on
+      #
+      # @public
       def add_examiner(examiner)
         self.total_smell_count += examiner.smells_count
         examiners << examiner
@@ -38,6 +44,8 @@ module Reek
       end
 
       # Render the report results on STDOUT
+      #
+      # @public
       def show
         raise NotImplementedError
       end
@@ -63,7 +71,9 @@ module Reek
     #
     # Generates a sorted, text summary of smells in examiners
     #
+    # @public
     class TextReport < Base
+      # @public
       def show
         sort_examiners if smells?
         display_summary
@@ -109,7 +119,10 @@ module Reek
     #
     # Displays a list of smells in YAML format
     # YAML with empty array for 0 smells
+    #
+    # @public
     class YAMLReport < Base
+      # @public
       def show(out = $stdout)
         out.print smells.map { |smell| warning_formatter.format_hash(smell) }.to_yaml
       end
@@ -118,7 +131,10 @@ module Reek
     #
     # Displays a list of smells in JSON format
     # JSON with empty array for 0 smells
+    #
+    # @public
     class JSONReport < Base
+      # @public
       def show(out = $stdout)
         out.print ::JSON.generate smells.map { |smell| warning_formatter.format_hash(smell) }
       end
@@ -127,9 +143,11 @@ module Reek
     #
     # Saves the report as a HTML file
     #
+    # @public
     class HTMLReport < Base
       require 'erb'
 
+      # @public
       def show(target_path: Pathname.new('reek.html'))
         template_path = Pathname.new("#{__dir__}/html_report.html.erb")
         File.write target_path, ERB.new(template_path.read).result(binding)
@@ -140,9 +158,11 @@ module Reek
     #
     # Generates a list of smells in XML format
     #
+    # @public
     class XMLReport < Base
       require 'rexml/document'
 
+      # @public
       def show
         document.write output: $stdout, indent: 2
         $stdout.puts

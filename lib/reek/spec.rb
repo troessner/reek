@@ -39,6 +39,7 @@ module Reek
   #   ruby.should reek_of(:Duplication, /@other.thing.foo/)
   #   ruby.should_not reek_of(:FeatureEnvy)
   #
+  # @public
   module Spec
     #
     # Checks the target source code for instances of "smell category"
@@ -85,6 +86,7 @@ module Reek
     #
     #   expect(src).to reek_of(Reek::Smells::DuplicateMethodCall, name: '@other.thing')
     #
+    # @public
     def reek_of(smell_category,
                 smell_details = {},
                 configuration = Configuration::AppConfiguration.default)
@@ -98,6 +100,8 @@ module Reek
     #   1.) "reek_of" doesn't mind if there are other smells of a different category.
     #       "reek_only_of" will fail in that case.
     #   2.) "reek_only_of" doesn't support the additional smell_details hash.
+    #
+    # @public
     def reek_only_of(smell_category, configuration = Configuration::AppConfiguration.default)
       ShouldReekOnlyOf.new(smell_category, configuration)
     end
@@ -105,6 +109,7 @@ module Reek
     #
     # Returns +true+ if and only if the target source code contains smells.
     #
+    # @public
     def reek(configuration = Configuration::AppConfiguration.default)
       ShouldReek.new(configuration: configuration)
     end

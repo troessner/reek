@@ -1,17 +1,24 @@
 require 'forwardable'
 
 module Reek
+  # @public
   module Smells
     #
     # Reports a warning that a smell has been found.
     #
+    # @public
     class SmellWarning
       include Comparable
       extend Forwardable
+
+      # @public
       attr_reader :context, :lines, :message, :parameters, :smell_detector, :source
-      attr_reader :source
       def_delegators :smell_detector, :smell_category, :smell_type
 
+      # @note When using reek's public API, you should not create SmellWarning
+      #   objects yourself. This is why the initializer is not part of the
+      #   public API.
+      #
       # FIXME: switch to required kwargs when dropping Ruby 2.0 compatibility
       def initialize(smell_detector, context: '', lines: raise, message: raise,
                                      source: raise, parameters: {})
@@ -23,14 +30,17 @@ module Reek
         @parameters     = parameters
       end
 
+      # @public
       def hash
         sort_key.hash
       end
 
+      # @public
       def <=>(other)
         sort_key <=> other.sort_key
       end
 
+      # @public
       def eql?(other)
         (self <=> other) == 0
       end
@@ -43,6 +53,7 @@ module Reek
         listener.found_smell(self)
       end
 
+      # @public
       def yaml_hash
         stringified_params = Hash[parameters.map { |key, val| [key.to_s, val] }]
         core_yaml_hash.
