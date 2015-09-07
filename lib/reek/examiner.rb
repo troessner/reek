@@ -40,12 +40,13 @@ module Reek
       run
     end
 
+    # FIXME: Should be named "origin"
     #
     # @return [String] description of the source being analysed
     #
     # @public
     def description
-      @description ||= source.description
+      @description ||= source.origin
     end
 
     #
