@@ -21,13 +21,13 @@ module Reek
       # The name of the config field that lists the regexps of
       # smelly names to be reported.
       REJECT_KEY = 'reject'
-      DEFAULT_REJECT_SET = [/^.$/, /[0-9]$/]
+      DEFAULT_REJECT_PATTERNS = [/^.$/, /[0-9]$/]
 
       # The name of the config field that lists the specific names that are
       # to be treated as exceptions; these names will not be reported as
       # uncommunicative.
       ACCEPT_KEY = 'accept'
-      DEFAULT_ACCEPT_SET = ['Inline::C']
+      DEFAULT_ACCEPT_PATTERNS = [/Inline::C/]
 
       def self.smell_category
         'UncommunicativeName'
@@ -35,12 +35,12 @@ module Reek
 
       def self.default_config
         super.merge(
-          REJECT_KEY => DEFAULT_REJECT_SET,
-          ACCEPT_KEY => DEFAULT_ACCEPT_SET
+          REJECT_KEY => DEFAULT_REJECT_PATTERNS,
+          ACCEPT_KEY => DEFAULT_ACCEPT_PATTERNS
         )
       end
 
-      def self.contexts # :nodoc:
+      def self.contexts
         [:module, :class]
       end
 
@@ -49,21 +49,36 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
-      # :reek:Duplication { allow_calls: [ to_s ] }
-      def examine_context(ctx)
-        reject_names = value(REJECT_KEY, ctx, DEFAULT_REJECT_SET)
-        accept_names = value(ACCEPT_KEY, ctx, DEFAULT_ACCEPT_SET)
-        exp = ctx.exp
-        name = exp.simple_name.to_s
-        return [] if accept_names.include?(ctx.full_name)
-        var = name.gsub(/^[@\*\&]*/, '')
-        return [] if accept_names.include?(var)
-        return [] unless reject_names.find { |patt| patt =~ var }
+      def examine_context(context)
+        fully_qualified_name = context.full_name
+        exp                  = context.exp
+        module_name          = exp.simple_name
+
+        return [] if acceptable_name?(context: context,
+                                      module_name: module_name,
+                                      fully_qualified_name: fully_qualified_name)
+
         [smell_warning(
-          context: ctx,
+          context: context,
           lines: [exp.line],
-          message: "has the name '#{name}'",
-          parameters: { name: name })]
+          message: "has the name '#{module_name}'",
+          parameters: { name: module_name })]
+      end
+
+      private
+
+      # FIXME: switch to required kwargs when dropping Ruby 2.0 compatibility
+      def acceptable_name?(context: raise, module_name: raise, fully_qualified_name: raise)
+        accept_patterns(context).any? { |pattern| fully_qualified_name.match pattern } ||
+          reject_patterns(context).none? { |pattern| module_name.match pattern }
+      end
+
+      def reject_patterns(context)
+        value(REJECT_KEY, context, DEFAULT_REJECT_PATTERNS)
+      end
+
+      def accept_patterns(context)
+        value(ACCEPT_KEY, context, DEFAULT_ACCEPT_PATTERNS)
       end
     end
   end
