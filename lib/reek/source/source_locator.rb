@@ -20,9 +20,9 @@ module Reek
       # Traverses all paths we initialized the SourceLocator with, finds
       # all relevant Ruby files and returns them as a list.
       #
-      # @return [Array<Pathname>] - Ruby paths found
+      # @return [Array<Reek::Source::SourcePath>] - Ruby paths found
       def sources
-        @paths.flat_map { |path| path.relevant_children.map(&:pathname) }
+        @paths.flat_map { |path| path.relevant_children.to_a }
       end
     end
   end

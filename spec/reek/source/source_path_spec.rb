@@ -2,7 +2,6 @@ require 'pathname'
 require_relative '../../spec_helper'
 require_relative '../../../lib/reek/configuration/app_configuration'
 require_relative '../../../lib/reek/source/source_path'
-require_relative '../../../lib/reek/configuration/app_configuration'
 
 RSpec.describe Reek::Source::SourcePath do
   let(:source_path) { described_class.new(pathname, configuration: configuration) }
@@ -10,17 +9,24 @@ RSpec.describe Reek::Source::SourcePath do
   let(:configuration) { Reek::Configuration::AppConfiguration.default }
   let(:path) { 'lib/reek/smells.rb' }
 
-  describe '#pathname' do
-    subject { source_path.pathname }
+  describe '#to_s' do
+    subject { source_path.to_s }
 
-    it { is_expected.to eq pathname}
+    it { is_expected.not_to be_nil }
+    it { is_expected.to eq pathname.to_s }
+  end
+
+  describe '#read' do
+    subject { source_path.read }
+
+    it { is_expected.not_to be_nil }
+    it { is_expected.to eq pathname.read }
   end
 
   describe '#relevant?' do
     subject { source_path.relevant? }
 
     context 'ruby file' do
-
       it { is_expected.to be true }
 
       context 'ignored' do
@@ -75,8 +81,8 @@ RSpec.describe Reek::Source::SourcePath do
       end
 
       it 'does not scan hidden directories' do
-        expect(subject.map(&:pathname)).not_to include(*paths_that_are_expected_to_be_ignored)
-        expect(subject.map(&:pathname)).to eq expected_paths
+        expect(subject.to_a).not_to include(*paths_that_are_expected_to_be_ignored)
+        expect(subject.to_a).to eq expected_paths
       end
     end
 
@@ -94,11 +100,11 @@ RSpec.describe Reek::Source::SourcePath do
       end
 
       it 'does not use excluded paths' do
-        expect(subject.map(&:pathname)).not_to include(*paths_that_are_expected_to_be_ignored)
+        expect(subject.to_a).not_to include(*paths_that_are_expected_to_be_ignored)
 
-        expect(subject.map(&:pathname)).to eq [
-                                SAMPLES_PATH.join('source_with_exclude_paths/nested/uncommunicative_parameter_name.rb')
-                              ]
+        expect(subject.to_a).to eq [
+          SAMPLES_PATH.join('source_with_exclude_paths/nested/uncommunicative_parameter_name.rb')
+        ]
       end
     end
 
@@ -115,8 +121,8 @@ RSpec.describe Reek::Source::SourcePath do
       end
 
       it 'does only use Ruby source paths' do
-        expect(subject.map(&:pathname)).not_to include(*paths_that_are_expected_to_be_ignored)
-        expect(subject.map(&:pathname)).to eq expected_sources
+        expect(subject.to_a).not_to include(*paths_that_are_expected_to_be_ignored)
+        expect(subject.to_a).to eq expected_sources
       end
     end
 
@@ -128,14 +134,14 @@ RSpec.describe Reek::Source::SourcePath do
       context 'passing . as an argument' do
         let(:path) { '.' }
         it 'expands it correctly' do
-          expect(subject.map(&:pathname)).to include(*expected_sources)
+          expect(subject.to_a).to include(*expected_sources)
         end
       end
 
       context 'passing ./ as an argument' do
         let(:path) { './' }
         it 'expands it correctly' do
-          expect(subject.map(&:pathname).map(&:cleanpath)).to include(*expected_sources)
+          expect(subject.to_a).to include(*expected_sources)
         end
       end
     end

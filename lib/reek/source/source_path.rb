@@ -1,6 +1,7 @@
 require 'private_attr/everywhere'
 require 'find'
 require 'pathname'
+require 'forwardable'
 
 module Reek
   module Source
@@ -8,14 +9,16 @@ module Reek
     # Source file path in a filesystem.
     #
     class SourcePath
-      attr_reader :pathname
+      extend Forwardable
+
+      def_delegators :pathname, :read, :to_s
 
       # Initialize with the pathname and configuration.
       #
       # pathname - a path as Pathname
       def initialize(pathname, configuration: Configuration::AppConfiguration.default)
         @configuration = configuration
-        @pathname = pathname
+        @pathname = pathname.cleanpath
         ensure_file
       end
 
@@ -36,20 +39,25 @@ module Reek
 
       # Checks is path is relevant
       #
-      # Throws :prune if path is ignored
-      #
       # @return Boolean
       def relevant?
         ruby_file? && !ignored?
       end
 
+      # Checks is path is ignored
+      #
+      # @return Boolean
       def ignored?
         path_excluded? || hidden_directory?
       end
 
+      def ==(other)
+        other.to_s == to_s
+      end
+
       private
 
-      private_attr_reader :configuration
+      private_attr_reader :configuration, :pathname
 
       def current_directory?
         [Pathname.new('.'), Pathname.new('./')].include?(pathname)
