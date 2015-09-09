@@ -31,11 +31,11 @@ module Reek
       end
 
       def working_directory_as_source
-        Source::SourceLocator.new(['.']).sources
+        Source::SourceLocator.new(['.'])
       end
 
       def sources_from_argv
-        Source::SourceLocator.new(argv).sources
+        Source::SourceLocator.new(argv)
       end
 
       def source_from_pipe

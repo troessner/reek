@@ -63,12 +63,8 @@ RSpec.describe Reek::Source::SourcePath do
     end
   end
 
-  describe '#relevant_children' do
-    subject { source_path.relevant_children }
-
-    context 'without block' do
-      it { is_expected.to be_a_kind_of(Enumerator) }
-    end
+  describe '#to_a' do
+    subject { source_path.to_a }
 
     context 'applied to hidden directories' do
       let(:path) { SAMPLES_PATH.join('source_with_hidden_directories') }
@@ -81,8 +77,8 @@ RSpec.describe Reek::Source::SourcePath do
       end
 
       it 'does not scan hidden directories' do
-        expect(subject.to_a).not_to include(*paths_that_are_expected_to_be_ignored)
-        expect(subject.to_a).to eq expected_paths
+        expect(subject).not_to include(*paths_that_are_expected_to_be_ignored)
+        expect(subject).to eq expected_paths
       end
     end
 
@@ -100,9 +96,9 @@ RSpec.describe Reek::Source::SourcePath do
       end
 
       it 'does not use excluded paths' do
-        expect(subject.to_a).not_to include(*paths_that_are_expected_to_be_ignored)
+        expect(subject).not_to include(*paths_that_are_expected_to_be_ignored)
 
-        expect(subject.to_a).to eq [
+        expect(subject).to eq [
           SAMPLES_PATH.join('source_with_exclude_paths/nested/uncommunicative_parameter_name.rb')
         ]
       end
@@ -121,8 +117,8 @@ RSpec.describe Reek::Source::SourcePath do
       end
 
       it 'does only use Ruby source paths' do
-        expect(subject.to_a).not_to include(*paths_that_are_expected_to_be_ignored)
-        expect(subject.to_a).to eq expected_sources
+        expect(subject).not_to include(*paths_that_are_expected_to_be_ignored)
+        expect(subject).to eq expected_sources
       end
     end
 
@@ -134,14 +130,14 @@ RSpec.describe Reek::Source::SourcePath do
       context 'passing . as an argument' do
         let(:path) { '.' }
         it 'expands it correctly' do
-          expect(subject.to_a).to include(*expected_sources)
+          expect(subject).to include(*expected_sources)
         end
       end
 
       context 'passing ./ as an argument' do
         let(:path) { './' }
         it 'expands it correctly' do
-          expect(subject.to_a).to include(*expected_sources)
+          expect(subject).to include(*expected_sources)
         end
       end
     end

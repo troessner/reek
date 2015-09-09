@@ -10,8 +10,10 @@ module Reek
     #
     class SourcePath
       extend Forwardable
+      include Enumerable
 
       def_delegators :pathname, :read, :to_s
+      def_delegator :traverse_children, :each
 
       # Initialize with the pathname and configuration.
       #
@@ -20,21 +22,6 @@ module Reek
         @configuration = configuration
         @pathname = pathname.cleanpath
         ensure_file
-      end
-
-      # Traverses all paths under current path, finds
-      # all relevant Ruby files and returns them as a list.
-      #
-      # @return Enumerator - if no block given
-      def relevant_children
-        return enum_for(:relevant_children) unless block_given?
-        pathname.find do |pathname|
-          if (path = SourcePath.new(pathname, configuration: configuration)).relevant?
-            yield path
-          elsif path.ignored?
-            Find.prune
-          end
-        end
       end
 
       # Checks is path is relevant
@@ -58,6 +45,21 @@ module Reek
       private
 
       private_attr_reader :configuration, :pathname
+
+      # Traverses all paths under current path, finds
+      # all relevant Ruby files and returns them as a list.
+      #
+      # @return Enumerator - if no block given
+      def traverse_children
+        return enum_for(:traverse_children) unless block_given?
+        pathname.find do |pathname|
+          if (path = SourcePath.new(pathname, configuration: configuration)).relevant?
+            yield path
+          elsif path.ignored?
+            Find.prune
+          end
+        end
+      end
 
       def current_directory?
         [Pathname.new('.'), Pathname.new('./')].include?(pathname)
