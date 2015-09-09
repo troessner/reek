@@ -11,7 +11,7 @@ Feature: Basic smell detection
     Then the exit status indicates smells
     And it reports:
     """
-    inline.rb -- 46 warnings:
+    inline.rb -- 47 warnings:
       CompilationError has no descriptive comment (IrresponsibleModule)
       Dir has no descriptive comment (IrresponsibleModule)
       File has no descriptive comment (IrresponsibleModule)
@@ -24,6 +24,7 @@ Feature: Basic smell detection
       Inline::C declares the class variable @@type_map (ClassVariable)
       Inline::C has at least 13 instance variables (TooManyInstanceVariables)
       Inline::C has at least 25 methods (TooManyMethods)
+      Inline::C has the name 'C' (UncommunicativeModuleName)
       Inline::C takes parameters [options, src] to 5 methods (DataClump)
       Inline::C tests $DEBUG at least 7 times (RepeatedConditional)
       Inline::C tests $TESTING at least 4 times (RepeatedConditional)
@@ -282,5 +283,5 @@ Feature: Basic smell detection
       RedCloth#textile_popup_help has the parameter name 'windowW' (UncommunicativeParameterName)
       RedCloth#to_html has approx 26 statements (TooManyStatements)
       RedCloth#v_align doesn't depend on instance state (UtilityFunction)
-    268 total warnings
+    269 total warnings
     """
