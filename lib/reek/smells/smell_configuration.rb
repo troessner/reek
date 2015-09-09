@@ -22,10 +22,6 @@ module Reek
         options.merge!(new_options)
       end
 
-      #
-      # Is this smell detector active?
-      #--
-      #  SMELL: Getter
       def enabled?
         options[ENABLED_KEY]
       end

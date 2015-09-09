@@ -40,11 +40,28 @@ RSpec.describe Reek::Smells::UncommunicativeModuleName do
     end
   end
 
-  context 'accepting names' do
-    it 'accepts Inline::C' do
+  context 'accept patterns' do
+    let(:configuration) do
+      default_directive_for_smell = {
+        default_directive: {
+          Reek::Smells::UncommunicativeModuleName => {
+            'accept' => ['Inline::C']
+          }
+        }
+      }
+      Reek::Configuration::AppConfiguration.from_map(default_directive_for_smell)
+    end
+
+    it 'make smelly name pass' do
       src = 'module Inline::C; end'
-      ctx = Reek::Context::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
-      expect(detector.examine_context(ctx)).to be_empty
+
+      expect(src).to_not reek_of(described_class, {}, configuration)
+    end
+
+    it 'reports names with typos' do
+      src = 'module Inline::K; end'
+
+      expect(src).to reek_of(described_class, {}, configuration)
     end
   end
 
