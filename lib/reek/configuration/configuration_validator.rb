@@ -6,6 +6,7 @@ module Reek
     module ConfigurationValidator
       private
 
+      # :reek:UtilityFunction
       def smell_type?(key)
         Reek::Smells.const_get key
       rescue NameError

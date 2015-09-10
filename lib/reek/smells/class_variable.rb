@@ -37,6 +37,8 @@ module Reek
       # Collects the names of the class variables declared and/or used
       # in the given module.
       #
+      # :reek:TooManyStatements: { max_statements: 7 }
+      # :reek:FeatureEnvy
       def class_variables_in(ast)
         result = Hash.new { |hash, key| hash[key] = [] }
         collector = proc do |cvar_node|

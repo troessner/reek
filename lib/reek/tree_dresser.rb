@@ -34,6 +34,9 @@ module Reek
     # @param parent [Parser::AST::Node] - the parent sexp
     #
     # @return an instance of Reek::AST::Node with type-dependent sexp extensions mixed in.
+    #
+    # :reek:FeatureEnvy
+    # :reek:TooManyStatements: { max_statements: 6 }
     def dress(sexp, comment_map, parent: nil)
       return sexp unless sexp.is_a? ::Parser::AST::Node
       type = sexp.type

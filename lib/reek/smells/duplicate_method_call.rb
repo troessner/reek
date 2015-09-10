@@ -45,6 +45,8 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
+      # :reek:FeatureEnvy
+      # :reek:DuplicateMethodCall: { max_calls: 2 }
       def examine_context(ctx)
         max_allowed_calls = value(MAX_ALLOWED_CALLS_KEY, ctx, DEFAULT_MAX_CALLS)
         allow_calls = value(ALLOW_CALLS_KEY, ctx, DEFAULT_ALLOW_CALLS)
@@ -111,6 +113,8 @@ module Reek
 
         private_attr_reader :allow_calls, :max_allowed_calls
 
+        # :reek:TooManyStatements: { max_statements: 6 }
+        # :reek:DuplicateMethodCall: { max_calls: 2 }
         def collect_calls(result)
           context.each_node(:send, [:mlhs]) do |call_node|
             next if call_node.object_creation_call?
@@ -126,6 +130,7 @@ module Reek
           found_call.occurs > max_allowed_calls && !allow_calls?(found_call.call)
         end
 
+        # :reek:UtilityFunction
         def simple_method_call?(call_node)
           !call_node.receiver && call_node.args.empty?
         end

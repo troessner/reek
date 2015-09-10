@@ -34,6 +34,7 @@ module Reek
       private_attr_reader :configuration, :smell_category, :smell_details
       private_attr_accessor :all_smells, :examiner
 
+      # :reek:UtilityFunction
       def normalize(smell_category_or_type)
         # In theory, users can give us many different types of input (see the documentation for
         # reek_of below), however we're basically ignoring all of those subleties and just

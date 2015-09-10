@@ -36,7 +36,7 @@ RSpec.describe Reek::Configuration::DirectoryDirectives do
       let(:bogus_path) { Pathname('does/not/exist') }
 
       it 'raises an error' do
-        Reek::CLI::Silencer.silently(stderr: true) do
+        Reek::CLI::Silencer.silently do
           expect { subject.add(bogus_path, {}) }.to raise_error(SystemExit)
         end
       end
@@ -46,7 +46,7 @@ RSpec.describe Reek::Configuration::DirectoryDirectives do
       let(:file_as_path) { SAMPLES_PATH.join('inline.rb') }
 
       it 'raises an error' do
-        Reek::CLI::Silencer.silently(stderr: true) do
+        Reek::CLI::Silencer.silently do
           expect { subject.add(file_as_path, {}) }.to raise_error(SystemExit)
         end
       end

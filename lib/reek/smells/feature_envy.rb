@@ -58,6 +58,7 @@ module Reek
 
       private
 
+      # :reek:UtilityFunction
       def envious_receivers(ctx)
         refs = ctx.refs
         return {} if refs.self_is_max?

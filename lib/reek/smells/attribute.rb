@@ -41,6 +41,7 @@ module Reek
 
       private
 
+      # :reek:UtilityFunction
       def attributes_in(module_ctx)
         if module_ctx.visibility == :public
           call_node = module_ctx.exp

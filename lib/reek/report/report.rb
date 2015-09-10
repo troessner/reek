@@ -13,11 +13,15 @@ module Reek
     # @abstract Subclass and override {#show} to create a concrete report class.
     #
     # @public
+    #
+    # :reek:TooManyInstanceVariables: { max_instance_variables: 6 }
     class Base
       NO_WARNINGS_COLOR = :green
       WARNINGS_COLOR = :red
 
       # @public
+      #
+      # :reek:BooleanParameter
       def initialize(heading_formatter: HeadingFormatter::Quiet,
                      report_formatter: Formatter, sort_by_issue_count: false,
                      warning_formatter: SimpleWarningFormatter.new)
@@ -183,6 +187,8 @@ module Reek
         end
       end
 
+      # :reek:FeatureEnvy
+      # :reek:NestedIterators: { max_allowed_nesting: 2 }
       def file(name, smells)
         REXML::Element.new('file').tap do |file|
           file.add_attribute 'name', File.realpath(name)
@@ -194,6 +200,7 @@ module Reek
         end
       end
 
+      # :reek:UtilityFunction
       def error(smell, line)
         REXML::Element.new('error').tap do |error|
           error.add_attributes 'column'   => 0,

@@ -28,6 +28,7 @@ module Reek
 
     private
 
+    # :reek:UtilityFunction
     def add_to_config(smell, options)
       options ||= ': { enabled: false }'
       YAML.load(smell + options)

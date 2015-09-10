@@ -10,7 +10,7 @@ RSpec.describe Reek::Configuration::ExcludedPaths do
       let(:paths) { [SAMPLES_PATH, bogus_path] }
 
       it 'raises an error' do
-        Reek::CLI::Silencer.silently(stderr: true) do
+        Reek::CLI::Silencer.silently do
           expect { subject.add(paths) }.to raise_error(SystemExit)
         end
       end
@@ -21,7 +21,7 @@ RSpec.describe Reek::Configuration::ExcludedPaths do
       let(:paths) { [SAMPLES_PATH, file_as_path] }
 
       it 'raises an error if one of the given paths is a file' do
-        Reek::CLI::Silencer.silently(stderr: true) do
+        Reek::CLI::Silencer.silently do
           expect { subject.add(paths) }.to raise_error(SystemExit)
         end
       end

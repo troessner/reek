@@ -34,6 +34,7 @@ module Reek
         @descriptive ||= {}
       end
 
+      # :reek:FeatureEnvy
       def descriptive?(ctx)
         descriptive[ctx.full_name] ||= ctx.descriptively_commented?
       end

@@ -52,13 +52,15 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
+      # :reek:FeatureEnvy
       def examine_context(ctx)
         ControlParameterCollector.new(ctx).control_parameters.map do |control_parameter|
+          name = control_parameter.name.to_s
           smell_warning(
             context: ctx,
             lines: control_parameter.lines,
-            message: "is controlled by argument #{control_parameter.name}",
-            parameters: { name: control_parameter.name.to_s })
+            message: "is controlled by argument #{name}",
+            parameters: { name: name })
         end
       end
 

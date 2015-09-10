@@ -87,6 +87,8 @@ module Reek
     #   expect(src).to reek_of(Reek::Smells::DuplicateMethodCall, name: '@other.thing')
     #
     # @public
+    #
+    # :reek:UtilityFunction
     def reek_of(smell_category,
                 smell_details = {},
                 configuration = Configuration::AppConfiguration.default)
@@ -102,6 +104,8 @@ module Reek
     #   2.) "reek_only_of" doesn't support the additional smell_details hash.
     #
     # @public
+    #
+    # :reek:UtilityFunction
     def reek_only_of(smell_category, configuration = Configuration::AppConfiguration.default)
       ShouldReekOnlyOf.new(smell_category, configuration)
     end
@@ -110,6 +114,8 @@ module Reek
     # Returns +true+ if and only if the target source code contains smells.
     #
     # @public
+    #
+    # :reek:UtilityFunction
     def reek(configuration = Configuration::AppConfiguration.default)
       ShouldReek.new(configuration: configuration)
     end

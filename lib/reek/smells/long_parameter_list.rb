@@ -35,11 +35,12 @@ module Reek
       #
       def examine_context(ctx)
         max_allowed_params = value(MAX_ALLOWED_PARAMS_KEY, ctx, DEFAULT_MAX_ALLOWED_PARAMS)
-        count = ctx.exp.arg_names.length
+        exp = ctx.exp
+        count = exp.arg_names.length
         return [] if count <= max_allowed_params
         [smell_warning(
           context: ctx,
-          lines: [ctx.exp.line],
+          lines: [exp.line],
           message: "has #{count} parameters",
           parameters: { count: count })]
       end

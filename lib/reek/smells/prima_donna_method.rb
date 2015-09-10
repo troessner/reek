@@ -36,6 +36,7 @@ module Reek
 
       private
 
+      # :reek:FeatureEnvy
       def check_for_smells(method_sexp, ctx)
         return unless method_sexp.ends_with_bang?
 

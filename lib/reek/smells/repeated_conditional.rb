@@ -49,6 +49,8 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
+      # :reek:TooManyStatements: { max_statements: 6 }
+      # :reek:DuplicateMethodCall: { max_calls: 2 }
       def examine_context(ctx)
         max_identical_ifs = value(MAX_IDENTICAL_IFS_KEY, ctx, DEFAULT_MAX_IFS)
         conditional_counts(ctx).select do |_key, lines|
@@ -69,6 +71,8 @@ module Reek
       # the given syntax tree together with the number of times each
       # occurs. Ignores nested classes and modules.
       #
+      # :reek:TooManyStatements: { max_statements: 9 }
+      # :reek:FeatureEnvy
       def conditional_counts(sexp)
         result = Hash.new { |hash, key| hash[key] = [] }
         collector = proc do |node|
