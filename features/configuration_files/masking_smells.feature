@@ -45,3 +45,15 @@ Feature: Masking smells using config files
         [5]:Dirty has the variable name '@s' (UncommunicativeVariableName)
         [5]:Dirty#a has the variable name 'x' (UncommunicativeVariableName)
       """
+
+  Scenario: Disable UtilityFunction for non-public methods
+    Given a smelly file called 'smelly.rb' with private, protected and public UtilityFunction methods
+    And a configuration file disabling UtilityFunction for non-public methods called 'config.reek'
+    When I run reek -c config.reek smelly.rb
+    Then the exit status indicates smells
+    And it reports:
+      """
+      smelly.rb -- 1 warning:
+        [3]:Klass#public_method doesn't depend on instance state (UtilityFunction)
+      """
+    But it does not report private or protected methods

@@ -41,4 +41,16 @@ _[Feature Envy](Feature-Envy.md)_ is only triggered if there are some references
 
 ## Configuration
 
-`reek`'s _Utility Function_ detector supports the [Basic Smell Options](Basic-Smell-Options.md).
+`reek`'s _Utility Function_ detector supports the [Basic Smell Options](Basic-Smell-Options.md), plus:
+
+| Option         | Value       | Effect  |
+| ---------------|-------------|---------|
+| public_methods_only | Boolean | Disable this smell detector for non-public methods (which means "private" and "protected") |
+
+A sample configuration file would look like this:
+
+```Yaml
+---
+UtilityFunction:
+  public_methods_only: true
+``
