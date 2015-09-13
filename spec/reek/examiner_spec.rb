@@ -50,7 +50,9 @@ RSpec.describe Reek::Examiner do
   end
 
   context 'with a fragrant File' do
-    let(:clean_file) { Reek::Source::SourceLocator.new(Pathname.glob(SAMPLES_PATH.join('three_clean_files/*.rb')).first) }
+    let(:clean_file) do
+      Reek::Source::SourceLocator.new(Pathname.glob(SAMPLES_PATH.join('three_clean_files/*.rb')).first)
+    end
     let(:examiner) { described_class.new(clean_file) }
 
     it_should_behave_like 'no smells found'

@@ -99,8 +99,8 @@ RSpec.describe Reek::Source::SourceLocator do
         expect(subject).not_to include(*paths_that_are_expected_to_be_ignored)
 
         expect(subject).to eq [
-                                SAMPLES_PATH.join('source_with_exclude_paths/nested/uncommunicative_parameter_name.rb')
-                              ]
+          SAMPLES_PATH.join('source_with_exclude_paths/nested/uncommunicative_parameter_name.rb')
+        ]
       end
     end
 
