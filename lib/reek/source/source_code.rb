@@ -4,6 +4,7 @@ Reek::CLI::Silencer.silently do
 end
 require_relative '../tree_dresser'
 require_relative '../ast/node'
+require_relative '../source/source_locator'
 
 module Reek
   module Source
