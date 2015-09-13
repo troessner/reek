@@ -7,6 +7,8 @@ module Reek
     # Reports a warning that a smell has been found.
     #
     # @public
+    #
+    # :reek:TooManyInstanceVariables: { max_instance_variables: 6 }
     class SmellWarning
       include Comparable
       extend Forwardable
@@ -20,6 +22,8 @@ module Reek
       #   public API.
       #
       # FIXME: switch to required kwargs when dropping Ruby 2.0 compatibility
+      #
+      # :reek:LongParameterList: { max_params: 6 }
       def initialize(smell_detector, context: '', lines: raise, message: raise,
                                      source: raise, parameters: {})
         @smell_detector = smell_detector
@@ -77,7 +81,10 @@ module Reek
       end
 
       def common_parameters_equal?(other_parameters)
-        other_parameters.keys.each do |key|
+        other_keys   = other_parameters.keys
+        other_values = other_parameters.values
+
+        other_keys.each do |key|
           unless parameters.key?(key)
             raise ArgumentError, "The parameter #{key} you want to check for doesn't exist"
           end
@@ -91,7 +98,7 @@ module Reek
         # So in this spec we are just specifying the "name" parameter but not the "count".
         # In order to allow for this kind of leniency we just test for common parameter equality,
         # not for a strict one.
-        parameters.values_at(*other_parameters.keys) == other_parameters.values
+        parameters.values_at(*other_keys) == other_values
       end
 
       def core_yaml_hash

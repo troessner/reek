@@ -16,6 +16,7 @@ module Reek
         local_nodes(:lvar).find { |node| node.var_name == param.to_sym }
       end
 
+      # :reek:FeatureEnvy
       def unused_params
         exp.arguments.select do |param|
           next if param.anonymous_splat?

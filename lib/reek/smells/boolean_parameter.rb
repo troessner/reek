@@ -22,6 +22,7 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
+      # :reek:FeatureEnvy
       def examine_context(ctx)
         ctx.default_assignments.select do |_param, value|
           [:true, :false].include?(value[0])

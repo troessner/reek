@@ -37,6 +37,7 @@ module Reek
         "#{location_formatter.format(warning)}#{warning.base_message}"
       end
 
+      # :reek:UtilityFunction
       def format_hash(warning)
         warning.yaml_hash
       end
@@ -66,6 +67,7 @@ module Reek
         "#{BASE_URL_FOR_HELP_LINK}#{class_name_to_param(warning.smell_type)}.md"
       end
 
+      # :reek:UtilityFunction
       def class_name_to_param(name)
         name.split(/(?=[A-Z])/).join('-')
       end

@@ -17,14 +17,16 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
+      # :reek:FeatureEnvy
       def examine_context(ctx)
         return [] if ctx.uses_super_with_implicit_arguments?
         ctx.unused_params.map do |param|
+          name = param.name.to_s
           smell_warning(
             context: ctx,
             lines: [ctx.exp.line],
-            message: "has unused parameter '#{param.name}'",
-            parameters: { name: param.name.to_s })
+            message: "has unused parameter '#{name}'",
+            parameters: { name: name })
         end
       end
     end

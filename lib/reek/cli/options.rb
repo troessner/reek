@@ -32,6 +32,7 @@ module Reek
 
       private_attr_reader :argv, :options, :parser
 
+      # :reek:UtilityFunction
       def color_support?
         $stdout.tty?
       end
@@ -71,6 +72,7 @@ module Reek
         end
       end
 
+      # :reek:TooManyStatements: { max_statements: 6 }
       def set_configuration_options
         parser.separator 'Configuration:'
         parser.on('-c', '--config FILE', 'Read configuration options from FILE') do |file|
@@ -127,6 +129,7 @@ module Reek
         end
       end
 
+      # :reek:TooManyStatements: { max_statements: 7 }
       def set_utility_options
         parser.separator "\nUtility options:"
         parser.on_tail('-h', '--help', 'Show this message') do

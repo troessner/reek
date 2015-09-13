@@ -12,6 +12,13 @@ module Reek
         Reek::Smells::SmellDetector.descendants.sort_by(&:name)
       end
 
+      def self.eligible_smell_types(filter_by_smells = [])
+        return smell_types if filter_by_smells.empty?
+        smell_types.select do |klass|
+          filter_by_smells.include? klass.smell_type
+        end
+      end
+
       def initialize(smell_types: self.class.smell_types,
                      configuration: {})
         @configuration = configuration

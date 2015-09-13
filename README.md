@@ -204,9 +204,9 @@ configurations you can also check out [the `config/default.reek` file in this re
 
 ### Source code comments
 
-`reek` is not the police. In case you need to suppress a smell
-warning and you can't or don't want to use configuration files for
-whatever reasons you can also use source code comments like this:
+In case you need to suppress a smell warning and you can't or don't want to
+use configuration files for whatever reasons you can also use special
+source code comments like this:
 
 ```Ruby
 # This method smells of :reek:NestedIterators
@@ -215,8 +215,16 @@ def smelly_method foo
 end
 ```
 
-This is further explained under [Smell Suppresion](docs/Smell-Suppression.md).
+You can even pass in smell specific configuration settings:
 
+```Ruby
+# :reek:NestedIterators: { max_allowed_nesting: 2 }
+def smelly_method foo
+  foo.each {|bar| bar.each {|baz| baz.qux}}
+end
+```
+
+This is an incredible powerful feature and further explained under [Smell Suppresion](docs/Smell-Suppression.md).
 
 ## Usage
 

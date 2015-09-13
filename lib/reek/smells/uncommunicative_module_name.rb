@@ -68,6 +68,7 @@ module Reek
       private
 
       # FIXME: switch to required kwargs when dropping Ruby 2.0 compatibility
+      # :reek:ControlParameter
       def acceptable_name?(context: raise, module_name: raise, fully_qualified_name: raise)
         accept_names(context).any? { |accept_name| fully_qualified_name == accept_name } ||
           reject_patterns(context).none? { |pattern| module_name.match pattern }

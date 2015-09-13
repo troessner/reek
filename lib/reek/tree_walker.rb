@@ -15,6 +15,7 @@ module Reek
   # TODO: Make TreeWalker responsible only for creating Context objects, and
   # loop over the created set of contexts elsewhere.
   #
+  # :reek:TooManyMethods: { max_methods: 29 }
   class TreeWalker
     def initialize(smell_repository, exp)
       @smell_repository = smell_repository
@@ -85,10 +86,8 @@ module Reek
 
     def process_args(_) end
 
-    #
-    # Recording of calls to methods and self
-    #
-
+    # :reek:TooManyStatements: { max_statements: 6 }
+    # :reek:FeatureEnvy
     def process_send(exp)
       if exp.visibility_modifier?
         element.track_visibility(exp.method_name, exp.arg_names)
@@ -187,6 +186,7 @@ module Reek
       self.class.private_method_defined?(name)
     end
 
+    # :reek:ControlParameter
     def count_clause(sexp)
       element.count_statements(1) if sexp
     end
