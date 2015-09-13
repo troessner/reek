@@ -7,6 +7,12 @@ module Reek
     # code smell.
     #
     class ShouldReekOf
+      attr_reader :failure_message, :failure_message_when_negated
+
+      private_attr_reader :configuration, :smell_category, :smell_details
+      private_attr_writer :failure_message, :failure_message_when_negated
+      private_attr_accessor :examiner
+
       def initialize(smell_category,
                      smell_details = {},
                      configuration = Configuration::AppConfiguration.default)
@@ -17,22 +23,51 @@ module Reek
 
       def matches?(actual)
         self.examiner = Examiner.new(actual, configuration: configuration)
-        self.all_smells = examiner.smells
-        all_smells.any? { |warning| warning.matches?(smell_category, smell_details) }
-      end
-
-      def failure_message
-        "Expected #{examiner.description} to reek of #{smell_category}, but it didn't"
-      end
-
-      def failure_message_when_negated
-        "Expected #{examiner.description} not to reek of #{smell_category}, but it did"
+        set_failure_messages
+        matching_smell_types? && matching_smell_details?
       end
 
       private
 
-      private_attr_reader :configuration, :smell_category, :smell_details
-      private_attr_accessor :all_smells, :examiner
+      def set_failure_messages
+        # We set the failure messages for non-matching smell type unconditionally since we
+        # need that in any case for "failure_message_when_negated" below.
+        # Depending on the existence of matching smell type we check for matching
+        # smell details and then overwrite our failure messages conditionally.
+        set_failure_messages_for_smell_type
+        set_failure_messages_for_smell_details if matching_smell_types? && !matching_smell_details?
+      end
+
+      def matching_smell_types
+        @matching_smell_types ||= examiner.smells.
+          select { |warning| warning.matches_smell_type?(smell_category) }
+      end
+
+      def matching_smell_types?
+        matching_smell_types.any?
+      end
+
+      def matching_smell_details?
+        matching_smell_types.any? { |warning| warning.matches_smell_details?(smell_details) }
+      end
+
+      def set_failure_messages_for_smell_type
+        self.failure_message = "Expected #{origin} to reek of #{smell_category}, "\
+          'but it didn\'t'
+        self.failure_message_when_negated = "Expected #{origin} not to reek "\
+          "of #{smell_category}, but it did"
+      end
+
+      def set_failure_messages_for_smell_details
+        self.failure_message = "Expected #{origin} to reek of #{smell_category} "\
+          "(which it did) with smell details #{smell_details}, which it didn't"
+        self.failure_message_when_negated = "Expected #{origin} not to reek of "\
+          "#{smell_category} with smell details #{smell_details}, but it did"
+      end
+
+      def origin
+        examiner.description
+      end
 
       # :reek:UtilityFunction
       def normalize(smell_category_or_type)
