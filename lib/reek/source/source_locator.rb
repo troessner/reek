@@ -1,5 +1,3 @@
-require_relative '../source/source_path'
-
 require 'pathname'
 
 module Reek
@@ -8,27 +6,80 @@ module Reek
     # Finds Ruby source files in a filesystem.
     #
     class SourceLocator
-      include Enumerable
       extend Forwardable
+      include Enumerable
 
-      def_delegator :sources, :each
-      # Initialize with the paths we want to search.
+      def_delegators :pathname, :read, :to_s
+      def_delegator :traverse_children, :each
+
+      # Initialize with the pathname and configuration.
       #
-      # paths - a list of paths as Strings
-      def initialize(paths, configuration: Configuration::AppConfiguration.default)
-        @paths = paths.map do |string|
-          SourcePath.new(Pathname.new(string), configuration: configuration)
-        end
+      # pathname - a path as Pathname
+      def initialize(pathname, configuration: Configuration::AppConfiguration.default)
+        @configuration = configuration
+        @pathname = pathname.cleanpath
+        ensure_file
+      end
+
+      # Checks is path is relevant
+      #
+      # @return Boolean
+      def relevant?
+        ruby_file? && !ignored?
+      end
+
+      # Checks is path is ignored
+      #
+      # @return Boolean
+      def ignored?
+        path_excluded? || hidden_directory?
+      end
+
+      def ==(other)
+        other.to_s == to_s
       end
 
       private
 
-      # Traverses all paths we initialized the SourceLocator with, finds
+      private_attr_reader :configuration, :pathname
+
+      # Traverses all paths under current path, finds
       # all relevant Ruby files and returns them as a list.
       #
-      # @return [Array<Reek::Source::SourcePath>] - Ruby paths found
-      def sources
-        @paths.flat_map(&:to_a)
+      # @return Enumerator - if no block given
+      def traverse_children
+        return enum_for(:traverse_children) unless block_given?
+        pathname.find do |pathname|
+          if (path = self.class.new(pathname, configuration: configuration)).relevant?
+            yield path
+          elsif path.ignored?
+            Find.prune
+          end
+        end
+      end
+
+      def current_directory?
+        [Pathname.new('.'), Pathname.new('./')].include?(pathname)
+      end
+
+      def path_excluded?
+        configuration.path_excluded?(pathname)
+      end
+
+      def print_no_such_file_error
+        $stderr.puts "Error: No such file - #{pathname}"
+      end
+
+      def hidden_directory?
+        pathname.basename.to_s.start_with?('.') && !current_directory?
+      end
+
+      def ruby_file?
+        pathname.extname == '.rb'
+      end
+
+      def ensure_file
+        print_no_such_file_error unless pathname.exist?
       end
     end
   end

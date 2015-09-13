@@ -1,6 +1,5 @@
 require_relative '../spec_helper'
 require_relative '../../lib/reek/examiner'
-require_relative '../../lib/reek/source/source_path'
 
 RSpec.shared_examples_for 'no smells found' do
   it 'is not smelly' do
@@ -44,14 +43,14 @@ RSpec.describe Reek::Examiner do
     let(:examiner) { described_class.new(smelly_file, [], configuration: configuration) }
     let(:path) { SAMPLES_PATH.join('all_but_one_masked/masked.reek') }
     let(:smelly_file) do
-      Reek::Source::SourcePath.new(Pathname.glob(SAMPLES_PATH.join('all_but_one_masked/d*.rb')).first)
+      Reek::Source::SourceLocator.new(Pathname.glob(SAMPLES_PATH.join('all_but_one_masked/d*.rb')).first)
     end
 
     it_should_behave_like 'one smell found'
   end
 
   context 'with a fragrant File' do
-    let(:clean_file) { Reek::Source::SourcePath.new(Pathname.glob(SAMPLES_PATH.join('three_clean_files/*.rb')).first) }
+    let(:clean_file) { Reek::Source::SourceLocator.new(Pathname.glob(SAMPLES_PATH.join('three_clean_files/*.rb')).first) }
     let(:examiner) { described_class.new(clean_file) }
 
     it_should_behave_like 'no smells found'

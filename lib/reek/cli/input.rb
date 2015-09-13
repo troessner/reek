@@ -33,11 +33,11 @@ module Reek
 
       # :reek:UtilityFunction
       def working_directory_as_source
-        Source::SourceLocator.new(['.'])
+        Source::SourceLocator.new(Pathname.new('.'))
       end
 
       def sources_from_argv
-        Source::SourceLocator.new(argv)
+        argv.flat_map { |path| Source::SourceLocator.new(Pathname.new(path)).to_a }
       end
 
       def source_from_pipe

@@ -16,7 +16,7 @@ RSpec.describe Reek::Report::XMLReport do
   context 'source with voliations' do
     it 'prints non-empty checkstyle XML' do
       path = SAMPLES_PATH.join('two_smelly_files/dirty_one.rb')
-      xml_report.add_examiner Reek::Examiner.new(Reek::Source::SourcePath.new(path))
+      xml_report.add_examiner Reek::Examiner.new(Reek::Source::SourceLocator.new(path))
       xml = SAMPLES_PATH.join('checkstyle.xml').read
       xml = xml.gsub(path.to_s, path.expand_path.to_s)
       expect { xml_report.show }.to output(xml).to_stdout
