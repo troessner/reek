@@ -17,6 +17,7 @@ module Reek
       def initialize(options)
         @options = options
         @argv = options.argv
+        @stdin = $stdin
       end
 
       def reporter
@@ -54,7 +55,7 @@ module Reek
 
       private
 
-      private_attr_reader :argv, :options
+      private_attr_reader :argv, :options, :stdin
     end
   end
 end
