@@ -1,9 +1,9 @@
 require 'pathname'
 require_relative '../../spec_helper'
 require_relative '../../../lib/reek/configuration/app_configuration'
-require_relative '../../../lib/reek/source/source_locator'
+require_relative '../../../lib/reek/source/source_path'
 
-RSpec.describe Reek::Source::SourceLocator do
+RSpec.describe Reek::Source::SourcePath do
   let(:source_path) { described_class.new(pathname, configuration: configuration) }
   let(:pathname) { Pathname.new(path) }
   let(:configuration) { Reek::Configuration::AppConfiguration.default }

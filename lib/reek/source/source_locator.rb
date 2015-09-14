@@ -7,87 +7,61 @@ module Reek
     # Finds Ruby source files in a filesystem.
     #
     class SourceLocator
-      extend Forwardable
+      private_attr_reader :source
 
-      def_delegators :pathname, :read, :to_s
-
-      def self.build(source)
-        if source.instance_of?(IO)
-          [source]
-        else
-          Array(source).flat_map { |path| Source::SourceLocator.new(Pathname.new(path)).sources }
-        end
+      def initialize(source)
+        @source = source
       end
 
-      # Initialize with the pathname and configuration.
-      #
-      # pathname - a path as Pathname
-      def initialize(pathname, configuration: Configuration::AppConfiguration.default)
-        @configuration = configuration
-        @pathname = pathname.cleanpath
-        ensure_file
+      def call
+        locator.new(source).locate
       end
 
-      # Checks is path is relevant
-      #
-      # @return Boolean
-      def relevant?
-        ruby_file? && !ignored?
-      end
-
-      # Checks is path is ignored
-      #
-      # @return Boolean
-      def ignored?
-        path_excluded? || hidden_directory?
-      end
-
-      def ==(other)
-        other.to_s == to_s
-      end
-
-      # Traverses all paths under current path, finds
-      # all relevant Ruby files and returns them as a list.
-      #
-      # @return Enumerator - if no block given
-      def sources
-        sources = []
-        pathname.find do |pathname|
-          if (path = self.class.new(pathname, configuration: configuration)).relevant?
-            sources << path
-          elsif path.ignored?
-            Find.prune
-          end
-        end
-        sources
+      def locate
+        []
       end
 
       private
 
-      private_attr_reader :configuration, :pathname
-
-      def current_directory?
-        [Pathname.new('.'), Pathname.new('./')].include?(pathname)
+      def locator
+        locators.find { |locator| locator.handle?(source) } || self
       end
 
-      def path_excluded?
-        configuration.path_excluded?(pathname)
+      def locators
+        [Stdin, Collection, Path]
       end
 
-      def print_no_such_file_error
-        $stderr.puts "Error: No such file - #{pathname}"
+      # Finds sources in STDIN
+      class Stdin < SourceLocator
+        def self.handle?(source)
+          source.is_a?(IO)
+        end
+
+        def locate
+          [source]
+        end
       end
 
-      def hidden_directory?
-        pathname.basename.to_s.start_with?('.') && !current_directory?
+      # Finds sources in collection
+      class Collection < SourceLocator
+        def self.handle?(source)
+          source.is_a?(Enumerable)
+        end
+
+        def locate
+          source.flat_map { |element| Source::SourceLocator.new(element).call }
+        end
       end
 
-      def ruby_file?
-        pathname.extname == '.rb'
-      end
+      # Finds sources in Path
+      class Path < SourceLocator
+        def self.handle?(source)
+          source.is_a?(String)
+        end
 
-      def ensure_file
-        print_no_such_file_error unless pathname.exist?
+        def locate
+          Source::SourcePath.new(Pathname.new(source)).sources
+        end
       end
     end
   end
