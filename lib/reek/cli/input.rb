@@ -1,3 +1,6 @@
+require_relative '../source/locators/collection'
+require_relative '../source/locators/path'
+require_relative '../source/locators/stdin'
 require_relative '../source/source_locator'
 
 module Reek
