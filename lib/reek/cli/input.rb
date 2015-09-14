@@ -7,7 +7,7 @@ module Reek
     #
     module Input
       def sources
-        Source::SourceLocator.new(from_argv || from_pipe || from_working_directory).call
+        Source::SourceLocator.build(from_argv || from_pipe || from_working_directory).locate
       end
 
       private

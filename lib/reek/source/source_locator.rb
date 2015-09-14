@@ -1,5 +1,4 @@
 require 'pathname'
-require 'forwardable'
 
 module Reek
   module Source
@@ -9,26 +8,17 @@ module Reek
     class SourceLocator
       private_attr_reader :source
 
+      def self.build(source)
+        klass = [Stdin, Collection, Path].find { |locator| locator.handle?(source) } || self
+        klass.new(source)
+      end
+
       def initialize(source)
         @source = source
       end
 
-      def call
-        locator.new(source).locate
-      end
-
       def locate
         []
-      end
-
-      private
-
-      def locator
-        locators.find { |locator| locator.handle?(source) } || self
-      end
-
-      def locators
-        [Stdin, Collection, Path]
       end
 
       # Finds sources in STDIN
@@ -49,7 +39,7 @@ module Reek
         end
 
         def locate
-          source.flat_map { |element| Source::SourceLocator.new(element).call }
+          source.flat_map { |element| Source::SourceLocator.build(element).locate }
         end
       end
 
