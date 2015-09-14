@@ -1,4 +1,5 @@
 require 'pathname'
+require 'forwardable'
 
 module Reek
   module Source
@@ -7,10 +8,16 @@ module Reek
     #
     class SourceLocator
       extend Forwardable
-      include Enumerable
 
       def_delegators :pathname, :read, :to_s
-      def_delegator :traverse_children, :each
+
+      def self.build(source)
+        if source.instance_of?(IO)
+          Array(source)
+        else
+          Array(source).flat_map { |path| Source::SourceLocator.new(Pathname.new(path)).sources }
+        end
+      end
 
       # Initialize with the pathname and configuration.
       #
@@ -39,24 +46,25 @@ module Reek
         other.to_s == to_s
       end
 
-      private
-
-      private_attr_reader :configuration, :pathname
-
       # Traverses all paths under current path, finds
       # all relevant Ruby files and returns them as a list.
       #
       # @return Enumerator - if no block given
-      def traverse_children
-        return enum_for(:traverse_children) unless block_given?
+      def sources
+        sources = []
         pathname.find do |pathname|
           if (path = self.class.new(pathname, configuration: configuration)).relevant?
-            yield path
+            sources << path
           elsif path.ignored?
             Find.prune
           end
         end
+        sources
       end
+
+      private
+
+      private_attr_reader :configuration, :pathname
 
       def current_directory?
         [Pathname.new('.'), Pathname.new('./')].include?(pathname)

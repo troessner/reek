@@ -63,8 +63,8 @@ RSpec.describe Reek::Source::SourceLocator do
     end
   end
 
-  describe '#to_a' do
-    subject { source_path.to_a }
+  describe '#sources' do
+    subject { source_path.sources }
 
     context 'applied to hidden directories' do
       let(:path) { SAMPLES_PATH.join('source_with_hidden_directories') }
