@@ -18,16 +18,10 @@ module Reek
     #
     # See {file:docs/Uncommunicative-Method-Name.md} for details.
     class UncommunicativeMethodName < SmellDetector
-      # The name of the config field that lists the regexps of
-      # smelly names to be reported.
       REJECT_KEY = 'reject'
-      DEFAULT_REJECT_SET = [/^[a-z]$/, /[0-9]$/, /[A-Z]/]
-
-      # The name of the config field that lists the specific names that are
-      # to be treated as exceptions; these names will not be reported as
-      # uncommunicative.
       ACCEPT_KEY = 'accept'
-      DEFAULT_ACCEPT_SET = []
+      DEFAULT_REJECT_PATTERNS = [/^[a-z]$/, /[0-9]$/, /[A-Z]/]
+      DEFAULT_ACCEPT_NAMES = []
 
       def self.smell_category
         'UncommunicativeName'
@@ -35,8 +29,8 @@ module Reek
 
       def self.default_config
         super.merge(
-          REJECT_KEY => DEFAULT_REJECT_SET,
-          ACCEPT_KEY => DEFAULT_ACCEPT_SET
+          REJECT_KEY => DEFAULT_REJECT_PATTERNS,
+          ACCEPT_KEY => DEFAULT_ACCEPT_NAMES
         )
       end
 
@@ -45,20 +39,30 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
-      # :reek:TooManyStatements: { max_statements: 9 }
-      def examine_context(ctx)
-        reject_names = value(REJECT_KEY, ctx, DEFAULT_REJECT_SET)
-        accept_names = value(ACCEPT_KEY, ctx, DEFAULT_ACCEPT_SET)
-        name = ctx.name.to_s
-        return [] if accept_names.include?(ctx.full_name)
-        var = name.gsub(/^[@\*\&]*/, '')
-        return [] if accept_names.include?(var)
-        return [] unless reject_names.find { |patt| patt =~ var }
+      def examine_context(context)
+        name = context.name.to_s
+        return [] if acceptable_name?(name: name, context: context)
+
         [smell_warning(
-          context: ctx,
-          lines: [ctx.exp.line],
+          context: context,
+          lines: [context.exp.line],
           message: "has the name '#{name}'",
           parameters: { name: name })]
+      end
+
+      private
+
+      def acceptable_name?(name: raise, context: raise)
+        accept_names(context).any? { |accept_name| name == accept_name } ||
+          reject_patterns(context).none? { |pattern| name.match pattern }
+      end
+
+      def reject_patterns(context)
+        value(REJECT_KEY, context, DEFAULT_REJECT_PATTERNS)
+      end
+
+      def accept_names(context)
+        value(ACCEPT_KEY, context, DEFAULT_ACCEPT_NAMES)
       end
     end
   end
