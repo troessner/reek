@@ -13,7 +13,7 @@ module Reek
 
       def self.build(source)
         if source.instance_of?(IO)
-          Array(source)
+          [source]
         else
           Array(source).flat_map { |path| Source::SourceLocator.new(Pathname.new(path)).sources }
         end
