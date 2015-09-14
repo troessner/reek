@@ -18,14 +18,9 @@ module Reek
     #
     # See {file:docs/Uncommunicative-Parameter-Name.md} for details.
     class UncommunicativeParameterName < SmellDetector
-      # The name of the config field that lists the regexps of
-      # smelly names to be reported.
       REJECT_KEY = 'reject'
       DEFAULT_REJECT_PATTERNS = [/^.$/, /[0-9]$/, /[A-Z]/, /^_/]
 
-      # The name of the config field that lists the specific names that are
-      # to be treated as exceptions; these names will not be reported as
-      # uncommunicative.
       ACCEPT_KEY = 'accept'
       DEFAULT_ACCEPT_NAMES = []
 
@@ -45,14 +40,15 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
-      def examine_context(ctx)
-        context_expression = ctx.exp
-        context_expression.parameter_names.select do |name|
-          bad_name?(ctx, name) && ctx.uses_param?(name)
+      def examine_context(context)
+        expression = context.exp
+        expression.parameter_names.select do |name|
+          sanitized_name = sanitize name
+          uncommunicative_parameter_name?(name: sanitized_name, context: context)
         end.map do |name|
           smell_warning(
-            context: ctx,
-            lines: [context_expression.line],
+            context: context,
+            lines: [expression.line],
             message: "has the parameter name '#{name}'",
             parameters: { name: name.to_s })
         end
@@ -60,10 +56,13 @@ module Reek
 
       private
 
-      def bad_name?(ctx, name)
-        sanitized_name = sanitize name
-        return false if sanitized_name == '*' || accept_names(ctx).include?(sanitized_name)
-        reject_patterns(ctx).any? { |pattern| sanitized_name.match pattern }
+      def uncommunicative_parameter_name?(name: raise, context: raise)
+        !acceptable_name?(name: name, context: context) && context.uses_param?(name)
+      end
+
+      def acceptable_name?(name: raise, context: raise)
+        accept_names(context).any? { |accept_name| name == accept_name } ||
+          reject_patterns(context).none? { |pattern| name.match pattern }
       end
 
       def reject_patterns(context)
