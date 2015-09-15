@@ -36,7 +36,7 @@ RSpec.describe Reek::Report::YAMLReport do
 - context:        "simple"
   lines:
   - 1
-  message:        "doesn't depend on instance state"
+  message:        "doesn't depend on instance state (maybe move it to another class?)"
   smell_category: "LowCohesion"
   smell_type:     "UtilityFunction"
   source:         "string"
@@ -66,7 +66,7 @@ RSpec.describe Reek::Report::YAMLReport do
 - context:        "simple"
   lines:
   - 1
-  message:        "doesn't depend on instance state"
+  message:        "doesn't depend on instance state (maybe move it to another class?)"
   smell_category: "LowCohesion"
   smell_type:     "UtilityFunction"
   source:         "string"
