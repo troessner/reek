@@ -1,7 +1,5 @@
 require 'optparse'
-require 'ostruct'
 require 'rainbow'
-require_relative 'option_interpreter'
 require_relative '../version'
 
 module Reek
@@ -10,27 +8,39 @@ module Reek
     # Parses the command line
     #
     # See {file:docs/Command-Line-Options.md} for details.
+    #
+    # :reek:TooManyInstanceVariables: { max_instance_variables: 6 }
+    # :reek:Attribute: { enabled: false }
     class Options
+      attr_accessor :argv,
+                    :colored,
+                    :config_file,
+                    :location_format,
+                    :parser,
+                    :report_format,
+                    :show_empty,
+                    :show_links,
+                    :smells_to_detect,
+                    :sorting
+
       def initialize(argv = [])
-        @argv    = argv
-        @parser  = OptionParser.new
-        @options = OpenStruct.new(report_format: :text,
-                                  location_format: :numbers,
-                                  colored: color_support?,
-                                  smells_to_detect: [])
+        @argv             = argv
+        @parser           = OptionParser.new
+        @report_format    = :text
+        @location_format  = :numbers
+        @smells_to_detect = []
+        @colored          = color_support?
+
         set_up_parser
       end
 
       def parse
         parser.parse!(argv)
-        options.argv = argv
-        Rainbow.enabled = options.colored
-        options
+        Rainbow.enabled = colored
+        self
       end
 
       private
-
-      private_attr_reader :argv, :options, :parser
 
       # :reek:UtilityFunction
       def color_support?
@@ -68,7 +78,7 @@ module Reek
           'Report smells in the given format:',
           '  html', '  text (default)', '  yaml', '  json', '  xml'
         ) do |opt|
-          options.report_format = opt
+          self.report_format = opt
         end
       end
 
@@ -77,10 +87,10 @@ module Reek
         parser.separator 'Configuration:'
         parser.on('-c', '--config FILE', 'Read configuration options from FILE') do |file|
           raise ArgumentError, "Config file #{file} doesn't exist" unless File.exist?(file)
-          options.config_file = Pathname.new(file)
+          self.config_file = Pathname.new(file)
         end
         parser.on('--smell SMELL', 'Detect smell SMELL (default: all enabled smells)') do |smell|
-          options.smells_to_detect << smell
+          smells_to_detect << smell
         end
       end
 
@@ -94,29 +104,29 @@ module Reek
 
       def set_up_color_option
         parser.on('--[no-]color', 'Use colors for the output (default: true)') do |opt|
-          options.colored = opt
+          self.colored = opt
         end
       end
 
       def set_up_verbosity_options
         parser.on('-V', '--[no-]empty-headings',
                   'Show headings for smell-free source files (default: false)') do |show_empty|
-          options.show_empty = show_empty
+          self.show_empty = show_empty
         end
         parser.on('-U', '--[no-]wiki-links',
                   'Show link to related wiki page for each smell (default: false)') do |show_links|
-          options.show_links = show_links
+          self.show_links = show_links
         end
       end
 
       def set_up_location_formatting_options
         parser.on('-n', '--[no-]line-numbers',
                   'Show line numbers in the output (default: true)') do |show_numbers|
-          options.location_format = show_numbers ? :numbers : :plain
+          self.location_format = show_numbers ? :numbers : :plain
         end
         parser.on('-s', '--single-line',
                   'Show location in editor-compatible single-line-per-smell format') do
-          options.location_format = :single_line
+          self.location_format = :single_line
         end
       end
 
@@ -125,7 +135,7 @@ module Reek
                   'Sort reported files by the given criterium:',
                   '  smelliness ("smelliest" files first)',
                   '  none (default - output in processing order)') do |sorting|
-          options.sorting = sorting
+          self.sorting = sorting
         end
       end
 

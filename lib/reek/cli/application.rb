@@ -1,5 +1,6 @@
 require_relative 'options'
 require_relative 'reek_command'
+require_relative 'option_interpreter'
 require_relative '../configuration/app_configuration'
 
 module Reek
@@ -15,17 +16,14 @@ module Reek
       STATUS_SMELLS  = 2
       attr_reader :configuration
 
+      private_attr_accessor :status
+      private_attr_reader :command, :options
+
       def initialize(argv)
         @status = STATUS_SUCCESS
-        options_parser = Options.new(argv)
-        begin
-          options = options_parser.parse
-          @command = ReekCommand.new(OptionInterpreter.new(options))
-          @configuration = Configuration::AppConfiguration.from_path(options.config_file)
-        rescue OptionParser::InvalidOption, Reek::Configuration::ConfigFileException => error
-          $stderr.puts "Error: #{error}"
-          @status = STATUS_ERROR
-        end
+        @options = configure_options(argv)
+        @configuration = configure_app_configuration(options.config_file)
+        @command = ReekCommand.new(OptionInterpreter.new(options))
       end
 
       def execute
@@ -48,11 +46,22 @@ module Reek
 
       private
 
-      private_attr_accessor :status
-      private_attr_reader :command
-
       def error_occured?
         status == STATUS_ERROR
+      end
+
+      def configure_options(argv)
+        Options.new(argv).parse
+      rescue OptionParser::InvalidOption => error
+        $stderr.puts "Error: #{error}"
+        exit STATUS_ERROR
+      end
+
+      def configure_app_configuration(config_file)
+        Configuration::AppConfiguration.from_path(config_file)
+      rescue Reek::Configuration::ConfigFileException => error
+        $stderr.puts "Error: #{error}"
+        exit STATUS_ERROR
       end
     end
   end
