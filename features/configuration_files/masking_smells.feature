@@ -54,6 +54,6 @@ Feature: Masking smells using config files
     And it reports:
       """
       smelly.rb -- 1 warning:
-        [3]:Klass#public_method doesn't depend on instance state (UtilityFunction)
+        [3]:Klass#public_method doesn't depend on instance state (maybe move it to another class?) (UtilityFunction)
       """
     But it does not report private or protected methods
