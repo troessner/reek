@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## 3.4.0 (2015-09-16)
+
+* (troessner) Make UtilityFunction configurable for non-public methods
+* (troessner) Make FeatureEnvy and UtilityFunction messages more helpful
+* (mvz) Mark public API @public
+
 ## 3.3.1 (2015-09-03)
 
 * (troessner) Fix file list as argument in rake task
