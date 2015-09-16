@@ -37,6 +37,9 @@ module Reek
     #
     # See {file:docs/Utility-Function.md} for details.
     class UtilityFunction < SmellDetector
+      PUBLIC_METHODS_ONLY_KEY     = 'public_methods_only'.freeze
+      PUBLIC_METHODS_ONLY_DEFAULT = false
+
       def self.smell_category
         'LowCohesion'
       end
@@ -53,11 +56,13 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       # :reek:FeatureEnvy
+      # :reek:TooManyStatements: { max_statements: 6 }
       def examine_context(ctx)
         return [] if ctx.singleton_method?
         return [] if ctx.num_statements == 0
         return [] if ctx.references_self?
         return [] if num_helper_methods(ctx).zero?
+        return [] if ignore_method?(ctx)
 
         [smell_warning(
           context: ctx,
@@ -71,6 +76,11 @@ module Reek
       # :reek:UtilityFunction
       def num_helper_methods(method_ctx)
         method_ctx.local_nodes(:send).length
+      end
+
+      def ignore_method?(method_ctx)
+        method_ctx.non_public_visibility? &&
+          value(PUBLIC_METHODS_ONLY_KEY, method_ctx, PUBLIC_METHODS_ONLY_DEFAULT)
       end
     end
   end

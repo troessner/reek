@@ -214,4 +214,52 @@ RSpec.describe Reek::Smells::UtilityFunction do
       expect(src).not_to reek_of(:UtilityFunction)
     end
   end
+
+  describe 'disabling UtilityFunction via configuration for non-public methods' do
+    let(:configuration) do
+      default_directive = {
+        default_directive: {
+          Reek::Smells::UtilityFunction => {
+            Reek::Smells::UtilityFunction::PUBLIC_METHODS_ONLY_KEY => true
+          }
+        }
+      }
+      Reek::Configuration::AppConfiguration.from_map(default_directive)
+    end
+
+    context 'public methods' do
+      it 'should still report UtilityFunction' do
+        src = <<-EOS
+          class C
+            def m1(a) a.to_s; end
+          end
+        EOS
+        expect(src).to reek_of(:UtilityFunction, { name: 'C#m1' }, configuration)
+      end
+    end
+
+    context 'private methods' do
+      it 'should not report UtilityFunction' do
+        src = <<-EOS
+          class C
+            private
+            def m1(a) a.to_s; end
+          end
+        EOS
+        expect(src).not_to reek_of(:UtilityFunction, {}, configuration)
+      end
+    end
+
+    context 'protected methods' do
+      it 'should not report UtilityFunction' do
+        src = <<-EOS
+          class C
+            protected
+            def m1(a) a.to_s; end
+          end
+        EOS
+        expect(src).not_to reek_of(:UtilityFunction, {}, configuration)
+      end
+    end
+  end
 end

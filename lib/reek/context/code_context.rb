@@ -9,7 +9,7 @@ module Reek
     # code element. CodeContexts form a tree in the same way the code does,
     # with each context holding a reference to a unique outer context.
     #
-    # :reek:TooManyMethods: { max_methods: 18 }
+    # :reek:TooManyMethods: { max_methods: 19 }
     # :reek:TooManyInstanceVariables: { max_instance_variables: 8 }
     class CodeContext
       attr_reader :exp
@@ -160,6 +160,10 @@ module Reek
         children.each do |child|
           child.each(&block)
         end
+      end
+
+      def non_public_visibility?
+        visibility != :public
       end
 
       protected

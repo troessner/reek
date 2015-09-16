@@ -126,3 +126,28 @@ Given(/^an enabling configuration file in the subdirectory$/) do
       enabled: true
   EOS
 end
+
+Given(/^a smelly file called 'smelly.rb' with private, protected and public UtilityFunction methods$/) do
+  write_file 'smelly.rb', <<-EOS.strip_heredoc
+    # smelly class for testing purposes
+    class Klass
+      def public_method(arg) arg.to_s; end
+      protected
+      def protected_method(arg) arg.to_s; end
+      private
+      def private_method(arg) arg.to_s; end
+    end
+  EOS
+end
+
+Given(/^a configuration file disabling UtilityFunction for non-public methods called 'config.reek'$/) do
+  write_file('config.reek', <<-EOS.strip_heredoc)
+    ---
+    UtilityFunction:
+      public_methods_only: true
+  EOS
+end
+
+Then(/^it does not report private or protected methods$/) do
+  # Pseudo step for feature clarity.
+end
