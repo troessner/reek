@@ -1,3 +1,6 @@
+require_relative '../source/locators/collection'
+require_relative '../source/locators/path'
+require_relative '../source/locators/stdin'
 require_relative '../source/source_locator'
 
 module Reek
@@ -7,41 +10,31 @@ module Reek
     #
     module Input
       def sources
-        if no_source_files_given?
-          if input_was_piped?
-            source_from_pipe
-          else
-            working_directory_as_source
-          end
-        else
-          sources_from_argv
-        end
+        Source::SourceLocator.build(from_argv || from_pipe || from_working_directory).locate
       end
 
       private
 
-      # :reek:UtilityFunction
-      def input_was_piped?
-        !$stdin.tty?
+      def from_argv
+        argv if source_files_given?
       end
 
-      def no_source_files_given?
+      def from_pipe
+        stdin if input_was_piped?
+      end
+
+      def from_working_directory
+        '.'
+      end
+
+      def source_files_given?
         # At this point we have deleted all options from argv. The only remaining entries
         # are paths to the source files. If argv is empty, this means that no files were given.
-        argv.empty?
+        argv.any?
       end
 
-      # :reek:UtilityFunction
-      def working_directory_as_source
-        Source::SourceLocator.new(['.']).sources
-      end
-
-      def sources_from_argv
-        Source::SourceLocator.new(argv).sources
-      end
-
-      def source_from_pipe
-        [$stdin]
+      def input_was_piped?
+        !stdin.tty?
       end
     end
   end
