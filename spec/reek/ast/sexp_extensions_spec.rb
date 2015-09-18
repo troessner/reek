@@ -231,6 +231,22 @@ RSpec.describe Reek::AST::SexpExtensions::DefsNode do
   end
 end
 
+RSpec.describe Reek::AST::SexpExtensions::LvarNode do
+  let(:node) { sexp(:lvar, :foo) }
+
+  describe '#simple_name' do
+    it 'returns the lvar’s name' do
+      expect(node.simple_name).to eq(:foo)
+    end
+  end
+
+  describe '#var_name' do
+    it 'returns the lvar’s name' do
+      expect(node.var_name).to eq(:foo)
+    end
+  end
+end
+
 RSpec.describe Reek::AST::SexpExtensions::SendNode do
   context 'with no parameters' do
     let(:node) { sexp(:send, nil, :hello) }
