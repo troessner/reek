@@ -35,5 +35,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'factory_girl',  '~> 4.0'
   s.add_development_dependency 'rake',          '~> 10.0'
   s.add_development_dependency 'rspec',         '~> 3.0'
-  s.add_development_dependency 'rubocop',       '~> 0.33.0'
+  s.add_development_dependency 'rubocop',       '~> 0.34.0'
 end
