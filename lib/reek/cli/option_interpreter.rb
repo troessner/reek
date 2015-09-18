@@ -9,10 +9,9 @@ module Reek
     #
     class OptionInterpreter
       include Input
-
       extend Forwardable
-
       def_delegators :options, :smells_to_detect
+      private_attr_reader :argv, :options
 
       def initialize(options)
         @options = options
@@ -51,10 +50,6 @@ module Reek
       def sort_by_issue_count
         options.sorting == :smelliness
       end
-
-      private
-
-      private_attr_reader :argv, :options
     end
   end
 end
