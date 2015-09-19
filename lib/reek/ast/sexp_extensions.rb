@@ -231,8 +231,9 @@ module Reek
       # Utility methods for :lvar nodes.
       module LvarNode
         include VariableBase
-        # TODO: Replace with name().
-        def var_name() self[1] end
+
+        alias_method :simple_name, :name
+        alias_method :var_name,    :name
       end
 
       LvasgnNode = LvarNode
