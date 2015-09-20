@@ -1,6 +1,6 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/context/method_context'
-require_relative '../../../lib/reek/context/module_context'
+require_lib 'reek/context/method_context'
+require_lib 'reek/context/module_context'
 
 RSpec.describe Reek::Context::CodeContext do
   context 'name recognition' do

@@ -1,9 +1,9 @@
 require 'pathname'
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/configuration/app_configuration'
-require_relative '../../../lib/reek/configuration/directory_directives'
-require_relative '../../../lib/reek/configuration/default_directive'
-require_relative '../../../lib/reek/configuration/excluded_paths'
+require_lib 'reek/configuration/app_configuration'
+require_lib 'reek/configuration/directory_directives'
+require_lib 'reek/configuration/default_directive'
+require_lib 'reek/configuration/excluded_paths'
 
 RSpec.describe Reek::Configuration::AppConfiguration do
   describe '#new' do

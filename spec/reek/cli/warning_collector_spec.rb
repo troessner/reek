@@ -1,6 +1,6 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/cli/warning_collector'
-require_relative '../../../lib/reek/smells/smell_warning'
+require_lib 'reek/cli/warning_collector'
+require_lib 'reek/smells/smell_warning'
 
 RSpec.describe Reek::CLI::WarningCollector do
   let(:collector) { described_class.new }

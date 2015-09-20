@@ -1,6 +1,6 @@
 require 'pathname'
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/spec'
+require_lib 'reek/spec'
 
 RSpec.describe Reek::Spec::ShouldReekOf do
   context 'rdoc demo example' do

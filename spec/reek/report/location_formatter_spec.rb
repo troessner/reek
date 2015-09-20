@@ -1,5 +1,5 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/report/formatter'
+require_lib 'reek/report/formatter'
 
 RSpec.describe 'location formatters' do
   let(:warning) { build(:smell_warning, lines: [11, 9, 250, 100]) }

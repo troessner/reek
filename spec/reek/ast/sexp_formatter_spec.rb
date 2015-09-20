@@ -1,5 +1,5 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/ast/sexp_formatter'
+require_lib 'reek/ast/sexp_formatter'
 
 RSpec.describe Reek::AST::SexpFormatter do
   describe '::format' do

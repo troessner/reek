@@ -1,8 +1,8 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/examiner'
-require_relative '../../../lib/reek/report/report'
-require_relative '../../../lib/reek/report/formatter'
-require_relative '../../../lib/reek/report/heading_formatter'
+require_lib 'reek/examiner'
+require_lib 'reek/report/report'
+require_lib 'reek/report/formatter'
+require_lib 'reek/report/heading_formatter'
 require 'rainbow'
 
 RSpec.describe Reek::Report::TextReport do

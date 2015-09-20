@@ -1,5 +1,5 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/configuration/default_directive'
+require_lib 'reek/configuration/default_directive'
 
 RSpec.describe Reek::Configuration::DefaultDirective do
   describe '#add' do

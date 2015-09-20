@@ -1,5 +1,5 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/smells/smell_configuration'
+require_lib 'reek/smells/smell_configuration'
 
 RSpec.describe Reek::Smells::SmellConfiguration do
   it 'returns the default value when key not found' do

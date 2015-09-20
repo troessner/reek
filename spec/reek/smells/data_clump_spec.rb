@@ -1,5 +1,5 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/smells/data_clump'
+require_lib 'reek/smells/data_clump'
 require_relative 'smell_detector_shared'
 
 RSpec.shared_examples_for 'a data clump detector' do

@@ -1,5 +1,5 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/cli/options'
+require_lib 'reek/cli/options'
 
 RSpec.describe Reek::CLI::Options do
   describe '#initialize' do

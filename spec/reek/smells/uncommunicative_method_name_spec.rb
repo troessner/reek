@@ -1,5 +1,5 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/smells/uncommunicative_method_name'
+require_lib 'reek/smells/uncommunicative_method_name'
 require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::UncommunicativeMethodName do

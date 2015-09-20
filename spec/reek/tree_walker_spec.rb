@@ -1,6 +1,6 @@
 require_relative '../spec_helper'
-require_relative '../../lib/reek/tree_walker'
-require_relative '../../lib/reek/source/source_code'
+require_lib 'reek/tree_walker'
+require_lib 'reek/source/source_code'
 
 # Dummy repository to inject into TreeWalker in order to count statements in
 # all contexts.

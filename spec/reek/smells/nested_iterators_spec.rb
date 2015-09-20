@@ -1,5 +1,5 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/smells/nested_iterators'
+require_lib 'reek/smells/nested_iterators'
 require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::NestedIterators do

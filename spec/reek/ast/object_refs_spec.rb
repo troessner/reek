@@ -1,5 +1,5 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/ast/object_refs'
+require_lib 'reek/ast/object_refs'
 
 RSpec.describe Reek::AST::ObjectRefs do
   let(:refs) { Reek::AST::ObjectRefs.new }

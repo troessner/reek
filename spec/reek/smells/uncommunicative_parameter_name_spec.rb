@@ -1,7 +1,7 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/smells/uncommunicative_parameter_name'
+require_lib 'reek/smells/uncommunicative_parameter_name'
 require_relative 'smell_detector_shared'
-require_relative '../../../lib/reek/context/method_context'
+require_lib 'reek/context/method_context'
 
 RSpec.describe Reek::Smells::UncommunicativeParameterName do
   let(:detector) do

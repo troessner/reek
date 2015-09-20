@@ -1,5 +1,5 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/smells/too_many_statements'
+require_lib 'reek/smells/too_many_statements'
 require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::TooManyStatements do

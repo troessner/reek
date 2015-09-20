@@ -1,8 +1,8 @@
 require_relative '../../spec_helper'
 
-require_relative '../../../lib/reek/cli/options'
-require_relative '../../../lib/reek/cli/option_interpreter'
-require_relative '../../../lib/reek/report/report'
+require_lib 'reek/cli/options'
+require_lib 'reek/cli/option_interpreter'
+require_lib 'reek/report/report'
 
 RSpec.describe Reek::CLI::OptionInterpreter do
   describe '#reporter' do
