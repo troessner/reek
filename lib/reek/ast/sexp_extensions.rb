@@ -196,7 +196,7 @@ module Reek
         # Handles the case where we create an attribute writer via:
         # attr :foo, true
         def attr_with_writable_flag?
-          method_name == :attr && args.last.type == :true
+          method_name == :attr && args.any? && args.last.type == :true
         end
 
         VISIBILITY_MODIFIERS = [:private, :public, :protected, :module_function]

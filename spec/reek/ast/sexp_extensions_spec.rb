@@ -254,6 +254,10 @@ RSpec.describe Reek::AST::SexpExtensions::SendNode do
     it 'has no argument names' do
       expect(node.arg_names).to eq []
     end
+
+    it 'is not considered to be a writable attr' do
+      expect(sexp(:send, nil, :attr).attr_with_writable_flag?).to be_falsey
+    end
   end
 
   context 'with 1 literal parameter' do
