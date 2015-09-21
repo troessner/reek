@@ -1,5 +1,5 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/context/root_context'
+require_lib 'reek/context/root_context'
 
 RSpec.describe Reek::Context::RootContext do
   context 'full_name' do

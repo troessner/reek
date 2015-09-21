@@ -1,5 +1,5 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/smells/attribute'
+require_lib 'reek/smells/attribute'
 require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::Attribute do

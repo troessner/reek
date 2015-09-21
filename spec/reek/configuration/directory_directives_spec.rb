@@ -1,5 +1,5 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/configuration/directory_directives'
+require_lib 'reek/configuration/directory_directives'
 
 RSpec.describe Reek::Configuration::DirectoryDirectives do
   describe '#directive_for' do

@@ -1,6 +1,6 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/smells/feature_envy'
-require_relative '../../../lib/reek/examiner'
+require_lib 'reek/smells/feature_envy'
+require_lib 'reek/examiner'
 require_relative 'smell_detector_shared'
 
 # TODO: Bring specs in line with specs for other detectors

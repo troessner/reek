@@ -1,10 +1,10 @@
-require_relative '../../lib/reek/cli/silencer'
+require_lib 'reek/cli/silencer'
 Reek::CLI::Silencer.silently do
   require 'parser/ruby22'
 end
 
 require_relative '../spec_helper'
-require_relative '../../lib/reek/tree_dresser'
+require_lib 'reek/tree_dresser'
 
 RSpec.describe Reek::TreeDresser do
   let(:dresser) { described_class.new }

@@ -52,3 +52,9 @@ RSpec.configure do |config|
     mocks.verify_partial_doubles = true
   end
 end
+
+private
+
+def require_lib(path)
+  require_relative "../lib/#{path}"
+end

@@ -1,5 +1,5 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/context/method_context'
+require_lib 'reek/context/method_context'
 
 RSpec.describe Reek::Context::MethodContext do
   let(:method_context) { Reek::Context::MethodContext.new(nil, exp) }

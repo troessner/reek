@@ -1,6 +1,6 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/context/module_context'
-require_relative '../../../lib/reek/context/root_context'
+require_lib 'reek/context/module_context'
+require_lib 'reek/context/root_context'
 
 RSpec.describe Reek::Context::ModuleContext do
   it 'should report module name for smell in method' do

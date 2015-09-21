@@ -1,5 +1,5 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/spec'
+require_lib 'reek/spec'
 
 RSpec.describe Reek::Spec::ShouldReekOnlyOf do
   let(:examiner) { double('examiner').as_null_object }

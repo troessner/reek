@@ -1,5 +1,5 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/ast/sexp_extensions'
+require_lib 'reek/ast/sexp_extensions'
 
 RSpec.describe Reek::AST::SexpExtensions::DefNode do
   context 'with no parameters' do

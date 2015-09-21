@@ -1,5 +1,5 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/configuration/excluded_paths'
+require_lib 'reek/configuration/excluded_paths'
 
 RSpec.describe Reek::Configuration::ExcludedPaths do
   describe '#add' do

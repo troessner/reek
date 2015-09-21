@@ -1,5 +1,5 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/smells/unused_parameters'
+require_lib 'reek/smells/unused_parameters'
 require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::UnusedParameters do

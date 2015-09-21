@@ -1,5 +1,5 @@
 require_relative '../spec_helper'
-require_relative '../../lib/reek/examiner'
+require_lib 'reek/examiner'
 
 RSpec.shared_examples_for 'no smells found' do
   it 'is not smelly' do

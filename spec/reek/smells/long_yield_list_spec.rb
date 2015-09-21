@@ -1,6 +1,6 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/context/code_context'
-require_relative '../../../lib/reek/smells/long_yield_list'
+require_lib 'reek/context/code_context'
+require_lib 'reek/smells/long_yield_list'
 require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::LongYieldList do

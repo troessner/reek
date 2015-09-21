@@ -1,6 +1,6 @@
 require_relative '../../spec_helper'
 require 'stringio'
-require_relative '../../../lib/reek/source/source_code'
+require_lib 'reek/source/source_code'
 
 RSpec.describe Reek::Source::SourceCode do
   describe '#syntax_tree' do

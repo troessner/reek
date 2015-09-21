@@ -1,5 +1,5 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/smells/boolean_parameter'
+require_lib 'reek/smells/boolean_parameter'
 require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::BooleanParameter do

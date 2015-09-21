@@ -1,5 +1,5 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/ast/reference_collector'
+require_lib 'reek/ast/reference_collector'
 
 RSpec.describe Reek::AST::ReferenceCollector do
   context 'counting refs to self' do

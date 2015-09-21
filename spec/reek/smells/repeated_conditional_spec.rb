@@ -1,8 +1,8 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/smells/repeated_conditional'
-require_relative '../../../lib/reek/context/code_context'
+require_lib 'reek/smells/repeated_conditional'
+require_lib 'reek/context/code_context'
 require_relative 'smell_detector_shared'
-require_relative '../../../lib/reek/source/source_code'
+require_lib 'reek/source/source_code'
 
 RSpec.describe Reek::Smells::RepeatedConditional do
   let(:detector) { build(:smell_detector, smell_type: :RepeatedConditional, source: source_name) }

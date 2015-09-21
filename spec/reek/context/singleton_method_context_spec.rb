@@ -1,5 +1,5 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/context/singleton_method_context'
+require_lib 'reek/context/singleton_method_context'
 
 RSpec.describe Reek::Context::SingletonMethodContext do
   let(:smc) do

@@ -1,5 +1,5 @@
 require_relative '../spec_helper'
-require_relative '../../lib/reek/code_comment'
+require_lib 'reek/code_comment'
 
 RSpec.describe Reek::CodeComment do
   context 'with an empty comment' do

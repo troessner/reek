@@ -1,6 +1,6 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/smells/class_variable'
-require_relative '../../../lib/reek/context/module_context'
+require_lib 'reek/smells/class_variable'
+require_lib 'reek/context/module_context'
 require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::ClassVariable do

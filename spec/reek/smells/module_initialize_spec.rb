@@ -1,5 +1,5 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/smells/module_initialize'
+require_lib 'reek/smells/module_initialize'
 require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::ModuleInitialize do

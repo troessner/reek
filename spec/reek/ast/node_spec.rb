@@ -1,5 +1,5 @@
 require_relative '../../spec_helper'
-require_relative '../../../lib/reek/ast/node'
+require_lib 'reek/ast/node'
 
 RSpec.describe Reek::AST::Node do
   context 'format' do
