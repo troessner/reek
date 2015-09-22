@@ -49,8 +49,16 @@ module Reek
         (self <=> other) == 0
       end
 
-      def matches?(klass, other_parameters = {})
-        smell_classes.include?(klass.to_s) && common_parameters_equal?(other_parameters)
+      def matches_smell_type?(klass)
+        smell_classes.include?(klass.to_s)
+      end
+
+      def matches_smell_details?(other_smell_details = {})
+        common_parameters_equal?(other_smell_details)
+      end
+
+      def matches?(klass, other_smell_details = {})
+        matches_smell_type?(klass) && matches_smell_details?(other_smell_details)
       end
 
       def report_on(listener)
