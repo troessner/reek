@@ -35,7 +35,7 @@ RSpec.describe Reek::Smells::Attribute do
           attr_writer :my_attr
         end
       EOS
-      expect(src).to reek_of(:Attribute, name: 'my_attr')
+      expect(src).to reek_of(:Attribute, parameters: { name: 'my_attr' })
     end
 
     it 'records attr_writer attribute in a module' do
@@ -44,7 +44,7 @@ RSpec.describe Reek::Smells::Attribute do
           attr_writer :my_attr
         end
       EOS
-      expect(src).to reek_of(:Attribute, name: 'my_attr')
+      expect(src).to reek_of(:Attribute, parameters: { name: 'my_attr' })
     end
 
     it 'records accessor attribute' do
@@ -53,7 +53,7 @@ RSpec.describe Reek::Smells::Attribute do
           attr_accessor :my_attr
         end
       EOS
-      expect(src).to reek_of(:Attribute, name: 'my_attr')
+      expect(src).to reek_of(:Attribute, parameters: { name: 'my_attr' })
     end
 
     it 'records attr defining a writer' do
@@ -62,7 +62,7 @@ RSpec.describe Reek::Smells::Attribute do
           attr :my_attr, true
         end
       EOS
-      expect(src).to reek_of(:Attribute, name: 'my_attr')
+      expect(src).to reek_of(:Attribute, parameters: { name: 'my_attr' })
     end
 
     it "doesn't record protected attributes" do
@@ -101,7 +101,7 @@ RSpec.describe Reek::Smells::Attribute do
           attr_writer :my_attr
         end
       EOS
-      expect(src).to reek_of(:Attribute, name: 'my_attr')
+      expect(src).to reek_of(:Attribute, parameters: { name: 'my_attr' })
     end
 
     it 'records attr_writer after switching visbility to public' do
@@ -112,7 +112,7 @@ RSpec.describe Reek::Smells::Attribute do
           public :my_attr
         end
       EOS
-      expect(src).to reek_of(:Attribute, name: 'my_attr')
+      expect(src).to reek_of(:Attribute, parameters: { name: 'my_attr' })
     end
 
     it 'resets visibility in new contexts' do

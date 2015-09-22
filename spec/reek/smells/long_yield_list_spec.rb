@@ -20,7 +20,7 @@ RSpec.describe Reek::Smells::LongYieldList do
     end
     it 'should report yield with many parameters' do
       src = 'def simple(arga, argb, &blk) f(3);yield arga,argb,arga,argb; end'
-      expect(src).to reek_of(:LongYieldList, count: 4)
+      expect(src).to reek_of(:LongYieldList, parameters: { count: 4 })
     end
     it 'should not report yield of a long expression' do
       src = 'def simple(arga, argb, &blk) f(3);yield(if @dec then argb else 5+3 end); end'

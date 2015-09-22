@@ -76,7 +76,7 @@ RSpec.describe Reek::Smells::FeatureEnvy do
         def envy(arga)
           arga.b(arga) + arga.c(@fred)
         end
-      ').to reek_of(:FeatureEnvy, name: 'arga')
+      ').to reek_of(:FeatureEnvy, parameters: { name: 'arga' })
     end
   end
 
@@ -90,8 +90,8 @@ RSpec.describe Reek::Smells::FeatureEnvy do
         total *= 1.15
       end
       EOS
-    expect(src).to reek_of(:FeatureEnvy, name: 'total')
-    expect(src).not_to reek_of(:FeatureEnvy, name: 'fred')
+    expect(src).to reek_of(:FeatureEnvy, parameters: { name: 'total' })
+    expect(src).not_to reek_of(:FeatureEnvy, parameters: { name: 'fred' })
   end
 
   it 'should report multiple affinities' do
@@ -103,8 +103,8 @@ RSpec.describe Reek::Smells::FeatureEnvy do
         total += fred.tax
       end
       EOS
-    expect(src).to reek_of(:FeatureEnvy, name: 'total')
-    expect(src).to reek_of(:FeatureEnvy, name: 'fred')
+    expect(src).to reek_of(:FeatureEnvy, parameters: { name: 'total' })
+    expect(src).to reek_of(:FeatureEnvy, parameters: { name: 'fred' })
   end
 
   it 'should not be fooled by duplication' do

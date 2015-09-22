@@ -14,14 +14,14 @@ RSpec.describe Reek::Smells::UnusedParameters do
 
     it 'reports for 1 used and 2 unused parameter' do
       src = 'def simple(num,sum,denum); sum end'
-      expect(src).to reek_of(:UnusedParameters, name: 'num')
-      expect(src).to reek_of(:UnusedParameters, name: 'denum')
+      expect(src).to reek_of(:UnusedParameters, parameters: { name: 'num' })
+      expect(src).to reek_of(:UnusedParameters, parameters: { name: 'denum' })
     end
 
     it 'reports for 3 used and 1 unused parameter' do
       src = 'def simple(num,sum,denum,quotient); num + denum + sum end'
       expect(src).to reek_of(:UnusedParameters,
-                             name: 'quotient')
+                             parameters: { name: 'quotient' })
     end
 
     it 'reports nothing for used splatted parameter' do
