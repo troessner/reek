@@ -260,6 +260,22 @@ RSpec.describe Reek::AST::SexpExtensions::SendNode do
     end
   end
 
+  context 'when it’s ‘new’ with no parameters and no receiver' do
+    let(:bare_new) { sexp(:send, nil, :new) }
+
+    it 'is not considered to be a module creation call' do
+      expect(bare_new.module_creation_call?).to be_falsey
+    end
+
+    it 'is not considered to have a module creation receiver' do
+      expect(bare_new.module_creation_receiver?).to be_falsey
+    end
+
+    it 'is considered to be an object creation call' do
+      expect(bare_new.object_creation_call?).to be_truthy
+    end
+  end
+
   context 'with 1 literal parameter' do
     let(:node) { sexp(:send, nil, :hello, sexp(:lit, :param)) }
 
@@ -357,7 +373,14 @@ RSpec.describe Reek::AST::SexpExtensions::CasgnNode do
     end
 
     it 'does not define a module' do
-      expect(subject.defines_module?).to eq(false)
+      expect(subject.defines_module?).to be_falsey
+    end
+  end
+
+  context 'with implicit receiver to new' do
+    it 'does not define a module' do
+      exp = sexp(:casgn, nil, :Foo, sexp(:send, nil, :new))
+      expect(exp.defines_module?).to be_falsey
     end
   end
 end

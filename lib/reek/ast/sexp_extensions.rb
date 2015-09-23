@@ -180,6 +180,14 @@ module Reek
           args.map { |arg| arg[1] }
         end
 
+        def module_creation_call?
+          object_creation_call? && module_creation_receiver?
+        end
+
+        def module_creation_receiver?
+          receiver && [:Class, :Struct].include?(receiver.simple_name)
+        end
+
         def object_creation_call?
           method_name == :new
         end
@@ -420,8 +428,6 @@ module Reek
       module CasgnNode
         include ModuleNodeBase
 
-        MODULE_DEFINERS = [:Class, :Struct]
-
         def defines_module?
           return false unless value
           call = case value.type
@@ -430,9 +436,7 @@ module Reek
                  when :send
                    value
                  end
-          call &&
-            call.object_creation_call? &&
-            MODULE_DEFINERS.include?(call.receiver.simple_name)
+          call && call.module_creation_call?
         end
 
         def name
