@@ -362,6 +362,10 @@ module Reek
         def parameter_names
           parameters[1..-1].to_a
         end
+
+        def simple_name
+          :block
+        end
       end
 
       # Utility methods for :lit nodes.

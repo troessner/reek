@@ -300,6 +300,10 @@ RSpec.describe Reek::AST::SexpExtensions::BlockNode do
     it 'has no parameter names' do
       expect(node.parameter_names).to eq []
     end
+
+    it 'has a name' do
+      expect(node.simple_name).to eq(:block)
+    end
   end
 
   context 'with 1 parameter' do
