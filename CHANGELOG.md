@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+## 3.4.1 (2015-09-24)
+
+* (chastell) Fix parsing `Foo = bar.new(new)`
+* (chastell) Sort line numbers in reports of multi-line smells
+* (chastell) Fix parsing bare `attr`
+* (troessner) Fix `reek_of` not checking `smell_details`
+* (chastell) Fix parsing `Foo = new`
+* (chastell) Fix parsing `Foo = Class.new do … end.new`
+
 ## 3.4.0 (2015-09-16)
 
 * (troessner) Make UtilityFunction configurable for non-public methods
