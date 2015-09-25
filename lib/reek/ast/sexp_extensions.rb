@@ -120,10 +120,10 @@ module Reek
 
       # Base module for utility methods for :and and :or nodes.
       module LogicOperatorBase
-        def condition() self[1] end
+        def condition() children.first end
 
         def body_nodes(type, ignoring = [])
-          self[2].find_nodes type, ignoring
+          children[1].find_nodes type, ignoring
         end
       end
 
@@ -139,12 +139,12 @@ module Reek
 
       # Utility methods for :attrasgn nodes.
       module AttrasgnNode
-        def args() self[3] end
+        def args() children[2] end
       end
 
       # Utility methods for :case nodes.
       module CaseNode
-        def condition() self[1] end
+        def condition() children.first end
 
         def body_nodes(type, ignoring = [])
           children[1..-1].compact.flat_map { |child| child.find_nodes(type, ignoring) }
@@ -177,7 +177,7 @@ module Reek
         end
 
         def arg_names
-          args.map { |arg| arg[1] }
+          args.map { |arg| arg.children.first }
         end
 
         def module_creation_call?
@@ -215,7 +215,7 @@ module Reek
 
       # Base module for utility methods for nodes representing variables.
       module VariableBase
-        def name() self[1] end
+        def name() children.first end
       end
 
       # Utility methods for :cvar nodes.
@@ -301,11 +301,11 @@ module Reek
 
       # Utility methods for :def nodes.
       module DefNode
-        def name() self[1] end
-        def argslist() self[2] end
+        def name() children.first end
+        def argslist() children[1] end
 
         def body
-          self[3]
+          children[2]
         end
 
         def full_name(outer)
@@ -323,12 +323,12 @@ module Reek
 
       # Utility methods for :defs nodes.
       module DefsNode
-        def receiver() self[1] end
-        def name() self[2] end
-        def argslist() self[3] end
+        def receiver() children.first end
+        def name() children[1] end
+        def argslist() children[2] end
 
         def body
-          self[4]
+          children[3]
         end
 
         include MethodNodeBase
@@ -345,7 +345,7 @@ module Reek
 
       # Utility methods for :if nodes.
       module IfNode
-        def condition() self[1] end
+        def condition() children.first end
 
         def body_nodes(type, ignoring = [])
           children[1..-1].compact.flat_map { |child| child.find_nodes(type, ignoring) }
@@ -354,13 +354,13 @@ module Reek
 
       # Utility methods for :block nodes.
       module BlockNode
-        def call() self[1] end
-        def args() self[2] end
-        def block() self[3] end
-        def parameters() self[2] || [] end
+        def call() children.first end
+        def args() children[1] end
+        def block() children[2] end
+        def parameters() children[1] || [] end
 
         def parameter_names
-          parameters[1..-1].to_a
+          parameters.children
         end
 
         def simple_name
@@ -370,7 +370,7 @@ module Reek
 
       # Utility methods for :lit nodes.
       module LitNode
-        def value() self[1] end
+        def value() children.first end
       end
 
       # Utility methods for :const nodes.
@@ -425,7 +425,7 @@ module Reek
       # Utility methods for :class nodes.
       module ClassNode
         include ModuleNode
-        def superclass() self[2] end
+        def superclass() children[1] end
       end
 
       # Utility methods for :casgn nodes.
@@ -464,7 +464,7 @@ module Reek
 
       # Utility methods for :yield nodes.
       module YieldNode
-        def args() self[1..-1] end
+        def args() children end
 
         def arg_names
           args.map { |arg| arg[1] }

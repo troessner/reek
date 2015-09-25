@@ -31,18 +31,8 @@ module Reek
         comment_lines.map(&:text).join("\n")
       end
 
-      # @deprecated
-      def [](index)
-        elements[index]
-      end
-
       def line
         loc && loc.line
-      end
-
-      # @deprecated
-      def first
-        type
       end
 
       #
@@ -128,10 +118,6 @@ module Reek
 
       def each_sexp
         children.each { |elem| yield elem if elem.is_a? ::Parser::AST::Node }
-      end
-
-      def elements
-        [type, *children]
       end
     end
   end
