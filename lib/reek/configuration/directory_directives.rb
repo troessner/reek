@@ -50,8 +50,8 @@ module Reek
 
       def error_message_for_invalid_smell_type(klass)
         "You are trying to configure smell type #{klass} but we can't find one with that name.\n" \
-          "Please make sure you spelled it right (see 'config/defaults.reek' in the reek\n" \
-          'repository for a list of all available smell types.'
+          "Please make sure you spelled it right. (See 'defaults.reek' in the reek\n" \
+          'repository for a list of all available smell types.)'
       end
     end
   end

@@ -3,7 +3,7 @@ require 'yaml'
 
 namespace :configuration do
   task :update_default_configuration do
-    DEFAULT_SMELL_CONFIGURATION = 'config/defaults.reek'
+    DEFAULT_SMELL_CONFIGURATION = 'defaults.reek'
     content = Reek::Smells::SmellRepository.smell_types.each_with_object({}) do |klass, hash|
       hash[klass.smell_type] = klass.default_config
     end

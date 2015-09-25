@@ -167,7 +167,7 @@ NestedIterators:
 
 # A lot of smells allow fine tuning their configuration. You can look up all available options
 # in the corresponding smell documentation in /docs. In most cases you probably can just go
-# with the defaults we set in config/defaults.reek.
+# with the defaults as documented in defaults.reek.
 DataClump:
   max_copies: 3
   min_clump_size: 3
@@ -192,7 +192,7 @@ exclude_paths:
   - lib/rake/legacy_tasks
 ```
 
-Note you do not need a configuration file at all. If you're fine with all the [defaults](config/defaults.reek) we set you can skip this completely.
+Note you do not need a configuration file at all. If you're fine with all the [defaults](defaults.reek) we set you can skip this completely.
 
 For more details please check out the [Basic Smell Options](docs/Basic-Smell-Options.md)
 which are supported by every smell type. As you can see above, certain smell
@@ -200,7 +200,7 @@ types offer a configuration that goes beyond that of the basic smell options, fo
 [Data Clump](docs/Data-Clump.md).
 All options that go beyond the [Basic Smell Options](docs/Basic-Smell-Options.md)
 are documented in the corresponding smell type /docs page (if you want to get a quick overview over all possible
-configurations you can also check out [the `config/default.reek` file in this repository](config/defaults.reek).
+configurations you can also check out [the `default.reek` file in this repository](defaults.reek).
 
 ### Source code comments
 
