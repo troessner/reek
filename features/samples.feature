@@ -177,7 +177,7 @@ Feature: Basic smell detection
       UnusedParameters: OptionParser::Completion#convert has unused parameter 'opt' [https://github.com/troessner/reek/blob/master/docs/Unused-Parameters.md]
       UnusedParameters: OptionParser::Switch::NoArgument#parse has unused parameter 'argv' [https://github.com/troessner/reek/blob/master/docs/Unused-Parameters.md]
       UnusedParameters: OptionParser::Switch::OptionalArgument#parse has unused parameter 'argv' [https://github.com/troessner/reek/blob/master/docs/Unused-Parameters.md]
-    redcloth.rb -- 101 warnings:
+    redcloth.rb -- 121 warnings:
       Attribute: RedCloth#filter_html is a writable attribute [https://github.com/troessner/reek/blob/master/docs/Attribute.md]
       Attribute: RedCloth#filter_styles is a writable attribute [https://github.com/troessner/reek/blob/master/docs/Attribute.md]
       Attribute: RedCloth#hard_breaks is a writable attribute [https://github.com/troessner/reek/blob/master/docs/Attribute.md]
@@ -269,6 +269,26 @@ Feature: Basic smell detection
       UnusedParameters: RedCloth#textile_fn_ has unused parameter 'cite' [https://github.com/troessner/reek/blob/master/docs/Unused-Parameters.md]
       UnusedParameters: RedCloth#textile_fn_ has unused parameter 'tag' [https://github.com/troessner/reek/blob/master/docs/Unused-Parameters.md]
       UnusedParameters: RedCloth#textile_p has unused parameter 'cite' [https://github.com/troessner/reek/blob/master/docs/Unused-Parameters.md]
+      UnusedPrivateMethod: RedCloth has the unused private instance method `block_markdown_atx` [https://github.com/troessner/reek/blob/master/docs/Unused-Private-Method.md]
+      UnusedPrivateMethod: RedCloth has the unused private instance method `block_markdown_bq` [https://github.com/troessner/reek/blob/master/docs/Unused-Private-Method.md]
+      UnusedPrivateMethod: RedCloth has the unused private instance method `block_markdown_lists` [https://github.com/troessner/reek/blob/master/docs/Unused-Private-Method.md]
+      UnusedPrivateMethod: RedCloth has the unused private instance method `block_markdown_rule` [https://github.com/troessner/reek/blob/master/docs/Unused-Private-Method.md]
+      UnusedPrivateMethod: RedCloth has the unused private instance method `block_markdown_setext` [https://github.com/troessner/reek/blob/master/docs/Unused-Private-Method.md]
+      UnusedPrivateMethod: RedCloth has the unused private instance method `block_textile_lists` [https://github.com/troessner/reek/blob/master/docs/Unused-Private-Method.md]
+      UnusedPrivateMethod: RedCloth has the unused private instance method `block_textile_prefix` [https://github.com/troessner/reek/blob/master/docs/Unused-Private-Method.md]
+      UnusedPrivateMethod: RedCloth has the unused private instance method `block_textile_table` [https://github.com/troessner/reek/blob/master/docs/Unused-Private-Method.md]
+      UnusedPrivateMethod: RedCloth has the unused private instance method `inline_markdown_link` [https://github.com/troessner/reek/blob/master/docs/Unused-Private-Method.md]
+      UnusedPrivateMethod: RedCloth has the unused private instance method `inline_markdown_reflink` [https://github.com/troessner/reek/blob/master/docs/Unused-Private-Method.md]
+      UnusedPrivateMethod: RedCloth has the unused private instance method `inline_textile_code` [https://github.com/troessner/reek/blob/master/docs/Unused-Private-Method.md]
+      UnusedPrivateMethod: RedCloth has the unused private instance method `inline_textile_image` [https://github.com/troessner/reek/blob/master/docs/Unused-Private-Method.md]
+      UnusedPrivateMethod: RedCloth has the unused private instance method `inline_textile_link` [https://github.com/troessner/reek/blob/master/docs/Unused-Private-Method.md]
+      UnusedPrivateMethod: RedCloth has the unused private instance method `inline_textile_span` [https://github.com/troessner/reek/blob/master/docs/Unused-Private-Method.md]
+      UnusedPrivateMethod: RedCloth has the unused private instance method `refs_markdown` [https://github.com/troessner/reek/blob/master/docs/Unused-Private-Method.md]
+      UnusedPrivateMethod: RedCloth has the unused private instance method `refs_textile` [https://github.com/troessner/reek/blob/master/docs/Unused-Private-Method.md]
+      UnusedPrivateMethod: RedCloth has the unused private instance method `textile_bq` [https://github.com/troessner/reek/blob/master/docs/Unused-Private-Method.md]
+      UnusedPrivateMethod: RedCloth has the unused private instance method `textile_fn_` [https://github.com/troessner/reek/blob/master/docs/Unused-Private-Method.md]
+      UnusedPrivateMethod: RedCloth has the unused private instance method `textile_p` [https://github.com/troessner/reek/blob/master/docs/Unused-Private-Method.md]
+      UnusedPrivateMethod: RedCloth has the unused private instance method `textile_popup_help` [https://github.com/troessner/reek/blob/master/docs/Unused-Private-Method.md]
       UtilityFunction: RedCloth#block_markdown_rule doesn't depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Utility-Function.md]
       UtilityFunction: RedCloth#clean_html doesn't depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Utility-Function.md]
       UtilityFunction: RedCloth#flush_left doesn't depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Utility-Function.md]
@@ -279,5 +299,5 @@ Feature: Basic smell detection
       UtilityFunction: RedCloth#lT doesn't depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Utility-Function.md]
       UtilityFunction: RedCloth#no_textile doesn't depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Utility-Function.md]
       UtilityFunction: RedCloth#v_align doesn't depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Utility-Function.md]
-    265 total warnings
+    285 total warnings
     """

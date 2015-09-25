@@ -14,6 +14,7 @@ module Reek
     #
     # :reek:TooManyMethods: { max_methods: 19 }
     # :reek:TooManyInstanceVariables: { max_instance_variables: 5 }
+    # :reek:UnusedPrivateMethod: { exclude: [ inherited, smell_warning ] }
     class SmellDetector
       attr_reader :config
       private_attr_accessor :smells_found
