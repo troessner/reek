@@ -8,9 +8,26 @@ module Reek
 
       # :reek:UtilityFunction
       def smell_type?(key)
-        Reek::Smells.const_get key
-      rescue NameError
-        false
+        case key
+        when Class
+          true
+        when String
+          begin
+            Reek::Smells.const_defined? key
+          rescue NameError
+            false
+          end
+        end
+      end
+
+      # :reek:UtilityFunction
+      def key_to_smell_detector(key)
+        case key
+        when Class
+          key
+        else
+          Reek::Smells.const_get key
+        end
       end
 
       def error_message_for_missing_directory(pathname)

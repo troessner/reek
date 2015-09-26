@@ -42,10 +42,9 @@ module Reek
       def self.from_map(map = {})
         allocate.tap do |instance|
           instance.instance_eval do
-            self.directory_directives = map.fetch(:directory_directives, {}).
-              extend(DirectoryDirectives)
-            self.default_directive = map.fetch(:default_directive, {}).extend(DefaultDirective)
-            self.excluded_paths = map.fetch(:excluded_paths, []).extend(ExcludedPaths)
+            load_values map.fetch(:directory_directives, {})
+            load_values map.fetch(:default_directive, {})
+            load_values EXCLUDE_PATHS_KEY => map.fetch(:excluded_paths, [])
           end
         end
       end
@@ -90,6 +89,10 @@ module Reek
       def find_and_load(path: nil)
         configuration_file = ConfigurationFileFinder.find_and_load(path: path)
 
+        load_values(configuration_file)
+      end
+
+      def load_values(configuration_file)
         configuration_file.each do |key, value|
           case
           when key == EXCLUDE_PATHS_KEY

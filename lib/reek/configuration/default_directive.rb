@@ -4,8 +4,10 @@ module Reek
     # Hash extension for the default directive.
     #
     module DefaultDirective
+      include ConfigurationValidator
+
       def add(key, config)
-        self[Reek::Smells.const_get(key)] = config
+        self[key_to_smell_detector(key)] = config
       end
     end
   end
