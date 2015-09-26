@@ -32,7 +32,7 @@ module Reek
         with_valid_directory(path) do |directory|
           self[directory] = config.each_with_object({}) do |(key, value), hash|
             abort(error_message_for_invalid_smell_type(key)) unless smell_type?(key)
-            hash[Reek::Smells.const_get(key)] = value
+            hash[key_to_smell_detector(key)] = value
           end
         end
         self
