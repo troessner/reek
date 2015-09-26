@@ -83,18 +83,18 @@ module Reek
       def find_assignment_variable_names(exp, accumulator)
         assignment_nodes = exp.each_node(:lvasgn, [:class, :module, :defs, :def])
 
-        case exp.first
+        case exp.type
         when :class, :module
           assignment_nodes += exp.each_node(:ivasgn, [:class, :module])
         end
 
-        assignment_nodes.each { |asgn| accumulator[asgn[1]].push(asgn.line) }
+        assignment_nodes.each { |asgn| accumulator[asgn.children.first].push(asgn.line) }
       end
 
       # :reek:FeatureEnvy
       # :reek:TooManyStatements: { max_statements: 6 }
       def find_block_argument_variable_names(exp, accumulator)
-        arg_search_exp = case exp.first
+        arg_search_exp = case exp.type
                          when :class, :module
                            exp
                          when :defs, :def

@@ -140,14 +140,15 @@ module Reek
     alias_method :process_kwbegin, :process_begin
 
     def process_if(exp)
-      count_clause(exp[2])
-      count_clause(exp[3])
+      children = exp.children
+      count_clause(children[1])
+      count_clause(children[2])
       element.count_statements(-1)
       process_default(exp)
     end
 
     def process_while(exp)
-      count_clause(exp[2])
+      count_clause(exp.children[1])
       element.count_statements(-1)
       process_default(exp)
     end
@@ -155,19 +156,19 @@ module Reek
     alias_method :process_until, :process_while
 
     def process_for(exp)
-      count_clause(exp[3])
+      count_clause(exp.children[2])
       element.count_statements(-1)
       process_default(exp)
     end
 
     def process_rescue(exp)
-      count_clause(exp[1])
+      count_clause(exp.children.first)
       element.count_statements(-1)
       process_default(exp)
     end
 
     def process_resbody(exp)
-      count_statement_list(exp[2..-1].compact)
+      count_statement_list(exp.children[1..-1].compact)
       process_default(exp)
     end
 

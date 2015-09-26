@@ -118,7 +118,7 @@ RSpec.describe Reek::Context::CodeContext do
       end
 
       it "yields the method's full AST" do
-        ctx.each_node(:def, []) { |exp| expect(exp[1]).to eq(:calloo) }
+        ctx.each_node(:def, []) { |exp| expect(exp.children.first).to eq(:calloo) }
       end
 
       context 'pruning the traversal' do
