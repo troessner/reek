@@ -11,6 +11,17 @@ FactoryGirl.define do
     end
   end
 
+  factory :method_context, class: Reek::Context::MethodContext do
+    skip_create
+    transient do
+      source 'def foo; end'
+    end
+
+    initialize_with do
+      new(nil, Reek::Source::SourceCode.from(source).syntax_tree)
+    end
+  end
+
   factory :smell_detector, class: Reek::Smells::SmellDetector do
     skip_create
     transient do

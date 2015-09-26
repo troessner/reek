@@ -24,8 +24,8 @@ Feature: Directory directives
       class UsersController < ApplicationController
         def show
           respond_with do |format|
-            format.json { @user.to_custom_json }
-            format.xlm { @user.to_fancy_xml }
+            format.json { |json| @user.to_custom_json }
+            format.xml { |xml| @user.to_fancy_xml }
           end
         end
       end
@@ -94,7 +94,7 @@ Feature: Directory directives
       class UsersController < ApplicationController
         def show
           respond_with do |format|
-            format.json { @user.to_custom_json }
+            format.json { |json| @user.to_custom_json }
           end
         end
       end
@@ -145,7 +145,7 @@ Feature: Directory directives
       class UsersController < ApplicationController
         def show
           respond_with do |format|
-            format.json { @user.to_custom_json }
+            format.json { |json| @user.to_custom_json }
           end
         end
       end
@@ -155,7 +155,7 @@ Feature: Directory directives
       class ProjectController < ApplicationController
         def show
           respond_with do |format|
-            format.json { @project.to_custom_json }
+            format.json { |json| @project.to_custom_json }
           end
         end
       end
@@ -251,8 +251,8 @@ Feature: Directory directives
       """
       class Klass
         def meth
-          respond_to do
-            answer_to do
+          respond_to do |arg|
+            answer_to do |arg|
             end
           end
         end
@@ -262,8 +262,8 @@ Feature: Directory directives
       """
       class Klazz
         def meth
-          respond_to do
-            answer_to do
+          respond_to do |arg|
+            answer_to do |arg|
             end
           end
         end

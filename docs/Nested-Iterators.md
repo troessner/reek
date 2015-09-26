@@ -33,6 +33,21 @@ test.rb -- 1 warning:
 
 Nested Iterators reports failing methods only once.
 `Object#tap` is ignored by default and thus does not count as iterator.
+Furthermore iterators without block arguments are not counted, e.g.:
+
+
+```Ruby
+def foo
+  before do
+    item.each do |part|
+      puts part
+    end
+  end
+end
+```
+
+would not smell of NestedIterators (given a maximum allowed nesting of 1) since the
+`before` would not be counted (because it doesn't pass any arguments to the block).
 
 ## Configuration
 

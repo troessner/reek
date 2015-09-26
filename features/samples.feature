@@ -59,7 +59,7 @@ Feature: Basic smell detection
       Module#inline calls Inline.const_get(lang) 2 times (DuplicateMethodCall)
       Module#inline calls options[:testing] 2 times (DuplicateMethodCall)
       Module#inline has approx 12 statements (TooManyStatements)
-    optparse.rb -- 121 warnings:
+    optparse.rb -- 117 warnings:
       OptionParser has at least 42 methods (TooManyMethods)
       OptionParser has at least 6 instance variables (TooManyInstanceVariables)
       OptionParser has the variable name 'f' (UncommunicativeVariableName)
@@ -73,7 +73,6 @@ Feature: Basic smell detection
       OptionParser tests not_style at least 3 times (RepeatedConditional)
       OptionParser tests s at least 7 times (RepeatedConditional)
       OptionParser#banner is a writable attribute (Attribute)
-      OptionParser#complete contains iterators nested 2 deep (NestedIterators)
       OptionParser#complete has 4 parameters (LongParameterList)
       OptionParser#complete has approx 6 statements (TooManyStatements)
       OptionParser#complete has boolean parameter 'icase' (BooleanParameter)
@@ -93,7 +92,7 @@ Feature: Basic smell detection
       OptionParser#make_switch calls sdesc << "-#{q}" 2 times (DuplicateMethodCall)
       OptionParser#make_switch calls search(:atype, FalseClass) 2 times (DuplicateMethodCall)
       OptionParser#make_switch calls search(:atype, o) 6 times (DuplicateMethodCall)
-      OptionParser#make_switch contains iterators nested 3 deep (NestedIterators)
+      OptionParser#make_switch contains iterators nested 2 deep (NestedIterators)
       OptionParser#make_switch has approx 72 statements (TooManyStatements)
       OptionParser#make_switch has the variable name 'a' (UncommunicativeVariableName)
       OptionParser#make_switch has the variable name 'c' (UncommunicativeVariableName)
@@ -114,7 +113,6 @@ Feature: Basic smell detection
       OptionParser#parse_in_order calls setter.call(sw.switch_name, val) 2 times (DuplicateMethodCall)
       OptionParser#parse_in_order calls sw.block 2 times (DuplicateMethodCall)
       OptionParser#parse_in_order calls sw.switch_name 2 times (DuplicateMethodCall)
-      OptionParser#parse_in_order contains iterators nested 3 deep (NestedIterators)
       OptionParser#parse_in_order has approx 35 statements (TooManyStatements)
       OptionParser#permute calls argv[0] 2 times (DuplicateMethodCall)
       OptionParser#permute refers to argv more than self (maybe move it to another class?) (FeatureEnvy)
@@ -133,7 +131,6 @@ Feature: Basic smell detection
       OptionParser::Arguable has initialize method (ModuleInitialize)
       OptionParser::Arguable#options has approx 6 statements (TooManyStatements)
       OptionParser::Arguable#options= is controlled by argument opt (ControlParameter)
-      OptionParser::CompletingHash#match contains iterators nested 2 deep (NestedIterators)
       OptionParser::Completion#complete calls candidates.size 2 times (DuplicateMethodCall)
       OptionParser::Completion#complete calls k.id2name 2 times (DuplicateMethodCall)
       OptionParser::Completion#complete has approx 23 statements (TooManyStatements)
@@ -172,7 +169,6 @@ Feature: Basic smell detection
       OptionParser::Switch#summarize calls left.shift 2 times (DuplicateMethodCall)
       OptionParser::Switch#summarize calls left[(-1)] 3 times (DuplicateMethodCall)
       OptionParser::Switch#summarize calls s.length 3 times (DuplicateMethodCall)
-      OptionParser::Switch#summarize contains iterators nested 2 deep (NestedIterators)
       OptionParser::Switch#summarize has 5 parameters (LongParameterList)
       OptionParser::Switch#summarize has approx 28 statements (TooManyStatements)
       OptionParser::Switch#summarize has the variable name 'l' (UncommunicativeVariableName)
@@ -215,7 +211,7 @@ Feature: Basic smell detection
       RedCloth#blocks is controlled by argument deep_code (ControlParameter)
       RedCloth#blocks refers to blk more than self (maybe move it to another class?) (FeatureEnvy)
       RedCloth#clean_html calls tags[tag] 2 times (DuplicateMethodCall)
-      RedCloth#clean_html contains iterators nested 3 deep (NestedIterators)
+      RedCloth#clean_html contains iterators nested 2 deep (NestedIterators)
       RedCloth#clean_html doesn't depend on instance state (maybe move it to another class?) (UtilityFunction)
       RedCloth#clean_html has approx 15 statements (TooManyStatements)
       RedCloth#clean_html has the variable name 'q' (UncommunicativeVariableName)
@@ -283,5 +279,5 @@ Feature: Basic smell detection
       RedCloth#textile_popup_help has the parameter name 'windowW' (UncommunicativeParameterName)
       RedCloth#to_html has approx 26 statements (TooManyStatements)
       RedCloth#v_align doesn't depend on instance state (maybe move it to another class?) (UtilityFunction)
-    269 total warnings
+    265 total warnings
     """
