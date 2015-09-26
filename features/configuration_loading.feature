@@ -1,16 +1,16 @@
 Feature: Offer different ways how to load configuration
 
-  There are 3 ways of passing reek a configuration file:
-  - Using the cli "-c" switch
-  - Having a file ending with .reek either in your current working directory or in a parent directory
-  - Having a file ending with .reek in your HOME directory
-  The order in which reek tries to find such a configuration file should exactly be like above:
-  First reek should check if we have given it a configuration file explicitly via CLI.
-  Then it should check the current working directory for a file and if it can't find one,
-  it should traverse up the directories until it hits the root directory.
-  And finally, it should check your HOME directory.
+  Reek can be configured in two ways:
+  - Using the cli "-c" switch to pass a configuration file on the command line.
+  - Having a reek configuration file that is automatically found. Reek will
+    look for a file ending in .reek in the following places, in order:
+    - The current working directory
+    - The working directory's ancestor directories, traversing all the way up
+      to the root.
+    - Your HOME directory
+    Reek will check these in order and stop after the first file found.
 
-  Scenario: No configuration
+  Scenario: Default configuration
     Given a smelly file called 'smelly.rb'
     When I run reek smelly.rb
     Then the exit status indicates smells
@@ -32,20 +32,6 @@ Feature: Offer different ways how to load configuration
   Scenario: Configuration file in working directory
     Given a smelly file called 'smelly.rb'
     And a masking configuration file called 'config.reek'
-    When I run reek smelly.rb
-    Then it reports no errors
-    And it succeeds
-
-  Scenario: Configuration file in the parent directory of the working directory
-    Given a smelly file called 'smelly.rb' in a subdirectory
-    And a masking configuration file called 'config.reek'
-    When I run "reek smelly.rb" in the subdirectory
-    Then it reports no errors
-    And it succeeds
-
-  Scenario: Configuration file in the HOME directory
-    Given a smelly file called 'smelly.rb'
-    And a masking configuration file in the HOME directory
     When I run reek smelly.rb
     Then it reports no errors
     And it succeeds
