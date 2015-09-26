@@ -37,5 +37,7 @@ World do
 end
 
 Before do
-  @aruba_timeout_seconds = 30
+  Aruba.configure do |config|
+    config.exit_timeout = 30
+  end
 end
