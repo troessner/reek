@@ -76,7 +76,7 @@ IrresponsibleModule:
 You can now use either
 
 ```Ruby
-Reek::Configuration::AppConfiguration.from_path Pathname.new('config.reek`)
+Reek::Configuration::AppConfiguration.from_path Pathname.new('config.reek')
 ```
 
 but you can also pass a hash via `Reek::Configuration::AppConfiguration.from_map`.
