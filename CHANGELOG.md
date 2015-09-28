@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 3.5.0 (2015-09-28)
+
+* (troessner) Ignore iterators without block arguments for NestedIterators
+
 ## 3.4.1 (2015-09-24)
 
 * (chastell) Fix parsing `Foo = bar.new(new)`
