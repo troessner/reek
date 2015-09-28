@@ -366,6 +366,10 @@ module Reek
         def simple_name
           :block
         end
+
+        def without_block_arguments?
+          args.components.empty?
+        end
       end
 
       # Utility methods for :lit nodes.

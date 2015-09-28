@@ -44,7 +44,6 @@ module Reek
         else
           []
         end
-        # BUG: no longer reports nesting outside methods (eg. in Optparse)
       end
 
       private
@@ -72,9 +71,10 @@ module Reek
         result
       end
 
+      # :reek:FeatureEnvy
       def ignored_iterator?(exp)
-        name = exp.call.method_name.to_s
-        ignore_iterators.any? { |pattern| /#{pattern}/ =~ name }
+        ignore_iterators.any? { |pattern| /#{pattern}/ =~ exp.call.method_name } ||
+          exp.without_block_arguments?
       end
     end
   end

@@ -49,27 +49,9 @@ RSpec.describe Reek::Smells::NestedIterators do
   it 'detects an iterator with an empty block' do
     src = <<-EOS
       def foo
-        bar { baz { } }
-      end
-    EOS
-    expect(src).to reek_of(:NestedIterators)
-  end
-
-  it 'should report nested iterators only once per method' do
-    src = <<-EOS
-      def bad(fred)
-        @fred.each {|item| item.each {|part| @joe.send} }
-        @jim.each {|ting| ting.each {|piece| @hal.send} }
-      end
-    EOS
-    expect(src).to reek_of(:NestedIterators)
-  end
-
-  it 'reports nested iterators only once per method even if levels are different' do
-    src = <<-EOS
-      def bad(fred)
-        @fred.each {|item| item.each {|part| part.foo} }
-        @jim.each {|ting| ting.each {|piece| piece.each {|atom| atom.foo } } }
+        bar do |bar|
+          baz {|baz| }
+        end
       end
     EOS
     expect(src).to reek_of(:NestedIterators)
@@ -103,7 +85,7 @@ RSpec.describe Reek::Smells::NestedIterators do
     expect(src).to reek_of(:NestedIterators, count: 3)
   end
 
-  it 'handles the case where super recieves a block' do
+  it 'handles the case where super receives a block' do
     src = <<-EOS
       def super_call_with_block
         super do |k|
@@ -115,7 +97,7 @@ RSpec.describe Reek::Smells::NestedIterators do
     expect(src).to reek_of(:NestedIterators)
   end
 
-  it 'handles the case where super recieves a block and arguments' do
+  it 'handles the case where super receives a block and arguments' do
     src = <<-EOS
       def super_call_with_block
         super(foo) do |k|
@@ -125,6 +107,71 @@ RSpec.describe Reek::Smells::NestedIterators do
     EOS
 
     expect(src).to reek_of(:NestedIterators)
+  end
+
+  describe 'examine_context / warnings' do
+    let(:detector) { build(:smell_detector, smell_type: :NestedIterators) }
+
+    it 'reports correctly' do
+      source = <<-EOS
+        def foo
+          bar do |bar|
+            baz {|baz| }
+          end
+        end
+      EOS
+      warnings = detector.examine_context(build(:method_context, source: source))
+      warning = warnings.first
+
+      expect(warning.smell_category).to eq(Reek::Smells::NestedIterators.smell_category)
+      expect(warning.smell_type).to eq(Reek::Smells::NestedIterators.smell_type)
+      expect(warning.parameters[:name]).to eq('foo')
+      expect(warning.lines).to eq([3])
+    end
+
+    it 'should report nested iterators only once per method' do
+      source = <<-EOS
+        def bad(fred)
+          @fred.each {|item| item.each {|part| @joe.send} }
+          @jim.each {|ting| ting.each {|piece| @hal.send} }
+        end
+      EOS
+
+      warnings = detector.examine_context(build(:method_context, source: source))
+      expect(warnings.size).to eq(1)
+      warning = warnings.first
+      expect(warning.parameters[:name]).to eq('bad')
+    end
+
+    it 'reports nested iterators only once per method even if levels are different' do
+      source = <<-EOS
+        def bad(fred)
+          @fred.each {|item| item.each {|part| part.foo} }
+          @jim.each {|ting| ting.each {|piece| piece.each {|atom| atom.foo } } }
+        end
+      EOS
+      warnings = detector.examine_context(build(:method_context, source: source))
+      expect(warnings.size).to eq(1)
+      warning = warnings.first
+
+      expect(warning.parameters[:name]).to eq('bad')
+      expect(warning.lines).to eq([3])
+    end
+  end
+
+  describe 'iterators without block arguments' do
+    it 'does not count those iterators' do
+      source = <<-EOS
+        def foo
+          before do
+            item.each do |part|
+              puts part
+            end
+          end
+        end
+      EOS
+      expect(source).not_to reek_of(:NestedIterators)
+    end
   end
 
   context 'when the allowed nesting depth is 3' do
