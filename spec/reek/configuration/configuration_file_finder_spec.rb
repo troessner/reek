@@ -7,13 +7,13 @@ require_relative '../../spec_helper'
 
 RSpec.describe Reek::Configuration::ConfigurationFileFinder do
   describe '.find' do
-    it 'returns the file in :path if it’s set' do
+    it 'returns any explicitely passed path' do
       path = Pathname.new 'foo/bar'
       found = described_class.find(path: path)
       expect(found).to eq(path)
     end
 
-    it 'prefers the file in :path over that in :current' do
+    it 'prefers an explicitely passed path over a file in current dir' do
       path = Pathname.new 'foo/bar'
       found = described_class.find(path: path, current: SAMPLES_PATH)
       expect(found).to eq(path)
@@ -45,7 +45,10 @@ RSpec.describe Reek::Configuration::ConfigurationFileFinder do
 
     it 'prefers the file in :current over one in :home' do
       found = described_class.find(current: SAMPLES_PATH, home: SAMPLES_PATH.join('masked_by_dotfile'))
-      expect(found).to eq(SAMPLES_PATH.join('exceptions.reek'))
+      file_in_home = SAMPLES_PATH.join('masked_by_dotfile/.reek')
+      file_in_current = SAMPLES_PATH.join('exceptions.reek')
+      expect(found).not_to eq(file_in_home)
+      expect(found).to eq(file_in_current)
     end
 
     it 'returns nil when there are no files to find' do
