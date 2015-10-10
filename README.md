@@ -1,3 +1,5 @@
+![reek logo](logo/reek.text.png)
+
 # `reek`: code smell detection for Ruby
 
 ## Overview
@@ -403,6 +405,8 @@ The `reek` core team consists of:
 * [Timo Rößner](https://github.com/troessner)
 
 The original author of `reek` is [Kevin Rutherford](https://github.com/kevinrutherford).
+
+The author of Reek’s logo is [Sonja Heinen](http://yippee.io).
 
 Notable contributions came from:
 
