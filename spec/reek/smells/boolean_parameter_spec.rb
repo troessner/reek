@@ -7,24 +7,24 @@ RSpec.describe Reek::Smells::BooleanParameter do
     context 'in a method' do
       it 'reports a parameter defaulted to true' do
         src = 'def cc(arga = true); arga; end'
-        expect(src).to reek_of(:BooleanParameter, name: 'arga')
+        expect(src).to reek_of(:BooleanParameter, parameters: { name: 'arga' })
       end
 
       it 'reports a parameter defaulted to false' do
         src = 'def cc(arga = false) end'
-        expect(src).to reek_of(:BooleanParameter, name: 'arga')
+        expect(src).to reek_of(:BooleanParameter, parameters: { name: 'arga' })
       end
 
       it 'reports two parameters defaulted to booleans' do
         src = 'def cc(nowt, arga = true, argb = false, &blk) end'
-        expect(src).to reek_of(:BooleanParameter, name: 'arga')
-        expect(src).to reek_of(:BooleanParameter, name: 'argb')
+        expect(src).to reek_of(:BooleanParameter, parameters: { name: 'arga' })
+        expect(src).to reek_of(:BooleanParameter, parameters: { name: 'argb' })
       end
 
       it 'reports keyword parameters defaulted to booleans' do
         src = 'def cc(arga: true, argb: false) end'
-        expect(src).to reek_of(:BooleanParameter, name: 'arga')
-        expect(src).to reek_of(:BooleanParameter, name: 'argb')
+        expect(src).to reek_of(:BooleanParameter, parameters: { name: 'arga' })
+        expect(src).to reek_of(:BooleanParameter, parameters: { name: 'argb' })
       end
 
       it 'does not report regular parameters' do
@@ -51,16 +51,16 @@ RSpec.describe Reek::Smells::BooleanParameter do
     context 'in a singleton method' do
       it 'reports a parameter defaulted to true' do
         src = 'def self.cc(arga = true) end'
-        expect(src).to reek_of(:BooleanParameter, name: 'arga')
+        expect(src).to reek_of(:BooleanParameter, parameters: { name: 'arga' })
       end
       it 'reports a parameter defaulted to false' do
         src = 'def fred.cc(arga = false) end'
-        expect(src).to reek_of(:BooleanParameter, name: 'arga')
+        expect(src).to reek_of(:BooleanParameter, parameters: { name: 'arga' })
       end
       it 'reports two parameters defaulted to booleans' do
         src = 'def Module.cc(nowt, arga = true, argb = false, &blk) end'
-        expect(src).to reek_of(:BooleanParameter, name: 'arga')
-        expect(src).to reek_of(:BooleanParameter, name: 'argb')
+        expect(src).to reek_of(:BooleanParameter, parameters: { name: 'arga' })
+        expect(src).to reek_of(:BooleanParameter, parameters: { name: 'argb' })
       end
     end
   end

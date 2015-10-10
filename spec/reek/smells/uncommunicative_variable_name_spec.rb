@@ -17,7 +17,7 @@ RSpec.describe Reek::Smells::UncommunicativeVariableName do
     end
     it 'reports one-letter fieldname in assignment' do
       src = 'class Thing; def simple(fred) @x = fred end end'
-      expect(src).to reek_of(:UncommunicativeVariableName, name: '@x')
+      expect(src).to reek_of(:UncommunicativeVariableName, parameters: { name: '@x' })
     end
   end
 
@@ -33,19 +33,19 @@ RSpec.describe Reek::Smells::UncommunicativeVariableName do
 
     it 'reports one-letter variable name' do
       src = 'def simple(fred) x = jim(45) end'
-      expect(src).to reek_of(:UncommunicativeVariableName, name: 'x')
+      expect(src).to reek_of(:UncommunicativeVariableName, parameters: { name: 'x' })
     end
 
     it 'reports name of the form "x2"' do
       src = 'def simple(fred) x2 = jim(45) end'
-      expect(src).to reek_of(:UncommunicativeVariableName, name: 'x2')
+      expect(src).to reek_of(:UncommunicativeVariableName, parameters: { name: 'x2' })
     end
 
     it 'reports long name ending in a number' do
       bad_var = 'var123'
       src = "def simple(fred) #{bad_var} = jim(45) end"
       expect(src).to reek_of(:UncommunicativeVariableName,
-                             name: bad_var)
+                             parameters: { name: bad_var })
     end
 
     it 'reports variable name only once' do
@@ -61,11 +61,12 @@ RSpec.describe Reek::Smells::UncommunicativeVariableName do
 
     it 'reports a bad name inside a block' do
       src = 'def clean(text) text.each { q2 = 3 } end'
-      expect(src).to reek_of(:UncommunicativeVariableName, name: 'q2')
+      expect(src).to reek_of(:UncommunicativeVariableName, parameters: { name: 'q2' })
     end
 
     it 'reports variable name outside any method' do
-      expect('class Simple; x = jim(45); end').to reek_of(:UncommunicativeVariableName, name: 'x')
+      expect('class Simple; x = jim(45); end').to reek_of(:UncommunicativeVariableName,
+                                                          parameters: { name: 'x' })
     end
   end
 
@@ -78,7 +79,7 @@ RSpec.describe Reek::Smells::UncommunicativeVariableName do
           end
         end
       EOS
-      expect(src).to reek_of(:UncommunicativeVariableName, name: 'x')
+      expect(src).to reek_of(:UncommunicativeVariableName, parameters: { name: 'x' })
     end
 
     it 'reports all relevant block parameters' do
@@ -87,8 +88,8 @@ RSpec.describe Reek::Smells::UncommunicativeVariableName do
           @foo.map { |x, y| x + y }
         end
       EOS
-      expect(src).to reek_of(:UncommunicativeVariableName, name: 'x')
-      expect(src).to reek_of(:UncommunicativeVariableName, name: 'y')
+      expect(src).to reek_of(:UncommunicativeVariableName, parameters: { name: 'x' })
+      expect(src).to reek_of(:UncommunicativeVariableName, parameters: { name: 'y' })
     end
 
     it 'reports block parameters used outside of methods' do
@@ -97,7 +98,7 @@ RSpec.describe Reek::Smells::UncommunicativeVariableName do
         @foo.map { |x| x * 2 }
       end
       EOS
-      expect(src).to reek_of(:UncommunicativeVariableName, name: 'x')
+      expect(src).to reek_of(:UncommunicativeVariableName, parameters: { name: 'x' })
     end
 
     it 'reports splatted block parameters correctly' do
@@ -106,7 +107,7 @@ RSpec.describe Reek::Smells::UncommunicativeVariableName do
           @foo.map { |*y| y << 1 }
         end
       EOS
-      expect(src).to reek_of(:UncommunicativeVariableName, name: 'y')
+      expect(src).to reek_of(:UncommunicativeVariableName, parameters: { name: 'y' })
     end
 
     it 'reports nested block parameters' do
@@ -115,8 +116,8 @@ RSpec.describe Reek::Smells::UncommunicativeVariableName do
           @foo.map { |(x, y)| x + y }
         end
       EOS
-      expect(src).to reek_of(:UncommunicativeVariableName, name: 'x')
-      expect(src).to reek_of(:UncommunicativeVariableName, name: 'y')
+      expect(src).to reek_of(:UncommunicativeVariableName, parameters: { name: 'x' })
+      expect(src).to reek_of(:UncommunicativeVariableName, parameters: { name: 'y' })
     end
 
     it 'reports splatted nested block parameters' do
@@ -125,8 +126,8 @@ RSpec.describe Reek::Smells::UncommunicativeVariableName do
           @foo.map { |(x, *y)| x + y }
         end
       EOS
-      expect(src).to reek_of(:UncommunicativeVariableName, name: 'x')
-      expect(src).to reek_of(:UncommunicativeVariableName, name: 'y')
+      expect(src).to reek_of(:UncommunicativeVariableName, parameters: { name: 'x' })
+      expect(src).to reek_of(:UncommunicativeVariableName, parameters: { name: 'y' })
     end
 
     it 'reports deeply nested block parameters' do
@@ -135,9 +136,9 @@ RSpec.describe Reek::Smells::UncommunicativeVariableName do
           @foo.map { |(x, (y, z))| x + y + z }
         end
       EOS
-      expect(src).to reek_of(:UncommunicativeVariableName, name: 'x')
-      expect(src).to reek_of(:UncommunicativeVariableName, name: 'y')
-      expect(src).to reek_of(:UncommunicativeVariableName, name: 'z')
+      expect(src).to reek_of(:UncommunicativeVariableName, parameters: { name: 'x' })
+      expect(src).to reek_of(:UncommunicativeVariableName, parameters: { name: 'y' })
+      expect(src).to reek_of(:UncommunicativeVariableName, parameters: { name: 'z' })
     end
 
     it 'reports shadowed block parameters' do
@@ -146,8 +147,8 @@ RSpec.describe Reek::Smells::UncommunicativeVariableName do
           @foo.map { |x; y| y = x * 2 }
         end
       EOS
-      expect(src).to reek_of(:UncommunicativeVariableName, name: 'x')
-      expect(src).to reek_of(:UncommunicativeVariableName, name: 'y')
+      expect(src).to reek_of(:UncommunicativeVariableName, parameters: { name: 'x' })
+      expect(src).to reek_of(:UncommunicativeVariableName, parameters: { name: 'y' })
     end
   end
 

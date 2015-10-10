@@ -22,7 +22,7 @@ RSpec.describe Reek::Smells::UncommunicativeParameterName do
       it "reports parameter's name" do
         src = "def #{host}help(x) basics(x) end"
         expect(src).to reek_of(:UncommunicativeParameterName,
-                               name: 'x')
+                               parameters: { name: 'x' })
       end
 
       it 'does not report unused parameters' do
@@ -38,13 +38,13 @@ RSpec.describe Reek::Smells::UncommunicativeParameterName do
       it 'reports names of the form "x2"' do
         src = "def #{host}help(x2) basics(x2) end"
         expect(src).to reek_of(:UncommunicativeParameterName,
-                               name: 'x2')
+                               parameters: { name: 'x2' })
       end
 
       it 'reports long name ending in a number' do
         src = "def #{host}help(param2) basics(param2) end"
         expect(src).to reek_of(:UncommunicativeParameterName,
-                               name: 'param2')
+                               parameters: { name: 'param2' })
       end
 
       it 'does not report unused anonymous parameter' do
@@ -65,13 +65,13 @@ RSpec.describe Reek::Smells::UncommunicativeParameterName do
       it 'reports names inside array decomposition' do
         src = "def #{host}help((b, nice)) basics(b, nice) end"
         expect(src).to reek_of(:UncommunicativeParameterName,
-                               name: 'b')
+                               parameters: { name: 'b' })
       end
 
       it 'reports names inside nested array decomposition' do
         src = "def #{host}help((foo, (bar, c))) basics(foo, c) end"
         expect(src).to reek_of(:UncommunicativeParameterName,
-                               name: 'c')
+                               parameters: { name: 'c' })
       end
     end
   end

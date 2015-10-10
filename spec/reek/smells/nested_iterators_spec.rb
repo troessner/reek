@@ -69,7 +69,7 @@ RSpec.describe Reek::Smells::NestedIterators do
         ) { |qux| qux.quuz }
       end
     EOS
-    expect(src).to reek_of(:NestedIterators, count: 2)
+    expect(src).to reek_of(:NestedIterators, parameters: { count: 2 })
   end
 
   it 'reports the deepest level of nesting only' do
@@ -82,7 +82,7 @@ RSpec.describe Reek::Smells::NestedIterators do
         }
       end
     EOS
-    expect(src).to reek_of(:NestedIterators, count: 3)
+    expect(src).to reek_of(:NestedIterators, parameters: { count: 3 })
   end
 
   it 'handles the case where super receives a block' do
@@ -235,7 +235,7 @@ RSpec.describe Reek::Smells::NestedIterators do
           @fred.ignore_me {|item| item.each {|ting| ting.each {|other| other.other} } }
         end
       '
-      expect(src).to reek_of(:NestedIterators, { count: 2 }, configuration)
+      expect(src).to reek_of(:NestedIterators, { parameters: { count: 2 } }, configuration)
     end
 
     it 'should report nested iterators outside the ignored iterator' do
@@ -244,7 +244,7 @@ RSpec.describe Reek::Smells::NestedIterators do
           @fred.each {|item| item.each {|ting| ting.ignore_me {|other| other.other} } }
         end
       '
-      expect(src).to reek_of(:NestedIterators, { count: 2 }, configuration)
+      expect(src).to reek_of(:NestedIterators, { parameters: { count: 2 } }, configuration)
     end
 
     it 'should report nested iterators with the ignored iterator between them' do
@@ -253,7 +253,7 @@ RSpec.describe Reek::Smells::NestedIterators do
           @fred.each {|item| item.ignore_me {|ting| ting.ting {|other| other.other} } }
         end
       '
-      expect(src).to reek_of(:NestedIterators, { count: 2 }, configuration)
+      expect(src).to reek_of(:NestedIterators, { parameters: { count: 2 } }, configuration)
     end
   end
 end

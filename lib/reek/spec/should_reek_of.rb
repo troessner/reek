@@ -48,7 +48,7 @@ module Reek
       end
 
       def matching_smell_details?
-        matching_smell_types.any? { |warning| warning.matches_smell_details?(smell_details) }
+        matching_smell_types.any? { |warning| warning.matches_attributes?(smell_details) }
       end
 
       def set_failure_messages_for_smell_type
