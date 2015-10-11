@@ -206,8 +206,8 @@ Feature: Directory directives
     And stderr reports:
     """
     You are trying to configure smell type IteratorsNested but we can't find one with that name.
-    Please make sure you spelled it right (see 'config/defaults.reek' in the reek
-    repository for a list of all available smell types.
+    Please make sure you spelled it right. (See 'defaults.reek' in the reek
+    repository for a list of all available smell types.)
 
     """
 

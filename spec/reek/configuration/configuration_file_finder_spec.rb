@@ -7,18 +7,19 @@ require_relative '../../spec_helper'
 
 RSpec.describe Reek::Configuration::ConfigurationFileFinder do
   describe '.find' do
-    it 'returns the path if it’s set' do
+    it 'returns any explicitely passed path' do
       path = Pathname.new 'foo/bar'
       found = described_class.find(path: path)
       expect(found).to eq(path)
     end
 
-    it 'returns the file in current dir if config_file is nil' do
-      found = described_class.find(current: SAMPLES_PATH)
-      expect(found).to eq(SAMPLES_PATH.join('exceptions.reek'))
+    it 'prefers an explicitely passed path over a file in current dir' do
+      path = Pathname.new 'foo/bar'
+      found = described_class.find(path: path, current: SAMPLES_PATH)
+      expect(found).to eq(path)
     end
 
-    it 'returns the file in current dir if options is nil' do
+    it 'returns the file in current dir if path is not set' do
       found = described_class.find(current: SAMPLES_PATH)
       expect(found).to eq(SAMPLES_PATH.join('exceptions.reek'))
     end
@@ -42,12 +43,29 @@ RSpec.describe Reek::Configuration::ConfigurationFileFinder do
       end
     end
 
+    it 'prefers the file in :current over one in :home' do
+      found = described_class.find(current: SAMPLES_PATH, home: SAMPLES_PATH.join('masked_by_dotfile'))
+      file_in_home = SAMPLES_PATH.join('masked_by_dotfile/.reek')
+      file_in_current = SAMPLES_PATH.join('exceptions.reek')
+      expect(found).not_to eq(file_in_home)
+      expect(found).to eq(file_in_current)
+    end
+
     it 'returns nil when there are no files to find' do
       skip_if_a_config_in_tempdir
       Dir.mktmpdir do |tempdir|
         current = Pathname.new(tempdir)
         home    = Pathname.new(tempdir)
         found = described_class.find(current: current, home: home)
+        expect(found).to be_nil
+      end
+    end
+
+    it 'does not traverse up from :home' do
+      skip_if_a_config_in_tempdir
+      Dir.mktmpdir do |tempdir|
+        current = Pathname.new(tempdir)
+        found = described_class.find(current: current, home: SAMPLES_PATH.join('no_config_file'))
         expect(found).to be_nil
       end
     end

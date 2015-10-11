@@ -24,16 +24,19 @@ module Reek
 
       # :reek:ControlParameter
       def find(path: nil, current: Pathname.pwd, home: Pathname.new(Dir.home))
-        path || find_by_dir(current) || find_by_dir(home)
+        path || find_by_dir(current) || find_in_dir(home)
       end
 
-      # :reek:NestedIterators: { max_allowed_nesting: 2 }
       def find_by_dir(start)
         start.ascend do |dir|
-          files = dir.children.select(&:file?).sort
-          found = files.find { |file| file.to_s.end_with?('.reek') }
+          found = find_in_dir(dir)
           return found if found
         end
+      end
+
+      def find_in_dir(dir)
+        files = dir.children.select(&:file?).sort
+        files.find { |file| file.to_s.end_with?('.reek') }
       end
 
       # :reek:TooManyStatements: { max_statements: 6 }
