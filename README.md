@@ -54,6 +54,65 @@ demo.rb -- 8 warnings:
   [3]:Dirty#awful has unused parameter 'y' (UnusedParameters)
 ```
 
+## Fixing Smell Warnings
+
+`reek` focuses on high-level code smells, so we can't tell you how to fix warnings in
+a generic fashion; this is and will always be completely dependent on your domain
+language and bussiness logic.
+
+That said, an example might help you get going. Have a look at this sample of a
+Ruby on Rails model (be aware that this is truncated, not working code):
+
+```Ruby
+class ShoppingCart < ActiveRecord::Base
+  has_many :items
+
+  def gross_price
+    items.sum { |item| item.net + item.tax }
+  end
+end
+
+class Item < ActiveRecord::Base
+  belongs_to :shopping_cart
+end
+```
+
+Running `reek` on this file like this:
+
+```
+reek app/models/shopping_cart.rb
+```
+
+would report:
+
+```
+  [5, 5]:ShoppingCart#gross_price refers to item more than self (FeatureEnvy)
+```
+
+Fixing this is pretty straightforward. Put the gross price calculation for a single item
+where it belongs, which would be the `Item` class:
+
+```Ruby
+class ShoppingCart < ActiveRecord::Base
+  has_many :items
+
+  def gross_price
+    items.sum { |item| item.gross_price }
+  end
+end
+
+class Item < ActiveRecord::Base
+  belongs_to :shopping_cart
+
+  def gross_price
+    net + tax
+  end
+end
+```
+
+The [Code Smells](docs/Code-Smells.md) docs may give you further hints - be sure to check out
+those first when you have a warning that you don't know how to deal with.
+
 ## Sources
 
 There are multiple ways you can have `reek` work on sources, the most common one just being
