@@ -3,8 +3,7 @@ require_lib 'reek/smells/control_parameter'
 require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::ControlParameter do
-  let(:detector) { build(:smell_detector, smell_type: :ControlParameter, source: source_name) }
-  let(:source_name) { 'string' }
+  let(:detector) { build(:smell_detector, smell_type: :ControlParameter) }
 
   it_should_behave_like 'SmellDetector'
 

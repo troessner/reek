@@ -26,7 +26,6 @@ FactoryGirl.define do
     skip_create
     transient do
       smell_type 'FeatureEnvy'
-      source 'foo'
     end
 
     initialize_with do

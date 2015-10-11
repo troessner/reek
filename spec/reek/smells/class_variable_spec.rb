@@ -5,8 +5,7 @@ require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::ClassVariable do
   let(:class_variable) { '@@things' }
-  let(:detector) { build(:smell_detector, smell_type: :ClassVariable, source: source_name) }
-  let(:source_name) { 'string' }
+  let(:detector) { build(:smell_detector, smell_type: :ClassVariable) }
 
   it_should_behave_like 'SmellDetector'
 
@@ -78,18 +77,22 @@ RSpec.describe Reek::Smells::ClassVariable do
     end
   end
 
-  it 'reports the correct fields' do
-    src = <<-EOS
-      module Fred
-        #{class_variable} = {}
-      end
-    EOS
-    ctx = Reek::Context::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
-    warning = detector.examine_context(ctx)[0]
-    expect(warning.source).to eq(source_name)
-    expect(warning.smell_category).to eq(described_class.smell_category)
-    expect(warning.smell_type).to eq(described_class.smell_type)
-    expect(warning.parameters[:name]).to eq(class_variable)
-    expect(warning.lines).to eq([2])
+  context 'when a smell is reported' do
+    let(:warning) do
+      src = <<-EOS
+        module Fred
+          #{class_variable} = {}
+        end
+      EOS
+      ctx = Reek::Context::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
+      detector.examine_context(ctx).first
+    end
+
+    it_should_behave_like 'common fields set correctly'
+
+    it 'reports the correct values' do
+      expect(warning.parameters[:name]).to eq(class_variable)
+      expect(warning.lines).to eq([2])
+    end
   end
 end

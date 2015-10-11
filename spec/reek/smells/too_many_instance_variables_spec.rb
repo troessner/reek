@@ -3,10 +3,7 @@ require_lib 'reek/smells/too_many_instance_variables'
 require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::TooManyInstanceVariables do
-  let(:source_name) { 'string' }
-  let(:detector) do
-    build(:smell_detector, smell_type: :TooManyInstanceVariables, source: source_name)
-  end
+  let(:detector) { build(:smell_detector, smell_type: :TooManyInstanceVariables) }
 
   it_should_behave_like 'SmellDetector'
 
@@ -77,21 +74,25 @@ RSpec.describe Reek::Smells::TooManyInstanceVariables do
     end
   end
 
-  it 'reports correctly for excessive instance variables' do
-    src = <<-EOS
-      # Comment
-      class Empty
-        def ivars
-          #{ivar_sequence(count: too_many_ivars)}
+  context 'when a smell is reported' do
+    let(:warning) do
+      src = <<-EOS
+        # Comment
+        class Empty
+          def ivars
+            #{ivar_sequence(count: too_many_ivars)}
+          end
         end
-      end
-    EOS
-    ctx = Reek::Context::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
-    warning = detector.examine_context(ctx)[0]
-    expect(warning.source).to eq(source_name)
-    expect(warning.smell_category).to eq(Reek::Smells::TooManyInstanceVariables.smell_category)
-    expect(warning.smell_type).to eq(Reek::Smells::TooManyInstanceVariables.smell_type)
-    expect(warning.parameters[:count]).to eq(too_many_ivars)
-    expect(warning.lines).to eq([2])
+      EOS
+      ctx = Reek::Context::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
+      detector.examine_context(ctx).first
+    end
+
+    it_should_behave_like 'common fields set correctly'
+
+    it 'reports the correct values' do
+      expect(warning.parameters[:count]).to eq(too_many_ivars)
+      expect(warning.lines).to eq([2])
+    end
   end
 end

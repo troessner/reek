@@ -259,8 +259,7 @@ RSpec.describe Reek::Smells::NestedIterators do
 end
 
 RSpec.describe Reek::Smells::NestedIterators do
-  let(:detector) { build(:smell_detector, smell_type: :NestedIterators, source: source_name) }
-  let(:source_name) { 'string' }
+  let(:detector) { build(:smell_detector, smell_type: :NestedIterators) }
 
   it_should_behave_like 'SmellDetector'
 

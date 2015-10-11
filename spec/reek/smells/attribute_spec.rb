@@ -3,8 +3,7 @@ require_lib 'reek/smells/attribute'
 require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::Attribute do
-  let(:detector) { build(:smell_detector, smell_type: :Attribute, source: source_name) }
-  let(:source_name) { 'source' }
+  let(:detector) { build(:smell_detector, smell_type: :Attribute) }
 
   it_should_behave_like 'SmellDetector'
 

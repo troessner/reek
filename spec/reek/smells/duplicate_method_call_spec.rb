@@ -6,8 +6,7 @@ require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::DuplicateMethodCall do
   context 'when a smell is reported' do
-    let(:detector) { build(:smell_detector, smell_type: :DuplicateMethodCall, source: source_name) }
-    let(:source_name) { 'string' }
+    let(:detector) { build(:smell_detector, smell_type: :DuplicateMethodCall) }
 
     let(:warning) do
       src = <<-EOS

@@ -20,7 +20,7 @@ end
 
 RSpec.shared_examples_for 'common fields set correctly' do
   it 'reports the source' do
-    expect(warning.source).to eq(source_name)
+    expect(warning.source).to eq('string')
   end
   it 'reports the smell class' do
     expect(warning.smell_category).to eq(detector.smell_category)

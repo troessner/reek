@@ -4,10 +4,7 @@ require_relative 'smell_detector_shared'
 require_lib 'reek/context/method_context'
 
 RSpec.describe Reek::Smells::UncommunicativeParameterName do
-  let(:detector) do
-    build(:smell_detector, smell_type: :UncommunicativeParameterName, source: source_name)
-  end
-  let(:source_name) { 'string' }
+  let(:detector) { build(:smell_detector, smell_type: :UncommunicativeParameterName) }
 
   it_should_behave_like 'SmellDetector'
 

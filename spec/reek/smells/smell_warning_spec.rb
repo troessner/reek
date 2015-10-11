@@ -66,8 +66,7 @@ RSpec.describe Reek::Smells::SmellWarning do
     context 'smells differing everywhere' do
       let(:first) do
         uncommunicative_name_detector = build(:smell_detector,
-                                              smell_type: 'UncommunicativeVariableName',
-                                              source: true)
+                                              smell_type: 'UncommunicativeVariableName')
         build(:smell_warning, smell_detector: uncommunicative_name_detector,
                               context: 'Dirty',
                               message: "has the variable name '@s'")
@@ -75,8 +74,7 @@ RSpec.describe Reek::Smells::SmellWarning do
 
       let(:second) do
         duplication_detector = build(:smell_detector,
-                                     smell_type: 'DuplicateMethodCall',
-                                     source: false)
+                                     smell_type: 'DuplicateMethodCall')
         build(:smell_warning, smell_detector: duplication_detector,
                               context: 'Dirty#a',
                               message: 'calls @s.title twice')

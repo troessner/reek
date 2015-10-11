@@ -214,15 +214,14 @@ RSpec.describe Reek::Smells::FeatureEnvy do
 end
 
 RSpec.describe Reek::Smells::FeatureEnvy do
-  let(:detector) { build(:smell_detector, smell_type: :FeatureEnvy, source: source_name) }
-  let(:source_name) { 'string' }
+  let(:detector) { build(:smell_detector, smell_type: :FeatureEnvy) }
 
   it_should_behave_like 'SmellDetector'
 
   context 'when a smell is reported' do
     let(:receiver) { 'other' }
 
-    let(:smells) do
+    let(:warning) do
       src = <<-EOS
         def envious(other)
           #{receiver}.call
@@ -231,35 +230,15 @@ RSpec.describe Reek::Smells::FeatureEnvy do
           #{receiver}.fred
         end
       EOS
-      Reek::Examiner.new(src, ['FeatureEnvy']).smells
+      Reek::Examiner.new(src, ['FeatureEnvy']).smells.first
     end
 
-    it 'reports only that smell' do
-      expect(smells.length).to eq(1)
-    end
+    it_should_behave_like 'common fields set correctly'
 
-    it 'reports the source' do
-      expect(smells[0].source).to eq(source_name)
-    end
-
-    it 'reports the smell class' do
-      expect(smells[0].smell_category).to eq(described_class.smell_category)
-    end
-
-    it 'reports the smell sub class' do
-      expect(smells[0].smell_type).to eq(described_class.smell_type)
-    end
-
-    it 'reports the envious receiver' do
-      expect(smells[0].parameters[:name]).to eq(receiver)
-    end
-
-    it 'reports the number of references' do
-      expect(smells[0].parameters[:count]).to eq(3)
-    end
-
-    it 'reports the referring lines' do
-      expect(smells[0].lines).to eq([2, 4, 5])
+    it 'reports the correct values' do
+      expect(warning.parameters[:name]).to eq(receiver)
+      expect(warning.parameters[:count]).to eq(3)
+      expect(warning.lines).to eq([2, 4, 5])
     end
   end
 end

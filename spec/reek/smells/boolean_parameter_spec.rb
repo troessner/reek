@@ -66,21 +66,23 @@ RSpec.describe Reek::Smells::BooleanParameter do
   end
 
   context 'when a smell is reported' do
-    let(:detector) { build(:smell_detector, smell_type: :BooleanParameter, source: source_name) }
-    let(:source_name) { 'string' }
+    let(:detector) { build(:smell_detector, smell_type: :BooleanParameter) }
 
     it_should_behave_like 'SmellDetector'
 
-    it 'reports the fields correctly' do
-      src = 'def cc(arga = true) end'
-      ctx = Reek::Context::MethodContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
-      smells = detector.examine_context(ctx)
-      expect(smells.length).to eq(1)
-      expect(smells[0].smell_category).to eq(described_class.smell_category)
-      expect(smells[0].parameters[:name]).to eq('arga')
-      expect(smells[0].source).to eq(source_name)
-      expect(smells[0].smell_type).to eq(described_class.smell_type)
-      expect(smells[0].lines).to eq([1])
+    context 'when a smell is reported' do
+      let(:warning) do
+        src = 'def cc(arga = true) end'
+        ctx = Reek::Context::MethodContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
+        detector.examine_context(ctx).first
+      end
+
+      it_should_behave_like 'common fields set correctly'
+
+      it 'reports the correct values' do
+        expect(warning.parameters[:name]).to eq('arga')
+        expect(warning.lines).to eq([1])
+      end
     end
   end
 end
