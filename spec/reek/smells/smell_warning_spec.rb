@@ -84,55 +84,6 @@ RSpec.describe Reek::Smells::SmellWarning do
     end
   end
 
-  context '#matches?' do
-    let(:uncommunicative) do
-      uncommunicative_name_detector = build(:smell_detector,
-                                            smell_type: 'UncommunicativeVariableName')
-      build(:smell_warning, smell_detector: uncommunicative_name_detector,
-                            message: "has the variable name '@s'",
-                            parameters: { test: 'something' })
-    end
-
-    it 'matches on class symbol' do
-      expect(uncommunicative.matches?(:UncommunicativeVariableName)).to\
-        be_truthy
-    end
-
-    it 'matches on class symbol and params' do
-      expect(uncommunicative.matches?(:UncommunicativeVariableName,
-                                      test: 'something')).to be_truthy
-    end
-
-    it 'matches on class symbol, params and attributes' do
-      expect(uncommunicative.matches?(:UncommunicativeVariableName,
-                                      test: 'something',
-                                      message: "has the variable name '@s'")).to be_truthy
-    end
-
-    it 'does not match on different class symbol' do
-      expect(uncommunicative.matches?(:FeatureEnvy)).to be_falsy
-    end
-
-    it 'does not match on different params' do
-      expect(uncommunicative.matches?(:UncommunicativeVariableName,
-                                      test: 'something else')).to be_falsy
-    end
-
-    it 'does not match on different attributes' do
-      expect(uncommunicative.matches?(:UncommunicativeVariableName,
-                                      test: 'something',
-                                      message: 'nothing')).to be_falsy
-    end
-
-    it 'raises error on uncomparable attribute' do
-      expect do
-        uncommunicative.matches?(:UncommunicativeVariableName,
-                                 test: 'something',
-                                 random: 'nothing')
-      end.to raise_error("The attribute 'random' is not available for comparison")
-    end
-  end
-
   context '#yaml_hash' do
     let(:class) { 'FeatureEnvy' }
     let(:context_name) { 'Module::Class#method/block' }

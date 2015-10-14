@@ -1,4 +1,5 @@
 require_relative '../examiner'
+require_relative 'smell_matcher'
 
 module Reek
   module Spec
@@ -39,8 +40,12 @@ module Reek
       end
 
       def matching_smell_types
-        @matching_smell_types ||= examiner.smells.
-          select { |warning| warning.matches_smell_type?(smell_category) }
+        @matching_smell_types ||= smell_matchers.
+          select { |it| it.matches_smell_type?(smell_category) }
+      end
+
+      def smell_matchers
+        examiner.smells.map { |it| SmellMatcher.new(it) }
       end
 
       def matching_smell_types?
