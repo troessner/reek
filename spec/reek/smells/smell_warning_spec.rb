@@ -100,16 +100,13 @@ RSpec.describe Reek::Smells::SmellWarning do
 
     it 'matches on class symbol and params' do
       expect(uncommunicative.matches?(:UncommunicativeVariableName,
-                                      parameters: {
-                                        test: 'something'
-                                      })).to be_truthy
+                                      test: 'something')).to be_truthy
     end
 
     it 'matches on class symbol, params and attributes' do
       expect(uncommunicative.matches?(:UncommunicativeVariableName,
-                                      parameters: { test: 'something' },
-                                      message: "has the variable name '@s'"
-                                     )).to be_truthy
+                                      test: 'something',
+                                      message: "has the variable name '@s'")).to be_truthy
     end
 
     it 'does not match on different class symbol' do
@@ -118,21 +115,19 @@ RSpec.describe Reek::Smells::SmellWarning do
 
     it 'does not match on different params' do
       expect(uncommunicative.matches?(:UncommunicativeVariableName,
-                                      parameters: {
-                                        test: 'something else'
-                                      })).to be_falsy
+                                      test: 'something else')).to be_falsy
     end
 
     it 'does not match on different attributes' do
       expect(uncommunicative.matches?(:UncommunicativeVariableName,
-                                      parameters: { test: 'something' },
+                                      test: 'something',
                                       message: 'nothing')).to be_falsy
     end
 
     it 'raises error on uncomparable attribute' do
       expect do
         uncommunicative.matches?(:UncommunicativeVariableName,
-                                 parameters: { test: 'something' },
+                                 test: 'something',
                                  random: 'nothing')
       end.to raise_error("The attribute 'random' is not available for comparison")
     end
