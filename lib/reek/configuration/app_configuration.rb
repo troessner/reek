@@ -9,8 +9,9 @@ require_relative './excluded_paths'
 module Reek
   module Configuration
     #
-    # Reek's singleton configuration instance.
+    # Reek's application configuration.
     #
+    # @public
     class AppConfiguration
       include ConfigurationValidator
       EXCLUDE_PATHS_KEY = 'exclude_paths'
@@ -21,6 +22,8 @@ module Reek
       # @param path [Pathname] the path to the config file
       #
       # @return [AppConfiguration]
+      #
+      # @public
       def self.from_path(path = nil)
         allocate.tap do |instance|
           instance.instance_eval { find_and_load(path: path) }
@@ -29,22 +32,47 @@ module Reek
 
       # Instantiate a configuration by passing everything in.
       #
-      # @param map [Hash] can have the following 3 keys:
-      # 1.) directory_directives [Hash] for instance:
-      #   { Pathname("spec/samples/three_clean_files/") =>
-      #     { Reek::Smells::UtilityFunction => { "enabled" => false } } }
-      # 2.) default_directive [Hash] for instance:
-      #   { Reek::Smells::IrresponsibleModule => { "enabled" => false } }
-      # 3.) excluded_paths [Array] for instance:
-      #   [ Pathname('spec/samples/two_smelly_files') ]
+      # @deprecated This method will be removed in Reek 4.0.
+      #
+      # @param [Hash] map a hash with three possible keys representing
+      # different types of directives.
+      # @option map [Hash] :directory_directives Directory specific configuration
+      #   for instance:
+      #     { Pathname("spec/samples/three_clean_files/") =>
+      #       { Reek::Smells::UtilityFunction => { "enabled" => false } } }
+      # @option map [Hash] :default_directive Default configuration
+      #   for instance:
+      #     { Reek::Smells::IrresponsibleModule => { "enabled" => false } }
+      # @option map [Array] :excluded_paths list of paths to exclude from analysis
+      #   for instance:
+      #     [ Pathname('spec/samples/two_smelly_files') ]
       #
       # @return [AppConfiguration]
+      #
+      # @public
       def self.from_map(map = {})
         allocate.tap do |instance|
           instance.instance_eval do
             load_values map.fetch(:directory_directives, {})
             load_values map.fetch(:default_directive, {})
             load_values EXCLUDE_PATHS_KEY => map.fetch(:excluded_paths, [])
+          end
+        end
+      end
+
+      # Instantiate a configuration by passing everything in.
+      #
+      # Loads the configuration from a hash of the form that is loaded from a
+      # +.reek+ config file.
+      # @param [Hash] hash The configuration hash to load.
+      #
+      # @return [AppConfiguration]
+      #
+      # @public
+      def self.from_hash(hash = {})
+        allocate.tap do |instance|
+          instance.instance_eval do
+            load_values hash
           end
         end
       end
