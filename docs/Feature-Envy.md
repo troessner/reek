@@ -12,7 +12,7 @@ _Feature Envy_ often arises because it must manipulate other objects (usually it
 
 ## Example
 
-Running reek on:
+Running Reek on:
 
 ```Ruby
 class Warehouse
@@ -36,7 +36,7 @@ since this:
 
 belongs to the Item class, not the Warehouse.
 
-## Current Support in reek
+## Current Support in Reek
 
 _Feature Envy_ reports any method that refers to self less often than it refers to (ie. send messages to) some other object.
 

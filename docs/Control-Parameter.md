@@ -20,9 +20,9 @@ end
 
 Fixing those problems is out of the scope of this document but an easy solution could be to remove the "write" method alltogether and to move the calls to "write_quoted" / "write_unquoted" in the initial caller of "write".
 
-## Current Support in reek
+## Current Support in Reek
 
-`reek` warns about control coupling when a method parameter or block parameter is the tested value in a conditional statement.
+Reek warns about control coupling when a method parameter or block parameter is the tested value in a conditional statement.
 
 ## Configuration
 

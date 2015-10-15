@@ -10,11 +10,11 @@ A `Large Class` is a class or module that has a large number of instance variabl
 
 ##  Configuration
 
-`reek`'s Large Class detector supports the [Basic Smell Options](Basic-Smell-Options.md), plus:
+Reek's Large Class detector supports the [Basic Smell Options](Basic-Smell-Options.md), plus:
 
 | Option         | Value       | Effect  |
 | ---------------|-------------|---------|
 | max_methods |  integer | The maximum number of methods allowed in a class before a warning is issued. Defaults to 25. |
 | max_instance_variables |  integer | The maximum number of instance variables allowed in a class before a warning is issued. Defaults to 9. |
 
-The `Large Class` detector is enabled whenever `reek` is asked to check an instance of `Class` or `Module`.
+The `Large Class` detector is enabled whenever Reek is asked to check an instance of `Class` or `Module`.

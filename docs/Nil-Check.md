@@ -19,7 +19,7 @@ class Klass
 end
 ```
 
-`reek` would emit the following warning:
+Reek would emit the following warning:
 
 ```
 test.rb -- 1 warning:

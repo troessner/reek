@@ -10,9 +10,9 @@ Control Coupling reduces the code's flexibility by creating a dependency between
 
 You can find a good write-up regarding this problem [here](http://solnic.eu/2012/04/11/get-rid-of-that-code-smell-control-couple.html).
 
-## Current Support in reek
+## Current Support in Reek
 
-`reek` warns about control coupling when:
+Reek warns about control coupling when:
 
 * [Control-Parameter](Control-Parameter.md) - a method parameter or block parameter is the tested value in a conditional statement (as in the example below); or
 * [Boolean-Parameter](Boolean-Parameter.md) - a method parameter is defaulted to `true` or `false`.

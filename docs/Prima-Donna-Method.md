@@ -24,9 +24,9 @@ class C
 end
 ```
 
-`reek` would report `bar!` as `prima donna method` smell but not `foo!`.
+Reek would report `bar!` as `prima donna method` smell but not `foo!`.
 
-`reek` reports this smell only in a class context, not in a module context in order to allow perfectly legit code like this:
+Reek reports this smell only in a class context, not in a module context in order to allow perfectly legit code like this:
 
 
 ```Ruby
@@ -46,7 +46,7 @@ class Daughter < Parent
 end
 ```
 
-In this example, `reek` would not report the `prima donna method` smell for the method `foo` of the `Dangerous` module.
+In this example, Reek would not report the `prima donna method` smell for the method `foo` of the `Dangerous` module.
 
 ## Configuration
 

@@ -2,7 +2,7 @@ Feature: Offer different ways how to load configuration
 
   Reek can be configured in two ways:
   - Using the cli "-c" switch to pass a configuration file on the command line.
-  - Having a reek configuration file that is automatically found. Reek will
+  - Having a Reek configuration file that is automatically found. Reek will
     look for a file ending in .reek in the following places, in order:
     - The current working directory
     - The working directory's ancestor directories, traversing all the way up

@@ -1,5 +1,5 @@
-Feature: Using reek programmatically
-  In order to use reek from inside my program
+Feature: Using Reek programmatically
+  In order to use Reek from inside my program
   As a developer
   I want to be able to use its classes
 
@@ -22,7 +22,7 @@ Feature: Using reek programmatically
       has the name 'm'
       """
 
-  Scenario: Using reek's built-in report classes
+  Scenario: Using Reek's built-in report classes
     Given a smelly file called 'smelly.rb'
     And a file named "examine.rb" with:
       """

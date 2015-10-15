@@ -1,6 +1,6 @@
-# Contributing to reek
+# Contributing to Reek
 
-We welcome any and all contributions to reek!
+We welcome any and all contributions to Reek!
 
 If what you’re proposing requires significant work discuss it beforehand
 as an issue – it’s much easier for us to guide you towards a good
@@ -22,8 +22,8 @@ actually resolved properly or you have any additional information.
 Include the steps to reproduce the issue,
 the expected outcome and the actual outcome.
 
-Include as much information as possible: the exact reek
-invocation that you use, reek’s config and version, Ruby
+Include as much information as possible: the exact Reek
+invocation that you use, Reek’s config and version, Ruby
 version, Ruby platform (MRI, JRuby, etc.), operating system.
 
 Try to provide a minimal example that reproduces the issue.
@@ -33,7 +33,7 @@ Extra kudos if you can write it as a failing test. :)
 
 ## Setup and Pull Request Basics
 
-Fork reek, then clone it, make sure you have
+Fork Reek, then clone it, make sure you have
 [Bundler](http://bundler.io) installed, install dependencies
 and make sure all of the existing tests pass:
 
@@ -45,7 +45,7 @@ bundle
 bundle exec rake
 ```
 
-Once you’re sure your copy of reek works create your own feature branch from our "master" branch:
+Once you’re sure your copy of Reek works create your own feature branch from our "master" branch:
 
 ```
 git checkout -b your_feature_or_fix_name
@@ -84,7 +84,7 @@ Try to gauge and let us know in the pull request whether what
 you propose is a backward-compatible bugfix and should go into the
 next patch release, is a backward-compatible feature and should go
 into the next minor release, or has to break backward-compatibility
-and so needs to wait for the next major release of reek.
+and so needs to wait for the next major release of Reek.
 
 Once your PR is open someone will review it, discuss the details (if
 needed) and either merge right away or ask for some further fixes.

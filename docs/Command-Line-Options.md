@@ -2,7 +2,7 @@
 
 ## Introduction
 
-reek follows standard Unix convention for passing arguments.
+`reek` follows standard Unix convention for passing arguments.
 
 Check out
 
@@ -74,7 +74,7 @@ This mode can be enabled via the "-U" or "--ultra-verbose" flag.
 So for instance, if your test file would smell of _ClassVariable_, this is what the _reek_ output would look like:
 
 ```Bash
-reek -U test.rb 
+reek -U test.rb
 ```
 ```
 test.rb -- 1 warning:

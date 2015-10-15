@@ -1,5 +1,5 @@
 Feature: Report smells using simple YAML layout
-  In order to parse reek's output simply and consistently, simply
+  In order to parse Reek's output simply and consistently, simply
   output a list of smells in Yaml.
 
   Scenario: output is empty when there are no smells

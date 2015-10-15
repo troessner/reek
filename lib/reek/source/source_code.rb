@@ -51,7 +51,7 @@ module Reek
       # with our SexpExtensions.
       # Finally this AST is returned where each node is an anonymous subclass of Reek::AST::Node
       #
-      # Important to note is that reek will not fail on unparseable files but rather print out
+      # Important to note is that Reek will not fail on unparseable files but rather print out
       # a warning and then just continue.
       #
       # Given this @source:

@@ -8,7 +8,7 @@ Poor names make it hard for the reader to build a mental picture of what's going
 
 ## Current Support in Reek
 
-`reek` offers four related checks:
+Reek offers four related checks:
 
 * [Uncommunicative Method Name](Uncommunicative-Method-Name.md)
 * [Uncommunicative Module Name](Uncommunicative-Module-Name.md)
