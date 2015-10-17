@@ -1,6 +1,7 @@
 require_relative '../examiner'
 require_relative '../report/formatter'
 require_relative 'should_reek_of'
+require_relative 'smell_matcher'
 
 module Reek
   module Spec
@@ -17,7 +18,7 @@ module Reek
         self.examiner = examiner
         self.warnings = examiner.smells
         return false if warnings.empty?
-        warnings.all? { |warning| warning.matches?(smell_category) }
+        warnings.all? { |warning| SmellMatcher.new(warning).matches?(smell_category) }
       end
 
       def failure_message

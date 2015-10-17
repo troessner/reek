@@ -41,7 +41,7 @@ RSpec.describe Reek::Smells::TooManyStatements do
 end
 
 RSpec.describe Reek::Smells::TooManyStatements do
-  let(:detector) { build(:smell_detector, smell_type: :TooManyStatements, source: 'source_name') }
+  let(:detector) { build(:smell_detector, smell_type: :TooManyStatements) }
 
   it_should_behave_like 'SmellDetector'
 

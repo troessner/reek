@@ -6,8 +6,7 @@ require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::DuplicateMethodCall do
   context 'when a smell is reported' do
-    let(:detector) { build(:smell_detector, smell_type: :DuplicateMethodCall, source: source_name) }
-    let(:source_name) { 'string' }
+    let(:detector) { build(:smell_detector, smell_type: :DuplicateMethodCall) }
 
     let(:warning) do
       src = <<-EOS
@@ -38,23 +37,23 @@ RSpec.describe Reek::Smells::DuplicateMethodCall do
   context 'with repeated method calls' do
     it 'reports repeated call' do
       src = 'def double_thing() @other.thing + @other.thing end'
-      expect(src).to reek_of(:DuplicateMethodCall, parameters: { name: '@other.thing' })
+      expect(src).to reek_of(:DuplicateMethodCall, name: '@other.thing')
     end
 
     it 'reports repeated call to lvar' do
       src = 'def double_thing(other) other[@thing] + other[@thing] end'
-      expect(src).to reek_of(:DuplicateMethodCall, parameters: { name: 'other[@thing]' })
+      expect(src).to reek_of(:DuplicateMethodCall, name: 'other[@thing]')
     end
 
     it 'reports call parameters' do
       src = 'def double_thing() @other.thing(2,3) + @other.thing(2,3) end'
-      expect(src).to reek_of(:DuplicateMethodCall, parameters: { name: '@other.thing(2, 3)' })
+      expect(src).to reek_of(:DuplicateMethodCall, name: '@other.thing(2, 3)')
     end
 
     it 'should report nested calls' do
       src = 'def double_thing() @other.thing.foo + @other.thing.foo end'
-      expect(src).to reek_of(:DuplicateMethodCall, parameters: { name: '@other.thing' })
-      expect(src).to reek_of(:DuplicateMethodCall, parameters: { name: '@other.thing.foo' })
+      expect(src).to reek_of(:DuplicateMethodCall, name: '@other.thing')
+      expect(src).to reek_of(:DuplicateMethodCall, name: '@other.thing.foo')
     end
 
     it 'should ignore calls to new' do
@@ -126,7 +125,7 @@ RSpec.describe Reek::Smells::DuplicateMethodCall do
   context 'with repeated attribute assignment' do
     it 'reports repeated assignment' do
       src = 'def double_thing(thing) @other[thing] = true; @other[thing] = true; end'
-      expect(src).to reek_of(:DuplicateMethodCall, parameters: { name: '@other[thing] = true' })
+      expect(src).to reek_of(:DuplicateMethodCall, name: '@other[thing] = true')
     end
     it 'does not report multi-assignments' do
       src = <<-EOS
@@ -175,7 +174,7 @@ RSpec.describe Reek::Smells::DuplicateMethodCall do
         end
       '
       expect(src).to reek_of(:DuplicateMethodCall,
-                             { parameters: { name: '@other.thing', count: 4 } },
+                             { name: '@other.thing', count: 4 },
                              configuration)
     end
   end
@@ -197,13 +196,13 @@ RSpec.describe Reek::Smells::DuplicateMethodCall do
     it 'reports calls to other methods' do
       src = 'def double_other_thing() @other.thing + @other.thing end'
 
-      expect(src).to reek_of(:DuplicateMethodCall, { parameters: { name: '@other.thing' } }, configuration)
+      expect(src).to reek_of(:DuplicateMethodCall, { name: '@other.thing' }, configuration)
     end
 
     it 'does not report calls to methods specifed with a regular expression' do
       src = 'def double_puts() puts @other.thing; puts @other.thing end'
 
-      expect(src).to reek_of(:DuplicateMethodCall, { parameters: { name: '@other.thing' } }, configuration)
+      expect(src).to reek_of(:DuplicateMethodCall, { name: '@other.thing' }, configuration)
     end
   end
 end

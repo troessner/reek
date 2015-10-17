@@ -3,8 +3,7 @@ require_lib 'reek/smells/control_parameter'
 require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::ControlParameter do
-  let(:detector) { build(:smell_detector, smell_type: :ControlParameter, source: source_name) }
-  let(:source_name) { 'string' }
+  let(:detector) { build(:smell_detector, smell_type: :ControlParameter) }
 
   it_should_behave_like 'SmellDetector'
 
@@ -33,72 +32,72 @@ RSpec.describe Reek::Smells::ControlParameter do
   context 'parameter only used to determine code path' do
     it 'reports a ternary check on a parameter' do
       src = 'def simple(arga) arga ? @ivar : 3 end'
-      expect(src).to reek_of(:ControlParameter, parameters: { name: 'arga' })
+      expect(src).to reek_of(:ControlParameter, name: 'arga')
     end
 
     it 'reports a couple inside a block' do
       src = 'def blocks(arg) @text.map { |blk| arg ? blk : "#{blk}" } end'
-      expect(src).to reek_of(:ControlParameter, parameters: { name: 'arg' })
+      expect(src).to reek_of(:ControlParameter, name: 'arg')
     end
 
     it 'reports on an if statement modifier' do
       src = 'def simple(arg) args = {}; args.merge(\'a\' => \'A\') if arg end'
-      expect(src).to reek_of(:ControlParameter, parameters: { name: 'arg' })
+      expect(src).to reek_of(:ControlParameter, name: 'arg')
     end
 
     it 'reports on an unless statement modifier' do
       src = 'def simple(arg) args = {}; args.merge(\'a\' => \'A\') unless arg end'
-      expect(src).to reek_of(:ControlParameter, parameters: { name: 'arg' })
+      expect(src).to reek_of(:ControlParameter, name: 'arg')
     end
 
     it 'reports on if control expression' do
       src = 'def simple(arg) args = {}; if arg then args.merge(\'a\' => \'A\') end end'
-      expect(src).to reek_of(:ControlParameter, parameters: { name: 'arg' })
+      expect(src).to reek_of(:ControlParameter, name: 'arg')
     end
 
     it 'reports on if control expression with &&' do
       src = 'def simple(arg) if arg && true then puts "arg" end end'
-      expect(src).to reek_of(:ControlParameter, parameters: { name: 'arg' })
+      expect(src).to reek_of(:ControlParameter, name: 'arg')
     end
 
     it 'reports on if control expression with preceding &&' do
       src = 'def simple(arg) if true && arg then puts "arg" end end'
-      expect(src).to reek_of(:ControlParameter, parameters: { name: 'arg' })
+      expect(src).to reek_of(:ControlParameter, name: 'arg')
     end
 
     it 'reports on if control expression with two && conditions' do
       src = 'def simple(a) ag = {}; if a && true && true then puts "2" end end'
-      expect(src).to reek_of(:ControlParameter, parameters: { name: 'a' })
+      expect(src).to reek_of(:ControlParameter, name: 'a')
     end
 
     it 'reports on if control expression with ||' do
       src = 'def simple(arg) args = {}; if arg || true then puts "arg" end end'
-      expect(src).to reek_of(:ControlParameter, parameters: { name: 'arg' })
+      expect(src).to reek_of(:ControlParameter, name: 'arg')
     end
 
     it 'reports on if control expression with or' do
       src = 'def simple(arg) args = {}; if arg or true then puts "arg" end end'
-      expect(src).to reek_of(:ControlParameter, parameters: { name: 'arg' })
+      expect(src).to reek_of(:ControlParameter, name: 'arg')
     end
 
     it 'reports on if control expression with if' do
       src = 'def simple(arg) args = {}; if (arg if true) then puts "arg" end end'
-      expect(src).to reek_of(:ControlParameter, parameters: { name: 'arg' })
+      expect(src).to reek_of(:ControlParameter, name: 'arg')
     end
 
     it 'reports on && notation' do
       src = 'def simple(arg) args = {}; arg && args.merge(\'a\' => \'A\') end'
-      expect(src).to reek_of(:ControlParameter, parameters: { name: 'arg' })
+      expect(src).to reek_of(:ControlParameter, name: 'arg')
     end
 
     it 'reports on || notation' do
       src = 'def simple(arg) args = {}; arg || args.merge(\'a\' => \'A\') end'
-      expect(src).to reek_of(:ControlParameter, parameters: { name: 'arg' })
+      expect(src).to reek_of(:ControlParameter, name: 'arg')
     end
 
     it 'reports on case statement' do
       src = 'def simple(arg) case arg when nil; nil when false; nil else nil end end'
-      expect(src).to reek_of(:ControlParameter, parameters: { name: 'arg' })
+      expect(src).to reek_of(:ControlParameter, name: 'arg')
     end
 
     it 'reports on nested if statements that are both control parameters' do
@@ -110,7 +109,7 @@ RSpec.describe Reek::Smells::ControlParameter do
           end
         end
       EOS
-      expect(src).to reek_of(:ControlParameter, parameters: { name: 'arg' })
+      expect(src).to reek_of(:ControlParameter, name: 'arg')
     end
 
     it 'reports on nested if statements where the inner if is a control parameter' do
@@ -122,7 +121,7 @@ RSpec.describe Reek::Smells::ControlParameter do
           end
         end
       EOS
-      expect(src).to reek_of(:ControlParameter, parameters: { name: 'arg' })
+      expect(src).to reek_of(:ControlParameter, name: 'arg')
     end
 
     it 'reports on explicit comparison in the condition' do

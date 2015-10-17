@@ -18,7 +18,7 @@ RSpec.describe Reek::Spec::ShouldReekOf do
   describe 'different sources of input' do
     context 'checking code in a string' do
       let(:clean_code) { 'def good() true; end' }
-      let(:matcher) { Reek::Spec::ShouldReekOf.new(:UncommunicativeVariableName, parameters: { name: 'y' }) }
+      let(:matcher) { Reek::Spec::ShouldReekOf.new(:UncommunicativeVariableName, name: 'y') }
       let(:smelly_code) { 'def x() y = 4; end' }
 
       it 'matches a smelly String' do
@@ -32,7 +32,7 @@ RSpec.describe Reek::Spec::ShouldReekOf do
 
     context 'checking code in a File' do
       let(:clean_file) { Pathname.glob("#{SAMPLES_PATH}/three_clean_files/*.rb").first }
-      let(:matcher) { Reek::Spec::ShouldReekOf.new(:UncommunicativeVariableName, parameters: { name: '@s' }) }
+      let(:matcher) { Reek::Spec::ShouldReekOf.new(:UncommunicativeVariableName, name: '@s') }
       let(:smelly_file) { Pathname.glob("#{SAMPLES_PATH}/two_smelly_files/*.rb").first }
 
       it 'matches a smelly file' do
@@ -47,7 +47,7 @@ RSpec.describe Reek::Spec::ShouldReekOf do
 
   describe 'smell types and smell details' do
     context 'passing in smell_details with unknown parameter name' do
-      let(:matcher) { Reek::Spec::ShouldReekOf.new(:UncommunicativeVariableName, parameters: { foo: 'y' }) }
+      let(:matcher) { Reek::Spec::ShouldReekOf.new(:UncommunicativeVariableName, foo: 'y') }
       let(:smelly_code) { 'def x() y = 4; end' }
 
       it 'raises ArgumentError' do
@@ -57,7 +57,7 @@ RSpec.describe Reek::Spec::ShouldReekOf do
 
     context 'both are matching' do
       let(:smelly_code) { 'def x() y = 4; end' }
-      let(:matcher) { Reek::Spec::ShouldReekOf.new(:UncommunicativeVariableName, parameters: { name: 'y' }) }
+      let(:matcher) { Reek::Spec::ShouldReekOf.new(:UncommunicativeVariableName, name: 'y') }
 
       it 'is truthy' do
         expect(matcher.matches?(smelly_code)).to be_truthy
@@ -67,8 +67,8 @@ RSpec.describe Reek::Spec::ShouldReekOf do
     context 'no smell_type is matching' do
       let(:smelly_code) { 'def dummy() y = 4; end' }
 
-      let(:falsey_matcher) { Reek::Spec::ShouldReekOf.new(:FeatureEnvy, parameters: { name: 'y' }) }
-      let(:truthy_matcher) { Reek::Spec::ShouldReekOf.new(:UncommunicativeVariableName, parameters: { name: 'y' }) }
+      let(:falsey_matcher) { Reek::Spec::ShouldReekOf.new(:FeatureEnvy, name: 'y') }
+      let(:truthy_matcher) { Reek::Spec::ShouldReekOf.new(:UncommunicativeVariableName, name: 'y') }
 
       it 'is falsey' do
         expect(falsey_matcher.matches?(smelly_code)).to be_falsey
@@ -91,7 +91,7 @@ RSpec.describe Reek::Spec::ShouldReekOf do
 
     context 'smell type is matching but smell details are not' do
       let(:smelly_code) { 'def dummy() y = 4; end' }
-      let(:matcher) { Reek::Spec::ShouldReekOf.new(:UncommunicativeVariableName, parameters: { name: 'x' }) }
+      let(:matcher) { Reek::Spec::ShouldReekOf.new(:UncommunicativeVariableName, name: 'x') }
 
       it 'is falsey' do
         expect(matcher.matches?(smelly_code)).to be_falsey
@@ -101,7 +101,7 @@ RSpec.describe Reek::Spec::ShouldReekOf do
         matcher.matches?(smelly_code)
         expect(matcher.failure_message).to\
           match('Expected string to reek of UncommunicativeVariableName (which it did) with '\
-                  'smell details {:parameters=>{:name=>"x"}}, which it didn\'t')
+                  'smell details {:name=>"x"}, which it didn\'t')
       end
 
       it 'sets the proper error message when negated' do
@@ -109,7 +109,7 @@ RSpec.describe Reek::Spec::ShouldReekOf do
 
         expect(matcher.failure_message_when_negated).to\
           match('Expected string not to reek of UncommunicativeVariableName with smell '\
-                  'details {:parameters=>{:name=>"x"}}, but it did')
+                  'details {:name=>"x"}, but it did')
       end
     end
   end

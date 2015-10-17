@@ -17,8 +17,6 @@ module Reek
       attr_reader :context, :lines, :message, :parameters, :smell_detector, :source
       def_delegators :smell_detector, :smell_category, :smell_type
 
-      COMPARABLE_ATTRIBUTES = %i(message lines context source parameters)
-
       # @note When using reek's public API, you should not create SmellWarning
       #   objects yourself. This is why the initializer is not part of the
       #   public API.
@@ -51,23 +49,6 @@ module Reek
         (self <=> other) == 0
       end
 
-      def matches_smell_type?(klass)
-        smell_classes.include?(klass.to_s)
-      end
-
-      def matches_attributes?(other_attributes = {})
-        check_attributes_comparability(other_attributes)
-        return false unless common_parameters_equal?(other_attributes[:parameters])
-        other_attributes.delete(:parameters)
-        other_attributes.all? do |other_key, other_value|
-          send(other_key) == other_value
-        end
-      end
-
-      def matches?(klass, other_attributes = {})
-        matches_smell_type?(klass) && matches_attributes?(other_attributes)
-      end
-
       def report_on(listener)
         listener.found_smell(self)
       end
@@ -90,29 +71,6 @@ module Reek
       end
 
       private
-
-      def smell_classes
-        [smell_detector.smell_category, smell_detector.smell_type]
-      end
-
-      def check_attributes_comparability(other_attributes)
-        other_attributes.keys.each do |attr|
-          unless COMPARABLE_ATTRIBUTES.include?(attr)
-            raise ArgumentError, "The attribute '#{attr}' is not available for comparison"
-          end
-        end
-      end
-
-      def common_parameters_equal?(other_parameters)
-        return true unless other_parameters
-        other_keys = other_parameters.keys
-        other_keys.each do |key|
-          unless parameters.key?(key)
-            raise ArgumentError, "The parameter #{key} you want to check for doesn't exist"
-          end
-        end
-        parameters.values_at(*other_keys) == other_parameters.values
-      end
 
       def core_yaml_hash
         {

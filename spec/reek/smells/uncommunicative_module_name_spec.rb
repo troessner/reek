@@ -4,10 +4,7 @@ require_relative 'smell_detector_shared'
 require_lib 'reek/context/code_context'
 
 RSpec.describe Reek::Smells::UncommunicativeModuleName do
-  let(:source_name) { 'string' }
-  let(:detector) do
-    build(:smell_detector, smell_type: :UncommunicativeModuleName, source: source_name)
-  end
+  let(:detector) { build(:smell_detector, smell_type: :UncommunicativeModuleName) }
 
   it_should_behave_like 'SmellDetector'
 
@@ -17,15 +14,15 @@ RSpec.describe Reek::Smells::UncommunicativeModuleName do
     end
 
     it 'reports one-letter name' do
-      expect("#{type} X; end").to reek_of(:UncommunicativeModuleName, parameters: { name: 'X' })
+      expect("#{type} X; end").to reek_of(:UncommunicativeModuleName, name: 'X')
     end
 
     it 'reports name of the form "x2"' do
-      expect("#{type} X2; end").to reek_of(:UncommunicativeModuleName, parameters: { name: 'X2' })
+      expect("#{type} X2; end").to reek_of(:UncommunicativeModuleName, name: 'X2')
     end
 
     it 'reports long name ending in a number' do
-      expect("#{type} Printer2; end").to reek_of(:UncommunicativeModuleName, parameters: { name: 'Printer2' })
+      expect("#{type} Printer2; end").to reek_of(:UncommunicativeModuleName, name: 'Printer2')
     end
 
     it 'reports a bad scoped name' do

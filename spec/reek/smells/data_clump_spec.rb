@@ -67,8 +67,8 @@ RSpec.shared_examples_for 'a data clump detector' do
       end
     EOS
     expect(src).to reek_of(:DataClump,
-                           parameters: { count: 3,
-                                         parameters: ['pa', 'pb'] })
+                           count: 3,
+                           parameters: ['pa', 'pb'])
   end
 
   it 'reports 3 identical parameter sets' do
@@ -80,8 +80,8 @@ RSpec.shared_examples_for 'a data clump detector' do
       end
     EOS
     expect(src).to reek_of(:DataClump,
-                           parameters: { count: 3,
-                                         parameters: ['pa', 'pb', 'pc'] })
+                           count: 3,
+                           parameters: ['pa', 'pb', 'pc'])
   end
 
   it 'reports re-ordered identical parameter sets' do
@@ -93,8 +93,8 @@ RSpec.shared_examples_for 'a data clump detector' do
       end
     EOS
     expect(src).to reek_of(:DataClump,
-                           parameters: { count: 3,
-                                         parameters: ['pa', 'pb', 'pc'] })
+                           count: 3,
+                           parameters: ['pa', 'pb', 'pc'])
   end
 
   it 'counts only identical parameter sets' do
@@ -118,7 +118,7 @@ RSpec.shared_examples_for 'a data clump detector' do
         def c_raw_singleton (src, options) end
       end
     EOS
-    expect(src).to reek_of(:DataClump, parameters: { count: 5 })
+    expect(src).to reek_of(:DataClump, count: 5)
   end
 
   it 'correctly checks number of occurences' do
@@ -143,7 +143,7 @@ RSpec.shared_examples_for 'a data clump detector' do
       end
     EOS
     expect(src).to reek_of(:DataClump,
-                           parameters: { parameters: %w(p1 p2) })
+                           parameters: %w(p1 p2))
   end
 
   it 'ignores anonymous parameters' do
@@ -155,7 +155,7 @@ RSpec.shared_examples_for 'a data clump detector' do
       end
     EOS
     expect(src).to reek_of(:DataClump,
-                           parameters: { parameters: %w(p1 p2) })
+                           parameters: %w(p1 p2))
   end
 end
 

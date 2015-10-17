@@ -12,7 +12,7 @@ RSpec.describe Reek::Smells::PrimaDonnaMethod do
   end
 
   describe 'the right smell' do
-    let(:detector) { build(:smell_detector, smell_type: :PrimaDonnaMethod, source: 'source_name') }
+    let(:detector) { build(:smell_detector, smell_type: :PrimaDonnaMethod) }
     let(:src)      { 'class C; def m!; end; end' }
     let(:ctx)      do
       Reek::Context::ModuleContext.new(nil,

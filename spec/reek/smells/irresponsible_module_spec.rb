@@ -6,12 +6,12 @@ require_relative 'smell_detector_shared'
 RSpec.describe Reek::Smells::IrresponsibleModule do
   it 'reports a class without a comment' do
     src = 'class BadClass; end'
-    expect(src).to reek_of :IrresponsibleModule, parameters: { name: 'BadClass' }
+    expect(src).to reek_of :IrresponsibleModule, name: 'BadClass'
   end
 
   it 'reports a module without a comment' do
     src = 'module BadClass; end'
-    expect(src).to reek_of :IrresponsibleModule, parameters: { name: 'BadClass' }
+    expect(src).to reek_of :IrresponsibleModule, name: 'BadClass'
   end
 
   it 'does not report re-opened modules' do
@@ -63,7 +63,7 @@ RSpec.describe Reek::Smells::IrresponsibleModule do
 
   it 'reports a fully qualified class name correctly' do
     src = 'class Foo::Bar; end'
-    expect(src).to reek_of :IrresponsibleModule, parameters: { name: 'Foo::Bar' }
+    expect(src).to reek_of :IrresponsibleModule, name: 'Foo::Bar'
   end
 
   it 'does not report modules used only as namespaces' do
@@ -159,7 +159,7 @@ RSpec.describe Reek::Smells::IrresponsibleModule do
         Foo = Class.new Bar
       end
     EOS
-    expect(src).to reek_of(:IrresponsibleModule, parameters: { name: 'Foo' })
+    expect(src).to reek_of(:IrresponsibleModule, name: 'Foo')
   end
 
   it 'reports structs defined through assignment' do
@@ -169,7 +169,7 @@ RSpec.describe Reek::Smells::IrresponsibleModule do
         Foo = Struct.new(:x, :y)
       end
     EOS
-    expect(src).to reek_of(:IrresponsibleModule, parameters: { name: 'Foo' })
+    expect(src).to reek_of(:IrresponsibleModule, name: 'Foo')
   end
 
   it 'does not report constants that are not classes' do
@@ -184,8 +184,7 @@ RSpec.describe Reek::Smells::IrresponsibleModule do
   end
 
   context 'when a smell is reported' do
-    let(:detector) { build(:smell_detector, smell_type: :IrresponsibleModule, source: source_name) }
-    let(:source_name) { 'string' }
+    let(:detector) { build(:smell_detector, smell_type: :IrresponsibleModule) }
 
     it_should_behave_like 'SmellDetector'
   end
