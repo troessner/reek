@@ -24,7 +24,7 @@ class Dummy
 end
 ```
 
-`reek` would emit the following warning:
+Reek would emit the following warning:
 
 ```
 test.rb -- 3 warnings:

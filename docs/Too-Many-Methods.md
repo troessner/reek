@@ -22,15 +22,15 @@ class TooManyMethods
 end
 ```
 
-`reek` would emit the following warning:
+Reek would emit the following warning:
 
 ```
 test.rb -- 1 warning:
   [1]:TooManyMethods has at least 4 methods (TooManyMethods)
 ```
-## Current Support in `reek`
+## Current Support in Reek
 
-`reek` counts all the methods it can find in a `class` - instance *and* class methods. So given `max_methods` from above is 4, this:
+Reek counts all the methods it can find in a `class` - instance *and* class methods. So given `max_methods` from above is 4, this:
 
 ```Ruby
 class TooManyMethods
@@ -44,11 +44,11 @@ class TooManyMethods
 end
 ```
 
-would cause reek to emit the same warning as in the example above.
+would cause Reek to emit the same warning as in the example above.
 
 ## Configuration
 
-`reek`'s `Too Many Methods` detector offers the [Basic Smell Options](Basic-Smell-Options.md), plus:
+Reek's `Too Many Methods` detector offers the [Basic Smell Options](Basic-Smell-Options.md), plus:
 
 | Option         | Value       | Effect  |
 | ---------------|-------------|---------|

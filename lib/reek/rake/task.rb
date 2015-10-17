@@ -8,13 +8,13 @@ require 'English'
 
 module Reek
   #
-  # Defines a task library for running reek.
+  # Defines a task library for running Reek.
   # (Classes here will be configured via the Rakefile, and therefore will
   # possess a :reek:attribute or two.)
   #
   # @public
   module Rake
-    # A Rake task that runs reek on a set of source files.
+    # A Rake task that runs Reek on a set of source files.
     #
     # Example:
     #
@@ -39,11 +39,11 @@ module Reek
     # :reek:TooManyInstanceVariables: { max_instance_variables: 6 }
     # :reek:Attribute
     class Task < ::Rake::TaskLib
-      # Name of reek task. Defaults to :reek.
+      # Name of Reek task. Defaults to :reek.
       # @public
       attr_writer :name
 
-      # Path to reek's config file.
+      # Path to Reek's config file.
       # Setting the REEK_CFG environment variable overrides this.
       # @public
       attr_accessor :config_file
@@ -105,7 +105,7 @@ module Reek
       def run_task
         puts "\n\n!!! Running 'reek' rake command: #{command}\n\n" if verbose
         system(*command)
-        abort("\n\n!!! `reek` has found smells - exiting!") if sys_call_failed? && fail_on_error
+        abort("\n\n!!! Reek has found smells - exiting!") if sys_call_failed? && fail_on_error
       end
 
       def command

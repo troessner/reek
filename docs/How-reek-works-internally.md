@@ -1,4 +1,4 @@
-# How reek works internally
+# How Reek works internally
 
 
 ## The big picture
@@ -58,7 +58,7 @@
 
 ## A closer look at how an Examiner works
 
-The core foundation of reek and its API is the Examiner.
+The core foundation of Reek and its API is the Examiner.
 As you can see above, the Examiner is run for every source it gets passed and then runs the configured SmellDetectors.
 The overall workflow is like this:
 

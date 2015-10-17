@@ -16,10 +16,10 @@ class Dummy
 end
 ```
 
-`reek` would emit the following warning:
+Reek would emit the following warning:
 
 ```
-reek test.rb 
+reek test.rb
 
 test.rb -- 1 warning:
   [2]:Dummy declares the class variable @@class_variable (ClassVariable)

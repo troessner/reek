@@ -1,8 +1,8 @@
 Feature: Directory directives
-  In order to have a more fine-grained control over what reek reports
+  In order to have a more fine-grained control over what Reek reports
   And to enable domain specific modes (like a Ruby on Rails mode)
   As a user
-  I want to be able to configure reek using directory directives
+  I want to be able to configure Reek using directory directives
 
   Scenario: Configure multiple directories
     Given a file named "web_app/config.reek" with:
@@ -206,7 +206,7 @@ Feature: Directory directives
     And stderr reports:
     """
     You are trying to configure smell type IteratorsNested but we can't find one with that name.
-    Please make sure you spelled it right. (See 'defaults.reek' in the reek
+    Please make sure you spelled it right. (See 'defaults.reek' in the Reek
     repository for a list of all available smell types.)
 
     """

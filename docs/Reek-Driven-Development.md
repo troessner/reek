@@ -2,7 +2,7 @@
 
 ## rake
 
-One way to drive quality into your code from the very beginning of a project is to run `reek` as a part of your testing process. For example, you could do that by adding a [Rake Task](Rake-Task.md) to your rakefile, which will make it easy to run `reek` on all your source files whenever you need to.
+One way to drive quality into your code from the very beginning of a project is to run Reek as a part of your testing process. For example, you could do that by adding a [Rake Task](Rake-Task.md) to your rakefile, which will make it easy to run Reek on all your source files whenever you need to.
 
 ```Ruby
 require 'reek/rake/task'
@@ -14,11 +14,11 @@ Reek::Rake::Task.new do |t|
 end
 ```
 
-Now the command `reek` will run `reek` on your source code (and in this case, it fails if it finds any smells). For more detailed information about `reek`'s integration with Rake, see [Rake Task](Rake-Task.md) in this wiki.
+Now the command `reek` will run Reek on your source code (and in this case, it fails if it finds any smells). For more detailed information about Reek's integration with Rake, see [Rake Task](Rake-Task.md) in this wiki.
 
 ## reek/spec
 
-But there's another way; a much more effective "Reek-driven" approach: add `reek` expectations directly into your Rspec specs. Here's an example taken directly from `reek`'s own source code:
+But there's another way; a much more effective "Reek-driven" approach: add Reek expectations directly into your Rspec specs. Here's an example taken directly from Reek's own source code:
 
 ```Ruby
 it 'contains no code smells' do
@@ -26,7 +26,7 @@ it 'contains no code smells' do
 end
 ```
 
-By requiring "reek/spec":http://reek.rubyforge.org/rdoc/classes/Reek/Spec.html you gain access to the `reek` matcher, which returns true if and only if `reek` finds smells in your code. And if the test fails, the matcher produces an error message that includes details of all the smells it found.
+By requiring "reek/spec":http://reek.rubyforge.org/rdoc/classes/Reek/Spec.html you gain access to the `reek` matcher, which returns true if and only if Reek finds smells in your code. And if the test fails, the matcher produces an error message that includes details of all the smells it found.
 
 ## assert
 

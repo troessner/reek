@@ -18,7 +18,7 @@ class Dummy
 end
 ```
 
-`reek` would emit the following warning:
+Reek would emit the following warning:
 
 ```
 test.rb -- 1 warning:
@@ -31,7 +31,7 @@ A possible way to fix this problem (quoting from [Martin Fowler](http://martinfo
 
 ## Current Support in Reek
 
-`reek` looks for a group of two or more parameters with the same names that are expected by three or more methods of a class.
+Reek looks for a group of two or more parameters with the same names that are expected by three or more methods of a class.
 
 ## Configuration
 

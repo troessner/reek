@@ -1,4 +1,6 @@
-# `reek`: code smell detection for Ruby
+![reek logo](logo/reek.text.png)
+
+# Code smell detector for Ruby
 
 ## Overview
 
@@ -10,7 +12,7 @@
 
 ## Quickstart
 
-`reek` is a tool that examines Ruby classes, modules and methods and reports any
+Reek is a tool that examines Ruby classes, modules and methods and reports any
 [Code Smells](docs/Code-Smells.md) it finds.
 Install it like this:
 
@@ -39,7 +41,7 @@ class Dirty
 end
 ```
 
-`reek` will report the following code smells in this file:
+Reek will report the following code smells in this file:
 
 ```
 $ reek demo.rb
@@ -56,7 +58,7 @@ demo.rb -- 8 warnings:
 
 ## Fixing Smell Warnings
 
-`reek` focuses on high-level code smells, so we can't tell you how to fix warnings in
+Reek focuses on high-level code smells, so we can't tell you how to fix warnings in
 a generic fashion; this is and will always be completely dependent on your domain
 language and bussiness logic.
 
@@ -152,7 +154,7 @@ $stdin -- 3 warnings:
 
 ## Code smells
 
-`reek` currently includes checks for some aspects of
+Reek currently includes checks for some aspects of
 [Control Couple](docs/Control-Couple.md),
 [Data Clump](docs/Data-Clump.md),
 [Feature Envy](docs/Feature-Envy.md),
@@ -163,7 +165,7 @@ $stdin -- 3 warnings:
 [Uncommunicative Name](docs/Uncommunicative-Name.md),
 [Unused Parameters](docs/Unused-Parameters.md)
 and more. See the [Code Smells](docs/Code-Smells.md)
-for up to date details of exactly what `reek` will check in your code.
+for up to date details of exactly what Reek will check in your code.
 
 ## Configuration
 
@@ -181,7 +183,7 @@ For a summary of those CLI options see [Command-Line Options](docs/Command-Line-
 
 #### Configuration loading
 
-Configuring `reek` via a configuration file is by far the most powerful way.
+Configuring Reek via a configuration file is by far the most powerful way.
 
 There are three ways of passing `reek` a configuration file:
 
@@ -189,21 +191,21 @@ There are three ways of passing `reek` a configuration file:
 2. Having a file ending with `.reek` either in your current working directory or in a parent directory (more on that later)
 3. Having a file ending with `.reek` in your home directory
 
-The order in which `reek` tries to find such a configuration
+The order in which Reek tries to find such a configuration
 file is exactly the above: first it checks if we have given
 it a configuration file explicitly via CLI; then it checks
 the current working directory for a file and if it can't
 find one, it traverses up the directories until it hits the
 root directory; lastly, it checks your home directory.
 
-As soon as `reek` detects a configuration file it stops searching
-immediately, meaning that from `reek`'s point of view there exists
+As soon as Reek detects a configuration file it stops searching
+immediately, meaning that from Reek's point of view there exists
 exactly one configuration file and one configuration, regardless
 of how many `*.reek` files you might have on your filesystem.
 
 #### Configuration options
 
-We put a lot of effort into making `reek`'s configuration as self explanatory as possible so the
+We put a lot of effort into making Reek's configuration as self explanatory as possible so the
 best way to understand it is by looking at a simple
 example (e.g. `config.reek` in your project directory):
 
@@ -216,8 +218,8 @@ example (e.g. `config.reek` in your project directory):
 IrresponsibleModule:
   enabled: false
 
-# You can use filters to silence reek warnings.
-# Either because you simply disagree with reek (we are not the police) or
+# You can use filters to silence Reek warnings.
+# Either because you simply disagree with Reek (we are not the police) or
 # because you want to fix this at a later point in time.
 NestedIterators:
   exclude:
@@ -293,13 +295,13 @@ Besides the obvious
 reek [options] [dir_or_source_file]*
 ```
 
-there are quite a few other ways how to use `reek` in your projects:
+there are quite a few other ways how to use Reek in your projects:
 
-* Use `reek`'s [Rake task](docs/Rake-Task.md) to automate detecting code smells
-* Add `reek`'s custom matcher to your [RSpec examples](docs/RSpec-matchers.md)
-* Include `reek` using the [Developer API](docs/API.md)
+* Use Reek's [Rake task](docs/Rake-Task.md) to automate detecting code smells
+* Add Reek's custom matcher to your [RSpec examples](docs/RSpec-matchers.md)
+* Include Reek using the [Developer API](docs/API.md)
 
-## Developing `reek` / Contributing
+## Developing Reek / Contributing
 
 The first thing you want to do after checking out the source code is to run Bundler:
 
@@ -323,7 +325,7 @@ bundle exec rake
 ```
 
 From then on you should check out:
-* [How reek works internally](docs/How-reek-works-internally.md)
+* [How Reek works internally](docs/How-reek-works-internally.md)
 * [the contributing guide](CONTRIBUTING.md)
 
 
@@ -344,7 +346,7 @@ If you don't feel like getting your hands dirty with code there are still other 
 
 ## Working with Rails
 
-Making `reek` "Rails"-friendly is fairly simple since we support directory specific configurations (`directory directives` in `reek` talk).
+Making Reek "Rails"-friendly is fairly simple since we support directory specific configurations (`directory directives` in Reek talk).
 Just add this to your configuration file:
 
 ```Yaml
@@ -360,7 +362,7 @@ Just add this to your configuration file:
     enabled: false
 ```
 
-Be careful though, `reek` does not merge your configuration entries, so if you already have a directory directive for "app/controllers" or "app/helpers" you need to update those directives instead of copying the above YAML sample into your configuration file.
+Be careful though, Reek does not merge your configuration entries, so if you already have a directory directive for "app/controllers" or "app/helpers" you need to update those directives instead of copying the above YAML sample into your configuration file.
 
 ## Integrations
 
@@ -373,9 +375,9 @@ Be careful though, `reek` does not merge your configuration entries, so if you a
 ### Projects that use or support us
 
 * [overcommit](https://github.com/brigade/overcommit) - a Git commit hook manager with support for
-  `reek`
+  Reek
 * [ruby-critic](https://github.com/whitesmith/rubycritic) - gem that wraps around static analysis gems such as `reek`, [flay](https://github.com/seattlerb/flay) and [flog](https://github.com/seattlerb/flog)
-* [pronto-reek](https://github.com/mmozuras/pronto-reek) - `reek` integration for [pronto](https://github.com/mmozuras/pronto)
+* [pronto-reek](https://github.com/mmozuras/pronto-reek) - Reek integration for [pronto](https://github.com/mmozuras/pronto)
 
 ### Misc
 
@@ -396,13 +398,15 @@ report
 
 ## Contributors
 
-The `reek` core team consists of:
+The Reek core team consists of:
 
 * [Matijs van Zuijlen](https://github.com/mvz)
 * [Piotr Szotkowski](https://github.com/chastell)
 * [Timo Rößner](https://github.com/troessner)
 
-The original author of `reek` is [Kevin Rutherford](https://github.com/kevinrutherford).
+The original author of Reek is [Kevin Rutherford](https://github.com/kevinrutherford).
+
+The author of Reek’s logo is [Sonja Heinen](http://yippee.io).
 
 Notable contributions came from:
 

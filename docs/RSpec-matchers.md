@@ -2,7 +2,7 @@
 
 ## Introduction
 
-`reek` offers matchers for RSpec you can easily include into your project.
+Reek offers matchers for RSpec you can easily include into your project.
 
 There are 3 matchers available:
 
@@ -27,7 +27,7 @@ require 'reek/spec'
 require 'rspec'
 
 RSpec.describe 'Reek Integration' do
-  it 'works with reek' do
+  it 'works with Reek' do
     smelly_class = 'class C; def m; end; end'
     expect(smelly_class).not_to reek
   end
@@ -45,7 +45,7 @@ would give you:
 ```
 Failures:
 
-  1) Reek Integration works with reek
+  1) Reek Integration works with Reek
      Failure/Error: expect(smelly_class).not_to reek
        Expected no smells, but got:
          C has no descriptive comment (IrresponsibleModule)
@@ -58,7 +58,7 @@ Finished in 0.00284 seconds (files took 0.28815 seconds to load)
 
 Failed examples:
 
-rspec ./reek-integration-spec.rb:6 # Reek Integration works with reek
+rspec ./reek-integration-spec.rb:6 # Reek Integration works with Reek
 ```
 
 ## The matchers explained
@@ -76,7 +76,7 @@ and returns true only if it can find one of them that matches.
 
 Remember that this includes our "smell types" as well. So it could be the
 "smell type" UtilityFunction, which is represented as a concrete class
-in reek but it could also be "Duplication" which is a "smell categgory".
+in Reek but it could also be "Duplication" which is a "smell categgory".
 
 In theory you could pass many different types of input here:
 - `:UtilityFunction`
@@ -95,7 +95,7 @@ check for as well e.g. "name" or "count" (see the examples below). The
 parameters you can check for are depending on the smell you are checking for.
 For instance "count" doesn't make sense everywhere whereas "name" does in most
 cases. If you pass in a parameter that doesn't exist (e.g. you make a typo like
-"namme") reek will raise an ArgumentError to give you a hint that you passed
+"namme") Reek will raise an ArgumentError to give you a hint that you passed
 something that doesn't make much sense.
 
 So in a nutshell `reek_of` takes the following two arguments:
@@ -129,7 +129,7 @@ With smell_details:
 
 See the documentaton for `reek_of`.
 
-**Notable differences to reek_of:**
+**Notable differences to `reek_of`:**
 
 1. `reek_of` doesn't mind if there are other smells of a different category.
    "reek_only_of" will fail in that case.

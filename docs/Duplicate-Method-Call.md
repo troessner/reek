@@ -3,7 +3,7 @@
 ## Introduction
 
 Duplication occurs when two fragments of code look nearly identical, or when two fragments of code have nearly identical effects at some conceptual level.
-`reek` implements a check for _Duplicate Method Call_.
+Reek implements a check for _Duplicate Method Call_.
 
 ## Example
 
@@ -36,9 +36,9 @@ end
 
 The approach you take will depend on balancing other factors in your code.
 
-## Current support in reek
+## Current support in Reek
 
-`reek`'s Duplicate Method Call detector checks for repeated identical method calls within any one method definition. This is intended to complement the checks performed by tools such as [Flay](http://ruby.sadi.st/Flay.html) and [Simian](http://www.redhillconsulting.com.au/products/simian/).
+Reek's Duplicate Method Call detector checks for repeated identical method calls within any one method definition. This is intended to complement the checks performed by tools such as [Flay](http://ruby.sadi.st/Flay.html) and [Simian](http://www.redhillconsulting.com.au/products/simian/).
 
 ## Configuration
 

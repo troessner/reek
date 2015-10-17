@@ -18,14 +18,14 @@ class UtilityFunction
 end
 ```
 
-`reek` would report:
+Reek would report:
 
 ```
 test.rb -- 2 warnings:
   [2]:UtilityFunction#showcase doesn't depend on instance state (UtilityFunction)
 ```
 
-## Current Support in reek
+## Current Support in Reek
 
 _Utility Function_ will warn about any method that:
 
@@ -41,7 +41,7 @@ _[Feature Envy](Feature-Envy.md)_ is only triggered if there are some references
 
 ## Configuration
 
-`reek`'s _Utility Function_ detector supports the [Basic Smell Options](Basic-Smell-Options.md), plus:
+Reek's _Utility Function_ detector supports the [Basic Smell Options](Basic-Smell-Options.md), plus:
 
 | Option         | Value       | Effect  |
 | ---------------|-------------|---------|

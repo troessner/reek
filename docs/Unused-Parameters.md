@@ -16,7 +16,7 @@ class Klass
 end
 ```
 
-`reek` would emit the following warning:
+Reek would emit the following warning:
 
 ```
 [2]:Klass#unused_parameters has unused parameter 'z' (UnusedParameters)

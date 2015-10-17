@@ -1,5 +1,5 @@
 Feature: Reek can be controlled using command-line options
-  In order to change reek's default behaviour
+  In order to change Reek's default behaviour
   As a developer
   I want to supply options on the command line
 

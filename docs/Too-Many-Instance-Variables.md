@@ -24,19 +24,19 @@ class TooManyInstanceVariables
 end
 ```
 
-`reek` would emit the following warning:
+Reek would emit the following warning:
 
 ```
 test.rb -- 5 warnings:
   [1]:TooManyInstanceVariables has at least 4 instance variables (TooManyInstanceVariables)
 ```
-## Current Support in `reek`
+## Current Support in Reek
 
-`reek` only counts the instance variables you use explicitly like in the example above. Class macros like `attr_accessor` are disregarded.
+Reek only counts the instance variables you use explicitly like in the example above. Class macros like `attr_accessor` are disregarded.
 
 ## Configuration
 
-`reek`'s `Too Many Instance Variables` detector offers the [Basic Smell Options](Basic-Smell-Options.md), plus:
+Reek's `Too Many Instance Variables` detector offers the [Basic Smell Options](Basic-Smell-Options.md), plus:
 
 | Option         | Value       | Effect  |
 | ---------------|-------------|---------|

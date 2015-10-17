@@ -53,9 +53,9 @@ class B < A
 end
 ```
 
-## Current Support in reek
+## Current Support in Reek
 
-`reek` warns about module initialize when an instance method named `initialize` is present in a module.
+Reek warns about module initialize when an instance method named `initialize` is present in a module.
 
 ## Configuration
 

@@ -1,7 +1,7 @@
 Feature: Correctly formatted reports
-  In order to get the most out of reek
+  In order to get the most out of Reek
   As a developer
-  I want to be able to parse reek's output simply and consistently
+  I want to be able to parse Reek's output simply and consistently
 
   Scenario Outline: two reports run together with indented smells
     Given a directory called 'smelly' containing two smelly files

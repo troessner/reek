@@ -1,4 +1,4 @@
-# Using `reek` inside your Ruby application
+# Using Reek inside your Ruby application
 
 ## Installation
 
@@ -52,7 +52,7 @@ Note that `Reek::Examiner.new` can take `source` as `String`, `Pathname`, `File`
 
 ## Choosing your output format
 
-Besides normal text output, `reek` can generate output in YAML,
+Besides normal text output, Reek can generate output in YAML,
 JSON, HTML and XML by using the following Report types:
 
 ```

@@ -14,7 +14,7 @@ class Dummy
 end
 ```
 
-`reek` would emit the following warning:
+Reek would emit the following warning:
 
 ```
 test.rb -- 1 warning:
@@ -30,7 +30,7 @@ class Dummy
 end
 ```
 
-## Current Support in reek
+## Current Support in Reek
 
 `Irresponsible Module` currently checks classes, but not modules.
 

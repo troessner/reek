@@ -17,7 +17,7 @@ module Reek
       attr_reader :context, :lines, :message, :parameters, :smell_detector, :source
       def_delegators :smell_detector, :smell_category, :smell_type
 
-      # @note When using reek's public API, you should not create SmellWarning
+      # @note When using Reek's public API, you should not create SmellWarning
       #   objects yourself. This is why the initializer is not part of the
       #   public API.
       #

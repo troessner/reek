@@ -2,7 +2,7 @@
 
 ## Introduction
 
-`reek`  provides a Rake task that runs `reek` on a set of source files. In its most simple form you just include something like that in your Rakefile:
+Reek provides a Rake task that runs Reek on a set of source files. In its most simple form you just include something like that in your Rakefile:
 
 ```Ruby
 require 'reek/rake/task'

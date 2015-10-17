@@ -11,6 +11,6 @@ Simulated Polymorphism occurs when
 
 Conditional code is hard to read and understand, because the reader must hold more state in his head. When the same value is tested in multiple places throughout an application, any change to the set of possible values will require many methods and classes to change. Tests for the type of an object may indicate that the abstraction represented by that type is not completely defined (or understood).
 
-## Current Support in reek
+## Current Support in Reek
 
-`reek` checks for [Repeated Conditional](Repeated-Conditional.md)  and for [Nil Check](Nil-Check.md).
+Reek checks for [Repeated Conditional](Repeated-Conditional.md)  and for [Nil Check](Nil-Check.md).

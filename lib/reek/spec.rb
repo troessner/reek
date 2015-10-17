@@ -47,7 +47,7 @@ module Reek
     #
     # Remember that this includes our "smell types" as well. So it could be the
     # "smell type" UtilityFunction, which is represented as a concrete class
-    # in reek but it could also be "Duplication" which is a "smell categgory".
+    # in Reek but it could also be "Duplication" which is a "smell categgory".
     #
     # In theory you could pass many different types of input here:
     #   - :UtilityFunction
@@ -63,7 +63,7 @@ module Reek
     # want to check for as well e.g. "name" or "count" (see the examples below).
     # The parameters you can check for are depending on the smell you are checking for.
     # For instance "count" doesn't make sense everywhere whereas "name" does in most cases.
-    # If you pass in a parameter that doesn't exist (e.g. you make a typo like "namme") reek will
+    # If you pass in a parameter that doesn't exist (e.g. you make a typo like "namme") Reek will
     # raise an ArgumentError to give you a hint that you passed something that doesn't make
     # much sense.
     #

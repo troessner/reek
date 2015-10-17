@@ -1,12 +1,12 @@
 ## Introduction
 
-In some cases, it might be necessary to suppress one or more of `reek`'s smell
+In some cases, it might be necessary to suppress one or more of Reek's smell
 warnings for a particular method or class.
 
 Possible reasons for this could be:
 
 * The code is outside of your control and you can't fix it
-* `reek` is not the police. You might have legit reasons why your source code
+* Reek is not the police. You might have legit reasons why your source code
   is good as it is.
 
 ## How to disable smell detection

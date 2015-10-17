@@ -26,7 +26,7 @@ class RepeatedConditionals
 end
 ```
 
-`reek` would emit the following warning:
+Reek would emit the following warning:
 
 ```
 test.rb -- 4 warnings:
@@ -37,7 +37,7 @@ If you get this warning then you are probably not using the right abstraction or
 
 ## Configuration
 
-`reek`'s `Repeated Conditional` detector offers the [Basic Smell Options](Basic-Smell-Options.md), plus:
+Reek's `Repeated Conditional` detector offers the [Basic Smell Options](Basic-Smell-Options.md), plus:
 
 | Option         | Value       | Effect  |
 | ---------------|-------------|---------|

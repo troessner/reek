@@ -6,7 +6,7 @@ A method with `Too Many Statements` is any method that has a large number of lin
 
 ## Current Support in Reek
 
-`Too Many Statements` warns about any method that has more than 5 statements. `reek`'s smell detector for `Too Many Statements` counts +1 for every simple statement in a method and +1 for every statement within a control structure (`if`, `else`, `case`, `when`, `for`, `while`, `until`, `begin`, `rescue`) but it doesn't count the control structure itself.
+`Too Many Statements` warns about any method that has more than 5 statements. Reek's smell detector for `Too Many Statements` counts +1 for every simple statement in a method and +1 for every statement within a control structure (`if`, `else`, `case`, `when`, `for`, `while`, `until`, `begin`, `rescue`) but it doesn't count the control structure itself.
 
 So the following method would score +6 in Reek's statement-counting algorithm:
 
@@ -30,7 +30,7 @@ end
 
 ## Configuration
 
-`reek`'s `Too Many Statements` detector supports the [Basic Smell Options](Basic-Smell-Options.md), plus:
+Reek's `Too Many Statements` detector supports the [Basic Smell Options](Basic-Smell-Options.md), plus:
 
 | Option         | Value       | Effect  |
 | ---------------|-------------|---------|

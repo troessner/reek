@@ -66,7 +66,7 @@
 
 ## 3.0.1 (2015-07-03)
 
-* (troessner) Fix reek descending into hidden directories
+* (troessner) Fix Reek descending into hidden directories
 
 ## 3.0.0 (2015-06-30)
 
@@ -88,7 +88,7 @@
 
 ## 2.1.0 (2015-04-17)
 
-* (mvz) Ensure require 'reek' is enough to use reek's classes
+* (mvz) Ensure require 'reek' is enough to use Reek's classes
 * (mvz) Pick config file that comes first alphabetically
 * (mvz) Separate FeatureEnvy and UtilityFunction
 
@@ -137,17 +137,17 @@
 ## 1.6.0 (2014-12-27)
 
 * (troessner) Revise configuration handling:
-  Now there are 3 ways of passing reek a configuration file:
+  Now there are 3 ways of passing Reek a configuration file:
   - Using the cli "-c" switch
   - Having a file ending with .reek either in your current working directory or in a parent directory (more on that later)
   - Having a file ending with .reek in your HOME directory
 
-  The order in which reek tries to find such a configuration file is exactly
-  like above: First reek checks if we have given it a configuration file
+  The order in which Reek tries to find such a configuration file is exactly
+  like above: First Reek checks if we have given it a configuration file
   explicitly via CLI. Then it checks the current working directory for a file and
   if it can't find one, it traverses up the directories until it hits the root
-  directory. And lastly, it checks your HOME directory. As soon as reek detects a
-  configuration file it stops searching immediately, meaning that from reek's
+  directory. And lastly, it checks your HOME directory. As soon as Reek detects a
+  configuration file it stops searching immediately, meaning that from Reek's
   point of view there exists one configuration file and one configuration only
   regardless of how many ".reek" files you might have on your filesystem.
 * (chastell) Add keyword arguments support after switching to 'parser'
@@ -177,7 +177,7 @@
 
 ## 1.3.7 (2014-03-25)
 
-* (gilles-leblanc) Add color to reek's output
+* (gilles-leblanc) Add color to Reek's output
 * (mvz) Ignore unused parameters if method calls super in nested context
 * (mvz) Only mark parameters uncommunicative if used
 
@@ -227,7 +227,7 @@
 
 ## 1.2.12 (2012-06-09)
 
-* (mvz) Use ripper_ruby_parser on Ruby 1.9.3 and up (thus making reek able
+* (mvz) Use ripper_ruby_parser on Ruby 1.9.3 and up (thus making Reek able
         to parse the new 1.9 hash syntax).
 
 ## 1.2.11 (2012-06-08)
@@ -446,10 +446,10 @@ See http://wiki.github.com/kevinrutherford/reek for details
 
 ### Minor enhancements
 * New smell: first naive checks for Control Couple
-* reek now only checks sources passed on the command line
+* Reek now only checks sources passed on the command line
 * Code snippets can be supplied on the commandline
 * Added headings and warnings count when smells in multiple files
-* Added Reek::RakeTask to run reek from rakefiles
+* Added Reek::RakeTask to run Reek from rakefiles
 
 ### Fixes
 * Fixed: Returns exit status 2 when smells are reported
@@ -475,7 +475,7 @@ See http://wiki.github.com/kevinrutherford/reek for details
 
 * Tweaks:
   * Now works from the source code, instead of requiring each named file
-  * Added integration tests that run reek on a couple of gems
+  * Added integration tests that run Reek on a couple of gems
 
 ## 0.2.0 2008-09-10
 

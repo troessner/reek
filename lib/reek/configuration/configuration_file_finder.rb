@@ -5,7 +5,7 @@ module Reek
     # Raised when config file is not properly readable.
     class ConfigFileException < StandardError; end
     #
-    # ConfigurationFileFinder is responsible for finding reek's configuration.
+    # ConfigurationFileFinder is responsible for finding Reek's configuration.
     #
     # There are 3 ways of passing `reek` a configuration file:
     # 1. Using the cli "-c" switch
