@@ -3,7 +3,7 @@
 ## Overview
 
 
-[![Build Status](https://secure.travis-ci.org/troessner/reek.png?branch=master)](https://travis-ci.org/troessner/reek?branch=master)
+[![Build Status](https://secure.travis-ci.org/troessner/reek.svg?branch=master)](https://travis-ci.org/troessner/reek?branch=master)
 [![Gem Version](https://badge.fury.io/rb/reek.svg)](https://badge.fury.io/rb/reek)
 [![Dependency Status](https://gemnasium.com/troessner/reek.png)](https://gemnasium.com/troessner/reek)
 [![Inline docs](https://inch-ci.org/github/troessner/reek.png)](https://inch-ci.org/github/troessner/reek)
