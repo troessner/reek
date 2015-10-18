@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 gemspec
 
 group :local_development do
+  gem 'debride'
   gem 'pry'
   gem 'yard', '~> 0.8.7'
 

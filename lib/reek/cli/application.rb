@@ -32,10 +32,6 @@ module Reek
         status
       end
 
-      def output(text)
-        print text
-      end
-
       def report_success
         self.status = STATUS_SUCCESS
       end

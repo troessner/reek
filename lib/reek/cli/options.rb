@@ -12,15 +12,13 @@ module Reek
     # :reek:TooManyInstanceVariables: { max_instance_variables: 6 }
     # :reek:Attribute: { enabled: false }
     class Options
-      attr_accessor :argv,
-                    :colored,
+      attr_reader :argv, :parser, :smells_to_detect
+      attr_accessor :colored,
                     :config_file,
                     :location_format,
-                    :parser,
                     :report_format,
                     :show_empty,
                     :show_links,
-                    :smells_to_detect,
                     :sorting
 
       def initialize(argv = [])
