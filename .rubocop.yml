@@ -53,3 +53,9 @@ Style/MultilineBlockChain:
 # Allow Perl-style references to regex matches
 Style/PerlBackrefs:
   Enabled: false
+
+Style/Documentation:
+  Exclude:
+    - 'lib/reek/ast/sexp_extensions/send.rb'
+    - 'lib/reek/ast/sexp_extensions/super.rb'
+    - 'lib/reek/ast/sexp_extensions/variables.rb'
