@@ -117,10 +117,6 @@ module Reek
         end
       end
 
-      def num_methods
-        0
-      end
-
       def full_name
         exp.full_name(context ? context.full_name : '')
       end

@@ -24,8 +24,7 @@ RSpec.describe Reek::CLI::Options do
 
   describe 'parse' do
     it 'raises on invalid argument in ARGV' do
-      options = described_class.new
-      options.argv = ['-z']
+      options = described_class.new ['-z']
       expect { options.parse }.to raise_error(OptionParser::InvalidOption)
     end
 
