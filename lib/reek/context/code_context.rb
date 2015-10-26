@@ -176,11 +176,11 @@ module Reek
       end
 
       def config
-        @config ||= if exp
-                      CodeComment.new(exp.full_comment || '').config
-                    else
-                      {}
-                    end
+        @config ||= CodeComment.new(full_comment).config
+      end
+
+      def full_comment
+        exp.full_comment || ''
       end
 
       def context_config_for(detector_class)

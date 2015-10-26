@@ -37,6 +37,16 @@ RSpec.describe Reek::Smells::Attribute do
       expect(src).to reek_of(:Attribute, name: 'my_attr')
     end
 
+    it 'does not record writer attribute if suppressed with a preceding code comment' do
+      src = <<-EOS
+        class Klass
+          # :reek:Attribute
+          attr_writer :my_attr
+        end
+      EOS
+      expect(src).not_to reek_of(:Attribute)
+    end
+
     it 'records attr_writer attribute in a module' do
       src = <<-EOS
         module Mod
