@@ -2,6 +2,7 @@ require_relative 'context/method_context'
 require_relative 'context/module_context'
 require_relative 'context/root_context'
 require_relative 'context/singleton_method_context'
+require_relative 'context/attribute_context'
 require_relative 'ast/node'
 
 module Reek
@@ -95,7 +96,7 @@ module Reek
       if exp.attribute_writer?
         exp.args.each do |arg|
           next unless arg.type == :sym
-          new_context(Context::MethodContext, arg)
+          new_context(Context::AttributeContext, arg, exp)
         end
       end
       element.record_call_to(exp)
@@ -202,8 +203,8 @@ module Reek
       end
     end
 
-    def new_context(klass, exp)
-      klass.new(element, exp).tap do |scope|
+    def new_context(klass, *args)
+      klass.new(element, *args).tap do |scope|
         element.append_child_context(scope)
       end
     end
