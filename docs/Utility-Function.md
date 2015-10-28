@@ -53,4 +53,4 @@ A sample configuration file would look like this:
 ---
 UtilityFunction:
   public_methods_only: true
-``
+```
