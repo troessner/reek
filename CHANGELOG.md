@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 3.5.1 (2015-10-28)
+
+* (mvz) Make Attribute respect suppressing comments
+
 ## 3.5.0 (2015-09-28)
 
 * (troessner) Ignore iterators without block arguments for NestedIterators
