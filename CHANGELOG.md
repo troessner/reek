@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+## 3.6 (2015-10-30)
+
+* (mvz) Make Attribute respect suppressing comments
+* (chastell) Adjust parser dependency to allow versions 2.2.3+ (and even 2.3+)
+* (tansaku + mvz) Allow matches in reek_of for message, lines, context and source.
+* (mvz) Deprecate AppConfiguration.from_map in favor of AppConfiguration.from_hash.
+
 ## 3.5.0 (2015-09-28)
 
 * (troessner) Ignore iterators without block arguments for NestedIterators
