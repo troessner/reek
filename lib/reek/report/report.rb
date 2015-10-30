@@ -144,6 +144,18 @@ module Reek
     end
 
     #
+    # Displays a list of smells in Code Climate engine format
+    # (https://github.com/codeclimate/spec/blob/master/SPEC.md)
+    # JSON with empty array for 0 smells
+    #
+    class CodeClimateReport < Base
+      # @public
+      def show(out = $stdout)
+        out.print ::JSON.generate smells.map { |smell| warning_formatter.format_code_climate_hash(smell) }
+      end
+    end
+
+    #
     # Saves the report as a HTML file
     #
     # @public
