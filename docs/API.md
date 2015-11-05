@@ -50,6 +50,33 @@ string -- 5 warnings:
 
 Note that `Reek::Examiner.new` can take `source` as `String`, `Pathname`, `File` or `IO`.
 
+## API stability
+
+Everything that is mentioned in this document can be considered stable in the
+sense that it will only change across major versions.
+
+`Reek 3` was the first major version with a stable API. As soon as `Reek 4`
+is released we will mark the differences between `3` and `4`.
+
+There is one thing in this API documentation you can't and shouldn't rely on:
+The `SmellWarning` messages itself.
+
+Something like this
+
+```
+Dirty#m has the parameter name 'a' (UncommunicativeParameterName)
+```
+
+might change even across minor versions.
+
+You should not need to be specific about those messages anyways.
+In case you'd like to be specific about `SmellWarnings` please have a look at
+[accessing the smell warnings directly](#accessing-the-smell-warnings-directly).
+
+Additionally you can use one of our structured [outputs formats](#choosing-your-output-format)
+like JSON or YAML if you need a more fine-grained access to our
+`SmellWarnings`.
+
 ## Choosing your output format
 
 Besides normal text output, Reek can generate output in YAML,
