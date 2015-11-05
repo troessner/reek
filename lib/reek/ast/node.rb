@@ -43,7 +43,7 @@ module Reek
       #
       # target_type - the type to look for, e.g. :send, :block
       # ignoring - types to ignore, e.g. [:casgn, :class, :module]
-      # blk - block to execute for every hit
+      # blk - block to execute for every hit. Gets passed in the matching element itself.
       #
       # Examples:
       #   context.each_node(:send, [:mlhs]) do |call_node| .... end

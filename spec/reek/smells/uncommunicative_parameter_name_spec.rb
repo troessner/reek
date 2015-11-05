@@ -8,7 +8,7 @@ RSpec.describe Reek::Smells::UncommunicativeParameterName do
 
   it_should_behave_like 'SmellDetector'
 
-  { 'obj.' => 'with a receiveer',
+  { 'obj.' => 'with a receiver',
     '' => 'without a receiver' }.each do |host, description|
     context "in a method definition #{description}" do
       it 'does not recognise *' do

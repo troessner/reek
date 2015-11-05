@@ -23,7 +23,7 @@ module Reek
         'LargeClass'
       end
 
-      def self.contexts # :nodoc:
+      def self.contexts
         [:class]
       end
 

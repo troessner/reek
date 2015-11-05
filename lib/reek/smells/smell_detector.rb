@@ -15,6 +15,8 @@ module Reek
     # :reek:TooManyMethods: { max_methods: 19 }
     # :reek:TooManyInstanceVariables: { max_instance_variables: 5 }
     class SmellDetector
+      attr_reader :config
+      private_attr_accessor :smells_found
       # The name of the config field that lists the names of code contexts
       # that should not be checked. Add this field to the config for each
       # smell that should ignore this code element.
@@ -24,32 +26,9 @@ module Reek
       # in any configuration file.
       DEFAULT_EXCLUDE_SET = []
 
-      class << self
-        def contexts
-          [:def, :defs]
-        end
-
-        # :reek:UtilityFunction
-        def default_config
-          {
-            SmellConfiguration::ENABLED_KEY => true,
-            EXCLUDE_KEY => DEFAULT_EXCLUDE_SET.dup
-          }
-        end
-
-        def inherited(subclass)
-          subclasses << subclass
-        end
-
-        def descendants
-          subclasses
-        end
-
-        private
-
-        def subclasses
-          @subclasses ||= []
-        end
+      def initialize(config = {})
+        @config       = SmellConfiguration.new self.class.default_config.merge(config)
+        @smells_found = []
       end
 
       def smell_category
@@ -60,51 +39,24 @@ module Reek
         self.class.smell_type
       end
 
-      class << self
-        def smell_category
-          @smell_category ||= default_smell_category
-        end
-
-        def smell_type
-          @smell_type ||= default_smell_category
-        end
-
-        def default_smell_category
-          name.split(/::/)[-1]
-        end
+      def contexts
+        self.class.contexts
       end
 
-      def initialize(config = {})
-        config = self.class.default_config.merge(config)
-        @config = SmellConfiguration.new(config)
-        @smells_found = []
-      end
-
-      def register(hooks)
-        return unless config.enabled?
-        self.class.contexts.each { |ctx| hooks[ctx] << self }
-      end
-
-      def examine(context)
-        return unless enabled_for? context
+      def run_for(context)
+        return unless enabled_for?(context)
         return if exception?(context)
 
-        sm = examine_context(context)
-        self.smells_found += sm
+        self.smells_found = smells_found + examine_context(context)
       end
 
-      def report_on(report)
-        smells_found.each { |smell| smell.report_on(report) }
+      def report_on(collector)
+        smells_found.each { |smell| smell.report_on(collector) }
       end
 
       def exception?(context)
         context.matches?(value(EXCLUDE_KEY, context, DEFAULT_EXCLUDE_SET))
       end
-
-      protected
-
-      # NOTE: Needs to be protected so += works for Ruby < 2.2
-      attr_accessor :smells_found
 
       private
 
@@ -133,7 +85,39 @@ module Reek
                          parameters: options.fetch(:parameters, {}))
       end
 
-      private_attr_reader :config
+      class << self
+        def smell_category
+          @smell_category ||= default_smell_category
+        end
+
+        def smell_type
+          @smell_type ||= default_smell_category
+        end
+
+        def default_smell_category
+          name.split(/::/)[-1]
+        end
+
+        def contexts
+          [:def, :defs]
+        end
+
+        # :reek:UtilityFunction
+        def default_config
+          {
+            SmellConfiguration::ENABLED_KEY => true,
+            EXCLUDE_KEY => DEFAULT_EXCLUDE_SET.dup
+          }
+        end
+
+        def inherited(subclass)
+          descendants << subclass
+        end
+
+        def descendants
+          @descendants ||= []
+        end
+      end
     end
   end
 end

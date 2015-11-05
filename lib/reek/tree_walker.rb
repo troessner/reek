@@ -25,7 +25,7 @@ module Reek
     end
 
     def walk
-      result.each do |element|
+      context_tree.each do |element|
         smell_repository.examine(element)
       end
     end
@@ -35,8 +35,26 @@ module Reek
     private_attr_accessor :element
     private_attr_reader :exp, :smell_repository
 
-    def result
-      @result ||= process(exp)
+    # Processes the given AST, memoizes it and returns a tree of nested
+    # contexts.
+    #
+    # For example this ruby code:
+    #   class Car; def drive; end; end
+    # would get compiled into this AST:
+    #   (class
+    #     (const nil :Car) nil
+    #     (def :drive
+    #       (args) nil))
+    # Processing this AST would result in a context tree where each node
+    # contains the outer context, the AST and the child contexts. The top
+    # node is always Reek::Context::RootContext. Using the example above,
+    # the tree would look like this:
+    #
+    # RootContext -> children: 1 ModuleContext -> children: 1 MethodContext
+    #
+    # @return [Reek::Context::RootContext] tree of nested contexts
+    def context_tree
+      @context_tree ||= process(exp)
     end
 
     def process(exp)

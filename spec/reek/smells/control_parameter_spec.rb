@@ -270,7 +270,7 @@ RSpec.describe Reek::Smells::ControlParameter do
         end
       EOS
       ctx = Reek::Context::MethodContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
-      smells = detector.examine(ctx)
+      smells = detector.run_for(ctx)
       expect(smells.length).to eq(1)
       smells.first
     end
