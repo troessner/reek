@@ -10,13 +10,13 @@ module Reek
     # passed-in warning formatter.
     #
     module Formatter
-      def self.format_list(warnings, formatter: SimpleWarningFormatter.new)
-        warnings.map do |warning|
-          "  #{formatter.format warning}"
-        end.join("\n")
+      module_function
+
+      def format_list(warnings, formatter: SimpleWarningFormatter.new)
+        warnings.map { |warning| "  #{formatter.format(warning)}" }.join("\n")
       end
 
-      def self.header(examiner)
+      def header(examiner)
         count = examiner.smells_count
         result = Rainbow("#{examiner.description} -- ").cyan +
           Rainbow("#{count} warning").yellow
@@ -59,12 +59,11 @@ module Reek
       BASE_URL_FOR_HELP_LINK = 'https://github.com/troessner/reek/blob/master/docs/'
 
       def format(warning)
-        "#{super} " \
-          "[#{explanatory_link(warning)}]"
+        "#{super} [#{explanatory_link(warning)}]"
       end
 
       def format_hash(warning)
-        super(warning).merge('wiki_link' => explanatory_link(warning))
+        super.merge('wiki_link' => explanatory_link(warning))
       end
 
       private

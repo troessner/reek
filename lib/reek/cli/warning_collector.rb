@@ -16,7 +16,7 @@ module Reek
       end
 
       def warnings
-        warnings_set.to_a.sort
+        warnings_set.sort
       end
 
       private
