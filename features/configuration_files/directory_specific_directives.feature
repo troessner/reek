@@ -50,8 +50,8 @@ Feature: Directory directives
     Then it reports:
     """
     web_app/app/models/user.rb -- 2 warnings:
-      [1]:User has no descriptive comment (IrresponsibleModule)
-      [2]:User#logged_in_with_role has unused parameter 'r' (UnusedParameters)
+      [1]:IrresponsibleModule: User has no descriptive comment
+      [2]:UnusedParameters: User#logged_in_with_role has unused parameter 'r'
     2 total warnings
     """
 
@@ -119,10 +119,10 @@ Feature: Directory directives
     Then it reports:
     """
     web_app/app/controllers/users_controller.rb -- 2 warnings:
-      [1]:UsersController has no descriptive comment (IrresponsibleModule)
-      [4]:UsersController#show contains iterators nested 2 deep (NestedIterators)
+      [1]:IrresponsibleModule: UsersController has no descriptive comment
+      [4]:NestedIterators: UsersController#show contains iterators nested 2 deep
     web_app/app/models/user.rb -- 1 warning:
-      [2]:User#logged_in_with_role has unused parameter 'r' (UnusedParameters)
+      [2]:UnusedParameters: User#logged_in_with_role has unused parameter 'r'
     3 total warnings
     """
 
@@ -164,9 +164,9 @@ Feature: Directory directives
     Then it reports:
     """
     other/projects_controller.rb -- 1 warning:
-      [4]:ProjectController#show contains iterators nested 2 deep (NestedIterators)
+      [4]:NestedIterators: ProjectController#show contains iterators nested 2 deep
     web_app/app/controllers/users_controller.rb -- 1 warning:
-      [1]:UsersController has no descriptive comment (IrresponsibleModule)
+      [1]:IrresponsibleModule: UsersController has no descriptive comment
     2 total warnings
     """
 
@@ -273,8 +273,8 @@ Feature: Directory directives
     Then it reports:
     """
     foo/bar/baz/klass.rb -- 1 warning:
-      [4]:Klass#meth contains iterators nested 2 deep (NestedIterators)
+      [4]:NestedIterators: Klass#meth contains iterators nested 2 deep
     foo/bar/klazz.rb -- 1 warning:
-      [1]:Klazz has no descriptive comment (IrresponsibleModule)
+      [1]:IrresponsibleModule: Klazz has no descriptive comment
     2 total warnings
     """

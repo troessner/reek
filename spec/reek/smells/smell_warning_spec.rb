@@ -52,12 +52,12 @@ RSpec.describe Reek::Smells::SmellWarning do
       it_should_behave_like 'first sorts ahead of second'
     end
 
-    context 'message takes precedence over smell name' do
+    context 'smell name takes precedence over message' do
       let(:first) do
-        build(:smell_warning, smell_detector: utility_function_detector, message: 'first message')
+        build(:smell_warning, smell_detector: feature_envy_detector, message: 'second message')
       end
       let(:second) do
-        build(:smell_warning, smell_detector: feature_envy_detector, message: 'second message')
+        build(:smell_warning, smell_detector: utility_function_detector, message: 'first message')
       end
 
       it_should_behave_like 'first sorts ahead of second'
@@ -65,19 +65,19 @@ RSpec.describe Reek::Smells::SmellWarning do
 
     context 'smells differing everywhere' do
       let(:first) do
-        uncommunicative_name_detector = build(:smell_detector,
-                                              smell_type: 'UncommunicativeVariableName')
-        build(:smell_warning, smell_detector: uncommunicative_name_detector,
-                              context: 'Dirty',
-                              message: "has the variable name '@s'")
-      end
-
-      let(:second) do
         duplication_detector = build(:smell_detector,
                                      smell_type: 'DuplicateMethodCall')
         build(:smell_warning, smell_detector: duplication_detector,
                               context: 'Dirty#a',
                               message: 'calls @s.title twice')
+      end
+
+      let(:second) do
+        uncommunicative_name_detector = build(:smell_detector,
+                                              smell_type: 'UncommunicativeVariableName')
+        build(:smell_warning, smell_detector: uncommunicative_name_detector,
+                              context: 'Dirty',
+                              message: "has the variable name '@s'")
       end
 
       it_should_behave_like 'first sorts ahead of second'

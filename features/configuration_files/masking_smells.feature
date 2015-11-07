@@ -30,8 +30,8 @@ Feature: Masking smells using config files
     And it reports:
       """
       smelly.rb -- 2 warnings:
-        [4, 5]:Smelly#m calls @foo.bar 2 times (DuplicateMethodCall)
-        [3]:Smelly#m has the name 'm' (UncommunicativeMethodName)
+        [4, 5]:DuplicateMethodCall: Smelly#m calls @foo.bar 2 times
+        [3]:UncommunicativeMethodName: Smelly#m has the name 'm'
       """
 
   Scenario: provide extra masking inline in comments
@@ -42,8 +42,8 @@ Feature: Masking smells using config files
     And it reports:
       """
       inline.rb -- 2 warnings:
-        [5]:Dirty has the variable name '@s' (UncommunicativeVariableName)
-        [5]:Dirty#a has the variable name 'x' (UncommunicativeVariableName)
+        [5]:UncommunicativeVariableName: Dirty has the variable name '@s'
+        [5]:UncommunicativeVariableName: Dirty#a has the variable name 'x'
       """
 
   Scenario: Disable UtilityFunction for non-public methods
@@ -54,6 +54,6 @@ Feature: Masking smells using config files
     And it reports:
       """
       smelly.rb -- 1 warning:
-        [3]:Klass#public_method doesn't depend on instance state (maybe move it to another class?) (UtilityFunction)
+        [3]:UtilityFunction: Klass#public_method doesn't depend on instance state (maybe move it to another class?)
       """
     But it does not report private or protected methods

@@ -37,7 +37,7 @@ Feature: Using Reek programmatically
     And it reports:
       """
       smelly.rb -- 3 warnings:
-        Smelly#m calls @foo.bar 2 times (DuplicateMethodCall)
-        Smelly#m calls puts(@foo.bar) 2 times (DuplicateMethodCall)
-        Smelly#m has the name 'm' (UncommunicativeMethodName)
+        DuplicateMethodCall: Smelly#m calls @foo.bar 2 times
+        DuplicateMethodCall: Smelly#m calls puts(@foo.bar) 2 times
+        UncommunicativeMethodName: Smelly#m has the name 'm'
       """

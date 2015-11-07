@@ -61,13 +61,13 @@ module Reek
       end
 
       def base_message
-        "#{context} #{message} (#{smell_type})"
+        "#{smell_type}: #{context} #{message}"
       end
 
       protected
 
       def sort_key
-        [context, message, smell_category]
+        [smell_type, context, message]
       end
 
       private

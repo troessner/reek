@@ -15,9 +15,9 @@ Feature: Reek can be driven through its Task
     And it reports:
       """
       smelly.rb -- 3 warnings:
-        [4, 5]:Smelly#m calls @foo.bar 2 times (DuplicateMethodCall)
-        [4, 5]:Smelly#m calls puts(@foo.bar) 2 times (DuplicateMethodCall)
-        [3]:Smelly#m has the name 'm' (UncommunicativeMethodName)
+        [4, 5]:DuplicateMethodCall: Smelly#m calls @foo.bar 2 times
+        [4, 5]:DuplicateMethodCall: Smelly#m calls puts(@foo.bar) 2 times
+        [3]:UncommunicativeMethodName: Smelly#m has the name 'm'
       """
 
   Scenario: name changes the task name
@@ -33,9 +33,9 @@ Feature: Reek can be driven through its Task
     And it reports:
       """
       smelly.rb -- 3 warnings:
-        [4, 5]:Smelly#m calls @foo.bar 2 times (DuplicateMethodCall)
-        [4, 5]:Smelly#m calls puts(@foo.bar) 2 times (DuplicateMethodCall)
-        [3]:Smelly#m has the name 'm' (UncommunicativeMethodName)
+        [4, 5]:DuplicateMethodCall: Smelly#m calls @foo.bar 2 times
+        [4, 5]:DuplicateMethodCall: Smelly#m calls puts(@foo.bar) 2 times
+        [3]:UncommunicativeMethodName: Smelly#m has the name 'm'
       """
 
   Scenario: verbose prints the reek command
@@ -65,9 +65,9 @@ Feature: Reek can be driven through its Task
     And it reports:
       """
       smelly.rb -- 3 warnings:
-        [4, 5]:Smelly#m calls @foo.bar 2 times (DuplicateMethodCall)
-        [4, 5]:Smelly#m calls puts(@foo.bar) 2 times (DuplicateMethodCall)
-        [3]:Smelly#m has the name 'm' (UncommunicativeMethodName)
+        [4, 5]:DuplicateMethodCall: Smelly#m calls @foo.bar 2 times
+        [4, 5]:DuplicateMethodCall: Smelly#m calls puts(@foo.bar) 2 times
+        [3]:UncommunicativeMethodName: Smelly#m has the name 'm'
       """
 
   Scenario: can be configured with config_file

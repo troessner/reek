@@ -10,12 +10,12 @@ Feature: Correctly formatted reports
     And it reports:
       """
       smelly/dirty_one.rb -- 2 warnings:
-        [1]:Dirty has no descriptive comment (IrresponsibleModule)
-        [2]:Dirty#a has the name 'a' (UncommunicativeMethodName)
+        [1]:IrresponsibleModule: Dirty has no descriptive comment
+        [2]:UncommunicativeMethodName: Dirty#a has the name 'a'
       smelly/dirty_two.rb -- 3 warnings:
-        [1]:Dirty has no descriptive comment (IrresponsibleModule)
-        [2]:Dirty#a has the name 'a' (UncommunicativeMethodName)
-        [3]:Dirty#b has the name 'b' (UncommunicativeMethodName)
+        [1]:IrresponsibleModule: Dirty has no descriptive comment
+        [2]:UncommunicativeMethodName: Dirty#a has the name 'a'
+        [3]:UncommunicativeMethodName: Dirty#b has the name 'b'
       5 total warnings
       """
 
@@ -31,12 +31,12 @@ Feature: Correctly formatted reports
     And it reports:
       """
       smelly/dirty_one.rb -- 2 warnings:
-        [1]:Dirty has no descriptive comment (IrresponsibleModule)
-        [2]:Dirty#a has the name 'a' (UncommunicativeMethodName)
+        [1]:IrresponsibleModule: Dirty has no descriptive comment
+        [2]:UncommunicativeMethodName: Dirty#a has the name 'a'
       smelly/dirty_two.rb -- 3 warnings:
-        [1]:Dirty has no descriptive comment (IrresponsibleModule)
-        [2]:Dirty#a has the name 'a' (UncommunicativeMethodName)
-        [3]:Dirty#b has the name 'b' (UncommunicativeMethodName)
+        [1]:IrresponsibleModule: Dirty has no descriptive comment
+        [2]:UncommunicativeMethodName: Dirty#a has the name 'a'
+        [3]:UncommunicativeMethodName: Dirty#b has the name 'b'
       5 total warnings
       """
 
@@ -53,12 +53,12 @@ Feature: Correctly formatted reports
     And it reports:
       """
       smelly/dirty_two.rb -- 3 warnings:
-        [1]:Dirty has no descriptive comment (IrresponsibleModule)
-        [2]:Dirty#a has the name 'a' (UncommunicativeMethodName)
-        [3]:Dirty#b has the name 'b' (UncommunicativeMethodName)
+        [1]:IrresponsibleModule: Dirty has no descriptive comment
+        [2]:UncommunicativeMethodName: Dirty#a has the name 'a'
+        [3]:UncommunicativeMethodName: Dirty#b has the name 'b'
       smelly/dirty_one.rb -- 2 warnings:
-        [1]:Dirty has no descriptive comment (IrresponsibleModule)
-        [2]:Dirty#a has the name 'a' (UncommunicativeMethodName)
+        [1]:IrresponsibleModule: Dirty has no descriptive comment
+        [2]:UncommunicativeMethodName: Dirty#a has the name 'a'
       5 total warnings
       """
 
@@ -114,9 +114,9 @@ Feature: Correctly formatted reports
     And it reports:
       """
       smelly.rb -- 3 warnings:
-        Smelly#m calls @foo.bar 2 times (DuplicateMethodCall)
-        Smelly#m calls puts(@foo.bar) 2 times (DuplicateMethodCall)
-        Smelly#m has the name 'm' (UncommunicativeMethodName)
+        DuplicateMethodCall: Smelly#m calls @foo.bar 2 times
+        DuplicateMethodCall: Smelly#m calls puts(@foo.bar) 2 times
+        UncommunicativeMethodName: Smelly#m has the name 'm'
       """
 
     Examples:
@@ -132,9 +132,9 @@ Feature: Correctly formatted reports
     And it reports:
       """
       smelly.rb -- 3 warnings:
-        [4, 5]:Smelly#m calls @foo.bar 2 times (DuplicateMethodCall)
-        [4, 5]:Smelly#m calls puts(@foo.bar) 2 times (DuplicateMethodCall)
-        [3]:Smelly#m has the name 'm' (UncommunicativeMethodName)
+        [4, 5]:DuplicateMethodCall: Smelly#m calls @foo.bar 2 times
+        [4, 5]:DuplicateMethodCall: Smelly#m calls puts(@foo.bar) 2 times
+        [3]:UncommunicativeMethodName: Smelly#m has the name 'm'
       """
 
     Examples:
@@ -150,9 +150,9 @@ Feature: Correctly formatted reports
     And it reports:
       """
       smelly.rb -- 3 warnings:
-        smelly.rb:4: Smelly#m calls @foo.bar 2 times (DuplicateMethodCall)
-        smelly.rb:4: Smelly#m calls puts(@foo.bar) 2 times (DuplicateMethodCall)
-        smelly.rb:3: Smelly#m has the name 'm' (UncommunicativeMethodName)
+        smelly.rb:4: DuplicateMethodCall: Smelly#m calls @foo.bar 2 times
+        smelly.rb:4: DuplicateMethodCall: Smelly#m calls puts(@foo.bar) 2 times
+        smelly.rb:3: UncommunicativeMethodName: Smelly#m has the name 'm'
       """
 
     Examples:
@@ -169,12 +169,12 @@ Feature: Correctly formatted reports
     And it reports:
       """
       smelly/dirty_one.rb -- 2 warnings:
-        [1]:Dirty has no descriptive comment (IrresponsibleModule)
-        [2]:Dirty#a has the name 'a' (UncommunicativeMethodName)
+        [1]:IrresponsibleModule: Dirty has no descriptive comment
+        [2]:UncommunicativeMethodName: Dirty#a has the name 'a'
       smelly/dirty_two.rb -- 3 warnings:
-        [1]:Dirty has no descriptive comment (IrresponsibleModule)
-        [2]:Dirty#a has the name 'a' (UncommunicativeMethodName)
-        [3]:Dirty#b has the name 'b' (UncommunicativeMethodName)
+        [1]:IrresponsibleModule: Dirty has no descriptive comment
+        [2]:UncommunicativeMethodName: Dirty#a has the name 'a'
+        [3]:UncommunicativeMethodName: Dirty#b has the name 'b'
       5 total warnings
       """
 
@@ -190,9 +190,9 @@ Feature: Correctly formatted reports
     And it reports:
       """
       smelly.rb -- 3 warnings:
-        [4, 5]:Smelly#m calls @foo.bar 2 times (DuplicateMethodCall) [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-        [4, 5]:Smelly#m calls puts(@foo.bar) 2 times (DuplicateMethodCall) [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-        [3]:Smelly#m has the name 'm' (UncommunicativeMethodName) [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
+        [4, 5]:DuplicateMethodCall: Smelly#m calls @foo.bar 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
+        [4, 5]:DuplicateMethodCall: Smelly#m calls puts(@foo.bar) 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
+        [3]:UncommunicativeMethodName: Smelly#m has the name 'm' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
       """
 
     Examples:
@@ -207,9 +207,9 @@ Feature: Correctly formatted reports
     And it reports:
       """
       smelly.rb -- 3 warnings:
-        Smelly#m calls @foo.bar 2 times (DuplicateMethodCall) [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-        Smelly#m calls puts(@foo.bar) 2 times (DuplicateMethodCall) [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-        Smelly#m has the name 'm' (UncommunicativeMethodName) [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
+        DuplicateMethodCall: Smelly#m calls @foo.bar 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
+        DuplicateMethodCall: Smelly#m calls puts(@foo.bar) 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
+        UncommunicativeMethodName: Smelly#m has the name 'm' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
       """
 
     Examples:
