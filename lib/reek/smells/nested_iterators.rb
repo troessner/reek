@@ -44,7 +44,7 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       # :reek:TooManyStatements: { max_statements: 6 }
-      def examine_context(ctx)
+      def inspect(ctx)
         configure_ignore_iterators(ctx)
         deepest_iterator = find_deepest_iterator ctx
         return [] unless deepest_iterator

@@ -23,7 +23,7 @@ module Reek
         'LargeClass'
       end
 
-      def self.contexts # :nodoc:
+      def self.contexts
         [:class]
       end
 
@@ -39,7 +39,7 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
-      def examine_context(ctx)
+      def inspect(ctx)
         max_allowed_methods = value(MAX_ALLOWED_METHODS_KEY, ctx, DEFAULT_MAX_METHODS)
         # TODO: Only checks instance methods!
         actual = ctx.node_instance_methods.length

@@ -51,7 +51,7 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       # :reek:FeatureEnvy
-      def examine_context(ctx)
+      def inspect(ctx)
         max_copies = value(MAX_COPIES_KEY, ctx, DEFAULT_MAX_COPIES)
         min_clump_size = value(MIN_CLUMP_SIZE_KEY, ctx, DEFAULT_MIN_CLUMP_SIZE)
         MethodGroup.new(ctx, min_clump_size, max_copies).clumps.map do |clump, methods|

@@ -12,7 +12,7 @@ module Reek
         'SimulatedPolymorphism'
       end
 
-      def examine_context(ctx)
+      def inspect(ctx)
         call_node_finder = NodeFinder.new(ctx, :send, NilCallNodeDetector)
         case_node_finder = NodeFinder.new(ctx, :when, NilWhenNodeDetector)
         smelly_nodes = call_node_finder.smelly_nodes + case_node_finder.smelly_nodes

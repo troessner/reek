@@ -29,7 +29,7 @@ module Reek
       #
       # :reek:FeatureEnvy
       # :reek:DuplicateMethodCall: { max_calls: 2 }
-      def examine_context(ctx)
+      def inspect(ctx)
         max_allowed_params = value(MAX_ALLOWED_PARAMS_KEY,
                                    ctx,
                                    DEFAULT_MAX_ALLOWED_PARAMS)

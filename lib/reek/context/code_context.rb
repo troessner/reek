@@ -105,6 +105,7 @@ module Reek
         each_node(type, [:casgn, :class, :module], &blk)
       end
 
+      # See Reek::AST::Node for details.
       def each_node(type, ignoring, &blk)
         exp.each_node(type, ignoring, &blk)
       end

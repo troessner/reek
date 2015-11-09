@@ -45,7 +45,7 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
-      def examine_context(ctx)
+      def inspect(ctx)
         return [] unless ctx.references_self?
         envious_receivers(ctx).map do |name, refs|
           smell_warning(

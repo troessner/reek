@@ -20,7 +20,7 @@ RSpec.describe Reek::Smells::PrimaDonnaMethod do
     end
 
     it 'should be reported' do
-      smells = detector.examine_context(ctx)
+      smells = detector.inspect(ctx)
       warning = smells[0]
 
       expect(warning.smell_category).to eq('PrimaDonnaMethod')

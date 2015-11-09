@@ -40,7 +40,7 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
-      def examine_context(context)
+      def inspect(context)
         expression = context.exp
         expression.parameter_names.select do |name|
           sanitized_name = sanitize name

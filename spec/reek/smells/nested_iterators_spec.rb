@@ -109,7 +109,7 @@ RSpec.describe Reek::Smells::NestedIterators do
     expect(src).to reek_of(:NestedIterators)
   end
 
-  describe 'examine_context / warnings' do
+  describe 'inspect / warnings' do
     let(:detector) { build(:smell_detector, smell_type: :NestedIterators) }
 
     it 'reports correctly' do
@@ -120,7 +120,7 @@ RSpec.describe Reek::Smells::NestedIterators do
           end
         end
       EOS
-      warnings = detector.examine_context(build(:method_context, source: source))
+      warnings = detector.inspect(build(:method_context, source: source))
       warning = warnings.first
 
       expect(warning.smell_category).to eq(Reek::Smells::NestedIterators.smell_category)
@@ -137,7 +137,7 @@ RSpec.describe Reek::Smells::NestedIterators do
         end
       EOS
 
-      warnings = detector.examine_context(build(:method_context, source: source))
+      warnings = detector.inspect(build(:method_context, source: source))
       expect(warnings.size).to eq(1)
       warning = warnings.first
       expect(warning.parameters[:name]).to eq('bad')
@@ -150,7 +150,7 @@ RSpec.describe Reek::Smells::NestedIterators do
           @jim.each {|ting| ting.each {|piece| piece.each {|atom| atom.foo } } }
         end
       EOS
-      warnings = detector.examine_context(build(:method_context, source: source))
+      warnings = detector.inspect(build(:method_context, source: source))
       expect(warnings.size).to eq(1)
       warning = warnings.first
 
@@ -273,7 +273,7 @@ RSpec.describe Reek::Smells::NestedIterators do
         end
       EOS
       ctx = Reek::Context::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
-      detector.examine_context(ctx).first
+      detector.inspect(ctx).first
     end
 
     it_should_behave_like 'common fields set correctly'

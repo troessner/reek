@@ -49,7 +49,7 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
-      def examine_context(context)
+      def inspect(context)
         fully_qualified_name = context.full_name
         exp                  = context.exp
         module_name          = exp.simple_name
