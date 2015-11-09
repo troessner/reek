@@ -51,7 +51,7 @@ RSpec.describe Reek::Smells::UncommunicativeVariableName do
       src = 'def simple(fred) x = jim(45); x = y end'
       syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
       ctx = Reek::Context::CodeContext.new(nil, syntax_tree)
-      smells = detector.examine_context(ctx)
+      smells = detector.inspect(ctx)
       expect(smells.length).to eq(1)
       expect(smells[0].smell_type).to eq(described_class.smell_type)
       expect(smells[0].parameters[:name]).to eq('x')
@@ -164,7 +164,7 @@ RSpec.describe Reek::Smells::UncommunicativeVariableName do
       EOS
       syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
       ctx = Reek::Context::CodeContext.new(nil, syntax_tree)
-      detector.examine_context(ctx).first
+      detector.inspect(ctx).first
     end
 
     it_should_behave_like 'common fields set correctly'
@@ -180,7 +180,7 @@ RSpec.describe Reek::Smells::UncommunicativeVariableName do
       src = 'def self.bad() x2 = 4; end'
       syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
       ctx = Reek::Context::CodeContext.new(nil, syntax_tree)
-      detector.examine_context(ctx).first
+      detector.inspect(ctx).first
     end
 
     it_should_behave_like 'common fields set correctly'

@@ -17,7 +17,7 @@ RSpec.describe Reek::Smells::DuplicateMethodCall do
         end
       EOS
       ctx = Reek::Context::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
-      smells = detector.examine_context(ctx)
+      smells = detector.inspect(ctx)
       expect(smells.length).to eq(1)
       smells.first
     end

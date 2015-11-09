@@ -28,7 +28,7 @@ module Reek
         [:class]
       end
 
-      def examine_context(ctx)
+      def inspect(ctx)
         ctx.node_instance_methods.map do |method_sexp|
           check_for_smells(method_sexp, ctx)
         end.compact

@@ -31,7 +31,7 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
-      def examine_context(ctx)
+      def inspect(ctx)
         max_allowed_statements = value(MAX_ALLOWED_STATEMENTS_KEY,
                                        ctx,
                                        DEFAULT_MAX_STATEMENTS)

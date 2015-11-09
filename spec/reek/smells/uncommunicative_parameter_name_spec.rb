@@ -77,7 +77,7 @@ RSpec.describe Reek::Smells::UncommunicativeParameterName do
     let(:warning) do
       src = 'def bad(good, bad2, good_again); basics(good, bad2, good_again); end'
       ctx = Reek::Context::MethodContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
-      detector.examine_context(ctx).first
+      detector.inspect(ctx).first
     end
 
     it_should_behave_like 'common fields set correctly'
