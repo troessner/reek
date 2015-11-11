@@ -17,9 +17,9 @@ Feature: Offer different ways how to load configuration
     And it reports:
       """
       smelly.rb -- 3 warnings:
-        [4, 5]:DuplicateMethodCall: Smelly#m calls @foo.bar 2 times
-        [4, 5]:DuplicateMethodCall: Smelly#m calls puts(@foo.bar) 2 times
-        [3]:UncommunicativeMethodName: Smelly#m has the name 'm'
+        [4, 5]:DuplicateMethodCall: Smelly#m calls @foo.bar 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
+        [4, 5]:DuplicateMethodCall: Smelly#m calls puts(@foo.bar) 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
+        [3]:UncommunicativeMethodName: Smelly#m has the name 'm' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
       """
 
   Scenario: Configuration via CLI
@@ -45,7 +45,7 @@ Feature: Offer different ways how to load configuration
     And it reports:
       """
       smelly.rb -- 3 warnings:
-        [4, 5]:DuplicateMethodCall: Smelly#m calls @foo.bar 2 times
-        [4, 5]:DuplicateMethodCall: Smelly#m calls puts(@foo.bar) 2 times
-        [3]:UncommunicativeMethodName: Smelly#m has the name 'm'
+        [4, 5]:DuplicateMethodCall: Smelly#m calls @foo.bar 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
+        [4, 5]:DuplicateMethodCall: Smelly#m calls puts(@foo.bar) 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
+        [3]:UncommunicativeMethodName: Smelly#m has the name 'm' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
       """

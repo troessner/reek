@@ -9,9 +9,9 @@ Feature: Reports total number of code smells
     And it reports:
       """
       smelly.rb -- 3 warnings:
-        [4, 5]:DuplicateMethodCall: Smelly#m calls @foo.bar 2 times
-        [4, 5]:DuplicateMethodCall: Smelly#m calls puts(@foo.bar) 2 times
-        [3]:UncommunicativeMethodName: Smelly#m has the name 'm'
+        [4, 5]:DuplicateMethodCall: Smelly#m calls @foo.bar 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
+        [4, 5]:DuplicateMethodCall: Smelly#m calls puts(@foo.bar) 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
+        [3]:UncommunicativeMethodName: Smelly#m has the name 'm' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
       """
 
   Scenario: Output total number of smells when inspecting multiple files
@@ -21,12 +21,12 @@ Feature: Reports total number of code smells
     And it reports:
       """
       smelly/dirty_one.rb -- 2 warnings:
-        [1]:IrresponsibleModule: Dirty has no descriptive comment
-        [2]:UncommunicativeMethodName: Dirty#a has the name 'a'
+        [1]:IrresponsibleModule: Dirty has no descriptive comment [https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md]
+        [2]:UncommunicativeMethodName: Dirty#a has the name 'a' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
       smelly/dirty_two.rb -- 3 warnings:
-        [1]:IrresponsibleModule: Dirty has no descriptive comment
-        [2]:UncommunicativeMethodName: Dirty#a has the name 'a'
-        [3]:UncommunicativeMethodName: Dirty#b has the name 'b'
+        [1]:IrresponsibleModule: Dirty has no descriptive comment [https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md]
+        [2]:UncommunicativeMethodName: Dirty#a has the name 'a' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
+        [3]:UncommunicativeMethodName: Dirty#b has the name 'b' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
       5 total warnings
       """
 

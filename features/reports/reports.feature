@@ -10,12 +10,12 @@ Feature: Correctly formatted reports
     And it reports:
       """
       smelly/dirty_one.rb -- 2 warnings:
-        [1]:IrresponsibleModule: Dirty has no descriptive comment
-        [2]:UncommunicativeMethodName: Dirty#a has the name 'a'
+        [1]:IrresponsibleModule: Dirty has no descriptive comment [https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md]
+        [2]:UncommunicativeMethodName: Dirty#a has the name 'a' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
       smelly/dirty_two.rb -- 3 warnings:
-        [1]:IrresponsibleModule: Dirty has no descriptive comment
-        [2]:UncommunicativeMethodName: Dirty#a has the name 'a'
-        [3]:UncommunicativeMethodName: Dirty#b has the name 'b'
+        [1]:IrresponsibleModule: Dirty has no descriptive comment [https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md]
+        [2]:UncommunicativeMethodName: Dirty#a has the name 'a' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
+        [3]:UncommunicativeMethodName: Dirty#b has the name 'b' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
       5 total warnings
       """
 
@@ -31,12 +31,12 @@ Feature: Correctly formatted reports
     And it reports:
       """
       smelly/dirty_one.rb -- 2 warnings:
-        [1]:IrresponsibleModule: Dirty has no descriptive comment
-        [2]:UncommunicativeMethodName: Dirty#a has the name 'a'
+        [1]:IrresponsibleModule: Dirty has no descriptive comment [https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md]
+        [2]:UncommunicativeMethodName: Dirty#a has the name 'a' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
       smelly/dirty_two.rb -- 3 warnings:
-        [1]:IrresponsibleModule: Dirty has no descriptive comment
-        [2]:UncommunicativeMethodName: Dirty#a has the name 'a'
-        [3]:UncommunicativeMethodName: Dirty#b has the name 'b'
+        [1]:IrresponsibleModule: Dirty has no descriptive comment [https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md]
+        [2]:UncommunicativeMethodName: Dirty#a has the name 'a' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
+        [3]:UncommunicativeMethodName: Dirty#b has the name 'b' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
       5 total warnings
       """
 
@@ -53,12 +53,12 @@ Feature: Correctly formatted reports
     And it reports:
       """
       smelly/dirty_two.rb -- 3 warnings:
-        [1]:IrresponsibleModule: Dirty has no descriptive comment
-        [2]:UncommunicativeMethodName: Dirty#a has the name 'a'
-        [3]:UncommunicativeMethodName: Dirty#b has the name 'b'
+        [1]:IrresponsibleModule: Dirty has no descriptive comment [https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md]
+        [2]:UncommunicativeMethodName: Dirty#a has the name 'a' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
+        [3]:UncommunicativeMethodName: Dirty#b has the name 'b' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
       smelly/dirty_one.rb -- 2 warnings:
-        [1]:IrresponsibleModule: Dirty has no descriptive comment
-        [2]:UncommunicativeMethodName: Dirty#a has the name 'a'
+        [1]:IrresponsibleModule: Dirty has no descriptive comment [https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md]
+        [2]:UncommunicativeMethodName: Dirty#a has the name 'a' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
       5 total warnings
       """
 
@@ -114,9 +114,9 @@ Feature: Correctly formatted reports
     And it reports:
       """
       smelly.rb -- 3 warnings:
-        DuplicateMethodCall: Smelly#m calls @foo.bar 2 times
-        DuplicateMethodCall: Smelly#m calls puts(@foo.bar) 2 times
-        UncommunicativeMethodName: Smelly#m has the name 'm'
+        DuplicateMethodCall: Smelly#m calls @foo.bar 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
+        DuplicateMethodCall: Smelly#m calls puts(@foo.bar) 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
+        UncommunicativeMethodName: Smelly#m has the name 'm' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
       """
 
     Examples:
@@ -132,9 +132,9 @@ Feature: Correctly formatted reports
     And it reports:
       """
       smelly.rb -- 3 warnings:
-        [4, 5]:DuplicateMethodCall: Smelly#m calls @foo.bar 2 times
-        [4, 5]:DuplicateMethodCall: Smelly#m calls puts(@foo.bar) 2 times
-        [3]:UncommunicativeMethodName: Smelly#m has the name 'm'
+        [4, 5]:DuplicateMethodCall: Smelly#m calls @foo.bar 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
+        [4, 5]:DuplicateMethodCall: Smelly#m calls puts(@foo.bar) 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
+        [3]:UncommunicativeMethodName: Smelly#m has the name 'm' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
       """
 
     Examples:
@@ -150,9 +150,9 @@ Feature: Correctly formatted reports
     And it reports:
       """
       smelly.rb -- 3 warnings:
-        smelly.rb:4: DuplicateMethodCall: Smelly#m calls @foo.bar 2 times
-        smelly.rb:4: DuplicateMethodCall: Smelly#m calls puts(@foo.bar) 2 times
-        smelly.rb:3: UncommunicativeMethodName: Smelly#m has the name 'm'
+        smelly.rb:4: DuplicateMethodCall: Smelly#m calls @foo.bar 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
+        smelly.rb:4: DuplicateMethodCall: Smelly#m calls puts(@foo.bar) 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
+        smelly.rb:3: UncommunicativeMethodName: Smelly#m has the name 'm' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
       """
 
     Examples:
@@ -169,12 +169,12 @@ Feature: Correctly formatted reports
     And it reports:
       """
       smelly/dirty_one.rb -- 2 warnings:
-        [1]:IrresponsibleModule: Dirty has no descriptive comment
-        [2]:UncommunicativeMethodName: Dirty#a has the name 'a'
+        [1]:IrresponsibleModule: Dirty has no descriptive comment [https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md]
+        [2]:UncommunicativeMethodName: Dirty#a has the name 'a' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
       smelly/dirty_two.rb -- 3 warnings:
-        [1]:IrresponsibleModule: Dirty has no descriptive comment
-        [2]:UncommunicativeMethodName: Dirty#a has the name 'a'
-        [3]:UncommunicativeMethodName: Dirty#b has the name 'b'
+        [1]:IrresponsibleModule: Dirty has no descriptive comment [https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md]
+        [2]:UncommunicativeMethodName: Dirty#a has the name 'a' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
+        [3]:UncommunicativeMethodName: Dirty#b has the name 'b' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
       5 total warnings
       """
 
@@ -196,9 +196,21 @@ Feature: Correctly formatted reports
       """
 
     Examples:
-      | option           |
-      | -U               |
+      | option        |
+      | -U            |
       | --wiki-links  |
+
+  Scenario: --no-wiki-links drops links from smell warnings
+    Given a smelly file called 'smelly.rb'
+    When I run reek --no-wiki-links smelly.rb
+    Then the exit status indicates smells
+    And it reports:
+      """
+      smelly.rb -- 3 warnings:
+        [4, 5]:DuplicateMethodCall: Smelly#m calls @foo.bar 2 times
+        [4, 5]:DuplicateMethodCall: Smelly#m calls puts(@foo.bar) 2 times
+        [3]:UncommunicativeMethodName: Smelly#m has the name 'm'
+      """
 
   Scenario Outline: --wiki-links is independent of --line-numbers
     Given a smelly file called 'smelly.rb'

@@ -50,8 +50,8 @@ Feature: Directory directives
     Then it reports:
     """
     web_app/app/models/user.rb -- 2 warnings:
-      [1]:IrresponsibleModule: User has no descriptive comment
-      [2]:UnusedParameters: User#logged_in_with_role has unused parameter 'r'
+      [1]:IrresponsibleModule: User has no descriptive comment [https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md]
+      [2]:UnusedParameters: User#logged_in_with_role has unused parameter 'r' [https://github.com/troessner/reek/blob/master/docs/Unused-Parameters.md]
     2 total warnings
     """
 
@@ -119,10 +119,10 @@ Feature: Directory directives
     Then it reports:
     """
     web_app/app/controllers/users_controller.rb -- 2 warnings:
-      [1]:IrresponsibleModule: UsersController has no descriptive comment
-      [4]:NestedIterators: UsersController#show contains iterators nested 2 deep
+      [1]:IrresponsibleModule: UsersController has no descriptive comment [https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md]
+      [4]:NestedIterators: UsersController#show contains iterators nested 2 deep [https://github.com/troessner/reek/blob/master/docs/Nested-Iterators.md]
     web_app/app/models/user.rb -- 1 warning:
-      [2]:UnusedParameters: User#logged_in_with_role has unused parameter 'r'
+      [2]:UnusedParameters: User#logged_in_with_role has unused parameter 'r' [https://github.com/troessner/reek/blob/master/docs/Unused-Parameters.md]
     3 total warnings
     """
 
@@ -164,9 +164,9 @@ Feature: Directory directives
     Then it reports:
     """
     other/projects_controller.rb -- 1 warning:
-      [4]:NestedIterators: ProjectController#show contains iterators nested 2 deep
+      [4]:NestedIterators: ProjectController#show contains iterators nested 2 deep [https://github.com/troessner/reek/blob/master/docs/Nested-Iterators.md]
     web_app/app/controllers/users_controller.rb -- 1 warning:
-      [1]:IrresponsibleModule: UsersController has no descriptive comment
+      [1]:IrresponsibleModule: UsersController has no descriptive comment [https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md]
     2 total warnings
     """
 
@@ -273,8 +273,8 @@ Feature: Directory directives
     Then it reports:
     """
     foo/bar/baz/klass.rb -- 1 warning:
-      [4]:NestedIterators: Klass#meth contains iterators nested 2 deep
+      [4]:NestedIterators: Klass#meth contains iterators nested 2 deep [https://github.com/troessner/reek/blob/master/docs/Nested-Iterators.md]
     foo/bar/klazz.rb -- 1 warning:
-      [1]:IrresponsibleModule: Klazz has no descriptive comment
+      [1]:IrresponsibleModule: Klazz has no descriptive comment [https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md]
     2 total warnings
     """

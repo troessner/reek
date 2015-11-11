@@ -30,8 +30,8 @@ Feature: Masking smells using config files
     And it reports:
       """
       smelly.rb -- 2 warnings:
-        [4, 5]:DuplicateMethodCall: Smelly#m calls @foo.bar 2 times
-        [3]:UncommunicativeMethodName: Smelly#m has the name 'm'
+        [4, 5]:DuplicateMethodCall: Smelly#m calls @foo.bar 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
+        [3]:UncommunicativeMethodName: Smelly#m has the name 'm' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
       """
 
   Scenario: provide extra masking inline in comments
@@ -42,8 +42,8 @@ Feature: Masking smells using config files
     And it reports:
       """
       inline.rb -- 2 warnings:
-        [5]:UncommunicativeVariableName: Dirty has the variable name '@s'
-        [5]:UncommunicativeVariableName: Dirty#a has the variable name 'x'
+        [5]:UncommunicativeVariableName: Dirty has the variable name '@s' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
+        [5]:UncommunicativeVariableName: Dirty#a has the variable name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
       """
 
   Scenario: Disable UtilityFunction for non-public methods
@@ -54,6 +54,6 @@ Feature: Masking smells using config files
     And it reports:
       """
       smelly.rb -- 1 warning:
-        [3]:UtilityFunction: Klass#public_method doesn't depend on instance state (maybe move it to another class?)
+        [3]:UtilityFunction: Klass#public_method doesn't depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Utility-Function.md]
       """
     But it does not report private or protected methods
