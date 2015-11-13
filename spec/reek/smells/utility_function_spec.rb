@@ -197,6 +197,10 @@ RSpec.describe Reek::Smells::UtilityFunction do
       expect('def child(arg) super; arg.to_s; end').not_to reek_of(:UtilityFunction)
     end
 
+    it 'does not report a method that calls super with arguments' do
+      expect('def child(arg) super(arg * 2); arg.to_s; end').not_to reek_of(:UtilityFunction)
+    end
+
     it 'should recognise a deep call' do
       src = <<-EOS
         class Red

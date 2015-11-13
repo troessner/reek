@@ -22,7 +22,7 @@ module Reek
       private_attr_reader :ast
 
       def explicit_self_calls
-        [:self, :zsuper, :ivar, :ivasgn].flat_map do |node_type|
+        [:self, :super, :zsuper, :ivar, :ivasgn].flat_map do |node_type|
           ast.each_node(node_type, STOP_NODES)
         end
       end
