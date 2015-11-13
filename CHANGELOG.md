@@ -2,7 +2,12 @@
 
 ## Unreleased
 
-## 3.6 (2015-10-30)
+## 3.6.1 (2015-11-13)
+
+* (mvz) Make UtilityFunction not report methods that call `super` with
+  arguments.
+
+## 3.6.0 (2015-10-30)
 
 * (mvz) Make Attribute respect suppressing comments
 * (chastell) Adjust parser dependency to allow versions 2.2.3+ (and even 2.3+)
