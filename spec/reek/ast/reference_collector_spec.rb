@@ -16,6 +16,10 @@ RSpec.describe Reek::AST::ReferenceCollector do
       expect(refs_to_self('def simple() super; end')).to eq(1)
     end
 
+    it 'counts a call to super with arguments' do
+      expect(refs_to_self('def simple() super(); end')).to eq(1)
+    end
+
     it 'counts a local call' do
       expect(refs_to_self('def simple() to_s; end')).to eq(1)
     end
