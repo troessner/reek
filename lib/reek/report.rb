@@ -12,7 +12,8 @@ module Reek
       json: JSONReport,
       html: HTMLReport,
       xml: XMLReport,
-      text: TextReport
+      text: TextReport,
+      code_climate: CodeClimateReport
     }
 
     LOCATION_FORMATTERS = {

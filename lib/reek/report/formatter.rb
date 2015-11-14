@@ -1,5 +1,6 @@
 require 'private_attr/everywhere'
 require_relative 'location_formatter'
+require_relative '../report/code_climate_formatter'
 
 module Reek
   module Report
@@ -40,6 +41,11 @@ module Reek
       # :reek:UtilityFunction
       def format_hash(warning)
         warning.yaml_hash
+      end
+
+      # :reek:UtilityFunction
+      def format_code_climate_hash(warning)
+        CodeClimateFormatter.new(warning).to_hash
       end
 
       private_attr_reader :location_formatter

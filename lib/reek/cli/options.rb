@@ -72,9 +72,9 @@ module Reek
       def set_alternative_formatter_options
         parser.separator "\nReport format:"
         parser.on(
-          '-f', '--format FORMAT', [:html, :text, :yaml, :json, :xml],
+          '-f', '--format FORMAT', [:html, :text, :yaml, :json, :xml, :code_climate],
           'Report smells in the given format:',
-          '  html', '  text (default)', '  yaml', '  json', '  xml'
+          '  html', '  text (default)', '  yaml', '  json', '  xml', '  code_climate'
         ) do |opt|
           self.report_format = opt
         end
