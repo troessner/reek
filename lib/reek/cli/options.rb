@@ -9,7 +9,7 @@ module Reek
     #
     # See {file:docs/Command-Line-Options.md} for details.
     #
-    # :reek:TooManyInstanceVariables: { max_instance_variables: 6 }
+    # :reek:TooManyInstanceVariables: { max_instance_variables: 7 }
     # :reek:Attribute: { enabled: false }
     class Options
       attr_reader :argv, :parser, :smells_to_detect
@@ -26,6 +26,7 @@ module Reek
         @parser           = OptionParser.new
         @report_format    = :text
         @location_format  = :numbers
+        @show_links       = true
         @smells_to_detect = []
         @colored          = color_support?
 
@@ -112,7 +113,7 @@ module Reek
           self.show_empty = show_empty
         end
         parser.on('-U', '--[no-]wiki-links',
-                  'Show link to related wiki page for each smell (default: false)') do |show_links|
+                  'Show link to related wiki page for each smell (default: true)') do |show_links|
           self.show_links = show_links
         end
       end

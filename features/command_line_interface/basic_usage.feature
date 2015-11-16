@@ -10,12 +10,12 @@ Feature: The Reek CLI maintains backwards compatibility
     And it reports:
       """
       demo.rb -- 8 warnings:
-        [1]:Dirty has no descriptive comment (IrresponsibleModule)
-        [3]:Dirty#awful has 4 parameters (LongParameterList)
-        [3]:Dirty#awful has boolean parameter 'log' (BooleanParameter)
-        [3]:Dirty#awful has the parameter name 'x' (UncommunicativeParameterName)
-        [5]:Dirty#awful has the variable name 'w' (UncommunicativeVariableName)
-        [3]:Dirty#awful has unused parameter 'log' (UnusedParameters)
-        [3]:Dirty#awful has unused parameter 'offset' (UnusedParameters)
-        [3]:Dirty#awful has unused parameter 'y' (UnusedParameters)
+        [3]:BooleanParameter: Dirty#awful has boolean parameter 'log' [https://github.com/troessner/reek/blob/master/docs/Boolean-Parameter.md]
+        [1]:IrresponsibleModule: Dirty has no descriptive comment [https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md]
+        [3]:LongParameterList: Dirty#awful has 4 parameters [https://github.com/troessner/reek/blob/master/docs/Long-Parameter-List.md]
+        [3]:UncommunicativeParameterName: Dirty#awful has the parameter name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Parameter-Name.md]
+        [5]:UncommunicativeVariableName: Dirty#awful has the variable name 'w' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
+        [3]:UnusedParameters: Dirty#awful has unused parameter 'log' [https://github.com/troessner/reek/blob/master/docs/Unused-Parameters.md]
+        [3]:UnusedParameters: Dirty#awful has unused parameter 'offset' [https://github.com/troessner/reek/blob/master/docs/Unused-Parameters.md]
+        [3]:UnusedParameters: Dirty#awful has unused parameter 'y' [https://github.com/troessner/reek/blob/master/docs/Unused-Parameters.md]
       """

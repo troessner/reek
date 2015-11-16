@@ -27,9 +27,9 @@ Feature: Reek reads from $stdin when no files are given
     And it reports:
       """
       STDIN -- 3 warnings:
-        [1]:Turn has no descriptive comment (IrresponsibleModule)
-        [1]:Turn has the variable name '@x' (UncommunicativeVariableName)
-        [1]:Turn#y has the name 'y' (UncommunicativeMethodName)
+        [1]:IrresponsibleModule: Turn has no descriptive comment [https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md]
+        [1]:UncommunicativeMethodName: Turn#y has the name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
+        [1]:UncommunicativeVariableName: Turn has the variable name '@x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
       """
 
   Scenario: syntax error causes the source to be ignored

@@ -11,5 +11,5 @@ Feature: Smell selection
     And it reports:
       """
       smelly.rb -- 1 warning:
-        Smelly#m has the name 'm' (UncommunicativeMethodName)
+        UncommunicativeMethodName: Smelly#m has the name 'm' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
       """

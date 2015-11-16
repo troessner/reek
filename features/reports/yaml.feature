@@ -28,6 +28,7 @@ Feature: Report smells using simple YAML layout
         message: calls @foo.bar 2 times
         name: "@foo.bar"
         count: 2
+        wiki_link: https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md
       - smell_category: Duplication
         smell_type: DuplicateMethodCall
         source: smelly.rb
@@ -38,6 +39,7 @@ Feature: Report smells using simple YAML layout
         message: calls puts(@foo.bar) 2 times
         name: puts(@foo.bar)
         count: 2
+        wiki_link: https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md
       - smell_category: UncommunicativeName
         smell_type: UncommunicativeMethodName
         source: smelly.rb
@@ -46,6 +48,7 @@ Feature: Report smells using simple YAML layout
         - 3
         message: has the name 'm'
         name: m
+        wiki_link: https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md
       """
 
   Scenario: Indicate smells and print them as yaml when using STDIN
@@ -62,4 +65,5 @@ Feature: Report smells using simple YAML layout
         - 1
         message: has no descriptive comment
         name: Turn
+        wiki_link: https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md
       """

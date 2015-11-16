@@ -26,6 +26,7 @@ Feature: Report smells using simple JSON layout
               "lines": [ 4, 5 ],
               "message": "calls @foo.bar 2 times",
               "name": "@foo.bar",
+              "wiki_link": "https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md",
               "count": 2
           },
           {
@@ -36,6 +37,7 @@ Feature: Report smells using simple JSON layout
               "lines": [ 4, 5 ],
               "message": "calls puts(@foo.bar) 2 times",
               "name": "puts(@foo.bar)",
+              "wiki_link": "https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md",
               "count": 2
           },
           {
@@ -45,6 +47,7 @@ Feature: Report smells using simple JSON layout
               "context": "Smelly#m",
               "lines": [ 3 ],
               "message": "has the name 'm'",
+              "wiki_link": "https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md",
               "name": "m"
           }
       ]
@@ -65,6 +68,7 @@ Feature: Report smells using simple JSON layout
                   1
               ],
               "message": "has no descriptive comment",
+              "wiki_link": "https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md",
               "name": "Turn"
           }
       ]

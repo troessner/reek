@@ -35,8 +35,8 @@ RSpec.describe Reek::Report::CodeClimateReport do
         [
           {
             "type": "issue",
-            "check_name": "LowCohesion/UtilityFunction",
-            "description": "simple doesn't depend on instance state (maybe move it to another class?)",
+            "check_name": "UncommunicativeName/UncommunicativeParameterName",
+            "description": "simple has the parameter name 'a'",
             "categories": ["Complexity"],
             "location": {
               "path": "string",
@@ -48,8 +48,8 @@ RSpec.describe Reek::Report::CodeClimateReport do
           },
           {
             "type": "issue",
-            "check_name": "UncommunicativeName/UncommunicativeParameterName",
-            "description": "simple has the parameter name 'a'",
+            "check_name": "LowCohesion/UtilityFunction",
+            "description": "simple doesn't depend on instance state (maybe move it to another class?)",
             "categories": ["Complexity"],
             "location": {
               "path": "string",
