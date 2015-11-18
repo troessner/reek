@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## 3.7.0 (2015-11-17)
+
+* (andyw8) Add Code Climate JSON report format: `--format code_climate`
+* (chastell) Simplify `text` report format and enable `--wiki-links` by default
+
 ## 3.6.1 (2015-11-13)
 
 * (mvz) Make UtilityFunction not report methods that call `super` with
