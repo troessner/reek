@@ -21,7 +21,7 @@ module Reek
       #
       # :reek:FeatureEnvy
       def inspect(ctx)
-        ctx.local_nodes(:def) do |node| # FIXME: also search for :defs?
+        ctx.local_nodes(:def) do |node|
           if node.name.to_s == 'initialize'
             return [
               smell_warning(
