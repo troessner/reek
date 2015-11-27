@@ -258,7 +258,29 @@ exclude_paths:
   - lib/rake/legacy_tasks
 ```
 
-Note you do not need a configuration file at all. If you're fine with all the [defaults](defaults.reek) we set you can skip this completely.
+If you have a directory directive for which a default directive exists, the more specific
+one (which is the directory directive) will take precedence.
+
+This configuration for instance:
+
+```yaml
+---
+IrresponsibleModule:
+  enabled: false
+
+TooManyStatements:
+  max_statements: 5
+
+"app/controllers":
+  TooManyStatements:
+    max_statements: 10
+```
+
+translates to:
+
+* IrresponsibleModule is disabled everywhere
+* TooManyStatements#max_statements is 10 in "app/controllers"
+* TooManyStatements#max_statements is 5 everywhere else
 
 For more details please check out the [Basic Smell Options](docs/Basic-Smell-Options.md)
 which are supported by every smell type. As you can see above, certain smell
@@ -267,6 +289,9 @@ types offer a configuration that goes beyond that of the basic smell options, fo
 All options that go beyond the [Basic Smell Options](docs/Basic-Smell-Options.md)
 are documented in the corresponding smell type /docs page (if you want to get a quick overview over all possible
 configurations you can also check out [the `default.reek` file in this repository](defaults.reek).
+
+Note that you do not need a configuration file at all.
+If you're fine with all the [defaults](defaults.reek) we set you can skip this completely.
 
 ### Source code comments
 

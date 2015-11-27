@@ -90,10 +90,11 @@ module Reek
       #
       # @param source_via [String] - the source of the code inspected
       #
-      # @return [Hash] the directory directive for the source or, if there is
-      # none, the default directive
+      # @return [Hash] the directory directive for the source with the default directive
+      #                reverse-merged into it.
       def directive_for(source_via)
-        directory_directives.directive_for(source_via) || default_directive
+        hit = directory_directives.directive_for(source_via)
+        hit ? default_directive.merge(hit) : default_directive
       end
 
       def path_excluded?(path)
