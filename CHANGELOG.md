@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 3.7.1 (2015-11-29)
+
+* (troessner) Reverse merge default directives into directory directives.
+
 ## 3.7.0 (2015-11-17)
 
 * (andyw8) Add Code Climate JSON report format: `--format code_climate`
