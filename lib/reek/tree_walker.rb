@@ -22,6 +22,7 @@ module Reek
       @smell_repository = smell_repository
       @exp = exp
       @element = Context::RootContext.new(exp)
+      @context_tree = process(exp)
     end
 
     def walk
@@ -33,7 +34,7 @@ module Reek
     private
 
     private_attr_accessor :element
-    private_attr_reader :exp, :smell_repository
+    private_attr_reader :exp, :smell_repository, :context_tree
 
     # Processes the given AST, memoizes it and returns a tree of nested
     # contexts.
@@ -53,10 +54,6 @@ module Reek
     # RootContext -> children: 1 ModuleContext -> children: 1 MethodContext
     #
     # @return [Reek::Context::RootContext] tree of nested contexts
-    def context_tree
-      @context_tree ||= process(exp)
-    end
-
     def process(exp)
       context_processor = "process_#{exp.type}"
       if context_processor_exists?(context_processor)
