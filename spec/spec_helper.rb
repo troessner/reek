@@ -33,6 +33,13 @@ module Helpers
     configuration
   end
 
+  # @param code [String] The given code.
+  #
+  # @return syntax_tree [Reek::AST::Node]
+  def syntax_tree(code)
+    Reek::Source::SourceCode.from(code).syntax_tree
+  end
+
   # :reek:UncommunicativeMethodName
   def sexp(type, *children)
     @klass_map ||= Reek::AST::ASTNodeClassMap.new

@@ -1,237 +1,238 @@
 require_relative '../spec_helper'
 require_lib 'reek/tree_walker'
-require_lib 'reek/source/source_code'
 
-# Dummy repository to inject into TreeWalker in order to count statements in
-# all contexts.
-class TestSmellRepository
-  attr_accessor :num_statements
-  def examine(context)
-    self.num_statements = context.num_statements
-  end
-end
+RSpec.describe Reek::TreeWalker do
+  describe '#initialize' do
+    describe 'the structure of the context_tree' do
+      let(:smell_repository) { Reek::Smells::SmellRepository.new }
+      let(:code) { 'class Car; def drive; end; end' }
+      let(:walker) { described_class.new(smell_repository, syntax_tree(code)) }
+      let(:context_tree) { walker.send :context_tree }
 
-def process_method(source)
-  exp = Reek::Source::SourceCode.from(source).syntax_tree
-  repository = TestSmellRepository.new
-  Reek::TreeWalker.new(repository, exp).walk
-  repository
-end
+      it 'starts with a root node' do
+        expect(context_tree.type).to eq(:root)
+        expect(context_tree).to be_a(Reek::Context::RootContext)
+      end
 
-def process_singleton_method(source)
-  exp = Reek::Source::SourceCode.from(source).syntax_tree
-  repository = TestSmellRepository.new
-  Reek::TreeWalker.new(repository, exp).walk
-  repository
-end
+      it 'has one child' do
+        expect(context_tree.children.size).to eq(1)
+      end
 
-RSpec.describe Reek::TreeWalker, 'statement counting' do
-  it 'counts 1 assignment' do
-    method = process_method('def one() val = 4; end')
-    expect(method.num_statements).to eq(1)
-  end
+      describe 'the root node' do
+        let(:module_context) { context_tree.children.first }
 
-  it 'counts 3 assignments' do
-    method = process_method('def one() val = 4; val = 4; val = 4; end')
-    expect(method.num_statements).to eq(3)
-  end
+        it 'has one module_context' do
+          expect(module_context).to be_a(Reek::Context::ModuleContext)
+        end
 
-  it 'counts 1 attr assignment' do
-    method = process_method('def one() val[0] = 4; end')
-    expect(method.num_statements).to eq(1)
-  end
+        it 'holds a reference to the parent context' do
+          expect(module_context.send(:context)).to eq(context_tree)
+        end
 
-  it 'counts 1 increment assignment' do
-    method = process_method('def one() val += 4; end')
-    expect(method.num_statements).to eq(1)
-  end
+        describe 'the module node' do
+          let(:method_context) { module_context.children.first }
 
-  it 'counts 1 increment attr assignment' do
-    method = process_method('def one() val[0] += 4; end')
-    expect(method.num_statements).to eq(1)
-  end
+          it 'has one method_context' do
+            expect(method_context).to be_a(Reek::Context::MethodContext)
+            expect(module_context.children.size).to eq(1)
+          end
 
-  it 'counts 1 nested assignment' do
-    method = process_method('def one() val = fred = 4; end')
-    expect(method.num_statements).to eq(1)
-  end
-
-  it 'counts returns' do
-    method = process_method('def one() val = 4; true; end')
-    expect(method.num_statements).to eq(2)
-  end
-
-  it 'counts nil returns' do
-    method = process_method('def one() val = 4; nil; end')
-    expect(method.num_statements).to eq(2)
-  end
-
-  context 'with control statements' do
-    it 'counts 1 statement in a conditional expression' do
-      method = process_method('def one() if val == 4; callee(); end; end')
-      expect(method.num_statements).to eq(1)
-    end
-
-    it 'counts 3 statements in a conditional expression' do
-      method = process_method('def one() if val == 4; callee(); callee(); callee(); end; end')
-      expect(method.num_statements).to eq(3)
-    end
-
-    it 'counts 1 statements in an else' do
-      method = process_method('def one() if val == 4; callee(); else; callee(); end; end')
-      expect(method.num_statements).to eq(2)
-    end
-
-    it 'counts 3 statements in an else' do
-      method = process_method('
-        def one()
-          if val == 4
-            callee(); callee(); callee()
-          else
-            callee(); callee(); callee()
+          it 'holds a reference to the parent context' do
+            expect(method_context.send(:context)).to eq(module_context)
           end
         end
-                              ')
-      expect(method.num_statements).to eq(6)
+      end
+    end
+  end
+
+  describe 'statement counting' do
+    def tree(smell_repository, code)
+      described_class.new(smell_repository, syntax_tree(code)).
+        send(:context_tree)
     end
 
-    it 'does not count constant assignment with or equals' do
-      source = 'class Hi; CONST ||= 1; end'
-      klass = process_method(source)
-      expect(klass.num_statements).to eq(0)
+    def number_of_statements_for(code)
+      tree(Reek::Smells::SmellRepository.new, code).
+        children.
+        first.
+        num_statements
     end
 
-    it 'does not count multi constant assignment' do
-      source = 'class Hi; CONST, OTHER_CONST = 1, 2; end'
-      klass = process_method(source)
-      expect(klass.num_statements).to eq(0)
+    it 'counts 1 assignment' do
+      code = 'def one() val = 4; end'
+      expect(number_of_statements_for(code)).to eq(1)
     end
 
-    it 'does not count empty conditional expression' do
-      method = process_method('def one() if val == 4; ; end; end')
-      expect(method.num_statements).to eq(0)
+    it 'counts 3 assignments' do
+      code = 'def one() val = 4; val = 4; val = 4; end'
+      expect(number_of_statements_for(code)).to eq(3)
     end
 
-    it 'does not count empty else' do
-      method = process_method('def one() if val == 4; ; else; ; end; end')
-      expect(method.num_statements).to eq(0)
+    it 'counts 1 attr assignment' do
+      code = 'def one() val[0] = 4; end'
+      expect(number_of_statements_for(code)).to eq(1)
     end
 
-    it 'counts extra statements in an if condition' do
-      method = process_method('def one() if begin val = callee(); val < 4 end; end; end')
-      expect(method.num_statements).to eq(1)
+    it 'counts 1 increment assignment' do
+      code = 'def one() val += 4; end'
+      expect(number_of_statements_for(code)).to eq(1)
     end
 
-    it 'counts 1 statement in a while loop' do
-      method = process_method('def one() while val < 4; callee(); end; end')
-      expect(method.num_statements).to eq(1)
+    it 'counts 1 increment attr assignment' do
+      code = 'def one() val[0] += 4; end'
+      expect(number_of_statements_for(code)).to eq(1)
     end
 
-    it 'counts 3 statements in a while loop' do
-      source = 'def one() while val < 4; callee(); callee(); callee(); end; end'
-      expect(process_method(source).num_statements).to eq(3)
+    it 'counts 1 nested assignment' do
+      code = 'def one() val = fred = 4; end'
+      expect(number_of_statements_for(code)).to eq(1)
     end
 
-    it 'counts extra statements in a while condition' do
-      method = process_method('def one() while begin val = callee(); val < 4 end; end; end')
-      expect(method.num_statements).to eq(1)
+    it 'counts returns' do
+      code = 'def one() val = 4; true; end'
+      expect(number_of_statements_for(code)).to eq(2)
     end
 
-    it 'counts 1 statement in a until loop' do
-      method = process_method('def one() until val < 4; callee(); end; end')
-      expect(method.num_statements).to eq(1)
+    it 'counts nil returns' do
+      code = 'def one() val = 4; nil; end'
+      expect(number_of_statements_for(code)).to eq(2)
     end
 
-    it 'counts 3 statements in a until loop' do
-      source = 'def one() until val < 4; callee(); callee(); callee(); end; end'
-      expect(process_method(source).num_statements).to eq(3)
-    end
+    context 'with control statements' do
+      it 'counts 3 statements in a conditional expression' do
+        code = 'def one() if val == 4; callee(); callee(); callee(); end; end'
+        expect(number_of_statements_for(code)).to eq(3)
+      end
 
-    it 'counts 1 statement in a for loop' do
-      method = process_method('def one() for i in 0..4; callee(); end; end')
-      expect(method.num_statements).to eq(1)
-    end
-
-    it 'counts 3 statements in a for loop' do
-      source = 'def one() for i in 0..4; callee(); callee(); callee(); end; end'
-      expect(process_method(source).num_statements).to eq(3)
-    end
-
-    it 'counts 1 statement in a rescue' do
-      method = process_method('def one() begin; callee(); rescue; callee(); end; end')
-      expect(method.num_statements).to eq(2)
-    end
-
-    it 'counts 3 statements in a rescue' do
-      method = process_method('
-        def one()
-          begin
-            callee(); callee(); callee()
-          rescue
-            callee(); callee(); callee()
+      it 'counts 3 statements in an else' do
+        code = <<-EOS
+          def one()
+            if val == 4
+              callee(); callee(); callee()
+            else
+              callee(); callee(); callee()
+            end
           end
-        end
-                              ')
-      expect(method.num_statements).to eq(6)
-    end
+        EOS
 
-    it 'counts 1 statement in a when' do
-      method = process_method('def one() case fred; when "hi"; callee(); end; end')
-      expect(method.num_statements).to eq(1)
-    end
+        expect(number_of_statements_for(code)).to eq(6)
+      end
 
-    it 'counts 3 statements in a when' do
-      method = process_method('
-        def one()
-          case fred
-          when "hi" then callee(); callee()
-          when "lo" then callee()
+      it 'does not count constant assignment with or equals' do
+        code = 'class Hi; CONST ||= 1; end'
+        expect(number_of_statements_for(code)).to eq(0)
+      end
+
+      it 'does not count multi constant assignment' do
+        code = 'class Hi; CONST, OTHER_CONST = 1, 2; end'
+        expect(number_of_statements_for(code)).to eq(0)
+      end
+
+      it 'does not count empty conditional expression' do
+        code = 'def one() if val == 4; ; end; end'
+        expect(number_of_statements_for(code)).to eq(0)
+      end
+
+      it 'does not count empty else' do
+        code = 'def one() if val == 4; ; else; ; end; end'
+        expect(number_of_statements_for(code)).to eq(0)
+      end
+
+      it 'counts extra statements in an if condition' do
+        code = 'def one() if begin val = callee(); val < 4 end; end; end'
+        expect(number_of_statements_for(code)).to eq(1)
+      end
+
+      it 'counts 3 statements in a while loop' do
+        code = 'def one() while val < 4; callee(); callee(); callee(); end; end'
+        expect(number_of_statements_for(code)).to eq(3)
+      end
+
+      it 'counts extra statements in a while condition' do
+        code = 'def one() while begin val = callee(); val < 4 end; end; end'
+        expect(number_of_statements_for(code)).to eq(1)
+      end
+
+      it 'counts 3 statements in a until loop' do
+        code = 'def one() until val < 4; callee(); callee(); callee(); end; end'
+        expect(number_of_statements_for(code)).to eq(3)
+      end
+
+      it 'counts 3 statements in a for loop' do
+        code = 'def one() for i in 0..4; callee(); callee(); callee(); end; end'
+        expect(number_of_statements_for(code)).to eq(3)
+      end
+
+      it 'counts 3 statements in a rescue' do
+        code = <<-EOS
+          def one()
+            begin
+              callee(); callee(); callee()
+            rescue
+              callee(); callee(); callee()
+            end
           end
-        end
-                              ')
-      expect(method.num_statements).to eq(3)
-    end
+        EOS
+        expect(number_of_statements_for(code)).to eq(6)
+      end
 
-    it 'counts 1 statement in a case else' do
-      source = 'def one() case fred; when "hi"; callee(); else; callee(); end; end'
-      expect(process_method(source).num_statements).to eq(2)
-    end
-
-    it 'counts 3 statements in a case else' do
-      method = process_method('
-        def one()
-          case fred
-          when "hi" then callee(); callee(); callee()
-          else           callee(); callee(); callee()
+      it 'counts 3 statements in a when' do
+        code = <<-EOS
+          def one()
+            case fred
+            when "hi" then callee(); callee()
+            when "lo" then callee()
+            end
           end
-        end
-                              ')
-      expect(method.num_statements).to eq(6)
-    end
+        EOS
+        expect(number_of_statements_for(code)).to eq(3)
+      end
 
-    it 'does not count empty case' do
-      method = process_method('def one() case fred; when "hi"; ; when "lo"; ; end; end')
-      expect(method.num_statements).to eq(0)
-    end
+      it 'counts 3 statements in a case else' do
+        code = <<-EOS
+          def one()
+            case fred
+            when "hi" then callee(); callee(); callee()
+            else           callee(); callee(); callee()
+            end
+          end
+        EOS
+        expect(number_of_statements_for(code)).to eq(6)
+      end
 
-    it 'does not count empty case else' do
-      method = process_method('def one() case fred; when "hi"; ; else; ; end; end')
-      expect(method.num_statements).to eq(0)
-    end
+      it 'does not count empty case' do
+        code = 'def one() case fred; when "hi"; ; when "lo"; ; end; end'
+        expect(number_of_statements_for(code)).to eq(0)
+      end
 
-    it 'counts 2 statement in an iterator' do
-      method = process_method('def one() fred.each do; callee(); end; end')
-      expect(method.num_statements).to eq(2)
-    end
+      it 'does not count empty case else' do
+        code = 'def one() case fred; when "hi"; ; else; ; end; end'
+        expect(number_of_statements_for(code)).to eq(0)
+      end
 
-    it 'counts 4 statements in an iterator' do
-      source = 'def one() fred.each do; callee(); callee(); callee(); end; end'
-      expect(process_method(source).num_statements).to eq(4)
-    end
+      it 'counts 4 statements in an iterator' do
+        code = 'def one() fred.each do; callee(); callee(); callee(); end; end'
+        expect(number_of_statements_for(code)).to eq(4)
+      end
 
-    it 'counts 1 statement in a singleton method' do
-      method = process_singleton_method('def self.foo; callee(); end')
-      expect(method.num_statements).to eq(1)
+      it 'counts 1 statement in a singleton method' do
+        code = 'def self.foo; callee(); end'
+        expect(number_of_statements_for(code)).to eq(1)
+      end
+    end
+  end
+
+  describe '#walk' do
+    it 'configures the corresponding SmellRepository for every context_tree element' do
+      smell_repository = Reek::Smells::SmellRepository.new smell_types: [Reek::Smells::DuplicateMethodCall]
+      code             = 'def foo; bar.call_me(); bar.call_me(); end'
+      described_class.new(smell_repository, syntax_tree(code)).walk
+
+      smell = smell_repository.send(:detectors).detect do |detector|
+        detector.is_a? Reek::Smells::DuplicateMethodCall
+      end.send(:smells_found).first
+
+      expect(smell.message).to eq('calls bar.call_me 2 times')
     end
   end
 end
