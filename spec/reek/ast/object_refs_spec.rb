@@ -13,9 +13,9 @@ RSpec.describe Reek::AST::ObjectRefs do
   context 'with references to a, b, and a' do
     context 'with no refs to self' do
       before(:each) do
-        refs.record_reference_to(:a)
-        refs.record_reference_to(:b)
-        refs.record_reference_to(:a)
+        refs.record_reference(name: :a)
+        refs.record_reference(name: :b)
+        refs.record_reference(name: :a)
       end
 
       it 'should report no refs to self' do
@@ -32,7 +32,7 @@ RSpec.describe Reek::AST::ObjectRefs do
 
       context 'with one reference to self' do
         before(:each) do
-          refs.record_reference_to(:self)
+          refs.record_reference(name: :self)
         end
 
         it 'should report 1 ref to self' do
@@ -53,13 +53,13 @@ RSpec.describe Reek::AST::ObjectRefs do
 
   context 'with many refs to self' do
     before(:each) do
-      refs.record_reference_to(:self)
-      refs.record_reference_to(:self)
-      refs.record_reference_to(:a)
-      refs.record_reference_to(:self)
-      refs.record_reference_to(:b)
-      refs.record_reference_to(:a)
-      refs.record_reference_to(:self)
+      refs.record_reference(name: :self)
+      refs.record_reference(name: :self)
+      refs.record_reference(name: :a)
+      refs.record_reference(name: :self)
+      refs.record_reference(name: :b)
+      refs.record_reference(name: :a)
+      refs.record_reference(name: :self)
     end
 
     it 'should report all refs to self' do
@@ -77,11 +77,11 @@ RSpec.describe Reek::AST::ObjectRefs do
 
   context 'when self is not the only max' do
     before(:each) do
-      refs.record_reference_to(:a)
-      refs.record_reference_to(:self)
-      refs.record_reference_to(:self)
-      refs.record_reference_to(:b)
-      refs.record_reference_to(:a)
+      refs.record_reference(name: :a)
+      refs.record_reference(name: :self)
+      refs.record_reference(name: :self)
+      refs.record_reference(name: :b)
+      refs.record_reference(name: :a)
     end
 
     it 'should report all refs to self' do
@@ -100,10 +100,10 @@ RSpec.describe Reek::AST::ObjectRefs do
 
   context 'when self is not among the max' do
     before(:each) do
-      refs.record_reference_to(:a)
-      refs.record_reference_to(:b)
-      refs.record_reference_to(:a)
-      refs.record_reference_to(:b)
+      refs.record_reference(name: :a)
+      refs.record_reference(name: :b)
+      refs.record_reference(name: :a)
+      refs.record_reference(name: :b)
     end
 
     it 'should report all refs to self' do
