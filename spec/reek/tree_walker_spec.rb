@@ -4,9 +4,10 @@ require_lib 'reek/tree_walker'
 RSpec.describe Reek::TreeWalker do
   describe '#initialize' do
     describe 'the structure of the context_tree' do
-      let(:smell_repository) { Reek::Smells::SmellRepository.new }
-      let(:code) { 'class Car; def drive; end; end' }
-      let(:walker) { described_class.new(smell_repository, syntax_tree(code)) }
+      let(:walker) do
+        code = 'class Car; def drive; end; end'
+        described_class.new(syntax_tree(code))
+      end
       let(:context_tree) { walker.send :context_tree }
 
       it 'starts with a root node' do
@@ -46,16 +47,12 @@ RSpec.describe Reek::TreeWalker do
   end
 
   describe 'statement counting' do
-    def tree(smell_repository, code)
-      described_class.new(smell_repository, syntax_tree(code)).
-        send(:context_tree)
+    def tree(code)
+      described_class.new(syntax_tree(code)).send(:context_tree)
     end
 
     def number_of_statements_for(code)
-      tree(Reek::Smells::SmellRepository.new, code).
-        children.
-        first.
-        num_statements
+      tree(code).children.first.num_statements
     end
 
     it 'counts 1 assignment' do
@@ -223,10 +220,11 @@ RSpec.describe Reek::TreeWalker do
   end
 
   describe '#walk' do
-    it 'configures the corresponding SmellRepository for every context_tree element' do
-      smell_repository = Reek::Smells::SmellRepository.new smell_types: [Reek::Smells::DuplicateMethodCall]
+    it 'returns a SmellRepository that contains the reported SmellWarnings' do
       code             = 'def foo; bar.call_me(); bar.call_me(); end'
-      described_class.new(smell_repository, syntax_tree(code)).walk
+      tree_walker      = described_class.new syntax_tree(code)
+      smell_repository = tree_walker.walk(smell_types: [Reek::Smells::DuplicateMethodCall],
+                                          configuration: {})
 
       smell = smell_repository.send(:detectors).detect do |detector|
         detector.is_a? Reek::Smells::DuplicateMethodCall

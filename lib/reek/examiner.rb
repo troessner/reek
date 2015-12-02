@@ -80,11 +80,12 @@ module Reek
     private_attr_reader :configuration, :collector, :smell_types, :source
 
     def run
-      smell_repository = Smells::SmellRepository.new(
-        smell_types: smell_types,
-        configuration: configuration.directive_for(description))
       syntax_tree = source.syntax_tree
-      TreeWalker.new(smell_repository, syntax_tree).walk if syntax_tree
+      return unless syntax_tree
+      tree_walker = TreeWalker.new syntax_tree
+      smell_repository = tree_walker.walk smell_types: smell_types,
+                                          configuration: configuration.directive_for(description)
+
       smell_repository.report_on(collector)
     end
   end

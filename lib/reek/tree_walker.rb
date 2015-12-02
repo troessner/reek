@@ -18,23 +18,35 @@ module Reek
   #
   # :reek:TooManyMethods: { max_methods: 29 }
   class TreeWalker
-    def initialize(smell_repository, exp)
-      @smell_repository = smell_repository
-      @exp = exp
+    private_attr_accessor :element
+    private_attr_reader :exp, :context_tree
+
+    def initialize(syntax_tree)
+      @exp = syntax_tree
       @element = Context::RootContext.new(exp)
       @context_tree = process(exp)
     end
 
-    def walk
-      context_tree.each do |element|
-        smell_repository.examine(element)
+    # Walks the syntax tree, runs the configured SmellDetectors and returns
+    # a SmellRepository that contains the reported SmellWarnings.
+    #
+    # @param smell_types [Array<Reek::Smells::SmellDetector>] The smell types we want
+    #        to apply when walking the tree.
+    # @param configuration [Configuration::AppConfiguration] The corresponding configuration.
+
+    #
+    # @return [Reek::Smells::SmellRepository] SmellRepository that contains all used
+    #         SmellDetectors including all reported SmellWarnings.
+    def walk(smell_types: raise, configuration: raise)
+      Smells::SmellRepository.new(smell_types: smell_types,
+                                  configuration: configuration).tap do |smell_repository|
+        context_tree.each do |element|
+          smell_repository.examine(element)
+        end
       end
     end
 
     private
-
-    private_attr_accessor :element
-    private_attr_reader :exp, :smell_repository, :context_tree
 
     # Processes the given AST, memoizes it and returns a tree of nested
     # contexts.
