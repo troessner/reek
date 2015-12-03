@@ -7,7 +7,7 @@ AllCops:
 # FIXME: Make the class shorter
 Metrics/ClassLength:
   Exclude:
-    - lib/reek/tree_walker.rb
+    - lib/reek/context_builder.rb
     - lib/reek/cli/options.rb
 
 # FIXME: Lower the method length by fixing the biggest offenders

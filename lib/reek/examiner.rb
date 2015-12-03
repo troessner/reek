@@ -1,10 +1,10 @@
-# NOTE: tree_walker is required first to ensure unparser is required before
+# NOTE: context_builder is required first to ensure unparser is required before
 # parser. This prevents a potentially incompatible version of parser from being
 # loaded first. This is only relevant when running bin/reek straight from a
 # checkout directory without using Bundler.
 #
 # See also https://github.com/troessner/reek/pull/468
-require_relative 'tree_walker'
+require_relative 'context_builder'
 require_relative 'source/source_code'
 require_relative 'cli/warning_collector'
 require_relative 'smells/smell_repository'
@@ -17,6 +17,7 @@ module Reek
   #
   # :reek:TooManyInstanceVariables: { max_instance_variables: 6 }
   class Examiner
+    private_attr_reader :collector, :source, :smell_repository
     #
     # Creates an Examiner which scans the given +source+ for code smells.
     #
@@ -25,7 +26,7 @@ module Reek
     #   if it is a File or IO, it is opened and Ruby source code is read from it;
     #
     # @param filter_by_smells [Array<String>]
-    #   List of smell types to filter by.
+    #   List of smell types to filter by, e.g. "DuplicateMethodCall".
     #
     # @param configuration [Configuration::AppConfiguration]
     #   The configuration for this Examiner.
@@ -34,11 +35,11 @@ module Reek
     def initialize(source,
                    filter_by_smells = [],
                    configuration: Configuration::AppConfiguration.default)
-      @source        = Source::SourceCode.from(source)
-      @configuration = configuration
-      @collector     = CLI::WarningCollector.new
-      @smell_types   = Smells::SmellRepository.eligible_smell_types(filter_by_smells)
-
+      @source           = Source::SourceCode.from(source)
+      @collector        = CLI::WarningCollector.new
+      @smell_types      = Smells::SmellRepository.eligible_smell_types(filter_by_smells)
+      @smell_repository = Smells::SmellRepository.new(smell_types: @smell_types,
+                                                      configuration: configuration.directive_for(description))
       run
     end
 
@@ -77,14 +78,12 @@ module Reek
 
     private
 
-    private_attr_reader :configuration, :collector, :smell_types, :source
-
     def run
       syntax_tree = source.syntax_tree
       return unless syntax_tree
-      tree_walker = TreeWalker.new syntax_tree
-      smell_repository = tree_walker.walk smell_types: smell_types,
-                                          configuration: configuration.directive_for(description)
+      ContextBuilder.new(syntax_tree).context_tree.each do |element|
+        smell_repository.examine(element)
+      end
 
       smell_repository.report_on(collector)
     end

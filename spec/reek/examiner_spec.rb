@@ -53,4 +53,15 @@ RSpec.describe Reek::Examiner do
 
     it_should_behave_like 'no smells found'
   end
+
+  describe '#smells' do
+    it 'returns the detected smell warnings' do
+      code     = 'def foo; bar.call_me(); bar.call_me(); end'
+      examiner = described_class.new code, ['DuplicateMethodCall']
+
+      smell = examiner.smells.first
+      expect(smell).to be_a(Reek::Smells::SmellWarning)
+      expect(smell.message).to eq('calls bar.call_me 2 times')
+    end
+  end
 end
