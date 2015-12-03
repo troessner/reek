@@ -86,15 +86,15 @@ module Reek
         case type
         when :lvar, :lvasgn
           unless exp.object_creation_call?
-            refs.record_reference_to(receiver.name, line: line)
+            refs.record_reference(name: receiver.name, line: line)
           end
         when :self
-          refs.record_reference_to(:self, line: line)
+          refs.record_reference(name: :self, line: line)
         end
       end
 
       def record_use_of_self
-        refs.record_reference_to(:self)
+        refs.record_reference(name: :self)
       end
 
       def name

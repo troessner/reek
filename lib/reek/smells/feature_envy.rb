@@ -47,12 +47,12 @@ module Reek
       #
       def inspect(ctx)
         return [] unless ctx.references_self?
-        envious_receivers(ctx).map do |name, refs|
+        envious_receivers(ctx).map do |name, lines|
           smell_warning(
             context: ctx,
-            lines: refs.map(&:line),
+            lines: lines,
             message: "refers to #{name} more than self (maybe move it to another class?)",
-            parameters: { name: name.to_s, count: refs.size })
+            parameters: { name: name.to_s, count: lines.size })
         end
       end
 
