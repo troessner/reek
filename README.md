@@ -65,7 +65,7 @@ demo.rb -- 8 warnings:
 
 Reek focuses on high-level code smells, so we can't tell you how to fix warnings in
 a generic fashion; this is and will always be completely dependent on your domain
-language and bussiness logic.
+language and business logic.
 
 That said, an example might help you get going. Have a look at this sample of a
 Ruby on Rails model (be aware that this is truncated, not working code):
