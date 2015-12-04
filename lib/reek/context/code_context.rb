@@ -1,5 +1,6 @@
 require_relative '../code_comment'
 require_relative '../ast/object_refs'
+require 'forwardable'
 
 module Reek
   module Context
@@ -12,10 +13,13 @@ module Reek
     # :reek:TooManyMethods: { max_methods: 19 }
     # :reek:TooManyInstanceVariables: { max_instance_variables: 8 }
     class CodeContext
-      attr_reader :exp
-      attr_reader :num_statements
-      attr_reader :children
-      attr_reader :visibility
+      extend Forwardable
+      def_delegators :exp, :name, :type
+
+      attr_reader :exp, :num_statements, :children, :visibility
+      protected_attr_writer :num_statements, :visibility
+      private_attr_writer :tracked_visibility
+      private_attr_reader :context, :refs
 
       # Initializes a new CodeContext.
       #
@@ -97,10 +101,6 @@ module Reek
         refs.record_reference(name: :self)
       end
 
-      def name
-        exp.name
-      end
-
       def local_nodes(type, &blk)
         each_node(type, [:casgn, :class, :module], &blk)
       end
@@ -124,7 +124,7 @@ module Reek
 
       def config_for(detector_class)
         context_config_for(detector_class).merge(
-          config[detector_class.smell_type] || {})
+          configuration_via_code_commment[detector_class.smell_type] || {})
       end
 
       # Handle the effects of a visibility modifier.
@@ -147,10 +147,6 @@ module Reek
         end
       end
 
-      def type
-        exp.type
-      end
-
       # Iterate over +self+ and child contexts.
       def each(&block)
         yield self
@@ -163,21 +159,14 @@ module Reek
         visibility != :public
       end
 
-      protected
-
-      attr_writer :num_statements, :visibility
-
       private
-
-      private_attr_writer :tracked_visibility
-      private_attr_reader :context, :refs
 
       def tracked_visibility
         @tracked_visibility ||= :public
       end
 
-      def config
-        @config ||= CodeComment.new(full_comment).config
+      def configuration_via_code_commment
+        @configuration_via_code_commment ||= CodeComment.new(full_comment).config
       end
 
       def full_comment

@@ -17,21 +17,27 @@ RSpec.describe Reek::Context::CodeContext do
     it 'gets its short name from the exp' do
       expect(ctx.name).to eq(exp_name)
     end
+
     it 'does not match an empty list' do
       expect(ctx.matches?([])).to eq(false)
     end
+
     it 'does not match when its own short name is not given' do
       expect(ctx.matches?(['banana'])).to eq(false)
     end
+
     it 'does not let pipe-ended Strings make matching ignore the rest' do
       expect(ctx.matches?(['banana|'])).to eq(false)
     end
+
     it 'recognises its own short name' do
       expect(ctx.matches?(['banana', exp_name])).to eq(true)
     end
+
     it 'recognises its short name as a regex' do
       expect(ctx.matches?([/banana/, /#{exp_name}/])).to eq(true)
     end
+
     it 'does not blow up on []-ended Strings' do
       expect(ctx.matches?(['banana[]', exp_name])).to eq(true)
     end
@@ -49,9 +55,11 @@ RSpec.describe Reek::Context::CodeContext do
       it 'creates the correct full name' do
         expect(ctx.full_name).to eq(full_name)
       end
+
       it 'recognises its own full name' do
         expect(ctx.matches?(['banana', full_name])).to eq(true)
       end
+
       it 'recognises its full name as a regex' do
         expect(ctx.matches?([/banana/, /#{full_name}/])).to eq(true)
       end
