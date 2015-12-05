@@ -1,6 +1,9 @@
 require_relative '../code_comment'
 require_relative '../ast/object_refs'
+require_relative 'visibility_tracker'
+
 require 'forwardable'
+require 'private_attr/everywhere'
 
 module Reek
   module Context
@@ -14,11 +17,11 @@ module Reek
     # :reek:TooManyInstanceVariables: { max_instance_variables: 8 }
     class CodeContext
       extend Forwardable
-      def_delegators :exp, :name, :type
+      delegate %i(name type) => :exp
+      delegate %i(visibility visibility= non_public_visibility?) => :visibility_tracker
 
-      attr_reader :exp, :num_statements, :children, :visibility
-      protected_attr_writer :num_statements, :visibility
-      private_attr_writer :tracked_visibility
+      attr_reader :exp, :num_statements, :children, :visibility_tracker
+      protected_attr_writer :num_statements
       private_attr_reader :context, :refs
 
       # Initializes a new CodeContext.
@@ -58,9 +61,8 @@ module Reek
       def initialize(context, exp)
         @context    = context
         @exp        = exp
-        @visibility = :public
         @children   = []
-
+        @visibility_tracker = VisibilityTracker.new
         @num_statements = 0
         @refs = AST::ObjectRefs.new
       end
@@ -73,7 +75,7 @@ module Reek
       #
       # @param child [CodeContext] the child context to register
       def append_child_context(child)
-        child.visibility = tracked_visibility
+        visibility_tracker.set_child_visibility(child)
         children << child
       end
 
@@ -127,24 +129,10 @@ module Reek
           configuration_via_code_commment[detector_class.smell_type] || {})
       end
 
-      # Handle the effects of a visibility modifier.
-      #
-      # @example Setting the current visibility
-      #   track_visibility :public
-      #
-      # @example Modifying the visibility of existing children
-      #   track_visibility :private, [:hide_me, :implementation_detail]
-      #
-      # @param visibility [Symbol]
-      # @param names [Array<Symbol>]
       def track_visibility(visibility, names)
-        if names.any?
-          children.each do |child|
-            child.visibility = visibility if names.include? child.name
-          end
-        else
-          self.tracked_visibility = visibility
-        end
+        visibility_tracker.track_visibility children: children,
+                                            visibility: visibility,
+                                            names: names
       end
 
       # Iterate over +self+ and child contexts.
@@ -155,15 +143,7 @@ module Reek
         end
       end
 
-      def non_public_visibility?
-        visibility != :public
-      end
-
       private
-
-      def tracked_visibility
-        @tracked_visibility ||= :public
-      end
 
       def configuration_via_code_commment
         @configuration_via_code_commment ||= CodeComment.new(full_comment).config
