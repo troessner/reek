@@ -30,7 +30,7 @@ module Reek
       #     end
       #   end
       #
-      # The {TreeWalker} object first instantiates a {RootContext}, which has no parent.
+      # The {ContextBuilder} object first instantiates a {RootContext}, which has no parent.
       #
       # Next, it instantiates a {ModuleContext}, with +context+ being the
       # {RootContext} just created, and +exp+ looking like this:
@@ -43,7 +43,7 @@ module Reek
       #      (send nil :puts
       #        (lvar :x))))
       #
-      # Finally, {TreeWalker} will instantiate a {MethodContext}. This time,
+      # Finally, {ContextBuilder} will instantiate a {MethodContext}. This time,
       # +context+ is the {ModuleContext} created above, and +exp+ is:
       #
       #   (def :foo

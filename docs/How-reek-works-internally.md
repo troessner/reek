@@ -42,7 +42,8 @@
                                   * adorns the generated AST via a TreeDresser (core/tree_dresser)
                                   * initializes a SmellRepository with all relevant smells (smells/smell_repository)
                                   * initializes a WarningCollector (cli/warning_collector)
-                                  * runs all corresponding smell detectors via a Treewalker (core/tree_walker) for the SmellRepository above
+                                  * builds a tree of Contexts using ContextBuilder
+                                  * runs the smell detectors from the SmellRepository above on each of the contexts
                                   /       |       \
                                  /        |        \
                                 /         |         \
@@ -110,5 +111,5 @@ The overall workflow is like this:
             |
             |
             |
-      A TreeWalker then traverses this now adorned tree again and
+      A ContextBuilder then traverses this now adorned tree again and
       runs all SmellDetectors from the SmellRepository above

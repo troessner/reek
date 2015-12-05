@@ -190,7 +190,7 @@ RSpec.describe Reek::Smells::FeatureEnvy do
           @report = Report.new
           cf = SmellConfig.new
           cf = cf.load_local(@dir) if @dir
-          TreeWalker.new(@report, cf.smell_listeners).check_source(@source)
+          ContextBuilder.new(@report, cf.smell_listeners).check_source(@source)
         end
         @report
       end

@@ -1,7 +1,7 @@
 require_relative '../../spec_helper'
 require_lib 'reek/smells/duplicate_method_call'
 require_lib 'reek/context/code_context'
-require_lib 'reek/tree_walker'
+require_lib 'reek/context_builder'
 require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::DuplicateMethodCall do

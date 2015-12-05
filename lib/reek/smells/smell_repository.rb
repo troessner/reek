@@ -10,10 +10,21 @@ module Reek
     class SmellRepository
       private_attr_reader :configuration, :smell_types, :detectors
 
+      # @return [Array<Reek::Smells::SmellDetector>] All known SmellDetectors
+      #         e.g. [Reek::Smells::BooleanParameter, Reek::Smells::ClassVariable].
       def self.smell_types
         Reek::Smells::SmellDetector.descendants.sort_by(&:name)
       end
 
+      # @param filter_by_smells [Array<String>]
+      #   List of smell types to filter by, e.g. "DuplicateMethodCall".
+      #   More precisely it should be whatever is returned by `SmellDetector`.smell_type.
+      #   This means that you can write the "DuplicateMethodCall" from above also like this:
+      #     Reek::Smells::DuplicateMethodCall.smell_type
+      #   if you want to make sure you do not fat-finger strings.
+      #
+      # @return [Array<Reek::Smells::SmellDetector>] All SmellDetectors that we want to filter for
+      #         e.g. [Reek::Smells::Attribute].
       def self.eligible_smell_types(filter_by_smells = [])
         return smell_types if filter_by_smells.empty?
         smell_types.select do |klass|

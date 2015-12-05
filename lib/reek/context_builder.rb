@@ -13,28 +13,19 @@ module Reek
   # SMELL: This class is responsible for counting statements and for feeding
   # each context to the smell repository.
   #
-  # TODO: Make TreeWalker responsible only for creating Context objects, and
-  # loop over the created set of contexts elsewhere.
-  #
   # :reek:TooManyMethods: { max_methods: 29 }
-  class TreeWalker
-    def initialize(smell_repository, exp)
-      @smell_repository = smell_repository
-      @exp = exp
+  class ContextBuilder
+    attr_reader :context_tree
+    private_attr_accessor :element
+    private_attr_reader :exp
+
+    def initialize(syntax_tree)
+      @exp = syntax_tree
       @element = Context::RootContext.new(exp)
       @context_tree = process(exp)
     end
 
-    def walk
-      context_tree.each do |element|
-        smell_repository.examine(element)
-      end
-    end
-
     private
-
-    private_attr_accessor :element
-    private_attr_reader :exp, :smell_repository, :context_tree
 
     # Processes the given AST, memoizes it and returns a tree of nested
     # contexts.
