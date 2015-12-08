@@ -73,14 +73,14 @@ module Reek
 
     def process_def(exp)
       inside_new_context(Context::MethodContext, exp) do
-        count_clause(exp.body)
+        increase_statement_count_by(exp.body)
         process_default(exp)
       end
     end
 
     def process_defs(exp)
       inside_new_context(Context::SingletonMethodContext, exp) do
-        count_clause(exp.body)
+        increase_statement_count_by(exp.body)
         process_default(exp)
       end
     end
@@ -134,13 +134,13 @@ module Reek
     #
 
     def process_block(exp)
-      count_clause(exp.block)
+      increase_statement_count_by(exp.block)
       process_default(exp)
     end
 
     def process_begin(exp)
-      count_statement_list(exp.children)
-      element.count_statements(-1)
+      increase_statement_count_by(exp.children)
+      decrease_statement_count
       process_default(exp)
     end
 
@@ -148,45 +148,45 @@ module Reek
 
     def process_if(exp)
       children = exp.children
-      count_clause(children[1])
-      count_clause(children[2])
-      element.count_statements(-1)
+      increase_statement_count_by(children[1])
+      increase_statement_count_by(children[2])
+      decrease_statement_count
       process_default(exp)
     end
 
     def process_while(exp)
-      count_clause(exp.children[1])
-      element.count_statements(-1)
+      increase_statement_count_by(exp.children[1])
+      decrease_statement_count
       process_default(exp)
     end
 
     alias_method :process_until, :process_while
 
     def process_for(exp)
-      count_clause(exp.children[2])
-      element.count_statements(-1)
+      increase_statement_count_by(exp.children[2])
+      decrease_statement_count
       process_default(exp)
     end
 
     def process_rescue(exp)
-      count_clause(exp.children.first)
-      element.count_statements(-1)
+      increase_statement_count_by(exp.children.first)
+      decrease_statement_count
       process_default(exp)
     end
 
     def process_resbody(exp)
-      count_statement_list(exp.children[1..-1].compact)
+      increase_statement_count_by(exp.children[1..-1].compact)
       process_default(exp)
     end
 
     def process_case(exp)
-      count_clause(exp.else_body)
-      element.count_statements(-1)
+      increase_statement_count_by(exp.else_body)
+      decrease_statement_count
       process_default(exp)
     end
 
     def process_when(exp)
-      count_clause(exp.body)
+      increase_statement_count_by(exp.body)
       process_default(exp)
     end
 
@@ -195,12 +195,12 @@ module Reek
     end
 
     # :reek:ControlParameter
-    def count_clause(sexp)
-      element.count_statements(1) if sexp
+    def increase_statement_count_by(sexp)
+      element.statement_counter.increase_by sexp
     end
 
-    def count_statement_list(statement_list)
-      element.count_statements statement_list.length
+    def decrease_statement_count
+      element.statement_counter.decrease_by 1
     end
 
     def inside_new_context(klass, exp)

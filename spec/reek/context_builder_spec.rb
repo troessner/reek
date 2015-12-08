@@ -52,7 +52,7 @@ RSpec.describe Reek::ContextBuilder do
     end
 
     def number_of_statements_for(code)
-      tree(code).children.first.num_statements
+      tree(code).children.first.number_of_statements
     end
 
     it 'counts 1 assignment' do

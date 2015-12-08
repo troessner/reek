@@ -46,10 +46,10 @@ RSpec.describe Reek::Smells::TooManyStatements do
   it_should_behave_like 'SmellDetector'
 
   context 'when the method has 30 statements' do
-    let(:num_statements) { 30 }
+    let(:number_of_statements) { 30 }
     let(:smells) do
       ctx = double('method_context').as_null_object
-      expect(ctx).to receive(:num_statements).and_return(num_statements)
+      expect(ctx).to receive(:number_of_statements).and_return(number_of_statements)
       expect(ctx).to receive(:config_for).with(described_class).and_return({})
       detector.inspect(ctx)
     end
@@ -59,7 +59,7 @@ RSpec.describe Reek::Smells::TooManyStatements do
     end
 
     it 'reports the number of statements' do
-      expect(smells[0].parameters[:count]).to eq(num_statements)
+      expect(smells[0].parameters[:count]).to eq(number_of_statements)
     end
 
     it 'reports the correct smell sub class' do
