@@ -17,6 +17,7 @@ module Reek
     # :reek:TooManyInstanceVariables: { max_instance_variables: 8 }
     class CodeContext
       extend Forwardable
+      delegate each_node: :exp
       delegate %i(name type) => :exp
       delegate %i(visibility visibility= non_public_visibility?) => :visibility_tracker
 
@@ -67,6 +68,28 @@ module Reek
         @refs = AST::ObjectRefs.new
       end
 
+      # Iterate over each AST node (see `Reek::AST::Node`) of a given type for the current expression.
+      #
+      # @param type [Symbol] the type of the nodes we are looking for, e.g. :defs.
+      # @yield block that is executed for every node.
+      #
+      def local_nodes(type, &blk)
+        each_node(type, [:casgn, :class, :module], &blk)
+      end
+
+      # Iterate over `self` and child contexts.
+      # The main difference (among others) to `each_node` is that we are traversing
+      # `CodeContexts` here, not AST nodes (see `Reek::AST::Node`).
+      #
+      # @yield block that is executed for every node.
+      #
+      def each(&block)
+        yield self
+        children.each do |child|
+          child.each(&block)
+        end
+      end
+
       # Register a child context. The child's parent context should be equal to
       # the current context.
       #
@@ -103,15 +126,6 @@ module Reek
         refs.record_reference(name: :self)
       end
 
-      def local_nodes(type, &blk)
-        each_node(type, [:casgn, :class, :module], &blk)
-      end
-
-      # See Reek::AST::Node for details.
-      def each_node(type, ignoring, &blk)
-        exp.each_node(type, ignoring, &blk)
-      end
-
       def matches?(candidates)
         my_fq_name = full_name
         candidates.any? do |candidate|
@@ -133,14 +147,6 @@ module Reek
         visibility_tracker.track_visibility children: children,
                                             visibility: visibility,
                                             names: names
-      end
-
-      # Iterate over +self+ and child contexts.
-      def each(&block)
-        yield self
-        children.each do |child|
-          child.each(&block)
-        end
       end
 
       private
