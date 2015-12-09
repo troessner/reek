@@ -1,6 +1,7 @@
 require_relative '../code_comment'
 require_relative '../ast/object_refs'
 require_relative 'visibility_tracker'
+require_relative 'statement_counter'
 
 require 'forwardable'
 require 'private_attr/everywhere'
@@ -21,8 +22,7 @@ module Reek
       delegate %i(name type) => :exp
       delegate %i(visibility visibility= non_public_visibility?) => :visibility_tracker
 
-      attr_reader :exp, :num_statements, :children, :visibility_tracker
-      protected_attr_writer :num_statements
+      attr_reader :exp, :children, :visibility_tracker, :statement_counter
       private_attr_reader :context, :refs
 
       # Initializes a new CodeContext.
@@ -60,12 +60,12 @@ module Reek
       #     (send nil :puts
       #       (lvar :x)))
       def initialize(context, exp)
-        @context    = context
-        @exp        = exp
-        @children   = []
+        @context            = context
+        @exp                = exp
+        @children           = []
         @visibility_tracker = VisibilityTracker.new
-        @num_statements = 0
-        @refs = AST::ObjectRefs.new
+        @statement_counter  = StatementCounter.new
+        @refs               = AST::ObjectRefs.new
       end
 
       # Iterate over each AST node (see `Reek::AST::Node`) of a given type for the current expression.
@@ -100,10 +100,6 @@ module Reek
       def append_child_context(child)
         visibility_tracker.set_child_visibility(child)
         children << child
-      end
-
-      def count_statements(num)
-        self.num_statements += num
       end
 
       # :reek:TooManyStatements: { max_statements: 6 }
@@ -147,6 +143,10 @@ module Reek
         visibility_tracker.track_visibility children: children,
                                             visibility: visibility,
                                             names: names
+      end
+
+      def number_of_statements
+        statement_counter.value
       end
 
       private

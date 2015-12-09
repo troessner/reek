@@ -35,7 +35,7 @@ module Reek
         max_allowed_statements = value(MAX_ALLOWED_STATEMENTS_KEY,
                                        ctx,
                                        DEFAULT_MAX_STATEMENTS)
-        count = ctx.num_statements
+        count = ctx.number_of_statements
         return [] if count <= max_allowed_statements
         [smell_warning(
           context: ctx,
