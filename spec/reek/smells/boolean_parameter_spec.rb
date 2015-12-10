@@ -53,10 +53,12 @@ RSpec.describe Reek::Smells::BooleanParameter do
         src = 'def self.cc(arga = true) end'
         expect(src).to reek_of(:BooleanParameter, name: 'arga')
       end
+
       it 'reports a parameter defaulted to false' do
         src = 'def fred.cc(arga = false) end'
         expect(src).to reek_of(:BooleanParameter, name: 'arga')
       end
+
       it 'reports two parameters defaulted to booleans' do
         src = 'def Module.cc(nowt, arga = true, argb = false, &blk) end'
         expect(src).to reek_of(:BooleanParameter, name: 'arga')
