@@ -102,7 +102,7 @@ module Reek
       if exp.attribute_writer?
         exp.args.each do |arg|
           next unless arg.type == :sym
-          new_context(Context::AttributeContext, arg, exp)
+          append_new_context(Context::AttributeContext, arg, exp)
         end
       end
       element.record_call_to(exp)
@@ -203,23 +203,32 @@ module Reek
       element.count_statements statement_list.length
     end
 
+    # Stores a reference to the current context, creates a nested new one,
+    # yields to the given block and then restores the previous context.
+    #
+    # @param klass [Context::*Context] - context class
+    # @param exp - current expression
+    # @yield block
+    #
     def inside_new_context(klass, exp)
-      push(new_context(klass, exp)) do
-        yield
-      end
-    end
+      new_context = append_new_context(klass, exp)
 
-    def new_context(klass, *args)
-      klass.new(element, *args).tap do |scope|
-        element.append_child_context(scope)
-      end
-    end
-
-    def push(scope)
-      orig = element
-      self.element = scope
+      orig, self.element = element, new_context
       yield
       self.element = orig
+    end
+
+    # Append a new child context to the current element.
+    #
+    # @param klass [Context::*Context] - context class
+    # @param args - arguments for the class initializer
+    #
+    # @return [Context::*Context] - the context that was appended
+    #
+    def append_new_context(klass, *args)
+      klass.new(element, *args).tap do |new_context|
+        element.append_child_context new_context
+      end
     end
   end
 end

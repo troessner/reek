@@ -39,7 +39,7 @@ module Reek
         child.visibility = tracked_visibility
       end
 
-      # return [Boolean] If the visibility is public or not.
+      # @return [Boolean] If the visibility is public or not.
       def non_public_visibility?
         visibility != :public
       end
