@@ -63,3 +63,6 @@ Style/Documentation:
 Style/AccessorMethodName:
   Exclude:
     - 'lib/reek/context/visibility_tracker.rb'
+
+Style/ParallelAssignment:
+  Enabled: false
