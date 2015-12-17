@@ -12,18 +12,20 @@ RSpec.describe Reek::Context::ModuleContext do
   end
 
   it 'should not report module with empty class' do
-    expect('# module for test
-module Fred
-# module for test
- class Jim; end; end').not_to reek
+    expect('
+      # module for test
+      module Fred
+        # module for test
+        class Jim; end; end').not_to reek
   end
 end
 
 RSpec.describe Reek::Context::ModuleContext do
   it 'should recognise global constant' do
-    expect('# module for test
-module ::Global
-# module for test
- class Inside; end; end').not_to reek
+    expect('
+      # module for test
+      module ::Global
+        # module for test
+        class Inside; end; end').not_to reek
   end
 end
