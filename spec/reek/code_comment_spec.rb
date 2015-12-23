@@ -81,5 +81,15 @@ RSpec.describe Reek::CodeComment do
       config = described_class.new('# :reek: Duplication').config
       expect(config).not_to include('Duplication')
     end
+
+    it 'removes the configuration options from the comment' do
+      subject = described_class.new('
+        # Actual
+        # :reek:Duplication: { enabled: false }
+        # :reek:NestedIterators: { enabled: true }
+        # comment
+      ')
+      expect(subject.send(:sanitized_comment)).to eq('Actual comment')
+    end
   end
 end
