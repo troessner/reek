@@ -145,6 +145,9 @@ Given(/^a configuration file disabling UtilityFunction for non-public methods ca
     ---
     UtilityFunction:
       public_methods_only: true
+    # Not necessary for the feature per se but for removing distracting output.
+    UnusedPrivateMethod:
+      enabled: false
   EOS
 end
 

@@ -22,8 +22,8 @@ module Reek
       delegate %i(name type) => :exp
       delegate %i(visibility visibility= non_public_visibility?) => :visibility_tracker
 
-      attr_reader :exp, :children, :visibility_tracker, :statement_counter
-      private_attr_reader :context, :refs
+      attr_reader :children, :context, :exp, :statement_counter, :visibility_tracker
+      private_attr_reader :refs
 
       # Initializes a new CodeContext.
       #
@@ -82,13 +82,18 @@ module Reek
       # `CodeContexts` here, not AST nodes (see `Reek::AST::Node`).
       #
       # @yield block that is executed for every node.
+      # @return [Enumerator]
       #
       def each(&block)
+        return enum_for(:each) unless block_given?
+
         yield self
         children.each do |child|
           child.each(&block)
         end
       end
+
+      alias_method :parent, :context
 
       # Register a child context. The child's parent context should be equal to
       # the current context.
