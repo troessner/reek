@@ -3,6 +3,8 @@ require_relative 'context/module_context'
 require_relative 'context/root_context'
 require_relative 'context/singleton_method_context'
 require_relative 'context/attribute_context'
+require_relative 'context/send_context'
+require_relative 'context/class_context'
 require_relative 'ast/node'
 
 module Reek
@@ -14,7 +16,8 @@ module Reek
   # counting. Ideally `ContextBuilder` would only build up the context tree and leave the
   # statement and reference counting to the contexts.
   #
-  # :reek:TooManyMethods: { max_methods: 26 }
+  # :reek:TooManyMethods: { max_methods: 27 }
+  # :reek:UnusedPrivateMethod: { exclude: [ !ruby/regexp /process_/ ] }
   class ContextBuilder
     attr_reader :context_tree
     private_attr_accessor :element
@@ -130,16 +133,18 @@ module Reek
     # we also record to what the method call is referring to
     # which we later use for smell detectors like FeatureEnvy.
     #
-    # :reek:TooManyStatements: { max_statements: 6 }
+    # :reek:TooManyStatements: { max_statements: 7 }
     # :reek:FeatureEnvy
     def process_send(exp)
+      method_name = exp.method_name
       if exp.visibility_modifier?
-        element.track_visibility(exp.method_name, exp.arg_names)
-      end
-      if exp.attribute_writer?
+        element.track_visibility(method_name, exp.arg_names)
+      elsif exp.attribute_writer?
         exp.args.each do |arg|
           append_new_context(Context::AttributeContext, arg, exp)
         end
+      else
+        append_new_context(Context::SendContext, exp, method_name)
       end
       element.record_call_to(exp)
       process(exp)
