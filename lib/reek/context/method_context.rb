@@ -5,8 +5,15 @@ module Reek
     #
     # A context wrapper for any method definition found in a syntax tree.
     #
+    # :reek:Attribute
     class MethodContext < CodeContext
+      attr_accessor :visibility
       attr_reader :refs
+
+      def initialize(context, exp)
+        @visibility = :public
+        super
+      end
 
       def references_self?
         exp.depends_on_instance?
@@ -35,7 +42,23 @@ module Reek
       end
 
       def singleton_method?
-        exp.singleton_method? || visibility == :module_function
+        false
+      end
+
+      def instance_method?
+        true
+      end
+
+      def apply_current_visibility(current_visibility)
+        self.visibility = current_visibility
+      end
+
+      def module_function?
+        visibility == :module_function
+      end
+
+      def non_public_visibility?
+        visibility != :public
       end
     end
   end

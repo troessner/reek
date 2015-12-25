@@ -1,10 +1,12 @@
+require_relative 'context/attribute_context'
+require_relative 'context/class_context'
+require_relative 'context/ghost_context'
 require_relative 'context/method_context'
 require_relative 'context/module_context'
 require_relative 'context/root_context'
-require_relative 'context/singleton_method_context'
-require_relative 'context/attribute_context'
 require_relative 'context/send_context'
-require_relative 'context/class_context'
+require_relative 'context/singleton_attribute_context'
+require_relative 'context/singleton_method_context'
 require_relative 'ast/node'
 
 module Reek
@@ -16,16 +18,16 @@ module Reek
   # counting. Ideally `ContextBuilder` would only build up the context tree and leave the
   # statement and reference counting to the contexts.
   #
-  # :reek:TooManyMethods: { max_methods: 27 }
+  # :reek:TooManyMethods: { max_methods: 30 }
   # :reek:UnusedPrivateMethod: { exclude: [ !ruby/regexp /process_/ ] }
   class ContextBuilder
     attr_reader :context_tree
-    private_attr_accessor :element
+    private_attr_accessor :current_context
     private_attr_reader :exp
 
     def initialize(syntax_tree)
       @exp = syntax_tree
-      @element = Context::RootContext.new(exp)
+      @current_context = Context::RootContext.new(exp)
       @context_tree = build(exp)
     end
 
@@ -60,7 +62,7 @@ module Reek
       else
         process exp
       end
-      element
+      current_context
     end
 
     # Handles every node for which we have no context_processor.
@@ -78,6 +80,19 @@ module Reek
     end
 
     alias_method :process_class, :process_module
+
+    # Handles `sclass` nodes
+    #
+    # An input example that would trigger this method would be:
+    #
+    #   class << self
+    #   end
+    #
+    def process_sclass(exp)
+      inside_new_context(Context::GhostContext, exp) do
+        process(exp)
+      end
+    end
 
     # Handles `casgn` ("class assign") nodes.
     #
@@ -102,7 +117,7 @@ module Reek
     # Given the above example we would count 2 statements overall.
     #
     def process_def(exp)
-      inside_new_context(Context::MethodContext, exp) do
+      inside_new_context(current_context.method_context_class, exp) do
         increase_statement_count_by(exp.body)
         process(exp)
       end
@@ -133,20 +148,13 @@ module Reek
     # we also record to what the method call is referring to
     # which we later use for smell detectors like FeatureEnvy.
     #
-    # :reek:TooManyStatements: { max_statements: 7 }
-    # :reek:FeatureEnvy
     def process_send(exp)
-      method_name = exp.method_name
-      if exp.visibility_modifier?
-        element.track_visibility(method_name, exp.arg_names)
-      elsif exp.attribute_writer?
-        exp.args.each do |arg|
-          append_new_context(Context::AttributeContext, arg, exp)
-        end
-      else
-        append_new_context(Context::SendContext, exp, method_name)
+      case current_context
+      when Context::ModuleContext
+        handle_send_for_modules exp
+      when Context::MethodContext
+        handle_send_for_methods exp
       end
-      element.record_call_to(exp)
       process(exp)
     end
 
@@ -163,7 +171,7 @@ module Reek
     # We record one reference to `x` given the example above.
     #
     def process_op_asgn(exp)
-      element.record_call_to(exp)
+      current_context.record_call_to(exp)
       process(exp)
     end
 
@@ -182,7 +190,7 @@ module Reek
     # We record one reference to `self`.
     #
     def process_ivar(exp)
-      element.record_use_of_self
+      current_context.record_use_of_self
       process(exp)
     end
 
@@ -195,7 +203,7 @@ module Reek
     #   def self.foo; end
     #
     def process_self(_)
-      element.record_use_of_self
+      current_context.record_use_of_self
     end
 
     # Handles `zsuper` nodes a.k.a. calls to `super` without any arguments but a block possibly.
@@ -215,7 +223,7 @@ module Reek
     # We record one reference to `self`.
     #
     def process_zsuper(_)
-      element.record_use_of_self
+      current_context.record_use_of_self
     end
 
     # Handles `block` nodes.
@@ -435,11 +443,11 @@ module Reek
 
     # :reek:ControlParameter
     def increase_statement_count_by(sexp)
-      element.statement_counter.increase_by sexp
+      current_context.statement_counter.increase_by sexp
     end
 
     def decrease_statement_count
-      element.statement_counter.decrease_by 1
+      current_context.statement_counter.decrease_by 1
     end
 
     # Stores a reference to the current context, creates a nested new one,
@@ -452,12 +460,13 @@ module Reek
     def inside_new_context(klass, exp)
       new_context = append_new_context(klass, exp)
 
-      orig, self.element = element, new_context
+      orig, self.current_context = current_context, new_context
       yield
-      self.element = orig
+      self.current_context = orig
     end
 
-    # Append a new child context to the current element.
+    # Append a new child context to the current context but does not change the
+    # current context.
     #
     # @param klass [Context::*Context] - context class
     # @param args - arguments for the class initializer
@@ -465,8 +474,29 @@ module Reek
     # @return [Context::*Context] - the context that was appended
     #
     def append_new_context(klass, *args)
-      klass.new(element, *args).tap do |new_context|
-        element.append_child_context new_context
+      klass.new(current_context, *args).tap do |new_context|
+        new_context.register_with_parent(current_context)
+      end
+    end
+
+    def handle_send_for_modules(exp)
+      method_name = exp.method_name
+      arg_names = exp.arg_names
+      current_context.track_visibility(method_name, arg_names)
+      current_context.track_singleton_visibility(method_name, arg_names)
+      register_attributes(exp)
+    end
+
+    def handle_send_for_methods(exp)
+      append_new_context(Context::SendContext, exp, exp.method_name)
+      current_context.record_call_to(exp)
+    end
+
+    def register_attributes(exp)
+      return unless exp.attribute_writer?
+      klass = current_context.attribute_context_class
+      exp.args.each do |arg|
+        append_new_context(klass, arg, exp)
       end
     end
   end

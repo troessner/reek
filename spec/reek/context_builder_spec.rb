@@ -27,7 +27,7 @@ RSpec.describe Reek::ContextBuilder do
         end
 
         it 'holds a reference to the parent context' do
-          expect(module_context.send(:context)).to eq(context_tree)
+          expect(module_context.parent).to eq(context_tree)
         end
 
         describe 'the module node' do
@@ -39,7 +39,7 @@ RSpec.describe Reek::ContextBuilder do
           end
 
           it 'holds a reference to the parent context' do
-            expect(method_context.send(:context)).to eq(module_context)
+            expect(method_context.parent).to eq(module_context)
           end
         end
       end
@@ -216,6 +216,187 @@ RSpec.describe Reek::ContextBuilder do
         code = 'def self.foo; callee(); end'
         expect(number_of_statements_for(code)).to eq(1)
       end
+    end
+  end
+
+  describe 'visibility tracking' do
+    def context_tree_for(code)
+      described_class.new(syntax_tree(code)).context_tree
+    end
+
+    it 'does not mark class methods with instance visibility' do
+      code = <<-EOS
+        class Foo
+          private
+          def bar
+          end
+          def self.baz
+          end
+        end
+      EOS
+
+      root = context_tree_for(code)
+      module_context = root.children.first
+      method_contexts = module_context.children
+      expect(method_contexts[0].visibility).to eq :private
+      expect(method_contexts[1].visibility).to eq :public
+    end
+
+    it 'only marks existing instance methods using later instance method modifiers' do
+      code = <<-EOS
+        class Foo
+          def bar
+          end
+
+          def baz
+          end
+
+          def self.bar
+          end
+
+          class << self
+            def bar
+            end
+          end
+
+          private :bar, :baz
+        end
+      EOS
+
+      root = context_tree_for(code)
+      module_context = root.children.first
+      method_contexts = module_context.children
+      expect(method_contexts[0].visibility).to eq :private
+      expect(method_contexts[1].visibility).to eq :private
+      expect(method_contexts[2].visibility).to eq :public
+      expect(method_contexts[3].visibility).to eq :public
+    end
+
+    it 'only marks existing instance attributes using later instance method modifiers' do
+      code = <<-EOS
+        class Foo
+          attr_writer :bar
+
+          class << self
+            attr_writer :bar
+          end
+
+          private :bar
+        end
+      EOS
+
+      root = context_tree_for(code)
+      module_context = root.children.first
+      method_contexts = module_context.children
+      expect(method_contexts[0].visibility).to eq :private
+      expect(method_contexts[1].visibility).to eq :public
+    end
+
+    it 'marks class method visibility using private_class_method' do
+      code = <<-EOS
+        class Foo
+          def self.baz
+          end
+
+          private_class_method :baz
+        end
+      EOS
+
+      root = context_tree_for(code)
+      module_context = root.children.first
+      method_contexts = module_context.children
+      expect(method_contexts[0].visibility).to eq :private
+    end
+
+    it 'marks class method visibility using public_class_method' do
+      code = <<-EOS
+        class Foo
+          class << self
+            private
+
+            def baz
+            end
+          end
+
+          public_class_method :baz
+        end
+      EOS
+
+      root = context_tree_for(code)
+      module_context = root.children.first
+      method_contexts = module_context.children
+      expect(method_contexts[0].visibility).to eq :public
+    end
+
+    it 'correctly skips nested modules' do
+      code = <<-EOS
+        class Foo
+          class Bar
+            def baz
+            end
+          end
+
+          def baz
+          end
+
+          def self.bar
+          end
+
+          private :baz
+          private_class_method :bar
+        end
+      EOS
+
+      root = context_tree_for(code)
+      foo_context = root.children.first
+      bar_context = foo_context.children.first
+      nested_baz_context = bar_context.children.first
+      expect(nested_baz_context.visibility).to eq :public
+    end
+  end
+
+  describe '#context_tree' do
+    it 'creates the proper context for all kinds of singleton methods' do
+      src = <<-EOS
+        class Car
+          def self.start; end
+
+          class << self
+            def drive; end
+          end
+        end
+      EOS
+
+      syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
+      context_tree = Reek::ContextBuilder.new(syntax_tree).context_tree
+
+      class_node = context_tree.children.first
+      start_method = class_node.children.first
+      drive_method = class_node.children.last
+
+      expect(start_method).to be_instance_of Reek::Context::SingletonMethodContext
+      expect(drive_method).to be_instance_of Reek::Context::SingletonMethodContext
+    end
+
+    it 'returns something sensible for nested metaclasses' do
+      src = <<-EOS
+        class Foo
+          class << self
+            class << self
+              def bar; end
+            end
+          end
+        end
+      EOS
+
+      syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
+      context_tree = Reek::ContextBuilder.new(syntax_tree).context_tree
+
+      class_context = context_tree.children.first
+      method_context = class_context.children.first
+
+      expect(method_context).to be_instance_of Reek::Context::SingletonMethodContext
+      expect(method_context.parent).to eq class_context
     end
   end
 end

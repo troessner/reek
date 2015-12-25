@@ -137,5 +137,40 @@ RSpec.describe Reek::Smells::Attribute do
       '
       expect(src).to reek_of(:Attribute)
     end
+
+    it 'records attr_writer defining a class attribute' do
+      src = <<-EOS
+        class Klass
+          class << self
+            attr_writer :my_attr
+          end
+        end
+      EOS
+      expect(src).to reek_of(:Attribute, name: 'my_attr')
+    end
+
+    it 'does not record private class attributes' do
+      src = <<-EOS
+        class Klass
+          class << self
+            private
+            attr_writer :my_attr
+          end
+        end
+      EOS
+      expect(src).not_to reek_of(:Attribute, name: 'my_attr')
+    end
+
+    it 'tracks visibility in metaclasses separately' do
+      src = <<-EOS
+        class Klass
+          private
+          class << self
+            attr_writer :my_attr
+          end
+        end
+      EOS
+      expect(src).to reek_of(:Attribute, name: 'my_attr')
+    end
   end
 end
