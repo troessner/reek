@@ -106,6 +106,9 @@ UncommunicativeVariableName:
 UnusedParameters:
   enabled: true
   exclude: []
+UnusedPrivateMethod:
+  enabled: true
+  exclude: []
 UtilityFunction:
   enabled: true
   exclude: []
