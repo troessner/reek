@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## 3.8.0 (2015-12-27)
+
+* (troessner) Report unused private instance methods.
+* (troessner) Add Rake task for console.
+
 ## 3.7.1 (2015-11-29)
 
 * (troessner) Reverse merge default directives into directory directives.

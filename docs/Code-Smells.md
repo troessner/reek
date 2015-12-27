@@ -32,3 +32,4 @@ Reek currently includes checks for the following smells:
   * [Uncommunicative Parameter Name](Uncommunicative-Parameter-Name.md)
   * [Uncommunicative Variable Name](Uncommunicative-Variable-Name.md)
 * [Unused Parameters](Unused-Parameters.md)
+* [Unused Private Method](Unused-Private-Method.md)
