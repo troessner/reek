@@ -170,22 +170,6 @@ Feature: Directory directives
     2 total warnings
     """
 
-  Scenario: Abort on non-existent directory
-    Given a file named "config.reek" with:
-      """
-      ---
-      "does/not/exist":
-        NestedIterators:
-          enabled: false
-      """
-    When I run `reek -c config.reek lib/`
-    Then the exit status indicates an error
-    And stderr reports:
-    """
-    Configuration error: Directory `does/not/exist` does not exist
-
-    """
-
   Scenario: Abort on non-existent smell type in directory directive
     Given a file named "config.reek" with:
       """

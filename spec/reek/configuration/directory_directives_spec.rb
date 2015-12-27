@@ -30,17 +30,6 @@ RSpec.describe Reek::Configuration::DirectoryDirectives do
     subject do
       {}.extend(described_class)
     end
-    let(:empty_config) { Hash.new }
-
-    context 'one of given paths does not exist' do
-      let(:bogus_path) { Pathname('does/not/exist') }
-
-      it 'raises an error' do
-        Reek::CLI::Silencer.silently do
-          expect { subject.add(bogus_path, {}) }.to raise_error(SystemExit)
-        end
-      end
-    end
 
     context 'one of given paths is a file' do
       let(:file_as_path) { SAMPLES_PATH.join('inline.rb') }
