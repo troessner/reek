@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 3.8.1 (2015-12-28)
+
+* (troessner) Don't raise on missing directory for directive.
+
 ## 3.8.0 (2015-12-27)
 
 * (troessner) Report unused private instance methods.
