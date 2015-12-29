@@ -385,6 +385,8 @@ Just add this to your configuration file:
     enabled: false
   NestedIterators:
     max_allowed_nesting: 2
+  UnusedPrivateMethod:
+    enabled: false
 "app/helpers":
   IrresponsibleModule:
     enabled: false
