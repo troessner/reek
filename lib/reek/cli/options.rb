@@ -9,9 +9,14 @@ module Reek
     #
     # See {file:docs/Command-Line-Options.md} for details.
     #
-    # :reek:TooManyInstanceVariables: { max_instance_variables: 7 }
+    # :reek:TooManyInstanceVariables: { max_instance_variables: 9 }
     # :reek:Attribute: { enabled: false }
+    #
     class Options
+      DEFAULT_SUCCESS_EXIT_CODE  = 0
+      DEFAULT_ERROR_EXIT_CODE    = 1
+      DEFAULT_FAILURE_EXIT_CODE  = 2
+
       attr_reader :argv, :parser, :smells_to_detect
       attr_accessor :colored,
                     :config_file,
@@ -19,16 +24,20 @@ module Reek
                     :report_format,
                     :show_empty,
                     :show_links,
-                    :sorting
+                    :sorting,
+                    :success_exit_code,
+                    :failure_exit_code
 
       def initialize(argv = [])
-        @argv             = argv
-        @parser           = OptionParser.new
-        @report_format    = :text
-        @location_format  = :numbers
-        @show_links       = true
-        @smells_to_detect = []
-        @colored          = color_support?
+        @argv              = argv
+        @parser            = OptionParser.new
+        @report_format     = :text
+        @location_format   = :numbers
+        @show_links        = true
+        @smells_to_detect  = []
+        @colored           = color_support?
+        @success_exit_code = DEFAULT_SUCCESS_EXIT_CODE
+        @failure_exit_code = DEFAULT_FAILURE_EXIT_CODE
 
         set_up_parser
       end
@@ -46,11 +55,13 @@ module Reek
         $stdout.tty?
       end
 
+      # :reek:TooManyStatements: { max_statements: 6 }
       def set_up_parser
         set_banner
         set_configuration_options
         set_alternative_formatter_options
         set_report_formatting_options
+        set_exit_codes
         set_utility_options
       end
 
@@ -135,6 +146,21 @@ module Reek
                   '  smelliness ("smelliest" files first)',
                   '  none (default - output in processing order)') do |sorting|
           self.sorting = sorting
+        end
+      end
+
+      # :reek:DuplicateMethodCall: { max_calls: 2 }
+      def set_exit_codes
+        parser.separator "\nExit codes:"
+        parser.on('--success-exit-code CODE',
+                  'The exit code when no smells are found '\
+                  "(default: #{DEFAULT_SUCCESS_EXIT_CODE})") do |option|
+          self.success_exit_code = Integer(option)
+        end
+        parser.on('--failure-exit-code CODE',
+                  'The exit code when smells are found '\
+                  "(default: #{DEFAULT_FAILURE_EXIT_CODE})") do |option|
+          self.failure_exit_code = Integer(option)
         end
       end
 

@@ -14,6 +14,16 @@ Feature: Reek can be controlled using command-line options
     Then it succeeds
     And it reports the current version
 
+  Scenario: return given status code when using --failure-exit-code
+    Given the smelly file 'smelly.rb'
+    When I run reek smelly.rb --failure-exit-code 23
+    Then the exit status is 23
+
+  Scenario: return given status code when using --success-exit-code
+    Given the clean file 'clean.rb'
+    When I run reek clean.rb --success-exit-code 42
+    Then the exit status is 42
+
   Scenario: display the help information
     When I run reek --help
     Then it succeeds
@@ -51,6 +61,10 @@ Feature: Reek can be controlled using command-line options
               --sort-by SORTING            Sort reported files by the given criterium:
                                              smelliness ("smelliest" files first)
                                              none (default - output in processing order)
+
+     Exit codes:
+              --success-exit-code CODE     The exit code when no smells are found (default: 0)
+              --failure-exit-code CODE     The exit code when smells are found (default: 2)
 
       Utility options:
           -h, --help                       Show this message

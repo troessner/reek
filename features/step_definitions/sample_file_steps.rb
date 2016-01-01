@@ -1,3 +1,22 @@
+Given(/^the smelly file 'smelly.rb'$/) do
+  contents = <<-EOS.strip_heredoc
+    class Smelly
+      def x; end
+    end
+  EOS
+  write_file('smelly.rb', contents)
+end
+
+Given(/^the clean file 'clean.rb'$/) do
+  contents = <<-EOS.strip_heredoc
+    # Explanatory comment
+    class Clean
+      def foo; end
+    end
+  EOS
+  write_file('clean.rb', contents)
+end
+
 Given(/^the smelly file 'demo.rb' from the example in the README$/) do
   contents = <<-EOS.strip_heredoc
     class Dirty
