@@ -21,7 +21,7 @@ module Reek
       # code   - Ruby code as String
       # origin - 'STDIN', 'string' or a filepath as String
       # parser - the parser to use for generating AST's out of the given source
-      def initialize(code, origin, parser: Parser::Ruby22)
+      def initialize(code: raise, origin: raise, parser: Parser::Ruby22)
         @source = code
         @origin = origin
         @parser = parser
@@ -39,10 +39,10 @@ module Reek
       # :reek:DuplicateMethodCall: { max_calls: 2 }
       def self.from(source)
         case source
-        when File     then new(source.read, source.path)
-        when IO       then new(source.readlines.join, IO_IDENTIFIER)
-        when Pathname then new(source.read, source.to_s)
-        when String   then new(source, STRING_IDENTIFIER)
+        when File     then new(code: source.read,           origin: source.path)
+        when IO       then new(code: source.readlines.join, origin: IO_IDENTIFIER)
+        when Pathname then new(code: source.read,           origin: source.to_s)
+        when String   then new(code: source,                origin: STRING_IDENTIFIER)
         end
       end
 
