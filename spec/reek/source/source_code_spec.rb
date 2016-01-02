@@ -6,20 +6,20 @@ RSpec.describe Reek::Source::SourceCode do
   describe '#syntax_tree' do
     it 'associates comments with the AST' do
       source = "# this is\n# a comment\ndef foo; end"
-      source_code = Reek::Source::SourceCode.new(source, '(string)')
+      source_code = Reek::Source::SourceCode.new(code: source, origin: '(string)')
       result = source_code.syntax_tree
       expect(result.leading_comment).to eq "# this is\n# a comment"
     end
 
     it 'cleanly processes empty source' do
-      source_code = Reek::Source::SourceCode.new('', '(string)')
+      source_code = Reek::Source::SourceCode.new(code: '', origin: '(string)')
       result = source_code.syntax_tree
       expect(result).to be_nil
     end
 
     it 'cleanly processes empty source with comments' do
       source = "# this is\n# a comment\n"
-      source_code = Reek::Source::SourceCode.new(source, '(string)')
+      source_code = Reek::Source::SourceCode.new(code: source, origin: '(string)')
       result = source_code.syntax_tree
       expect(result).to be_nil
     end
@@ -30,7 +30,7 @@ RSpec.describe Reek::Source::SourceCode do
     let(:source_name) { 'Test source' }
     let(:error_message) { 'Error message' }
     let(:parser) { double('parser') }
-    let(:src) { Reek::Source::SourceCode.new('', source_name, parser: parser) }
+    let(:src) { Reek::Source::SourceCode.new(code: '', origin: source_name, parser: parser) }
 
     before { $stderr = catcher }
 
