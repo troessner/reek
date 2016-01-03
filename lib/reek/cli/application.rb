@@ -11,53 +11,45 @@ module Reek
     # command line.
     #
     class Application
-      STATUS_SUCCESS = 0
-      STATUS_ERROR   = 1
-      STATUS_SMELLS  = 2
       attr_reader :configuration
 
       private_attr_accessor :status
       private_attr_reader :command, :options
 
       def initialize(argv)
-        @status = STATUS_SUCCESS
         @options = configure_options(argv)
+        @status = options.success_exit_code
         @configuration = configure_app_configuration(options.config_file)
         @command = ReekCommand.new(OptionInterpreter.new(options))
       end
 
       def execute
-        return status if error_occured?
         command.execute self
         status
       end
 
       def report_success
-        self.status = STATUS_SUCCESS
+        self.status = options.success_exit_code
       end
 
       def report_smells
-        self.status = STATUS_SMELLS
+        self.status = options.failure_exit_code
       end
 
       private
-
-      def error_occured?
-        status == STATUS_ERROR
-      end
 
       def configure_options(argv)
         Options.new(argv).parse
       rescue OptionParser::InvalidOption => error
         $stderr.puts "Error: #{error}"
-        exit STATUS_ERROR
+        exit Options::DEFAULT_ERROR_EXIT_CODE
       end
 
       def configure_app_configuration(config_file)
         Configuration::AppConfiguration.from_path(config_file)
       rescue Reek::Configuration::ConfigFileException => error
         $stderr.puts "Error: #{error}"
-        exit STATUS_ERROR
+        exit Options::DEFAULT_ERROR_EXIT_CODE
       end
     end
   end

@@ -23,18 +23,22 @@ Then /^stdout includes "(.*)"$/ do |text|
 end
 
 Then /^it succeeds$/ do
-  success = Reek::CLI::Application::STATUS_SUCCESS
+  success = Reek::CLI::Options::DEFAULT_SUCCESS_EXIT_CODE
   expect(last_command_started).to have_exit_status(success)
 end
 
 Then /^the exit status indicates an error$/ do
-  error = Reek::CLI::Application::STATUS_ERROR
+  error = Reek::CLI::Options::DEFAULT_ERROR_EXIT_CODE
   expect(last_command_started).to have_exit_status(error)
 end
 
 Then /^the exit status indicates smells$/ do
-  smells = Reek::CLI::Application::STATUS_SMELLS
+  smells = Reek::CLI::Options::DEFAULT_FAILURE_EXIT_CODE
   expect(last_command_started).to have_exit_status(smells)
+end
+
+Then(/^the exit status is (\d+)$/) do |status|
+  expect(last_command_started).to have_exit_status(status.to_i)
 end
 
 Then /^it reports:$/ do |report|
