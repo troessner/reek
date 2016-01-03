@@ -13,6 +13,10 @@ module Reek
     class SourceCode
       IO_IDENTIFIER     = 'STDIN'
       STRING_IDENTIFIER = 'string'
+      SOURCETYPE_LOOKUP_TABLE = { File     => ->source { return source.read,           source.path },
+                                  IO       => ->source { return source.readlines.join, IO_IDENTIFIER },
+                                  Pathname => ->source { return source.read,           source.to_s },
+                                  String   => ->source { return source,                STRING_IDENTIFIER } }
 
       attr_reader :origin
 
@@ -36,14 +40,9 @@ module Reek
       # @param source [File|IO|String] - the given source
       #
       # @return an instance of SourceCode
-      # :reek:DuplicateMethodCall: { max_calls: 2 }
       def self.from(source)
-        case source
-        when File     then new(code: source.read,           origin: source.path)
-        when IO       then new(code: source.readlines.join, origin: IO_IDENTIFIER)
-        when Pathname then new(code: source.read,           origin: source.to_s)
-        when String   then new(code: source,                origin: STRING_IDENTIFIER)
-        end
+        code, origin = SOURCETYPE_LOOKUP_TABLE[source.class].call(source)
+        new(code: code, origin: origin)
       end
 
       # Parses the given source into an AST and associates the source code comments with it.
