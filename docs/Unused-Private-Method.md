@@ -45,3 +45,30 @@ class ContextBuilder
 end
 ```
 
+Note that disabling this detector via comment works on a class scope, not
+a method scope (like you can see above).
+
+## Known limitations
+
+* Method calls via dynamic dispatch (e.g. via `send`) is something `Reek` (or any other
+  static tool for that matter) can not detect.
+* Method calls via callback like [Rails filters](http://guides.rubyonrails.org/action_controller_overview.html#filters)
+  will trigger this as well, e.g.:
+
+```Ruby
+  class BankController < ActionController::Base
+    before_filter :audit
+
+    private
+    def audit
+      # ....
+    end
+  end
+```
+* `Reek` works on a per-file base. This means that using something like the [template pattern](https://en.wikipedia.org/wiki/Template_method_pattern)
+  with private methods will trigger this detector.
+  We do believe though that using private methods to fill out a template in a
+  superclass is not a good idea in general so this probably isn't really a problem
+  but still worth mentioning it.
+
+
