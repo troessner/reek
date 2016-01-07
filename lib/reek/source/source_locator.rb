@@ -31,11 +31,15 @@ module Reek
 
       private_attr_reader :configuration, :paths
 
-      # :reek:TooManyStatements: { max_statements: 6 }
+      # :reek:TooManyStatements: { max_statements: 7 }
       # :reek:NestedIterators: { max_allowed_nesting: 2 }
       def source_paths
         paths.each_with_object([]) do |given_path, relevant_paths|
-          print_no_such_file_error(given_path) && next unless given_path.exist?
+          unless given_path.exist?
+            print_no_such_file_error(given_path)
+            next
+          end
+
           given_path.find do |path|
             if path.directory?
               ignore_path?(path) ? Find.prune : next
