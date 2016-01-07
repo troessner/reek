@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 3.8.2 (2016-01-07)
+
+* (pocke) Skip path if path doesn't exist.
+
 ## 3.8.1 (2015-12-28)
 
 * (troessner) Don't raise on missing directory for directive.
