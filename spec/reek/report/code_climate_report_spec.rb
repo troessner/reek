@@ -18,8 +18,8 @@ RSpec.describe Reek::Report::CodeClimateReport do
   context 'with empty source' do
     let(:source) { '' }
 
-    it 'prints empty json' do
-      expect { instance.show }.to output(/^\[\]$/).to_stdout
+    it 'prints an empty string' do
+      expect { instance.show }.to output('').to_stdout
     end
   end
 
@@ -27,42 +27,23 @@ RSpec.describe Reek::Report::CodeClimateReport do
     let(:source) { 'def simple(a) a[3] end' }
 
     it 'prints smells as json' do
-      out = StringIO.new
-      instance.show(out)
-      out.rewind
-      result = JSON.parse(out.read)
-      expected = JSON.parse <<-EOS
-        [
-          {
-            "type": "issue",
-            "check_name": "UncommunicativeName/UncommunicativeParameterName",
-            "description": "simple has the parameter name 'a'",
-            "categories": ["Complexity"],
-            "location": {
-              "path": "string",
-              "lines": {
-                "begin": 1,
-                "end": 1
-              }
-            }
-          },
-          {
-            "type": "issue",
-            "check_name": "LowCohesion/UtilityFunction",
-            "description": "simple doesn't depend on instance state (maybe move it to another class?)",
-            "categories": ["Complexity"],
-            "location": {
-              "path": "string",
-              "lines": {
-                "begin": 1,
-                "end": 1
-              }
-            }
-          }
-        ]
+      expected = <<-EOS.delete("\n")
+{\"type\":\"issue\",
+\"check_name\":\"UncommunicativeName/UncommunicativeParameterName\",
+\"description\":\"simple has the parameter name 'a'\",
+\"categories\":[\"Complexity\"],
+\"location\":{\"path\":\"string\",\"lines\":{\"begin\":1,\"end\":1}},
+\"remediation_points\":500,
+"content\":{\"body\":\"Dummy content\"}}\u0000
+{\"type\":\"issue\",
+\"check_name\":\"LowCohesion/UtilityFunction\",
+\"description\":\"simple doesn't depend on instance state (maybe move it to another class?)\",
+\"categories\":[\"Complexity\"],
+\"location\":{\"path\":\"string\",\"lines\":{\"begin\":1,\"end\":1}},
+\"remediation_points\":500,
+"content\":{\"body\":\"Dummy content\"}}\u0000
       EOS
-
-      expect(result).to eq expected
+      expect { instance.show }.to output(expected).to_stdout
     end
   end
 end

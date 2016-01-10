@@ -151,7 +151,9 @@ module Reek
     class CodeClimateReport < Base
       # @public
       def show(out = $stdout)
-        out.print ::JSON.generate smells.map { |smell| warning_formatter.format_code_climate_hash(smell) }
+        smells.map do |smell|
+          out.print warning_formatter.format_code_climate_hash(smell)
+        end
       end
     end
 

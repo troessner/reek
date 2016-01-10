@@ -1,0 +1,26 @@
+# Folders
+
+.git
+.idea
+docs
+features
+logo
+pkg
+spec
+tasks
+tmp
+
+# Files
+
+.dockerignore
+.gitignore
+.rubocop.yml
+.travis.yml
+.yardopts
+ataru_setup.rb
+CHANGELOG.md
+CONTRIBUTING.md
+defaults.reek
+Dockerfile
+Rakefile
+README.md
