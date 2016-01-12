@@ -85,17 +85,16 @@ module Reek
 
       # @public
       def source_files=(files)
-        raise ArgumentError, no_string_given_for_file_list_warning unless files.is_a?(String)
+        unless files.is_a?(String) || files.is_a?(FileList)
+          raise ArgumentError, 'File list should be a FileList or a String that can contain'\
+            " a glob pattern, e.g. '{app,lib,spec}/**/*.rb'"
+        end
         @source_files = FileList[files]
       end
 
       private
 
       private_attr_reader :fail_on_error, :name, :verbose
-
-      def no_string_given_for_file_list_warning
-        "File list should be a String that can contain a glob pattern, e.g. '{app,lib,spec}/**/*.rb'"
-      end
 
       def define_task
         desc 'Check for code smells'
