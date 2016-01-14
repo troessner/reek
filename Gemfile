@@ -1,16 +1,26 @@
 source 'https://rubygems.org'
 
-# The gem's dependencies are specified in the gemspec
 gemspec
 
-group :local_development do
-  gem 'pry'
-  gem 'yard', '~> 0.8.7'
+group :development do
+  gem 'aruba',         '~> 0.10.0'
+  gem 'ataru',         '~> 0.2.0'
+  gem 'cucumber',      '~> 2.0'
+  gem 'factory_girl',  '~> 4.0'
+  gem 'rake',          '~> 10.0'
+  gem 'rspec',         '~> 3.0'
+  gem 'rubocop',       '~> 0.34.0'
+  gem 'yard',          '~> 0.8.7'
 
+  platforms :mri do
+    gem 'redcarpet', '~> 3.3.1'
+  end
+end
+
+group :debugging do
+  gem 'pry'
   platforms :mri do
     gem 'pry-byebug'
     gem 'pry-stack_explorer'
-
-    gem 'redcarpet', '~> 3.3.1'
   end
 end
