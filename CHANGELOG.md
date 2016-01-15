@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 3.8.3 (2016-01-15)
+
+* (avdgaag) Accept FileList as Rake task source file
+
 ## 3.8.2 (2016-01-07)
 
 * (pocke) Skip path if path doesn't exist.
