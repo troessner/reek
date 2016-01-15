@@ -26,15 +26,5 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'parser',                '~> 2.2', '>= 2.2.2.5'
   s.add_runtime_dependency 'private_attr',          '~> 1.1'
   s.add_runtime_dependency 'rainbow',               '~> 2.0'
-  s.add_runtime_dependency 'unparser',              '~> 0.2.2'
-
-  s.add_development_dependency 'activesupport', '~> 4.2'
-  s.add_development_dependency 'aruba',         '~> 0.10.0'
-  s.add_development_dependency 'ataru',         '~> 0.2.0'
-  s.add_development_dependency 'bundler',       '~> 1.1'
-  s.add_development_dependency 'cucumber',      '~> 2.0'
-  s.add_development_dependency 'factory_girl',  '~> 4.0'
-  s.add_development_dependency 'rake',          '~> 10.0'
-  s.add_development_dependency 'rspec',         '~> 3.0'
-  s.add_development_dependency 'rubocop',       '~> 0.34.0'
+  s.add_runtime_dependency 'unparser',              '~> 0.2.4'
 end
