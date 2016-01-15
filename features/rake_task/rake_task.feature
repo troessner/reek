@@ -20,6 +20,24 @@ Feature: Reek can be driven through its Task
         [3]:UncommunicativeMethodName: Smelly#m has the name 'm' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
       """
 
+  Scenario: source_files using a FileList instead of a String
+    Given a smelly file called 'smelly.rb'
+    When I run rake reek with:
+      """
+      Reek::Rake::Task.new do |t|
+        t.source_files = FileList['smelly.*']
+        t.reek_opts = '--no-color'
+      end
+      """
+    Then the exit status indicates an error
+    And it reports:
+      """
+      smelly.rb -- 3 warnings:
+        [4, 5]:DuplicateMethodCall: Smelly#m calls @foo.bar 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
+        [4, 5]:DuplicateMethodCall: Smelly#m calls puts(@foo.bar) 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
+        [3]:UncommunicativeMethodName: Smelly#m has the name 'm' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
+      """
+
   Scenario: name changes the task name
     Given a smelly file called 'smelly.rb'
     When I run rake silky with:
