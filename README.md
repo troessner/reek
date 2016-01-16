@@ -403,6 +403,7 @@ Be careful though, Reek does not merge your configuration entries, so if you alr
 * [Vim plugin](https://github.com/rainerborene/vim-reek)
 * [TextMate Bundle](https://github.com/peeyush1234/reek.tmbundle)
 * [Atom plugin](https://atom.io/packages/linter-reek)
+* [SublimeLinter plugin](https://packagecontrol.io/packages/SublimeLinter-contrib-reek)
 
 ### Projects that use or support us
 
