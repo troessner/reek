@@ -83,7 +83,7 @@ module Reek
 
         def full_name(outer)
           prefix = outer == '' ? '' : "#{outer}#"
-          "#{prefix}#{SexpFormatter.format(receiver)}.#{name}"
+          "#{prefix}#{receiver.name}.#{name}"
         end
 
         def depends_on_instance?

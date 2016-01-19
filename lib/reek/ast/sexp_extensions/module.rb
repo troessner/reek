@@ -32,7 +32,7 @@ module Reek
         end
 
         def name
-          SexpFormatter.format(children.first)
+          children.first.full_name
         end
       end
 
@@ -63,7 +63,7 @@ module Reek
         end
 
         def name
-          SexpFormatter.format(children[1])
+          children[1].to_s
         end
 
         # there are two valid forms of the casgn sexp

@@ -47,6 +47,10 @@ module Reek
         def attr_with_writable_flag?
           method_name == :attr && args.any? && args.last.type == :true
         end
+
+        def name
+          method_name
+        end
       end
 
       Op_AsgnNode = SendNode
