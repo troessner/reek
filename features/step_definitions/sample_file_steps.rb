@@ -114,7 +114,7 @@ Given(/^a configuration file masking some duplication smells called 'config.reek
     ---
     DuplicateMethodCall:
       allow_calls:
-        - puts\\(@foo.bar\\)
+        - puts @foo.bar
   EOS
 end
 

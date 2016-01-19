@@ -87,8 +87,19 @@ module Reek
         false
       end
 
+      # :reek:DuplicateMethodCall { max_calls: 2 } is ok for lines.first
+      # :reek:FeatureEnvy
       def format_to_ruby
-        SexpFormatter.format(self)
+        if location
+          lines = location.expression.source.split("\n").map(&:strip)
+          case lines.length
+          when 1 then lines.first
+          when 2 then lines.join('; ')
+          else [lines.first, lines.last].join(' ... ')
+          end
+        else
+          to_s
+        end
       end
 
       protected

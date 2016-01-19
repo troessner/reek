@@ -18,7 +18,7 @@ Feature: Using Reek programmatically
     And it reports:
       """
       calls @foo.bar 2 times
-      calls puts(@foo.bar) 2 times
+      calls puts @foo.bar 2 times
       has the name 'm'
       """
 
@@ -38,6 +38,6 @@ Feature: Using Reek programmatically
       """
       smelly.rb -- 3 warnings:
         DuplicateMethodCall: Smelly#m calls @foo.bar 2 times
-        DuplicateMethodCall: Smelly#m calls puts(@foo.bar) 2 times
+        DuplicateMethodCall: Smelly#m calls puts @foo.bar 2 times
         UncommunicativeMethodName: Smelly#m has the name 'm'
       """

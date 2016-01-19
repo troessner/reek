@@ -36,8 +36,8 @@ Feature: Report smells using simple YAML layout
         lines:
         - 4
         - 5
-        message: calls puts(@foo.bar) 2 times
-        name: puts(@foo.bar)
+        message: calls puts @foo.bar 2 times
+        name: puts @foo.bar
         count: 2
         wiki_link: https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md
       - smell_category: UncommunicativeName

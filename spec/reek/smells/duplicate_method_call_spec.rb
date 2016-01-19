@@ -47,7 +47,7 @@ RSpec.describe Reek::Smells::DuplicateMethodCall do
 
     it 'reports call parameters' do
       src = 'def double_thing() @other.thing(2,3) + @other.thing(2,3) end'
-      expect(src).to reek_of(:DuplicateMethodCall, name: '@other.thing(2, 3)')
+      expect(src).to reek_of(:DuplicateMethodCall, name: '@other.thing(2,3)')
     end
 
     it 'should report nested calls' do
