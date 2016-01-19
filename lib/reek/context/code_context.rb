@@ -1,6 +1,5 @@
 require_relative '../code_comment'
 require_relative '../ast/object_refs'
-require_relative 'visibility_tracker'
 require_relative 'statement_counter'
 
 require 'forwardable'
@@ -20,14 +19,14 @@ module Reek
       extend Forwardable
       delegate each_node: :exp
       delegate %i(name type) => :exp
-      delegate %i(visibility visibility= non_public_visibility?) => :visibility_tracker
 
-      attr_reader :children, :context, :exp, :statement_counter, :visibility_tracker
+      attr_reader :children, :parent, :exp, :statement_counter
+
       private_attr_reader :refs
 
       # Initializes a new CodeContext.
       #
-      # @param context [CodeContext, nil] The parent context
+      # @param parent [CodeContext, nil] The parent context
       # @param exp [Reek::AST::Node] The code described by this context
       #
       # For example, given the following code:
@@ -40,7 +39,7 @@ module Reek
       #
       # The {ContextBuilder} object first instantiates a {RootContext}, which has no parent.
       #
-      # Next, it instantiates a {ModuleContext}, with +context+ being the
+      # Next, it instantiates a {ModuleContext}, with +parent+ being the
       # {RootContext} just created, and +exp+ looking like this:
       #
       #  (class
@@ -52,18 +51,16 @@ module Reek
       #        (lvar :x))))
       #
       # Finally, {ContextBuilder} will instantiate a {MethodContext}. This time,
-      # +context+ is the {ModuleContext} created above, and +exp+ is:
+      # +parent+ is the {ModuleContext} created above, and +exp+ is:
       #
       #   (def :foo
       #     (args
       #       (arg :x))
       #     (send nil :puts
       #       (lvar :x)))
-      def initialize(context, exp)
-        @context            = context
+      def initialize(_parent, exp)
         @exp                = exp
         @children           = []
-        @visibility_tracker = VisibilityTracker.new
         @statement_counter  = StatementCounter.new
         @refs               = AST::ObjectRefs.new
       end
@@ -93,18 +90,17 @@ module Reek
         end
       end
 
-      alias_method :parent, :context
+      def register_with_parent(parent)
+        @parent = parent.append_child_context(self) if parent
+      end
 
-      # Register a child context. The child's parent context should be equal to
-      # the current context.
-      #
-      # This makes the current context responsible for setting the child's
-      # visibility.
+      # Register a context as a child context of this context. This is
+      # generally used by a child context to register itself with its parent.
       #
       # @param child [CodeContext] the child context to register
       def append_child_context(child)
-        visibility_tracker.set_child_visibility(child)
         children << child
+        self
       end
 
       # :reek:TooManyStatements: { max_statements: 6 }
@@ -136,22 +132,28 @@ module Reek
       end
 
       def full_name
-        exp.full_name(context ? context.full_name : '')
+        exp.full_name(parent ? parent.full_name : '')
       end
 
       def config_for(detector_class)
-        context_config_for(detector_class).merge(
+        parent_config_for(detector_class).merge(
           configuration_via_code_commment[detector_class.smell_type] || {})
-      end
-
-      def track_visibility(visibility, names)
-        visibility_tracker.track_visibility children: children,
-                                            visibility: visibility,
-                                            names: names
       end
 
       def number_of_statements
         statement_counter.value
+      end
+
+      def singleton_method?
+        false
+      end
+
+      def instance_method?
+        false
+      end
+
+      def apply_current_visibility(_current_visibility)
+        # Nothing to do by default
       end
 
       private
@@ -164,8 +166,8 @@ module Reek
         exp.full_comment || ''
       end
 
-      def context_config_for(detector_class)
-        context ? context.config_for(detector_class) : {}
+      def parent_config_for(detector_class)
+        parent ? parent.config_for(detector_class) : {}
       end
     end
   end

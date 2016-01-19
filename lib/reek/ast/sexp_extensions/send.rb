@@ -3,7 +3,6 @@ module Reek
     module SexpExtensions
       # Utility methods for :send nodes.
       module SendNode
-        VISIBILITY_MODIFIERS = [:private, :public, :protected, :module_function]
         ATTR_DEFN_METHODS = [:attr_writer, :attr_accessor]
 
         def receiver
@@ -36,10 +35,6 @@ module Reek
 
         def object_creation_call?
           method_name == :new
-        end
-
-        def visibility_modifier?
-          VISIBILITY_MODIFIERS.include?(method_name)
         end
 
         def attribute_writer?

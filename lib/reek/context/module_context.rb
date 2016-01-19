@@ -1,5 +1,7 @@
 require_relative 'code_context'
+require_relative 'attribute_context'
 require_relative 'method_context'
+require_relative 'visibility_tracker'
 require_relative '../ast/sexp_formatter'
 
 module Reek
@@ -9,6 +11,39 @@ module Reek
     #
     # :reek:FeatureEnvy
     class ModuleContext < CodeContext
+      attr_reader :visibility_tracker
+
+      def initialize(context, exp)
+        super
+
+        @visibility_tracker = VisibilityTracker.new
+      end
+
+      # Register a child context. The child's parent context should be equal to
+      # the current context.
+      #
+      # This makes the current context responsible for setting the child's
+      # visibility.
+      #
+      # @param child [CodeContext] the child context to register
+      def append_child_context(child)
+        visibility_tracker.set_child_visibility(child)
+        super
+      end
+
+      # Return the correct class for child method contexts (representing nodes
+      # of type `:def`). For ModuleContext, this is the class that represents
+      # instance methods.
+      def method_context_class
+        MethodContext
+      end
+
+      # Return the correct class for child attribute contexts. For
+      # ModuleContext, this is the class that represents instance attributes.
+      def attribute_context_class
+        AttributeContext
+      end
+
       def defined_instance_methods(visibility: :public)
         each.select do |context|
           context.is_a?(Context::MethodContext) &&
@@ -43,6 +78,26 @@ module Reek
         return false if exp.type == :casgn
         contents = exp.children.last
         contents && contents.find_nodes([:def, :defs], [:casgn, :class, :module]).empty?
+      end
+
+      def track_visibility(visibility, names)
+        visibility_tracker.track_visibility children: instance_method_children,
+                                            visibility: visibility,
+                                            names: names
+      end
+
+      def track_singleton_visibility(visibility, names)
+        visibility_tracker.track_singleton_visibility children: singleton_method_children,
+                                                      visibility: visibility,
+                                                      names: names
+      end
+
+      def instance_method_children
+        children.select(&:instance_method?)
+      end
+
+      def singleton_method_children
+        children.select(&:singleton_method?)
       end
     end
   end

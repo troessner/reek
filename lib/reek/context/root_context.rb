@@ -1,4 +1,5 @@
 require_relative 'code_context'
+require_relative 'method_context'
 
 module Reek
   module Context
@@ -16,6 +17,13 @@ module Reek
 
       def full_name
         ''
+      end
+
+      # Return the correct class for child method contexts (representing nodes
+      # of type `:def`). For RootContext, this is the class that represents
+      # instance methods.
+      def method_context_class
+        MethodContext
       end
     end
   end

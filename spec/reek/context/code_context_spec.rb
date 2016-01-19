@@ -45,11 +45,11 @@ RSpec.describe Reek::Context::CodeContext do
     context 'when there is an outer' do
       let(:ctx)        { Reek::Context::CodeContext.new(outer, exp) }
       let(:outer_name) { 'another_random sting' }
-      let(:outer)      { double('outer') }
+      let(:outer)      { Reek::Context::CodeContext.new(nil, double('exp1')) }
 
       before :each do
+        ctx.register_with_parent outer
         allow(outer).to receive(:full_name).at_least(:once).and_return(outer_name)
-        allow(outer).to receive(:config).and_return({})
       end
 
       it 'creates the correct full name' do
@@ -174,6 +174,7 @@ RSpec.describe Reek::Context::CodeContext do
     let(:sniffer) { double('sniffer') }
 
     before :each do
+      context.register_with_parent(outer)
       allow(sniffer).to receive(:smell_type).and_return('DuplicateMethodCall')
     end
 
@@ -184,7 +185,7 @@ RSpec.describe Reek::Context::CodeContext do
     end
 
     context 'when there is an outer context' do
-      let(:outer) { double('outer') }
+      let(:outer) { Reek::Context::CodeContext.new(nil, double('exp1')) }
 
       before :each do
         allow(outer).to receive(:config_for).with(sniffer).and_return(
@@ -198,37 +199,16 @@ RSpec.describe Reek::Context::CodeContext do
     end
   end
 
-  describe '#append_child_context' do
+  describe '#register_with_parent' do
     let(:context) { Reek::Context::CodeContext.new(nil, double('exp1')) }
     let(:first_child) { Reek::Context::CodeContext.new(context, double('exp2')) }
     let(:second_child) { Reek::Context::CodeContext.new(context, double('exp3')) }
 
-    it 'appends the child to the list of children' do
-      context.append_child_context first_child
-      context.append_child_context second_child
+    it "appends the element to the parent context's list of children" do
+      first_child.register_with_parent context
+      second_child.register_with_parent context
+
       expect(context.children).to eq [first_child, second_child]
-    end
-  end
-
-  describe '#track_visibility' do
-    let(:context) { Reek::Context::CodeContext.new(nil, double('exp1')) }
-    let(:first_child) { Reek::Context::CodeContext.new(context, double('exp2', name: :foo)) }
-    let(:second_child) { Reek::Context::CodeContext.new(context, double('exp3')) }
-
-    it 'sets visibility on subsequent child contexts' do
-      context.append_child_context first_child
-      context.track_visibility :private, []
-      context.append_child_context second_child
-      expect(first_child.visibility).to eq :public
-      expect(second_child.visibility).to eq :private
-    end
-
-    it 'sets visibility on specifically mentioned child contexts' do
-      context.append_child_context first_child
-      context.track_visibility :private, [first_child.name]
-      context.append_child_context second_child
-      expect(first_child.visibility).to eq :private
-      expect(second_child.visibility).to eq :public
     end
   end
 
@@ -238,8 +218,9 @@ RSpec.describe Reek::Context::CodeContext do
     let(:second_child) { Reek::Context::CodeContext.new(context, double('exp3')) }
 
     it 'yields each child' do
-      context.append_child_context first_child
-      context.append_child_context second_child
+      first_child.register_with_parent context
+      second_child.register_with_parent context
+
       result = []
       context.each do |ctx|
         result << ctx

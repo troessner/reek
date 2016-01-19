@@ -34,7 +34,6 @@ RSpec.describe Reek::TreeDresser do
 
     it 'dresses `def` nodes properly' do
       expect(def_node).to be_a Reek::AST::SexpExtensions::DefNode
-      expect(def_node).to be_a Reek::AST::SexpExtensions::SingletonMethod
       expect(def_node).to be_a Reek::AST::SexpExtensions::MethodNodeBase
     end
 

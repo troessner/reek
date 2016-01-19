@@ -36,28 +36,9 @@ module Reek
         end
       end
 
-      # Checking if a method is a singleton method.
-      module SingletonMethod
-        def singleton_method?
-          singleton_method_via_class_self_notation?
-        end
-
-        # Ruby allows us to make a method a singleton_method using the
-        # class << self syntax.
-        #
-        # To check for this we check if the parent node is of type :sclass.
-        #
-        # @return [Boolean]
-        def singleton_method_via_class_self_notation?
-          return unless parent
-          parent.type == :sclass
-        end
-      end
-
       # Utility methods for :def nodes.
       module DefNode
         include MethodNodeBase
-        include SingletonMethod
 
         def name
           children.first
