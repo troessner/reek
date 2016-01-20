@@ -149,7 +149,7 @@ module Reek
         end
 
         def comparison_call?(call_node)
-          comparison_method_names.include? call_node.method_name
+          comparison_method_names.include? call_node.name
         end
 
         def comparison_method_names

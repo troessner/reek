@@ -480,7 +480,7 @@ module Reek
     end
 
     def handle_send_for_modules(exp)
-      method_name = exp.method_name
+      method_name = exp.name
       arg_names = exp.arg_names
       current_context.track_visibility(method_name, arg_names)
       current_context.track_singleton_visibility(method_name, arg_names)
@@ -488,7 +488,7 @@ module Reek
     end
 
     def handle_send_for_methods(exp)
-      append_new_context(Context::SendContext, exp, exp.method_name)
+      append_new_context(Context::SendContext, exp, exp.name)
       current_context.record_call_to(exp)
     end
 

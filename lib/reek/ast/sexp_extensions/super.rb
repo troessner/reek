@@ -3,7 +3,7 @@ module Reek
     module SexpExtensions
       # Utility methods for :super nodes.
       module SuperNode
-        def method_name
+        def name
           :super
         end
       end
