@@ -319,7 +319,7 @@ end
 RSpec.describe Reek::AST::SexpExtensions::ModuleNode do
   context 'with a simple name' do
     subject do
-      mod = sexp(:module, :Fred, nil)
+      mod = sexp(:module, sexp(:const, nil, :Fred), nil)
       mod
     end
 

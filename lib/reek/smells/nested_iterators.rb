@@ -120,7 +120,7 @@ module Reek
 
       # :reek:FeatureEnvy
       def ignored_iterator?(exp)
-        ignore_iterators.any? { |pattern| /#{pattern}/ =~ exp.call.method_name } ||
+        ignore_iterators.any? { |pattern| /#{pattern}/ =~ exp.call.name } ||
           exp.without_block_arguments?
       end
     end

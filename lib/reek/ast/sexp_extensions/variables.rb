@@ -30,6 +30,11 @@ module Reek
         alias_method :var_name, :name
       end
 
+      # Utility methods for :gvar nodes.
+      module GvarNode
+        include VariableBase
+      end
+
       LvasgnNode = LvarNode
       CvasgnNode = CvarNode
       CvdeclNode = CvarNode

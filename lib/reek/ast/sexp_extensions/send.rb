@@ -9,7 +9,7 @@ module Reek
           children.first
         end
 
-        def method_name
+        def name
           children[1]
         end
 
@@ -34,18 +34,18 @@ module Reek
         end
 
         def object_creation_call?
-          method_name == :new
+          name == :new
         end
 
         def attribute_writer?
-          ATTR_DEFN_METHODS.include?(method_name) ||
+          ATTR_DEFN_METHODS.include?(name) ||
             attr_with_writable_flag?
         end
 
         # Handles the case where we create an attribute writer via:
         # attr :foo, true
         def attr_with_writable_flag?
-          method_name == :attr && args.any? && args.last.type == :true
+          name == :attr && args.any? && args.last.type == :true
         end
       end
 

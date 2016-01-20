@@ -54,7 +54,7 @@ module Reek
         end
 
         def nil_query?(call)
-          call.method_name == :nil?
+          call.name == :nil?
         end
 
         def nil_comparison?(call)
@@ -62,7 +62,7 @@ module Reek
         end
 
         def comparison_call?(call)
-          comparison_methods.include? call.method_name
+          comparison_methods.include? call.name
         end
 
         def involves_nil?(call)

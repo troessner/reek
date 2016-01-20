@@ -35,8 +35,8 @@ Feature: Report smells using simple JSON layout
               "source": "smelly.rb",
               "context": "Smelly#m",
               "lines": [ 4, 5 ],
-              "message": "calls puts(@foo.bar) 2 times",
-              "name": "puts(@foo.bar)",
+              "message": "calls puts @foo.bar 2 times",
+              "name": "puts @foo.bar",
               "wiki_link": "https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md",
               "count": 2
           },

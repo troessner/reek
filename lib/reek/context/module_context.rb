@@ -2,7 +2,6 @@ require_relative 'code_context'
 require_relative 'attribute_context'
 require_relative 'method_context'
 require_relative 'visibility_tracker'
-require_relative '../ast/sexp_formatter'
 
 module Reek
   module Context

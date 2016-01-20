@@ -115,7 +115,7 @@ Feature: Correctly formatted reports
       """
       smelly.rb -- 3 warnings:
         DuplicateMethodCall: Smelly#m calls @foo.bar 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-        DuplicateMethodCall: Smelly#m calls puts(@foo.bar) 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
+        DuplicateMethodCall: Smelly#m calls puts @foo.bar 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
         UncommunicativeMethodName: Smelly#m has the name 'm' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
       """
 
@@ -133,7 +133,7 @@ Feature: Correctly formatted reports
       """
       smelly.rb -- 3 warnings:
         [4, 5]:DuplicateMethodCall: Smelly#m calls @foo.bar 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-        [4, 5]:DuplicateMethodCall: Smelly#m calls puts(@foo.bar) 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
+        [4, 5]:DuplicateMethodCall: Smelly#m calls puts @foo.bar 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
         [3]:UncommunicativeMethodName: Smelly#m has the name 'm' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
       """
 
@@ -151,7 +151,7 @@ Feature: Correctly formatted reports
       """
       smelly.rb -- 3 warnings:
         smelly.rb:4: DuplicateMethodCall: Smelly#m calls @foo.bar 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-        smelly.rb:4: DuplicateMethodCall: Smelly#m calls puts(@foo.bar) 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
+        smelly.rb:4: DuplicateMethodCall: Smelly#m calls puts @foo.bar 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
         smelly.rb:3: UncommunicativeMethodName: Smelly#m has the name 'm' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
       """
 
@@ -191,7 +191,7 @@ Feature: Correctly formatted reports
       """
       smelly.rb -- 3 warnings:
         [4, 5]:DuplicateMethodCall: Smelly#m calls @foo.bar 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-        [4, 5]:DuplicateMethodCall: Smelly#m calls puts(@foo.bar) 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
+        [4, 5]:DuplicateMethodCall: Smelly#m calls puts @foo.bar 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
         [3]:UncommunicativeMethodName: Smelly#m has the name 'm' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
       """
 
@@ -208,7 +208,7 @@ Feature: Correctly formatted reports
       """
       smelly.rb -- 3 warnings:
         [4, 5]:DuplicateMethodCall: Smelly#m calls @foo.bar 2 times
-        [4, 5]:DuplicateMethodCall: Smelly#m calls puts(@foo.bar) 2 times
+        [4, 5]:DuplicateMethodCall: Smelly#m calls puts @foo.bar 2 times
         [3]:UncommunicativeMethodName: Smelly#m has the name 'm'
       """
 
@@ -220,7 +220,7 @@ Feature: Correctly formatted reports
       """
       smelly.rb -- 3 warnings:
         DuplicateMethodCall: Smelly#m calls @foo.bar 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-        DuplicateMethodCall: Smelly#m calls puts(@foo.bar) 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
+        DuplicateMethodCall: Smelly#m calls puts @foo.bar 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
         UncommunicativeMethodName: Smelly#m has the name 'm' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
       """
 
