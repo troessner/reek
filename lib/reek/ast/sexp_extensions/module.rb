@@ -32,7 +32,7 @@ module Reek
         end
 
         def name
-          children.first.full_name
+          children.first.format_to_ruby
         end
       end
 
