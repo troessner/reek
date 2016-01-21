@@ -41,6 +41,10 @@ module Reek
           exp.parameters.select(&:optional_argument?).map(&:children)
       end
 
+      def method_context_class
+        self.class
+      end
+
       def singleton_method?
         false
       end
