@@ -319,8 +319,7 @@ end
 RSpec.describe Reek::AST::SexpExtensions::ModuleNode do
   context 'with a simple name' do
     subject do
-      mod = sexp(:module, sexp(:const, nil, :Fred), nil)
-      mod
+      Reek::Source::SourceCode.from('module Fred; end').syntax_tree
     end
 
     it 'has the correct #name' do
@@ -342,7 +341,7 @@ RSpec.describe Reek::AST::SexpExtensions::ModuleNode do
 
   context 'with a scoped name' do
     subject do
-      sexp(:module, sexp(:const, sexp(:const, nil, :Foo), :Bar), nil)
+      Reek::Source::SourceCode.from('module Foo::Bar; end').syntax_tree
     end
 
     it 'has the correct #name' do
@@ -359,6 +358,20 @@ RSpec.describe Reek::AST::SexpExtensions::ModuleNode do
 
     it 'has a fq full_name' do
       expect(subject.full_name('Blimey::O::Reilly')).to eq 'Blimey::O::Reilly::Foo::Bar'
+    end
+  end
+
+  context 'with a name scoped in a namespace that is not a constant' do
+    subject do
+      Reek::Source::SourceCode.from('module foo::Bar; end').syntax_tree
+    end
+
+    it 'has the correct #name' do
+      expect(subject.name).to eq 'foo::Bar'
+    end
+
+    it 'has the correct #simple_name' do
+      expect(subject.simple_name).to eq 'Bar'
     end
   end
 end

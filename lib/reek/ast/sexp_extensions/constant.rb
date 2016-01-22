@@ -3,10 +3,10 @@ module Reek
     module SexpExtensions
       # Utility methods for :const nodes.
       module ConstNode
-        def full_name
+        def name
           namespace = children.first
           if namespace
-            "#{namespace.full_name}::#{simple_name}"
+            "#{namespace.format_to_ruby}::#{simple_name}"
           else
             simple_name.to_s
           end
@@ -14,17 +14,6 @@ module Reek
 
         def simple_name
           children.last
-        end
-
-        def name
-          full_name
-        end
-      end
-
-      # Utility methods for :cbase nodes.
-      module CbaseNode
-        def full_name
-          ''
         end
       end
     end
