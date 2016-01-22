@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## 3.9.0 (2016-01-22)
+
+* (chastell) Bump Parser dependency to support Ruby 2.3
+* (mvz) Remove the `unparser` gem as dependency
+
 ## 3.8.3 (2016-01-15)
 
 * (avdgaag) Accept FileList as Rake task source file
