@@ -33,7 +33,7 @@ Feature: Reek reads from $stdin when no files are given
       """
 
   Scenario: syntax error causes the source to be ignored
-    When I pass "def incomplete" to reek
+    When I pass "= invalid syntax =" to reek
     Then it reports a parsing error
     Then it succeeds
     And it reports nothing
