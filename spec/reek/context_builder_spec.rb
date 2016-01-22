@@ -398,5 +398,47 @@ RSpec.describe Reek::ContextBuilder do
       expect(method_context).to be_instance_of Reek::Context::SingletonMethodContext
       expect(method_context.parent).to eq class_context
     end
+
+    it 'returns something sensible for nested method definitions' do
+      src = <<-EOS
+        class Foo
+          def foo
+            def bar
+            end
+          end
+        end
+      EOS
+
+      syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
+      context_tree = Reek::ContextBuilder.new(syntax_tree).context_tree
+
+      class_context = context_tree.children.first
+      foo_context = class_context.children.first
+
+      bar_context = foo_context.children.first
+      expect(bar_context).to be_instance_of Reek::Context::MethodContext
+      expect(bar_context.parent).to eq foo_context
+    end
+
+    it 'returns something sensible for method definitions nested in singleton methods' do
+      src = <<-EOS
+        class Foo
+          def self.foo
+            def bar
+            end
+          end
+        end
+      EOS
+
+      syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
+      context_tree = Reek::ContextBuilder.new(syntax_tree).context_tree
+
+      class_context = context_tree.children.first
+      foo_context = class_context.children.first
+
+      bar_context = foo_context.children.first
+      expect(bar_context).to be_instance_of Reek::Context::SingletonMethodContext
+      expect(bar_context.parent).to eq foo_context
+    end
   end
 end
