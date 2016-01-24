@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 3.9.1 (2016-01-24)
+
+* (troessner) Actually use the corresponding parser for Ruby 2.3
+
 ## 3.9.0 (2016-01-22)
 
 * (chastell) Bump Parser dependency to support Ruby 2.3
