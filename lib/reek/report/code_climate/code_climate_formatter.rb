@@ -11,12 +11,14 @@ module Reek
         @warning = warning
       end
 
-      def to_hash
+      def render
         CCEngine::Issue.new(check_name: check_name,
                             description: description,
                             categories: categories,
-                            location: location
-                           ).to_hash
+                            location: location,
+                            remediation_points: remediation_points,
+                            content: content
+                           ).render
       end
 
       private
@@ -40,6 +42,21 @@ module Reek
           path: warning.source,
           line_range: warning_lines.first..warning_lines.last
         )
+      end
+
+      def remediation_points
+        configuration[warning.smell_type].fetch('remediation_points')
+      end
+
+      def content
+        configuration[warning.smell_type].fetch('content')
+      end
+
+      def configuration
+        @configuration ||= begin
+          config_file = File.expand_path('../code_climate_configuration.yml', __FILE__)
+          YAML.load_file config_file
+        end
       end
     end
   end

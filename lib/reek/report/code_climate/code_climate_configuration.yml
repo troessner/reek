@@ -1,0 +1,76 @@
+---
+Attribute:
+  remediation_points: 500
+  content: Dummy content
+BooleanParameter:
+  remediation_points: 500
+  content: Dummy content
+ClassVariable:
+  remediation_points: 500
+  content: Dummy content
+ControlParameter:
+  remediation_points: 500
+  content: Dummy content
+DataClump:
+  remediation_points: 500
+  content: Dummy content
+DuplicateMethodCall:
+  remediation_points: 500
+  content: Dummy content
+FeatureEnvy:
+  remediation_points: 500
+  content: Dummy content
+IrresponsibleModule:
+  remediation_points: 500
+  content: Dummy content
+LongParameterList:
+  remediation_points: 500
+  content: Dummy content
+LongYieldList:
+  remediation_points: 500
+  content: Dummy content
+ModuleInitialize:
+  remediation_points: 500
+  content: Dummy content
+NestedIterators:
+  remediation_points: 500
+  content: Dummy content
+NilCheck:
+  remediation_points: 500
+  content: Dummy content
+PrimaDonnaMethod:
+  remediation_points: 500
+  content: Dummy content
+RepeatedConditional:
+  remediation_points: 500
+  content: Dummy content
+TooManyInstanceVariables:
+  remediation_points: 500
+  content: Dummy content
+TooManyMethods:
+  remediation_points: 500
+  content: Dummy content
+TooManyStatements:
+  remediation_points: 500
+  content: Dummy content
+UncommunicativeMethodName:
+  remediation_points: 500
+  content: Dummy content
+UncommunicativeModuleName:
+  remediation_points: 500
+  content: Dummy content
+UncommunicativeParameterName:
+  remediation_points: 500
+  content: Dummy content
+UncommunicativeVariableName:
+  remediation_points: 500
+  content: Dummy content
+UnusedParameters:
+  remediation_points: 500
+  content: Dummy content
+UnusedPrivateMethod:
+  remediation_points: 500
+  content: Dummy content
+UtilityFunction:
+  remediation_points: 500
+  content: Dummy content

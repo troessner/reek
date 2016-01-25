@@ -1,0 +1,57 @@
+#!/usr/bin/env ruby
+#
+# Wrapper for the CodeClimate integration.
+
+require_relative '../lib/reek'
+require_relative '../lib/reek/cli/application'
+
+# Map input coming from CodeClimate to Reek.
+class CodeClimateToReek
+  # Following the spec (https://github.com/codeclimate/spec/blob/master/SPEC.md)
+  # we have to exit with a zero for both failure and success.
+  ENGINE_CONFIGURATION = [
+    '-f', 'code_climate',
+    '--failure-exit-code', '0',
+    '--success-exit-code', '0'
+  ]
+
+  attr_reader :configuration_file_path, :include_paths_key, :include_paths_default
+
+  def initialize(configuration_file_path: '/config.json',
+                 include_paths_key: 'include_paths',
+                 include_paths_default: [])
+    @configuration_file_path = configuration_file_path
+    @include_paths_key       = include_paths_key
+    @include_paths_default   = include_paths_default
+  end
+
+  def cli_arguments
+    include_paths + ENGINE_CONFIGURATION
+  end
+
+  private
+
+  def configuration_file_exists?
+    Pathname.new(configuration_file_path).exist?
+  end
+
+  # The config.json file we try to read below might look like this:
+  # {
+  #   "include_paths":[
+  #     "lib",
+  #     "spec"
+  #   ]
+  # }
+  def include_paths
+    if configuration_file_exists?
+      config = JSON.parse File.read(configuration_file_path)
+      config.fetch include_paths_key, include_paths_default
+    else
+      include_paths_default
+    end
+  end
+end
+
+application = Reek::CLI::Application.new(CodeClimateToReek.new.cli_arguments)
+
+exit application.execute

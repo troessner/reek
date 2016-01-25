@@ -1,0 +1,11 @@
+{
+  "name": "Reek",
+  "description": "Reek is a tool that examines Ruby classes, modules and methods and reports any code smells it finds.",
+  "maintainer": {
+    "name": "Matijs van Zuijlen, Piotr Szotkowski, Timo Rößner",
+    "email": "timo.roessner@googlemail.com"
+  },
+  "languages" : ["Ruby"],
+  "version": "0.1",
+  "spec_version": "0.0.1"
+}
