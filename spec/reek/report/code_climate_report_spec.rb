@@ -33,15 +33,20 @@ RSpec.describe Reek::Report::CodeClimateReport do
 \"description\":\"simple has the parameter name 'a'\",
 \"categories\":[\"Complexity\"],
 \"location\":{\"path\":\"string\",\"lines\":{\"begin\":1,\"end\":1}},
-\"remediation_points\":500,
-"content\":{\"body\":\"Dummy content\"}}\u0000
+\"remediation_points\":150000,
+\"content\":{\"body\":\"An `Uncommunicative Parameter Name` is a parameter name that
+ doesn't communicate its intent well enough.\\n\\nPoor names make it hard for the reader
+ to build a mental picture of what's going on in the code. They can also be
+ mis-interpreted; and they hurt the flow of reading, because the reader must slow down
+ to interpret the names.\\n\"}}\u0000
 {\"type\":\"issue\",
 \"check_name\":\"LowCohesion/UtilityFunction\",
 \"description\":\"simple doesn't depend on instance state (maybe move it to another class?)\",
 \"categories\":[\"Complexity\"],
 \"location\":{\"path\":\"string\",\"lines\":{\"begin\":1,\"end\":1}},
-\"remediation_points\":500,
-"content\":{\"body\":\"Dummy content\"}}\u0000
+\"remediation_points\":250000,
+\"content\":{\"body\":\"A _Utility Function_ is any instance method that has no
+ dependency on the state of the instance.\\n\"}}\u0000
       EOS
       expect { instance.show }.to output(expected).to_stdout
     end

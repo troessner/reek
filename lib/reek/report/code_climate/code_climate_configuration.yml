@@ -1,76 +1,664 @@
 ---
 Attribute:
-  remediation_points: 500
-  content: Dummy content
+  remediation_points: 250_000
+  content: |
+    A class that publishes a setter for an instance variable invites client classes to become too intimate with its inner workings, and in particular with its representation of state.
+
+    The same holds to a lesser extent for getters, but Reek doesn't flag those.
+
+    ## Example
+
+    Given:
+
+    ```Ruby
+    class Klass
+      attr_accessor :dummy
+    end
+    ```
+
+    Reek would emit the following warning:
+
+    ```
+    reek test.rb
+
+    test.rb -- 1 warning:
+      [2]:Klass declares the writable attribute dummy (Attribute)
+    ```
 BooleanParameter:
-  remediation_points: 500
-  content: Dummy content
+  remediation_points: 500_000
+  content: |
+    `Boolean Parameter` is a special case of `Control Couple`, where a method parameter is defaulted to true or false. A _Boolean Parameter_ effectively permits a method's caller to decide which execution path to take. This is a case of bad cohesion. You're creating a dependency between methods that is not really necessary, thus increasing coupling.
+
+    ## Example
+
+    Given
+
+    ```Ruby
+    class Dummy
+      def hit_the_switch(switch = true)
+        if switch
+          puts 'Hitting the switch'
+          # do other things...
+        else
+          puts 'Not hitting the switch'
+          # do other things...
+        end
+      end
+    end
+    ```
+
+    Reek would emit the following warning:
+
+    ```
+    test.rb -- 3 warnings:
+      [1]:Dummy#hit_the_switch has boolean parameter 'switch' (BooleanParameter)
+      [2]:Dummy#hit_the_switch is controlled by argument switch (ControlParameter)
+    ```
+
+    Note that both smells are reported, `Boolean Parameter` and `Control Parameter`.
+
+    ## Getting rid of the smell
+
+    This is highly dependant on your exact architecture, but looking at the example above what you could do is:
+
+    * Move everything in the `if` branch into a separate method
+    * Move everything in the `else` branch into a separate method
+    * Get rid of the `hit_the_switch` method alltogether
+    * Make the decision what method to call in the initial caller of `hit_the_switch`
 ClassVariable:
-  remediation_points: 500
-  content: Dummy content
+  remediation_points: 350_000
+  content: |
+    Class variables form part of the global runtime state, and as such make it easy for one part of the system to accidentally or inadvertently depend on another part of the system. So the system becomes more prone to problems where changing something over here breaks something over there. In particular, class variables can make it hard to set up tests (because the context of the test includes all global state).
+
+    For a detailed explanation, check out [this article](http://4thmouse.com/index.php/2011/03/20/why-class-variables-in-ruby-are-a-bad-idea/)
+
+    ## Example
+
+    Given
+
+    ```Ruby
+    class Dummy
+      @@class_variable = :whatever
+    end
+    ```
+
+    Reek would emit the following warning:
+
+    ```
+    reek test.rb
+
+    test.rb -- 1 warning:
+      [2]:Dummy declares the class variable @@class_variable (ClassVariable)
+    ```
+
+    ## Getting rid of the smell
+
+    You can use class-instance variable to mitigate the problem (as also suggested in the linked article above):
+
+    ```Ruby
+    class Dummy
+      @class_variable = :whatever
+    end
+    ```
 ControlParameter:
-  remediation_points: 500
-  content: Dummy content
+  remediation_points: 500_000
+  content: |
+    `Control Parameter` is a special case of `Control Couple`
+
+    ## Example
+
+    A simple example would be the "quoted" parameter in the following method:
+
+    ```Ruby
+    def write(quoted)
+      if quoted
+        write_quoted @value
+      else
+        write_unquoted @value
+      end
+    end
+    ```
+
+    Fixing those problems is out of the scope of this document but an easy solution could be to remove the "write" method alltogether and to move the calls to "write_quoted" / "write_unquoted" in the initial caller of "write".
 DataClump:
-  remediation_points: 500
-  content: Dummy content
+  remediation_points: 250_000
+  content: |
+    In general, a `Data Clump` occurs when the same two or three items frequently appear together in classes and parameter lists, or when a group of instance variable names start or end with similar substrings.
+
+    The recurrence of the items often means there is duplicate code spread around to handle them. There may be an abstraction missing from the code, making the system harder to understand.
+
+    ## Example
+
+    Given
+
+    ```Ruby
+    class Dummy
+      def x(y1,y2); end
+      def y(y1,y2); end
+      def z(y1,y2); end
+    end
+    ```
+
+    Reek would emit the following warning:
+
+    ```
+    test.rb -- 1 warning:
+      [2, 3, 4]:Dummy takes parameters [y1, y2] to 3 methods (DataClump)
+    ```
+
+    A possible way to fix this problem (quoting from [Martin Fowler](http://martinfowler.com/bliki/DataClump.html)):
+
+    > The first step is to replace data clumps with objects and use the objects whenever you see them. An immediate benefit is that you'll shrink some parameter lists. The interesting stuff happens as you begin to look for behavior to move into the new objects.
 DuplicateMethodCall:
-  remediation_points: 500
-  content: Dummy content
+  remediation_points: 350_000
+  content: |
+    Duplication occurs when two fragments of code look nearly identical, or when two fragments of code have nearly identical effects at some conceptual level.
+
+    Reek implements a check for _Duplicate Method Call_.
+
+    ## Example
+
+    Here's a very much simplified and contrived example. The following method will report a warning:
+
+    ```Ruby
+    def double_thing()
+      @other.thing + @other.thing
+    end
+    ```
+
+    One quick approach to silence Reek would be to refactor the code thus:
+
+    ```Ruby
+    def double_thing()
+      thing = @other.thing
+      thing + thing
+    end
+    ```
+
+    A slightly different approach would be to replace all calls of `double_thing` by calls to `@other.double_thing`:
+
+    ```Ruby
+    class Other
+      def double_thing()
+        thing + thing
+      end
+    end
+    ```
+
+    The approach you take will depend on balancing other factors in your code.
 FeatureEnvy:
-  remediation_points: 500
-  content: Dummy content
+  remediation_points: 500_000
+  content: |
+    _Feature Envy_ occurs when a code fragment references another object more often than it references itself, or when several clients do the same series of manipulations on a particular type of object.
+
+    _Feature Envy_ reduces the code's ability to communicate intent: code that "belongs" on one class but which is located in another can be hard to find, and may upset the "System of Names" in the host class.
+
+    _Feature Envy_ also affects the design's flexibility: A code fragment that is in the wrong class creates couplings that may not be natural within the application's domain, and creates a loss of cohesion in the unwilling host class.
+
+    _Feature Envy_ often arises because it must manipulate other objects (usually its arguments) to get them into a useful form, and one force preventing them (the arguments) doing this themselves is that the common knowledge lives outside the arguments, or the arguments are of too basic a type to justify extending that type. Therefore there must be something which 'knows' about the contents or purposes of the arguments.  That thing would have to be more than just a basic type, because the basic types are either containers which don't know about their contents, or they are single objects which can't capture their relationship with their fellows of the same type. So, this thing with the extra knowledge should be reified into a class, and the utility method will most likely belong there.
+
+    ## Example
+
+    Running Reek on:
+
+    ```Ruby
+    class Warehouse
+      def sale_price(item)
+        (item.price - item.rebate) * @vat
+      end
+    end
+    ```
+
+    would report:
+
+    ```Bash
+    Warehouse#total_price refers to item more than self (FeatureEnvy)
+    ```
+
+    since this:
+
+    ```Ruby
+    (item.price - item.rebate)
+    ```
+
+    belongs to the Item class, not the Warehouse.
 IrresponsibleModule:
-  remediation_points: 500
-  content: Dummy content
+  remediation_points: 350_000
+  content: |
+    Classes and modules are the units of reuse and release. It is therefore considered good practice to annotate every class and module with a brief comment outlining its responsibilities.
+
+    ## Example
+
+    Given
+
+    ```Ruby
+    class Dummy
+      # Do things...
+    end
+    ```
+
+    Reek would emit the following warning:
+
+    ```
+    test.rb -- 1 warning:
+      [1]:Dummy has no descriptive comment (IrresponsibleModule)
+    ```
+
+    Fixing this is simple - just an explaining comment:
+
+    ```Ruby
+    # The Dummy class is responsible for ...
+    class Dummy
+      # Do things...
+    end
+    ```
 LongParameterList:
-  remediation_points: 500
-  content: Dummy content
+  remediation_points: 500_000
+  content: |
+    A `Long Parameter List` occurs when a method has a lot of parameters.
+
+    ## Example
+
+    Given
+
+    ```Ruby
+    class Dummy
+      def long_list(foo,bar,baz,fling,flung)
+        puts foo,bar,baz,fling,flung
+      end
+    end
+    ```
+
+    Reek would report the following warning:
+
+    ```
+    test.rb -- 1 warning:
+      [2]:Dummy#long_list has 5 parameters (LongParameterList)
+    ```
+
+    A common solution to this problem would be the introduction of parameter objects.
 LongYieldList:
-  remediation_points: 500
-  content: Dummy content
+  remediation_points: 500_000
+  content: |
+    A _Long Yield List_ occurs when a method yields a lot of arguments to the block it gets passed.
+
+    ## Example
+
+    ```Ruby
+    class Dummy
+      def yields_a_lot(foo,bar,baz,fling,flung)
+        yield foo,bar,baz,fling,flung
+      end
+    end
+    ```
+
+    Reek would report the following warning:
+
+    ```
+    test.rb -- 1 warning:
+      [4]:Dummy#yields_a_lot yields 5 parameters (LongYieldList)
+    ```
+
+    A common solution to this problem would be the introduction of parameter objects.
 ModuleInitialize:
-  remediation_points: 500
-  content: Dummy content
+  remediation_points: 350_000
+  content: |
+    A module is usually a mixin, so when an `#initialize` method is present it is
+    hard to tell initialization order and parameters so having `#initialize`
+    in a module is usually a bad idea.
+
+    ## Example
+
+    The `Foo` module below contains a method `initialize`. Although class `B` inherits from `A`, the inclusion of `Foo` stops `A#initialize` from being called.
+
+    ```Ruby
+    class A
+      def initialize(a)
+        @a = a
+      end
+    end
+
+    module Foo
+      def initialize(foo)
+        @foo = foo
+      end
+    end
+
+    class B < A
+      include Foo
+
+      def initialize(b)
+        super('bar')
+        @b = b
+      end
+    end
+    ```
+
+    A simple solution is to rename `Foo#initialize` and call that method by name:
+
+    ```Ruby
+    module Foo
+      def setup_foo_module(foo)
+        @foo = foo
+      end
+    end
+
+    class B < A
+      include Foo
+
+      def initialize(b)
+        super 'bar'
+        setup_foo_module('foo')
+        @b = b
+      end
+    end
+    ```
 NestedIterators:
-  remediation_points: 500
-  content: Dummy content
+  remediation_points: 500_000
+  content: |
+    A `Nested Iterator` occurs when a block contains another block.
+
+    ## Example
+
+    Given
+
+    ```Ruby
+    class Duck
+      class << self
+        def duck_names
+          %i!tick trick track!.each do |surname|
+            %i!duck!.each do |last_name|
+              puts "full name is #{surname} #{last_name}"
+            end
+          end
+        end
+      end
+    end
+    ```
+
+    Reek would report the following warning:
+
+    ```
+    test.rb -- 1 warning:
+      [5]:Duck#duck_names contains iterators nested 2 deep (NestedIterators)
+    ```
 NilCheck:
-  remediation_points: 500
-  content: Dummy content
+  remediation_points: 250_000
+  content: |
+    A `NilCheck` is a type check. Failures of `NilCheck` violate the ["tell, don't ask"](http://robots.thoughtbot.com/tell-dont-ask) principle.
+
+    Additionally, type checks often mask bigger problems in your source code like not using OOP and / or polymorphism when you should.
+
+    ## Example
+
+    Given
+
+    ```Ruby
+    class Klass
+      def nil_checker(argument)
+        if argument.nil?
+          puts "argument isn't nil!"
+        end
+      end
+    end
+    ```
+
+    Reek would emit the following warning:
+
+    ```
+    test.rb -- 1 warning:
+      [3]:Klass#nil_checker performs a nil-check. (NilCheck)
+    ```
 PrimaDonnaMethod:
-  remediation_points: 500
-  content: Dummy content
+  remediation_points: 250_000
+  content: |
+    A candidate method for the `Prima Donna Method` smell are methods whose names end with an exclamation mark.
+
+    An exclamation mark in method names means (the explanation below is taken from [here](http://dablog.rubypal.com/2007/8/15/bang-methods-or-danger-will-rubyist) ):
+
+    >>
+    The ! in method names that end with ! means, “This method is dangerous”—or, more precisely, this method is the “dangerous” version of an otherwise equivalent method, with the same name minus the !. “Danger” is relative; the ! doesn’t mean anything at all unless the method name it’s in corresponds to a similar but bang-less method name.
+    So, for example, gsub! is the dangerous version of gsub. exit! is the dangerous version of exit. flatten! is the dangerous version of flatten. And so forth.
+
+    Such a method is called `Prima Donna Method` if and only if her non-bang version does not exist and this method is reported as a smell.
+
+    ## Example
+
+    Given
+
+    ```Ruby
+    class C
+      def foo; end
+      def foo!; end
+      def bar!; end
+    end
+    ```
+
+    Reek would report `bar!` as `prima donna method` smell but not `foo!`.
+
+    Reek reports this smell only in a class context, not in a module context in order to allow perfectly legit code like this:
+
+
+    ```Ruby
+    class Parent
+      def foo; end
+    end
+
+    module Dangerous
+      def foo!; end
+    end
+
+    class Son < Parent
+      include Dangerous
+    end
+
+    class Daughter < Parent
+    end
+    ```
+
+    In this example, Reek would not report the `prima donna method` smell for the method `foo` of the `Dangerous` module.
 RepeatedConditional:
-  remediation_points: 500
-  content: Dummy content
+  remediation_points: 400_000
+  content: |
+    `Repeated Conditional` is a special case of `Simulated Polymorphism`. Basically it means you are checking the same value throughout a single class and take decisions based on this.
+
+    ## Example
+
+    Given
+
+    ```Ruby
+    class RepeatedConditionals
+      attr_accessor :switch
+
+      def repeat_1
+        puts "Repeat 1!" if switch
+      end
+
+      def repeat_2
+        puts "Repeat 2!" if switch
+      end
+
+      def repeat_3
+        puts "Repeat 3!" if switch
+      end
+    end
+    ```
+
+    Reek would emit the following warning:
+
+    ```
+    test.rb -- 4 warnings:
+      [5, 9, 13]:RepeatedConditionals tests switch at least 3 times (RepeatedConditional)
+    ```
+
+    If you get this warning then you are probably not using the right abstraction or even more probable, missing an additional abstraction.
 TooManyInstanceVariables:
-  remediation_points: 500
-  content: Dummy content
+  remediation_points: 500_000
+  content: |
+    `Too Many Instance Variables` is a special case of `LargeClass`.
+
+    ## Example
+
+    Given this configuration
+
+    ```yaml
+    TooManyInstanceVariables:
+      max_instance_variables: 3
+    ```
+
+    and this code:
+
+    ```Ruby
+    class TooManyInstanceVariables
+      def initialize
+        @arg_1 = :dummy
+        @arg_2 = :dummy
+        @arg_3 = :dummy
+        @arg_4 = :dummy
+      end
+    end
+    ```
+
+    Reek would emit the following warning:
+
+    ```
+    test.rb -- 5 warnings:
+      [1]:TooManyInstanceVariables has at least 4 instance variables (TooManyInstanceVariables)
+    ```
 TooManyMethods:
-  remediation_points: 500
-  content: Dummy content
+  remediation_points: 500_000
+  content: |
+    `Too Many Methods` is a special case of `LargeClass`.
+
+    ## Example
+
+    Given this configuration
+
+    ```yaml
+    TooManyMethods:
+      max_methods: 3
+    ```
+
+    and this code:
+
+    ```Ruby
+    class TooManyMethods
+      def one; end
+      def two; end
+      def three; end
+      def four; end
+    end
+    ```
+
+    Reek would emit the following warning:
+
+    ```
+    test.rb -- 1 warning:
+      [1]:TooManyMethods has at least 4 methods (TooManyMethods)
+    ```
 TooManyStatements:
-  remediation_points: 500
-  content: Dummy content
+  remediation_points: 500_000
+  content: |
+    A method with `Too Many Statements` is any method that has a large number of lines.
+
+    `Too Many Statements` warns about any method that has more than 5 statements. Reek's smell detector for `Too Many Statements` counts +1 for every simple statement in a method and +1 for every statement within a control structure (`if`, `else`, `case`, `when`, `for`, `while`, `until`, `begin`, `rescue`) but it doesn't count the control structure itself.
+
+    So the following method would score +6 in Reek's statement-counting algorithm:
+
+    ```Ruby
+    def parse(arg, argv, &error)
+      if !(val = arg) and (argv.empty? or /\A-/ =~ (val = argv[0]))
+        return nil, block, nil                                         # +1
+      end
+      opt = (val = parse_arg(val, &error))[1]                          # +2
+      val = conv_arg(*val)                                             # +3
+      if opt and !arg
+        argv.shift                                                     # +4
+      else
+        val[0] = nil                                                   # +5
+      end
+      val                                                              # +6
+    end
+    ```
+
+    (You might argue that the two assigments within the first @if@ should count as statements, and that perhaps the nested assignment should count as +2.)
 UncommunicativeMethodName:
-  remediation_points: 500
-  content: Dummy content
+  remediation_points: 150_000
+  content: |
+    An `Uncommunicative Method Name` is a method name that doesn't communicate its intent well enough.
+
+    Poor names make it hard for the reader to build a mental picture of what's going on in the code. They can also be mis-interpreted; and they hurt the flow of reading, because the reader must slow down to interpret the names.
 UncommunicativeModuleName:
-  remediation_points: 500
-  content: Dummy content
+  remediation_points: 150_000
+  content: |
+    An `Uncommunicative Module Name` is a module name that doesn't communicate its intent well enough.
+
+    Poor names make it hard for the reader to build a mental picture of what's going on in the code. They can also be mis-interpreted; and they hurt the flow of reading, because the reader must slow down to interpret the names.
 UncommunicativeParameterName:
-  remediation_points: 500
-  content: Dummy content
+  remediation_points: 150_000
+  content: |
+    An `Uncommunicative Parameter Name` is a parameter name that doesn't communicate its intent well enough.
+
+    Poor names make it hard for the reader to build a mental picture of what's going on in the code. They can also be mis-interpreted; and they hurt the flow of reading, because the reader must slow down to interpret the names.
 UncommunicativeVariableName:
-  remediation_points: 500
-  content: Dummy content
+  remediation_points: 150_000
+  content: |
+    An `Uncommunicative Variable Name` is a variable name that doesn't communicate its intent well enough.
+
+    Poor names make it hard for the reader to build a mental picture of what's going on in the code. They can also be mis-interpreted; and they hurt the flow of reading, because the reader must slow down to interpret the names.
 UnusedParameters:
-  remediation_points: 500
-  content: Dummy content
+  remediation_points: 200_000
+  content: |
+    `Unused Parameter` refers to methods with parameters that are unused in scope of the method.
+
+    Having unused parameters in a method is code smell because leaving dead code in a method can never improve the method and it makes the code confusing to read.
+
+    ## Example
+
+    Given:
+
+    ```Ruby
+    class Klass
+      def unused_parameters(x,y,z)
+        puts x,y # but not z
+      end
+    end
+    ```
+
+    Reek would emit the following warning:
+
+    ```
+    [2]:Klass#unused_parameters has unused parameter 'z' (UnusedParameters)
+    ```
 UnusedPrivateMethod:
-  remediation_points: 500
-  content: Dummy content
+  remediation_points: 200_000
+  content: |
+    Classes should use their private methods. Otherwise this is dead
+    code which is confusing and bad for maintenance.
+
+    The `Unused Private Method` detector reports unused private instance
+    methods and instance methods only - class methods are ignored.
+
+    ## Example
+
+    Given:
+
+    ```Ruby
+    class Car
+      private
+      def drive; end
+      def start; end
+    end
+    ```
+
+    `Reek` would emit the following warning:
+
+    ```
+    2 warnings:
+      [3]:Car has the unused private instance method `drive` (UnusedPrivateMethod)
+      [4]:Car has the unused private instance method `start` (UnusedPrivateMethod)
+    ```
 UtilityFunction:
-  remediation_points: 500
-  content: Dummy content
+  remediation_points: 250_000
+  content: |
+    A _Utility Function_ is any instance method that has no dependency on the state of the instance.
