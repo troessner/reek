@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## 3.10.0 (2016-01-27)
+
+* Add CodeClimate Docker integration. This will allow users to deduct their own docker image
+  from the existing one and use it for their own CI set up in whatever ways they see fit.
+  Furthermore this will enable users to run `Reek` locally in combination with `codeclimate cli`.
+
 ## 3.9.1 (2016-01-24)
 
 * (troessner) Actually use the corresponding parser for Ruby 2.3
