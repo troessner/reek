@@ -11,6 +11,10 @@ module Reek
     # See {file:docs/Unused-Private-Method.md} for details.
     #
     class UnusedPrivateMethod < SmellDetector
+      def self.default_config
+        super.merge(SmellConfiguration::ENABLED_KEY => false)
+      end
+
       # Class for storing `hits` which are unused private methods
       # we found in the given context. `name` and `line` are then used to
       # construct SmellWarnings.

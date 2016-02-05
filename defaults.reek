@@ -107,7 +107,7 @@ UnusedParameters:
   enabled: true
   exclude: []
 UnusedPrivateMethod:
-  enabled: true
+  enabled: false
   exclude: []
 UtilityFunction:
   enabled: true
