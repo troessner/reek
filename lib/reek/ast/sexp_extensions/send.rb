@@ -30,7 +30,9 @@ module Reek
         end
 
         def module_creation_receiver?
-          receiver && [:Class, :Struct].include?(receiver.simple_name)
+          receiver &&
+            receiver.type == :const &&
+            [:Class, :Struct].include?(receiver.simple_name)
         end
 
         def object_creation_call?

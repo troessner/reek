@@ -178,6 +178,7 @@ RSpec.describe Reek::Smells::IrresponsibleModule do
         Foo = 23
         Bar = Hash.new
         Quuz = 'foo'.freeze
+        Zyxxy = Class.new.new
       end
     EOS
     expect(src).not_to reek_of(:IrresponsibleModule)
