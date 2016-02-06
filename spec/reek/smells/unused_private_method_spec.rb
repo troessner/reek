@@ -4,6 +4,12 @@ require_lib 'reek/examiner'
 require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::UnusedPrivateMethod do
+  let(:configuration) do
+    test_configuration_for(
+      described_class =>
+        { Reek::Smells::SmellConfiguration::ENABLED_KEY => true }
+    )
+  end
   let(:detector) { build(:smell_detector, smell_type: :UnusedPrivateMethod) }
 
   it_should_behave_like 'SmellDetector'
@@ -18,8 +24,8 @@ RSpec.describe Reek::Smells::UnusedPrivateMethod do
         end
       EOF
 
-      expect(source).to reek_of(:UnusedPrivateMethod, name: :start)
-      expect(source).to reek_of(:UnusedPrivateMethod, name: :drive)
+      expect(source).to reek_of(:UnusedPrivateMethod, { name: :start }, configuration)
+      expect(source).to reek_of(:UnusedPrivateMethod, { name: :drive }, configuration)
     end
 
     it 'creates warnings correctly' do
@@ -31,7 +37,7 @@ RSpec.describe Reek::Smells::UnusedPrivateMethod do
         end
       EOF
 
-      examiner = Reek::Examiner.new(source, 'UnusedPrivateMethod')
+      examiner = Reek::Examiner.new(source, 'UnusedPrivateMethod', configuration: configuration)
 
       first_warning = examiner.smells.first
       expect(first_warning.smell_category).to eq(Reek::Smells::UnusedPrivateMethod.smell_category)
@@ -58,7 +64,7 @@ RSpec.describe Reek::Smells::UnusedPrivateMethod do
         end
       EOF
 
-      examiner = Reek::Examiner.new(source, 'UnusedPrivateMethod')
+      examiner = Reek::Examiner.new(source, 'UnusedPrivateMethod', configuration: configuration)
 
       expect(examiner.smells.size).to eq(1)
       warning_for_drive = examiner.smells.first
