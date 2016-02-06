@@ -269,6 +269,22 @@ RSpec.describe Reek::AST::SexpExtensions::SendNode do
     end
   end
 
+  context 'when it’s ‘new’ with a complex receiver' do
+    let(:node) { Reek::Source::SourceCode.from('(foo ? bar : baz).new').syntax_tree }
+
+    it 'is not considered to be a module creation call' do
+      expect(node.module_creation_call?).to be_falsey
+    end
+
+    it 'is not considered to have a module creation receiver' do
+      expect(node.module_creation_receiver?).to be_falsey
+    end
+
+    it 'is considered to be an object creation call' do
+      expect(node.object_creation_call?).to be_truthy
+    end
+  end
+
   context 'with 1 literal parameter' do
     let(:node) { sexp(:send, nil, :hello, sexp(:lit, :param)) }
 
