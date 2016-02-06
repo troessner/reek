@@ -162,12 +162,26 @@ RSpec.describe Reek::Smells::IrresponsibleModule do
     expect(src).to reek_of(:IrresponsibleModule, name: 'Foo')
   end
 
+  it 'reports top level classes defined through assignment' do
+    src = <<-EOS
+      Foo = Class.new Bar
+    EOS
+    expect(src).to reek_of(:IrresponsibleModule, name: 'Foo')
+  end
+
   it 'reports structs defined through assignment' do
     src = <<-EOS
       # Qux is responsible, but Foo is not
       module Qux
         Foo = Struct.new(:x, :y)
       end
+    EOS
+    expect(src).to reek_of(:IrresponsibleModule, name: 'Foo')
+  end
+
+  it 'reports top level structs defined through assignment' do
+    src = <<-EOS
+      Foo = Struct.new(:x, :y)
     EOS
     expect(src).to reek_of(:IrresponsibleModule, name: 'Foo')
   end
