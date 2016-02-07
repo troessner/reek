@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## 3.10.1 (2016-02-07)
+
+* (mvz) Fix edge case syntax problems
+* (troessner) Disable UnusedPrivateMethod detector by default
+
 ## 3.10.0 (2016-01-27)
 
 * Add CodeClimate Docker integration. This will allow users to deduct their own docker image
