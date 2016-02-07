@@ -2,7 +2,7 @@
 
 ## Introduction
 
-`reek` follows standard Unix convention for passing arguments.
+Reek follows standard Unix convention for passing arguments.
 
 Check out
 

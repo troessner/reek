@@ -18,7 +18,7 @@ class Car
 end
 ```
 
-`Reek` would emit the following warning:
+Reek would emit the following warning:
 
 ```
 2 warnings:
@@ -32,7 +32,7 @@ end
 
 Private methods that are called via dynamic dispatch
 will trigger a false alarm since detecting something like this is far out of
-scope for `Reek`. In this case you can disable this detector via the `exclude`
+scope for Reek. In this case you can disable this detector via the `exclude`
 configuration option (which is part of the [Basic Smell Options](Basic-Smell-Options.md))
 for instance like this (an example from `Reek's` own codebase):
 
@@ -50,7 +50,7 @@ a method scope (like you can see above).
 
 ## Known limitations
 
-* Method calls via dynamic dispatch (e.g. via `send`) is something `Reek` (or any other
+* Method calls via dynamic dispatch (e.g. via `send`) is something Reek (or any other
   static tool for that matter) can not detect.
 * Method calls via callback like [Rails filters](http://guides.rubyonrails.org/action_controller_overview.html#filters)
   will trigger this as well, e.g.:
@@ -65,7 +65,7 @@ a method scope (like you can see above).
     end
   end
 ```
-* `Reek` works on a per-file base. This means that using something like the [template pattern](https://en.wikipedia.org/wiki/Template_method_pattern)
+* Reek works on a per-file base. This means that using something like the [template pattern](https://en.wikipedia.org/wiki/Template_method_pattern)
   with private methods will trigger this detector.
   We do believe though that using private methods to fill out a template in a
   superclass is not a good idea in general so this probably isn't really a problem

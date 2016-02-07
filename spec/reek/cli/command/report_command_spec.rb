@@ -1,9 +1,9 @@
-require_relative '../../spec_helper'
-require_lib 'reek/cli/reek_command'
+require_relative '../../../spec_helper'
+require_lib 'reek/cli/command/report_command'
 require_lib 'reek/cli/options'
 require_lib 'reek/cli/option_interpreter'
 
-RSpec.describe Reek::CLI::ReekCommand do
+RSpec.describe Reek::CLI::Command::ReportCommand do
   describe '#execute' do
     let(:options) { Reek::CLI::Options.new [] }
     let(:option_interpreter) { Reek::CLI::OptionInterpreter.new(options) }

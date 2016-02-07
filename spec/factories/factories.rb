@@ -1,6 +1,8 @@
 require_relative '../../lib/reek/smells'
 require_relative '../../lib/reek/smells/smell_detector'
 require_relative '../../lib/reek/smells/smell_warning'
+require_relative '../../lib/reek/cli/option_interpreter'
+require_relative '../../lib/reek/cli/options'
 
 FactoryGirl.define do
   factory :context, class: Reek::Context::CodeContext do
@@ -49,6 +51,16 @@ FactoryGirl.define do
           lines: lines,
           message: message,
           parameters: parameters)
+    end
+  end
+
+  factory :options_interpreter_with_empty_sources, class: Reek::CLI::OptionInterpreter do
+    transient do
+      options { Reek::CLI::Options.new [] }
+    end
+
+    initialize_with do
+      Reek::CLI::OptionInterpreter.new(options)
     end
   end
 end
