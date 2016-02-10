@@ -61,6 +61,17 @@ demo.rb -- 8 warnings:
   [3]:Dirty#awful has unused parameter 'y' (UnusedParameters)
 ```
 
+## Supported rubies
+
+`Reek` is officially running on the following MRI rubies:
+
+  - 2.0
+  - 2.1
+  - 2.2
+  - 2.3
+
+Other rubies like Rubinius or JRuby are not officially supported but should work as well.
+
 ## Fixing Smell Warnings
 
 Reek focuses on high-level code smells, so we can't tell you how to fix warnings in
