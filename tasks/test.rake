@@ -4,7 +4,7 @@ require 'rspec/core/rake_task'
 namespace 'test' do
   RSpec::Core::RakeTask.new('spec') do |t|
     t.pattern = 'spec/reek/**/*_spec.rb'
-    t.ruby_opts = ['-Ilib -w']
+    t.ruby_opts = ['-rsimplecov -Ilib -w']
   end
 
   desc 'Tests code quality'
