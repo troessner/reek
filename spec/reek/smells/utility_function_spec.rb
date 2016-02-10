@@ -172,7 +172,7 @@ RSpec.describe Reek::Smells::UtilityFunction do
       expect('def simple(arga=local) arga.to_s end').not_to reek_of(:UtilityFunction)
     end
 
-    it 'should count usages of self'do
+    it 'should count usages of self' do
       expect('def <=>(other) Options[:sort_order].compare(self, other) end').
         not_to reek_of(:UtilityFunction)
     end

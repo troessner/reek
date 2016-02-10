@@ -43,8 +43,8 @@ module Reek
           given_path.find do |path|
             if path.directory?
               ignore_path?(path) ? Find.prune : next
-            else
-              relevant_paths << path if ruby_file?(path)
+            elsif ruby_file?(path)
+              relevant_paths << path
             end
           end
         end

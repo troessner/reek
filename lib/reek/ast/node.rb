@@ -109,14 +109,14 @@ module Reek
         each_sexp do |elem|
           elem.look_for_type(target_type, ignoring, &blk) unless ignoring.include?(elem.type)
         end
-        blk.call(self) if type == target_type
+        yield self if type == target_type
       end
 
       # See ".find_nodes" for documentation.
       def look_for_types(target_types, ignoring = [], &blk)
         return if ignoring.include?(type)
         if target_types.include? type
-          blk.call(self)
+          yield self
         else
           each_sexp do |elem|
             elem.look_for_types(target_types, ignoring, &blk)

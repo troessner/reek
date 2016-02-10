@@ -23,9 +23,10 @@ SAMPLES_PATH = Pathname.new("#{__dir__}/samples").relative_path_from(Pathname.pw
 # Simple helpers for our specs.
 module Helpers
   def test_configuration_for(config)
-    if config.is_a? Pathname
+    case config
+    when Pathname
       configuration = Reek::Configuration::AppConfiguration.from_path(config)
-    elsif config.is_a? Hash
+    when Hash
       configuration = Reek::Configuration::AppConfiguration.from_map default_directive: config
     else
       raise "Unknown config given in `test_configuration_for`: #{config.inspect}"

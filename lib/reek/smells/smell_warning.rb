@@ -25,7 +25,7 @@ module Reek
       #
       # :reek:LongParameterList: { max_params: 6 }
       def initialize(smell_detector, context: '', lines: raise, message: raise,
-                                     source: raise, parameters: {})
+                     source: raise, parameters: {})
         @smell_detector = smell_detector
         @source         = source
         @context        = context.to_s

@@ -4,6 +4,10 @@ AllCops:
     - 'tmp/**/*'
     - 'vendor/**/*'
 
+# FIXME: Re-enable once private_attr_reader is no longer used
+Lint/UselessAccessModifier:
+  Enabled: false
+
 # FIXME: Make the class shorter
 Metrics/ClassLength:
   Exclude:
@@ -22,21 +26,19 @@ Metrics/LineLength:
 Metrics/ParameterLists:
   CountKeywordArgs: false
 
-# Indent one level for follow-up lines
-Style/MultilineOperationIndentation:
-  EnforcedStyle: indented
+Style/AccessorMethodName:
+  Exclude:
+    - 'lib/reek/context/visibility_tracker.rb'
 
-# Allow small arrays of words with quotes
-Style/WordArray:
-  MinSize: 3
-
-# Allow single-line method definitions
-Style/SingleLineMethods:
+# TODO: Discuss
+Style/Alias:
   Enabled: false
 
-# Always use raise to signal exceptions
-Style/SignalException:
-  EnforcedStyle: only_raise
+Style/Documentation:
+  Exclude:
+    - 'lib/reek/ast/sexp_extensions/send.rb'
+    - 'lib/reek/ast/sexp_extensions/super.rb'
+    - 'lib/reek/ast/sexp_extensions/variables.rb'
 
 # Place . on the previous line
 Style/DotPosition:
@@ -50,19 +52,30 @@ Style/EmptyLineBetweenDefs:
 Style/MultilineBlockChain:
   Enabled: false
 
+# Indent one level for follow-up lines
+Style/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+# Indent one level for follow-up lines
+Style/MultilineOperationIndentation:
+  EnforcedStyle: indented
+
+# TODO: Discuss
+Style/MutableConstant:
+  Enabled: false
+
+# There's nothing wrong with parallel assignment
+Style/ParallelAssignment:
+  Enabled: false
+
 # Allow Perl-style references to regex matches
 Style/PerlBackrefs:
   Enabled: false
 
-Style/Documentation:
-  Exclude:
-    - 'lib/reek/ast/sexp_extensions/send.rb'
-    - 'lib/reek/ast/sexp_extensions/super.rb'
-    - 'lib/reek/ast/sexp_extensions/variables.rb'
-
-Style/AccessorMethodName:
-  Exclude:
-    - 'lib/reek/context/visibility_tracker.rb'
-
-Style/ParallelAssignment:
+# Allow single-line method definitions
+Style/SingleLineMethods:
   Enabled: false
+
+# Allow small arrays of words with quotes
+Style/WordArray:
+  MinSize: 4

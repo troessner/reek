@@ -3,13 +3,13 @@ source 'https://rubygems.org'
 gemspec
 
 group :development do
-  gem 'aruba',         '~> 0.10.0'
+  gem 'aruba',         '~> 0.12.0'
   gem 'ataru',         '~> 0.2.0'
   gem 'cucumber',      '~> 2.0'
   gem 'factory_girl',  '~> 4.0'
   gem 'rake',          '~> 10.0'
   gem 'rspec',         '~> 3.0'
-  gem 'rubocop',       '~> 0.34.0'
+  gem 'rubocop',       '~> 0.37.0'
   gem 'yard',          '~> 0.8.7'
 
   platforms :mri do
