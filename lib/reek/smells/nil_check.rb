@@ -40,8 +40,6 @@ module Reek
           end
         end
 
-        private
-
         private_attr_reader :detector, :nodes
       end
 

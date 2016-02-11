@@ -62,14 +62,12 @@ module Reek
         examiners.map(&:smells).flatten
       end
 
+      private_attr_reader :examiners, :heading_formatter, :report_formatter,
+                          :sort_by_issue_count, :warning_formatter
+
       protected
 
       attr_accessor :total_smell_count
-
-      private
-
-      private_attr_reader :examiners, :heading_formatter, :report_formatter,
-                          :sort_by_issue_count, :warning_formatter
     end
 
     #

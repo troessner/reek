@@ -85,8 +85,6 @@ module Reek
           param.to_s
         end
 
-        private
-
         private_attr_reader :occurences, :param
       end
 

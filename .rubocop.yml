@@ -4,10 +4,6 @@ AllCops:
     - 'tmp/**/*'
     - 'vendor/**/*'
 
-# FIXME: Re-enable once private_attr_reader is no longer used
-Lint/UselessAccessModifier:
-  Enabled: false
-
 # FIXME: Make the class shorter
 Metrics/ClassLength:
   Exclude:

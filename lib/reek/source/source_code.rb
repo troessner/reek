@@ -92,8 +92,6 @@ module Reek
           end
       end
 
-      private
-
       private_attr_reader :parser, :source
     end
   end

@@ -110,8 +110,6 @@ module Reek
       end
     end
 
-    private
-
     private_attr_reader :candidate_methods, :max_copies, :min_clump_size
   end
 
@@ -130,8 +128,6 @@ module Reek
       # TODO: Is all this sorting still needed?
       @arg_names ||= defn.arg_names.compact.sort
     end
-
-    private
 
     private_attr_reader :defn
   end

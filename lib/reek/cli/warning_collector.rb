@@ -19,8 +19,6 @@ module Reek
         warnings_set.sort
       end
 
-      private
-
       private_attr_reader :warnings_set
     end
   end

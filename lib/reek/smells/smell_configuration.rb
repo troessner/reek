@@ -39,8 +39,6 @@ module Reek
         options.fetch(key, fall_back)
       end
 
-      private
-
       private_attr_reader :options
     end
 
@@ -57,8 +55,6 @@ module Reek
         contexts = hash.keys.select { |ckey| context.matches?([ckey]) }
         contexts.map { |exc| hash[exc] }
       end
-
-      private
 
       private_attr_reader :hash
     end

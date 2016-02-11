@@ -84,8 +84,6 @@ module Reek
           occurences.map(&:line)
         end
 
-        private
-
         private_attr_reader :call_node, :occurences
       end
 
