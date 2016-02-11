@@ -14,7 +14,7 @@ module Reek
     # @public
     class AppConfiguration
       include ConfigurationValidator
-      EXCLUDE_PATHS_KEY = 'exclude_paths'
+      EXCLUDE_PATHS_KEY = 'exclude_paths'.freeze
       private_attr_writer :directory_directives, :default_directive, :excluded_paths
 
       # Instantiate a configuration via given path.

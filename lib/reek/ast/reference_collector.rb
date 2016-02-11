@@ -7,7 +7,7 @@ module Reek
     # of an abstract syntax tree.
     #
     class ReferenceCollector
-      STOP_NODES = [:class, :module, :def, :defs]
+      STOP_NODES = [:class, :module, :def, :defs].freeze
 
       def initialize(ast)
         @ast = ast

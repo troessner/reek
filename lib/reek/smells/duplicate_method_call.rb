@@ -20,14 +20,14 @@ module Reek
     class DuplicateMethodCall < SmellDetector
       # The name of the config field that sets the maximum number of
       # identical calls to be permitted within any single method.
-      MAX_ALLOWED_CALLS_KEY = 'max_calls'
+      MAX_ALLOWED_CALLS_KEY = 'max_calls'.freeze
       DEFAULT_MAX_CALLS = 1
 
       # The name of the config field that sets the names of any
       # methods for which identical calls should be to be permitted
       # within any single method.
-      ALLOW_CALLS_KEY = 'allow_calls'
-      DEFAULT_ALLOW_CALLS = []
+      ALLOW_CALLS_KEY = 'allow_calls'.freeze
+      DEFAULT_ALLOW_CALLS = [].freeze
 
       def self.smell_category
         'Duplication'

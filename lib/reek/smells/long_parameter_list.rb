@@ -16,7 +16,7 @@ module Reek
     class LongParameterList < SmellDetector
       # The name of the config field that sets the maximum number of
       # parameters permitted in any method or block.
-      MAX_ALLOWED_PARAMS_KEY = 'max_params'
+      MAX_ALLOWED_PARAMS_KEY = 'max_params'.freeze
       DEFAULT_MAX_ALLOWED_PARAMS = 3
 
       def self.default_config

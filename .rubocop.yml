@@ -56,10 +56,6 @@ Style/MultilineMethodCallIndentation:
 Style/MultilineOperationIndentation:
   EnforcedStyle: indented
 
-# TODO: Discuss
-Style/MutableConstant:
-  Enabled: false
-
 # There's nothing wrong with parallel assignment
 Style/ParallelAssignment:
   Enabled: false

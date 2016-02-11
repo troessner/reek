@@ -16,7 +16,7 @@ module Reek
     class TooManyMethods < SmellDetector
       # The name of the config field that sets the maximum number of methods
       # permitted in a class.
-      MAX_ALLOWED_METHODS_KEY = 'max_methods'
+      MAX_ALLOWED_METHODS_KEY = 'max_methods'.freeze
       DEFAULT_MAX_METHODS = 15
 
       def self.smell_category

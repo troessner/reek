@@ -6,8 +6,8 @@ module Reek
     class VisibilityTracker
       private_attr_accessor :tracked_visibility
 
-      VISIBILITY_MODIFIERS = [:private, :public, :protected, :module_function]
-      VISIBILITY_MAP = { public_class_method: :public, private_class_method: :private }
+      VISIBILITY_MODIFIERS = [:private, :public, :protected, :module_function].freeze
+      VISIBILITY_MAP = { public_class_method: :public, private_class_method: :private }.freeze
 
       def initialize
         @tracked_visibility = :public

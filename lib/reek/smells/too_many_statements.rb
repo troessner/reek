@@ -12,7 +12,7 @@ module Reek
     class TooManyStatements < SmellDetector
       # The name of the config field that sets the maximum number of
       # statements permitted in any method.
-      MAX_ALLOWED_STATEMENTS_KEY = 'max_statements'
+      MAX_ALLOWED_STATEMENTS_KEY = 'max_statements'.freeze
       DEFAULT_MAX_STATEMENTS = 5
 
       def self.smell_category

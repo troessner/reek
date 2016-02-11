@@ -14,22 +14,22 @@ module Reek
       xml: XMLReport,
       text: TextReport,
       code_climate: CodeClimateReport
-    }
+    }.freeze
 
     LOCATION_FORMATTERS = {
       single_line: SingleLineLocationFormatter,
       plain: BlankLocationFormatter,
       numbers: DefaultLocationFormatter
-    }
+    }.freeze
 
     HEADING_FORMATTERS = {
       verbose: HeadingFormatter::Verbose,
-      quiet: HeadingFormatter::Quiet }
+      quiet: HeadingFormatter::Quiet }.freeze
 
     WARNING_FORMATTER_CLASSES = {
       wiki_links: WikiLinkWarningFormatter,
       simple: SimpleWarningFormatter
-    }
+    }.freeze
 
     # Map report format symbol to a report class.
     #

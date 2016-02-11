@@ -3,7 +3,7 @@ module Reek
     module SexpExtensions
       # Utility methods for :send nodes.
       module SendNode
-        ATTR_DEFN_METHODS = [:attr_writer, :attr_accessor]
+        ATTR_DEFN_METHODS = [:attr_writer, :attr_accessor].freeze
 
         def receiver
           children.first
