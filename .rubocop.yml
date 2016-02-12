@@ -26,10 +26,6 @@ Style/AccessorMethodName:
   Exclude:
     - 'lib/reek/context/visibility_tracker.rb'
 
-# TODO: Discuss
-Style/Alias:
-  Enabled: false
-
 Style/Documentation:
   Exclude:
     - 'lib/reek/ast/sexp_extensions/send.rb'
