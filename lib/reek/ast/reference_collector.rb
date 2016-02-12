@@ -1,5 +1,3 @@
-require 'private_attr/everywhere'
-
 module Reek
   module AST
     #
@@ -19,7 +17,7 @@ module Reek
 
       private
 
-      private_attr_reader :ast
+      attr_reader :ast
 
       def explicit_self_calls
         [:self, :super, :zsuper, :ivar, :ivasgn].flat_map do |node_type|

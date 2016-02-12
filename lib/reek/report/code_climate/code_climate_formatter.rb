@@ -1,12 +1,9 @@
 require 'codeclimate_engine'
-require 'private_attr'
 
 module Reek
   module Report
     # Generates a hash in the structure specified by the Code Climate engine spec
     class CodeClimateFormatter
-      private_attr_reader :warning
-
       def initialize(warning)
         @warning = warning
       end
@@ -22,6 +19,8 @@ module Reek
       end
 
       private
+
+      attr_reader :warning
 
       def description
         [warning.context, warning.message].join(' ')

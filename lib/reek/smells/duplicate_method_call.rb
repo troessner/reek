@@ -84,7 +84,9 @@ module Reek
           occurences.map(&:line)
         end
 
-        private_attr_reader :call_node, :occurences
+        private
+
+        attr_reader :call_node, :occurences
       end
 
       # Collects all calls in a given context
@@ -109,7 +111,7 @@ module Reek
 
         private
 
-        private_attr_reader :allow_calls, :max_allowed_calls
+        attr_reader :allow_calls, :max_allowed_calls
 
         # :reek:TooManyStatements: { max_statements: 6 }
         # :reek:DuplicateMethodCall: { max_calls: 2 }

@@ -1,4 +1,3 @@
-require 'private_attr/everywhere'
 require 'set'
 
 module Reek
@@ -19,7 +18,9 @@ module Reek
         warnings_set.sort
       end
 
-      private_attr_reader :warnings_set
+      private
+
+      attr_reader :warnings_set
     end
   end
 end

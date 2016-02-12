@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'private_attr/everywhere'
 require 'rake'
 require 'rake/tasklib'
 require 'pathname'
@@ -94,7 +93,7 @@ module Reek
 
       private
 
-      private_attr_reader :fail_on_error, :name, :verbose
+      attr_reader :fail_on_error, :name, :verbose
 
       def define_task
         desc 'Check for code smells'

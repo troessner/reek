@@ -1,4 +1,3 @@
-require 'private_attr/everywhere'
 require_relative '../cli/silencer'
 
 Reek::CLI::Silencer.silently do
@@ -12,7 +11,6 @@ module Reek
     #
     class Node < ::Parser::AST::Node
       attr_reader :parent
-      private_attr_reader :comments
 
       def initialize(type, children = [], options = {})
         @comments = options.fetch(:comments, [])
@@ -125,6 +123,8 @@ module Reek
       end
 
       private
+
+      attr_reader :comments
 
       def each_sexp
         children.each { |elem| yield elem if elem.is_a? ::Parser::AST::Node }

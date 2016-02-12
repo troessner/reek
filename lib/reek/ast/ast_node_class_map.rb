@@ -32,7 +32,9 @@ module Reek
           end
       end
 
-      private_attr_reader :klass_map
+      private
+
+      attr_reader :klass_map
     end
   end
 end

@@ -85,7 +85,9 @@ module Reek
           param.to_s
         end
 
-        private_attr_reader :occurences, :param
+        private
+
+        attr_reader :occurences, :param
       end
 
       # Finds cases of ControlParameter in a particular node for a particular parameter
@@ -111,7 +113,7 @@ module Reek
 
         private
 
-        private_attr_reader :node, :param
+        attr_reader :node, :param
 
         def conditional_nodes
           node.body_nodes(CONDITIONAL_NODE_TYPES)
@@ -180,7 +182,7 @@ module Reek
 
         private
 
-        private_attr_reader :context
+        attr_reader :context
 
         def potential_parameters
           context.exp.parameter_names

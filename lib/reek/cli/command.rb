@@ -1,5 +1,3 @@
-require 'private_attr/everywhere'
-
 module Reek
   module CLI
     #
@@ -10,7 +8,9 @@ module Reek
         @options = options
       end
 
-      private_attr_reader :options
+      private
+
+      attr_reader :options
     end
   end
 end

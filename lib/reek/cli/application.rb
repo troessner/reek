@@ -13,9 +13,6 @@ module Reek
     class Application
       attr_reader :configuration
 
-      private_attr_accessor :status
-      private_attr_reader :command, :options
-
       def initialize(argv)
         @options = configure_options(argv)
         @status = options.success_exit_code
@@ -37,6 +34,9 @@ module Reek
       end
 
       private
+
+      attr_accessor :status
+      attr_reader :command, :options
 
       def configure_options(argv)
         Options.new(argv).parse

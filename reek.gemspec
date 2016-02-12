@@ -24,6 +24,5 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency 'codeclimate-engine-rb', '~> 0.3.1'
   s.add_runtime_dependency 'parser',                '~> 2.3'
-  s.add_runtime_dependency 'private_attr',          '~> 1.1'
   s.add_runtime_dependency 'rainbow',               '~> 2.0'
 end

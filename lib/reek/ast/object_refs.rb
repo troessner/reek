@@ -1,5 +1,3 @@
-require 'private_attr/everywhere'
-
 module Reek
   # Represents functionality related to an Abstract Syntax Tree.
   module AST
@@ -53,7 +51,9 @@ module Reek
         refs.empty? || most_popular.keys.include?(:self)
       end
 
-      private_attr_reader :refs
+      private
+
+      attr_reader :refs
     end
   end
 end

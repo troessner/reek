@@ -128,7 +128,9 @@ module Reek
         accumulator[var].push(exp.line)
       end
 
-      private_attr_accessor :accept_names, :reject_names
+      private
+
+      attr_accessor :accept_names, :reject_names
     end
   end
 end

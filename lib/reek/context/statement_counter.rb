@@ -1,12 +1,10 @@
 require_relative '../ast/node'
-require 'private_attr/everywhere'
 
 module Reek
   module Context
     # Responsible for counting the statements in a `CodeContext`.
     class StatementCounter
       attr_reader :value
-      private_attr_writer :value
 
       def initialize
         @value = 0
@@ -27,6 +25,10 @@ module Reek
       def decrease_by(number)
         self.value = value - number
       end
+
+      private
+
+      attr_writer :value
     end
   end
 end

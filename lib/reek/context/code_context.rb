@@ -3,7 +3,6 @@ require_relative '../ast/object_refs'
 require_relative 'statement_counter'
 
 require 'forwardable'
-require 'private_attr/everywhere'
 
 module Reek
   module Context
@@ -21,8 +20,6 @@ module Reek
       delegate %i(name type) => :exp
 
       attr_reader :children, :parent, :exp, :statement_counter
-
-      private_attr_reader :refs
 
       # Initializes a new CodeContext.
       #
@@ -157,6 +154,8 @@ module Reek
       end
 
       private
+
+      attr_reader :refs
 
       def configuration_via_code_commment
         @configuration_via_code_commment ||= CodeComment.new(full_comment).config

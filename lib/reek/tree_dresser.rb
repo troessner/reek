@@ -46,6 +46,8 @@ module Reek
                                     location: sexp.loc, comments: comments, parent: parent)
     end
 
-    private_attr_reader :klass_map
+    private
+
+    attr_reader :klass_map
   end
 end
