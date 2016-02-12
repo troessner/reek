@@ -56,7 +56,7 @@ module Reek
     # SimpleWarningFormatter.
     #
     class WikiLinkWarningFormatter < SimpleWarningFormatter
-      BASE_URL_FOR_HELP_LINK = 'https://github.com/troessner/reek/blob/master/docs/'
+      BASE_URL_FOR_HELP_LINK = 'https://github.com/troessner/reek/blob/master/docs/'.freeze
 
       def format(warning)
         "#{super} [#{explanatory_link(warning)}]"

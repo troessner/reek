@@ -30,8 +30,6 @@ module Reek
         "Expected #{examiner.description} not to reek only of #{smell_category}, but it did"
       end
 
-      private
-
       private_attr_accessor :warnings
     end
   end

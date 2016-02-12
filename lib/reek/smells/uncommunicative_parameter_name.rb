@@ -18,11 +18,11 @@ module Reek
     #
     # See {file:docs/Uncommunicative-Parameter-Name.md} for details.
     class UncommunicativeParameterName < SmellDetector
-      REJECT_KEY = 'reject'
-      DEFAULT_REJECT_PATTERNS = [/^.$/, /[0-9]$/, /[A-Z]/, /^_/]
+      REJECT_KEY = 'reject'.freeze
+      DEFAULT_REJECT_PATTERNS = [/^.$/, /[0-9]$/, /[A-Z]/, /^_/].freeze
 
-      ACCEPT_KEY = 'accept'
-      DEFAULT_ACCEPT_NAMES = []
+      ACCEPT_KEY = 'accept'.freeze
+      DEFAULT_ACCEPT_NAMES = [].freeze
 
       def self.smell_category
         'UncommunicativeName'

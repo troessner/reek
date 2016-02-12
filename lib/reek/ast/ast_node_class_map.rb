@@ -32,8 +32,6 @@ module Reek
           end
       end
 
-      private
-
       private_attr_reader :klass_map
     end
   end

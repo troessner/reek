@@ -14,7 +14,7 @@ module Reek
     class TooManyInstanceVariables < SmellDetector
       # The name of the config field that sets the maximum number of instance
       # variables permitted in a class.
-      MAX_ALLOWED_IVARS_KEY = 'max_instance_variables'
+      MAX_ALLOWED_IVARS_KEY = 'max_instance_variables'.freeze
       DEFAULT_MAX_IVARS = 4
 
       def self.smell_category

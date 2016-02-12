@@ -85,14 +85,12 @@ module Reek
           param.to_s
         end
 
-        private
-
         private_attr_reader :occurences, :param
       end
 
       # Finds cases of ControlParameter in a particular node for a particular parameter
       class ControlParameterFinder
-        CONDITIONAL_NODE_TYPES = [:if, :case, :and, :or]
+        CONDITIONAL_NODE_TYPES = [:if, :case, :and, :or].freeze
 
         def initialize(node, param)
           @node = node

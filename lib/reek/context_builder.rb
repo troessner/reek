@@ -79,7 +79,7 @@ module Reek
       end
     end
 
-    alias_method :process_class, :process_module
+    alias process_class process_module
 
     # Handles `sclass` nodes
     #
@@ -194,7 +194,7 @@ module Reek
       process(exp)
     end
 
-    alias_method :process_ivasgn, :process_ivar
+    alias process_ivasgn process_ivar
 
     # Handles `self` nodes.
     #
@@ -260,7 +260,7 @@ module Reek
       process(exp)
     end
 
-    alias_method :process_kwbegin, :process_begin
+    alias process_kwbegin process_begin
 
     # Handles `if` nodes.
     #
@@ -309,7 +309,7 @@ module Reek
       process(exp)
     end
 
-    alias_method :process_until, :process_while
+    alias process_until process_while
 
     # Handles `for` nodes.
     #

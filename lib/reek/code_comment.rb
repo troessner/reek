@@ -9,7 +9,7 @@ module Reek
   class CodeComment
     CONFIGURATION_REGEX            = /:reek:(\w+)(:\s*\{.*?\})?/
     SANITIZE_REGEX                 = /(#|\n|\s)+/ # Matches '#', newlines and > 1 whitespaces.
-    DISABLE_DETECTOR_CONFIGURATION = ': { enabled: false }'
+    DISABLE_DETECTOR_CONFIGURATION = ': { enabled: false }'.freeze
     MINIMUM_CONTENT_LENGTH         = 2
 
     attr_reader :config

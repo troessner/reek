@@ -27,7 +27,7 @@ module Reek
       module LvarNode
         include VariableBase
 
-        alias_method :var_name, :name
+        alias var_name name
       end
 
       # Utility methods for :gvar nodes.

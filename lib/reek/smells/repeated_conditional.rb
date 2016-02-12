@@ -27,7 +27,7 @@ module Reek
     class RepeatedConditional < SmellDetector
       # The name of the config field that sets the maximum number of
       # identical conditionals permitted within any single class.
-      MAX_IDENTICAL_IFS_KEY = 'max_ifs'
+      MAX_IDENTICAL_IFS_KEY = 'max_ifs'.freeze
       DEFAULT_MAX_IFS = 2
 
       def self.smell_category

@@ -6,7 +6,7 @@ module Reek
     class SmellMatcher
       attr_reader :smell_warning
 
-      COMPARABLE_ATTRIBUTES = %i(message lines context source)
+      COMPARABLE_ATTRIBUTES = %i(message lines context source).freeze
 
       def initialize(smell_warning)
         @smell_warning = smell_warning

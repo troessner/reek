@@ -13,7 +13,7 @@ class CodeClimateToReek
     '-f', 'code_climate',
     '--failure-exit-code', '0',
     '--success-exit-code', '0'
-  ]
+  ].freeze
 
   attr_reader :configuration_file_path, :include_paths_key, :include_paths_default
 

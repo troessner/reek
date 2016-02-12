@@ -53,8 +53,6 @@ module Reek
         refs.empty? || most_popular.keys.include?(:self)
       end
 
-      private
-
       private_attr_reader :refs
     end
   end

@@ -23,7 +23,7 @@ module Reek
       # reported as a DataClump unless there are more than this many
       # methods containing those parameters.
       #
-      MAX_COPIES_KEY = 'max_copies'
+      MAX_COPIES_KEY = 'max_copies'.freeze
       DEFAULT_MAX_COPIES = 2
 
       #
@@ -31,7 +31,7 @@ module Reek
       # size. No group of common parameters will be reported as
       # a DataClump unless it contains at least this many parameters.
       #
-      MIN_CLUMP_SIZE_KEY = 'min_clump_size'
+      MIN_CLUMP_SIZE_KEY = 'min_clump_size'.freeze
       DEFAULT_MIN_CLUMP_SIZE = 2
 
       def self.contexts # :nodoc:
@@ -110,8 +110,6 @@ module Reek
       end
     end
 
-    private
-
     private_attr_reader :candidate_methods, :max_copies, :min_clump_size
   end
 
@@ -130,8 +128,6 @@ module Reek
       # TODO: Is all this sorting still needed?
       @arg_names ||= defn.arg_names.compact.sort
     end
-
-    private
 
     private_attr_reader :defn
   end
