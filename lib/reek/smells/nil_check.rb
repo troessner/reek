@@ -40,7 +40,9 @@ module Reek
           end
         end
 
-        private_attr_reader :detector, :nodes
+        private
+
+        attr_reader :detector, :nodes
       end
 
       # Detect 'call' nodes which perform a nil check.

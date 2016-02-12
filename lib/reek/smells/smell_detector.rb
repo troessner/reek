@@ -17,7 +17,6 @@ module Reek
     # :reek:UnusedPrivateMethod: { exclude: [ inherited, smell_warning ] }
     class SmellDetector
       attr_reader :config
-      private_attr_accessor :smells_found
       # The name of the config field that lists the names of code contexts
       # that should not be checked. Add this field to the config for each
       # smell that should ignore this code element.
@@ -60,6 +59,8 @@ module Reek
       end
 
       private
+
+      attr_accessor :smells_found
 
       def enabled_for?(context)
         config.enabled? && config_for(context)[SmellConfiguration::ENABLED_KEY] != false

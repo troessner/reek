@@ -18,8 +18,6 @@ module Reek
         end
       end
 
-      private_attr_accessor :ignore_iterators
-
       # The name of the config field that sets the maximum depth
       # of nested iterators to be permitted within any single method.
       MAX_ALLOWED_NESTING_KEY = 'max_allowed_nesting'.freeze
@@ -59,6 +57,8 @@ module Reek
       end
 
       private
+
+      attr_accessor :ignore_iterators
 
       #
       # @return [Iterator|nil]

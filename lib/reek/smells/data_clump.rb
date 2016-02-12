@@ -110,7 +110,9 @@ module Reek
       end
     end
 
-    private_attr_reader :candidate_methods, :max_copies, :min_clump_size
+    private
+
+    attr_reader :candidate_methods, :max_copies, :min_clump_size
   end
 
   # A method definition and a copy of its parameters
@@ -129,6 +131,8 @@ module Reek
       @arg_names ||= defn.arg_names.compact.sort
     end
 
-    private_attr_reader :defn
+    private
+
+    attr_reader :defn
   end
 end

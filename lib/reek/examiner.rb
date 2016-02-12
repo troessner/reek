@@ -11,7 +11,6 @@ module Reek
   #
   # :reek:TooManyInstanceVariables: { max_instance_variables: 6 }
   class Examiner
-    private_attr_reader :collector, :source, :smell_repository
     #
     # Creates an Examiner which scans the given +source+ for code smells.
     #
@@ -71,6 +70,8 @@ module Reek
     end
 
     private
+
+    attr_reader :collector, :source, :smell_repository
 
     def run
       syntax_tree = source.syntax_tree

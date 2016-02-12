@@ -1,5 +1,4 @@
 require 'pathname'
-require 'private_attr/everywhere'
 require_relative './configuration_file_finder'
 require_relative './configuration_validator'
 require_relative './default_directive'
@@ -15,7 +14,6 @@ module Reek
     class AppConfiguration
       include ConfigurationValidator
       EXCLUDE_PATHS_KEY = 'exclude_paths'.freeze
-      private_attr_writer :directory_directives, :default_directive, :excluded_paths
 
       # Instantiate a configuration via given path.
       #
@@ -102,6 +100,8 @@ module Reek
       end
 
       private
+
+      attr_writer :directory_directives, :default_directive, :excluded_paths
 
       def directory_directives
         @directory_directives ||= {}.extend(DirectoryDirectives)

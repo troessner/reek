@@ -10,10 +10,6 @@ module Reek
     class ShouldReekOf
       attr_reader :failure_message, :failure_message_when_negated
 
-      private_attr_reader :configuration, :smell_category, :smell_details
-      private_attr_writer :failure_message, :failure_message_when_negated
-      private_attr_accessor :examiner
-
       def initialize(smell_category,
                      smell_details = {},
                      configuration = Configuration::AppConfiguration.default)
@@ -29,6 +25,10 @@ module Reek
       end
 
       private
+
+      attr_reader :configuration, :smell_category, :smell_details
+      attr_writer :failure_message, :failure_message_when_negated
+      attr_accessor :examiner
 
       def set_failure_messages
         # We set the failure messages for non-matching smell type unconditionally since we

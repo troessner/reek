@@ -27,7 +27,9 @@ module Reek
         self.visibility = current_visibility
       end
 
-      private_attr_reader :send_expression
+      private
+
+      attr_reader :send_expression
     end
   end
 end

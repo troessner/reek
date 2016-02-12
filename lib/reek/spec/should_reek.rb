@@ -25,8 +25,10 @@ module Reek
         "Expected no smells, but got:\n#{rpt}"
       end
 
-      private_attr_reader :configuration
-      private_attr_accessor :examiner
+      private
+
+      attr_reader :configuration
+      attr_accessor :examiner
     end
   end
 end

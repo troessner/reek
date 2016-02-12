@@ -1,11 +1,7 @@
-require 'private_attr/everywhere'
-
 module Reek
   module Context
     # Responsible for tracking visibilities in regards to CodeContexts.
     class VisibilityTracker
-      private_attr_accessor :tracked_visibility
-
       VISIBILITY_MODIFIERS = [:private, :public, :protected, :module_function].freeze
       VISIBILITY_MAP = { public_class_method: :public, private_class_method: :private }.freeze
 
@@ -58,6 +54,10 @@ module Reek
       def set_child_visibility(child)
         child.apply_current_visibility tracked_visibility
       end
+
+      private
+
+      attr_accessor :tracked_visibility
     end
   end
 end

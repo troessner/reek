@@ -1,4 +1,3 @@
-require 'private_attr/everywhere'
 require 'find'
 require 'pathname'
 
@@ -29,7 +28,7 @@ module Reek
 
       private
 
-      private_attr_reader :configuration, :paths
+      attr_reader :configuration, :paths
 
       # :reek:TooManyStatements: { max_statements: 7 }
       # :reek:NestedIterators: { max_allowed_nesting: 2 }

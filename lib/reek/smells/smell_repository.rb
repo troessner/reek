@@ -8,8 +8,6 @@ module Reek
     # Contains all the existing smells and exposes operations on them.
     #
     class SmellRepository
-      private_attr_reader :configuration, :smell_types, :detectors
-
       # @return [Array<Reek::Smells::SmellDetector>] All known SmellDetectors
       #         e.g. [Reek::Smells::BooleanParameter, Reek::Smells::ClassVariable].
       def self.smell_types
@@ -50,6 +48,8 @@ module Reek
       end
 
       private
+
+      attr_reader :configuration, :smell_types, :detectors
 
       def configuration_for(klass)
         configuration.fetch klass, {}

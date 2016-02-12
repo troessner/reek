@@ -22,8 +22,6 @@ module Reek
   # :reek:UnusedPrivateMethod: { exclude: [ !ruby/regexp /process_/ ] }
   class ContextBuilder
     attr_reader :context_tree
-    private_attr_accessor :current_context
-    private_attr_reader :exp
 
     def initialize(syntax_tree)
       @exp = syntax_tree
@@ -32,6 +30,9 @@ module Reek
     end
 
     private
+
+    attr_accessor :current_context
+    attr_reader :exp
 
     # Processes the given AST, memoizes it and returns a tree of nested
     # contexts.

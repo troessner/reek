@@ -1,5 +1,3 @@
-require 'private_attr/everywhere'
-
 module Reek
   module Smells
     #
@@ -39,7 +37,9 @@ module Reek
         options.fetch(key, fall_back)
       end
 
-      private_attr_reader :options
+      private
+
+      attr_reader :options
     end
 
     #
@@ -56,7 +56,9 @@ module Reek
         contexts.map { |exc| hash[exc] }
       end
 
-      private_attr_reader :hash
+      private
+
+      attr_reader :hash
     end
   end
 end

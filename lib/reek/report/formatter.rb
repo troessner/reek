@@ -1,4 +1,3 @@
-require 'private_attr/everywhere'
 require_relative 'location_formatter'
 require_relative 'code_climate/code_climate_formatter'
 
@@ -48,7 +47,9 @@ module Reek
         CodeClimateFormatter.new(warning).render
       end
 
-      private_attr_reader :location_formatter
+      private
+
+      attr_reader :location_formatter
     end
 
     #

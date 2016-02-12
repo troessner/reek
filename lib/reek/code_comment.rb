@@ -1,5 +1,4 @@
 require 'yaml'
-require 'private_attr/everywhere'
 
 module Reek
   #
@@ -13,7 +12,6 @@ module Reek
     MINIMUM_CONTENT_LENGTH         = 2
 
     attr_reader :config
-    private_attr_reader :original_comment
 
     #
     # @param comment [String] - the original comment as found in the source code
@@ -34,6 +32,8 @@ module Reek
     end
 
     private
+
+    attr_reader :original_comment
 
     def sanitized_comment
       @sanitized_comment ||= original_comment.
