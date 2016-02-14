@@ -10,7 +10,7 @@ module Reek
     class OptionInterpreter
       include Input
       extend Forwardable
-      def_delegators :options, :smells_to_detect
+      def_delegators :options, :smells_to_detect, :success_exit_code, :failure_exit_code
 
       def initialize(options)
         @options = options

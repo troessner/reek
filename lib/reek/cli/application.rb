@@ -22,15 +22,6 @@ module Reek
 
       def execute
         command.execute self
-        status
-      end
-
-      def report_success
-        self.status = options.success_exit_code
-      end
-
-      def report_smells
-        self.status = options.failure_exit_code
       end
 
       private

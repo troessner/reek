@@ -12,11 +12,15 @@ module Reek
         options.sources.each do |source|
           reporter.add_examiner Examiner.new(source, smell_names, configuration: app.configuration)
         end
-        reporter.smells? ? app.report_smells : app.report_success
         reporter.show
+        result_code
       end
 
       private
+
+      def result_code
+        reporter.smells? ? options.failure_exit_code : options.success_exit_code
+      end
 
       def reporter
         @reporter ||= options.reporter

@@ -11,6 +11,7 @@ group :development do
   gem 'rspec',         '~> 3.0'
   gem 'rubocop',       '~> 0.37.0'
   gem 'yard',          '~> 0.8.7'
+  gem 'simplecov',     '~> 0.11.1'
 
   platforms :mri do
     gem 'redcarpet', '~> 3.3.1'
