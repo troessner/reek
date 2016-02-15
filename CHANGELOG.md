@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 3.10.2 (2016-02-15)
+
+* (troessner) Bump parser to 2.3.0.6 as minimum to fix problems with invalid syntax.
+
 ## 3.10.1 (2016-02-07)
 
 * (mvz) Fix edge case syntax problems
