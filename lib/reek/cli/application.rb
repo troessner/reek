@@ -1,7 +1,8 @@
 require_relative 'options'
-require_relative 'reek_command'
 require_relative 'option_interpreter'
 require_relative '../configuration/app_configuration'
+require_relative 'command/report_command'
+require_relative 'command/todo_list_command'
 
 module Reek
   module CLI
@@ -17,7 +18,7 @@ module Reek
         @options = configure_options(argv)
         @status = options.success_exit_code
         @configuration = configure_app_configuration(options.config_file)
-        @command = ReekCommand.new(OptionInterpreter.new(options))
+        @command = command_class.new(OptionInterpreter.new(options))
       end
 
       def execute
@@ -41,6 +42,10 @@ module Reek
       rescue Reek::Configuration::ConfigFileException => error
         $stderr.puts "Error: #{error}"
         exit Options::DEFAULT_ERROR_EXIT_CODE
+      end
+
+      def command_class
+        options.generate_todo_list ? Command::TodoListCommand : Command::ReportCommand
       end
     end
   end

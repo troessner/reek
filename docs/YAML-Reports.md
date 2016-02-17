@@ -2,7 +2,7 @@
 
 ## Introduction
 
-`Reek`'s `--yaml` option writes on $stdout a YAML dump of the smells found. Each reported smell has a number of standard fields and a number of fields that are specific to the smell's type. The common fields are as follows:
+Reek's `--yaml` option writes on $stdout a YAML dump of the smells found. Each reported smell has a number of standard fields and a number of fields that are specific to the smell's type. The common fields are as follows:
 
 | Field         | Type       | Value  |
 | ---------------|-------------|---------|

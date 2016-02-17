@@ -16,7 +16,7 @@ Reek is a tool that examines Ruby classes, modules and methods and reports any
 [Code Smells](docs/Code-Smells.md) it finds.
 
 For an excellent introduction to
-[Code Smells](docs/Code-Smells.md) and `Reek` check out [this blog post](https://blog.codeship.com/how-to-find-ruby-code-smells-with-reek/)
+[Code Smells](docs/Code-Smells.md) and Reek check out [this blog post](https://blog.codeship.com/how-to-find-ruby-code-smells-with-reek/)
 or [that one](https://troessner.wordpress.com/2016/01/01/the-latest-and-greatest-additions-to-reek/). There is also [this talk](https://www.youtube.com/watch?v=ZzqOuHI5MkA) from the RUBYCONF Porto.
 
 Install it via rubygems:
@@ -63,7 +63,7 @@ demo.rb -- 8 warnings:
 
 ## Supported rubies
 
-`Reek` is officially running on the following MRI rubies:
+Reek is officially running on the following MRI rubies:
 
   - 2.0
   - 2.1
@@ -95,7 +95,7 @@ class Item < ActiveRecord::Base
 end
 ```
 
-Running `reek` on this file like this:
+Running Reek on this file like this:
 
 ```
 reek app/models/shopping_cart.rb
@@ -133,13 +133,13 @@ those first when you have a warning that you don't know how to deal with.
 
 ## Sources
 
-There are multiple ways you can have `reek` work on sources, the most common one just being
+There are multiple ways you can have Reek work on sources, the most common one just being
 
 ```Bash
 reek lib/
 ```
 
-If you don't pass any source arguments to `reek` it just takes the current working directory as source.
+If you don't pass any source arguments to Reek it just takes the current working directory as source.
 
 So
 
@@ -153,7 +153,7 @@ is the exact same thing as being explicit:
 reek .
 ```
 
-Additionally you can pipe code to `reek` like this:
+Additionally you can pipe code to Reek like this:
 
 ```Bash
 echo "class C; def m; end; end" | reek
@@ -210,7 +210,7 @@ For a summary of those CLI options see [Command-Line Options](docs/Command-Line-
 
 Configuring Reek via a configuration file is by far the most powerful way.
 
-There are three ways of passing `reek` a configuration file:
+There are three ways of passing Reek a configuration file:
 
 1. Using the CLI `-c` switch (see [_Command-line interface_](#command-line-interface) above)
 2. Having a file ending with `.reek` either in your current working directory or in a parent directory (more on that later)
@@ -337,6 +337,42 @@ end
 
 This is an incredible powerful feature and further explained under [Smell Suppresion](docs/Smell-Suppression.md).
 
+### Generating a 'todo' list
+
+Integrating tools like Reek into an existing larger codebase can be daunting when you have to fix
+possibly hundreds or thousands of smell warnings first.
+Sure you could manually disable smell warnings like shown above but depending on the size of your
+codebase this might not be an option.
+Fortunately Reek provides a 'todo' flag which you can use to generate a configuration that will
+suppress all smell warnings for the current codebase:
+
+```Bash
+reek --todo lib/
+```
+
+This will create the file '.todo.reek' in your current working directory.
+
+You can then use this as your configuration - since your working directory
+probably is your project root in most cases you don't have to tell Reek
+explicitly to use '.todo.reek' because Reek will automatically pick it up
+and use it as configuration file. See [Configuration Loading](#configuration-loading) above.
+
+If for whatever reasons you decide to put '.todo.reek' somewhere else where
+Reek won't pick it up automatically you need to tell Reek explicitly to do so
+via:
+
+```Bash
+reek -c whatever/.todo.reek lib/
+```
+
+Note that if you re-run
+
+```Bash
+reek --todo lib/
+```
+
+'.todo.reek' will get overwritten with a possibly updated configuration.
+
 ## Usage
 
 Besides the obvious
@@ -386,7 +422,7 @@ If you don't feel like getting your hands dirty with code there are still other 
 
 ## Output formats
 
-`reek` supports 5 output formats:
+Reek supports 5 output formats:
 
 * plain text (default)
 * HTML (`--format html`)
@@ -429,12 +465,12 @@ Be careful though, Reek does not merge your configuration entries, so if you alr
 
 * [overcommit](https://github.com/brigade/overcommit) - a Git commit hook manager with support for
   Reek
-* [ruby-critic](https://github.com/whitesmith/rubycritic) - gem that wraps around static analysis gems such as `reek`, [flay](https://github.com/seattlerb/flay) and [flog](https://github.com/seattlerb/flog)
+* [ruby-critic](https://github.com/whitesmith/rubycritic) - gem that wraps around static analysis gems such as Reek, [flay](https://github.com/seattlerb/flay) and [flog](https://github.com/seattlerb/flog)
 * [pronto-reek](https://github.com/mmozuras/pronto-reek) - Reek integration for [pronto](https://github.com/mmozuras/pronto)
 
 ### Misc
 
-* [Colorful output for `reek`](https://github.com/joenas/preek)
+* [Colorful output for Reek](https://github.com/joenas/preek)
   (also with [Guard::Preek](https://github.com/joenas/guard-preek))
 
 ## Brothers and sisters

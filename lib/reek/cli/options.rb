@@ -9,7 +9,7 @@ module Reek
     #
     # See {file:docs/Command-Line-Options.md} for details.
     #
-    # :reek:TooManyInstanceVariables: { max_instance_variables: 9 }
+    # :reek:TooManyInstanceVariables: { max_instance_variables: 10 }
     # :reek:Attribute: { enabled: false }
     #
     class Options
@@ -26,18 +26,20 @@ module Reek
                     :show_links,
                     :sorting,
                     :success_exit_code,
-                    :failure_exit_code
+                    :failure_exit_code,
+                    :generate_todo_list
 
       def initialize(argv = [])
-        @argv              = argv
-        @parser            = OptionParser.new
-        @report_format     = :text
-        @location_format   = :numbers
-        @show_links        = true
-        @smells_to_detect  = []
-        @colored           = color_support?
-        @success_exit_code = DEFAULT_SUCCESS_EXIT_CODE
-        @failure_exit_code = DEFAULT_FAILURE_EXIT_CODE
+        @argv               = argv
+        @parser             = OptionParser.new
+        @report_format      = :text
+        @location_format    = :numbers
+        @show_links         = true
+        @smells_to_detect   = []
+        @colored            = color_support?
+        @success_exit_code  = DEFAULT_SUCCESS_EXIT_CODE
+        @failure_exit_code  = DEFAULT_FAILURE_EXIT_CODE
+        @generate_todo_list = false
 
         set_up_parser
       end
@@ -55,10 +57,11 @@ module Reek
         $stdout.tty?
       end
 
-      # :reek:TooManyStatements: { max_statements: 6 }
+      # :reek:TooManyStatements: { max_statements: 7 }
       def set_up_parser
         set_banner
         set_configuration_options
+        set_generate_todo_list_options
         set_alternative_formatter_options
         set_report_formatting_options
         set_exit_codes
@@ -81,17 +84,6 @@ module Reek
         EOB
       end
 
-      def set_alternative_formatter_options
-        parser.separator "\nReport format:"
-        parser.on(
-          '-f', '--format FORMAT', [:html, :text, :yaml, :json, :xml, :code_climate],
-          'Report smells in the given format:',
-          '  html', '  text (default)', '  yaml', '  json', '  xml', '  code_climate'
-        ) do |opt|
-          self.report_format = opt
-        end
-      end
-
       # :reek:TooManyStatements: { max_statements: 6 }
       def set_configuration_options
         parser.separator 'Configuration:'
@@ -101,6 +93,24 @@ module Reek
         end
         parser.on('--smell SMELL', 'Detect smell SMELL (default: all enabled smells)') do |smell|
           smells_to_detect << smell
+        end
+      end
+
+      def set_generate_todo_list_options
+        parser.separator '\nGenerate a todo list:'
+        parser.on('-t', '--todo', 'Generate a todo list') do
+          self.generate_todo_list = true
+        end
+      end
+
+      def set_alternative_formatter_options
+        parser.separator "\nReport format:"
+        parser.on(
+          '-f', '--format FORMAT', [:html, :text, :yaml, :json, :xml, :code_climate],
+          'Report smells in the given format:',
+          '  html', '  text (default)', '  yaml', '  json', '  xml', '  code_climate'
+        ) do |opt|
+          self.report_format = opt
         end
       end
 

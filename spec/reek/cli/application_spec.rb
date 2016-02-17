@@ -15,17 +15,19 @@ RSpec.describe Reek::CLI::Application do
     end
   end
 
-  describe '#execute' do
-    let(:command) { double 'reek_command' }
-    let(:app) { Reek::CLI::Application.new [] }
+  context 'report_command' do
+    describe '#execute' do
+      let(:command) { double 'reek_command' }
+      let(:app) { Reek::CLI::Application.new [] }
 
-    before do
-      allow(Reek::CLI::ReekCommand).to receive(:new).and_return command
-    end
+      before do
+        allow(Reek::CLI::Command::ReportCommand).to receive(:new).and_return command
+      end
 
-    it "returns the command's result code" do
-      allow(command).to receive(:execute).and_return 'foo'
-      expect(app.execute).to eq 'foo'
+      it "returns the command's result code" do
+        allow(command).to receive(:execute).and_return 'foo'
+        expect(app.execute).to eq 'foo'
+      end
     end
   end
 end
