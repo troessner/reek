@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 3.11 (2016-02-18)
+
+* (troessner) Add a --todo cli flag that will generate a todo list.
+
 ## 3.10.2 (2016-02-15)
 
 * (troessner) Bump parser to 2.3.0.6 as minimum to fix problems with invalid syntax.
