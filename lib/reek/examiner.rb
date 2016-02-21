@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative 'context_builder'
 require_relative 'source/source_code'
 require_relative 'cli/warning_collector'

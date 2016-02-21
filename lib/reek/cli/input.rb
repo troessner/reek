@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative '../source/source_locator'
 
 module Reek

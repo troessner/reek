@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative '../code_comment'
 require_relative '../ast/object_refs'
 require_relative 'statement_counter'

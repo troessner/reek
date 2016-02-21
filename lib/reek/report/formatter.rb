@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative 'location_formatter'
 require_relative 'code_climate/code_climate_formatter'
 

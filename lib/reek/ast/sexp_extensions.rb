@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative 'reference_collector'
 
 require_relative 'sexp_extensions/arguments'

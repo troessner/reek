@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Reek
   # Represents functionality related to an Abstract Syntax Tree.
   module AST
