@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative '../cli/silencer'
 
 Reek::CLI::Silencer.silently do

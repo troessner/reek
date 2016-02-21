@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'optparse'
 require 'rainbow'
 require_relative '../version'

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative 'smells/attribute'
 require_relative 'smells/boolean_parameter'
 require_relative 'smells/class_variable'

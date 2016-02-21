@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative 'spec/should_reek'
 require_relative 'spec/should_reek_of'
 require_relative 'spec/should_reek_only_of'

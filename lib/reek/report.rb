@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative 'report/report'
 require_relative 'report/formatter'
 require_relative 'report/heading_formatter'

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative 'ast/ast_node_class_map'
 
 module Reek

@@ -40,6 +40,13 @@ Style/DotPosition:
 Style/EmptyLineBetweenDefs:
   AllowAdjacentOneLineDefs: true
 
+# Require comment for files in lib and bin
+Style/FrozenStringLiteralComment:
+  Include:
+    - 'bin/*'
+    - 'lib/**/*'
+  EnforcedStyle: always
+
 # Allow multiline block chains
 Style/MultilineBlockChain:
   Enabled: false

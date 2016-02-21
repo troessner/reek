@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative 'context/attribute_context'
 require_relative 'context/class_context'
 require_relative 'context/ghost_context'

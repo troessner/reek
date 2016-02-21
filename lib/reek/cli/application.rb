@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative 'options'
 require_relative 'option_interpreter'
 require_relative '../configuration/app_configuration'

@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 #
 # Reek examines Ruby source code for smells.
 # Visit https://wiki.github.com/troessner/reek for docs etc.
