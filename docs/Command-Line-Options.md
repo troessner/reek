@@ -26,7 +26,7 @@ In general, if any command-line argument is a directory, Reek searches that dire
 reek lib
 ```
 
-would be equivalent to 
+would be equivalent to
 
 ```Bash
 reek lib/**/*.rb
@@ -36,6 +36,31 @@ Occasionally you may want to quickly check a code snippet without going to the t
 
 ```Bash
 echo "def x() true end" | reek
+```
+
+To just check all Ruby files in the current directory, you can simply run it
+with no parameters:
+
+```Bash
+reek
+```
+
+## Telling Reek Which Smells to Detect
+
+You can tell Reek to only check particular smells by using the `--smell`
+option and passing in the smell name.
+
+For example, to only check for [Utility Function](Utility-Function.md), you
+would use:
+
+```Bash
+reek --smell UtilityFunction
+```
+
+You can select several smells by repeating the `--smell` option like so:
+
+```Bash
+reek --smell UtilityFunction --smell UncommunicativeMethodName
 ```
 
 ## Output options
