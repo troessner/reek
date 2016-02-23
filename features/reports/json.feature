@@ -19,7 +19,6 @@ Feature: Report smells using simple JSON layout
       """
       [
           {
-              "smell_category": "Duplication",
               "smell_type": "DuplicateMethodCall",
               "source": "smelly.rb",
               "context": "Smelly#m",
@@ -30,7 +29,6 @@ Feature: Report smells using simple JSON layout
               "count": 2
           },
           {
-              "smell_category": "Duplication",
               "smell_type": "DuplicateMethodCall",
               "source": "smelly.rb",
               "context": "Smelly#m",
@@ -41,7 +39,6 @@ Feature: Report smells using simple JSON layout
               "count": 2
           },
           {
-              "smell_category": "UncommunicativeName",
               "smell_type": "UncommunicativeMethodName",
               "source": "smelly.rb",
               "context": "Smelly#m",
@@ -60,7 +57,6 @@ Feature: Report smells using simple JSON layout
       """
       [
           {
-              "smell_category": "IrresponsibleModule",
               "smell_type": "IrresponsibleModule",
               "source": "STDIN",
               "context": "Turn",

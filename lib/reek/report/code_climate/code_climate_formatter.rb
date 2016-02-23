@@ -28,11 +28,10 @@ module Reek
       end
 
       def check_name
-        [warning.smell_category, warning.smell_type].join('/')
+        warning.smell_type
       end
 
       def categories
-        # TODO: provide mappings for Reek's smell categories
         ['Complexity']
       end
 

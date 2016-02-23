@@ -20,7 +20,7 @@ RSpec.shared_examples_for 'one smell found' do
   end
 
   it 'reports the correct smell' do
-    expect(examiner.smells[0].smell_category).to eq(expected_first_smell)
+    expect(examiner.smells[0].smell_type).to eq(expected_first_smell)
   end
 end
 
@@ -35,7 +35,7 @@ RSpec.describe Reek::Examiner do
 
   context 'with a smelly String' do
     let(:examiner) { described_class.new('def fine() y = 4; end') }
-    let(:expected_first_smell) { 'UncommunicativeName' }
+    let(:expected_first_smell) { 'UncommunicativeVariableName' }
 
     it_should_behave_like 'one smell found'
   end

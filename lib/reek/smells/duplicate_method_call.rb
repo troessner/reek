@@ -30,10 +30,6 @@ module Reek
       ALLOW_CALLS_KEY = 'allow_calls'.freeze
       DEFAULT_ALLOW_CALLS = [].freeze
 
-      def self.smell_category
-        'Duplication'
-      end
-
       def self.default_config
         super.merge(
           MAX_ALLOWED_CALLS_KEY => DEFAULT_MAX_CALLS,

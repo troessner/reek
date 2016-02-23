@@ -31,16 +31,6 @@ module Reek
         end
       end
 
-      # Select detectors of one particular type or category.
-      #
-      # @param smell_type_or_category [String] smell type or category to select
-      # @return [Array<Reek::Smells::SmellDetector>] the selected detectors
-      def self.smell_detectors_by_type_or_category(smell_type_or_category)
-        smell_types.select do |klass|
-          [klass.smell_category, klass.smell_type].include? smell_type_or_category
-        end
-      end
-
       def initialize(smell_types: self.class.smell_types,
                      configuration: {})
         @configuration = configuration

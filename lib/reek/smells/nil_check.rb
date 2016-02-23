@@ -9,10 +9,6 @@ module Reek
     #
     # See {file:docs/Nil-Check.md} for details.
     class NilCheck < SmellDetector
-      def self.smell_category
-        'SimulatedPolymorphism'
-      end
-
       def inspect(ctx)
         call_node_finder = NodeFinder.new(ctx, :send, NilCallNodeDetector)
         case_node_finder = NodeFinder.new(ctx, :when, NilWhenNodeDetector)

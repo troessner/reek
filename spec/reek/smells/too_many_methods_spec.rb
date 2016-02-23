@@ -71,7 +71,6 @@ RSpec.describe Reek::Smells::TooManyMethods do
     ctx = Reek::Context::ModuleContext.new(nil, syntax_tree)
     warning = detector.inspect(ctx)[0]
     expect(warning.source).to eq(source_name)
-    expect(warning.smell_category).to eq(described_class.smell_category)
     expect(warning.smell_type).to eq(described_class.smell_type)
     expect(warning.parameters[:count]).to eq(3)
     expect(warning.lines).to eq([1])

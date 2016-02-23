@@ -23,7 +23,6 @@ RSpec.describe Reek::Smells::PrimaDonnaMethod do
       smells = detector.inspect(ctx)
       warning = smells[0]
 
-      expect(warning.smell_category).to eq('PrimaDonnaMethod')
       expect(warning.smell_type).to eq('PrimaDonnaMethod')
       expect(warning.lines).to eq([1])
     end

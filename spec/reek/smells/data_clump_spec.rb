@@ -49,8 +49,8 @@ RSpec.shared_examples_for 'a data clump detector' do
       expect(smells[0].lines).to eq([2, 3, 4])
     end
 
-    it 'reports the correct smell class' do
-      expect(smells[0].smell_category).to eq(Reek::Smells::DataClump.smell_category)
+    it 'reports the correct smell type' do
+      expect(smells[0].smell_type).to eq(Reek::Smells::DataClump.smell_type)
     end
 
     it 'reports the context fq name' do

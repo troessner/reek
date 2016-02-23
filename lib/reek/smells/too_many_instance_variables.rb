@@ -18,10 +18,6 @@ module Reek
       MAX_ALLOWED_IVARS_KEY = 'max_instance_variables'.freeze
       DEFAULT_MAX_IVARS = 4
 
-      def self.smell_category
-        'LargeClass'
-      end
-
       def self.contexts
         [:class]
       end

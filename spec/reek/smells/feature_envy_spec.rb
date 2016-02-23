@@ -113,7 +113,7 @@ RSpec.describe Reek::Smells::FeatureEnvy do
         @cow.feed_to(thing.pig)
         @duck.feed_to(thing.pig)
       end
-    ').to reek_only_of(:Duplication)
+    ').to reek_only_of(:DuplicateMethodCall)
   end
 
   it 'should count local calls' do
@@ -122,7 +122,7 @@ RSpec.describe Reek::Smells::FeatureEnvy do
         cow.feed_to(thing.pig)
         duck.feed_to(thing.pig)
       end
-    ').to reek_only_of(:Duplication)
+    ').to reek_only_of(:DuplicateMethodCall)
   end
 
   it 'should report many calls to lvar' do

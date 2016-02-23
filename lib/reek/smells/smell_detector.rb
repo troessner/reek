@@ -32,10 +32,6 @@ module Reek
         @smells_found = []
       end
 
-      def smell_category
-        self.class.smell_category
-      end
-
       def smell_type
         self.class.smell_type
       end
@@ -89,16 +85,8 @@ module Reek
       end
 
       class << self
-        def smell_category
-          @smell_category ||= default_smell_category
-        end
-
         def smell_type
-          @smell_type ||= default_smell_category
-        end
-
-        def default_smell_category
-          name.split(/::/)[-1]
+          @smell_type ||= name.split(/::/).last
         end
 
         def contexts

@@ -14,10 +14,6 @@ module Reek
     #
     # See {file:docs/Boolean-Parameter.md} for details.
     class BooleanParameter < SmellDetector
-      def self.smell_category
-        'ControlCouple'
-      end
-
       #
       # Checks whether the given method has any Boolean parameters.
       #

@@ -43,19 +43,13 @@ module Reek
   # @public
   module Spec
     #
-    # Checks the target source code for instances of "smell category"
+    # Checks the target source code for instances of "smell type"
     # and returns true only if it can find one of them that matches.
     #
-    # Remember that this includes our "smell types" as well. So it could be the
-    # "smell type" UtilityFunction, which is represented as a concrete class
-    # in Reek but it could also be "Duplication" which is a "smell categgory".
-    #
-    # In theory you could pass many different types of input here:
+    # You could pass many different types of input here:
     #   - :UtilityFunction
     #   - "UtilityFunction"
-    #   - UtilityFunction (this works in our specs because we tend to do "include Reek:Smells")
-    #   - Reek::Smells::UtilityFunction (the right way if you really want to pass a class)
-    #   - "Duplication" or :Duplication which is an abstract "smell category"
+    #   - Reek::Smells::UtilityFunction
     #
     # It is recommended to pass this as a symbol like :UtilityFunction. However we don't
     # enforce this.
@@ -68,47 +62,45 @@ module Reek
     # raise an ArgumentError to give you a hint that you passed something that doesn't make
     # much sense.
     #
-    # smell_category - The "smell category" or "smell_type" we check for.
-    # smells_details - A hash containing "smell warning" parameters
+    # @param smell_type [Symbol, String, Class] The "smell type" to check for.
+    # @param smells_details [Hash] A hash containing "smell warning" parameters
     #
-    # Examples
-    #
-    #   Without smell_details:
+    # @example Without smell_details
     #
     #   reek_of(:FeatureEnvy)
     #   reek_of(Reek::Smells::UtilityFunction)
     #
-    #   With smell_details:
+    # @example With smell_details
     #
-    #   reek_of(UncommunicativeParameterName, name: 'x2')
-    #   reek_of(DataClump, count: 3)
+    #   reek_of(:UncommunicativeParameterName, name: 'x2')
+    #   reek_of(:DataClump, count: 3)
     #
-    # Examples from a real spec
+    # @example From a real spec
     #
     #   expect(src).to reek_of(Reek::Smells::DuplicateMethodCall, name: '@other.thing')
     #
     # @public
     #
     # :reek:UtilityFunction
-    def reek_of(smell_category,
+    def reek_of(smell_type,
                 smell_details = {},
                 configuration = Configuration::AppConfiguration.default)
-      ShouldReekOf.new(smell_category, smell_details, configuration)
+      ShouldReekOf.new(smell_type, smell_details, configuration)
     end
 
     #
     # See the documentaton for "reek_of".
     #
     # Notable differences to reek_of:
-    #   1.) "reek_of" doesn't mind if there are other smells of a different category.
+    #   1.) "reek_of" doesn't mind if there are other smells of a different type.
     #       "reek_only_of" will fail in that case.
     #   2.) "reek_only_of" doesn't support the additional smell_details hash.
     #
     # @public
     #
     # :reek:UtilityFunction
-    def reek_only_of(smell_category, configuration = Configuration::AppConfiguration.default)
-      ShouldReekOnlyOf.new(smell_category, configuration)
+    def reek_only_of(smell_type, configuration = Configuration::AppConfiguration.default)
+      ShouldReekOnlyOf.new(smell_type, configuration)
     end
 
     #

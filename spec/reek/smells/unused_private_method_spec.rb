@@ -40,13 +40,11 @@ RSpec.describe Reek::Smells::UnusedPrivateMethod do
       examiner = Reek::Examiner.new(source, 'UnusedPrivateMethod', configuration: configuration)
 
       first_warning = examiner.smells.first
-      expect(first_warning.smell_category).to eq(Reek::Smells::UnusedPrivateMethod.smell_category)
       expect(first_warning.smell_type).to eq(Reek::Smells::UnusedPrivateMethod.smell_type)
       expect(first_warning.parameters[:name]).to eq(:drive)
       expect(first_warning.lines).to eq([4])
 
       second_warning = examiner.smells.last
-      expect(second_warning.smell_category).to eq(Reek::Smells::UnusedPrivateMethod.smell_category)
       expect(second_warning.smell_type).to eq(Reek::Smells::UnusedPrivateMethod.smell_type)
       expect(second_warning.parameters[:name]).to eq(:start)
       expect(second_warning.lines).to eq([3])

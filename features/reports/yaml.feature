@@ -18,8 +18,7 @@ Feature: Report smells using simple YAML layout
     And it reports this yaml:
       """
       ---
-      - smell_category: Duplication
-        smell_type: DuplicateMethodCall
+      - smell_type: DuplicateMethodCall
         source: smelly.rb
         context: Smelly#m
         lines:
@@ -29,8 +28,7 @@ Feature: Report smells using simple YAML layout
         name: "@foo.bar"
         count: 2
         wiki_link: https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md
-      - smell_category: Duplication
-        smell_type: DuplicateMethodCall
+      - smell_type: DuplicateMethodCall
         source: smelly.rb
         context: Smelly#m
         lines:
@@ -40,8 +38,7 @@ Feature: Report smells using simple YAML layout
         name: puts @foo.bar
         count: 2
         wiki_link: https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md
-      - smell_category: UncommunicativeName
-        smell_type: UncommunicativeMethodName
+      - smell_type: UncommunicativeMethodName
         source: smelly.rb
         context: Smelly#m
         lines:
@@ -57,8 +54,7 @@ Feature: Report smells using simple YAML layout
     And it reports this yaml:
       """
       ---
-      - smell_category: IrresponsibleModule
-        smell_type: IrresponsibleModule
+      - smell_type: IrresponsibleModule
         source: "STDIN"
         context: Turn
         lines:

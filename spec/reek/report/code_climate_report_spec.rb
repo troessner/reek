@@ -29,7 +29,7 @@ RSpec.describe Reek::Report::CodeClimateReport do
     it 'prints smells as json' do
       expected = <<-EOS.delete("\n")
 {\"type\":\"issue\",
-\"check_name\":\"UncommunicativeName/UncommunicativeParameterName\",
+\"check_name\":\"UncommunicativeParameterName\",
 \"description\":\"simple has the parameter name 'a'\",
 \"categories\":[\"Complexity\"],
 \"location\":{\"path\":\"string\",\"lines\":{\"begin\":1,\"end\":1}},
@@ -40,7 +40,7 @@ RSpec.describe Reek::Report::CodeClimateReport do
  mis-interpreted; and they hurt the flow of reading, because the reader must slow down
  to interpret the names.\\n\"}}\u0000
 {\"type\":\"issue\",
-\"check_name\":\"LowCohesion/UtilityFunction\",
+\"check_name\":\"UtilityFunction\",
 \"description\":\"simple doesn't depend on instance state (maybe move it to another class?)\",
 \"categories\":[\"Complexity\"],
 \"location\":{\"path\":\"string\",\"lines\":{\"begin\":1,\"end\":1}},

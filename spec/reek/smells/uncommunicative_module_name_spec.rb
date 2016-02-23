@@ -30,7 +30,6 @@ RSpec.describe Reek::Smells::UncommunicativeModuleName do
       ctx = Reek::Context::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
       smells = detector.inspect(ctx)
       expect(smells.length).to eq(1)
-      expect(smells[0].smell_category).to eq(Reek::Smells::UncommunicativeModuleName.smell_category)
       expect(smells[0].smell_type).to eq(Reek::Smells::UncommunicativeModuleName.smell_type)
       expect(smells[0].parameters[:name]).to eq('X')
       expect(smells[0].context).to match(/#{smells[0].parameters[:name]}/)
