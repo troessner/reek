@@ -19,4 +19,21 @@ RSpec.describe Reek::Smells::SmellRepository do
       expect(smell_types).to eq(smell_types.sort_by(&:name))
     end
   end
+
+  describe '.eligible_smell_types' do
+    it 'returns all smell detectors by default' do
+      expect(described_class.eligible_smell_types).to eq described_class.smell_types
+    end
+
+    it 'returns smell detectors specified by type' do
+      result = described_class.eligible_smell_types(['IrresponsibleModule', 'TooManyStatements'])
+      expect(result).to eq [Reek::Smells::IrresponsibleModule,
+                            Reek::Smells::TooManyStatements]
+    end
+
+    it 'returns smell detectors specified by category' do
+      result = described_class.eligible_smell_types(['Duplication'])
+      expect(result).to eq [Reek::Smells::DuplicateMethodCall]
+    end
+  end
 end

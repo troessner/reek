@@ -41,7 +41,8 @@ Feature: Reek can be controlled using command-line options
 
       Configuration:
           -c, --config FILE                Read configuration options from FILE
-              --smell SMELL                Detect smell SMELL (default: all enabled smells)
+              --smell SMELL                Detect smell or smell category SMELL
+                                             (default: all enabled smells)
 
       Generate a todo list:
           -t, --todo                       Generate a todo list
