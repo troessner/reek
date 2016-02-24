@@ -84,8 +84,7 @@ module Reek
       end
 
       def smell_types
-        Reek::Smells::SmellRepository.smell_types.
-          select { |klass| [klass.smell_category, klass.smell_type].include? smell_category }.
+        Reek::Smells::SmellRepository.smell_detectors_by_type_or_category(smell_category).
           map(&:smell_type)
       end
     end
