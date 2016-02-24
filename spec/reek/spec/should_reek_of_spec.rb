@@ -3,11 +3,19 @@ require_relative '../../spec_helper'
 require_lib 'reek/spec'
 
 RSpec.describe Reek::Spec::ShouldReekOf do
-  describe 'smell type check' do
+  describe 'smell type selection' do
     let(:ruby) { 'def double_thing() @other.thing.foo + @other.thing.foo end' }
 
-    it 'reports duplicate calls' do
+    it 'reports duplicate calls by smell category' do
       expect(ruby).to reek_of(:Duplication)
+    end
+
+    it 'reports duplicate calls by smell type' do
+      expect(ruby).to reek_of(:DuplicateMethodCall)
+    end
+
+    it 'reports duplicate calls by smell detector class' do
+      expect(ruby).to reek_of(Reek::Smells::DuplicateMethodCall)
     end
 
     it 'does not report any feature envy' do

@@ -20,7 +20,7 @@ module Reek
       end
 
       def matches?(actual)
-        self.examiner = Examiner.new(actual, configuration: configuration)
+        self.examiner = Examiner.new(actual, smell_types, configuration: configuration)
         set_failure_messages
         matching_smell_types? && matching_smell_details?
       end
@@ -81,6 +81,11 @@ module Reek
         # reek_of below), however we're basically ignoring all of those subleties and just
         # return a string with the prepending namespace stripped.
         smell_category_or_type.to_s.split(/::/)[-1]
+      end
+
+      def smell_types
+        Reek::Smells::SmellRepository.smell_detectors_by_type_or_category(smell_category).
+          map(&:smell_type)
       end
     end
   end
