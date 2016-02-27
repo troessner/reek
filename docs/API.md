@@ -32,7 +32,7 @@ source = <<-EOS
 EOS
 
 reporter = Reek::Report::TextReport.new
-examiner = Reek::Examiner.new(source)
+examiner = Reek::Examiner.new source
 reporter.add_examiner examiner
 reporter.show
 ```
@@ -175,7 +175,7 @@ source = <<-END
   end
 END
 
-examiner = Reek::Examiner.new(source)
+examiner = Reek::Examiner.new source
 examiner.smells.each do |smell|
   puts smell.message
 end

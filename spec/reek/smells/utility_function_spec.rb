@@ -16,7 +16,7 @@ RSpec.describe Reek::Smells::UtilityFunction do
             arga.b.c
           end
         EOS
-        Reek::Examiner.new(src, ['UtilityFunction']).smells[0]
+        Reek::Examiner.new(src, filter_by_smells: ['UtilityFunction']).smells[0]
       end
 
       it_should_behave_like 'common fields set correctly'

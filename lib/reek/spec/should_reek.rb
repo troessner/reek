@@ -12,8 +12,8 @@ module Reek
         @configuration = configuration
       end
 
-      def matches?(actual)
-        self.examiner = Examiner.new(actual, configuration: configuration)
+      def matches?(source)
+        self.examiner = Examiner.new(source, configuration: configuration)
         examiner.smelly?
       end
 

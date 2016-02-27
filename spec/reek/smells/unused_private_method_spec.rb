@@ -37,7 +37,9 @@ RSpec.describe Reek::Smells::UnusedPrivateMethod do
         end
       EOF
 
-      examiner = Reek::Examiner.new(source, 'UnusedPrivateMethod', configuration: configuration)
+      examiner = Reek::Examiner.new(source,
+                                    filter_by_smells: 'UnusedPrivateMethod',
+                                    configuration: configuration)
 
       first_warning = examiner.smells.first
       expect(first_warning.smell_type).to eq(Reek::Smells::UnusedPrivateMethod.smell_type)
@@ -62,7 +64,9 @@ RSpec.describe Reek::Smells::UnusedPrivateMethod do
         end
       EOF
 
-      examiner = Reek::Examiner.new(source, 'UnusedPrivateMethod', configuration: configuration)
+      examiner = Reek::Examiner.new(source,
+                                    filter_by_smells: 'UnusedPrivateMethod',
+                                    configuration: configuration)
 
       expect(examiner.smells.size).to eq(1)
       warning_for_drive = examiner.smells.first

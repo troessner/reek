@@ -21,7 +21,7 @@ module Reek
         def populate_reporter_with_smells(app)
           sources.each do |source|
             reporter.add_examiner Examiner.new(source,
-                                               smell_names,
+                                               filter_by_smells: smell_names,
                                                configuration: app.configuration)
           end
         end
