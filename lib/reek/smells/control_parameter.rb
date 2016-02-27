@@ -90,6 +90,8 @@ module Reek
         attr_reader :occurences, :param
       end
 
+      private_constant :FoundControlParameter
+
       # Finds cases of ControlParameter in a particular node for a particular parameter
       class ControlParameterFinder
         CONDITIONAL_NODE_TYPES = [:if, :case, :and, :or].freeze
@@ -166,6 +168,8 @@ module Reek
         end
       end
 
+      private_constant :ControlParameterFinder
+
       #
       # Collects all control parameters in a given context.
       #
@@ -192,6 +196,8 @@ module Reek
           ControlParameterFinder.new(context.exp, param).find_matches
         end
       end
+
+      private_constant :ControlParameterCollector
     end
   end
 end
