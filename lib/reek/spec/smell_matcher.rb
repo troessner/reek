@@ -24,10 +24,9 @@ module Reek
       def matches_attributes?(attributes)
         check_attributes_comparability(attributes)
 
-        # FIXME: Use Array#to_h when dropping Ruby 2.0 compatibility.
         fields, params = attributes.
           partition { |key, _| COMPARABLE_ATTRIBUTES.include? key }.
-          map { |arr| Hash[arr] }
+          map(&:to_h)
 
         common_parameters_equal?(params) &&
           common_attributes_equal?(fields)

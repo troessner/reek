@@ -93,7 +93,7 @@ module Reek
       #
       # @return [Array<Iterator>]
       #
-      def scout(parent: raise, exp: raise, depth: raise)
+      def scout(parent:, exp:, depth:)
         return [Iterator.new(parent, depth)] unless exp
         iterators = exp.find_nodes([:block])
         return [Iterator.new(parent, depth)] if iterators.empty?

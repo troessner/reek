@@ -49,7 +49,7 @@ module Reek
 
       private
 
-      def acceptable_name?(name: raise, context: raise)
+      def acceptable_name?(name:, context:)
         accept_names(context).any? { |accept_name| name == accept_name } ||
           reject_patterns(context).none? { |pattern| name.match pattern }
       end

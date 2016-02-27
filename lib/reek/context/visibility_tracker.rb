@@ -19,7 +19,7 @@ module Reek
       # @param visibility [Symbol]
       # @param names [Array<Symbol>]
       #
-      def track_visibility(children: raise, visibility: raise, names: raise)
+      def track_visibility(children:, visibility:, names:)
         return unless VISIBILITY_MODIFIERS.include? visibility
         if names.any?
           children.each do |child|
@@ -41,7 +41,7 @@ module Reek
       # @param visibility [Symbol]
       # @param names [Array<Symbol>]
       #
-      def track_singleton_visibility(children: raise, visibility: raise, names: raise)
+      def track_singleton_visibility(children:, visibility:, names:)
         return if names.empty?
         visibility = VISIBILITY_MAP[visibility]
         return unless visibility

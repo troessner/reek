@@ -3,6 +3,7 @@ AllCops:
     - 'spec/samples/**/*'
     - 'tmp/**/*'
     - 'vendor/**/*'
+  TargetRubyVersion: 2.1
 
 # FIXME: Make the class shorter
 Metrics/ClassLength:

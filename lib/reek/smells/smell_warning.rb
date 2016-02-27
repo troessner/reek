@@ -22,11 +22,9 @@ module Reek
       #   objects yourself. This is why the initializer is not part of the
       #   public API.
       #
-      # FIXME: switch to required kwargs when dropping Ruby 2.0 compatibility
-      #
       # :reek:LongParameterList: { max_params: 6 }
-      def initialize(smell_detector, context: '', lines: raise, message: raise,
-                     source: raise, parameters: {})
+      def initialize(smell_detector, context: '', lines:, message:,
+                     source:, parameters: {})
         @smell_detector = smell_detector
         @source         = source
         @context        = context.to_s

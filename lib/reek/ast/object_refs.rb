@@ -30,7 +30,7 @@ module Reek
       # @param line [Int] The line number where this reference occurs.
       #
       # @return [Int|nil] The line number that was added (which might be nil).
-      def record_reference(name: raise, line: nil)
+      def record_reference(name:, line: nil)
         refs[name] << line
       end
 

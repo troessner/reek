@@ -22,7 +22,7 @@ module Reek
       # code   - Ruby code as String
       # origin - 'STDIN', 'string' or a filepath as String
       # parser - the parser to use for generating AST's out of the given source
-      def initialize(code: raise, origin: raise, parser: Parser::Ruby23)
+      def initialize(code:, origin:, parser: Parser::Ruby23)
         @source = code
         @origin = origin
         @parser = parser
