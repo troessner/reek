@@ -65,7 +65,6 @@ demo.rb -- 8 warnings:
 
 Reek is officially running on the following MRI rubies:
 
-  - 2.0
   - 2.1
   - 2.2
   - 2.3
