@@ -5,6 +5,7 @@ bundler_args: --without debugging
 script:
 - bundle exec rake
 - bundle exec ataru check
+- bundle exec mutant --include lib --require reek --use rspec --since master --jobs 4 "Reek*"
 rvm:
   - 2.1
   - 2.2
