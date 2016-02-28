@@ -8,7 +8,8 @@ module Reek
       include ConfigurationValidator
 
       def add(key, config)
-        self[key_to_smell_detector(key)] = config
+        detector = key_to_smell_detector(key)
+        self[detector] = (self[detector] || {}).merge config
       end
     end
   end

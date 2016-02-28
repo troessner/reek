@@ -4,12 +4,6 @@ require_lib 'reek/examiner'
 require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::UnusedPrivateMethod do
-  let(:configuration) do
-    test_configuration_for(
-      described_class =>
-        { Reek::Smells::SmellConfiguration::ENABLED_KEY => true }
-    )
-  end
   let(:detector) { build(:smell_detector, smell_type: :UnusedPrivateMethod) }
 
   it_should_behave_like 'SmellDetector'
@@ -24,8 +18,8 @@ RSpec.describe Reek::Smells::UnusedPrivateMethod do
         end
       EOF
 
-      expect(source).to reek_of(:UnusedPrivateMethod, { name: :start }, configuration)
-      expect(source).to reek_of(:UnusedPrivateMethod, { name: :drive }, configuration)
+      expect(source).to reek_of(:UnusedPrivateMethod, name: :start)
+      expect(source).to reek_of(:UnusedPrivateMethod, name: :drive)
     end
 
     it 'creates warnings correctly' do
@@ -37,19 +31,8 @@ RSpec.describe Reek::Smells::UnusedPrivateMethod do
         end
       EOF
 
-      examiner = Reek::Examiner.new(source,
-                                    filter_by_smells: 'UnusedPrivateMethod',
-                                    configuration: configuration)
-
-      first_warning = examiner.smells.first
-      expect(first_warning.smell_type).to eq(Reek::Smells::UnusedPrivateMethod.smell_type)
-      expect(first_warning.parameters[:name]).to eq(:drive)
-      expect(first_warning.lines).to eq([4])
-
-      second_warning = examiner.smells.last
-      expect(second_warning.smell_type).to eq(Reek::Smells::UnusedPrivateMethod.smell_type)
-      expect(second_warning.parameters[:name]).to eq(:start)
-      expect(second_warning.lines).to eq([3])
+      expect(source).to reek_of(:UnusedPrivateMethod, name: :drive, lines: [4])
+      expect(source).to reek_of(:UnusedPrivateMethod, name: :start, lines: [3])
     end
   end
 
@@ -64,13 +47,8 @@ RSpec.describe Reek::Smells::UnusedPrivateMethod do
         end
       EOF
 
-      examiner = Reek::Examiner.new(source,
-                                    filter_by_smells: 'UnusedPrivateMethod',
-                                    configuration: configuration)
-
-      expect(examiner.smells.size).to eq(1)
-      warning_for_drive = examiner.smells.first
-      expect(warning_for_drive.parameters[:name]).to eq(:drive)
+      expect(source).to reek_of(:UnusedPrivateMethod, name: :drive)
+      expect(source).not_to reek_of(:UnusedPrivateMethod, name: :start)
     end
   end
 
@@ -131,7 +109,6 @@ RSpec.describe Reek::Smells::UnusedPrivateMethod do
       configuration = test_configuration_for(
         described_class =>
           {
-            Reek::Smells::SmellConfiguration::ENABLED_KEY => true,
             Reek::Smells::SmellDetector::EXCLUDE_KEY => ['Car#drive']
           }
       )
@@ -144,7 +121,6 @@ RSpec.describe Reek::Smells::UnusedPrivateMethod do
       configuration = test_configuration_for(
         described_class =>
           {
-            Reek::Smells::SmellConfiguration::ENABLED_KEY => true,
             Reek::Smells::SmellDetector::EXCLUDE_KEY => [/drive/]
           }
       )
