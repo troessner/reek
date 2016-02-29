@@ -16,10 +16,6 @@ module Reek
       MAX_ALLOWED_STATEMENTS_KEY = 'max_statements'.freeze
       DEFAULT_MAX_STATEMENTS = 5
 
-      def self.smell_category
-        'LongMethod'
-      end
-
       def self.default_config
         super.merge(
           MAX_ALLOWED_STATEMENTS_KEY => DEFAULT_MAX_STATEMENTS,

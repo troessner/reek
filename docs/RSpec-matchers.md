@@ -71,21 +71,18 @@ See the "Quickstart" example from above.
 
 ### `reek_of`
 
-Checks the target source code for instances of "smell category"
+Checks the target source code for instances of "smell type"
 and returns true only if it can find one of them that matches.
 
 Remember that this includes our "smell types" as well. So it could be the
 "smell type" UtilityFunction, which is represented as a concrete class
 in Reek but it could also be "Duplication" which is a "smell categgory".
 
-In theory you could pass many different types of input here:
+You could pass many different types of input here:
 - `:UtilityFunction`
 - `"UtilityFunction"`
-- `UtilityFunction` (this works in our specs because we tend to do "include
-  Reek:Smells")
 - `Reek::Smells::UtilityFunction` (the right way if you really want to pass a
   class)
-- `"Duplication"` or `:Duplication` which is an abstract "smell category"
 
 It is recommended to pass this as a symbol like `:UtilityFunction`. However we
 don't enforce this.
@@ -100,7 +97,7 @@ something that doesn't make much sense.
 
 So in a nutshell `reek_of` takes the following two arguments:
 
-- `smell_category` - The "smell category" or "smell_type" we check for.
+- `smell_type` - The "smell type" we check for.
 - `smells_details` - A hash containing "smell warning" parameters
 
 **Examples**
@@ -131,7 +128,7 @@ See the documentaton for `reek_of`.
 
 **Notable differences to `reek_of`:**
 
-1. `reek_of` doesn't mind if there are other smells of a different category.
+1. `reek_of` doesn't mind if there are other smells of a different type.
    "reek_only_of" will fail in that case.
 
 2. `reek_only_of` doesn't support the additional smell_details hash.

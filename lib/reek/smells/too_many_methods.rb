@@ -20,10 +20,6 @@ module Reek
       MAX_ALLOWED_METHODS_KEY = 'max_methods'.freeze
       DEFAULT_MAX_METHODS = 15
 
-      def self.smell_category
-        'LargeClass'
-      end
-
       def self.contexts
         [:class]
       end

@@ -24,10 +24,6 @@ module Reek
       DEFAULT_REJECT_PATTERNS = [/^[a-z]$/, /[0-9]$/, /[A-Z]/].freeze
       DEFAULT_ACCEPT_NAMES = [].freeze
 
-      def self.smell_category
-        'UncommunicativeName'
-      end
-
       def self.default_config
         super.merge(
           REJECT_KEY => DEFAULT_REJECT_PATTERNS,

@@ -6,10 +6,6 @@ RSpec.describe Reek::Spec::ShouldReekOf do
   describe 'smell type selection' do
     let(:ruby) { 'def double_thing() @other.thing.foo + @other.thing.foo end' }
 
-    it 'reports duplicate calls by smell category' do
-      expect(ruby).to reek_of(:Duplication)
-    end
-
     it 'reports duplicate calls by smell type' do
       expect(ruby).to reek_of(:DuplicateMethodCall)
     end

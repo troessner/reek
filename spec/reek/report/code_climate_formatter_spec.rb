@@ -25,7 +25,7 @@ RSpec.describe Reek::Report::CodeClimateFormatter, '#render' do
   end
 
   it 'sets a check name based on the smell detector' do
-    expect(rendered).to match(%r{\"check_name\":\"LowCohesion\/UtilityFunction\"})
+    expect(rendered).to match(/\"check_name\":\"UtilityFunction\"/)
   end
 
   it 'sets the location' do

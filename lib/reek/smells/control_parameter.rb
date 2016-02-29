@@ -43,10 +43,6 @@ module Reek
     #
     # See {file:docs/Control-Parameter.md} for details.
     class ControlParameter < SmellDetector
-      def self.smell_category
-        'ControlCouple'
-      end
-
       #
       # Checks whether the given method chooses its execution path
       # by testing the value of one of its parameters.

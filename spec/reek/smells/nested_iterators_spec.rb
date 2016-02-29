@@ -123,7 +123,6 @@ RSpec.describe Reek::Smells::NestedIterators do
       warnings = detector.inspect(build(:method_context, source: source))
       warning = warnings.first
 
-      expect(warning.smell_category).to eq(Reek::Smells::NestedIterators.smell_category)
       expect(warning.smell_type).to eq(Reek::Smells::NestedIterators.smell_type)
       expect(warning.parameters[:name]).to eq('foo')
       expect(warning.lines).to eq([3])

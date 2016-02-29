@@ -55,10 +55,6 @@ RSpec.describe Reek::Spec::SmellMatcher do
       expect(matcher.matches_smell_type?(:UncommunicativeVariableName)).to be_truthy
     end
 
-    it 'matches on category symbol' do
-      expect(matcher.matches_smell_type?(:UncommunicativeName)).to be_truthy
-    end
-
     it 'does not match on different class symbol' do
       expect(matcher.matches_smell_type?(:FeatureEnvy)).to be_falsy
     end

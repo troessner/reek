@@ -31,10 +31,6 @@ module Reek
       MAX_IDENTICAL_IFS_KEY = 'max_ifs'.freeze
       DEFAULT_MAX_IFS = 2
 
-      def self.smell_category
-        'SimulatedPolymorphism'
-      end
-
       BLOCK_GIVEN_CONDITION = ::Parser::AST::Node.new(:send, [nil, :block_given?])
 
       def self.contexts # :nodoc:

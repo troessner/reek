@@ -41,10 +41,6 @@ module Reek
       PUBLIC_METHODS_ONLY_KEY     = 'public_methods_only'.freeze
       PUBLIC_METHODS_ONLY_DEFAULT = false
 
-      def self.smell_category
-        'LowCohesion'
-      end
-
       class << self
         def contexts # :nodoc:
           [:def]

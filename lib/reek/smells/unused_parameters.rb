@@ -9,10 +9,6 @@ module Reek
     #
     # See {file:docs/Unused-Parameters.md} for details.
     class UnusedParameters < SmellDetector
-      def self.smell_category
-        'UnusedCode'
-      end
-
       #
       # Checks whether the given method has any unused parameters.
       #

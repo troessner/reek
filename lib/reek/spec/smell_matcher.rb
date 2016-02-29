@@ -18,7 +18,7 @@ module Reek
       end
 
       def matches_smell_type?(klass)
-        smell_classes.include?(klass.to_s)
+        smell_warning.smell_type == klass.to_s
       end
 
       def matches_attributes?(attributes)
@@ -34,10 +34,6 @@ module Reek
       end
 
       private
-
-      def smell_classes
-        [smell_warning.smell_category, smell_warning.smell_type]
-      end
 
       def check_attributes_comparability(other_attributes)
         parameter_keys = other_attributes.keys - COMPARABLE_ATTRIBUTES

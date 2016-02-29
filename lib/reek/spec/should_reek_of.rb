@@ -11,23 +11,23 @@ module Reek
     class ShouldReekOf
       attr_reader :failure_message, :failure_message_when_negated
 
-      def initialize(smell_category,
+      def initialize(smell_type_or_class,
                      smell_details = {},
                      configuration = Configuration::AppConfiguration.default)
-        @smell_category = normalize smell_category
+        @smell_type = normalize smell_type_or_class
         @smell_details  = smell_details
         @configuration  = configuration
       end
 
       def matches?(actual)
-        self.examiner = Examiner.new(actual, smell_types, configuration: configuration)
+        self.examiner = Examiner.new(actual, [smell_type], configuration: configuration)
         set_failure_messages
         matching_smell_types? && matching_smell_details?
       end
 
       private
 
-      attr_reader :configuration, :smell_category, :smell_details
+      attr_reader :configuration, :smell_type, :smell_details
       attr_writer :failure_message, :failure_message_when_negated
       attr_accessor :examiner
 
@@ -42,7 +42,7 @@ module Reek
 
       def matching_smell_types
         @matching_smell_types ||= smell_matchers.
-          select { |it| it.matches_smell_type?(smell_category) }
+          select { |it| it.matches_smell_type?(smell_type) }
       end
 
       def smell_matchers
@@ -58,17 +58,17 @@ module Reek
       end
 
       def set_failure_messages_for_smell_type
-        self.failure_message = "Expected #{origin} to reek of #{smell_category}, "\
+        self.failure_message = "Expected #{origin} to reek of #{smell_type}, "\
           'but it didn\'t'
         self.failure_message_when_negated = "Expected #{origin} not to reek "\
-          "of #{smell_category}, but it did"
+          "of #{smell_type}, but it did"
       end
 
       def set_failure_messages_for_smell_details
-        self.failure_message = "Expected #{origin} to reek of #{smell_category} "\
+        self.failure_message = "Expected #{origin} to reek of #{smell_type} "\
           "(which it did) with smell details #{smell_details}, which it didn't"
         self.failure_message_when_negated = "Expected #{origin} not to reek of "\
-          "#{smell_category} with smell details #{smell_details}, but it did"
+          "#{smell_type} with smell details #{smell_details}, but it did"
       end
 
       def origin
@@ -76,16 +76,13 @@ module Reek
       end
 
       # :reek:UtilityFunction
-      def normalize(smell_category_or_type)
-        # In theory, users can give us many different types of input (see the documentation for
-        # reek_of below), however we're basically ignoring all of those subleties and just
-        # return a string with the prepending namespace stripped.
-        smell_category_or_type.to_s.split(/::/)[-1]
-      end
-
-      def smell_types
-        Reek::Smells::SmellRepository.smell_detectors_by_type_or_category(smell_category).
-          map(&:smell_type)
+      def normalize(smell_type_or_class)
+        case smell_type_or_class
+        when Class
+          smell_type_or_class.smell_type
+        else
+          smell_type_or_class.to_s
+        end
       end
     end
   end

@@ -36,10 +36,6 @@ module Reek
     #
     # See {file:docs/Feature-Envy.md} for details.
     class FeatureEnvy < SmellDetector
-      def self.smell_category
-        'LowCohesion'
-      end
-
       #
       # Checks whether the given +context+ includes any code fragment that
       # might "belong" on another class.
