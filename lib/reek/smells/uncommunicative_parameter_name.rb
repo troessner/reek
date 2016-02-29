@@ -53,11 +53,11 @@ module Reek
 
       private
 
-      def uncommunicative_parameter_name?(name: raise, context: raise)
+      def uncommunicative_parameter_name?(name:, context:)
         !acceptable_name?(name: name, context: context) && context.uses_param?(name)
       end
 
-      def acceptable_name?(name: raise, context: raise)
+      def acceptable_name?(name:, context:)
         accept_names(context).any? { |accept_name| name == accept_name } ||
           reject_patterns(context).none? { |pattern| name.match pattern }
       end
