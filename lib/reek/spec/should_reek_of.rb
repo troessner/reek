@@ -19,8 +19,8 @@ module Reek
         @configuration  = configuration
       end
 
-      def matches?(actual)
-        self.examiner = Examiner.new(actual, [smell_type], configuration: configuration)
+      def matches?(source)
+        self.examiner = Examiner.new(source, configuration: configuration)
         set_failure_messages
         matching_smell_types? && matching_smell_details?
       end

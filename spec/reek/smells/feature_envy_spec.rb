@@ -230,7 +230,7 @@ RSpec.describe Reek::Smells::FeatureEnvy do
           #{receiver}.fred
         end
       EOS
-      Reek::Examiner.new(src, ['FeatureEnvy']).smells.first
+      Reek::Examiner.new(src, filter_by_smells: ['FeatureEnvy']).smells.first
     end
 
     it_should_behave_like 'common fields set correctly'

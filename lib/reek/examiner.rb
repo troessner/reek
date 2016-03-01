@@ -27,7 +27,7 @@ module Reek
     #
     # @public
     def initialize(source,
-                   filter_by_smells = [],
+                   filter_by_smells: [],
                    configuration: Configuration::AppConfiguration.default)
       @source           = Source::SourceCode.from(source)
       @collector        = CLI::WarningCollector.new

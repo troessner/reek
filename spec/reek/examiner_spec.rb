@@ -42,7 +42,11 @@ RSpec.describe Reek::Examiner do
 
   context 'with a partially masked smelly File' do
     let(:configuration) { test_configuration_for(path) }
-    let(:examiner) { described_class.new(smelly_file, [], configuration: configuration) }
+    let(:examiner) do
+      described_class.new(smelly_file,
+                          filter_by_smells: [],
+                          configuration: configuration)
+    end
     let(:path) { SAMPLES_PATH.join('all_but_one_masked/masked.reek') }
     let(:smelly_file) { Pathname.glob(SAMPLES_PATH.join('all_but_one_masked/d*.rb')).first }
 
@@ -59,7 +63,7 @@ RSpec.describe Reek::Examiner do
   describe '#smells' do
     it 'returns the detected smell warnings' do
       code     = 'def foo; bar.call_me(); bar.call_me(); end'
-      examiner = described_class.new code, ['DuplicateMethodCall']
+      examiner = described_class.new code, filter_by_smells: ['DuplicateMethodCall']
 
       smell = examiner.smells.first
       expect(smell).to be_a(Reek::Smells::SmellWarning)
