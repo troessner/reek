@@ -7,10 +7,9 @@ Gem::Specification.new do |s|
 
   s.authors = ['Kevin Rutherford', 'Timo Roessner', 'Matijs van Zuijlen', 'Piotr Szotkowski']
   s.default_executable = 'reek'
-  s.description = <<-DESC
-    Reek is a tool that examines Ruby classes, modules and methods and reports
-    any code smells it finds.
-  DESC
+  s.description =
+    'Reek is a tool that examines Ruby classes, modules and methods and reports ' \
+    'any code smells it finds.'
 
   s.license = 'MIT'
   s.email = ['timo.roessner@googlemail.com']
