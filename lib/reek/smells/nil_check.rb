@@ -42,6 +42,8 @@ module Reek
         attr_reader :detector, :nodes
       end
 
+      private_constant :NodeFinder
+
       # Detect 'call' nodes which perform a nil check.
       module NilCallNodeDetector
         module_function

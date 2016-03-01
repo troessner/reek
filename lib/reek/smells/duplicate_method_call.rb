@@ -86,6 +86,8 @@ module Reek
         attr_reader :call_node, :occurences
       end
 
+      private_constant :FoundCall
+
       # Collects all calls in a given context
       class CallCollector
         attr_reader :context
@@ -136,6 +138,8 @@ module Reek
           allow_calls.any? { |allow| /#{allow}/ =~ method }
         end
       end
+
+      private_constant :CallCollector
     end
   end
 end
