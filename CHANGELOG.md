@@ -1,6 +1,18 @@
 # Change log
 
-## Unreleased
+## 4.0.0.pre1 (2016-03-01)
+
+* First pre-release for Reek 4.
+* (troessner) Make all optional arguments to Examiner's constructor keyword
+  arguments.
+* (troessner) Use keyword arguments without defaults as allowed by Ruby 2.1.
+* (mvz) Remove smell category concept:
+  - The smell category is removed from the YAML and JSON outputs.
+  - The smell category can no longer be used to select smells in the reek_of
+    matcher.
+* (chastell) Make HTML report print to stdout like the other reports
+* (troessner) Drop support for CRuby 2.0
+* (mvz) Speed up reek_of matcher by only running the given smell
 
 ## 3.11 (2016-02-18)
 

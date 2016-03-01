@@ -7,6 +7,6 @@ module Reek
   # @public
   module Version
     # @public
-    STRING = '3.11'.freeze
+    STRING = '4.0.0.pre1'.freeze
   end
 end
