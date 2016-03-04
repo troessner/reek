@@ -66,5 +66,24 @@ RSpec.describe Reek::Smells::UnusedParameters do
       expect('def simple(var, kw: :val, **args); @var, @kw, @args = var, kw, args; end').
         not_to reek_of(:UnusedParameters)
     end
+
+    it 'reports nothing when using a parameter via self assignment' do
+      expect('def simple(counter); counter += 1; end').not_to reek_of(:UnusedParameters)
+    end
+
+    it 'reports nothing when using a parameter on a rescue' do
+      expect('def simple(tries = 3); puts "nothing"; rescue; retry if tries -= 1 > 0; raise; end').
+        not_to reek_of(:UnusedParameters)
+    end
+
+    it 'reports nothing when using splatted arguments with an assignment' do
+      source = <<-EOS
+        def simple(*opts)
+          result = process_opts(opts)
+          result[0]
+        end
+      EOS
+      expect(source).not_to reek_of(:UnusedParameters)
+    end
   end
 end

@@ -21,7 +21,21 @@ module Reek
       end
 
       def uses_param?(param)
-        local_nodes(:lvar).find { |node| node.var_name == param.to_sym }
+        # local_nodes(:lvasgn) catches:
+        #   def foo(bar); bar += 1; end
+        # In this example there is no `lvar` node present.
+        #
+        # local_nodes(:lvar) catches:
+        #   def foo(bar); other(bar); end
+        #   def foo(bar); tmp = other(bar); tmp[0]; end
+        #
+        # Note that in the last example the `lvar` node for `bar` is part of an `lvasgn` node for `tmp`.
+        # This means that if we would just search for [:lvar, :lvasgn]
+        # (e.g. via Reek::AST::Node#find_nodes) this would fail for this example since we would
+        # stop at the `lvasgn` and not detect the contained `lvar`.
+        # Hence we first get all `lvar` nodes followed by all `lvasgn` nodes.
+        #
+        (local_nodes(:lvar) + local_nodes(:lvasgn)).find { |node| node.var_name == param.to_sym }
       end
 
       # :reek:FeatureEnvy
