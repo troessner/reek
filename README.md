@@ -503,6 +503,14 @@ Notable contributions came from:
 * [Gilles Leblanc](https://github.com/gilles-leblanc)
 * [Emil Rehnberg](https://github.com/EmilRehnberg)
 
+## Breaking changes from Reek 3 to 4
+
+* We removed [smell categories](https://github.com/troessner/reek/pull/867)
+* We dropped [Ruby 2.0 support](https://github.com/troessner/reek/pull/869)
+* Public API change: `HTMLReport#show` [prints to stdout](https://github.com/troessner/reek/pull/873) like all the other reports
+* Public API change: [We cleaned up](https://github.com/troessner/reek/pull/872) the `Examiner` constructor.
+  `filter_by_smells` is now a proper keyword argument.
+
 ## Additional resources
 
 ### Miscellaneous
