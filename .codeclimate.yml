@@ -1,7 +1,16 @@
----
 engines:
+  rubocop:
+    enabled: true
   reek:
     enabled: true
 ratings:
   paths:
-  - "**.rb"
+  - lib/**/*
+exclude_paths:
+- coverage/
+- docs/
+- features/
+- logo/
+- pkg/
+- spec/
+- tmp/
