@@ -41,6 +41,33 @@ module Helpers
     Reek::Source::SourceCode.from(code).syntax_tree
   end
 
+  # @param code [String] The given code.
+  #
+  # @return syntax_tree [Reek::Context::CodeContext]
+  def code_context(code)
+    Reek::Context::CodeContext.new(nil, syntax_tree(code))
+  end
+
+  # @param code [String] The given code.
+  #
+  # @return syntax_tree [Reek::Context::MethodContext]
+  def method_context(code)
+    Reek::Context::MethodContext.new(nil, syntax_tree(code))
+  end
+
+  # Helper methods to generate a configuration for smell types that support
+  # `accept` and `reject` settings.
+  %w(accept reject).each do |switch|
+    define_method("#{switch}_configuration_for") do |smell_type, pattern:|
+      hash = {
+        smell_type => {
+          switch => pattern
+        }
+      }
+      Reek::Configuration::AppConfiguration.from_hash(hash)
+    end
+  end
+
   # :reek:UncommunicativeMethodName
   def sexp(type, *children)
     @klass_map ||= Reek::AST::ASTNodeClassMap.new

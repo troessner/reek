@@ -16,18 +16,19 @@ module Reek
     # Currently +UncommunicativeMethodName+ checks for
     # * 1-character names
     # * names ending with a number
+    # * names containing a capital letter (assuming camelCase)
     #
     # See {file:docs/Uncommunicative-Method-Name.md} for details.
     class UncommunicativeMethodName < SmellDetector
       REJECT_KEY = 'reject'.freeze
       ACCEPT_KEY = 'accept'.freeze
       DEFAULT_REJECT_PATTERNS = [/^[a-z]$/, /[0-9]$/, /[A-Z]/].freeze
-      DEFAULT_ACCEPT_NAMES = [].freeze
+      DEFAULT_ACCEPT_PATTERNS = [].freeze
 
       def self.default_config
         super.merge(
           REJECT_KEY => DEFAULT_REJECT_PATTERNS,
-          ACCEPT_KEY => DEFAULT_ACCEPT_NAMES
+          ACCEPT_KEY => DEFAULT_ACCEPT_PATTERNS
         )
       end
 
@@ -50,16 +51,16 @@ module Reek
       private
 
       def acceptable_name?(name:, context:)
-        accept_names(context).any? { |accept_name| name == accept_name } ||
-          reject_patterns(context).none? { |pattern| name.match pattern }
+        accept_patterns(context).any? { |accept_pattern| name.match accept_pattern } ||
+          reject_patterns(context).none? { |reject_pattern| name.match reject_pattern }
       end
 
       def reject_patterns(context)
-        value(REJECT_KEY, context, DEFAULT_REJECT_PATTERNS)
+        Array value(REJECT_KEY, context, DEFAULT_REJECT_PATTERNS)
       end
 
-      def accept_names(context)
-        value(ACCEPT_KEY, context, DEFAULT_ACCEPT_NAMES)
+      def accept_patterns(context)
+        Array value(ACCEPT_KEY, context, DEFAULT_ACCEPT_PATTERNS)
       end
     end
   end
