@@ -20,5 +20,36 @@ Reek's Uncommunicative Method Name detector supports the [Basic Smell Options](B
 
 | Option         | Value       | Effect  |
 | ---------------|-------------|---------|
-| `reject` | array of regular expressions | The set of regular expressions that Reek uses to check for bad names. Defaults to `[/^[a-z]$/, /[0-9]$/, /[A-Z]/]`. |
-| `accept` | array of strings or regular expressions | Name that will be accepted (not reported) even if they match one of the `reject` expressions. |
+| `reject` | array of regular expressions or strings | The set of regular expressions that Reek uses to check for bad names. Defaults to `[/^[a-z]$/, /[0-9]$/, /[A-Z]/]`. |
+| `accept` | array of regular expressions or strings | The set of patterns / names that Reek will accepted (and not report) even if they match one of the `reject` expressions. |
+
+
+An example configuration could look like this:
+
+```Yaml
+---
+UncommunicativeMethodName:
+  accept:
+    - !ruby/regexp /x/
+    - meth1
+  reject:
+    - !ruby/regexp /helper/
+    - foobar
+```
+
+Applying a configuration to a source file like this:
+
+```Ruby
+def x; end # Should not be reported
+def meth1; end # Should not be reported
+def foobar; end # Should be reported
+def awesome_helper; end # Should be reported
+```
+
+Reek would report:
+
+```
+smelly.rb -- 2 warnings:
+  [4]:UncommunicativeMethodName: awesome_helper has the name 'awesome_helper' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
+  [3]:UncommunicativeMethodName: foobar has the name 'foobar' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
+```
