@@ -27,7 +27,7 @@ module Helpers
     when Pathname
       configuration = Reek::Configuration::AppConfiguration.from_path(config)
     when Hash
-      configuration = Reek::Configuration::AppConfiguration.from_map default_directive: config
+      configuration = Reek::Configuration::AppConfiguration.from_hash config
     else
       raise "Unknown config given in `test_configuration_for`: #{config.inspect}"
     end
