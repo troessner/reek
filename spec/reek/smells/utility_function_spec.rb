@@ -220,13 +220,11 @@ RSpec.describe Reek::Smells::UtilityFunction do
   describe 'disabling UtilityFunction via configuration for non-public methods' do
     let(:configuration) do
       default_directive = {
-        default_directive: {
-          Reek::Smells::UtilityFunction => {
-            Reek::Smells::UtilityFunction::PUBLIC_METHODS_ONLY_KEY => true
-          }
+        Reek::Smells::UtilityFunction => {
+          Reek::Smells::UtilityFunction::PUBLIC_METHODS_ONLY_KEY => true
         }
       }
-      Reek::Configuration::AppConfiguration.from_map(default_directive)
+      Reek::Configuration::AppConfiguration.from_hash(default_directive)
     end
 
     context 'public methods' do

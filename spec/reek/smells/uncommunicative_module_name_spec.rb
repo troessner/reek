@@ -39,13 +39,11 @@ RSpec.describe Reek::Smells::UncommunicativeModuleName do
   context 'accept patterns' do
     let(:configuration) do
       default_directive_for_smell = {
-        default_directive: {
-          Reek::Smells::UncommunicativeModuleName => {
-            'accept' => ['Inline::C']
-          }
+        Reek::Smells::UncommunicativeModuleName => {
+          'accept' => ['Inline::C']
         }
       }
-      Reek::Configuration::AppConfiguration.from_map(default_directive_for_smell)
+      Reek::Configuration::AppConfiguration.from_hash(default_directive_for_smell)
     end
 
     it 'make smelly name pass' do

@@ -57,28 +57,6 @@ RSpec.describe Reek::Configuration::AppConfiguration do
       end
     end
 
-    describe '#from_map' do
-      it 'properly sets the configuration from simple data structures' do
-        config = described_class.from_map(directory_directives: directory_directives_value,
-                                          default_directive: default_directive_value,
-                                          excluded_paths: exclude_paths_value)
-
-        expect(config.send(:excluded_paths)).to eq(expected_excluded_paths)
-        expect(config.send(:default_directive)).to eq(expected_default_directive)
-        expect(config.send(:directory_directives)).to eq(expected_directory_directives)
-      end
-
-      it 'properly sets the configuration from native structures' do
-        config = described_class.from_map(directory_directives: expected_directory_directives,
-                                          default_directive: expected_default_directive,
-                                          excluded_paths: expected_excluded_paths)
-
-        expect(config.send(:excluded_paths)).to eq(expected_excluded_paths)
-        expect(config.send(:default_directive)).to eq(expected_default_directive)
-        expect(config.send(:directory_directives)).to eq(expected_directory_directives)
-      end
-    end
-
     describe '#from_hash' do
       it 'sets the configuration a unified simple data structure' do
         config = described_class.from_hash(combined_value)
@@ -104,7 +82,7 @@ RSpec.describe Reek::Configuration::AppConfiguration do
       end
 
       it 'returns the corresponding directive' do
-        configuration = described_class.from_map directory_directives: directory_directives
+        configuration = described_class.from_hash directory_directives
         expect(configuration.directive_for(source_via)).to eq(bang_config)
       end
     end
@@ -120,11 +98,12 @@ RSpec.describe Reek::Configuration::AppConfiguration do
         }
       end
       let(:source_via) { "#{directory}/dummy.rb" }
+      let(:configuration_as_hash) { directory_directives.merge(default_directive) }
 
       it 'returns the directory directive with the default directive reverse-merged' do
-        configuration = described_class.from_map directory_directives: directory_directives,
-                                                 default_directive: default_directive
+        configuration = described_class.from_hash configuration_as_hash
         actual = configuration.directive_for(source_via)
+
         expect(actual[Reek::Smells::IrresponsibleModule]).to be_truthy
         expect(actual[Reek::Smells::TooManyStatements]).to be_truthy
         expect(actual[Reek::Smells::TooManyStatements][:max_statements]).to eq(8)
@@ -138,10 +117,10 @@ RSpec.describe Reek::Configuration::AppConfiguration do
       let(:directory_directives) do
         { 'spec/samples/two_smelly_files' => attribute_config }
       end
+      let(:configuration_as_hash) { directory_directives.merge(default_directive) }
 
       it 'returns the default directive' do
-        configuration = described_class.from_map directory_directives: directory_directives,
-                                                 default_directive: default_directive
+        configuration = described_class.from_hash configuration_as_hash
         expect(configuration.directive_for(source_via)).to eq(default_directive)
       end
     end
