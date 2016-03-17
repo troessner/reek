@@ -1,5 +1,10 @@
 # Change log
 
+## Not released yet
+
+* (troessner) Remove deprecated method `from_map` from `AppConfiguration`.
+              The successor is `AppConfiguration.from_hash`.
+
 ## 4.0.0.pre1 (2016-03-01)
 
 * First pre-release for Reek 4.
