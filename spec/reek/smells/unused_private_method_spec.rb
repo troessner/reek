@@ -115,4 +115,42 @@ RSpec.describe Reek::Smells::UnusedPrivateMethod do
       expect(source).not_to reek_of(:UnusedPrivateMethod)
     end
   end
+
+  describe 'prevent methods from being reported' do
+    let(:source) do
+      <<-EOF
+        class Car
+          private
+          def start; end
+          def drive; end
+        end
+      EOF
+    end
+
+    it 'excludes them via direct match in the app configuration' do
+      configuration = test_configuration_for(
+        described_class =>
+          {
+            Reek::Smells::SmellConfiguration::ENABLED_KEY => true,
+            Reek::Smells::SmellDetector::EXCLUDE_KEY => ['Car#drive']
+          }
+      )
+
+      expect(source).to reek_of(:UnusedPrivateMethod, { name: :start }, configuration)
+      expect(source).not_to reek_of(:UnusedPrivateMethod, { name: :drive }, configuration)
+    end
+
+    it 'excludes them via regex in the app configuration' do
+      configuration = test_configuration_for(
+        described_class =>
+          {
+            Reek::Smells::SmellConfiguration::ENABLED_KEY => true,
+            Reek::Smells::SmellDetector::EXCLUDE_KEY => [/drive/]
+          }
+      )
+
+      expect(source).to reek_of(:UnusedPrivateMethod, { name: :start }, configuration)
+      expect(source).not_to reek_of(:UnusedPrivateMethod, { name: :drive }, configuration)
+    end
+  end
 end
