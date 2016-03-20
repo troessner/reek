@@ -5,7 +5,6 @@ require_lib 'reek/context/method_context'
 
 RSpec.describe Reek::Smells::UncommunicativeParameterName do
   let(:detector) { build(:smell_detector, smell_type: :UncommunicativeParameterName) }
-
   it_should_behave_like 'SmellDetector'
 
   { 'obj.' => 'with a receiver',
@@ -73,18 +72,65 @@ RSpec.describe Reek::Smells::UncommunicativeParameterName do
     end
   end
 
-  context 'looking at the smell result fields' do
-    let(:warning) do
-      src = 'def bad(good, bad2, good_again); basics(good, bad2, good_again); end'
-      ctx = Reek::Context::MethodContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
-      detector.inspect(ctx).first
+  describe 'inspect' do
+    let(:source) { 'def foo(bar2); baz(bar2); end' }
+    let(:context) { method_context(source) }
+    let(:detector) { build(:smell_detector, smell_type: :UncommunicativeParameterName) }
+
+    it 'returns an array of smell warnings' do
+      smells = detector.inspect(context)
+      expect(smells.length).to eq(1)
+      expect(smells[0]).to be_a_kind_of(Reek::Smells::SmellWarning)
     end
 
-    it_should_behave_like 'common fields set correctly'
+    it 'contains proper smell warnings' do
+      smells = detector.inspect(context)
+      warning = smells[0]
 
-    it 'reports the correct values' do
-      expect(warning.parameters[:name]).to eq('bad2')
+      expect(warning.smell_type).to eq(Reek::Smells::UncommunicativeParameterName.smell_type)
+      expect(warning.parameters[:name]).to eq('bar2')
+      expect(warning.context).to match('foo')
       expect(warning.lines).to eq([1])
+    end
+  end
+
+  describe '`accept` patterns' do
+    let(:source) { 'def foo(bar2); baz(bar2); end' }
+
+    it 'make smelly names pass via regex / strings given by list / literal' do
+      [[/bar2/], /bar2/, ['bar2'], 'bar2'].each do |pattern|
+        configuration = accept_configuration_for(described_class, pattern: pattern)
+        expect(source).to_not reek_of(described_class, {}, configuration)
+      end
+    end
+  end
+
+  describe '`reject` patterns' do
+    let(:source) { 'def foo(bar); baz(bar); end' }
+
+    it 'reject smelly names via regex / strings given by list / literal' do
+      [[/bar/], /bar/, ['bar'], 'bar'].each do |pattern|
+        configuration = reject_configuration_for(described_class, pattern: pattern)
+        expect(source).to reek_of(described_class, {}, configuration)
+      end
+    end
+  end
+
+  describe '.default_config' do
+    it 'should merge in the default accept and reject patterns' do
+      expected = {
+        'enabled' => true,
+        'exclude' => [],
+        'reject'  => [/^.$/, /[0-9]$/, /[A-Z]/, /^_/],
+        'accept'  => []
+      }
+      expect(described_class.default_config).to eq(expected)
+    end
+  end
+
+  describe '.contexts' do
+    it 'should be scoped to classes and modules' do
+      expect(described_class.contexts).to eq([:def, :defs])
     end
   end
 end

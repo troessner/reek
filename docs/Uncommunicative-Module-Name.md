@@ -19,5 +19,32 @@ Reek's `Uncommunicative Module Name` detector supports the [Basic Smell Options]
 
 | Option         | Value       | Effect  |
 | ---------------|-------------|---------|
-| `reject` | array of regular expressions | The set of regular expressions that Reek uses to check for bad names. Defaults to `[/^.$/, /[0-9]$/]`. |
-| `accept` | array of names as strings | List of names that will be accepted (not reported) even if they match one of the `reject` expressions. Empty by default.|
+| `reject` | array of regular expressions or strings | The set of patterns / names that Reek uses to check for bad names. Defaults to `[/^.$/, /[0-9]$/]`. |
+| `accept` | array of regular expressions or strings | The set of patterns / names that Reek will accept (and not report) even if they match one of the `reject` expressions. Empty by default.|
+
+An example configuration could look like this:
+
+```Yaml
+---
+UncommunicativeModuleName:
+  accept:
+    - !ruby/regexp /lassy/
+    - M
+  reject:
+    - !ruby/regexp /Helper/
+```
+
+Applying a configuration to a source file like this:
+
+```Ruby
+class Classy1; end # Should not be reported
+class M; end # Should not be reported
+class BaseHelper; end # Should be reported
+```
+
+Reek would report:
+
+```
+smelly.rb -- 1 warning:
+  [3]:UncommunicativeModuleName: BaseHelper has the name 'BaseHelper' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Module-Name.md]
+```
