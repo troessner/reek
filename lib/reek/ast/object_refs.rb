@@ -13,10 +13,10 @@ module Reek
     #   end
     #
     # would make "@refs" below look like this after the TreeWalker has done his job:
-    # {
-    #   :self=>[2, 3], # `bar.call_me` and `bar.maybe` count as refs to `self` in line 2 and 3
-    #   :thing=>[3]    # `thing.wat` in `bar.maybe()` counts as one reference to `thing`
-    # }
+    #   {
+    #     :self=>[2, 3], # `bar.call_me` and `bar.maybe` count as refs to `self` in line 2 and 3
+    #     :thing=>[3]    # `thing.wat` in `bar.maybe()` counts as one reference to `thing`
+    #   }
     #
     class ObjectRefs
       def initialize
