@@ -1,7 +1,10 @@
 # Change log
 
-## Not released yet
+## 4.0.0 (2016-03-21)
 
+* (troessner) Fix disabling UnusedPrivateMethod via `exclude` in configuration.
+* (troessner) Fix `accept` and `reject` configuration handling.
+* (troessner) Fix UnusedParameter detector for lvasgn.
 * (troessner) Remove deprecated method `from_map` from `AppConfiguration`.
               The successor is `AppConfiguration.from_hash`.
 
