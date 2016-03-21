@@ -24,7 +24,7 @@ Reek would emit the following warning:
 reek test.rb
 
 test.rb -- 1 warning:
-  [2]:Klass declares the writable attribute dummy (Attribute)
+  [2]:Attribute: Klass#dummy is a writable attribute
 ```
 
 ## Support in Reek
