@@ -13,13 +13,14 @@ module Reek
     # command line.
     #
     class Application
+      include Input
       attr_reader :configuration
 
       def initialize(argv)
         @options = configure_options(argv)
         @status = options.success_exit_code
         @configuration = configure_app_configuration(options.config_file)
-        @command = command_class.new(OptionInterpreter.new(options))
+        @command = command_class.new(OptionInterpreter.new(options), sources: sources)
       end
 
       def execute
@@ -47,6 +48,10 @@ module Reek
 
       def command_class
         options.generate_todo_list ? Command::TodoListCommand : Command::ReportCommand
+      end
+
+      def argv
+        options.argv
       end
     end
   end

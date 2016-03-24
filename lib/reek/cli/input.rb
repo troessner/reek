@@ -34,7 +34,7 @@ module Reek
 
       # :reek:UtilityFunction
       def working_directory_as_source
-        Source::SourceLocator.new(['.']).sources
+        Source::SourceLocator.new(['.'], configuration: configuration).sources
       end
 
       def sources_from_argv

@@ -11,7 +11,7 @@ RSpec.describe Reek::CLI::Command::ReportCommand do
     let(:reporter) { double 'reporter' }
     let(:app) { double 'app' }
 
-    let(:command) { described_class.new option_interpreter }
+    let(:command) { described_class.new(option_interpreter, sources: []) }
 
     before do
       allow(option_interpreter).to receive(:reporter).and_return reporter
@@ -20,7 +20,6 @@ RSpec.describe Reek::CLI::Command::ReportCommand do
 
     context 'when no smells are found' do
       before do
-        allow(option_interpreter).to receive(:sources).and_return []
         allow(reporter).to receive(:smells?).and_return false
       end
 
@@ -32,7 +31,6 @@ RSpec.describe Reek::CLI::Command::ReportCommand do
 
     context 'when smells are found' do
       before do
-        allow(option_interpreter).to receive(:sources).and_return []
         allow(reporter).to receive(:smells?).and_return true
       end
 

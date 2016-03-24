@@ -7,9 +7,21 @@ RSpec.describe Reek::CLI::Input do
     include Reek::CLI::Input
 
     def argv; end
+
+    def configuration; end
   end
 
+  let(:path_excluded_in_configuration) do
+    SAMPLES_PATH.join('source_with_exclude_paths/ignore_me/uncommunicative_method_name.rb')
+  end
+
+  let(:configuration) { test_configuration_for(SAMPLES_PATH.join('configuration/with_excluded_paths.reek')) }
+
   subject { DummyClass.new }
+
+  before do
+    allow(subject).to receive(:configuration).and_return(configuration)
+  end
 
   describe '#sources' do
     context 'when no source files given' do
@@ -37,6 +49,10 @@ RSpec.describe Reek::CLI::Input do
 
         it 'should use working directory as source' do
           expect(subject.sources).to_not be_empty
+        end
+
+        it 'should use configuration for excluded paths' do
+          expect(subject.sources).to_not include(path_excluded_in_configuration)
         end
       end
     end

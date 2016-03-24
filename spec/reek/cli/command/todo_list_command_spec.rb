@@ -7,7 +7,7 @@ RSpec.describe Reek::CLI::Command::TodoListCommand do
   describe '#execute' do
     let(:option_interpreter) { FactoryGirl.build(:options_interpreter_with_empty_sources) }
     let(:app) { double 'app' }
-    let(:command) { described_class.new option_interpreter }
+    let(:command) { described_class.new(option_interpreter, sources: []) }
 
     before do
       $stdout = StringIO.new
@@ -52,7 +52,7 @@ RSpec.describe Reek::CLI::Command::TodoListCommand do
     end
 
     describe 'groups_for' do
-      let(:command) { described_class.new({}) }
+      let(:command) { described_class.new({}, sources: []) }
 
       it 'returns a proper hash representation of the smells found' do
         smells = [FactoryGirl.build(:smell_warning)]
