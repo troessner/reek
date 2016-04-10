@@ -5,17 +5,13 @@ require_relative '../lib/reek/ast/ast_node_class_map'
 require_relative '../lib/reek/configuration/app_configuration'
 
 Reek::CLI::Silencer.silently do
-  require 'factory_girl'
   begin
     require 'pry-byebug'
   rescue LoadError # rubocop:disable Lint/HandleExceptions
   end
 end
-if Gem.loaded_specs['factory_girl'].version > Gem::Version.create('4.5.0')
-  raise 'Remove the above silencer as well as this check now that ' \
-        '`factory_girl` gem is updated to version greater than 4.5.0!'
-end
 
+require 'factory_girl'
 FactoryGirl.find_definitions
 
 SAMPLES_PATH = Pathname.new("#{__dir__}/samples").relative_path_from(Pathname.pwd)
