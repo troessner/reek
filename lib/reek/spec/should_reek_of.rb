@@ -12,22 +12,22 @@ module Reek
       attr_reader :failure_message, :failure_message_when_negated
 
       def initialize(smell_type_or_class,
-                     smell_details = {},
-                     configuration = Configuration::AppConfiguration.default)
+                     details: {},
+                     configuration: Configuration::AppConfiguration.default)
         @smell_type = normalize smell_type_or_class
-        @smell_details  = smell_details
+        @details  = details
         @configuration  = configuration
       end
 
       def matches?(source)
         self.examiner = Examiner.new(source, configuration: configuration)
         set_failure_messages
-        matching_smell_types? && matching_smell_details?
+        matching_smell_types? && matching_details?
       end
 
       private
 
-      attr_reader :configuration, :smell_type, :smell_details
+      attr_reader :configuration, :smell_type, :details
       attr_writer :failure_message, :failure_message_when_negated
       attr_accessor :examiner
 
@@ -37,7 +37,7 @@ module Reek
         # Depending on the existence of matching smell type we check for matching
         # smell details and then overwrite our failure messages conditionally.
         set_failure_messages_for_smell_type
-        set_failure_messages_for_smell_details if matching_smell_types? && !matching_smell_details?
+        set_failure_messages_for_details if matching_smell_types? && !matching_details?
       end
 
       def matching_smell_types
@@ -53,8 +53,8 @@ module Reek
         matching_smell_types.any?
       end
 
-      def matching_smell_details?
-        matching_smell_types.any? { |warning| warning.matches_attributes?(smell_details) }
+      def matching_details?
+        matching_smell_types.any? { |warning| warning.matches_attributes?(details) }
       end
 
       def set_failure_messages_for_smell_type
@@ -64,11 +64,11 @@ module Reek
           "of #{smell_type}, but it did"
       end
 
-      def set_failure_messages_for_smell_details
+      def set_failure_messages_for_details
         self.failure_message = "Expected #{origin} to reek of #{smell_type} "\
-          "(which it did) with smell details #{smell_details}, which it didn't"
+          "(which it did) with smell details #{details}, which it didn't"
         self.failure_message_when_negated = "Expected #{origin} not to reek of "\
-          "#{smell_type} with smell details #{smell_details}, but it did"
+          "#{smell_type} with smell details #{details}, but it did"
       end
 
       def origin

@@ -54,7 +54,7 @@ module Reek
     # It is recommended to pass this as a symbol like :UtilityFunction. However we don't
     # enforce this.
     #
-    # Additionally you can be more specific and pass in "smell_details" you
+    # Additionally you can be more specific and pass in "details" you
     # want to check for as well e.g. "name" or "count" (see the examples below).
     # The parameters you can check for are depending on the smell you are checking for.
     # For instance "count" doesn't make sense everywhere whereas "name" does in most cases.
@@ -63,14 +63,15 @@ module Reek
     # much sense.
     #
     # @param smell_type [Symbol, String, Class] The "smell type" to check for.
-    # @param smells_details [Hash] A hash containing "smell warning" parameters
+    # @param details [Hash] A hash containing "smell warning" parameters
+    # @param configuration [Reek::Configuration::AppConfiguration] The configuration that should be used.
     #
-    # @example Without smell_details
+    # @example Without details
     #
     #   reek_of(:FeatureEnvy)
     #   reek_of(Reek::Smells::UtilityFunction)
     #
-    # @example With smell_details
+    # @example With details
     #
     #   reek_of(:UncommunicativeParameterName, name: 'x2')
     #   reek_of(:DataClump, count: 3)
@@ -83,9 +84,9 @@ module Reek
     #
     # :reek:UtilityFunction
     def reek_of(smell_type,
-                smell_details = {},
-                configuration = Configuration::AppConfiguration.default)
-      ShouldReekOf.new(smell_type, smell_details, configuration)
+                details: {},
+                configuration: Configuration::AppConfiguration.default)
+      ShouldReekOf.new(smell_type, details: details, configuration: configuration)
     end
 
     #
@@ -94,23 +95,25 @@ module Reek
     # Notable differences to reek_of:
     #   1.) "reek_of" doesn't mind if there are other smells of a different type.
     #       "reek_only_of" will fail in that case.
-    #   2.) "reek_only_of" doesn't support the additional smell_details hash.
+    #   2.) "reek_only_of" doesn't support the additional details hash.
     #
     # @public
     #
     # :reek:UtilityFunction
-    def reek_only_of(smell_type, configuration = Configuration::AppConfiguration.default)
-      ShouldReekOnlyOf.new(smell_type, configuration)
+    def reek_only_of(smell_type, configuration: Configuration::AppConfiguration.default)
+      ShouldReekOnlyOf.new(smell_type, configuration: configuration)
     end
 
     #
     # Returns +true+ if and only if the target source code contains smells.
     #
+    # @param configuration [Reek::Configuration::AppConfiguration] The configuration that should be used.
+    #
     # @public
     #
     # :reek:UtilityFunction
     def reek(configuration = Configuration::AppConfiguration.default)
-      ShouldReek.new(configuration: configuration)
+      ShouldReek.new(configuration)
     end
   end
 end
