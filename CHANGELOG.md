@@ -1,5 +1,9 @@
 # Change log
 
+## 4.0.1 (2016-04-10)
+
+* (thepry) Fix excluded paths for custom config formats.
+
 ## 4.0.0 (2016-03-21)
 
 * (troessner) Fix disabling UnusedPrivateMethod via `exclude` in configuration.
