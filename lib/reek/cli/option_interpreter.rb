@@ -9,7 +9,6 @@ module Reek
     # Interprets the options set from the command line
     #
     class OptionInterpreter
-      include Input
       extend Forwardable
       def_delegators :options, :smells_to_detect, :success_exit_code, :failure_exit_code
 
