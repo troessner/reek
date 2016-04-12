@@ -6,14 +6,15 @@ module Reek
       # Base class for all commands
       #
       class BaseCommand
-        def initialize(options, sources:)
+        def initialize(options:, sources:, configuration:)
           @options = options
           @sources = sources
+          @configuration = configuration
         end
 
         private
 
-        attr_reader :options, :sources
+        attr_reader :options, :sources, :configuration
 
         def smell_names
           @smell_names ||= options.smells_to_detect
