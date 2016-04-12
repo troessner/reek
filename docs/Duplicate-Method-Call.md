@@ -42,7 +42,7 @@ Reek's Duplicate Method Call detector checks for repeated identical method calls
 
 ## Configuration
 
-Reek's Duplication detector currently offers the [Basic Smell Options](Basic-Smell-Options.md), plus:
+Reek's Duplicate Method Call detector currently offers the [Basic Smell Options](Basic-Smell-Options.md), plus:
 
 Option | Value | Effect
 -------|-------|-------

@@ -2,8 +2,12 @@
 
 ## Introduction
 
-A `NilCheck` is a type check. Failures of `NilCheck` violate the ["tell, don't ask"](http://robots.thoughtbot.com/tell-dont-ask) principle.
-Additionally to that, type checks often mask bigger problems in your source code like not using OOP and / or polymorphism when you should.
+A _Nil Check_ is a type check. Failures of _Nil Check_ violate the
+["tell, don't ask"](http://robots.thoughtbot.com/tell-dont-ask) principle.
+Additionally to that, type checks often mask bigger problems in your source
+code like not using OOP and / or polymorphism when you should.
+
+The _Nil Check_ code smell is a case of [Simulated Polymorphism](Simulated-Polymorphism.md).
 
 ## Example
 
@@ -28,7 +32,7 @@ test.rb -- 1 warning:
 
 ##  Current Support in Reek
 
-`NilCheck` reports use of 
+_Nil Check_ reports use of 
 
 * <code>.nil?</code> method
 * <code>==</code> and <code>===</code> operators when checking vs. <code>nil</code>
@@ -36,4 +40,4 @@ test.rb -- 1 warning:
 
 ## Configuration
 
-`Nil Check` offers the [Basic Smell Options](Basic-Smell-Options.md).
+_Nil Check_ offers the [Basic Smell Options](Basic-Smell-Options.md).

@@ -18,7 +18,7 @@ Reek would emit the following warning:
 
 ```
 test.rb -- 1 warning:
-  [1]:Dummy has no descriptive comment (IrresponsibleModule)
+  [1]:IrresponsibleModule: Dummy has no descriptive comment
 ```
 
 Fixing this is simple - just an explaining comment:
@@ -32,8 +32,9 @@ end
 
 ## Current Support in Reek
 
-`Irresponsible Module` currently checks classes, but not modules.
+_Irresponsible Module_ checks classes and modules, including those
+created through `Struct.new` and `Class.new` and directly assigned to a constant.
 
 ## Configuration
 
-`Irresponsible Module` supports only the [Basic Smell Options](Basic-Smell-Options.md).
+_Irresponsible Module_ supports only the [Basic Smell Options](Basic-Smell-Options.md).

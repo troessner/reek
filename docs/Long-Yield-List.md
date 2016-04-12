@@ -2,7 +2,8 @@
 
 ## Introduction
 
-A _Long Yield List_ occurs when a method yields a lot of arguments to the block it gets passed.
+A _Long Yield List_ occurs when a method yields a lot of arguments to the block
+it gets passed. It is a special case of [Long Parameter List](Long-Parameter-List.md).
 
 ## Example
 
@@ -25,12 +26,12 @@ A common solution to this problem would be the introduction of parameter objects
 
 ## Current Support in Reek
 
-Currently Long Parameter List reports any method or block with more than 3 parameters.
+Currently _Long Yield List_ reports any method or block with more than 3 parameters.
 
 ## Configuration
 
-Reek's Long Parameter List detector supports the [Basic Smell Options](Basic-Smell-Options.md), plus:
+Reek's _Long Yield List_ detector supports the [Basic Smell Options](Basic-Smell-Options.md), plus:
 
-| Option         | Value       | Effect  |
-| ---------------|-------------|---------|
-| max_params |  integer | The maximum number of parameters allowed in a method or block before a warning is issued. Defaults to 3. |
+| Option       | Value   | Effect  |
+| -------------|---------|---------|
+| `max_params` | integer | The maximum number of parameters allowed in a method or block before a warning is issued. Defaults to 3. |

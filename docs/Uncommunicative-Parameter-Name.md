@@ -2,24 +2,24 @@
 
 ## Introduction
 
-An `Uncommunicative Parameter Name` is a parameter name that doesn't communicate its intent well enough.
-
-Poor names make it hard for the reader to build a mental picture of what's going on in the code. They can also be mis-interpreted; and they hurt the flow of reading, because the reader must slow down to interpret the names.
+An _Uncommunicative Parameter Name_ is a parameter name that doesn't
+communicate its intent well enough. This code smell is a case of
+[Uncommunicative Name](Uncommunicative-Name.md).
 
 ## Current Support in Reek
 
-`Uncommunicative Parameter Name` checks for:
+_Uncommunicative Parameter Name_ checks for:
 
-* 1-character names
+* single-character names
 * any name ending with a number
-* camelCaseVariableNames
+* camelCaseParameterNames
 
 ## Configuration
 
-Reek's Uncommunicative Parameter Name detector supports the [Basic Smell Options](Basic-Smell-Options.md), plus:
+Reek's _Uncommunicative Parameter Name_ detector supports the [Basic Smell Options](Basic-Smell-Options.md), plus:
 
-| Option         | Value       | Effect  |
-| ---------------|-------------|---------|
+| Option   | Value       | Effect  |
+| ---------|-------------|---------|
 | `reject` | array of regular expressions or strings | The set of patterns / names that Reek uses to check for bad names. Defaults to `[/^.$/, /[0-9]$/, /[A-Z]/, /^_/]. |
 | `accept` | array of regular expressions or strings | The set of patterns / names that Reek will accept (and not report) even if they match one of the `reject` expressions. |
 

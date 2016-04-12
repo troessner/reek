@@ -2,7 +2,7 @@
 
 ## Introduction
 
-A `Nested Iterator` occurs when a block contains another block.
+A _Nested Iterator_ occurs when a block contains another block.
 
 ## Example
 
@@ -31,7 +31,7 @@ test.rb -- 1 warning:
 
 ## Current Support in Reek
 
-Nested Iterators reports failing methods only once.
+_Nested Iterators_ reports failing methods only once.
 `Object#tap` is ignored by default and thus does not count as iterator.
 Furthermore iterators without block arguments are not counted, e.g.:
 
@@ -51,9 +51,9 @@ would not smell of NestedIterators (given a maximum allowed nesting of 1) since 
 
 ## Configuration
 
-`Nested Iterators` offers the [Basic Smell Options](Basic-Smell-Options.md), plus:
+_Nested Iterators_ offers the [Basic Smell Options](Basic-Smell-Options.md), plus:
 
-| Option         | Value       | Effect  |
-| ---------------|-------------|---------|
-| max_allowed_nesting | integer | The maximum depth of nested iterators. Defaults to 1 |
-| ignore_iterators | Array | List of iterators to be excluded from the smell check. Includes only `tap` at the moment|
+| Option                | Value   | Effect  |
+| ----------------------|---------|---------|
+| `max_allowed_nesting` | integer | The maximum depth of nested iterators. Defaults to 1 |
+| `ignore_iterators`    | Array   | List of iterators to be excluded from the smell check. Includes only `tap` at the moment|
