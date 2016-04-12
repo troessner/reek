@@ -24,7 +24,7 @@ module Reek
 
       # Initializes a new CodeContext.
       #
-      # @param parent [CodeContext, nil] The parent context
+      # @param _parent [CodeContext, nil] The parent context
       # @param exp [Reek::AST::Node] The code described by this context
       #
       # For example, given the following code:

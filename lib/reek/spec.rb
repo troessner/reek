@@ -63,7 +63,7 @@ module Reek
     # much sense.
     #
     # @param smell_type [Symbol, String, Class] The "smell type" to check for.
-    # @param smells_details [Hash] A hash containing "smell warning" parameters
+    # @param smell_details [Hash] A hash containing "smell warning" parameters
     #
     # @example Without smell_details
     #
