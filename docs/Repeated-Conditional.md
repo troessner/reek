@@ -2,7 +2,10 @@
 
 ## Introduction
 
-`Repeated Conditional` is a special case of [Simulated Polymorphism](Simulated-Polymorphism.md). Basically it means you are checking the same value throughout a single class and take decisions based on this.
+_Repeated Conditional_ is a case of
+[Simulated Polymorphism](Simulated-Polymorphism.md). Basically it means you are
+checking the same value throughout a single class and take decisions based on
+this.
 
 ## Example
 
@@ -37,7 +40,7 @@ If you get this warning then you are probably not using the right abstraction or
 
 ## Configuration
 
-Reek's `Repeated Conditional` detector offers the [Basic Smell Options](Basic-Smell-Options.md), plus:
+Reek's _Repeated Conditional_ detector offers the [Basic Smell Options](Basic-Smell-Options.md), plus:
 
 | Option         | Value       | Effect  |
 | ---------------|-------------|---------|

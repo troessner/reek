@@ -36,4 +36,4 @@ Reek does not raise warnings for read-only attributes.
 
 ## Configuration
 
-`Attribute` supports only the [Basic Smell Options](Basic-Smell-Options.md).
+_Attribute_ supports only the [Basic Smell Options](Basic-Smell-Options.md).

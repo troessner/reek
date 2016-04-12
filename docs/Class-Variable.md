@@ -37,4 +37,4 @@ end
 
 ##  Configuration
 
-`Class Variable` supports the [Basic Smell Options](Basic-Smell-Options.md).
+_Class Variable_ supports the [Basic Smell Options](Basic-Smell-Options.md).

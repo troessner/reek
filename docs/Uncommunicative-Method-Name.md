@@ -2,21 +2,22 @@
 
 ## Introduction
 
-An `Uncommunicative Method Name` is a method name that doesn't communicate its intent well enough.
-
-Poor names make it hard for the reader to build a mental picture of what's going on in the code. They can also be mis-interpreted; and they hurt the flow of reading, because the reader must slow down to interpret the names.
+An _Uncommunicative Method Name_ is a method name that doesn't communicate its
+intent well enough. This code smell is a case of
+[Uncommunicative Name](Uncommunicative-Name.md).
 
 ## Current Support in Reek
 
-`Uncommunicative Method Name` checks for:
+_Uncommunicative Method Name_ checks for:
 
-* 1-character names
+* single-character names
 * any name ending with a number
-* camelCaseVariableNames
+* camelCaseMethodNames
 
 ## Configuration
 
-Reek's Uncommunicative Method Name detector supports the [Basic Smell Options](Basic-Smell-Options.md), plus:
+Reek's _Uncommunicative Method Name_ detector supports the
+[Basic Smell Options](Basic-Smell-Options.md), plus:
 
 | Option         | Value       | Effect  |
 | ---------------|-------------|---------|

@@ -2,7 +2,7 @@
 
 ## Introduction
 
-A `Long Parameter List` occurs when a method has a lot of parameters.
+A _Long Parameter List_ occurs when a method has a lot of parameters.
 
 ## Example
 
@@ -27,12 +27,13 @@ A common solution to this problem would be the introduction of parameter objects
 
 ## Current Support in Reek
 
-`Long Parameter List` reports any method or block with more than 3 parameters.
+_Long Parameter List_ reports any method or block with more than 3 parameters.
 
 ## Configuration
 
-Reek's Long Parameter List detector supports the [Basic Smell Options](Basic-Smell-Options.md), plus:
+Reek's _Long Parameter List_ detector supports the
+[Basic Smell Options](Basic-Smell-Options.md), plus:
 
-| Option         | Value       | Effect  |
-| ---------------|-------------|---------|
-| max_params |  integer | The maximum number of parameters allowed in a method or block before a warning is issued. Defaults to 3. |
+| Option       | Value   | Effect  |
+| -------------|---------|---------|
+| `max_params` | integer | The maximum number of parameters allowed in a method or block before a warning is issued. Defaults to 3. |

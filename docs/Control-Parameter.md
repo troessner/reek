@@ -2,11 +2,11 @@
 
 ## Introduction
 
-`Control Parameter` is a special case of [Control Couple](Control-Couple.md)
+_Control Parameter_ is a case of [Control Couple](Control-Couple.md)
 
 ## Example
 
-A simple example would be the "quoted" parameter in the following method:
+A simple example would be the `quoted` parameter in the following method:
 
 ```Ruby
 def write(quoted)
@@ -18,12 +18,15 @@ def write(quoted)
 end
 ```
 
-Fixing those problems is out of the scope of this document but an easy solution could be to remove the "write" method alltogether and to move the calls to "write_quoted" / "write_unquoted" in the initial caller of "write".
+Fixing those problems is out of the scope of this document but an easy solution
+could be to remove the `write` method altogether and to move the calls to
+`write_quoted` and `write_unquoted` to the caller of `write`.
 
 ## Current Support in Reek
 
-Reek warns about control coupling when a method parameter or block parameter is the tested value in a conditional statement.
+Reek warns about _Control Parameter_ when a method parameter or block parameter is
+the tested value in a conditional statement.
 
 ## Configuration
 
-Control Couple supports the [Basic Smell Options](Basic-Smell-Options.md).
+_Control Parameter_ supports the [Basic Smell Options](Basic-Smell-Options.md).
