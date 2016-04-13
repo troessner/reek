@@ -68,8 +68,6 @@ RSpec.describe Reek::CLI::Application do
         let(:app) { Reek::CLI::Application.new ['--config', 'some_file.reek'] }
 
         before do
-          allow(File).to receive(:exist?).and_call_original
-          allow(File).to receive(:exist?).with('some_file.reek').and_return true
           allow(Reek::Configuration::AppConfiguration).
             to receive(:from_path).
             with(Pathname.new('some_file.reek')).
