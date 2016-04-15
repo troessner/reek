@@ -1,41 +1,44 @@
 require_relative '../../../spec_helper'
 require_lib 'reek/cli/command/report_command'
 require_lib 'reek/cli/options'
-require_lib 'reek/cli/option_interpreter'
 
 RSpec.describe Reek::CLI::Command::ReportCommand do
   describe '#execute' do
     let(:options) { Reek::CLI::Options.new [] }
-    let(:option_interpreter) { Reek::CLI::OptionInterpreter.new(options) }
 
     let(:reporter) { double 'reporter' }
-    let(:app) { double 'app' }
+    let(:configuration) { double 'configuration' }
+    let(:sources) { [source_file] }
 
-    let(:command) { described_class.new(option_interpreter, sources: []) }
+    let(:clean_file) { Pathname.glob("#{SAMPLES_PATH}/three_clean_files/*.rb").first }
+    let(:smelly_file) { Pathname.glob("#{SAMPLES_PATH}/two_smelly_files/*.rb").first }
+
+    let(:command) do
+      described_class.new(options: options,
+                          sources: sources,
+                          configuration: configuration)
+    end
 
     before do
-      allow(option_interpreter).to receive(:reporter).and_return reporter
-      allow(reporter).to receive(:show)
+      allow(configuration).to receive(:directive_for).and_return({})
     end
 
     context 'when no smells are found' do
-      before do
-        allow(reporter).to receive(:smells?).and_return false
-      end
+      let(:source_file) { clean_file }
 
       it 'returns a success code' do
-        result = command.execute app
+        result = command.execute
         expect(result).to eq Reek::CLI::Options::DEFAULT_SUCCESS_EXIT_CODE
       end
     end
 
     context 'when smells are found' do
-      before do
-        allow(reporter).to receive(:smells?).and_return true
-      end
+      let(:source_file) { smelly_file }
 
       it 'returns a failure code' do
-        result = command.execute app
+        result = Reek::CLI::Silencer.silently do
+          command.execute
+        end
         expect(result).to eq Reek::CLI::Options::DEFAULT_FAILURE_EXIT_CODE
       end
     end

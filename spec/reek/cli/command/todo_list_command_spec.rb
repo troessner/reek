@@ -1,13 +1,17 @@
 require_relative '../../../spec_helper'
 require_lib 'reek/cli/command/todo_list_command'
 require_lib 'reek/cli/options'
-require_lib 'reek/cli/option_interpreter'
 
 RSpec.describe Reek::CLI::Command::TodoListCommand do
   describe '#execute' do
-    let(:option_interpreter) { FactoryGirl.build(:options_interpreter_with_empty_sources) }
-    let(:app) { double 'app' }
-    let(:command) { described_class.new(option_interpreter, sources: []) }
+    let(:options) { Reek::CLI::Options.new [] }
+    let(:configuration) { double 'configuration' }
+
+    let(:command) do
+      described_class.new(options: options,
+                          sources: [],
+                          configuration: configuration)
+    end
 
     before do
       $stdout = StringIO.new
@@ -26,11 +30,11 @@ RSpec.describe Reek::CLI::Command::TodoListCommand do
 
       it 'shows a proper message' do
         expected = "\n'.todo.reek' generated! You can now use this as a starting point for your configuration.\n"
-        expect { command.execute app }.to output(expected).to_stdout
+        expect { command.execute }.to output(expected).to_stdout
       end
 
       it 'returns a success code' do
-        result = command.execute app
+        result = command.execute
         expect(result).to eq(Reek::CLI::Options::DEFAULT_SUCCESS_EXIT_CODE)
       end
     end
@@ -42,18 +46,16 @@ RSpec.describe Reek::CLI::Command::TodoListCommand do
 
       it 'shows a proper message' do
         expected = "\n'.todo.reek' not generated because there were no smells found!\n"
-        expect { command.execute app }.to output(expected).to_stdout
+        expect { command.execute }.to output(expected).to_stdout
       end
 
       it 'returns a success code' do
-        result = command.execute app
+        result = command.execute
         expect(result).to eq Reek::CLI::Options::DEFAULT_SUCCESS_EXIT_CODE
       end
     end
 
     describe 'groups_for' do
-      let(:command) { described_class.new({}, sources: []) }
-
       it 'returns a proper hash representation of the smells found' do
         smells = [FactoryGirl.build(:smell_warning)]
         expected = { 'FeatureEnvy' => { 'exclude' => ['self'] } }

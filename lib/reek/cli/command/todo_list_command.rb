@@ -12,8 +12,8 @@ module Reek
       class TodoListCommand < BaseCommand
         FILE_NAME = '.todo.reek'.freeze
 
-        def execute(app)
-          smells = scan_for_smells(app)
+        def execute
+          smells = scan_for_smells
           if smells.empty?
             puts "\n'.todo.reek' not generated because "\
                     'there were no smells found!'
@@ -27,11 +27,11 @@ module Reek
 
         private
 
-        def scan_for_smells(app)
+        def scan_for_smells
           sources.map do |source|
             Examiner.new(source,
                          filter_by_smells: smell_names,
-                         configuration: app.configuration)
+                         configuration: configuration)
           end.map(&:smells).flatten
         end
 
