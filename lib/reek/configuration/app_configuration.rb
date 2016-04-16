@@ -70,6 +70,19 @@ module Reek
         excluded_paths.include?(path)
       end
 
+      def load_values(configuration_hash)
+        configuration_hash.each do |key, value|
+          case
+          when key == EXCLUDE_PATHS_KEY
+            excluded_paths.add value
+          when smell_type?(key)
+            default_directive.add key, value
+          else
+            directory_directives.add key, value
+          end
+        end
+      end
+
       private
 
       attr_writer :directory_directives, :default_directive, :excluded_paths
@@ -87,22 +100,9 @@ module Reek
       end
 
       def find_and_load(path: nil)
-        configuration_file = ConfigurationFileFinder.find_and_load(path: path)
+        configuration_hash = ConfigurationFileFinder.find_and_load(path: path)
 
-        load_values(configuration_file)
-      end
-
-      def load_values(configuration_file)
-        configuration_file.each do |key, value|
-          case
-          when key == EXCLUDE_PATHS_KEY
-            excluded_paths.add value
-          when smell_type?(key)
-            default_directive.add key, value
-          else
-            directory_directives.add key, value
-          end
-        end
+        load_values(configuration_hash)
       end
     end
   end

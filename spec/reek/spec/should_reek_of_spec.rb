@@ -117,4 +117,11 @@ RSpec.describe Reek::Spec::ShouldReekOf do
       end
     end
   end
+
+  it 'enables the smell detector to match automatically' do
+    default_config = Reek::Smells::UnusedPrivateMethod.default_config
+    expect(default_config[Reek::Smells::SmellConfiguration::ENABLED_KEY]).to be_falsy
+
+    expect('class C; private; def foo; end; end').to reek_of(:UnusedPrivateMethod)
+  end
 end

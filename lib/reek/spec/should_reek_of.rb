@@ -15,8 +15,9 @@ module Reek
                      smell_details = {},
                      configuration = Configuration::AppConfiguration.default)
         @smell_type = normalize smell_type_or_class
-        @smell_details  = smell_details
-        @configuration  = configuration
+        @smell_details = smell_details
+        @configuration = configuration
+        @configuration.load_values(smell_type => { Smells::SmellConfiguration::ENABLED_KEY => true })
       end
 
       def matches?(source)
