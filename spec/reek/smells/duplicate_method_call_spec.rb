@@ -152,19 +152,17 @@ RSpec.describe Reek::Smells::DuplicateMethodCall do
 
   context 'allowing up to 3 calls' do
     let(:config) do
-      { Reek::Smells::DuplicateMethodCall =>
-        { Reek::Smells::DuplicateMethodCall::MAX_ALLOWED_CALLS_KEY => 3 } }
+      { Reek::Smells::DuplicateMethodCall::MAX_ALLOWED_CALLS_KEY => 3 }
     end
-    let(:configuration) { test_configuration_for(config) }
 
     it 'does not report double calls' do
       src = 'def double_thing() @other.thing + @other.thing end'
-      expect(src).not_to reek_of(:DuplicateMethodCall, {}, configuration)
+      expect(src).not_to reek_of(:DuplicateMethodCall).with_config(config)
     end
 
     it 'does not report triple calls' do
       src = 'def double_thing() @other.thing + @other.thing + @other.thing end'
-      expect(src).not_to reek_of(:DuplicateMethodCall, {}, configuration)
+      expect(src).not_to reek_of(:DuplicateMethodCall).with_config(config)
     end
 
     it 'reports quadruple calls' do
@@ -174,35 +172,31 @@ RSpec.describe Reek::Smells::DuplicateMethodCall do
         end
       '
       expect(src).to reek_of(:DuplicateMethodCall,
-                             { name: '@other.thing', count: 4 },
-                             configuration)
+                             name: '@other.thing', count: 4).with_config(config)
     end
   end
 
   context 'allowing calls to some methods' do
     let(:config) do
-      { Reek::Smells::DuplicateMethodCall =>
-        { Reek::Smells::DuplicateMethodCall::ALLOW_CALLS_KEY =>
-          ['@some.thing', /puts/] } }
+      { Reek::Smells::DuplicateMethodCall::ALLOW_CALLS_KEY => ['@some.thing', /puts/] }
     end
-    let(:configuration) { test_configuration_for(config) }
 
     it 'does not report calls to some methods' do
       src = 'def double_some_thing() @some.thing + @some.thing end'
 
-      expect(src).not_to reek_of(:DuplicateMethodCall, {}, configuration)
+      expect(src).not_to reek_of(:DuplicateMethodCall).with_config(config)
     end
 
     it 'reports calls to other methods' do
       src = 'def double_other_thing() @other.thing + @other.thing end'
 
-      expect(src).to reek_of(:DuplicateMethodCall, { name: '@other.thing' }, configuration)
+      expect(src).to reek_of(:DuplicateMethodCall, name: '@other.thing').with_config(config)
     end
 
     it 'does not report calls to methods specifed with a regular expression' do
       src = 'def double_puts() puts @other.thing; puts @other.thing end'
 
-      expect(src).to reek_of(:DuplicateMethodCall, { name: '@other.thing' }, configuration)
+      expect(src).to reek_of(:DuplicateMethodCall, name: '@other.thing').with_config(config)
     end
   end
 end

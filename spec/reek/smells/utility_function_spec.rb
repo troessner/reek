@@ -218,13 +218,8 @@ RSpec.describe Reek::Smells::UtilityFunction do
   end
 
   describe 'disabling UtilityFunction via configuration for non-public methods' do
-    let(:configuration) do
-      default_directive = {
-        Reek::Smells::UtilityFunction => {
-          Reek::Smells::UtilityFunction::PUBLIC_METHODS_ONLY_KEY => true
-        }
-      }
-      Reek::Configuration::AppConfiguration.from_hash(default_directive)
+    let(:config) do
+      { Reek::Smells::UtilityFunction::PUBLIC_METHODS_ONLY_KEY => true }
     end
 
     context 'public methods' do
@@ -234,7 +229,7 @@ RSpec.describe Reek::Smells::UtilityFunction do
             def m1(a) a.to_s; end
           end
         EOS
-        expect(src).to reek_of(:UtilityFunction, { name: 'C#m1' }, configuration)
+        expect(src).to reek_of(:UtilityFunction, name: 'C#m1').with_config(config)
       end
     end
 
@@ -246,7 +241,7 @@ RSpec.describe Reek::Smells::UtilityFunction do
             def m1(a) a.to_s; end
           end
         EOS
-        expect(src).not_to reek_of(:UtilityFunction, {}, configuration)
+        expect(src).not_to reek_of(:UtilityFunction).with_config(config)
       end
     end
 
@@ -258,7 +253,7 @@ RSpec.describe Reek::Smells::UtilityFunction do
             def m1(a) a.to_s; end
           end
         EOS
-        expect(src).not_to reek_of(:UtilityFunction, {}, configuration)
+        expect(src).not_to reek_of(:UtilityFunction).with_config(config)
       end
     end
   end

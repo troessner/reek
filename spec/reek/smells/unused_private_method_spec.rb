@@ -106,27 +106,17 @@ RSpec.describe Reek::Smells::UnusedPrivateMethod do
     end
 
     it 'excludes them via direct match in the app configuration' do
-      configuration = test_configuration_for(
-        described_class =>
-          {
-            Reek::Smells::SmellDetector::EXCLUDE_KEY => ['Car#drive']
-          }
-      )
+      config = { Reek::Smells::SmellDetector::EXCLUDE_KEY => ['Car#drive'] }
 
-      expect(source).to reek_of(:UnusedPrivateMethod, { name: :start }, configuration)
-      expect(source).not_to reek_of(:UnusedPrivateMethod, { name: :drive }, configuration)
+      expect(source).to reek_of(:UnusedPrivateMethod, name: :start).with_config(config)
+      expect(source).not_to reek_of(:UnusedPrivateMethod, name: :drive).with_config(config)
     end
 
     it 'excludes them via regex in the app configuration' do
-      configuration = test_configuration_for(
-        described_class =>
-          {
-            Reek::Smells::SmellDetector::EXCLUDE_KEY => [/drive/]
-          }
-      )
+      config = { Reek::Smells::SmellDetector::EXCLUDE_KEY => [/drive/] }
 
-      expect(source).to reek_of(:UnusedPrivateMethod, { name: :start }, configuration)
-      expect(source).not_to reek_of(:UnusedPrivateMethod, { name: :drive }, configuration)
+      expect(source).to reek_of(:UnusedPrivateMethod, name: :start).with_config(config)
+      expect(source).not_to reek_of(:UnusedPrivateMethod, name: :drive).with_config(config)
     end
   end
 end

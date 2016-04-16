@@ -32,6 +32,11 @@ RSpec.describe Reek::Spec::ShouldReekOf do
       it 'doesnt match a fragrant String' do
         expect(matcher.matches?(clean_code)).to be_falsey
       end
+
+      it 're-calculates matches every time' do
+        matcher.matches? smelly_code
+        expect(matcher.matches?(clean_code)).to be_falsey
+      end
     end
 
     context 'checking code in a File' do
@@ -123,5 +128,20 @@ RSpec.describe Reek::Spec::ShouldReekOf do
     expect(default_config[Reek::Smells::SmellConfiguration::ENABLED_KEY]).to be_falsy
 
     expect('class C; private; def foo; end; end').to reek_of(:UnusedPrivateMethod)
+  end
+
+  describe '#with_config' do
+    let(:matcher) { Reek::Spec::ShouldReekOf.new(:UncommunicativeVariableName) }
+    let(:configured_matcher) { matcher.with_config('accept' => 'x') }
+
+    it 'uses the passed-in configuration for matching' do
+      expect(configured_matcher.matches?('def foo; q = 2; end')).to be_truthy
+      expect(configured_matcher.matches?('def foo; x = 2; end')).to be_falsey
+    end
+
+    it 'leaves the original matcher intact' do
+      expect(configured_matcher.matches?('def foo; x = 2; end')).to be_falsey
+      expect(matcher.matches?('def foo; x = 2; end')).to be_truthy
+    end
   end
 end

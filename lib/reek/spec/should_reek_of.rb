@@ -21,9 +21,16 @@ module Reek
       end
 
       def matches?(source)
+        @matching_smell_types = nil
         self.examiner = Examiner.new(source, configuration: configuration)
         set_failure_messages
-        matching_smell_types? && matching_smell_details?
+        matching_smell_details?
+      end
+
+      def with_config(config_hash)
+        new_configuration = Configuration::AppConfiguration.default
+        new_configuration.load_values(smell_type => config_hash)
+        self.class.new(smell_type, smell_details, new_configuration)
       end
 
       private

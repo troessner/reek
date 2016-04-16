@@ -99,8 +99,7 @@ RSpec.describe Reek::Smells::UncommunicativeParameterName do
 
     it 'make smelly names pass via regex / strings given by list / literal' do
       [[/bar2/], /bar2/, ['bar2'], 'bar2'].each do |pattern|
-        configuration = accept_configuration_for(described_class, pattern: pattern)
-        expect(source).to_not reek_of(described_class, {}, configuration)
+        expect(source).to_not reek_of(described_class).with_config('accept' => pattern)
       end
     end
   end
@@ -110,8 +109,7 @@ RSpec.describe Reek::Smells::UncommunicativeParameterName do
 
     it 'reject smelly names via regex / strings given by list / literal' do
       [[/bar/], /bar/, ['bar'], 'bar'].each do |pattern|
-        configuration = reject_configuration_for(described_class, pattern: pattern)
-        expect(source).to reek_of(described_class, {}, configuration)
+        expect(source).to reek_of(described_class).with_config('reject' => pattern)
       end
     end
   end
