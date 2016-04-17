@@ -662,3 +662,4 @@ UtilityFunction:
   remediation_points: 250_000
   content: |
     A _Utility Function_ is any instance method that has no dependency on the state of the instance.
+# TODO: add entry for SubclassedFromCoreClass
