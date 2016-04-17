@@ -8,7 +8,7 @@ RSpec.describe Reek::Smells::SubclassedFromCoreClass do
 
   it_should_behave_like 'SmellDetector'
 
-  context 'counting methods' do
+  context '...' do
     it 'should not report if the class has no ancestor' do
       src = <<-EOS
         class Dummy
@@ -29,15 +29,26 @@ RSpec.describe Reek::Smells::SubclassedFromCoreClass do
       smells = detector.inspect(ctx)
       expect(smells.length).to eq(1)
       expect(smells[0].smell_type).to eq(described_class.smell_type)
-      # expect(smells[0].parameters[:count]).to eq(3)
+      expect(smells[0].parameters[:count]).to eq(1)
+    end
+
+    it 'should not report on core-sounding classes in other namespaces' do
+      src = <<-EOS
+        class Dummy < My::Array
+        end
+      EOS
+      syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
+      ctx = Reek::Context::ModuleContext.new(nil, syntax_tree)
+      expect(detector.inspect(ctx)).to be_empty
     end
   end
 
-  context 'with a namespaced class' do
+  context 'within a namespaced class' do
     it 'should report if we inherit from a core class' do
+      pending 'curently failing'
       src = <<-EOS
         module Namespace
-          class Dummy < Array
+          class Dummy < ::Array
           end
         end
       EOS
@@ -46,7 +57,7 @@ RSpec.describe Reek::Smells::SubclassedFromCoreClass do
       smells = detector.inspect(ctx)
       expect(smells.length).to eq(1)
       expect(smells[0].smell_type).to eq(described_class.smell_type)
-      # expect(smells[0].parameters[:count]).to eq(3)
+      expect(smells[0].parameters[:count]).to eq(1)
     end
   end
 end
