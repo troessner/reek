@@ -22,7 +22,9 @@ But there's another way; a much more effective "Reek-driven" approach: add Reek 
 
 ```Ruby
 it 'contains no code smells' do
-  Dir['lib/**/*.rb'].should_not reek
+  Pathname.glob('lib/**/*.rb').each do |file|
+    expect(file).not_to reek
+  end
 end
 ```
 

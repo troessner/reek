@@ -16,9 +16,9 @@ module Reek
   # Here's a spec that ensures there are no active code smells in the current project:
   #
   #  describe 'source code quality' do
-  #    Dir['lib/**/*.rb'].each do |path|
+  #    Pathname.glob('lib/**/*.rb').each do |path|
   #      it "reports no smells in #{path}" do
-  #        File.new(path).should_not reek
+  #        expect(path).not_to reek
   #      end
   #    end
   #  end
@@ -26,7 +26,9 @@ module Reek
   # And here's an even simpler way to do the same:
   #
   #  it 'has no code smells' do
-  #    Dir['lib/**/*.rb'].should_not reek
+  #    Pathname.glob('lib/**/*.rb').each do |path|
+  #      expect(path).not_to reek
+  #    end
   #  end
   #
   # Here's a simple check of a code fragment:
