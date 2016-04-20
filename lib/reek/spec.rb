@@ -27,7 +27,7 @@ module Reek
   #
   #  it 'has no code smells' do
   #    Pathname.glob('lib/**/*.rb').each do |path|
-  #        expect(path).not_to reek
+  #      expect(path).not_to reek
   #    end
   #  end
   #
