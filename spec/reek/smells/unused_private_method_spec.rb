@@ -22,6 +22,39 @@ RSpec.describe Reek::Smells::UnusedPrivateMethod do
       expect(source).to reek_of(:UnusedPrivateMethod, name: :drive)
     end
 
+    it 'reports instance methods in the correct class' do
+      source = <<-EOF
+        class Car
+          class Engine
+            private
+            def start; end
+          end
+        end
+      EOF
+
+      expect(source).to reek_of(:UnusedPrivateMethod, context: 'Car::Engine', name: :start)
+      expect(source).not_to reek_of(:UnusedPrivateMethod, context: 'Car', name: :start)
+    end
+
+    it 'discounts calls to identically named methods in nested classes' do
+      source = <<-EOF
+        class Car
+          class Engine
+            def vroom
+              start
+            end
+            private
+            def start; end
+          end
+          private
+          def start; end
+        end
+      EOF
+
+      expect(source).not_to reek_of(:UnusedPrivateMethod, context: 'Car::Engine', name: :start)
+      expect(source).to reek_of(:UnusedPrivateMethod, context: 'Car', name: :start)
+    end
+
     it 'creates warnings correctly' do
       source = <<-EOF
         class Car
