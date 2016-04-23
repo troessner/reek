@@ -1,5 +1,11 @@
 # Change log
 
+## 4.0.2 (2016-04-23)
+
+* (mvz) Stop UnusedPrivateMethod getting confused by nested classes
+* (mvz) Implement and use ShouldReekOf#with_config
+* (mvz) Automatically enable smell in reek_of matcher
+
 ## 4.0.1 (2016-04-10)
 
 * (thepry) Fix excluded paths for custom config formats.
