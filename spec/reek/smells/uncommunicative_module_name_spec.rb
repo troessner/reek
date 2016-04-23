@@ -54,8 +54,7 @@ RSpec.describe Reek::Smells::UncommunicativeModuleName do
 
     it 'make smelly names pass via regex / strings given by list / literal' do
       [[/lassy/], /lassy/, ['lassy'], 'lassy'].each do |pattern|
-        configuration = accept_configuration_for(described_class, pattern: pattern)
-        expect(source).to_not reek_of(described_class, {}, configuration)
+        expect(source).to_not reek_of(described_class).with_config('accept' => pattern)
       end
     end
   end
@@ -65,8 +64,7 @@ RSpec.describe Reek::Smells::UncommunicativeModuleName do
 
     it 'reject smelly names via regex / strings given by list / literal' do
       [[/Helper/], /Helper/, ['Helper'], 'Helper'].each do |pattern|
-        configuration = reject_configuration_for(described_class, pattern: pattern)
-        expect(source).to reek_of(described_class, {}, configuration)
+        expect(source).to reek_of(described_class).with_config('reject' => pattern)
       end
     end
   end
