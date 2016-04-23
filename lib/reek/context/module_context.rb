@@ -45,16 +45,15 @@ module Reek
       end
 
       def defined_instance_methods(visibility: :public)
-        each.select do |context|
-          context.is_a?(Context::MethodContext) &&
-            context.visibility == visibility
+        instance_method_children.select do |context|
+          context.visibility == visibility
         end
       end
 
       def instance_method_calls
-        each.
-          grep(SendContext).
-          select { |context| context.parent.class == MethodContext }
+        instance_method_children.flat_map do |context|
+          context.children.grep(SendContext)
+        end
       end
 
       #
