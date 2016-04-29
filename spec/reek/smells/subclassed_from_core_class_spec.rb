@@ -3,8 +3,7 @@ require_lib 'reek/smells/subclassed_from_core_class'
 require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::SubclassedFromCoreClass do
-  let(:detector) { described_class.new('max_methods' => 2) }
-  let(:source_name) { 'string' }
+  let(:detector) { described_class.new }
 
   it_should_behave_like 'SmellDetector'
 
