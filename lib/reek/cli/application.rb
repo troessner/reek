@@ -18,7 +18,6 @@ module Reek
 
       def initialize(argv)
         @options = configure_options(argv)
-        @status = options.success_exit_code
         @configuration = configure_app_configuration(options.config_file)
         @command = command_class.new(options: options,
                                      sources: sources,
@@ -31,7 +30,6 @@ module Reek
 
       private
 
-      attr_accessor :status
       attr_reader :command, :options
 
       def configure_options(argv)

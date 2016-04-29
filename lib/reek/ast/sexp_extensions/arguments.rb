@@ -8,11 +8,6 @@ module Reek
           children.first
         end
 
-        # Other is a symbol?
-        def ==(other)
-          name == other
-        end
-
         def marked_unused?
           plain_name.start_with?('_')
         end

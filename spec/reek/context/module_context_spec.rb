@@ -8,7 +8,7 @@ RSpec.describe Reek::Context::ModuleContext do
       module Fred
         def simple(x) x + 1; end
       end
-    ').to reek_of(:UncommunicativeParameterName, name: 'x')
+    ').to reek_of(:UncommunicativeParameterName, name: 'x', context: 'Fred#simple')
   end
 
   it 'does not report module with empty class' do

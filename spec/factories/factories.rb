@@ -4,14 +4,6 @@ require_relative '../../lib/reek/smell_warning'
 require_relative '../../lib/reek/cli/options'
 
 FactoryGirl.define do
-  factory :context, class: Reek::Context::CodeContext do
-    skip_create
-
-    initialize_with do
-      new(nil, nil)
-    end
-  end
-
   factory :method_context, class: Reek::Context::MethodContext do
     skip_create
     transient do
