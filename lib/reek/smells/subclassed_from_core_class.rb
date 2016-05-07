@@ -25,7 +25,7 @@ module Reek
           context: ctx,
           lines: [ctx.exp.line],
           message: "inherits from a core class #{ancestor}",
-          parameters: { count: 1 })]
+          parameters: { ancestor: ancestor.to_s })]
       end
     end
   end
