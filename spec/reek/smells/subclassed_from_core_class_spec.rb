@@ -7,56 +7,37 @@ RSpec.describe Reek::Smells::SubclassedFromCoreClass do
 
   it_should_behave_like 'SmellDetector'
 
-  context '...' do
-    it 'should not report if the class has no ancestor' do
-      src = <<-EOS
-        class Dummy
-        end
-      EOS
-      syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
-      ctx = Reek::Context::ModuleContext.new(nil, syntax_tree)
-      expect(detector.inspect(ctx)).to be_empty
-    end
-
-    it 'should report if we inherit from a core class' do
-      src = <<-EOS
-        class Dummy < Array
-        end
-      EOS
-      syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
-      ctx = Reek::Context::ModuleContext.new(nil, syntax_tree)
-      smells = detector.inspect(ctx)
-      expect(smells.length).to eq(1)
-      expect(smells[0].smell_type).to eq(described_class.smell_type)
-      expect(smells[0].parameters[:count]).to eq(1)
-    end
-
-    it 'should not report on core-sounding classes in other namespaces' do
-      src = <<-EOS
-        class Dummy < My::Array
-        end
-      EOS
-      syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
-      ctx = Reek::Context::ModuleContext.new(nil, syntax_tree)
-      expect(detector.inspect(ctx)).to be_empty
-    end
+  it 'should not report if the class has no ancestor' do
+    src = <<-EOS
+      class Dummy
+      end
+    EOS
+    expect(src).to_not reek_of(:SubclassedFromCoreClass)
   end
 
-  context 'within a namespaced class' do
-    it 'should report if we inherit from a core class' do
-      pending 'curently failing'
-      src = <<-EOS
-        module Namespace
-          class Dummy < ::Array
-          end
+  it 'should report if we inherit from a core class' do
+    src = <<-EOS
+      class Dummy < Array
+      end
+    EOS
+    expect(src).to reek_of(:SubclassedFromCoreClass, ancestor: "Array")
+  end
+
+  it 'should not report on coincidental core class names in other namespaces' do
+    src = <<-EOS
+      class Dummy < My::Array
+      end
+    EOS
+    expect(src).to_not reek_of(:SubclassedFromCoreClass)
+  end
+
+  it 'should report if we inherit from a core class from within a namespaced class' do
+    src = <<-EOS
+      module Namespace
+        class Dummy < Array
         end
-      EOS
-      syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
-      ctx = Reek::Context::ModuleContext.new(nil, syntax_tree)
-      smells = detector.inspect(ctx)
-      expect(smells.length).to eq(1)
-      expect(smells[0].smell_type).to eq(described_class.smell_type)
-      expect(smells[0].parameters[:count]).to eq(1)
-    end
+      end
+    EOS
+    expect(src).to reek_of(:SubclassedFromCoreClass, ancestor: "Array")
   end
 end
