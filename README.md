@@ -2,8 +2,37 @@
 
 # Code smell detector for Ruby
 
-## Overview
+**Table of Contents**
 
+- [Overview](#overview)
+- [Quickstart](#quickstart)
+- [Example](#example)
+- [Supported rubies](#supported-rubies)
+- [Fixing Smell Warnings](#fixing-smell-warnings)
+- [Sources](#sources)
+- [Code smells](#code-smells)
+- [Configuration](#configuration)
+  - [Command-line interface](#command-line-interface)
+  - [Configuration file](#configuration-file)
+    - [Configuration loading](#configuration-loading)
+    - [Configuration options](#configuration-options)
+  - [Source code comments](#source-code-comments)
+  - [Generating a 'todo' list](#generating-a-todo-list)
+- [Usage](#usage)
+- [Developing Reek / Contributing](#developing-reek--contributing)
+- [Output formats](#output-formats)
+- [Working with Rails](#working-with-rails)
+- [Integrations](#integrations)
+  - [Editor integrations](#editor-integrations)
+  - [Projects that use or support us](#projects-that-use-or-support-us)
+  - [Misc](#misc)
+- [Brothers and sisters](#brothers-and-sisters)
+- [Contributors](#contributors)
+- [Additional resources](#additional-resources)
+  - [Miscellaneous](#miscellaneous)
+  - [More information](#more-information)
+
+## Overview
 
 [![Build Status](https://secure.travis-ci.org/troessner/reek.svg?branch=master)](https://travis-ci.org/troessner/reek?branch=master)
 [![Gem Version](https://badge.fury.io/rb/reek.svg)](https://badge.fury.io/rb/reek)
