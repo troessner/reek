@@ -9,61 +9,56 @@ Feature:
     - fix them step by step
     - get rid of the todo file
 
-  Background:
-    Given a directory 'lib' with one clean file 'clean.rb' and one dirty file 'dirty.rb'
-    And a directory 'superclean' with one clean file 'clean.rb'
-
   Scenario: Generate a proper todo file that disables all found smells
-    When I run reek lib
+    Given a smelly file called 'smelly.rb'
+    When I run reek smelly.rb
     Then the exit status indicates smells
     And it reports:
       """
-      lib/dirty.rb -- 3 warnings:
-        [1]:IrresponsibleModule: Dirty has no descriptive comment [https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md]
-        [2]:UncommunicativeMethodName: Dirty#a has the name 'a' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
-        [3]:UncommunicativeMethodName: Dirty#b has the name 'b' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
-      3 total warnings
+      smelly.rb -- 3 warnings:
+        [4, 5]:DuplicateMethodCall: Smelly#m calls @foo.bar 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
+        [4, 5]:DuplicateMethodCall: Smelly#m calls puts @foo.bar 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
+        [3]:UncommunicativeMethodName: Smelly#m has the name 'm' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
       """
-    When I run reek --todo lib
+    When I run reek --todo smelly.rb
     Then it succeeds
-    And a file named ".todo.reek" should exist
-    And the file ".todo.reek" should contain:
-      """
-      ---
-      IrresponsibleModule:
-        exclude:
-        - Dirty
-      UncommunicativeMethodName:
-        exclude:
-        - Dirty#a
-        - Dirty#b
-        """
-    When I run reek -c .todo.reek lib
-    Then it succeeds
-
-  Scenario: Respects an configuration file
-    Given a configuration file 'config.reek' that partially masks 'dirty.rb'
-    When I run reek -c config.reek --todo lib
-    Then it succeeds
-    And a file named ".todo.reek" should exist
-    And the file ".todo.reek" should contain:
-      """
-      ---
-      UncommunicativeMethodName:
-        exclude:
-        - Dirty#a
-      """
-
-  Scenario: Print out a helpful message that explains to the user what to do next
-    When I run reek --todo lib
-    Then it reports:
+    And it reports:
       """
 
       '.todo.reek' generated! You can now use this as a starting point for your configuration.
       """
+    And a file named ".todo.reek" should exist
+    And the file ".todo.reek" should contain:
+      """
+      ---
+      DuplicateMethodCall:
+        exclude:
+        - Smelly#m
+        - Smelly#m
+      UncommunicativeMethodName:
+        exclude:
+        - Smelly#m
+        """
+    When I run reek -c .todo.reek smelly.rb
+    Then it succeeds
+
+  Scenario: Respects a configuration file
+    Given a smelly file called 'smelly.rb'
+    And a configuration file disabling DuplicateMethodCall called 'config.reek'
+    When I run reek -c config.reek --todo smelly.rb
+    Then it succeeds
+    And a file named ".todo.reek" should exist
+    And the file ".todo.reek" should contain:
+      """
+      ---
+      UncommunicativeMethodName:
+        exclude:
+        - Smelly#m
+      """
 
   Scenario: Reacts appropiately when there are no smells
-    When I run reek --todo superclean/
+    Given the clean file 'clean.rb'
+    When I run reek --todo clean.rb
     Then a file named ".todo.reek" should not exist
     And it reports:
       """

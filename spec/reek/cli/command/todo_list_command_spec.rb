@@ -37,6 +37,12 @@ RSpec.describe Reek::CLI::Command::TodoListCommand do
         result = command.execute
         expect(result).to eq(Reek::CLI::Options::DEFAULT_SUCCESS_EXIT_CODE)
       end
+
+      it 'writes a todo file' do
+        command.execute
+        expected_yaml = { 'FeatureEnvy' => { 'exclude' => ['self'] } }.to_yaml
+        expect(File).to have_received(:write).with(described_class::FILE_NAME, expected_yaml)
+      end
     end
 
     context 'no smells found' do
@@ -53,13 +59,10 @@ RSpec.describe Reek::CLI::Command::TodoListCommand do
         result = command.execute
         expect(result).to eq Reek::CLI::Options::DEFAULT_SUCCESS_EXIT_CODE
       end
-    end
 
-    describe 'groups_for' do
-      it 'returns a proper hash representation of the smells found' do
-        smells = [FactoryGirl.build(:smell_warning)]
-        expected = { 'FeatureEnvy' => { 'exclude' => ['self'] } }
-        expect(command.send(:groups_for, smells)).to eq(expected)
+      it 'does not write a todo file' do
+        command.execute
+        expect(File).not_to have_received(:write)
       end
     end
   end
