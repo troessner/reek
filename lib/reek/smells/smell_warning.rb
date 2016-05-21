@@ -63,6 +63,10 @@ module Reek
         "#{smell_type}: #{context} #{message}"
       end
 
+      def smell_class
+        smell_detector.class
+      end
+
       protected
 
       def sort_key
