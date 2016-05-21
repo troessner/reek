@@ -34,7 +34,6 @@ Feature:
       DuplicateMethodCall:
         exclude:
         - Smelly#m
-        - Smelly#m
       UncommunicativeMethodName:
         exclude:
         - Smelly#m

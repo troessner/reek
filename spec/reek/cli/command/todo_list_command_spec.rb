@@ -45,6 +45,19 @@ RSpec.describe Reek::CLI::Command::TodoListCommand do
       end
     end
 
+    context 'smells with duplicate context found' do
+      before do
+        smells = [FactoryGirl.build(:smell_warning), FactoryGirl.build(:smell_warning)]
+        allow(command).to receive(:scan_for_smells).and_return(smells)
+      end
+
+      it 'writes the context into the todo file once' do
+        command.execute
+        expected_yaml = { 'FeatureEnvy' => { 'exclude' => ['self'] } }.to_yaml
+        expect(File).to have_received(:write).with(described_class::FILE_NAME, expected_yaml)
+      end
+    end
+
     context 'no smells found' do
       before do
         allow(command).to receive(:scan_for_smells).and_return []

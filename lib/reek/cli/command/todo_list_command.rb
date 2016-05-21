@@ -39,7 +39,7 @@ module Reek
           @groups ||= begin
             Hash[
               smells.group_by(&:smell_type).map do |smell_type, smells_for_type|
-                [smell_type, { 'exclude' => smells_for_type.map(&:context) }]
+                [smell_type, { 'exclude' => smells_for_type.map(&:context).uniq }]
               end
             ]
           end
