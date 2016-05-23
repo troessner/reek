@@ -1,5 +1,10 @@
 # Change log
 
+## 4.0.3 (2016-05-23)
+
+* (mvz) Include default exclusions in generated TODO file
+* (mvz) Avoid generating duplicate context entries in exclusions
+
 ## 4.0.2 (2016-04-23)
 
 * (mvz) Stop UnusedPrivateMethod getting confused by nested classes
