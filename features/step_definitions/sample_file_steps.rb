@@ -118,6 +118,14 @@ Given(/^a configuration file masking some duplication smells called 'config.reek
   EOS
 end
 
+Given(/^a configuration file disabling DuplicateMethodCall called 'config.reek'$/) do
+  write_file('config.reek', <<-EOS.strip_heredoc)
+    ---
+    DuplicateMethodCall:
+      enabled: false
+  EOS
+end
+
 When(/^I run "reek (.*?)" in the subdirectory$/) do |args|
   cd 'subdir'
   reek(args)

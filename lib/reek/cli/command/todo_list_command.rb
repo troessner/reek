@@ -36,13 +36,13 @@ module Reek
         end
 
         def groups_for(smells)
-          @groups ||= begin
-            Hash[
-              smells.group_by(&:smell_type).map do |smell_type, smells_for_type|
-                [smell_type, { 'exclude' => smells_for_type.map(&:context) }]
+          @groups ||=
+            begin
+              todos = smells.group_by(&:smell_class).map do |smell_class, smells_for_class|
+                smell_class.todo_configuration_for(smells_for_class)
               end
-            ]
-          end
+              todos.inject(&:merge)
+            end
         end
       end
     end

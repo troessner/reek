@@ -55,6 +55,12 @@ module Reek
         context.matches?(value(EXCLUDE_KEY, context, DEFAULT_EXCLUDE_SET))
       end
 
+      def self.todo_configuration_for(smells)
+        default_exclusions = default_config.fetch 'exclude'
+        exclusions = default_exclusions + smells.map(&:context)
+        { smell_type => { 'exclude' => exclusions.uniq } }
+      end
+
       private
 
       attr_accessor :smells_found

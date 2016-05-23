@@ -3,6 +3,11 @@ require_lib 'reek/cli/command/todo_list_command'
 require_lib 'reek/cli/options'
 
 RSpec.describe Reek::CLI::Command::TodoListCommand do
+  let(:nil_check) { build :smell_detector, smell_type: :NilCheck }
+  let(:feature_envy) { build :smell_detector, smell_type: :FeatureEnvy }
+  let(:nested_iterators) { build :smell_detector, smell_type: :NestedIterators }
+  let(:too_many_statements) { build :smell_detector, smell_type: :TooManyStatements }
+
   describe '#execute' do
     let(:options) { Reek::CLI::Options.new [] }
     let(:configuration) { double 'configuration' }
@@ -24,7 +29,7 @@ RSpec.describe Reek::CLI::Command::TodoListCommand do
 
     context 'smells found' do
       before do
-        smells = [FactoryGirl.build(:smell_warning)]
+        smells = [build(:smell_warning, context: 'Foo#bar')]
         allow(command).to receive(:scan_for_smells).and_return(smells)
       end
 
@@ -36,6 +41,61 @@ RSpec.describe Reek::CLI::Command::TodoListCommand do
       it 'returns a success code' do
         result = command.execute
         expect(result).to eq(Reek::CLI::Options::DEFAULT_SUCCESS_EXIT_CODE)
+      end
+
+      it 'writes a todo file' do
+        command.execute
+        expected_yaml = { 'FeatureEnvy' => { 'exclude' => ['Foo#bar'] } }.to_yaml
+        expect(File).to have_received(:write).with(described_class::FILE_NAME, expected_yaml)
+      end
+    end
+
+    context 'smells with duplicate context found' do
+      before do
+        smells = [
+          build(:smell_warning, context: 'Foo#bar', smell_detector: feature_envy),
+          build(:smell_warning, context: 'Foo#bar', smell_detector: feature_envy)
+        ]
+        allow(command).to receive(:scan_for_smells).and_return(smells)
+      end
+
+      it 'writes the context into the todo file once' do
+        command.execute
+        expected_yaml = { 'FeatureEnvy' => { 'exclude' => ['Foo#bar'] } }.to_yaml
+        expect(File).to have_received(:write).with(described_class::FILE_NAME, expected_yaml)
+      end
+    end
+
+    context 'smells with default exclusions found' do
+      let(:smell) { build :smell_warning, smell_detector: too_many_statements, context: 'Foo#bar' }
+
+      before do
+        allow(command).to receive(:scan_for_smells).and_return [smell]
+      end
+
+      it 'includes the default exclusions in the generated yaml' do
+        command.execute
+        expected_yaml = { 'TooManyStatements' => { 'exclude' => ['initialize', 'Foo#bar'] } }.to_yaml
+        expect(File).to have_received(:write).with(described_class::FILE_NAME, expected_yaml)
+      end
+    end
+
+    context 'smells of different types found' do
+      before do
+        smells = [
+          build(:smell_warning, context: 'Foo#bar', smell_detector: nil_check),
+          build(:smell_warning, context: 'Bar#baz', smell_detector: nested_iterators)
+        ]
+        allow(command).to receive(:scan_for_smells).and_return(smells)
+      end
+
+      it 'writes the context into the todo file once' do
+        command.execute
+        expected_yaml = {
+          'NilCheck' => { 'exclude' => ['Foo#bar'] },
+          'NestedIterators' => { 'exclude' => ['Bar#baz'] }
+        }.to_yaml
+        expect(File).to have_received(:write).with(described_class::FILE_NAME, expected_yaml)
       end
     end
 
@@ -53,13 +113,10 @@ RSpec.describe Reek::CLI::Command::TodoListCommand do
         result = command.execute
         expect(result).to eq Reek::CLI::Options::DEFAULT_SUCCESS_EXIT_CODE
       end
-    end
 
-    describe 'groups_for' do
-      it 'returns a proper hash representation of the smells found' do
-        smells = [FactoryGirl.build(:smell_warning)]
-        expected = { 'FeatureEnvy' => { 'exclude' => ['self'] } }
-        expect(command.send(:groups_for, smells)).to eq(expected)
+      it 'does not write a todo file' do
+        command.execute
+        expect(File).not_to have_received(:write)
       end
     end
   end

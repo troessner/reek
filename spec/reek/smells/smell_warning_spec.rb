@@ -5,6 +5,7 @@ RSpec.describe Reek::Smells::SmellWarning do
   let(:duplication_detector)  { build(:smell_detector, smell_type: 'DuplicateMethodCall') }
   let(:feature_envy_detector) { build(:smell_detector, smell_type: 'FeatureEnvy') }
   let(:utility_function_detector) { build(:smell_detector, smell_type: 'UtilityFunction') }
+  let(:uncommunicative_name_detector) { build(:smell_detector, smell_type: 'UncommunicativeVariableName') }
 
   context 'sort order' do
     shared_examples_for 'first sorts ahead of second' do
@@ -65,22 +66,25 @@ RSpec.describe Reek::Smells::SmellWarning do
 
     context 'smells differing everywhere' do
       let(:first) do
-        duplication_detector = build(:smell_detector,
-                                     smell_type: 'DuplicateMethodCall')
         build(:smell_warning, smell_detector: duplication_detector,
                               context: 'Dirty#a',
                               message: 'calls @s.title twice')
       end
 
       let(:second) do
-        uncommunicative_name_detector = build(:smell_detector,
-                                              smell_type: 'UncommunicativeVariableName')
         build(:smell_warning, smell_detector: uncommunicative_name_detector,
                               context: 'Dirty',
                               message: "has the variable name '@s'")
       end
 
       it_should_behave_like 'first sorts ahead of second'
+    end
+  end
+
+  describe '#smell_class' do
+    it "returns the dectector's class" do
+      warning = build(:smell_warning, smell_detector: duplication_detector)
+      expect(warning.smell_class).to eq duplication_detector.class
     end
   end
 
