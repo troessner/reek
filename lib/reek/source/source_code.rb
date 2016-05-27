@@ -6,6 +6,9 @@ end
 require_relative '../tree_dresser'
 require_relative '../ast/node'
 
+# Opt in to new way of representing lambdas
+Parser::Builders::Default.emit_lambda = true
+
 module Reek
   module Source
     #
