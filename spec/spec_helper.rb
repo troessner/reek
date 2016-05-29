@@ -82,6 +82,11 @@ RSpec.configure do |config|
   config.mock_with :rspec do |mocks|
     mocks.verify_partial_doubles = true
   end
+
+  # Avoid infinitely running tests. This is mainly useful when running mutant.
+  config.around(:each) do |example|
+    Timeout.timeout(5, &example)
+  end
 end
 
 private
