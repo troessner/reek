@@ -30,3 +30,6 @@ notifications:
     - matijs@matijs.net
     - chastell@chastell.net
   irc: irc.freenode.org#reek
+branches:
+  only:
+    - master
