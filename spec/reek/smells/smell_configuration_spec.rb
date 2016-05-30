@@ -2,11 +2,6 @@ require_relative '../../spec_helper'
 require_lib 'reek/smells/smell_configuration'
 
 RSpec.describe Reek::Smells::SmellConfiguration do
-  it 'returns the default value when key not found' do
-    cf = described_class.new({})
-    expect(cf.value('fred', nil, 27)).to eq(27)
-  end
-
   context 'when overriding default configs' do
     let(:base_config) do
       {

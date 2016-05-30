@@ -45,8 +45,8 @@ module Reek
       # :reek:FeatureEnvy
       # :reek:DuplicateMethodCall: { max_calls: 2 }
       def inspect(ctx)
-        max_allowed_calls = value(MAX_ALLOWED_CALLS_KEY, ctx, DEFAULT_MAX_CALLS)
-        allow_calls = value(ALLOW_CALLS_KEY, ctx, DEFAULT_ALLOW_CALLS)
+        max_allowed_calls = value(MAX_ALLOWED_CALLS_KEY, ctx)
+        allow_calls = value(ALLOW_CALLS_KEY, ctx)
 
         collector = CallCollector.new(ctx, max_allowed_calls, allow_calls)
         collector.smelly_calls.map do |found_call|

@@ -49,8 +49,8 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       def inspect(ctx)
-        self.reject_names = value(REJECT_KEY, ctx, DEFAULT_REJECT_SET)
-        self.accept_names = value(ACCEPT_KEY, ctx, DEFAULT_ACCEPT_SET)
+        self.reject_names = value(REJECT_KEY, ctx)
+        self.accept_names = value(ACCEPT_KEY, ctx)
         variable_names(ctx.exp).select do |name, _lines|
           bad_name?(name, ctx)
         end.map do |name, lines|

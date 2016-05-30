@@ -76,7 +76,7 @@ module Reek
 
       def ignore_method?(method_ctx)
         method_ctx.non_public_visibility? &&
-          value(PUBLIC_METHODS_ONLY_KEY, method_ctx, PUBLIC_METHODS_ONLY_DEFAULT)
+          value(PUBLIC_METHODS_ONLY_KEY, method_ctx)
       end
     end
   end

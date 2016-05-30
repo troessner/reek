@@ -52,7 +52,7 @@ module Reek
       end
 
       def exception?(context)
-        context.matches?(value(EXCLUDE_KEY, context, DEFAULT_EXCLUDE_SET))
+        context.matches?(value(EXCLUDE_KEY, context))
       end
 
       def self.todo_configuration_for(smells)
@@ -69,8 +69,8 @@ module Reek
         config.enabled? && config_for(context)[SmellConfiguration::ENABLED_KEY] != false
       end
 
-      def value(key, ctx, fall_back)
-        config_for(ctx)[key] || config.value(key, ctx, fall_back)
+      def value(key, ctx)
+        config_for(ctx)[key] || config.value(key, ctx)
       end
 
       def config_for(ctx)

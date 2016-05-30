@@ -108,7 +108,7 @@ module Reek
       end
 
       def configure_ignore_iterators(ctx)
-        self.ignore_iterators = value(IGNORE_ITERATORS_KEY, ctx, DEFAULT_IGNORE_ITERATORS)
+        self.ignore_iterators = value(IGNORE_ITERATORS_KEY, ctx)
       end
 
       def increment_depth(iterator, depth)
@@ -116,7 +116,7 @@ module Reek
       end
 
       def max_nesting(ctx)
-        value(MAX_ALLOWED_NESTING_KEY, ctx, DEFAULT_MAX_ALLOWED_NESTING)
+        value(MAX_ALLOWED_NESTING_KEY, ctx)
       end
 
       # :reek:FeatureEnvy
