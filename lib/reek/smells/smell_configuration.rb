@@ -29,13 +29,14 @@ module Reek
         Overrides.new(options.fetch(OVERRIDES_KEY, {})).for_context(context)
       end
 
-      # Retrieves the value, if any, for the given +key+.
+      # Retrieves the value, if any, for the given +key+ in the given +context+.
       #
-      # Returns +fall_back+ if this config has no value for the key.
+      # Raises an error if neither the context nor this config have a value for
+      # the key.
       #
-      def value(key, context, fall_back)
+      def value(key, context)
         overrides_for(context).each { |conf| return conf[key] if conf.key?(key) }
-        options.fetch(key, fall_back)
+        options.fetch(key)
       end
 
       private

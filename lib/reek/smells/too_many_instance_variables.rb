@@ -35,7 +35,7 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       def inspect(ctx)
-        max_allowed_ivars = value(MAX_ALLOWED_IVARS_KEY, ctx, DEFAULT_MAX_IVARS)
+        max_allowed_ivars = value(MAX_ALLOWED_IVARS_KEY, ctx)
         count = ctx.local_nodes(:ivasgn).map { |ivasgn| ivasgn.children.first }.uniq.length
         return [] if count <= max_allowed_ivars
         [smell_warning(

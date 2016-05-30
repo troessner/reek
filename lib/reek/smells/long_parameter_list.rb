@@ -35,7 +35,7 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       def inspect(ctx)
-        max_allowed_params = value(MAX_ALLOWED_PARAMS_KEY, ctx, DEFAULT_MAX_ALLOWED_PARAMS)
+        max_allowed_params = value(MAX_ALLOWED_PARAMS_KEY, ctx)
         exp = ctx.exp
         count = exp.arg_names.length
         return [] if count <= max_allowed_params

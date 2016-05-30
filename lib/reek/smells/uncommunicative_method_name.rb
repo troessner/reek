@@ -56,11 +56,11 @@ module Reek
       end
 
       def reject_patterns(context)
-        Array value(REJECT_KEY, context, DEFAULT_REJECT_PATTERNS)
+        Array value(REJECT_KEY, context)
       end
 
       def accept_patterns(context)
-        Array value(ACCEPT_KEY, context, DEFAULT_ACCEPT_PATTERNS)
+        Array value(ACCEPT_KEY, context)
       end
     end
   end

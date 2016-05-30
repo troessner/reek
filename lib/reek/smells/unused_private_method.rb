@@ -81,7 +81,7 @@ module Reek
       # :reek:FeatureEnvy
       def ignore_method?(ctx, method)
         # ignore_contexts will be e.g. ["Foo::Smelly#my_method", "..."]
-        ignore_contexts = value(EXCLUDE_KEY, ctx, DEFAULT_EXCLUDE_SET)
+        ignore_contexts = value(EXCLUDE_KEY, ctx)
         ignore_contexts.any? do |ignore_context|
           full_name = "#{method.parent.full_name}##{method.name}"
           full_name[ignore_context]
