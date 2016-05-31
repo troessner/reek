@@ -217,6 +217,28 @@ RSpec.describe Reek::Smells::UtilityFunction do
     end
   end
 
+  context 'with the default configuration' do
+    it 'reports private methods' do
+      src = <<-EOS
+          class C
+            private
+            def m1(a) a.to_s; end
+          end
+      EOS
+      expect(src).to reek_of(:UtilityFunction)
+    end
+
+    it 'reports protected methods' do
+      src = <<-EOS
+          class C
+            protected
+            def m1(a) a.to_s; end
+          end
+      EOS
+      expect(src).to reek_of(:UtilityFunction)
+    end
+  end
+
   describe 'disabling UtilityFunction via configuration for non-public methods' do
     let(:config) do
       { Reek::Smells::UtilityFunction::PUBLIC_METHODS_ONLY_KEY => true }

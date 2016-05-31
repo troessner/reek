@@ -41,6 +41,10 @@ module Reek
       PUBLIC_METHODS_ONLY_KEY     = 'public_methods_only'.freeze
       PUBLIC_METHODS_ONLY_DEFAULT = false
 
+      def self.default_config
+        super.merge(PUBLIC_METHODS_ONLY_KEY => PUBLIC_METHODS_ONLY_DEFAULT)
+      end
+
       class << self
         def contexts # :nodoc:
           [:def]
