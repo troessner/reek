@@ -13,9 +13,8 @@ module Reek
     class NestedIterators < SmellDetector
       # Struct for conveniently associating iterators with their depth (that is, their nesting).
       Iterator = Struct.new :exp, :depth do
-        include Comparable
-        def <=>(other)
-          depth <=> other.depth
+        def line
+          exp.line
         end
       end
 
@@ -36,41 +35,55 @@ module Reek
         )
       end
 
-      #
-      # Attempts to find the deepest nested iterator and warns if it's depth
-      # is bigger than our allowed maximum.
+      # Generates a smell warning for each independent deepest nesting depth
+      # that is greater than our allowed maximum. This means if two iterators
+      # with the same depth were found, we combine them into one warning and
+      # merge the line information.
       #
       # @return [Array<SmellWarning>]
       #
-      # :reek:TooManyStatements: { max_statements: 6 }
       def inspect(ctx)
-        configure_ignore_iterators(ctx)
-        deepest_iterator = find_deepest_iterator ctx
-        return [] unless deepest_iterator
-        depth = deepest_iterator.depth
-        return [] unless depth > max_nesting(ctx)
+        configure_ignore_iterators ctx
+        violations = find_violations ctx
 
-        [smell_warning(
-          context: ctx,
-          lines: [deepest_iterator.exp.line],
-          message: "contains iterators nested #{depth} deep",
-          parameters: { name: ctx.full_name, count: depth })]
+        violations.group_by(&:depth).map do |depth, group|
+          lines = group.map(&:line)
+          smell_warning(
+            context: ctx,
+            lines: lines,
+            message: "contains iterators nested #{depth} deep",
+            parameters: { name: ctx.full_name, count: depth })
+        end
       end
 
       private
 
       attr_accessor :ignore_iterators
 
+      # Finds the set of independent most deeply nested iterators that are
+      # nested more deeply than allowed.
       #
-      # @return [Iterator|nil]
+      # Here, independent means that if iterator A is contained within iterator
+      # B, we only include A. But if iterators A and B are both contained in
+      # iterator C, but A is not contained in B, nor B in A, both A and B are
+      # included.
       #
-      def find_deepest_iterator(ctx)
+      # @return [Array<Iterator>]
+      #
+      def find_violations(ctx)
+        candidates = find_candidates ctx
+        max_allowed_nesting = max_nesting(ctx)
+        candidates.select { |it| it.depth > max_allowed_nesting }
+      end
+
+      # Finds the set of independent most deeply nested iterators regardless of
+      # nesting depth.
+      #
+      # @return [Array<Iterator>]
+      #
+      def find_candidates(ctx)
         exp = ctx.exp
-        return nil unless exp.find_nodes([:block])
-        scout(parent: exp, exp: exp, depth: 0).
-          flatten.
-          sort.
-          last
+        scout(exp: exp, depth: 0)
       end
 
       # A little digression into parser's sexp is necessary here:
@@ -79,31 +92,33 @@ module Reek
       #   foo.each() do ... end
       # this will end up as:
       #
-      # "foo.each() do ... end" -> the iterator below
-      # "each()"                -> the "call" below
-      # "do ... end"            -> the "block" below
-      #
-      # @param parent [AST::Node] The parent iterator
+      # "foo.each() do ... end" -> one of the :block nodes
+      # "each()"                -> the node's "call"
+      # "do ... end"            -> the node's "block"
       #
       # @param exp [AST::Node]
       #   The given expression to analyze.
-      #   Will be nil on empty blocks so we'll return just the parent iterator
       #
       # @param depth [Integer]
       #
       # @return [Array<Iterator>]
       #
-      def scout(parent:, exp:, depth:)
-        return [Iterator.new(parent, depth)] unless exp
-        iterators = exp.find_nodes([:block])
-        return [Iterator.new(parent, depth)] if iterators.empty?
-        iterators.map do |iterator|
+      # :reek:TooManyStatements: { max_statements: 6 }
+      def scout(exp:, depth:)
+        return [] unless exp
+        exp.find_nodes([:block]).flat_map do |iterator|
+          new_depth = increment_depth(iterator, depth)
           # 1st case: we recurse down the given block of the iterator. In this case
           # we need to check if we should increment the depth.
           # 2nd case: we recurse down the associated call of the iterator. In this case
           # the depth stays the same.
-          scout(parent: iterator, exp: iterator.block, depth: increment_depth(iterator, depth)) +
-            scout(parent: iterator, exp: iterator.call, depth: depth)
+          nested_iterators = scout(exp: iterator.block, depth: new_depth) +
+            scout(exp: iterator.call, depth: depth)
+          if nested_iterators.empty?
+            Iterator.new(iterator, new_depth)
+          else
+            nested_iterators
+          end
         end
       end
 

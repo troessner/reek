@@ -82,6 +82,7 @@ RSpec.describe Reek::Smells::NestedIterators do
         }
       end
     EOS
+    expect(src).not_to reek_of(:NestedIterators, count: 2)
     expect(src).to reek_of(:NestedIterators, count: 3)
   end
 
@@ -112,7 +113,7 @@ RSpec.describe Reek::Smells::NestedIterators do
   describe 'inspect / warnings' do
     let(:detector) { build(:smell_detector, smell_type: :NestedIterators) }
 
-    it 'reports correctly' do
+    it 'reports a sensible warning message' do
       source = <<-EOS
         def foo
           bar do |bar|
@@ -120,41 +121,40 @@ RSpec.describe Reek::Smells::NestedIterators do
           end
         end
       EOS
-      warnings = detector.inspect(build(:method_context, source: source))
-      warning = warnings.first
-
-      expect(warning.smell_type).to eq(Reek::Smells::NestedIterators.smell_type)
-      expect(warning.parameters[:name]).to eq('foo')
-      expect(warning.lines).to eq([3])
+      expect(source).to reek_of(:NestedIterators, message: 'contains iterators nested 2 deep')
     end
 
-    it 'should report nested iterators only once per method' do
+    it 'reports the name of the method and line of the deepest iterator' do
       source = <<-EOS
-        def bad(fred)
+        def foo
+          bar do |bar|
+            baz {|baz| }
+          end
+        end
+      EOS
+      expect(source).to reek_of(:NestedIterators, name: 'foo', lines: [3])
+    end
+
+    it 'reports all lines on which nested iterators occur' do
+      source = <<-EOS
+        def bad
           @fred.each {|item| item.each {|part| @joe.send} }
           @jim.each {|ting| ting.each {|piece| @hal.send} }
         end
       EOS
 
-      warnings = detector.inspect(build(:method_context, source: source))
-      expect(warnings.size).to eq(1)
-      warning = warnings.first
-      expect(warning.parameters[:name]).to eq('bad')
+      expect(source).to reek_of(:NestedIterators, name: 'bad', lines: [2, 3])
     end
 
-    it 'reports nested iterators only once per method even if levels are different' do
+    it 'reports separete cases of nested iterators if levels are different' do
       source = <<-EOS
-        def bad(fred)
+        def bad
           @fred.each {|item| item.each {|part| part.foo} }
           @jim.each {|ting| ting.each {|piece| piece.each {|atom| atom.foo } } }
         end
       EOS
-      warnings = detector.inspect(build(:method_context, source: source))
-      expect(warnings.size).to eq(1)
-      warning = warnings.first
-
-      expect(warning.parameters[:name]).to eq('bad')
-      expect(warning.lines).to eq([3])
+      expect(source).to reek_of(:NestedIterators, name: 'bad', lines: [2], count: 2)
+      expect(source).to reek_of(:NestedIterators, name: 'bad', lines: [3], count: 3)
     end
   end
 
