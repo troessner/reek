@@ -2,7 +2,7 @@
 
 ## Introduction
 
-_Control Parameter_ is a case of [Control Couple](Control-Couple.md)
+_Control Parameter_ is a case of [Control Couple](Control-Couple.md).
 
 ## Example
 
