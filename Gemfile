@@ -7,12 +7,12 @@ group :development do
   gem 'ataru',         '~> 0.2.0'
   gem 'cucumber',      '~> 2.0'
   gem 'factory_girl',  '~> 4.0'
+  gem 'mutant-rspec',  '~> 0.8.8'
   gem 'rake',          '~> 11.1'
   gem 'rspec',         '~> 3.0'
   gem 'rubocop',       '~> 0.39.0'
-  gem 'yard',          '~> 0.8.7'
   gem 'simplecov',     '~> 0.11.1'
-  gem 'mutant-rspec',  '~> 0.8.8'
+  gem 'yard',          '~> 0.8.7'
 
   platforms :mri do
     gem 'redcarpet', '~> 3.3.1'
@@ -21,8 +21,8 @@ end
 
 group :debugging do
   # Fixing https://github.com/guard/guard/wiki/Add-Readline-support-to-Ruby-on-Mac-OS-X#option-4-using-a-pure-ruby-readline-implementation
-  gem 'rb-readline', '~> 0.5.3'
   gem 'pry'
+  gem 'rb-readline', '~> 0.5.3'
   platforms :mri do
     gem 'pry-byebug'
     gem 'pry-stack_explorer'
