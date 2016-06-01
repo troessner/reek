@@ -10,7 +10,7 @@ Reek implements a check for _Duplicate Method Call_.
 Here's a very much simplified and contrived example. The following method will report a warning:
 
 ```Ruby
-def double_thing()
+def double_thing
   @other.thing + @other.thing
 end
 ```
@@ -18,18 +18,22 @@ end
 One quick approach to silence Reek would be to refactor the code thus:
 
 ```Ruby
-def double_thing()
+def double_thing
   thing = @other.thing
   thing + thing
 end
 ```
 
-A slightly different approach would be to replace all calls of `double_thing` by calls to `@other.double_thing`:
+A slightly different approach would be to replace all calls in `double_thing` by calls to `thing`:
 
 ```Ruby
 class Other
-  def double_thing()
+  def double_thing
     thing + thing
+  end
+
+  def thing
+    @other.thing
   end
 end
 ```
