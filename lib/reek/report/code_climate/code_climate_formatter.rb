@@ -15,8 +15,7 @@ module Reek
                             categories: categories,
                             location: location,
                             remediation_points: remediation_points,
-                            content: content
-                           ).render
+                            content: content).render
       end
 
       private
@@ -39,8 +38,7 @@ module Reek
         warning_lines = warning.lines
         CCEngine::Location::LineRange.new(
           path: warning.source,
-          line_range: warning_lines.first..warning_lines.last
-        )
+          line_range: warning_lines.first..warning_lines.last)
       end
 
       def remediation_points

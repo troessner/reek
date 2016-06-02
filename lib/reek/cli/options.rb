@@ -109,8 +109,7 @@ module Reek
         parser.on(
           '-f', '--format FORMAT', [:html, :text, :yaml, :json, :xml, :code_climate],
           'Report smells in the given format:',
-          '  html', '  text (default)', '  yaml', '  json', '  xml', '  code_climate'
-        ) do |opt|
+          '  html', '  text (default)', '  yaml', '  json', '  xml', '  code_climate') do |opt|
           self.report_format = opt
         end
       end

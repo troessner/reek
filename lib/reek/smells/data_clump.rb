@@ -42,8 +42,7 @@ module Reek
       def self.default_config
         super.merge(
           MAX_COPIES_KEY => DEFAULT_MAX_COPIES,
-          MIN_CLUMP_SIZE_KEY => DEFAULT_MIN_CLUMP_SIZE
-        )
+          MIN_CLUMP_SIZE_KEY => DEFAULT_MIN_CLUMP_SIZE)
       end
 
       #

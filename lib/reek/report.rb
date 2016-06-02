@@ -25,7 +25,8 @@ module Reek
 
     HEADING_FORMATTERS = {
       verbose: HeadingFormatter::Verbose,
-      quiet: HeadingFormatter::Quiet }.freeze
+      quiet: HeadingFormatter::Quiet
+    }.freeze
 
     WARNING_FORMATTER_CLASSES = {
       wiki_links: WikiLinkWarningFormatter,

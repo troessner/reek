@@ -72,10 +72,9 @@ module Reek
 
       def load_values(configuration_hash)
         configuration_hash.each do |key, value|
-          case
-          when key == EXCLUDE_PATHS_KEY
+          if key == EXCLUDE_PATHS_KEY
             excluded_paths.add value
-          when smell_type?(key)
+          elsif smell_type?(key)
             default_directive.add key, value
           else
             directory_directives.add key, value

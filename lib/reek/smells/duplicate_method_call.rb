@@ -33,8 +33,7 @@ module Reek
       def self.default_config
         super.merge(
           MAX_ALLOWED_CALLS_KEY => DEFAULT_MAX_CALLS,
-          ALLOW_CALLS_KEY => DEFAULT_ALLOW_CALLS
-        )
+          ALLOW_CALLS_KEY => DEFAULT_ALLOW_CALLS)
       end
 
       #

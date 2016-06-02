@@ -31,8 +31,7 @@ module Reek
       def self.default_config
         super.merge(
           MAX_ALLOWED_NESTING_KEY => DEFAULT_MAX_ALLOWED_NESTING,
-          IGNORE_ITERATORS_KEY => DEFAULT_IGNORE_ITERATORS
-        )
+          IGNORE_ITERATORS_KEY => DEFAULT_IGNORE_ITERATORS)
       end
 
       # Generates a smell warning for each independent deepest nesting depth
