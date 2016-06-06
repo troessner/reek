@@ -28,7 +28,8 @@ module Reek
               smell_warning(
                 context: ctx,
                 lines:   [ctx.exp.line],
-                message: 'has initialize method')
+                message: 'has initialize method',
+                parameters: { name: ctx.name })
             ]
           end
         end

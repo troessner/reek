@@ -24,6 +24,10 @@ RSpec.describe Reek::Smells::UtilityFunction do
       it 'reports the line number of the method' do
         expect(warning.lines).to eq([1])
       end
+
+      it 'reports the right message' do
+        expect(warning.message).to eq("doesn't depend on instance state (maybe move it to another class?)")
+      end
     end
   end
 
@@ -251,7 +255,7 @@ RSpec.describe Reek::Smells::UtilityFunction do
             def m1(a) a.to_s; end
           end
         EOS
-        expect(src).to reek_of(:UtilityFunction, name: 'C#m1').with_config(config)
+        expect(src).to reek_of(:UtilityFunction, name: 'm1').with_config(config)
       end
     end
 

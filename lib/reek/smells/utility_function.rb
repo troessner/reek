@@ -68,7 +68,7 @@ module Reek
           context: ctx,
           lines: [ctx.exp.line],
           message: "doesn't depend on instance state (maybe move it to another class?)",
-          parameters: { name: ctx.full_name })]
+          parameters: { name: ctx.name.to_s })]
       end
 
       private

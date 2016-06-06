@@ -13,14 +13,17 @@ RSpec.describe Reek::Smells::LongYieldList do
       src = 'def simple(arga, argb, &blk) f(3);yield; end'
       expect(src).not_to reek_of(:LongYieldList)
     end
+
     it 'should not report yield with few parameters' do
       src = 'def simple(arga, argb, &blk) f(3);yield a,b; end'
       expect(src).not_to reek_of(:LongYieldList)
     end
+
     it 'should report yield with many parameters' do
       src = 'def simple(arga, argb, &blk) f(3);yield arga,argb,arga,argb; end'
       expect(src).to reek_of(:LongYieldList, count: 4)
     end
+
     it 'should not report yield of a long expression' do
       src = 'def simple(arga, argb, &blk) f(3);yield(if @dec then argb else 5+3 end); end'
       expect(src).not_to reek_of(:LongYieldList)
@@ -33,7 +36,7 @@ RSpec.describe Reek::Smells::LongYieldList do
         def simple(arga, argb, &blk)
           f(3)
           yield(arga,argb,arga,argb)
-          end
+        end
       EOS
       ctx = Reek::Context::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
       detector.inspect(ctx).first
@@ -43,7 +46,9 @@ RSpec.describe Reek::Smells::LongYieldList do
 
     it 'reports the correct values' do
       expect(warning.parameters[:count]).to eq(4)
+      expect(warning.parameters[:name]).to eq(:simple)
       expect(warning.lines).to eq([3])
+      expect(warning.message).to eq('yields 4 parameters')
     end
   end
 end
