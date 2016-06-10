@@ -2,9 +2,7 @@ sudo: false
 cache: bundler
 language: ruby
 bundler_args: --without debugging
-script: "bundle exec rake &&
-        bundle exec ataru check &&
-        RUBY_THREAD_VM_STACK_SIZE=64000 bundle exec mutant --include lib --require reek --use rspec --since master --jobs 4 'Reek*'"
+script: bundle exec rake ci
 rvm:
   - 2.1
   - 2.2
