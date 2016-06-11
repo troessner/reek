@@ -40,4 +40,20 @@ RSpec.describe Reek::Smells::SubclassedFromCoreClass do
     EOS
     expect(src).to reek_of(:SubclassedFromCoreClass, ancestor: "Array")
   end
+
+  it 'should report if we inherit from a core class using Class#new' do
+    src = "Dummy = Class.new(Array)"
+    expect(src).to reek_of(:SubclassedFromCoreClass, ancestor: "Array")
+  end
+
+  it 'should report if we inherit from a core class using Class#new within a namespaced class' do
+    src = <<-EOS
+      module Namespace
+        class Dummy
+          Dummiest = Class.new(Array)
+        end
+      end
+    EOS
+    expect(src).to reek_of(:SubclassedFromCoreClass, ancestor: "Array")
+  end
 end
