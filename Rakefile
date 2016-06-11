@@ -3,6 +3,6 @@ require 'rake/clean'
 
 Dir['tasks/**/*.rake'].each { |t| load t }
 
-task default: :test
-task default: :rubocop unless RUBY_ENGINE == 'rbx'
-task default: 'test:quality'
+task local_test_run: [:test, :rubocop, 'test:quality']
+task ci: [:test, :rubocop, 'test:quality', :ataru, :mutant]
+task default: :local_test_run
