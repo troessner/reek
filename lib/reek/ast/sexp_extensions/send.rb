@@ -10,6 +10,10 @@ module Reek
           children.first
         end
 
+        def emitted
+          children.last
+        end
+
         def name
           children[1]
         end
