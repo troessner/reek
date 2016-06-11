@@ -1,5 +1,9 @@
 # Change log
 
+## 4.0.4 (2016-06-11)
+
+* (troessner) Bump parser
+
 ## 4.0.3 (2016-05-23)
 
 * (mvz) Include default exclusions in generated TODO file
