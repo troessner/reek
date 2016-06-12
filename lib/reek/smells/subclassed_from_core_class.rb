@@ -27,7 +27,7 @@ module Reek
         expression = ctx.exp
         superclass = expression.superclass
 
-        return [] unless expression.superclass? && superclass.core_class?
+        return [] unless superclass && superclass.core_class?
 
         [smell_warning(
           context: ctx,
@@ -38,11 +38,11 @@ module Reek
 
       def inspect_casgn(ctx)
         expression = ctx.exp
-        assignment = expression.assignment
+        value = expression.value_assigned
 
-        return [] unless expression.class_creation? && assignment.emitted.core_class?
+        return [] unless expression.class_creation? && value.value_assigned.core_class?
 
-        ancestor = assignment.emitted
+        ancestor = value.value_assigned
 
         [smell_warning(
           context: ctx,
