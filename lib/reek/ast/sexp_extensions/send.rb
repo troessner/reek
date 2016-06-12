@@ -10,7 +10,7 @@ module Reek
           children.first
         end
 
-        def emitted
+        def value_assigned
           children.last
         end
 

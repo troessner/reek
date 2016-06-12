@@ -4,14 +4,14 @@ module Reek
     module SexpExtensions
       # Utility methods for :casgn nodes.
       module CasgnNode
-        def assignment
+        def value_assigned
           children[2]
         end
 
         def class_creation?
-          assignment.respond_to?(:name) &&
-            assignment.name == :new &&
-              assignment.receiver.name == "Class"
+          value_assigned.respond_to?(:name) &&
+            value_assigned.name == :new &&
+              value_assigned.receiver.name == "Class"
         end
       end
     end
