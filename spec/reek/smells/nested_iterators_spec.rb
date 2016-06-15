@@ -173,6 +173,26 @@ RSpec.describe Reek::Smells::NestedIterators do
     end
   end
 
+  context 'when blocks are specified as lambdas' do
+    it 'does not report blocks that are not nested' do
+      source = <<-EOS
+        def foo
+          bar ->(x) { baz x }
+        end
+      EOS
+      expect(source).not_to reek_of(:NestedIterators)
+    end
+
+    it 'reports blocks that are nested' do
+      source = <<-EOS
+        def foo
+          bar ->(x) { baz x, ->(y) { quux y } }
+        end
+      EOS
+      expect(source).to reek_of(:NestedIterators)
+    end
+  end
+
   context 'when the allowed nesting depth is 3' do
     let(:config) do
       { Reek::Smells::NestedIterators::MAX_ALLOWED_NESTING_KEY => 3 }
