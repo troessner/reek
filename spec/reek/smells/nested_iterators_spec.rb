@@ -17,6 +17,13 @@ RSpec.describe Reek::Smells::NestedIterators do
     end
   end
 
+  context 'with lambdas' do
+    it 'does not crash' do
+      src = 'def fred() mult = ->(one, two) {(1..one).map { |n| two}.sum}; mult.call(4, 3) end'
+      expect(src).to reek_of(:NestedIterators)
+    end
+  end
+
   it 'should report nested iterators in a method' do
     src = 'def bad(fred) @fred.each {|item| item.each {|ting| ting.ting} } end'
     expect(src).to reek_of(:NestedIterators)
