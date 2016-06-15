@@ -332,6 +332,16 @@ RSpec.describe Reek::AST::SexpExtensions::BlockNode do
   end
 end
 
+RSpec.describe Reek::AST::SexpExtensions::LambdaNode do
+  let(:node) { sexp(:lambda) }
+
+  context '#name' do
+    it 'returns :lambda' do
+      expect(node.name).to eq 'lambda'
+    end
+  end
+end
+
 RSpec.describe Reek::AST::SexpExtensions::ModuleNode do
   context 'with a simple name' do
     subject do
