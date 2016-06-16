@@ -1,5 +1,9 @@
 # Change log
 
+## 4.0.5 (2016-06-16)
+
+* (mvz) Handle new lambda syntax in NestedIterators
+
 ## 4.0.4 (2016-06-11)
 
 * (troessner) Bump parser
