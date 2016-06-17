@@ -24,31 +24,28 @@ module Reek
       end
 
       def inspect_class(ctx)
-        expression = ctx.exp
-        superclass = expression.superclass
+        superclass = ctx.exp.ancestor
 
         return [] unless superclass && superclass.core_class?
 
-        [smell_warning(
-          context: ctx,
-          lines: [ctx.exp.line],
-          message: "inherits from a core class #{superclass}",
-          parameters: { ancestor: superclass.name })]
+        [build_smell_warning(ctx, superclass)]
       end
 
       def inspect_casgn(ctx)
-        expression = ctx.exp
-        value = expression.value_assigned
+        ctx.exp.class_creation? ? inspect_class(ctx) : []
+      end
 
-        return [] unless expression.class_creation? && value.value_assigned.core_class?
+      private
 
-        ancestor = value.value_assigned
+      def build_smell_warning(ctx, ancestor)
+        exp = ctx.exp
 
-        [smell_warning(
+        smell_warning({ 
           context: ctx,
-          lines: [ctx.exp.line],
+          lines: [exp.line],
           message: "inherits from a core class #{ancestor}",
-          parameters: { ancestor: ancestor.name })]
+          parameters: { ancestor: ancestor.name }
+        })
       end
     end
   end
