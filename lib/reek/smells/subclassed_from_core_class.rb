@@ -4,7 +4,14 @@ require_relative 'smell_warning'
 
 module Reek
   module Smells
-    # TODO: documentation
+    #
+    # Subclassing core classes in Ruby can lead to unexpected side effects.
+    # Knowing that Ruby has a core library (Written in C) and a standard
+    # library (Written in Ruby), if you don’t know exactly how these core 
+    # classes operate at the C level, you’re gonna have a bad time.
+    #
+    # Source: http://words.steveklabnik.com/beware-subclassing-ruby-core-classes
+    #
     class SubclassedFromCoreClass < SmellDetector
 
       METHODS = {
