@@ -45,7 +45,10 @@ module Reek
       # Utility methods for :class nodes.
       module ClassNode
         include ModuleNodeBase
+
         def superclass() children[1] end
+
+        alias_method :ancestor, :superclass
       end
 
       # Utility methods for :casgn nodes.

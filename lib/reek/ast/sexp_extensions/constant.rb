@@ -4,8 +4,9 @@ module Reek
     module SexpExtensions
       # Utility methods for :const nodes.
       module ConstNode
+        CORE_CLASSES = ["Array", "Hash", "String"].freeze
+
         def name
-          namespace = children.first
           if namespace
             "#{namespace.format_to_ruby}::#{simple_name}"
           else
@@ -15,6 +16,14 @@ module Reek
 
         def simple_name
           children.last
+        end
+
+        def namespace
+          children.first
+        end
+
+        def core_class?
+          CORE_CLASSES.include?(name)
         end
       end
     end

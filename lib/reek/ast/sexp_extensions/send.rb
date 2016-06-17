@@ -10,6 +10,10 @@ module Reek
           children.first
         end
 
+        def value_assigned
+          children.last
+        end
+
         def name
           children[1]
         end

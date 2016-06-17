@@ -4,28 +4,55 @@ require_relative 'smell_warning'
 
 module Reek
   module Smells
-    # TODO: documentation
+    #
+    # Subclassing core classes in Ruby can lead to unexpected side effects.
+    # Knowing that Ruby has a core library (Written in C) and a standard
+    # library (Written in Ruby), if you don’t know exactly how these core 
+    # classes operate at the C level, you’re gonna have a bad time.
+    #
+    # Source: http://words.steveklabnik.com/beware-subclassing-ruby-core-classes
+    #
     class SubclassedFromCoreClass < SmellDetector
-      CORE_CLASSES = [:Array, :Hash, :String]
+
+      METHODS = {
+        casgn: :inspect_casgn,
+        class: :inspect_class,
+      }.freeze
 
       def self.contexts
-        [:class]
+        [:class, :casgn]
       end
 
       # Checks +ctx+ for if it is subclasssed from a core class
       #
       # @return [Array<SmellWarning>]
       def inspect(ctx)
-        _class_node, ancestor_node, _body_node = ctx.exp.to_a
-        return [] if ancestor_node.nil?
-        ancestor_namespace, ancestor = ancestor_node.to_a
-        return [] unless CORE_CLASSES.include?(ancestor) && ancestor_namespace.nil?
+        public_send(METHODS[ctx.type], ctx)
+      end
 
-        [smell_warning(
+      def inspect_class(ctx)
+        superclass = ctx.exp.ancestor
+
+        return [] unless superclass && superclass.core_class?
+
+        [build_smell_warning(ctx, superclass.name)]
+      end
+
+      def inspect_casgn(ctx)
+        ctx.exp.class_creation? ? inspect_class(ctx) : []
+      end
+
+      private
+
+      def build_smell_warning(ctx, ancestor_name)
+        exp = ctx.exp
+
+        smell_warning({ 
           context: ctx,
-          lines: [ctx.exp.line],
-          message: "inherits from a core class #{ancestor}",
-          parameters: { ancestor: ancestor.to_s })]
+          lines: [exp.line],
+          message: "inherits from a core class #{ancestor_name}",
+          parameters: { ancestor: ancestor_name }
+        })
       end
     end
   end
