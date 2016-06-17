@@ -35,7 +35,7 @@ module Reek
 
         return [] unless superclass && superclass.core_class?
 
-        [build_smell_warning(ctx, superclass)]
+        [build_smell_warning(ctx, superclass.name)]
       end
 
       def inspect_casgn(ctx)
@@ -44,14 +44,14 @@ module Reek
 
       private
 
-      def build_smell_warning(ctx, ancestor)
+      def build_smell_warning(ctx, ancestor_name)
         exp = ctx.exp
 
         smell_warning({ 
           context: ctx,
           lines: [exp.line],
-          message: "inherits from a core class #{ancestor}",
-          parameters: { ancestor: ancestor.name }
+          message: "inherits from a core class #{ancestor_name}",
+          parameters: { ancestor: ancestor_name }
         })
       end
     end
