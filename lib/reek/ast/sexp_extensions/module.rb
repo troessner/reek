@@ -47,7 +47,8 @@ module Reek
         include ModuleNodeBase
 
         def superclass() children[1] end
-        def superclass?() !!superclass end
+
+        alias_method :ancestor, :superclass
       end
 
       # Utility methods for :casgn nodes.
