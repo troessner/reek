@@ -1,5 +1,9 @@
 # Change log
 
+## 4.1.0 (2016-06-23)
+
+* (waldyr) Add SubclassedFromCoreClass detector
+
 ## 4.0.5 (2016-06-16)
 
 * (mvz) Handle new lambda syntax in NestedIterators
