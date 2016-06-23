@@ -525,6 +525,37 @@ TooManyInstanceVariables:
     test.rb -- 5 warnings:
       [1]:TooManyInstanceVariables has at least 4 instance variables (TooManyInstanceVariables)
     ```
+TooManyConstants:
+  remediation_points: 500_000
+  content: |
+    `Too Many Constants` is a special case of `LargeClass`.
+
+    ## Example
+
+    Given this configuration
+
+    ```yaml
+    TooManyConstants:
+      max_constants: 3
+    ```
+
+    and this code:
+
+    ```Ruby
+    class TooManyConstants
+      CONST_1 = :dummy
+      CONST_2 = :dummy
+      CONST_3 = :dummy
+      CONST_4 = :dummy
+    end
+    ```
+
+    Reek would emit the following warning:
+
+    ```
+    test.rb -- 1 warnings:
+      [1]:TooManyConstants has 4 constants (TooManyConstants)
+    ```
 TooManyMethods:
   remediation_points: 500_000
   content: |
