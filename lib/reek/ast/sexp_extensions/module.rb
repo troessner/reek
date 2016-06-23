@@ -45,6 +45,7 @@ module Reek
       # Utility methods for :class nodes.
       module ClassNode
         include ModuleNodeBase
+
         def superclass() children[1] end
       end
 
@@ -53,14 +54,69 @@ module Reek
         include ModuleNodeBase
 
         def defines_module?
-          return false unless value
-          call = case value.type
-                 when :block
-                   value.call
-                 when :send
-                   value
-                 end
+          call = constant_definition
           call && call.module_creation_call?
+        end
+
+        # This is the right hand side of a constant
+        # assignment.
+        #
+        # This can be simple:
+        #
+        # Foo = 23
+        #
+        # s(:casgn, nil, :Foo,
+        #   s(:int, 23))
+        #
+        # In this cases we do not care and return nil.
+        #
+        # Or complicated:
+        #
+        # Iterator = Struct.new :exp do ... end
+        #
+        # s(:casgn, nil, :Iterator,
+        #   s(:block,
+        #     s(:send,
+        #       s(:const, nil, :Struct), :new,
+        #       s(:sym, :exp)
+        #     ),
+        #     s(:args),
+        #     ...
+        #   )
+        # )
+        #
+        # In this cases we return the Struct.new part
+        #
+        def constant_definition
+          return nil unless value
+
+          case value.type
+          when :block
+            value.call
+          when :send
+            value
+          end
+        end
+
+        # Sometimes we assign classes like:
+        #
+        # Foo = Class.new(Bar)
+        #
+        # This is mapped into the following expression:
+        #
+        # s(:casgn, nil :Foo,
+        #   s(:send,
+        #     s(:const, nil, :Class), :new,
+        #     s(:const, nil, :Bar)
+        #   )
+        # )
+        #
+        # And we are only looking for s(:const, nil, :Bar)
+        #
+        def superclass
+          return nil unless constant_definition
+
+          constant_definition.args.first
         end
 
         def name

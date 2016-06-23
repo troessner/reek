@@ -662,3 +662,14 @@ UtilityFunction:
   remediation_points: 250_000
   content: |
     A _Utility Function_ is any instance method that has no dependency on the state of the instance.
+SubclassedFromCoreClass:
+  remediation_points: 250_000
+  content: |
+    Subclassing core classes in Ruby can lead to unexpected side effects.
+
+    Knowing that Ruby has a core library, which is written in C,
+    and a standard library, which is written in Ruby,
+    if you do not know exactly how these core classes operate at the C level,
+    you are gonna have a bad time.
+
+    Source: http://words.steveklabnik.com/beware-subclassing-ruby-core-classes

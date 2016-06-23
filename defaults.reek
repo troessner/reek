@@ -57,6 +57,9 @@ RepeatedConditional:
   enabled: true
   exclude: []
   max_ifs: 2
+SubclassedFromCoreClass:
+  enabled: true
+  exclude: []
 TooManyInstanceVariables:
   enabled: true
   exclude: []

@@ -240,6 +240,44 @@ RSpec.describe Reek::AST::SexpExtensions::LvarNode do
   end
 end
 
+RSpec.describe Reek::AST::SexpExtensions::ConstNode do
+  describe '#name' do
+    it 'returns the fully qualified name' do
+      node = sexp(:const, sexp(:const, sexp(:cbase), :Parser), :AST)
+
+      expect(node.name).to eq "#{sexp(:const, sexp(:cbase), :Parser)}::AST"
+    end
+
+    it 'returns only the name in case of no namespace' do
+      node = sexp(:const, nil, :AST)
+
+      expect(node.name).to eq 'AST'
+    end
+  end
+
+  describe '#simple_name' do
+    it 'returns the name' do
+      node = sexp(:const, sexp(:const, nil, :Rake), :TaskLib)
+
+      expect(node.simple_name).to eq :TaskLib
+    end
+  end
+
+  describe '#namespace' do
+    it 'returns the namespace' do
+      node = sexp(:const, :Parser, :AST)
+
+      expect(node.namespace).to eq :Parser
+    end
+
+    it 'returns nil in case of no namespace' do
+      node = sexp(:const, nil, :AST)
+
+      expect(node.namespace).to be_nil
+    end
+  end
+end
+
 RSpec.describe Reek::AST::SexpExtensions::SendNode do
   context 'with no parameters' do
     let(:node) { sexp(:send, nil, :hello) }
@@ -403,20 +441,78 @@ RSpec.describe Reek::AST::SexpExtensions::ModuleNode do
 end
 
 RSpec.describe Reek::AST::SexpExtensions::CasgnNode do
-  context 'with single assignment' do
-    subject do
-      sexp(:casgn, nil, :Foo)
+  context '#defines_module' do
+    context 'with single assignment' do
+      subject do
+        sexp(:casgn, nil, :Foo)
+      end
+
+      it 'does not define a module' do
+        expect(subject.defines_module?).to be_falsey
+      end
     end
 
-    it 'does not define a module' do
-      expect(subject.defines_module?).to be_falsey
+    context 'with implicit receiver to new' do
+      it 'does not define a module' do
+        exp = sexp(:casgn, nil, :Foo, sexp(:send, nil, :new))
+        expect(exp.defines_module?).to be_falsey
+      end
+    end
+
+    context 'with implicit receiver to new' do
+      it 'does not define a module' do
+        exp = Reek::Source::SourceCode.from('Foo = Class.new(Bar)').syntax_tree
+
+        expect(exp.defines_module?).to be_truthy
+      end
     end
   end
 
-  context 'with implicit receiver to new' do
-    it 'does not define a module' do
-      exp = sexp(:casgn, nil, :Foo, sexp(:send, nil, :new))
-      expect(exp.defines_module?).to be_falsey
+  context '#superclass' do
+    it 'returns the superclass from the class definition' do
+      exp = Reek::Source::SourceCode.from('Foo = Class.new(Bar)').syntax_tree
+
+      expect(exp.superclass).to eq sexp(:const, nil, :Bar)
+    end
+
+    it 'returns nil in case of no class definition' do
+      exp = Reek::Source::SourceCode.from('Foo = 23').syntax_tree
+
+      expect(exp.superclass).to be_nil
+    end
+
+    it 'returns nil in case of no superclass' do
+      exp = Reek::Source::SourceCode.from('Foo = Class.new').syntax_tree
+
+      expect(exp.superclass).to be_nil
+    end
+  end
+
+  context '#constant_definition' do
+    context 'simple constant assignment' do
+      it 'is not important' do
+        exp = sexp(:casgn, nil, :Foo, sexp(:int, 23))
+
+        expect(exp.constant_definition).to be_nil
+      end
+    end
+
+    context 'complicated constant assignments' do
+      it 'calls the block and returns what is being sent' do
+        exp = Reek::Source::SourceCode.from('Iterator = Struct.new(:exp) { def p; end; }').syntax_tree
+
+        struct_exp = sexp(:send, sexp(:const, nil, :Struct), :new, sexp(:sym, :exp))
+
+        expect(exp.constant_definition).to eq struct_exp
+      end
+
+      it 'returns the expression responsible for class creation' do
+        exp = Reek::Source::SourceCode.from('Foo = Class.new(Bar)').syntax_tree
+
+        class_exp = sexp(:send, sexp(:const, nil, :Class), :new, sexp(:const, nil, :Bar))
+
+        expect(exp.constant_definition).to eq class_exp
+      end
     end
   end
 end

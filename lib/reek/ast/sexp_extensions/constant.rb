@@ -5,7 +5,6 @@ module Reek
       # Utility methods for :const nodes.
       module ConstNode
         def name
-          namespace = children.first
           if namespace
             "#{namespace.format_to_ruby}::#{simple_name}"
           else
@@ -15,6 +14,10 @@ module Reek
 
         def simple_name
           children.last
+        end
+
+        def namespace
+          children.first
         end
       end
     end
