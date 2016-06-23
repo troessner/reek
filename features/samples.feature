@@ -59,7 +59,7 @@ Feature: Basic smell detection
       UncommunicativeVariableName: Inline::C#module_name has the variable name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
       UncommunicativeVariableName: Inline::C#parse_signature has the variable name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
       UtilityFunction: Inline::C#strip_comments doesn't depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Utility-Function.md]
-    optparse.rb -- 117 warnings:
+    optparse.rb -- 119 warnings:
       Attribute: OptionParser#banner is a writable attribute [https://github.com/troessner/reek/blob/master/docs/Attribute.md]
       Attribute: OptionParser#default_argv is a writable attribute [https://github.com/troessner/reek/blob/master/docs/Attribute.md]
       Attribute: OptionParser#program_name is a writable attribute [https://github.com/troessner/reek/blob/master/docs/Attribute.md]
@@ -129,6 +129,8 @@ Feature: Basic smell detection
       RepeatedConditional: OptionParser tests default_pattern at least 7 times [https://github.com/troessner/reek/blob/master/docs/Repeated-Conditional.md]
       RepeatedConditional: OptionParser tests not_style at least 3 times [https://github.com/troessner/reek/blob/master/docs/Repeated-Conditional.md]
       RepeatedConditional: OptionParser tests s at least 7 times [https://github.com/troessner/reek/blob/master/docs/Repeated-Conditional.md]
+      SubclassedFromCoreClass: OptionParser::CompletingHash inherits from a core class (Hash) [https://github.com/troessner/reek/blob/master/docs/Subclassed-From-Core-Class.md]
+      SubclassedFromCoreClass: OptionParser::OptionMap inherits from a core class (Hash) [https://github.com/troessner/reek/blob/master/docs/Subclassed-From-Core-Class.md]
       TooManyInstanceVariables: OptionParser has at least 6 instance variables [https://github.com/troessner/reek/blob/master/docs/Too-Many-Instance-Variables.md]
       TooManyInstanceVariables: OptionParser::Switch has at least 7 instance variables [https://github.com/troessner/reek/blob/master/docs/Too-Many-Instance-Variables.md]
       TooManyMethods: OptionParser has at least 42 methods [https://github.com/troessner/reek/blob/master/docs/Too-Many-Methods.md]
@@ -177,7 +179,7 @@ Feature: Basic smell detection
       UnusedParameters: OptionParser::Completion#convert has unused parameter 'opt' [https://github.com/troessner/reek/blob/master/docs/Unused-Parameters.md]
       UnusedParameters: OptionParser::Switch::NoArgument#parse has unused parameter 'argv' [https://github.com/troessner/reek/blob/master/docs/Unused-Parameters.md]
       UnusedParameters: OptionParser::Switch::OptionalArgument#parse has unused parameter 'argv' [https://github.com/troessner/reek/blob/master/docs/Unused-Parameters.md]
-    redcloth.rb -- 102 warnings:
+    redcloth.rb -- 103 warnings:
       Attribute: RedCloth#filter_html is a writable attribute [https://github.com/troessner/reek/blob/master/docs/Attribute.md]
       Attribute: RedCloth#filter_styles is a writable attribute [https://github.com/troessner/reek/blob/master/docs/Attribute.md]
       Attribute: RedCloth#hard_breaks is a writable attribute [https://github.com/troessner/reek/blob/master/docs/Attribute.md]
@@ -226,6 +228,7 @@ Feature: Basic smell detection
       RepeatedConditional: RedCloth tests codepre.zero? at least 3 times [https://github.com/troessner/reek/blob/master/docs/Repeated-Conditional.md]
       RepeatedConditional: RedCloth tests href at least 3 times [https://github.com/troessner/reek/blob/master/docs/Repeated-Conditional.md]
       RepeatedConditional: RedCloth tests title at least 4 times [https://github.com/troessner/reek/blob/master/docs/Repeated-Conditional.md]
+      SubclassedFromCoreClass: RedCloth inherits from a core class (String) [https://github.com/troessner/reek/blob/master/docs/Subclassed-From-Core-Class.md]
       TooManyMethods: RedCloth has at least 44 methods [https://github.com/troessner/reek/blob/master/docs/Too-Many-Methods.md]
       TooManyStatements: RedCloth#block_markdown_bq has approx 6 statements [https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md]
       TooManyStatements: RedCloth#block_textile_lists has approx 21 statements [https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md]
@@ -280,5 +283,5 @@ Feature: Basic smell detection
       UtilityFunction: RedCloth#lT doesn't depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Utility-Function.md]
       UtilityFunction: RedCloth#no_textile doesn't depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Utility-Function.md]
       UtilityFunction: RedCloth#v_align doesn't depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Utility-Function.md]
-    266 total warnings
+    269 total warnings
     """
