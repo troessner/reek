@@ -35,8 +35,7 @@ module Reek
       def self.default_config
         super.merge(
           REJECT_KEY => DEFAULT_REJECT_SET,
-          ACCEPT_KEY => DEFAULT_ACCEPT_SET
-        )
+          ACCEPT_KEY => DEFAULT_ACCEPT_SET)
       end
 
       def self.contexts

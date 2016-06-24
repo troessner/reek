@@ -11,34 +11,35 @@ RSpec.describe Reek::Report::CodeClimateFormatter, '#render' do
                       source:         'a/ruby/source/file.rb')
   end
   let(:rendered) { Reek::Report::CodeClimateFormatter.new(warning).render }
+  let(:json) { JSON.parse rendered.chop }
 
   it "sets the type as 'issue'" do
-    expect(rendered).to match(/\"type\":\"issue\"/)
+    expect(json['type']).to eq 'issue'
   end
 
   it 'sets the category' do
-    expect(rendered).to match(/\"categories\":\[\"Complexity\"\]/)
+    expect(json['categories']).to eq ['Complexity']
   end
 
   it 'constructs a description based on the context and message' do
-    expect(rendered).to match(/\"description\":\"context foo message bar\"/)
+    expect(json['description']).to eq 'context foo message bar'
   end
 
   it 'sets a check name based on the smell detector' do
-    expect(rendered).to match(/\"check_name\":\"UtilityFunction\"/)
+    expect(json['check_name']).to eq 'UtilityFunction'
   end
 
   it 'sets the location' do
-    expect(rendered).to match(%r{\"location\":{\"path\":\"a/ruby/source/file.rb\",\"lines\":{\"begin\":1,\"end\":2}}})
+    expect(json['location']).to eq('path' => 'a/ruby/source/file.rb',
+                                   'lines' => { 'begin' => 1, 'end' => 2 })
   end
 
   it 'sets a content based on the smell detector' do
-    expect(rendered).to match(
-      /\"body\":\"A _Utility Function_ is any instance method that has no dependency on the state of the instance.\\n\"/
-    )
+    expect(json['content']['body']).
+      to eq "A _Utility Function_ is any instance method that has no dependency on the state of the instance.\n"
   end
 
   it 'sets remediation points based on the smell detector' do
-    expect(rendered).to match(/\"remediation_points\":250000/)
+    expect(json['remediation_points']).to eq 250_000
   end
 end

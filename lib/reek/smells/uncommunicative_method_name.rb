@@ -28,8 +28,7 @@ module Reek
       def self.default_config
         super.merge(
           REJECT_KEY => DEFAULT_REJECT_PATTERNS,
-          ACCEPT_KEY => DEFAULT_ACCEPT_PATTERNS
-        )
+          ACCEPT_KEY => DEFAULT_ACCEPT_PATTERNS)
       end
 
       #

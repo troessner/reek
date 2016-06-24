@@ -27,8 +27,7 @@ module Reek
       def self.default_config
         super.merge(
           MAX_ALLOWED_METHODS_KEY => DEFAULT_MAX_METHODS,
-          EXCLUDE_KEY => []
-        )
+          EXCLUDE_KEY => [])
       end
 
       #

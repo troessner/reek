@@ -19,8 +19,7 @@ module Reek
       def self.default_config
         super.merge(
           MAX_ALLOWED_STATEMENTS_KEY => DEFAULT_MAX_STATEMENTS,
-          EXCLUDE_KEY => ['initialize']
-        )
+          EXCLUDE_KEY => ['initialize'])
       end
 
       #

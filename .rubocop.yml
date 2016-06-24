@@ -52,6 +52,10 @@ Style/FrozenStringLiteralComment:
 Style/MultilineBlockChain:
   Enabled: false
 
+# Always put the closing brace on the last line
+Style/MultilineMethodCallBraceLayout:
+  EnforcedStyle: same_line
+
 # Indent one level for follow-up lines
 Style/MultilineMethodCallIndentation:
   EnforcedStyle: indented
