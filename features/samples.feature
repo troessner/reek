@@ -11,7 +11,7 @@ Feature: Basic smell detection
     Then the exit status indicates smells
     And it reports:
     """
-    inline.rb -- 48 warnings:
+    inline.rb -- 51 warnings:
       BooleanParameter: Inline::C#parse_signature has boolean parameter 'raw' [https://github.com/troessner/reek/blob/master/docs/Boolean-Parameter.md]
       ClassVariable: Inline declares the class variable @@directory [https://github.com/troessner/reek/blob/master/docs/Class-Variable.md]
       ClassVariable: Inline declares the class variable @@rootdir [https://github.com/troessner/reek/blob/master/docs/Class-Variable.md]
@@ -32,6 +32,9 @@ Feature: Basic smell detection
       DuplicateMethodCall: Inline::C#initialize calls stack.empty? 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
       DuplicateMethodCall: Module#inline calls Inline.const_get(lang) 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
       DuplicateMethodCall: Module#inline calls options[:testing] 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
+      InstanceVariableAssumption: Inline::C assumes too much for instance variable @module_name [https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md]
+      InstanceVariableAssumption: Inline::C assumes too much for instance variable @so_name [https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md]
+      InstanceVariableAssumption: Inline::C assumes too much for instance variable @types [https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md]
       IrresponsibleModule: CompilationError has no descriptive comment [https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md]
       IrresponsibleModule: Dir has no descriptive comment [https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md]
       IrresponsibleModule: File has no descriptive comment [https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md]
@@ -60,7 +63,7 @@ Feature: Basic smell detection
       UncommunicativeVariableName: Inline::C#module_name has the variable name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
       UncommunicativeVariableName: Inline::C#parse_signature has the variable name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
       UtilityFunction: Inline::C#strip_comments doesn't depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Utility-Function.md]
-    optparse.rb -- 124 warnings:
+    optparse.rb -- 126 warnings:
       Attribute: OptionParser#banner is a writable attribute [https://github.com/troessner/reek/blob/master/docs/Attribute.md]
       Attribute: OptionParser#default_argv is a writable attribute [https://github.com/troessner/reek/blob/master/docs/Attribute.md]
       Attribute: OptionParser#program_name is a writable attribute [https://github.com/troessner/reek/blob/master/docs/Attribute.md]
@@ -115,6 +118,8 @@ Feature: Basic smell detection
       FeatureEnvy: OptionParser::List#accept refers to pat more than self (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md]
       FeatureEnvy: OptionParser::List#add_banner refers to opt more than self (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md]
       FeatureEnvy: OptionParser::List#summarize refers to opt more than self (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md]
+      InstanceVariableAssumption: OptionParser assumes too much for instance variable @release [https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md]
+      InstanceVariableAssumption: OptionParser assumes too much for instance variable @version [https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md]
       LongParameterList: OptionParser#complete has 4 parameters [https://github.com/troessner/reek/blob/master/docs/Long-Parameter-List.md]
       LongParameterList: OptionParser#summarize has 4 parameters [https://github.com/troessner/reek/blob/master/docs/Long-Parameter-List.md]
       LongParameterList: OptionParser::List#complete has 4 parameters [https://github.com/troessner/reek/blob/master/docs/Long-Parameter-List.md]
@@ -185,7 +190,7 @@ Feature: Basic smell detection
       UnusedParameters: OptionParser::Completion#convert has unused parameter 'opt' [https://github.com/troessner/reek/blob/master/docs/Unused-Parameters.md]
       UnusedParameters: OptionParser::Switch::NoArgument#parse has unused parameter 'argv' [https://github.com/troessner/reek/blob/master/docs/Unused-Parameters.md]
       UnusedParameters: OptionParser::Switch::OptionalArgument#parse has unused parameter 'argv' [https://github.com/troessner/reek/blob/master/docs/Unused-Parameters.md]
-    redcloth.rb -- 105 warnings:
+    redcloth.rb -- 110 warnings:
       Attribute: RedCloth#filter_html is a writable attribute [https://github.com/troessner/reek/blob/master/docs/Attribute.md]
       Attribute: RedCloth#filter_styles is a writable attribute [https://github.com/troessner/reek/blob/master/docs/Attribute.md]
       Attribute: RedCloth#hard_breaks is a writable attribute [https://github.com/troessner/reek/blob/master/docs/Attribute.md]
@@ -220,6 +225,11 @@ Feature: Basic smell detection
       FeatureEnvy: RedCloth#blocks refers to blk more than self (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md]
       FeatureEnvy: RedCloth#clean_white_space refers to text more than self (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md]
       FeatureEnvy: RedCloth#pba refers to text more than self (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md]
+      InstanceVariableAssumption: RedCloth assumes too much for instance variable @lite_mode [https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md]
+      InstanceVariableAssumption: RedCloth assumes too much for instance variable @pre_list [https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md]
+      InstanceVariableAssumption: RedCloth assumes too much for instance variable @rules [https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md]
+      InstanceVariableAssumption: RedCloth assumes too much for instance variable @shelf [https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md]
+      InstanceVariableAssumption: RedCloth assumes too much for instance variable @urlrefs [https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md]
       LongParameterList: RedCloth#textile_bq has 4 parameters [https://github.com/troessner/reek/blob/master/docs/Long-Parameter-List.md]
       LongParameterList: RedCloth#textile_fn_ has 5 parameters [https://github.com/troessner/reek/blob/master/docs/Long-Parameter-List.md]
       LongParameterList: RedCloth#textile_p has 4 parameters [https://github.com/troessner/reek/blob/master/docs/Long-Parameter-List.md]
@@ -291,5 +301,5 @@ Feature: Basic smell detection
       UtilityFunction: RedCloth#lT doesn't depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Utility-Function.md]
       UtilityFunction: RedCloth#no_textile doesn't depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Utility-Function.md]
       UtilityFunction: RedCloth#v_align doesn't depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Utility-Function.md]
-    277 total warnings
+    287 total warnings
     """
