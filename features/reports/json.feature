@@ -39,6 +39,15 @@ Feature: Report smells using simple JSON layout
               "count": 2
           },
           {
+              "context": "Smelly",
+              "lines": [2],
+              "message": "assumes too much for instance variable @foo",
+              "smell_type": "InstanceVariableAssumption",
+              "source": "smelly.rb",
+              "assumptions": ["@foo"],
+              "wiki_link": "https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md"
+          },
+          {
               "smell_type": "UncommunicativeMethodName",
               "source": "smelly.rb",
               "context": "Smelly#m",

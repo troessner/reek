@@ -5,6 +5,7 @@
     <error column='0' line='6' message='calls @s.title 2 times' severity='warning' source='DuplicateMethodCall'/>
     <error column='0' line='4' message='calls puts @s.title 2 times' severity='warning' source='DuplicateMethodCall'/>
     <error column='0' line='6' message='calls puts @s.title 2 times' severity='warning' source='DuplicateMethodCall'/>
+    <error column='0' line='2' message='assumes too much for instance variable @s' severity='warning' source='InstanceVariableAssumption'/>
     <error column='0' line='5' message='contains iterators nested 2 deep' severity='warning' source='NestedIterators'/>
     <error column='0' line='3' message='has the name &apos;a&apos;' severity='warning' source='UncommunicativeMethodName'/>
     <error column='0' line='5' message='has the variable name &apos;@s&apos;' severity='warning' source='UncommunicativeVariableName'/>

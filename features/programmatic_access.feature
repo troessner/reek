@@ -19,6 +19,7 @@ Feature: Using Reek programmatically
       """
       calls @foo.bar 2 times
       calls puts @foo.bar 2 times
+      assumes too much for instance variable @foo
       has the name 'm'
       """
 
@@ -36,8 +37,9 @@ Feature: Using Reek programmatically
     Then it reports no errors
     And it reports:
       """
-      smelly.rb -- 3 warnings:
+      smelly.rb -- 4 warnings:
         DuplicateMethodCall: Smelly#m calls @foo.bar 2 times
         DuplicateMethodCall: Smelly#m calls puts @foo.bar 2 times
+        InstanceVariableAssumption: Smelly assumes too much for instance variable @foo
         UncommunicativeMethodName: Smelly#m has the name 'm'
       """

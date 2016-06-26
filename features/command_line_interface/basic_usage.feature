@@ -9,8 +9,9 @@ Feature: The Reek CLI maintains backwards compatibility
     Then the exit status indicates smells
     And it reports:
       """
-      demo.rb -- 8 warnings:
+      demo.rb -- 9 warnings:
         [3]:BooleanParameter: Dirty#awful has boolean parameter 'log' [https://github.com/troessner/reek/blob/master/docs/Boolean-Parameter.md]
+        [1]:InstanceVariableAssumption: Dirty assumes too much for instance variable @screen [https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md]
         [1]:IrresponsibleModule: Dirty has no descriptive comment [https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md]
         [3]:LongParameterList: Dirty#awful has 4 parameters [https://github.com/troessner/reek/blob/master/docs/Long-Parameter-List.md]
         [3]:UncommunicativeParameterName: Dirty#awful has the parameter name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Parameter-Name.md]

@@ -496,6 +496,8 @@ Just add this to your configuration file:
     max_allowed_nesting: 2
   UnusedPrivateMethod:
     enabled: false
+  InstanceVariableAssumption:
+    enabled: false
 "app/helpers":
   IrresponsibleModule:
     enabled: false

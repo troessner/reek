@@ -104,6 +104,9 @@ git rebase -i master
 # squash squash squash
 git push -f origin
 ```
+## Failing Cucumber Scenarios
+
+If there is a failing scenario and you can not figure out why it is failing, just run the failing scenario: `bundle exec cucumber features/failing_scenario.feature:line`. By doing so Aruba will leave its set up in the `tmp/aruba` directory. Then you can run the scenario's Reek incantation there and have a better debugging.
 
 ## Versioning policy
 
