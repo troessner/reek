@@ -545,6 +545,7 @@ The Reek core team consists of:
 
 * [Matijs van Zuijlen](https://github.com/mvz)
 * [Piotr Szotkowski](https://github.com/chastell)
+* [Waldyr Souza](https://github.com/waldyr)
 * [Timo Rößner](https://github.com/troessner)
 
 The original author of Reek is [Kevin Rutherford](https://github.com/kevinrutherford).
