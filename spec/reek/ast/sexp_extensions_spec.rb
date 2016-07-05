@@ -466,6 +466,14 @@ RSpec.describe Reek::AST::SexpExtensions::CasgnNode do
         expect(exp.defines_module?).to be_truthy
       end
     end
+
+    context 'when assign a lambda to a constant' do
+      it 'does not define a module' do
+        exp = Reek::Source::SourceCode.from('C = ->{}').syntax_tree
+
+        expect(exp.defines_module?).to be_falsey
+      end
+    end
   end
 
   context '#superclass' do

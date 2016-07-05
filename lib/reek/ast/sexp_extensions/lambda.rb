@@ -7,6 +7,10 @@ module Reek
         def name
           'lambda'
         end
+
+        def module_creation_call?
+          false
+        end
       end
     end
   end
