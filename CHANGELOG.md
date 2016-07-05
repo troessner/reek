@@ -1,5 +1,9 @@
 # Change log
 
+## 4.1.1 (2016-07-05)
+
+* (waldyr) Checking lambda should not raise error
+
 ## 4.1.0 (2016-06-23)
 
 * (waldyr) Add SubclassedFromCoreClass detector
