@@ -13,6 +13,7 @@ group :development do
   gem 'rubocop',       '~> 0.41.1'
   gem 'simplecov',     '~> 0.11.1'
   gem 'yard',          '~> 0.8.7'
+  gem 'activesupport', '~> 4.2.7.rc1'
 
   platforms :mri do
     gem 'redcarpet', '~> 3.3.1'
