@@ -58,6 +58,47 @@ module Reek
           call && call.module_creation_call?
         end
 
+        # Sometimes we assign classes like:
+        #
+        # Foo = Class.new(Bar)
+        #
+        # This is mapped into the following expression:
+        #
+        # s(:casgn, nil :Foo,
+        #   s(:send,
+        #     s(:const, nil, :Class), :new,
+        #     s(:const, nil, :Bar)
+        #   )
+        # )
+        #
+        # And we are only looking for s(:const, nil, :Bar)
+        #
+        def superclass
+          return nil unless defines_module?
+
+          constant_definition.args.first if constant_definition.receiver.name == 'Class'
+        end
+
+        def name
+          children[1].to_s
+        end
+
+        # there are two valid forms of the casgn sexp
+        # (casgn <namespace> <name> <value>) and
+        # (casgn <namespace> <name>) used in or-asgn and mlhs
+        #
+        # source = "class Hi; THIS ||= 3; end"
+        # (class
+        #   (const nil :Hi) nil
+        #   (or-asgn
+        #    (casgn nil :THIS)
+        #    (int 3)))
+        def value
+          children[2]
+        end
+
+        private
+
         # This is the right hand side of a constant
         # assignment.
         #
@@ -92,49 +133,11 @@ module Reek
 
           case value.type
           when :block
-            value.call
+            call = value.call
+            call if call.type == :send
           when :send
             value
           end
-        end
-
-        # Sometimes we assign classes like:
-        #
-        # Foo = Class.new(Bar)
-        #
-        # This is mapped into the following expression:
-        #
-        # s(:casgn, nil :Foo,
-        #   s(:send,
-        #     s(:const, nil, :Class), :new,
-        #     s(:const, nil, :Bar)
-        #   )
-        # )
-        #
-        # And we are only looking for s(:const, nil, :Bar)
-        #
-        def superclass
-          return nil unless constant_definition
-
-          constant_definition.args.first
-        end
-
-        def name
-          children[1].to_s
-        end
-
-        # there are two valid forms of the casgn sexp
-        # (casgn <namespace> <name> <value>) and
-        # (casgn <namespace> <name>) used in or-asgn and mlhs
-        #
-        # source = "class Hi; THIS ||= 3; end"
-        # (class
-        #   (const nil :Hi) nil
-        #   (or-asgn
-        #    (casgn nil :THIS)
-        #    (int 3)))
-        def value
-          children[2]
         end
       end
     end
