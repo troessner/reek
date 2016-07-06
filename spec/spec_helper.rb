@@ -85,7 +85,7 @@ RSpec.configure do |config|
 
   # Avoid infinitely running tests. This is mainly useful when running mutant.
   config.around(:each) do |example|
-    Timeout.timeout(5, &example)
+    Timeout.timeout(60, &example)
   end
 end
 
