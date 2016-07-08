@@ -84,8 +84,12 @@ RSpec.configure do |config|
   end
 
   # Avoid infinitely running tests. This is mainly useful when running mutant.
-  config.around(:each) do |example|
-    Timeout.timeout(5, &example)
+  # Set the DEBUG environment variable to something truthy like '1' to disable
+  # this and allow using pry without specs failing.
+  unless ENV['DEBUG']
+    config.around(:each) do |example|
+      Timeout.timeout(5, &example)
+    end
   end
 end
 
