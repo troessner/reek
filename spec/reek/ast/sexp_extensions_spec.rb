@@ -441,7 +441,7 @@ RSpec.describe Reek::AST::SexpExtensions::ModuleNode do
 end
 
 RSpec.describe Reek::AST::SexpExtensions::CasgnNode do
-  context '#defines_module' do
+  describe '#defines_module?' do
     context 'with single assignment' do
       subject do
         sexp(:casgn, nil, :Foo)
@@ -467,16 +467,24 @@ RSpec.describe Reek::AST::SexpExtensions::CasgnNode do
       end
     end
 
-    context 'when assign a lambda to a constant' do
+    context 'when assigning a lambda to a constant' do
       it 'does not define a module' do
         exp = Reek::Source::SourceCode.from('C = ->{}').syntax_tree
 
         expect(exp.defines_module?).to be_falsey
       end
     end
+
+    context 'when assigning a string to a constant' do
+      it 'does not define a module' do
+        exp = Reek::Source::SourceCode.from('C = "hello"').syntax_tree
+
+        expect(exp.defines_module?).to be_falsey
+      end
+    end
   end
 
-  context '#superclass' do
+  describe '#superclass' do
     it 'returns the superclass from the class definition' do
       exp = Reek::Source::SourceCode.from('Foo = Class.new(Bar)').syntax_tree
 
@@ -494,33 +502,17 @@ RSpec.describe Reek::AST::SexpExtensions::CasgnNode do
 
       expect(exp.superclass).to be_nil
     end
-  end
 
-  context '#constant_definition' do
-    context 'simple constant assignment' do
-      it 'is not important' do
-        exp = sexp(:casgn, nil, :Foo, sexp(:int, 23))
+    it 'returns nothing for a class definition using Struct.new' do
+      exp = Reek::Source::SourceCode.from('Foo = Struct.new("Bar")').syntax_tree
 
-        expect(exp.constant_definition).to be_nil
-      end
+      expect(exp.superclass).to be_nil
     end
 
-    context 'complicated constant assignments' do
-      it 'calls the block and returns what is being sent' do
-        exp = Reek::Source::SourceCode.from('Iterator = Struct.new(:exp) { def p; end; }').syntax_tree
+    it 'returns nothing for a constant assigned with a bare method call' do
+      exp = Reek::Source::SourceCode.from('Foo = foo("Bar")').syntax_tree
 
-        struct_exp = sexp(:send, sexp(:const, nil, :Struct), :new, sexp(:sym, :exp))
-
-        expect(exp.constant_definition).to eq struct_exp
-      end
-
-      it 'returns the expression responsible for class creation' do
-        exp = Reek::Source::SourceCode.from('Foo = Class.new(Bar)').syntax_tree
-
-        class_exp = sexp(:send, sexp(:const, nil, :Class), :new, sexp(:const, nil, :Bar))
-
-        expect(exp.constant_definition).to eq class_exp
-      end
+      expect(exp.superclass).to be_nil
     end
   end
 end

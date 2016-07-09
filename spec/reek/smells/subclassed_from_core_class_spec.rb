@@ -119,7 +119,7 @@ RSpec.describe Reek::Smells::SubclassedFromCoreClass do
         end
       end
     EOS
-    expect(src).to_not reek_of(:SubclassedFromCoreClass, ancestor: 'Array')
+    expect(src).to_not reek_of(:SubclassedFromCoreClass)
   end
 
   it 'should not report if inner class inherits from allowed classes' do
@@ -130,6 +130,28 @@ RSpec.describe Reek::Smells::SubclassedFromCoreClass do
         end
       end
     EOS
-    expect(src).to_not reek_of(:SubclassedFromCoreClass, ancestor: 'StandardError')
+    expect(src).to_not reek_of(:SubclassedFromCoreClass)
+  end
+
+  it 'should not report if class is created with Struct.new' do
+    src = <<-EOS
+      module Namespace
+        class Dummy
+          Dummiest = Struct.new('Array')
+        end
+      end
+    EOS
+    expect(src).to_not reek_of(:SubclassedFromCoreClass)
+  end
+
+  it 'should only report classes created with Class.new' do
+    src = <<-EOS
+      module Namespace
+        class Dummy
+          Dummiest = Foo.new(Array)
+        end
+      end
+    EOS
+    expect(src).to_not reek_of(:SubclassedFromCoreClass)
   end
 end
