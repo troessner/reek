@@ -47,12 +47,7 @@ module Reek
       end
 
       def self.default
-        from_path nil
-      end
-
-      def self.new(*)
-        raise NotImplementedError,
-              'Calling `new` is not supported, please use one of the factory methods'
+        new
       end
 
       # Returns the directive for a given directory.
