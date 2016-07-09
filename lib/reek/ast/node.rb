@@ -101,6 +101,11 @@ module Reek
         end
       end
 
+      # Provide length for statement counting. A sexp counts as one statement.
+      def length
+        1
+      end
+
       protected
 
       # See ".each_node" for documentation.

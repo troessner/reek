@@ -69,4 +69,10 @@ RSpec.describe Reek::AST::Node do
       expect(node1.hash).not_to eq(node2.hash)
     end
   end
+
+  describe '#length' do
+    it 'counts itself as representing one statement' do
+      expect(sexp(:foo).length).to eq 1
+    end
+  end
 end
