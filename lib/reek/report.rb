@@ -40,27 +40,37 @@ module Reek
     # @return The mapped report class
     #
     def report_class(report_format)
-      REPORT_CLASSES.fetch(report_format) do
-        raise "Unknown report format: #{report_format}"
-      end
+      REPORT_CLASSES.fetch(report_format)
     end
 
+    # Map location format symbol to a report class.
+    #
+    # @param [Symbol] location_format The format to map
+    #
+    # @return The mapped location class
+    #
     def location_formatter(location_format)
-      LOCATION_FORMATTERS.fetch(location_format) do
-        raise "Unknown location format: #{location_format}"
-      end
+      LOCATION_FORMATTERS.fetch(location_format)
     end
 
+    # Map heading format symbol to a report class.
+    #
+    # @param [Symbol] heading_format The format to map
+    #
+    # @return The mapped heading class
+    #
     def heading_formatter(heading_format)
-      HEADING_FORMATTERS.fetch(heading_format) do
-        raise "Unknown heading format: #{heading_format}"
-      end
+      HEADING_FORMATTERS.fetch(heading_format)
     end
 
+    # Map warning format symbol to a report class.
+    #
+    # @param [Symbol] warning_format The format to map
+    #
+    # @return The mapped warning class
+    #
     def warning_formatter_class(warning_format)
-      WARNING_FORMATTER_CLASSES.fetch(warning_format) do
-        raise "Unknown warning format: #{warning_format}"
-      end
+      WARNING_FORMATTER_CLASSES.fetch(warning_format)
     end
   end
 end
