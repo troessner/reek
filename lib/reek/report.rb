@@ -6,8 +6,6 @@ require_relative 'report/heading_formatter'
 module Reek
   # Reek reporting functionality.
   module Report
-    module_function
-
     REPORT_CLASSES = {
       yaml: YAMLReport,
       json: JSONReport,
@@ -39,28 +37,38 @@ module Reek
     #
     # @return The mapped report class
     #
-    def report_class(report_format)
-      REPORT_CLASSES.fetch(report_format) do
-        raise "Unknown report format: #{report_format}"
-      end
+    def self.report_class(report_format)
+      REPORT_CLASSES.fetch(report_format)
     end
 
-    def location_formatter(location_format)
-      LOCATION_FORMATTERS.fetch(location_format) do
-        raise "Unknown location format: #{location_format}"
-      end
+    # Map location format symbol to a report class.
+    #
+    # @param [Symbol] location_format The format to map
+    #
+    # @return The mapped location class
+    #
+    def self.location_formatter(location_format)
+      LOCATION_FORMATTERS.fetch(location_format)
     end
 
-    def heading_formatter(heading_format)
-      HEADING_FORMATTERS.fetch(heading_format) do
-        raise "Unknown heading format: #{heading_format}"
-      end
+    # Map heading format symbol to a report class.
+    #
+    # @param [Symbol] heading_format The format to map
+    #
+    # @return The mapped heading class
+    #
+    def self.heading_formatter(heading_format)
+      HEADING_FORMATTERS.fetch(heading_format)
     end
 
-    def warning_formatter_class(warning_format)
-      WARNING_FORMATTER_CLASSES.fetch(warning_format) do
-        raise "Unknown warning format: #{warning_format}"
-      end
+    # Map warning format symbol to a report class.
+    #
+    # @param [Symbol] warning_format The format to map
+    #
+    # @return The mapped warning class
+    #
+    def self.warning_formatter_class(warning_format)
+      WARNING_FORMATTER_CLASSES.fetch(warning_format)
     end
   end
 end
