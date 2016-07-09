@@ -6,12 +6,6 @@ require_lib 'reek/configuration/default_directive'
 require_lib 'reek/configuration/excluded_paths'
 
 RSpec.describe Reek::Configuration::AppConfiguration do
-  describe '#new' do
-    it 'raises NotImplementedError' do
-      expect { subject }.to raise_error(NotImplementedError)
-    end
-  end
-
   describe 'factory methods' do
     let(:expected_excluded_paths) do
       [SAMPLES_PATH.join('two_smelly_files'),
@@ -65,6 +59,16 @@ RSpec.describe Reek::Configuration::AppConfiguration do
         expect(config.send(:default_directive)).to eq(expected_default_directive)
         expect(config.send(:directory_directives)).to eq(expected_directory_directives)
       end
+    end
+  end
+
+  describe '#default' do
+    it 'returns a blank AppConfiguration' do
+      config = described_class.default
+      expect(config).to be_instance_of described_class
+      expect(config.send(:excluded_paths)).to eq([])
+      expect(config.send(:default_directive)).to eq({})
+      expect(config.send(:directory_directives)).to eq({})
     end
   end
 
