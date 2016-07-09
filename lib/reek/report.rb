@@ -6,8 +6,6 @@ require_relative 'report/heading_formatter'
 module Reek
   # Reek reporting functionality.
   module Report
-    module_function
-
     REPORT_CLASSES = {
       yaml: YAMLReport,
       json: JSONReport,
@@ -39,7 +37,7 @@ module Reek
     #
     # @return The mapped report class
     #
-    def report_class(report_format)
+    def self.report_class(report_format)
       REPORT_CLASSES.fetch(report_format)
     end
 
@@ -49,7 +47,7 @@ module Reek
     #
     # @return The mapped location class
     #
-    def location_formatter(location_format)
+    def self.location_formatter(location_format)
       LOCATION_FORMATTERS.fetch(location_format)
     end
 
@@ -59,7 +57,7 @@ module Reek
     #
     # @return The mapped heading class
     #
-    def heading_formatter(heading_format)
+    def self.heading_formatter(heading_format)
       HEADING_FORMATTERS.fetch(heading_format)
     end
 
@@ -69,7 +67,7 @@ module Reek
     #
     # @return The mapped warning class
     #
-    def warning_formatter_class(warning_format)
+    def self.warning_formatter_class(warning_format)
       WARNING_FORMATTER_CLASSES.fetch(warning_format)
     end
   end
