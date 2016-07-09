@@ -12,15 +12,7 @@ module Reek
       end
 
       def increase_by(sexp)
-        return unless sexp
-        case sexp
-        when Reek::AST::Node
-          self.value = value + 1
-        when Array
-          self.value = value + sexp.length
-        else
-          raise ArgumentError, "Invalid type #{sexp} given"
-        end
+        self.value = value + sexp.length if sexp
       end
 
       def decrease_by(number)
