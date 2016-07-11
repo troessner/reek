@@ -464,7 +464,7 @@ bundle exec rake console
 You can also use Pry while running the tests by adding the following at the
 point where you want to start debugging:
 
-```ruby
+```Ruby
 require 'pry'
 binding.pry
 ```

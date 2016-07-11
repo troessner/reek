@@ -15,4 +15,5 @@ task :mutant do
     fi
   EOS
   system command
+  abort unless $CHILD_STATUS.success?
 end
