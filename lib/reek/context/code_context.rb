@@ -15,6 +15,7 @@ module Reek
     #
     # :reek:TooManyMethods: { max_methods: 19 }
     # :reek:TooManyInstanceVariables: { max_instance_variables: 8 }
+    # :reek:InstanceVariableAssumption
     class CodeContext
       extend Forwardable
       delegate each_node: :exp

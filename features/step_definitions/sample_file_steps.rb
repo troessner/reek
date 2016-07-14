@@ -53,6 +53,10 @@ Given(/^a directory called 'clean_files' containing some clean files$/) do
   contents = <<-EOS.strip_heredoc
     # clean class for testing purposes
     class Clean
+      def initialize(sub)
+        @sub = sub
+      end
+
       def assign
         puts @sub.title
         @sub.map {|para| para.name }
@@ -105,6 +109,8 @@ Given(/^a masking configuration file called 'config.reek'$/) do
     DuplicateMethodCall:
       enabled: false
     UncommunicativeMethodName:
+      enabled: false
+    InstanceVariableAssumption:
       enabled: false
   EOS
 end

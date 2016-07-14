@@ -9,3 +9,5 @@ UncommunicativeVariableName:
   enabled: false
 UncommunicativeMethodName:
   enabled: false
+InstanceVariableAssumption:
+  enabled: false

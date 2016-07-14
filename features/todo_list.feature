@@ -15,9 +15,10 @@ Feature:
     Then the exit status indicates smells
     And it reports:
       """
-      smelly.rb -- 3 warnings:
+      smelly.rb -- 4 warnings:
         [4, 5]:DuplicateMethodCall: Smelly#m calls @foo.bar 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
         [4, 5]:DuplicateMethodCall: Smelly#m calls puts @foo.bar 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
+        [2]:InstanceVariableAssumption: Smelly assumes too much for instance variable @foo [https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md]
         [3]:UncommunicativeMethodName: Smelly#m has the name 'm' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
       """
     When I run reek --todo smelly.rb
@@ -34,6 +35,9 @@ Feature:
       DuplicateMethodCall:
         exclude:
         - Smelly#m
+      InstanceVariableAssumption:
+        exclude:
+        - Smelly
       UncommunicativeMethodName:
         exclude:
         - Smelly#m
@@ -50,6 +54,9 @@ Feature:
     And the file ".todo.reek" should contain:
       """
       ---
+      InstanceVariableAssumption:
+        exclude:
+        - Smelly
       UncommunicativeMethodName:
         exclude:
         - Smelly#m

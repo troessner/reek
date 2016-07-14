@@ -42,6 +42,8 @@ module Reek
     # the source code.
     #
     # See {file:docs/Control-Parameter.md} for details.
+    #
+    # :reek:InstanceVariableAssumption
     class ControlParameter < SmellDetector
       #
       # Checks whether the given method chooses its execution path

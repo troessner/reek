@@ -38,6 +38,15 @@ Feature: Report smells using simple YAML layout
         name: puts @foo.bar
         count: 2
         wiki_link: https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md
+      - smell_type: InstanceVariableAssumption
+        source: smelly.rb
+        context: Smelly
+        assumptions:
+        - :@foo
+        lines:
+        - 2
+        message: assumes too much for instance variable @foo
+        wiki_link: https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md
       - smell_type: UncommunicativeMethodName
         source: smelly.rb
         context: Smelly#m

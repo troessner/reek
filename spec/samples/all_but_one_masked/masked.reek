@@ -7,3 +7,5 @@ UncommunicativeMethodName:
   enabled: false
 UncommunicativeParameterName:
   enabled: false
+InstanceVariableAssumption:
+  enabled: false

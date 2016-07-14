@@ -8,6 +8,8 @@ module Reek
     # context tree. This context will not be part of the resulting tree, but
     # will track context and visibility separately while building is in
     # progress.
+    #
+    # :reek:InstanceVariableAssumption
     class GhostContext < ModuleContext
       attr_reader :children
 

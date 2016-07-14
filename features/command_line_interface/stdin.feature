@@ -26,7 +26,8 @@ Feature: Reek reads from $stdin when no files are given
     Then the exit status indicates smells
     And it reports:
       """
-      STDIN -- 3 warnings:
+      STDIN -- 4 warnings:
+        [1]:InstanceVariableAssumption: Turn assumes too much for instance variable @x [https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md]
         [1]:IrresponsibleModule: Turn has no descriptive comment [https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md]
         [1]:UncommunicativeMethodName: Turn#y has the name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
         [1]:UncommunicativeVariableName: Turn has the variable name '@x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
