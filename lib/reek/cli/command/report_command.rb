@@ -20,12 +20,21 @@ module Reek
         private
 
         def populate_reporter_with_smells
+          puts "Inspecting #{sources.length} file(s):" if options.show_progress
+
           sources.each do |source|
-            reporter.add_examiner Examiner.new(source,
-                                               filter_by_smells: smell_names,
-                                               configuration: configuration)
+            examiner = Examiner.new(source,
+                                    filter_by_smells: smell_names,
+                                    configuration: configuration)
+
+            print examiner.smelly? ? 'S' : '.' if options.show_progress
+
+            reporter.add_examiner examiner
           end
+
+          puts "\n\n" if options.show_progress
         end
+
 
         def result_code
           reporter.smells? ? options.failure_exit_code : options.success_exit_code
