@@ -60,6 +60,10 @@ RepeatedConditional:
 SubclassedFromCoreClass:
   enabled: true
   exclude: []
+TooManyConstants:
+  enabled: true
+  exclude: []
+  max_constants: 5
 TooManyInstanceVariables:
   enabled: true
   exclude: []
@@ -115,4 +119,3 @@ UnusedPrivateMethod:
 UtilityFunction:
   enabled: true
   exclude: []
-  public_methods_only: false
