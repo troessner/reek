@@ -1,5 +1,9 @@
 # Change log
 
+## 4.2.0 (2016-07-16)
+
+* (waldyr) Add Too Many Constants smell detector
+
 ## 4.1.1 (2016-07-05)
 
 * (waldyr) Checking lambda should not raise error
