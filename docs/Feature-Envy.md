@@ -25,7 +25,7 @@ end
 would report:
 
 ```Bash
-Warehouse#total_price refers to item more than self (FeatureEnvy)
+Warehouse#sale_price refers to item more than self (FeatureEnvy)
 ```
 
 since this:
