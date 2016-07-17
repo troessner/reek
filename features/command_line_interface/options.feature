@@ -54,6 +54,7 @@ Feature: Reek can be controlled using command-line options
                                              json
                                              xml
                                              code_climate
+                                             progress
 
       Text format options:
               --[no-]color                 Use colors for the output (default: true)

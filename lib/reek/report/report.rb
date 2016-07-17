@@ -15,7 +15,7 @@ module Reek
     #
     # @public
     #
-    # :reek:TooManyInstanceVariables: { max_instance_variables: 6 }
+    # :reek:TooManyInstanceVariables: { max_instance_variables: 7 }
     class Base
       NO_WARNINGS_COLOR = :green
       WARNINGS_COLOR = :red
@@ -25,13 +25,15 @@ module Reek
       # :reek:BooleanParameter
       def initialize(heading_formatter: HeadingFormatter::Quiet,
                      report_formatter: Formatter, sort_by_issue_count: false,
-                     warning_formatter: SimpleWarningFormatter.new)
+                     warning_formatter: SimpleWarningFormatter.new,
+                     sources_count: 0)
         @examiners           = []
         @heading_formatter   = heading_formatter.new(report_formatter)
         @report_formatter    = report_formatter
         @sort_by_issue_count = sort_by_issue_count
         @total_smell_count   = 0
         @warning_formatter   = warning_formatter
+        @sources_count       = sources_count
 
         # TODO: Only used in TextReport and YAMLReport
       end
@@ -117,6 +119,41 @@ module Reek
       def total_smell_count_message
         colour = smells? ? WARNINGS_COLOR : NO_WARNINGS_COLOR
         Rainbow("#{total_smell_count} total warning#{total_smell_count == 1 ? '' : 's'}\n").color(colour)
+      end
+    end
+
+    #
+    # Displays the status of each file as it is examined
+    # Displays the text report when complete
+    #
+    # @public
+    class ProgressReport < TextReport
+      # @public
+      def initialize(*args)
+        super(*args)
+        print "Inspecting #{@sources_count} file(s):\n"
+      end
+
+      # @public
+      def add_examiner(examiner)
+        print examiner.smelly? ? display_smelly : display_clean
+        super(examiner)
+      end
+
+      # @public
+      def show
+        print "\n\n"
+        super
+      end
+
+      private
+
+      def display_clean
+        Rainbow('.').color(NO_WARNINGS_COLOR)
+      end
+
+      def display_smelly
+        Rainbow('S').color(WARNINGS_COLOR)
       end
     end
 
