@@ -1,5 +1,9 @@
 # Change log
 
+## 4.2.1 (2016-07-20)
+
+* (waldyr) Fix TooManyConstants for outer module when inner module suppress
+
 ## 4.2.0 (2016-07-16)
 
 * (waldyr) Add Too Many Constants smell detector
