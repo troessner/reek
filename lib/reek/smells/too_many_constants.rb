@@ -17,6 +17,7 @@ module Reek
       # of constants permitted in a class.
       MAX_ALLOWED_CONSTANTS_KEY = 'max_constants'.freeze
       DEFAULT_MAX_CONSTANTS = 5
+      IGNORED_NODES = [:module, :class].freeze
 
       def self.contexts
         [:class, :module]
@@ -36,7 +37,7 @@ module Reek
       def inspect(ctx)
         max_allowed_constants = value(MAX_ALLOWED_CONSTANTS_KEY, ctx)
 
-        count = ctx.each_node(:casgn, [:class]).delete_if(&:defines_module?).length
+        count = ctx.each_node(:casgn, IGNORED_NODES).delete_if(&:defines_module?).length
 
         return [] if count <= max_allowed_constants
 

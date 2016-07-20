@@ -104,6 +104,24 @@ RSpec.describe Reek::Smells::TooManyConstants do
       expect(src).not_to reek_of(:TooManyConstants)
     end
 
+    it 'should not report outer module when inner module suppressed' do
+      src = <<-EOS
+        module Foo
+          # ignore :reek:TooManyConstants:
+          module Bar
+            A = 1
+            B = 2
+            C = 3
+            D = 4
+            E = 5
+            F = 6
+          end
+        end
+      EOS
+
+      expect(src).not_to reek_of(:TooManyConstants, context: 'Foo')
+    end
+
     it 'should count each constant only once for each namespace' do
       src = <<-EOS
         module Movie
