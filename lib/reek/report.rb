@@ -12,7 +12,6 @@ module Reek
       html: HTMLReport,
       xml: XMLReport,
       text: TextReport,
-      progress: ProgressReport,
       code_climate: CodeClimateReport
     }.freeze
 

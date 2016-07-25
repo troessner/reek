@@ -25,6 +25,7 @@ module Reek
                     :report_format,
                     :show_empty,
                     :show_links,
+                    :show_progress,
                     :sorting,
                     :success_exit_code,
                     :failure_exit_code,
@@ -36,6 +37,7 @@ module Reek
         @report_format      = :text
         @location_format    = :numbers
         @show_links         = true
+        @show_progress      = true
         @smells_to_detect   = []
         @colored            = color_support?
         @success_exit_code  = DEFAULT_SUCCESS_EXIT_CODE
@@ -106,9 +108,9 @@ module Reek
       def set_alternative_formatter_options
         parser.separator "\nReport format:"
         parser.on(
-          '-f', '--format FORMAT', [:html, :text, :yaml, :json, :xml, :code_climate, :progress],
+          '-f', '--format FORMAT', [:html, :text, :yaml, :json, :xml, :code_climate],
           'Report smells in the given format:',
-          '  html', '  text (default)', '  yaml', '  json', '  xml', '  code_climate', '  progress') do |opt|
+          '  html', '  text (default)', '  yaml', '  json', '  xml', '  code_climate') do |opt|
           self.report_format = opt
         end
       end
@@ -135,6 +137,9 @@ module Reek
         parser.on('-U', '--[no-]wiki-links',
                   'Show link to related wiki page for each smell (default: true)') do |show_links|
           self.show_links = show_links
+        end
+        parser.on('-P', '--[no-]progress', 'Show progress of each file (default: true)') do |show_progress|
+          self.show_progress = show_progress
         end
       end
 
