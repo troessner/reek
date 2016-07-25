@@ -10,7 +10,7 @@ module Reek
     #
     # See {file:docs/Command-Line-Options.md} for details.
     #
-    # :reek:TooManyInstanceVariables: { max_instance_variables: 10 }
+    # :reek:TooManyInstanceVariables: { max_instance_variables: 11 }
     # :reek:Attribute: { enabled: false }
     #
     class Options
@@ -129,6 +129,7 @@ module Reek
         end
       end
 
+      # :reek:TooManyStatements: { max_statements: 6 }
       def set_up_verbosity_options
         parser.on('-V', '--[no-]empty-headings',
                   'Show headings for smell-free source files (default: false)') do |show_empty|

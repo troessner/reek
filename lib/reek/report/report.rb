@@ -15,7 +15,8 @@ module Reek
     #
     # @public
     #
-    # :reek:TooManyInstanceVariables: { max_instance_variables: 7 }
+    # :reek:TooManyInstanceVariables: { max_instance_variables: 8 }
+    # :reek:LongParameterList
     class Base
       NO_WARNINGS_COLOR = :green
       WARNINGS_COLOR = :red
