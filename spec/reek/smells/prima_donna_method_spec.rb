@@ -3,6 +3,14 @@ require_lib 'reek/context/module_context'
 require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::PrimaDonnaMethod do
+  it 'reports the right values' do
+    src = 'class C; def m!; end; end'
+    expect(src).to reek_of :PrimaDonnaMethod,
+                           lines: [1],
+                           message: 'has prima donna method `m!`',
+                           name: :m!
+  end
+
   it 'should report nothing when method and bang counterpart exist' do
     expect('class C; def m; end; def m!; end; end').not_to reek_of(:PrimaDonnaMethod)
   end

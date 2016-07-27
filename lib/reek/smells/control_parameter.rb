@@ -52,12 +52,12 @@ module Reek
       # :reek:FeatureEnvy
       def sniff(ctx)
         ControlParameterCollector.new(ctx).control_parameters.map do |control_parameter|
-          name = control_parameter.name.to_s
+          argument = control_parameter.name.to_s
           smell_warning(
             context: ctx,
             lines: control_parameter.lines,
-            message: "is controlled by argument #{name}",
-            parameters: { name: name })
+            message: "is controlled by argument #{argument}",
+            parameters: { argument: argument })
         end
       end
 

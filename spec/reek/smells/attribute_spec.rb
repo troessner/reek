@@ -7,6 +7,17 @@ RSpec.describe Reek::Smells::Attribute do
 
   it_should_behave_like 'SmellDetector'
 
+  it 'reports the right values' do
+    src = <<-EOS
+      class Klass
+        attr_writer :my_attr
+      end
+    EOS
+    expect(src).to reek_of(:Attribute,
+                           lines: [2],
+                           message: 'is a writable attribute')
+  end
+
   context 'with no attributes' do
     it 'records nothing' do
       src = <<-EOS
@@ -34,7 +45,7 @@ RSpec.describe Reek::Smells::Attribute do
           attr_writer :my_attr
         end
       EOS
-      expect(src).to reek_of(:Attribute, name: 'my_attr')
+      expect(src).to reek_of(:Attribute, context: 'Klass#my_attr')
     end
 
     it 'does not record writer attribute if suppressed with a preceding code comment' do
@@ -53,7 +64,7 @@ RSpec.describe Reek::Smells::Attribute do
           attr_writer :my_attr
         end
       EOS
-      expect(src).to reek_of(:Attribute, name: 'my_attr')
+      expect(src).to reek_of(:Attribute, context: 'Mod#my_attr')
     end
 
     it 'records accessor attribute' do
@@ -62,7 +73,7 @@ RSpec.describe Reek::Smells::Attribute do
           attr_accessor :my_attr
         end
       EOS
-      expect(src).to reek_of(:Attribute, name: 'my_attr')
+      expect(src).to reek_of(:Attribute, context: 'Klass#my_attr')
     end
 
     it 'records attr defining a writer' do
@@ -71,7 +82,7 @@ RSpec.describe Reek::Smells::Attribute do
           attr :my_attr, true
         end
       EOS
-      expect(src).to reek_of(:Attribute, name: 'my_attr')
+      expect(src).to reek_of(:Attribute, context: 'Klass#my_attr')
     end
 
     it "doesn't record protected attributes" do
@@ -110,7 +121,7 @@ RSpec.describe Reek::Smells::Attribute do
           attr_writer :my_attr
         end
       EOS
-      expect(src).to reek_of(:Attribute, name: 'my_attr')
+      expect(src).to reek_of(:Attribute, context: 'Klass#my_attr')
     end
 
     it 'records attr_writer after switching visbility to public' do
@@ -121,7 +132,7 @@ RSpec.describe Reek::Smells::Attribute do
           public :my_attr
         end
       EOS
-      expect(src).to reek_of(:Attribute, name: 'my_attr')
+      expect(src).to reek_of(:Attribute, context: 'Klass#my_attr')
     end
 
     it 'resets visibility in new contexts' do
@@ -135,7 +146,7 @@ RSpec.describe Reek::Smells::Attribute do
           attr_writer :attr1
         end
       '
-      expect(src).to reek_of(:Attribute)
+      expect(src).to reek_of(:Attribute, context: 'OtherKlass#attr1')
     end
 
     it 'records attr_writer defining a class attribute' do
@@ -146,7 +157,7 @@ RSpec.describe Reek::Smells::Attribute do
           end
         end
       EOS
-      expect(src).to reek_of(:Attribute, name: 'my_attr')
+      expect(src).to reek_of(:Attribute, context: 'Klass#my_attr')
     end
 
     it 'does not record private class attributes' do
@@ -158,7 +169,7 @@ RSpec.describe Reek::Smells::Attribute do
           end
         end
       EOS
-      expect(src).not_to reek_of(:Attribute, name: 'my_attr')
+      expect(src).not_to reek_of(:Attribute)
     end
 
     it 'tracks visibility in metaclasses separately' do
@@ -170,7 +181,7 @@ RSpec.describe Reek::Smells::Attribute do
           end
         end
       EOS
-      expect(src).to reek_of(:Attribute, name: 'my_attr')
+      expect(src).to reek_of(:Attribute, context: 'Klass#my_attr')
     end
   end
 end

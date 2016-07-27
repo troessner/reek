@@ -99,5 +99,9 @@ RSpec.describe Reek::Smells::LongParameterList do
     it 'reports the line number of the method' do
       expect(warning.lines).to eq([1])
     end
+
+    it 'has the right message' do
+      expect(warning.message).to eq('has 4 parameters')
+    end
   end
 end

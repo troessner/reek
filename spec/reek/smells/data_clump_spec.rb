@@ -41,10 +41,6 @@ RSpec.shared_examples_for 'a data clump detector' do
       expect(smells[0].parameters[:count]).to eq(3)
     end
 
-    it 'reports all methods' do
-      expect(smells[0].parameters[:methods]).to eq([:first, :second, :third])
-    end
-
     it 'reports the declaration line numbers' do
       expect(smells[0].lines).to eq([2, 3, 4])
     end
@@ -55,6 +51,10 @@ RSpec.shared_examples_for 'a data clump detector' do
 
     it 'reports the context fq name' do
       expect(smells[0].context).to eq(module_name)
+    end
+
+    it 'has the right message' do
+      expect(smells[0].message).to eq('takes parameters [pa, pb] to 3 methods')
     end
   end
 

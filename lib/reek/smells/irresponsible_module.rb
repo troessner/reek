@@ -25,8 +25,7 @@ module Reek
         [smell_warning(
           context: ctx,
           lines: [expression.line],
-          message: 'has no descriptive comment',
-          parameters: { name: expression.name })]
+          message: 'has no descriptive comment')]
       end
 
       private

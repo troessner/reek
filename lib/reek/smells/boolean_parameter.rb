@@ -28,7 +28,7 @@ module Reek
             context: ctx,
             lines: [ctx.exp.line],
             message: "has boolean parameter '#{parameter}'",
-            parameters: { name: parameter.to_s })
+            parameters: { parameter: parameter.to_s })
         end
       end
     end

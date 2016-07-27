@@ -38,6 +38,7 @@ module Reek
       private
 
       # :reek:FeatureEnvy
+      # :reek:TooManyStatements: { max_statements: 6 }
       def check_for_smells(method_sexp, ctx)
         return unless method_sexp.ends_with_bang?
 
@@ -47,10 +48,12 @@ module Reek
 
         return if version_without_bang
 
+        name = method_sexp.name
         smell_warning(
           context: ctx,
           lines: [ctx.exp.line],
-          message: "has prima donna method `#{method_sexp.name}`")
+          message: "has prima donna method `#{name}`",
+          parameters: { name: name })
       end
     end
   end

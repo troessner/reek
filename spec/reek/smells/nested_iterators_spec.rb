@@ -69,7 +69,7 @@ RSpec.describe Reek::Smells::NestedIterators do
         ) { |qux| qux.quuz }
       end
     EOS
-    expect(src).to reek_of(:NestedIterators, count: 2)
+    expect(src).to reek_of(:NestedIterators, depth: 2)
   end
 
   it 'reports the deepest level of nesting only' do
@@ -82,8 +82,8 @@ RSpec.describe Reek::Smells::NestedIterators do
         }
       end
     EOS
-    expect(src).not_to reek_of(:NestedIterators, count: 2)
-    expect(src).to reek_of(:NestedIterators, count: 3)
+    expect(src).not_to reek_of(:NestedIterators, depth: 2)
+    expect(src).to reek_of(:NestedIterators, depth: 3)
   end
 
   it 'handles the case where super receives a block' do
@@ -132,7 +132,7 @@ RSpec.describe Reek::Smells::NestedIterators do
           end
         end
       EOS
-      expect(source).to reek_of(:NestedIterators, name: 'foo', lines: [3])
+      expect(source).to reek_of(:NestedIterators, lines: [3])
     end
 
     it 'reports all lines on which nested iterators occur' do
@@ -143,7 +143,7 @@ RSpec.describe Reek::Smells::NestedIterators do
         end
       EOS
 
-      expect(source).to reek_of(:NestedIterators, name: 'bad', lines: [2, 3])
+      expect(source).to reek_of(:NestedIterators, lines: [2, 3])
     end
 
     it 'reports separete cases of nested iterators if levels are different' do
@@ -153,8 +153,8 @@ RSpec.describe Reek::Smells::NestedIterators do
           @jim.each {|ting| ting.each {|piece| piece.each {|atom| atom.foo } } }
         end
       EOS
-      expect(source).to reek_of(:NestedIterators, name: 'bad', lines: [2], count: 2)
-      expect(source).to reek_of(:NestedIterators, name: 'bad', lines: [3], count: 3)
+      expect(source).to reek_of(:NestedIterators, lines: [2], depth: 2)
+      expect(source).to reek_of(:NestedIterators, lines: [3], depth: 3)
     end
   end
 
@@ -274,7 +274,7 @@ RSpec.describe Reek::Smells::NestedIterators do
           @fred.ignore_me {|item| item.each {|ting| ting.each {|other| other.other} } }
         end
       '
-      expect(src).to reek_of(:NestedIterators, count: 2).with_config(config)
+      expect(src).to reek_of(:NestedIterators, depth: 2).with_config(config)
     end
 
     it 'should report nested iterators outside the ignored iterator' do
@@ -283,7 +283,7 @@ RSpec.describe Reek::Smells::NestedIterators do
           @fred.each {|item| item.each {|ting| ting.ignore_me {|other| other.other} } }
         end
       '
-      expect(src).to reek_of(:NestedIterators, count: 2).with_config(config)
+      expect(src).to reek_of(:NestedIterators, depth: 2).with_config(config)
     end
 
     it 'should report nested iterators with the ignored iterator between them' do
@@ -292,7 +292,7 @@ RSpec.describe Reek::Smells::NestedIterators do
           @fred.each {|item| item.ignore_me {|ting| ting.ting {|other| other.other} } }
         end
       '
-      expect(src).to reek_of(:NestedIterators, count: 2).with_config(config)
+      expect(src).to reek_of(:NestedIterators, depth: 2).with_config(config)
     end
   end
 end
@@ -318,7 +318,7 @@ RSpec.describe Reek::Smells::NestedIterators do
     it_should_behave_like 'common fields set correctly'
 
     it 'reports correct values' do
-      expect(warning.parameters[:count]).to eq(2)
+      expect(warning.parameters[:depth]).to eq(2)
       expect(warning.lines).to eq([3])
     end
   end

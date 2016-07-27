@@ -51,7 +51,7 @@ module Reek
             context: ctx,
             lines: lines,
             message: "contains iterators nested #{depth} deep",
-            parameters: { name: ctx.full_name, count: depth })
+            parameters: { depth: depth })
         end
       end
 
