@@ -40,7 +40,7 @@ RSpec.describe Reek::Configuration::AppConfiguration do
     end
 
     describe '#from_path' do
-      let(:full_configuration_path) { SAMPLES_PATH.join('configuration/full_configuration.reek') }
+      let(:full_configuration_path) { CONFIG_PATH.join('full_configuration.reek') }
 
       it 'properly loads configuration and processes it' do
         config = described_class.from_path full_configuration_path

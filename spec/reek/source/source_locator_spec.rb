@@ -25,7 +25,7 @@ RSpec.describe Reek::Source::SourceLocator do
 
     context 'exclude paths' do
       let(:configuration) do
-        test_configuration_for(SAMPLES_PATH.join('configuration/with_excluded_paths.reek'))
+        test_configuration_for(CONFIG_PATH.join('with_excluded_paths.reek'))
       end
       let(:path) { SAMPLES_PATH.join('source_with_exclude_paths') }
       let(:paths_that_are_expected_to_be_ignored) do

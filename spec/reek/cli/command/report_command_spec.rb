@@ -10,9 +10,6 @@ RSpec.describe Reek::CLI::Command::ReportCommand do
     let(:configuration) { double 'configuration' }
     let(:sources) { [source_file] }
 
-    let(:clean_file) { Pathname.glob("#{SAMPLES_PATH}/three_clean_files/*.rb").first }
-    let(:smelly_file) { Pathname.glob("#{SAMPLES_PATH}/two_smelly_files/*.rb").first }
-
     let(:command) do
       described_class.new(options: options,
                           sources: sources,
@@ -24,7 +21,7 @@ RSpec.describe Reek::CLI::Command::ReportCommand do
     end
 
     context 'when no smells are found' do
-      let(:source_file) { clean_file }
+      let(:source_file) { CLEAN_FILE }
 
       it 'returns a success code' do
         result = command.execute
@@ -33,7 +30,7 @@ RSpec.describe Reek::CLI::Command::ReportCommand do
     end
 
     context 'when smells are found' do
-      let(:source_file) { smelly_file }
+      let(:source_file) { SMELLY_FILE }
 
       it 'returns a failure code' do
         result = Reek::CLI::Silencer.silently do

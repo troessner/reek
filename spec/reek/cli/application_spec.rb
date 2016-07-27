@@ -19,7 +19,7 @@ RSpec.describe Reek::CLI::Application do
     SAMPLES_PATH.join('source_with_exclude_paths/ignore_me/uncommunicative_method_name.rb')
   end
 
-  let(:configuration) { test_configuration_for(SAMPLES_PATH.join('configuration/with_excluded_paths.reek')) }
+  let(:configuration) { test_configuration_for(CONFIG_PATH.join('with_excluded_paths.reek')) }
 
   describe '#execute' do
     let(:command) { double 'reek_command' }

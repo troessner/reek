@@ -43,19 +43,18 @@ RSpec.describe Reek::Examiner do
   context 'with a partially masked smelly File' do
     let(:configuration) { test_configuration_for(path) }
     let(:examiner) do
-      described_class.new(smelly_file,
+      described_class.new(SMELLY_FILE,
                           filter_by_smells: [],
                           configuration: configuration)
     end
-    let(:path) { SAMPLES_PATH.join('all_but_one_masked/masked.reek') }
-    let(:smelly_file) { Pathname.glob(SAMPLES_PATH.join('all_but_one_masked/d*.rb')).first }
+    let(:path) { CONFIG_PATH.join('partial_mask.reek') }
+    let(:expected_first_smell) { 'UncommunicativeVariableName' }
 
     it_should_behave_like 'one smell found'
   end
 
   context 'with a fragrant File' do
-    let(:clean_file) { Pathname.glob(SAMPLES_PATH.join('three_clean_files/*.rb')).first }
-    let(:examiner) { described_class.new(clean_file) }
+    let(:examiner) { described_class.new(CLEAN_FILE) }
 
     it_should_behave_like 'no smells found'
   end

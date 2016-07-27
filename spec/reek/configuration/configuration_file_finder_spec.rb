@@ -25,47 +25,57 @@ RSpec.describe Reek::Configuration::ConfigurationFileFinder do
     end
 
     it 'returns the file in a parent dir if none in current dir' do
-      found = described_class.find(current: SAMPLES_PATH.join('no_config_file'))
-      expect(found).to eq(SAMPLES_PATH.join('exceptions.reek'))
+      Dir.mktmpdir(nil, SAMPLES_PATH) do |tempdir|
+        found = described_class.find(current: Pathname.new(tempdir))
+        expect(found).to eq(SAMPLES_PATH.join('exceptions.reek'))
+      end
     end
 
     it 'returns the file even if it’s just ‘.reek’' do
-      found = described_class.find(current: SAMPLES_PATH.join('masked_by_dotfile'))
-      expect(found).to eq(SAMPLES_PATH.join('masked_by_dotfile/.reek'))
+      found = described_class.find(current: CONFIG_PATH)
+      expect(found).to eq(CONFIG_PATH.join('.reek'))
     end
 
     it 'returns the file in home if traversing from the current dir fails' do
       skip_if_a_config_in_tempdir
-      Dir.mktmpdir do |tempdir|
-        current = Pathname.new(tempdir)
-        found = described_class.find(current: current, home: SAMPLES_PATH)
+
+      Dir.mktmpdir(nil, SAMPLES_PATH) do |tempdir|
+        found = described_class.find(current: Pathname.new(tempdir))
         expect(found).to eq(SAMPLES_PATH.join('exceptions.reek'))
       end
     end
 
     it 'prefers the file in :current over one in :home' do
-      found = described_class.find(current: SAMPLES_PATH, home: SAMPLES_PATH.join('masked_by_dotfile'))
-      file_in_home = SAMPLES_PATH.join('masked_by_dotfile/.reek')
+      found = described_class.find(current: SAMPLES_PATH, home: CONFIG_PATH)
       file_in_current = SAMPLES_PATH.join('exceptions.reek')
-      expect(found).not_to eq(file_in_home)
+
       expect(found).to eq(file_in_current)
     end
 
     it 'returns nil when there are no files to find' do
       skip_if_a_config_in_tempdir
+
       Dir.mktmpdir do |tempdir|
         current = Pathname.new(tempdir)
-        home    = Pathname.new(tempdir)
+        home = Pathname.new(tempdir)
+
         found = described_class.find(current: current, home: home)
+
         expect(found).to be_nil
       end
     end
 
     it 'does not traverse up from :home' do
       skip_if_a_config_in_tempdir
+
       Dir.mktmpdir do |tempdir|
-        current = Pathname.new(tempdir)
-        found = described_class.find(current: current, home: SAMPLES_PATH.join('no_config_file'))
+        dir = Pathname.new(tempdir)
+        subdir = dir.join('subdir')
+
+        FileUtils.mkdir(subdir)
+
+        found = described_class.find(current: subdir, home: dir)
+
         expect(found).to be_nil
       end
     end
@@ -82,9 +92,6 @@ RSpec.describe Reek::Configuration::ConfigurationFileFinder do
     end
 
     describe '.load_from_file' do
-      let(:sample_configuration_path) do
-        SAMPLES_PATH.join('configuration/simple_configuration.reek')
-      end
       let(:sample_configuration_loaded) do
         {
           'UncommunicativeVariableName' => { 'enabled' => false },
@@ -93,7 +100,7 @@ RSpec.describe Reek::Configuration::ConfigurationFileFinder do
       end
 
       it 'loads the configuration from given file' do
-        configuration = described_class.load_from_file(sample_configuration_path)
+        configuration = described_class.load_from_file(CONFIG_PATH.join('full_mask.reek'))
         expect(configuration).to eq(sample_configuration_loaded)
       end
     end
