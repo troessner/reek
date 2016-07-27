@@ -96,8 +96,16 @@ RSpec.describe Reek::Smells::LongParameterList do
       expect(warning.parameters[:count]).to eq(4)
     end
 
+    it 'reports the name' do
+      expect(warning.parameters[:name]).to eq(:badguy)
+    end
+
     it 'reports the line number of the method' do
       expect(warning.lines).to eq([1])
+    end
+
+    it 'reports the message' do
+      expect(warning.message).to eq('has 4 parameters')
     end
   end
 end

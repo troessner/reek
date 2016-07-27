@@ -36,7 +36,7 @@ module Reek
             context: ctx,
             lines: [yield_node.line],
             message: "yields #{count} parameters",
-            parameters: { count: count })
+            parameters: { count: count, name: ctx.name })
         end
       end
     end

@@ -42,7 +42,7 @@ module Reek
           context: ctx,
           lines: [exp.line],
           message: "has #{count} parameters",
-          parameters: { count: count })]
+          parameters: { count: count, name: ctx.name })]
       end
     end
   end

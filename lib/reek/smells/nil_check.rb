@@ -18,7 +18,8 @@ module Reek
           smell_warning(
             context: ctx,
             lines: [node.line],
-            message: 'performs a nil-check')
+            message: 'performs a nil-check',
+            parameters: { name: ctx.name })
         end
       end
 
