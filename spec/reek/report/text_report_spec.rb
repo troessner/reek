@@ -17,7 +17,7 @@ RSpec.describe Reek::Report::TextReport do
 
   context 'with a single empty source' do
     before do
-      instance.add_examiner Reek::Examiner.new('')
+      instance.add_examiner Reek::Examiner.run('')
     end
 
     it 'has an empty quiet_report' do
@@ -27,8 +27,8 @@ RSpec.describe Reek::Report::TextReport do
 
   context 'with non smelly files' do
     before do
-      instance.add_examiner(Reek::Examiner.new('def simple() puts "a" end'))
-      instance.add_examiner(Reek::Examiner.new('def simple() puts "a" end'))
+      instance.add_examiner(Reek::Examiner.run('def simple() puts "a" end'))
+      instance.add_examiner(Reek::Examiner.run('def simple() puts "a" end'))
     end
 
     context 'with colors disabled' do
@@ -54,8 +54,8 @@ RSpec.describe Reek::Report::TextReport do
 
   context 'with a couple of smells' do
     before do
-      instance.add_examiner(Reek::Examiner.new('def simple(a) a[3] end'))
-      instance.add_examiner(Reek::Examiner.new('def simple(a) a[3] end'))
+      instance.add_examiner(Reek::Examiner.run('def simple(a) a[3] end'))
+      instance.add_examiner(Reek::Examiner.run('def simple(a) a[3] end'))
     end
 
     context 'with colors disabled' do

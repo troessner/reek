@@ -32,7 +32,7 @@ source = <<-EOS
 EOS
 
 reporter = Reek::Report::TextReport.new
-examiner = Reek::Examiner.new source
+examiner = Reek::Examiner.run(source)
 reporter.add_examiner examiner
 reporter.show
 ```
@@ -48,7 +48,7 @@ string -- 5 warnings:
   Dirty#m has unused parameter 'c' (UnusedParameters)
 ```
 
-Note that `Reek::Examiner.new` can take `source` as `String`, `Pathname`, `File` or `IO`.
+Note that `Reek::Examiner.run` can take `source` as `String`, `Pathname`, `File` or `IO`.
 
 ## API stability
 
@@ -129,7 +129,7 @@ source = <<-EOS
 EOS
 
 reporter = Reek::Report::TextReport.new
-examiner = Reek::Examiner.new(source, configuration: configuration); nil
+examiner = Reek::Examiner.run(source, configuration: configuration); nil
 reporter.add_examiner examiner; nil
 reporter.show
 ```
@@ -175,7 +175,7 @@ source = <<-END
   end
 END
 
-examiner = Reek::Examiner.new source
+examiner = Reek::Examiner.run(source)
 examiner.smells.each do |smell|
   puts smell.message
 end

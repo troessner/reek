@@ -6,7 +6,7 @@ RSpec.describe Reek::Report::HTMLReport do
   let(:instance) { Reek::Report::HTMLReport.new }
 
   context 'with an empty source' do
-    let(:examiner) { Reek::Examiner.new('') }
+    let(:examiner) { Reek::Examiner.run('') }
 
     before do
       instance.add_examiner examiner

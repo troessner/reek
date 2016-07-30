@@ -9,7 +9,7 @@ require 'stringio'
 RSpec.describe Reek::Report::JSONReport do
   let(:options) { {} }
   let(:instance) { Reek::Report::JSONReport.new(options) }
-  let(:examiner) { Reek::Examiner.new(source) }
+  let(:examiner) { Reek::Examiner.run(source) }
 
   before do
     instance.add_examiner examiner
