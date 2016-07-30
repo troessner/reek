@@ -12,6 +12,19 @@ module Reek
   #
   # :reek:TooManyInstanceVariables: { max_instance_variables: 7 }
   class Examiner
+    INCOMPREHENSIBLE_SOURCE_TEMPLATE = <<-EOS.freeze
+      !!!
+      Source %s can not be processed by Reek.
+      This is most likely a Reek bug.
+      It would be great if you could report this back to the Reek team
+      by opening up a corresponding issue at https://github.com/troessner/reek/issues
+      Make sure to include the source in question, the Reek version
+      and the original exception below.
+
+      Original exception:
+      %s
+      !!!
+    EOS
     #
     # Creates an Examiner which scans the given +source+ for code smells.
     #
@@ -77,6 +90,10 @@ module Reek
     # Runs the Examiner on the given source to scan for code smells
     # and returns the corresponding Examiner instance.
     #
+    # In case one of the smell detectors raises an exception we probably hit a Reek bug.
+    # So we catch the exception here, let the user know something went wrong
+    # and continue with the analysis.
+    #
     # @return an instance of Examiner
     #
     # :reek:TooManyStatements: { max_statements: 6 }
@@ -84,12 +101,20 @@ module Reek
       @run ||= begin
         syntax_tree = source.syntax_tree
         return self unless syntax_tree
-        ContextBuilder.new(syntax_tree).context_tree.each do |element|
-          smell_repository.examine(element)
+        begin
+          examine syntax_tree
+        rescue StandardError => exception
+          $stderr.puts format(INCOMPREHENSIBLE_SOURCE_TEMPLATE, source.origin, exception.inspect)
+        else
+          smell_repository.report_on(collector)
         end
-
-        smell_repository.report_on(collector)
         self
+      end
+    end
+
+    def examine(syntax_tree)
+      ContextBuilder.new(syntax_tree).context_tree.each do |element|
+        smell_repository.examine(element)
       end
     end
   end

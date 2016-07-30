@@ -108,5 +108,42 @@ RSpec.describe Reek::Examiner do
         expect(examiner.smells).to eq([])
       end
     end
+
+    context 'with an incomprehensible source that causes Reek to crash' do
+      subject do
+        examiner = described_class.new 'class C; def does_crash_reek; end; end'
+        allow(examiner).to receive(:smell_repository) do
+          Reek::Smells::SmellRepository.new.tap do |repository|
+            allow(repository).to receive(:examine) do
+              raise ArgumentError, 'Looks like bad source'
+            end
+          end
+        end
+        examiner
+      end
+
+      it 'has no warnings' do
+        Reek::CLI::Silencer.silently do
+          expect(subject.smells).to be_empty
+        end
+      end
+
+      describe 'message on STDERR' do
+        it 'contains the origin' do
+          origin = 'string'
+          expect { subject.smells }.to output(/#{origin}/).to_stderr
+        end
+
+        it 'explains what to do' do
+          explanation = 'It would be great if you could report this back to the Reek team'
+          expect { subject.smells }.to output(/#{explanation}/).to_stderr
+        end
+
+        it 'contains the original exception' do
+          original = '#<ArgumentError: Looks like bad source>'
+          expect { subject.smells }.to output(/#{original}/).to_stderr
+        end
+      end
+    end
   end
 end
