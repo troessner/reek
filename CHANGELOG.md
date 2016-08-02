@@ -1,5 +1,9 @@
 # Change log
 
+## 4.2.2 (2016-08-02)
+
+* (soutaro) Use bundler to load libs during test
+
 ## 4.2.1 (2016-07-20)
 
 * (waldyr) Fix TooManyConstants for outer module when inner module suppress
