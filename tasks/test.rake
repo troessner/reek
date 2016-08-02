@@ -4,13 +4,13 @@ require 'rspec/core/rake_task'
 namespace 'test' do
   RSpec::Core::RakeTask.new('spec') do |t|
     t.pattern = 'spec/reek/**/*_spec.rb'
-    t.ruby_opts = ['-rsimplecov -Ilib -w']
+    t.ruby_opts = ['-rbundler/setup -rsimplecov -Ilib -w']
   end
 
   desc 'Tests code quality'
   RSpec::Core::RakeTask.new('quality') do |t|
     t.pattern = 'spec/quality/**/*_spec.rb'
-    t.ruby_opts = ['-Ilib']
+    t.ruby_opts = ['-rbundler/setup -Ilib']
   end
 
   Cucumber::Rake::Task.new(:features) do |t|
