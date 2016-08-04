@@ -53,6 +53,7 @@ module Reek
       end
 
       Op_AsgnNode = SendNode
+      CSendNode = SendNode
     end
   end
 end

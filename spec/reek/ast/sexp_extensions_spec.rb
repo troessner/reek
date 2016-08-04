@@ -124,6 +124,26 @@ RSpec.describe Reek::AST::SexpExtensions::DefNode do
   end
 end
 
+RSpec.describe Reek::AST::SexpExtensions::CSendNode do
+  let(:node) { Reek::Source::SourceCode.from('1&.foo(true)').syntax_tree }
+
+  it 'has a class including SendNode' do
+    expect(node.class.included_modules).to include(Reek::AST::SexpExtensions::SendNode)
+  end
+
+  it 'has a receiver' do
+    expect(node.receiver).to eq(sexp(:int, 1))
+  end
+
+  it 'has a name' do
+    expect(node.name).to eq(:foo)
+  end
+
+  it 'has arguments' do
+    expect(node.args).to eq([sexp(:true)])
+  end
+end
+
 RSpec.describe Reek::AST::SexpExtensions::DefsNode do
   context 'with no parameters' do
     let(:node) { sexp(:defs, sexp(:lvar, :obj), :hello, sexp(:args)) }
