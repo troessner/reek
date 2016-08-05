@@ -27,7 +27,7 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
-      def inspect(ctx)
+      def sniff(ctx)
         max_allowed_statements = value(MAX_ALLOWED_STATEMENTS_KEY, ctx)
         count = ctx.number_of_statements
         return [] if count <= max_allowed_statements

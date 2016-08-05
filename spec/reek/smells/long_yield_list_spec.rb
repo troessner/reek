@@ -36,7 +36,7 @@ RSpec.describe Reek::Smells::LongYieldList do
           end
       EOS
       ctx = Reek::Context::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
-      detector.inspect(ctx).first
+      detector.sniff(ctx).first
     end
 
     it_should_behave_like 'common fields set correctly'

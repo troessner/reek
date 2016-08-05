@@ -47,7 +47,7 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
-      def inspect(ctx)
+      def sniff(ctx)
         self.reject_names = value(REJECT_KEY, ctx)
         self.accept_names = value(ACCEPT_KEY, ctx)
         variable_names(ctx.exp).select do |name, _lines|

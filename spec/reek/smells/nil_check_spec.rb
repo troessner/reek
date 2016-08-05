@@ -13,7 +13,7 @@ RSpec.describe Reek::Smells::NilCheck do
       EOS
       ctx = Reek::Context::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
       detector = build(:smell_detector, smell_type: :NilCheck)
-      smells = detector.inspect(ctx)
+      smells = detector.sniff(ctx)
       expect(smells[0].lines).to eq [2]
     end
 

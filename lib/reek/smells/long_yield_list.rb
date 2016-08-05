@@ -26,7 +26,7 @@ module Reek
       #
       # :reek:FeatureEnvy
       # :reek:DuplicateMethodCall: { max_calls: 2 }
-      def inspect(ctx)
+      def sniff(ctx)
         max_allowed_params = value(MAX_ALLOWED_PARAMS_KEY, ctx)
         ctx.local_nodes(:yield).select do |yield_node|
           yield_node.args.length > max_allowed_params

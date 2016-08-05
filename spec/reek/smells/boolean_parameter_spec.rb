@@ -76,7 +76,7 @@ RSpec.describe Reek::Smells::BooleanParameter do
       let(:warning) do
         src = 'def cc(arga = true) end'
         ctx = Reek::Context::MethodContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
-        detector.inspect(ctx).first
+        detector.sniff(ctx).first
       end
 
       it_should_behave_like 'common fields set correctly'

@@ -12,19 +12,19 @@ RSpec.describe Reek::Smells::ClassVariable do
   context 'with no class variables' do
     it 'records nothing in the class' do
       exp = sexp(:class, :Fred)
-      expect(detector.inspect(Reek::Context::CodeContext.new(nil, exp))).to be_empty
+      expect(detector.sniff(Reek::Context::CodeContext.new(nil, exp))).to be_empty
     end
 
     it 'records nothing in the module' do
       exp = sexp(:module, :Fred)
-      expect(detector.inspect(Reek::Context::CodeContext.new(nil, exp))).to be_empty
+      expect(detector.sniff(Reek::Context::CodeContext.new(nil, exp))).to be_empty
     end
   end
 
   context 'with one class variable' do
     shared_examples_for 'one variable found' do
       let(:ast) { Reek::Source::SourceCode.from(src).syntax_tree }
-      let(:smells) { detector.inspect(Reek::Context::CodeContext.new(nil, ast)) }
+      let(:smells) { detector.sniff(Reek::Context::CodeContext.new(nil, ast)) }
 
       it 'records only that class variable' do
         expect(smells.length).to eq(1)
@@ -85,7 +85,7 @@ RSpec.describe Reek::Smells::ClassVariable do
         end
       EOS
       ctx = Reek::Context::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
-      detector.inspect(ctx).first
+      detector.sniff(ctx).first
     end
 
     it_should_behave_like 'common fields set correctly'

@@ -26,7 +26,7 @@ RSpec.shared_examples_for 'a data clump detector' do
         end
       EOS
       ctx = Reek::Context::ModuleContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
-      build(:smell_detector, smell_type: :DataClump).inspect(ctx)
+      build(:smell_detector, smell_type: :DataClump).sniff(ctx)
     end
 
     it 'records only the one smell' do

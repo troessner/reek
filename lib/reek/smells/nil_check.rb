@@ -9,7 +9,7 @@ module Reek
     #
     # See {file:docs/Nil-Check.md} for details.
     class NilCheck < SmellDetector
-      def inspect(ctx)
+      def sniff(ctx)
         call_node_finder = NodeFinder.new(ctx, :send, NilCallNodeDetector)
         case_node_finder = NodeFinder.new(ctx, :when, NilWhenNodeDetector)
         smelly_nodes = call_node_finder.smelly_nodes + case_node_finder.smelly_nodes
