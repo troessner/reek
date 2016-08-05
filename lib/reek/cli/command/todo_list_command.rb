@@ -29,7 +29,7 @@ module Reek
 
         def scan_for_smells
           sources.map do |source|
-            Examiner.new(source,
+            Examiner.run(source,
                          filter_by_smells: smell_names,
                          configuration: configuration)
           end.map(&:smells).flatten

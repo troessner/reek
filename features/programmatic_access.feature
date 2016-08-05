@@ -8,7 +8,7 @@ Feature: Using Reek programmatically
     And a file named "examine.rb" with:
       """
       require 'reek'
-      examiner = Reek::Examiner.new(File.new('smelly.rb'))
+      examiner = Reek::Examiner.run(File.new('smelly.rb'))
       examiner.smells.each do |smell|
         puts smell.message
       end
@@ -27,7 +27,7 @@ Feature: Using Reek programmatically
     And a file named "examine.rb" with:
       """
       require 'reek'
-      examiner = Reek::Examiner.new(File.new('smelly.rb'))
+      examiner = Reek::Examiner.run(File.new('smelly.rb'))
       report = Reek::Report::TextReport.new
       report.add_examiner examiner
       report.show

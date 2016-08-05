@@ -12,7 +12,7 @@ module Reek
     #
     class ShouldReekOnlyOf < ShouldReekOf
       def matches?(source)
-        matches_examiner?(Examiner.new(source, configuration: configuration))
+        matches_examiner?(Examiner.run(source, configuration: configuration))
       end
 
       def matches_examiner?(examiner)
