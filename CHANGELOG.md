@@ -1,5 +1,9 @@
 # Change log
 
+## 4.2.3 (2016-08-05)
+
+* (soutaro) Add SexpExtensions::CSendNode for safe navigation operator
+
 ## 4.2.2 (2016-08-02)
 
 * (soutaro) Use bundler to load libs during test
