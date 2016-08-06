@@ -37,7 +37,7 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       # :reek:FeatureEnvy
-      def inspect(ctx)
+      def sniff(ctx)
         hits(ctx).map do |hit|
           name = hit.name
           smell_warning(

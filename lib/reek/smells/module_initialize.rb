@@ -21,7 +21,7 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       # :reek:FeatureEnvy
-      def inspect(ctx)
+      def sniff(ctx)
         ctx.local_nodes(:def) do |node|
           if node.name.to_s == 'initialize'
             return [

@@ -34,7 +34,7 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
-      def inspect(ctx)
+      def sniff(ctx)
         max_allowed_constants = value(MAX_ALLOWED_CONSTANTS_KEY, ctx)
 
         count = ctx.each_node(:casgn, IGNORED_NODES).delete_if(&:defines_module?).length

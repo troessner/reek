@@ -35,7 +35,7 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
-      def inspect(ctx)
+      def sniff(ctx)
         max_allowed_methods = value(MAX_ALLOWED_METHODS_KEY, ctx)
         # TODO: Only checks instance methods!
         actual = ctx.node_instance_methods.length

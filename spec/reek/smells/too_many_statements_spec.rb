@@ -51,7 +51,7 @@ RSpec.describe Reek::Smells::TooManyStatements do
       ctx = double('method_context').as_null_object
       expect(ctx).to receive(:number_of_statements).and_return(number_of_statements)
       expect(ctx).to receive(:config_for).with(described_class).and_return({})
-      detector.inspect(ctx)
+      detector.sniff(ctx)
     end
 
     it 'reports only 1 smell' do

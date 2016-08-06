@@ -26,17 +26,17 @@ module Reek
       # class Foo < Bar; end;
       #
       # @return [Array<SmellWarning>]
-      def inspect(ctx)
+      def sniff(ctx)
         superclass = ctx.exp.superclass
 
         return [] unless superclass
 
-        inspect_superclass(ctx, superclass.name)
+        sniff_superclass(ctx, superclass.name)
       end
 
       private
 
-      def inspect_superclass(ctx, superclass_name)
+      def sniff_superclass(ctx, superclass_name)
         return [] unless CORE_CLASSES.include?(superclass_name)
 
         [build_smell_warning(ctx, superclass_name)]

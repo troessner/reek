@@ -20,7 +20,7 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       # :reek:FeatureEnvy
-      def inspect(ctx)
+      def sniff(ctx)
         ctx.default_assignments.select do |_param, value|
           [:true, :false].include?(value.type)
         end.map do |parameter, _value|

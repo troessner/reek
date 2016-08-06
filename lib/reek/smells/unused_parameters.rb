@@ -15,7 +15,7 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       # :reek:FeatureEnvy
-      def inspect(ctx)
+      def sniff(ctx)
         return [] if ctx.uses_super_with_implicit_arguments?
         ctx.unused_params.map do |param|
           name = param.name.to_s

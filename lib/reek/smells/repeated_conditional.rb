@@ -48,7 +48,7 @@ module Reek
       #
       # :reek:TooManyStatements: { max_statements: 6 }
       # :reek:DuplicateMethodCall: { max_calls: 2 }
-      def inspect(ctx)
+      def sniff(ctx)
         max_identical_ifs = value(MAX_IDENTICAL_IFS_KEY, ctx)
         conditional_counts(ctx).select do |_key, lines|
           lines.length > max_identical_ifs

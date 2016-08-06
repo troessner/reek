@@ -41,7 +41,7 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
-      def inspect(ctx)
+      def sniff(ctx)
         configure_ignore_iterators ctx
         violations = find_violations ctx
 
