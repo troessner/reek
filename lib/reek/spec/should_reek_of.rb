@@ -86,7 +86,9 @@ module Reek
       def all_relevant_smell_details_formatted
         matching_smell_types.each_with_object([]).with_index do |(smell, accumulator), index|
           accumulator << "#{index + 1}.)\n"
-          accumulator << "#{smell.smell_warning.to_hash.except('smell_type')}\n"
+          warning_as_hash = smell.smell_warning.to_hash
+          warning_as_hash.delete('smell_type')
+          accumulator << "#{warning_as_hash}\n"
         end.join
       end
 
