@@ -1,6 +1,8 @@
 require 'pathname'
 require_relative '../../spec_helper'
 require_lib 'reek/spec'
+require 'active_support/core_ext/string/strip'
+require 'active_support/core_ext/hash/except'
 
 RSpec.describe Reek::Spec::ShouldReekOf do
   describe 'smell type selection' do
@@ -99,8 +101,8 @@ RSpec.describe Reek::Spec::ShouldReekOf do
     end
 
     context 'smell type is matching but smell details are not' do
-      let(:smelly_code) { 'def dummy() y = 4; end' }
-      let(:matcher) { Reek::Spec::ShouldReekOf.new(:UncommunicativeVariableName, name: 'x') }
+      let(:smelly_code) { 'def double_thing() @other.thing.foo + @other.thing.foo end' }
+      let(:matcher) { Reek::Spec::ShouldReekOf.new(:DuplicateMethodCall, name: 'foo', count: 15) }
 
       it 'is falsey' do
         expect(matcher.matches?(smelly_code)).to be_falsey
@@ -108,17 +110,24 @@ RSpec.describe Reek::Spec::ShouldReekOf do
 
       it 'sets the proper error message' do
         matcher.matches?(smelly_code)
-        expect(matcher.failure_message).to\
-          match('Expected string to reek of UncommunicativeVariableName (which it did) with '\
-                  'smell details {:name=>"x"}, which it didn\'t')
+        expected = <<-EOS.strip_heredoc
+          Expected string to reek of DuplicateMethodCall (which it did) with smell details {:name=>"foo", :count=>15}, which it didn't.
+          The number of smell details I had to compare with the given one was 2 and here they are:
+          1.)
+          {"context"=>"double_thing", "lines"=>[1, 1], "message"=>"calls @other.thing 2 times", "source"=>"string", "name"=>"@other.thing", "count"=>2}
+          2.)
+          {"context"=>"double_thing", "lines"=>[1, 1], "message"=>"calls @other.thing.foo 2 times", "source"=>"string", "name"=>"@other.thing.foo", "count"=>2}
+        EOS
+
+        expect(matcher.failure_message).to eq(expected)
       end
 
       it 'sets the proper error message when negated' do
         matcher.matches?(smelly_code)
 
         expect(matcher.failure_message_when_negated).to\
-          match('Expected string not to reek of UncommunicativeVariableName with smell '\
-                  'details {:name=>"x"}, but it did')
+          match('Expected string not to reek of DuplicateMethodCall with smell '\
+                  'details {:name=>"foo", :count=>15}, but it did')
       end
     end
   end
