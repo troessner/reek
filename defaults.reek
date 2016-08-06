@@ -119,3 +119,4 @@ UnusedPrivateMethod:
 UtilityFunction:
   enabled: true
   exclude: []
+  public_methods_only: false
