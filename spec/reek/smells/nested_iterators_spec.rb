@@ -193,6 +193,30 @@ RSpec.describe Reek::Smells::NestedIterators do
     end
   end
 
+  it 'reports nested iterators called via safe navigation' do
+    source = <<-EOS
+      def show_bottles(bars)
+        bars&.each do |bar|
+          bar&.each do |bottle|
+            puts bottle
+          end
+        end
+      end
+    EOS
+    expect(source).to reek_of(:NestedIterators)
+  end
+
+  it 'does not report unnested iterators called via safe navigation' do
+    source = <<-EOS
+      def show_bottles(bar)
+        bar&.each do |bottle|
+          puts bottle
+        end
+      end
+    EOS
+    expect(source).not_to reek_of(:NestedIterators)
+  end
+
   context 'when the allowed nesting depth is 3' do
     let(:config) do
       { Reek::Smells::NestedIterators::MAX_ALLOWED_NESTING_KEY => 3 }
