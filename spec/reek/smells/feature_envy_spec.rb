@@ -235,10 +235,16 @@ RSpec.describe Reek::Smells::FeatureEnvy do
 
     it_should_behave_like 'common fields set correctly'
 
-    it 'reports the correct values' do
+    it 'reports the name' do
       expect(warning.parameters[:name]).to eq(receiver)
-      expect(warning.parameters[:count]).to eq(3)
+    end
+
+    it 'reports the lines' do
       expect(warning.lines).to eq([2, 4, 5])
+    end
+
+    it 'has the right message' do
+      expect(warning.message).to eq('refers to other more than self (maybe move it to another class?)')
     end
   end
 end

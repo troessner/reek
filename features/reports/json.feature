@@ -64,8 +64,7 @@ Feature: Report smells using simple JSON layout
                   1
               ],
               "message": "has no descriptive comment",
-              "wiki_link": "https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md",
-              "name": "Turn"
+              "wiki_link": "https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md"
           }
       ]
       """

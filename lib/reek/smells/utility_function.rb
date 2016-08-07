@@ -67,8 +67,7 @@ module Reek
         [smell_warning(
           context: ctx,
           lines: [ctx.exp.line],
-          message: "doesn't depend on instance state (maybe move it to another class?)",
-          parameters: { name: ctx.full_name })]
+          message: "doesn't depend on instance state (maybe move it to another class?)")]
       end
 
       private

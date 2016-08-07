@@ -24,6 +24,10 @@ RSpec.describe Reek::Smells::UtilityFunction do
       it 'reports the line number of the method' do
         expect(warning.lines).to eq([1])
       end
+
+      it 'has the right message' do
+        expect(warning.message).to eq("doesn't depend on instance state (maybe move it to another class?)")
+      end
     end
   end
 
@@ -92,7 +96,7 @@ RSpec.describe Reek::Smells::UtilityFunction do
             def simple(a) a.to_s; end
           end
         EOF
-        expect(src).to reek_of(:UtilityFunction)
+        expect(src).to reek_of(:UtilityFunction, context: 'M#simple')
       end
 
       it 'does not report when module_function is called in separate scope' do
@@ -153,18 +157,18 @@ RSpec.describe Reek::Smells::UtilityFunction do
 
   context 'with only one call' do
     it 'reports a call to a parameter' do
-      expect('def simple(arga) arga.to_s end').to reek_of(:UtilityFunction, name: 'simple')
+      expect('def simple(arga) arga.to_s end').to reek_of(:UtilityFunction, context: 'simple')
     end
 
     it 'reports a call to a constant' do
-      expect('def simple(arga) FIELDS[arga] end').to reek_of(:UtilityFunction)
+      expect('def simple(arga) FIELDS[arga] end').to reek_of(:UtilityFunction, context: 'simple')
     end
   end
 
   context 'with two or more calls' do
     it 'reports two calls' do
       src = 'def simple(arga) arga.to_s + arga.to_i end'
-      expect(src).to reek_of(:UtilityFunction, name: 'simple')
+      expect(src).to reek_of(:UtilityFunction, context: 'simple')
       expect(src).not_to reek_of(:FeatureEnvy)
     end
 
@@ -189,7 +193,7 @@ RSpec.describe Reek::Smells::UtilityFunction do
 
     it 'should report message chain' do
       src = 'def simple(arga) arga.b.c end'
-      expect(src).to reek_of(:UtilityFunction, name: 'simple')
+      expect(src).to reek_of(:UtilityFunction, context: 'simple')
       expect(src).not_to reek_of(:FeatureEnvy)
     end
 
@@ -225,7 +229,7 @@ RSpec.describe Reek::Smells::UtilityFunction do
             def m1(a) a.to_s; end
           end
       EOS
-      expect(src).to reek_of(:UtilityFunction)
+      expect(src).to reek_of(:UtilityFunction, context: 'C#m1')
     end
 
     it 'reports protected methods' do
@@ -235,7 +239,7 @@ RSpec.describe Reek::Smells::UtilityFunction do
             def m1(a) a.to_s; end
           end
       EOS
-      expect(src).to reek_of(:UtilityFunction)
+      expect(src).to reek_of(:UtilityFunction, context: 'C#m1')
     end
   end
 
@@ -251,7 +255,7 @@ RSpec.describe Reek::Smells::UtilityFunction do
             def m1(a) a.to_s; end
           end
         EOS
-        expect(src).to reek_of(:UtilityFunction, name: 'C#m1').with_config(config)
+        expect(src).to reek_of(:UtilityFunction, context: 'C#m1').with_config(config)
       end
     end
 

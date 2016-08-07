@@ -46,8 +46,7 @@ RSpec.describe Reek::Report::JSONReport do
             "lines":          [1],
             "message":        "doesn't depend on instance state (maybe move it to another class?)",
             "smell_type":     "UtilityFunction",
-            "source":         "string",
-            "name":           "simple"
+            "source":         "string"
           }
         ]
       EOS
@@ -80,7 +79,6 @@ RSpec.describe Reek::Report::JSONReport do
               "message":        "doesn't depend on instance state (maybe move it to another class?)",
               "smell_type":     "UtilityFunction",
               "source":         "string",
-              "name":           "simple",
               "wiki_link":      "https://github.com/troessner/reek/blob/master/docs/Utility-Function.md"
             }
           ]

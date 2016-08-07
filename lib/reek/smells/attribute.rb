@@ -31,12 +31,11 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       def sniff(ctx)
-        attributes_in(ctx).map do |attribute, line|
+        attributes_in(ctx).map do |_attribute, line|
           smell_warning(
             context: ctx,
             lines: [line],
-            message: 'is a writable attribute',
-            parameters: { name: attribute.to_s })
+            message: 'is a writable attribute')
         end
       end
 

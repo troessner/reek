@@ -60,6 +60,5 @@ Feature: Report smells using simple YAML layout
         lines:
         - 1
         message: has no descriptive comment
-        name: Turn
         wiki_link: https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md
       """

@@ -6,12 +6,14 @@ require_relative 'smell_detector_shared'
 RSpec.describe Reek::Smells::IrresponsibleModule do
   it 'reports a class without a comment' do
     src = 'class BadClass; end'
-    expect(src).to reek_of :IrresponsibleModule, name: 'BadClass'
+    expect(src).to reek_of :IrresponsibleModule,
+                           lines: [1],
+                           message: 'has no descriptive comment'
   end
 
   it 'reports a module without a comment' do
     src = 'module BadClass; end'
-    expect(src).to reek_of :IrresponsibleModule, name: 'BadClass'
+    expect(src).to reek_of(:IrresponsibleModule, context: 'BadClass')
   end
 
   it 'does not report re-opened modules' do
@@ -39,7 +41,7 @@ RSpec.describe Reek::Smells::IrresponsibleModule do
       #
       class BadClass; end
     EOS
-    expect(src).to reek_of :IrresponsibleModule
+    expect(src).to reek_of(:IrresponsibleModule, context: 'BadClass')
   end
 
   it 'reports a class with a preceding comment with intermittent material' do
@@ -50,7 +52,7 @@ RSpec.describe Reek::Smells::IrresponsibleModule do
 
       class Bar; end
     EOS
-    expect(src).to reek_of(:IrresponsibleModule)
+    expect(src).to reek_of(:IrresponsibleModule, context: 'Bar')
   end
 
   it 'reports a class with a trailing comment' do
@@ -58,12 +60,12 @@ RSpec.describe Reek::Smells::IrresponsibleModule do
       class BadClass
       end # end BadClass
     EOS
-    expect(src).to reek_of(:IrresponsibleModule)
+    expect(src).to reek_of(:IrresponsibleModule, context: 'BadClass')
   end
 
   it 'reports a fully qualified class name correctly' do
     src = 'class Foo::Bar; end'
-    expect(src).to reek_of :IrresponsibleModule, name: 'Foo::Bar'
+    expect(src).to reek_of(:IrresponsibleModule, context: 'Foo::Bar')
   end
 
   it 'does not report modules used only as namespaces' do
@@ -102,7 +104,7 @@ RSpec.describe Reek::Smells::IrresponsibleModule do
         end
       end
     EOS
-    expect(src).to reek_of(:IrresponsibleModule)
+    expect(src).to reek_of(:IrresponsibleModule, context: 'Foo')
   end
 
   it 'reports modules that have both nested modules and singleton methods' do
@@ -115,7 +117,7 @@ RSpec.describe Reek::Smells::IrresponsibleModule do
         end
       end
     EOS
-    expect(src).to reek_of(:IrresponsibleModule)
+    expect(src).to reek_of(:IrresponsibleModule, context: 'Foo')
   end
 
   it 'reports modules that have both nested modules and methods on the singleton class' do
@@ -130,7 +132,7 @@ RSpec.describe Reek::Smells::IrresponsibleModule do
         end
       end
     EOS
-    expect(src).to reek_of(:IrresponsibleModule)
+    expect(src).to reek_of(:IrresponsibleModule, context: 'Foo')
   end
 
   it 'does not report namespace modules that have a nested class through assignment' do
@@ -149,7 +151,7 @@ RSpec.describe Reek::Smells::IrresponsibleModule do
     src = <<-EOS
       class Foo < Bar; end
     EOS
-    expect(src).to reek_of(:IrresponsibleModule)
+    expect(src).to reek_of(:IrresponsibleModule, context: 'Foo')
   end
 
   it 'reports classes defined through assignment' do
@@ -159,14 +161,14 @@ RSpec.describe Reek::Smells::IrresponsibleModule do
         Foo = Class.new Bar
       end
     EOS
-    expect(src).to reek_of(:IrresponsibleModule, name: 'Foo')
+    expect(src).to reek_of(:IrresponsibleModule, context: 'Qux::Foo')
   end
 
   it 'reports top level classes defined through assignment' do
     src = <<-EOS
       Foo = Class.new Bar
     EOS
-    expect(src).to reek_of(:IrresponsibleModule, name: 'Foo')
+    expect(src).to reek_of(:IrresponsibleModule, context: 'Foo')
   end
 
   it 'reports structs defined through assignment' do
@@ -176,14 +178,14 @@ RSpec.describe Reek::Smells::IrresponsibleModule do
         Foo = Struct.new(:x, :y)
       end
     EOS
-    expect(src).to reek_of(:IrresponsibleModule, name: 'Foo')
+    expect(src).to reek_of(:IrresponsibleModule, context: 'Qux::Foo')
   end
 
   it 'reports top level structs defined through assignment' do
     src = <<-EOS
       Foo = Struct.new(:x, :y)
     EOS
-    expect(src).to reek_of(:IrresponsibleModule, name: 'Foo')
+    expect(src).to reek_of(:IrresponsibleModule, context: 'Foo')
   end
 
   it 'does not report constants that are not classes' do
