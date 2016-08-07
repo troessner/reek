@@ -26,19 +26,19 @@ RSpec.describe Reek::Smells::UncommunicativeMethodName do
     end
   end
 
-  describe 'inspect' do
+  describe 'sniff' do
     let(:source) { 'def x; end' }
     let(:context) { code_context(source) }
     let(:detector) { build(:smell_detector, smell_type: :UncommunicativeMethodName) }
 
     it 'returns an array of smell warnings' do
-      smells = detector.inspect(context)
+      smells = detector.sniff(context)
       expect(smells.length).to eq(1)
       expect(smells[0]).to be_a_kind_of(Reek::Smells::SmellWarning)
     end
 
     it 'contains proper smell warnings' do
-      smells = detector.inspect(context)
+      smells = detector.sniff(context)
       warning = smells[0]
 
       expect(warning.smell_type).to eq(Reek::Smells::UncommunicativeMethodName.smell_type)

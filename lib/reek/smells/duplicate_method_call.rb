@@ -43,7 +43,7 @@ module Reek
       #
       # :reek:FeatureEnvy
       # :reek:DuplicateMethodCall: { max_calls: 2 }
-      def inspect(ctx)
+      def sniff(ctx)
         max_allowed_calls = value(MAX_ALLOWED_CALLS_KEY, ctx)
         allow_calls = value(ALLOW_CALLS_KEY, ctx)
 

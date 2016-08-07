@@ -50,7 +50,7 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       # :reek:FeatureEnvy
-      def inspect(ctx)
+      def sniff(ctx)
         ControlParameterCollector.new(ctx).control_parameters.map do |control_parameter|
           name = control_parameter.name.to_s
           smell_warning(

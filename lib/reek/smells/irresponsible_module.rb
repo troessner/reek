@@ -19,7 +19,7 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
-      def inspect(ctx)
+      def sniff(ctx)
         return [] if descriptive?(ctx) || ctx.namespace_module?
         expression = ctx.exp
         [smell_warning(

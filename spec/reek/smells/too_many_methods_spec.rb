@@ -18,7 +18,7 @@ RSpec.describe Reek::Smells::TooManyMethods do
       EOS
       syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
       ctx = Reek::Context::ModuleContext.new(nil, syntax_tree)
-      expect(detector.inspect(ctx)).to be_empty
+      expect(detector.sniff(ctx)).to be_empty
     end
 
     it 'should report if we exceed max_methods' do
@@ -31,7 +31,7 @@ RSpec.describe Reek::Smells::TooManyMethods do
       EOS
       syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
       ctx = Reek::Context::ModuleContext.new(nil, syntax_tree)
-      smells = detector.inspect(ctx)
+      smells = detector.sniff(ctx)
       expect(smells.length).to eq(1)
       expect(smells[0].smell_type).to eq(described_class.smell_type)
       expect(smells[0].parameters[:count]).to eq(3)
@@ -54,7 +54,7 @@ RSpec.describe Reek::Smells::TooManyMethods do
       EOS
       syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
       ctx = Reek::Context::ModuleContext.new(nil, syntax_tree)
-      expect(detector.inspect(ctx)).to be_empty
+      expect(detector.sniff(ctx)).to be_empty
     end
   end
 
@@ -69,7 +69,7 @@ RSpec.describe Reek::Smells::TooManyMethods do
 
     syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
     ctx = Reek::Context::ModuleContext.new(nil, syntax_tree)
-    warning = detector.inspect(ctx)[0]
+    warning = detector.sniff(ctx)[0]
     expect(warning.source).to eq(source_name)
     expect(warning.smell_type).to eq(described_class.smell_type)
     expect(warning.parameters[:count]).to eq(3)

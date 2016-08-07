@@ -24,7 +24,7 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
-      def inspect(ctx)
+      def sniff(ctx)
         class_variables_in(ctx.exp).map do |variable, lines|
           smell_warning(
             context: ctx,

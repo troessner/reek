@@ -53,11 +53,12 @@ module Reek
       end
 
       # @public
-      def yaml_hash
+      def to_hash
         stringified_params = Hash[parameters.map { |key, val| [key.to_s, val] }]
-        core_yaml_hash.
-          merge(stringified_params)
+        base_hash.merge(stringified_params)
       end
+
+      alias yaml_hash to_hash
 
       def base_message
         "#{smell_type}: #{context} #{message}"
@@ -75,7 +76,7 @@ module Reek
 
       private
 
-      def core_yaml_hash
+      def base_hash
         {
           'context'        => context,
           'lines'          => lines,

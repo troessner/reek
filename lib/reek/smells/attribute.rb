@@ -30,7 +30,7 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
-      def inspect(ctx)
+      def sniff(ctx)
         attributes_in(ctx).map do |attribute, line|
           smell_warning(
             context: ctx,

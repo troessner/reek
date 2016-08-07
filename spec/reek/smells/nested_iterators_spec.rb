@@ -110,7 +110,7 @@ RSpec.describe Reek::Smells::NestedIterators do
     expect(src).to reek_of(:NestedIterators)
   end
 
-  describe 'inspect / warnings' do
+  describe 'sniff / warnings' do
     let(:detector) { build(:smell_detector, smell_type: :NestedIterators) }
 
     it 'reports a sensible warning message' do
@@ -191,6 +191,30 @@ RSpec.describe Reek::Smells::NestedIterators do
       EOS
       expect(source).to reek_of(:NestedIterators)
     end
+  end
+
+  it 'reports nested iterators called via safe navigation' do
+    source = <<-EOS
+      def show_bottles(bars)
+        bars&.each do |bar|
+          bar&.each do |bottle|
+            puts bottle
+          end
+        end
+      end
+    EOS
+    expect(source).to reek_of(:NestedIterators)
+  end
+
+  it 'does not report unnested iterators called via safe navigation' do
+    source = <<-EOS
+      def show_bottles(bar)
+        bar&.each do |bottle|
+          puts bottle
+        end
+      end
+    EOS
+    expect(source).not_to reek_of(:NestedIterators)
   end
 
   context 'when the allowed nesting depth is 3' do
@@ -288,7 +312,7 @@ RSpec.describe Reek::Smells::NestedIterators do
         end
       EOS
       ctx = Reek::Context::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
-      detector.inspect(ctx).first
+      detector.sniff(ctx).first
     end
 
     it_should_behave_like 'common fields set correctly'

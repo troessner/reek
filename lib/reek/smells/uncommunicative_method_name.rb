@@ -36,7 +36,7 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
-      def inspect(context)
+      def sniff(context)
         name = context.name.to_s
         return [] if acceptable_name?(name: name, context: context)
 

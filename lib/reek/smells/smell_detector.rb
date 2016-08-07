@@ -44,7 +44,7 @@ module Reek
         return unless enabled_for?(context)
         return if exception?(context)
 
-        self.smells_found = smells_found + inspect(context)
+        self.smells_found = smells_found + sniff(context)
       end
 
       def report_on(collector)

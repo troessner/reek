@@ -10,7 +10,7 @@ module Reek
   #
   # @public
   #
-  # :reek:TooManyInstanceVariables: { max_instance_variables: 6 }
+  # :reek:TooManyInstanceVariables: { max_instance_variables: 7 }
   class Examiner
     #
     # Creates an Examiner which scans the given +source+ for code smells.
@@ -34,7 +34,27 @@ module Reek
       @smell_types      = Smells::SmellRepository.eligible_smell_types(filter_by_smells)
       @smell_repository = Smells::SmellRepository.new(smell_types: @smell_types,
                                                       configuration: configuration.directive_for(description))
-      run
+    end
+
+    # Runs the Examiner on the given source to scan for code smells
+    # and returns the corresponding Examiner instance.
+    #
+    # @return an instance of Examiner
+    #
+    # @public
+    #
+    # :reek:TooManyStatements: { max_statements: 6 }
+    def run
+      @run ||= begin
+        syntax_tree = source.syntax_tree
+        return self unless syntax_tree
+        ContextBuilder.new(syntax_tree).context_tree.each do |element|
+          smell_repository.examine(element)
+        end
+
+        smell_repository.report_on(collector)
+        self
+      end
     end
 
     # FIXME: Should be named "origin"
@@ -51,6 +71,7 @@ module Reek
     #
     # @public
     def smells
+      run
       @smells ||= collector.warnings
     end
 
@@ -73,15 +94,5 @@ module Reek
     private
 
     attr_reader :collector, :source, :smell_repository
-
-    def run
-      syntax_tree = source.syntax_tree
-      return unless syntax_tree
-      ContextBuilder.new(syntax_tree).context_tree.each do |element|
-        smell_repository.examine(element)
-      end
-
-      smell_repository.report_on(collector)
-    end
   end
 end
