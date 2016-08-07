@@ -97,7 +97,7 @@ module Reek
       end
 
       def set_generate_todo_list_options
-        parser.separator '\nGenerate a todo list:'
+        parser.separator "\nGenerate a todo list:"
         parser.on('-t', '--todo', 'Generate a todo list') do
           self.generate_todo_list = true
         end
