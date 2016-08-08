@@ -91,7 +91,9 @@ module Reek
         parser.on('-c', '--config FILE', 'Read configuration options from FILE') do |file|
           self.config_file = Pathname.new(file)
         end
-        parser.on('--smell SMELL', 'Detect smell SMELL (default: all enabled smells)') do |smell|
+        parser.on('--smell SMELL',
+                  'Detect smell or smell category SMELL',
+                  '  (default: all enabled smells)') do |smell|
           smells_to_detect << smell
         end
       end
