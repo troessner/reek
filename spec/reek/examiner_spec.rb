@@ -25,6 +25,12 @@ RSpec.shared_examples_for 'one smell found' do
 end
 
 RSpec.describe Reek::Examiner do
+  describe 'exception handling' do
+    it 'catches all exceptions, wraps them in a ReekException and raises the ReekException' do
+      skip
+    end
+  end
+
   let(:expected_first_smell) { 'NestedIterators' }
 
   context 'with a fragrant String' do
