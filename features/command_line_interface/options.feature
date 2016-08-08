@@ -46,6 +46,9 @@ Feature: Reek can be controlled using command-line options
       Generate a todo list:
           -t, --todo                       Generate a todo list
 
+      Show progress:
+          -p, --progress                   Show progress of each file
+
       Report format:
           -f, --format FORMAT              Report smells in the given format:
                                              html

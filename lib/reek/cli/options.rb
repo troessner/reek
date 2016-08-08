@@ -28,7 +28,8 @@ module Reek
                     :sorting,
                     :success_exit_code,
                     :failure_exit_code,
-                    :generate_todo_list
+                    :generate_todo_list,
+                    :show_progress
 
       def initialize(argv = [])
         @argv               = argv
@@ -41,6 +42,7 @@ module Reek
         @success_exit_code  = DEFAULT_SUCCESS_EXIT_CODE
         @failure_exit_code  = DEFAULT_FAILURE_EXIT_CODE
         @generate_todo_list = false
+        @show_progress      = false
 
         set_up_parser
       end
@@ -63,6 +65,7 @@ module Reek
         set_banner
         set_configuration_options
         set_generate_todo_list_options
+        set_show_progress_options
         set_alternative_formatter_options
         set_report_formatting_options
         set_exit_codes
@@ -110,6 +113,13 @@ module Reek
           'Report smells in the given format:',
           '  html', '  text (default)', '  yaml', '  json', '  xml', '  code_climate') do |opt|
           self.report_format = opt
+        end
+      end
+
+      def set_show_progress_options
+        parser.separator "\nShow progress:"
+        parser.on('-p', '--progress', 'Show progress of each file') do
+          self.show_progress = true
         end
       end
 
