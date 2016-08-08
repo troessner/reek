@@ -15,6 +15,9 @@ require 'factory_girl'
 FactoryGirl.find_definitions
 
 SAMPLES_PATH = Pathname.new("#{__dir__}/samples").relative_path_from(Pathname.pwd)
+CONFIG_PATH = SAMPLES_PATH.join('configuration')
+CLEAN_FILE = SAMPLES_PATH.join('clean.rb')
+SMELLY_FILE = SAMPLES_PATH.join('smelly.rb')
 
 # Simple helpers for our specs.
 module Helpers
