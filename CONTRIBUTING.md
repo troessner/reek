@@ -10,8 +10,6 @@ only to find us suggesting large parts should be rewritten.
 Don’t hesitate to offer trivial fixes (spelling, better naming
 ideas, etc.) – we’ll let you know if you’re overdoing it. :)
 
-
-
 ## Reporting Issues
 
 Search [all existing (open _and_ closed)
@@ -28,8 +26,6 @@ version, Ruby platform (MRI, JRuby, etc.), operating system.
 
 Try to provide a minimal example that reproduces the issue.
 Extra kudos if you can write it as a failing test. :)
-
-
 
 ## Setup and Pull Request Basics
 
@@ -55,8 +51,13 @@ Make sure you have read our [style guide](docs/style-guide.md) before you
 start contributing.
 
 Then start hacking and add new tests which make sure that your new feature works or
-demonstrate that your fix was needed; please also [write good commit
-messages](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html).
+demonstrate that your fix was needed.
+Reek is using [Rspec](http://rspec.info/) for unit and functional testing and [cucumber]() for integration tests.
+
+When it comes to Rspec we're trying to follow [betterspecs](http://betterspecs.org/).
+Additonally you can find an excellent cheat sheet on how to write idiomatic Rspec [here](http://www.rubypigeon.com/posts/rspec-core-cheat-sheet).
+
+We also care a lot about [good commit messages](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html).
 
 Once you’re happy with your feature / fix – or want to
 share it as a work-in-progress and request comments – once
