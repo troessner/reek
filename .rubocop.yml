@@ -1,6 +1,6 @@
 AllCops:
   Exclude:
-    - 'spec/samples/**/*'
+    - 'samples/**/*'
     - 'tmp/**/*'
     - 'vendor/**/*'
   TargetRubyVersion: 2.1

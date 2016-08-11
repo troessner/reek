@@ -7,9 +7,11 @@ RSpec.describe Reek::Source::SourceLocator do
   describe '#sources' do
     context 'applied to hidden directories' do
       let(:path) { SAMPLES_PATH.join('source_with_hidden_directories') }
+
       let(:expected_paths) do
         [SAMPLES_PATH.join('source_with_hidden_directories/uncommunicative_parameter_name.rb')]
       end
+
       let(:paths_that_are_expected_to_be_ignored) do
         [SAMPLES_PATH.join('source_with_hidden_directories/.hidden/\
           uncommunicative_parameter_nameicative_method_name.rb')]
@@ -27,7 +29,9 @@ RSpec.describe Reek::Source::SourceLocator do
       let(:configuration) do
         test_configuration_for(CONFIG_PATH.join('with_excluded_paths.reek'))
       end
+
       let(:path) { SAMPLES_PATH.join('source_with_exclude_paths') }
+
       let(:paths_that_are_expected_to_be_ignored) do
         [
           SAMPLES_PATH.join('source_with_exclude_paths/ignore_me/uncommunicative_method_name.rb'),

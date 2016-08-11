@@ -4,12 +4,12 @@ Feature: Smell selection
   I want to be able to selectively activate smell detectors
 
   Scenario: --smell selects a smell to detect
-    Given a smelly file called 'smelly.rb'
-    And a configuration file masking some duplication smells called 'config.reek'
-    When I run reek --no-line-numbers --smell UncommunicativeMethodName smelly.rb
+    Given the smelly file 'smelly.rb'
+    And a configuration file 'partial_mask.reek'
+    When I run reek --no-line-numbers --smell UncommunicativeVariableName smelly.rb
     Then the exit status indicates smells
     And it reports:
       """
       smelly.rb -- 1 warning:
-        UncommunicativeMethodName: Smelly#m has the name 'm' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
+        UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
       """

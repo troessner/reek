@@ -10,15 +10,14 @@ Feature:
     - get rid of the todo file
 
   Scenario: Generate a proper todo file that disables all found smells
-    Given a smelly file called 'smelly.rb'
+    Given the smelly file 'smelly.rb'
     When I run reek smelly.rb
     Then the exit status indicates smells
     And it reports:
       """
-      smelly.rb -- 3 warnings:
-        [4, 5]:DuplicateMethodCall: Smelly#m calls @foo.bar 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-        [4, 5]:DuplicateMethodCall: Smelly#m calls puts @foo.bar 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-        [3]:UncommunicativeMethodName: Smelly#m has the name 'm' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
+      smelly.rb -- 2 warnings:
+        [4]:UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
+        [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
       """
     When I run reek --todo smelly.rb
     Then it succeeds
@@ -31,28 +30,28 @@ Feature:
     And the file ".todo.reek" should contain:
       """
       ---
-      DuplicateMethodCall:
-        exclude:
-        - Smelly#m
       UncommunicativeMethodName:
         exclude:
-        - Smelly#m
+        - Smelly#x
+      UncommunicativeVariableName:
+        exclude:
+        - Smelly#x
         """
     When I run reek -c .todo.reek smelly.rb
     Then it succeeds
 
   Scenario: Respects a configuration file
-    Given a smelly file called 'smelly.rb'
-    And a configuration file disabling DuplicateMethodCall called 'config.reek'
-    When I run reek -c config.reek --todo smelly.rb
+    Given the smelly file 'smelly.rb'
+    And a configuration file 'partial_mask.reek'
+    When I run reek -c partial_mask.reek --todo smelly.rb
     Then it succeeds
     And a file named ".todo.reek" should exist
     And the file ".todo.reek" should contain:
       """
       ---
-      UncommunicativeMethodName:
+      UncommunicativeVariableName:
         exclude:
-        - Smelly#m
+        - Smelly#x
       """
 
   Scenario: Reacts appropiately when there are no smells

@@ -3,8 +3,8 @@ Feature: Report smells using simple YAML layout
   output a list of smells in Yaml.
 
   Scenario: output is empty when there are no smells
-    Given a directory called 'clean_files' containing some clean files
-    When I run reek --format yaml clean_files
+    Given a directory called 'clean' containing two clean files
+    When I run reek --format yaml clean
     Then it succeeds
     And it reports this yaml:
     """
@@ -12,40 +12,28 @@ Feature: Report smells using simple YAML layout
     """
 
   Scenario: Indicate smells and print them as yaml when using files
-    Given a smelly file called 'smelly.rb'
+    Given the smelly file 'smelly.rb'
     When I run reek --format yaml smelly.rb
     Then the exit status indicates smells
     And it reports this yaml:
       """
       ---
-      - smell_type: DuplicateMethodCall
-        source: smelly.rb
-        context: Smelly#m
+      - context: Smelly#x
         lines:
         - 4
-        - 5
-        message: calls @foo.bar 2 times
-        name: "@foo.bar"
-        count: 2
-        wiki_link: https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md
-      - smell_type: DuplicateMethodCall
+        message: has the name 'x'
+        smell_type: UncommunicativeMethodName
         source: smelly.rb
-        context: Smelly#m
-        lines:
-        - 4
-        - 5
-        message: calls puts @foo.bar 2 times
-        name: puts @foo.bar
-        count: 2
-        wiki_link: https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md
-      - smell_type: UncommunicativeMethodName
-        source: smelly.rb
-        context: Smelly#m
-        lines:
-        - 3
-        message: has the name 'm'
-        name: m
+        name: x
         wiki_link: https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md
+      - context: Smelly#x
+        lines:
+        - 5
+        message: has the variable name 'y'
+        smell_type: UncommunicativeVariableName
+        source: smelly.rb
+        name: y
+        wiki_link: https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md
       """
 
   Scenario: Indicate smells and print them as yaml when using STDIN

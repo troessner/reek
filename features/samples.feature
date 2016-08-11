@@ -4,9 +4,9 @@ Feature: Basic smell detection
   I want to detect the smells in my Ruby code
 
   Scenario: Correct smells from inline.rb
-    Given the "inline.rb" sample file exists
-    And the "optparse.rb" sample file exists
-    And the "redcloth.rb" sample file exists
+    Given the smelly file 'inline.rb'
+    And the smelly file 'optparse.rb'
+    And the smelly file 'redcloth.rb'
     When I run reek --no-line-numbers inline.rb optparse.rb redcloth.rb
     Then the exit status indicates smells
     And it reports:
