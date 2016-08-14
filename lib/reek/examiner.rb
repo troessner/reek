@@ -41,12 +41,13 @@ module Reek
     # @public
     def initialize(source,
                    filter_by_smells: [],
-                   configuration: Configuration::AppConfiguration.default)
+                   configuration: Configuration::AppConfiguration.default,
+                   smell_repository_class: Smells::SmellRepository)
       @source           = Source::SourceCode.from(source)
       @collector        = CLI::WarningCollector.new
-      @smell_types      = Smells::SmellRepository.eligible_smell_types(filter_by_smells)
-      @smell_repository = Smells::SmellRepository.new(smell_types: @smell_types,
-                                                      configuration: configuration.directive_for(description))
+      @smell_types      = smell_repository_class.eligible_smell_types(filter_by_smells)
+      @smell_repository = smell_repository_class.new(smell_types: @smell_types,
+                                                     configuration: configuration.directive_for(description))
     end
 
     # FIXME: Should be named "origin"
