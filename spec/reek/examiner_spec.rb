@@ -110,15 +110,18 @@ RSpec.describe Reek::Examiner do
     end
 
     context 'with an incomprehensible source that causes Reek to crash' do
+      let(:source) { 'class C; def does_crash_reek; end; end' }
+
       subject do
-        examiner = described_class.new 'class C; def does_crash_reek; end; end'
-        allow(examiner).to receive(:smell_repository) do
-          Reek::Smells::SmellRepository.new.tap do |repository|
-            allow(repository).to receive(:examine) do
-              raise ArgumentError, 'Looks like bad source'
-            end
-          end
+        smell_repository = instance_double 'Reek::Smells::SmellRepository'
+        expect(smell_repository).to receive(:examine) do
+          raise ArgumentError, 'Looks like bad source'
         end
+        class_double('Reek::Smells::SmellRepository').as_stubbed_const
+        allow(Reek::Smells::SmellRepository).to receive(:eligible_smell_types)
+        expect(Reek::Smells::SmellRepository).to receive(:new) { smell_repository }
+
+        examiner = described_class.new source
         examiner
       end
 
