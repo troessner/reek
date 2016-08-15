@@ -3,8 +3,8 @@ Feature: Report smells using simple JSON layout
   output a list of smells in JSON.
 
   Scenario: output is empty when there are no smells
-    Given a directory called 'clean_files' containing some clean files
-    When I run reek --format json clean_files
+    Given a directory called 'clean' containing two clean files
+    When I run reek --format json clean
     Then it succeeds
     And it reports this JSON:
     """
@@ -12,40 +12,29 @@ Feature: Report smells using simple JSON layout
     """
 
   Scenario: Indicate smells and print them as JSON when using files
-    Given a smelly file called 'smelly.rb'
+    Given the smelly file 'smelly.rb'
     When I run reek --format json smelly.rb
     Then the exit status indicates smells
     And it reports this JSON:
       """
       [
           {
-              "smell_type": "DuplicateMethodCall",
-              "source": "smelly.rb",
-              "context": "Smelly#m",
-              "lines": [ 4, 5 ],
-              "message": "calls @foo.bar 2 times",
-              "name": "@foo.bar",
-              "wiki_link": "https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md",
-              "count": 2
-          },
-          {
-              "smell_type": "DuplicateMethodCall",
-              "source": "smelly.rb",
-              "context": "Smelly#m",
-              "lines": [ 4, 5 ],
-              "message": "calls puts @foo.bar 2 times",
-              "name": "puts @foo.bar",
-              "wiki_link": "https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md",
-              "count": 2
-          },
-          {
               "smell_type": "UncommunicativeMethodName",
               "source": "smelly.rb",
-              "context": "Smelly#m",
-              "lines": [ 3 ],
-              "message": "has the name 'm'",
+              "context": "Smelly#x",
+              "lines": [ 4 ],
+              "message": "has the name 'x'",
               "wiki_link": "https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md",
-              "name": "m"
+              "name": "x"
+          },
+          {
+              "smell_type": "UncommunicativeVariableName",
+              "source": "smelly.rb",
+              "context": "Smelly#x",
+              "lines": [ 5 ],
+              "message": "has the variable name 'y'",
+              "wiki_link": "https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md",
+              "name": "y"
           }
       ]
       """

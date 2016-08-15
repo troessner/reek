@@ -4,6 +4,8 @@ require_relative '../lib/reek/spec'
 require_relative '../lib/reek/ast/ast_node_class_map'
 require_relative '../lib/reek/configuration/app_configuration'
 
+require_relative '../samples/paths'
+
 Reek::CLI::Silencer.silently do
   begin
     require 'pry-byebug'
@@ -13,11 +15,6 @@ end
 
 require 'factory_girl'
 FactoryGirl.find_definitions
-
-SAMPLES_PATH = Pathname.new("#{__dir__}/samples").relative_path_from(Pathname.pwd)
-CONFIG_PATH = SAMPLES_PATH.join('configuration')
-CLEAN_FILE = SAMPLES_PATH.join('clean.rb')
-SMELLY_FILE = SAMPLES_PATH.join('smelly.rb')
 
 # Simple helpers for our specs.
 module Helpers

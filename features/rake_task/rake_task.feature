@@ -3,7 +3,7 @@ Feature: Reek can be driven through its Task
   via the Task class. These scenarios test its various options.
 
   Scenario: source_files points at the desired files
-    Given a smelly file called 'smelly.rb'
+    Given the smelly file 'smelly.rb'
     When I run rake reek with:
       """
       Reek::Rake::Task.new do |t|
@@ -14,14 +14,13 @@ Feature: Reek can be driven through its Task
     Then the exit status indicates an error
     And it reports:
       """
-      smelly.rb -- 3 warnings:
-        [4, 5]:DuplicateMethodCall: Smelly#m calls @foo.bar 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-        [4, 5]:DuplicateMethodCall: Smelly#m calls puts @foo.bar 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-        [3]:UncommunicativeMethodName: Smelly#m has the name 'm' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
+      smelly.rb -- 2 warnings:
+        [4]:UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
+        [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
       """
 
   Scenario: source_files using a FileList instead of a String
-    Given a smelly file called 'smelly.rb'
+    Given the smelly file 'smelly.rb'
     When I run rake reek with:
       """
       Reek::Rake::Task.new do |t|
@@ -32,14 +31,13 @@ Feature: Reek can be driven through its Task
     Then the exit status indicates an error
     And it reports:
       """
-      smelly.rb -- 3 warnings:
-        [4, 5]:DuplicateMethodCall: Smelly#m calls @foo.bar 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-        [4, 5]:DuplicateMethodCall: Smelly#m calls puts @foo.bar 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-        [3]:UncommunicativeMethodName: Smelly#m has the name 'm' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
+      smelly.rb -- 2 warnings:
+        [4]:UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
+        [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
       """
 
   Scenario: name changes the task name
-    Given a smelly file called 'smelly.rb'
+    Given the smelly file 'smelly.rb'
     When I run rake silky with:
       """
       Reek::Rake::Task.new('silky') do |t|
@@ -50,14 +48,13 @@ Feature: Reek can be driven through its Task
     Then the exit status indicates an error
     And it reports:
       """
-      smelly.rb -- 3 warnings:
-        [4, 5]:DuplicateMethodCall: Smelly#m calls @foo.bar 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-        [4, 5]:DuplicateMethodCall: Smelly#m calls puts @foo.bar 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-        [3]:UncommunicativeMethodName: Smelly#m has the name 'm' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
+      smelly.rb -- 2 warnings:
+        [4]:UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
+        [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
       """
 
   Scenario: verbose prints the reek command
-    Given a smelly file called 'smelly.rb'
+    Given the smelly file 'smelly.rb'
     When I run rake reek with:
       """
       Reek::Rake::Task.new do |t|
@@ -69,7 +66,7 @@ Feature: Reek can be driven through its Task
     And stdout includes "Running 'reek' rake command"
 
   Scenario: fail_on_error can hide the error status
-    Given a smelly file called 'smelly.rb'
+    Given the smelly file 'smelly.rb'
     When I run rake reek with:
       """
       Reek::Rake::Task.new do |t|
@@ -82,19 +79,18 @@ Feature: Reek can be driven through its Task
     And it succeeds
     And it reports:
       """
-      smelly.rb -- 3 warnings:
-        [4, 5]:DuplicateMethodCall: Smelly#m calls @foo.bar 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-        [4, 5]:DuplicateMethodCall: Smelly#m calls puts @foo.bar 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-        [3]:UncommunicativeMethodName: Smelly#m has the name 'm' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
+      smelly.rb -- 2 warnings:
+        [4]:UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
+        [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
       """
 
   Scenario: can be configured with config_file
-    Given a smelly file called 'smelly.rb'
-    And a masking configuration file called 'config.reek'
+    Given the smelly file 'smelly.rb'
+    And a configuration file 'full_mask.reek'
     When I run rake reek with:
       """
       Reek::Rake::Task.new do |t|
-        t.config_file  = 'config.reek'
+        t.config_file  = 'full_mask.reek'
         t.source_files = 'smelly.rb'
       end
       """

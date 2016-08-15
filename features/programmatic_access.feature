@@ -4,7 +4,7 @@ Feature: Using Reek programmatically
   I want to be able to use its classes
 
   Scenario: Accessing smells found by an examiner
-    Given a smelly file called 'smelly.rb'
+    Given the smelly file 'smelly.rb'
     And a file named "examine.rb" with:
       """
       require 'reek'
@@ -17,13 +17,12 @@ Feature: Using Reek programmatically
     Then it reports no errors
     And it reports:
       """
-      calls @foo.bar 2 times
-      calls puts @foo.bar 2 times
-      has the name 'm'
+      has the name 'x'
+      has the variable name 'y'
       """
 
   Scenario: Using Reek's built-in report classes
-    Given a smelly file called 'smelly.rb'
+    Given the smelly file 'smelly.rb'
     And a file named "examine.rb" with:
       """
       require 'reek'
@@ -36,8 +35,7 @@ Feature: Using Reek programmatically
     Then it reports no errors
     And it reports:
       """
-      smelly.rb -- 3 warnings:
-        DuplicateMethodCall: Smelly#m calls @foo.bar 2 times
-        DuplicateMethodCall: Smelly#m calls puts @foo.bar 2 times
-        UncommunicativeMethodName: Smelly#m has the name 'm'
+      smelly.rb -- 2 warnings:
+        UncommunicativeMethodName: Smelly#x has the name 'x'
+        UncommunicativeVariableName: Smelly#x has the variable name 'y'
       """

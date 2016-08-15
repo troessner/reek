@@ -71,12 +71,11 @@ reek [options] [dir_or_source_file]*
 Imagine a source file `demo.rb` containing:
 
 ```Ruby
-class Dirty
-  # This method smells of :reek:NestedIterators but ignores them
-  def awful(x, y, offset = 0, log = false)
-    puts @screen.title
-    @screen = widgets.map { |w| w.each { |key| key += 3 * x } }
-    puts @screen.contents
+# Smelly class
+class Smelly
+  # This will reek of UncommunicativeMethodName
+  def x
+    y = 10 # This will reek of UncommunicativeVariableName
   end
 end
 ```
@@ -85,15 +84,9 @@ Reek will report the following code smells in this file:
 
 ```
 $ reek demo.rb
-demo.rb -- 8 warnings:
-  [1]:Dirty has no descriptive comment (IrresponsibleModule)
-  [3]:Dirty#awful has 4 parameters (LongParameterList)
-  [3]:Dirty#awful has boolean parameter 'log' (BooleanParameter)
-  [3]:Dirty#awful has the parameter name 'x' (UncommunicativeParameterName)
-  [5]:Dirty#awful has the variable name 'w' (UncommunicativeVariableName)
-  [3]:Dirty#awful has unused parameter 'log' (UnusedParameters)
-  [3]:Dirty#awful has unused parameter 'offset' (UnusedParameters)
-  [3]:Dirty#awful has unused parameter 'y' (UnusedParameters)
+demo.rb -- 2 warnings:
+  [4]:UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
+  [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
 ```
 
 ## Supported rubies

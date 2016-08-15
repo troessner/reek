@@ -4,8 +4,8 @@ Feature: Masking smells using config files
   I want to mask some smells using config files
 
   Scenario: corrupt config file prevents normal output
-    Given a smelly file called 'smelly.rb'
-    And a corrupt configuration file called 'corrupt.reek'
+    Given the smelly file 'smelly.rb'
+    And a configuration file 'corrupt.reek'
     When I run reek -c corrupt.reek smelly.rb
     Then it reports the error 'Error: Invalid configuration file "corrupt.reek" -- Not a hash'
     And the exit status indicates an error
@@ -16,44 +16,51 @@ Feature: Masking smells using config files
     Then it reports the error "Error: No such file - not_here.rb"
 
   Scenario: masking smells in the configuration file
-    Given a smelly file called 'smelly.rb'
-    And a masking configuration file called 'config.reek'
-    When I run reek -c config.reek smelly.rb
+    Given the smelly file 'smelly.rb'
+    And a configuration file 'full_mask.reek'
+    When I run reek -c full_mask.reek smelly.rb
     Then it succeeds
     And it reports nothing
 
   Scenario: allow masking some calls for duplication smell
-    Given a smelly file called 'smelly.rb'
-    And a configuration file masking some duplication smells called 'config.reek'
-    When I run reek -c config.reek smelly.rb
-    Then the exit status indicates smells
-    And it reports:
-      """
-      smelly.rb -- 2 warnings:
-        [4, 5]:DuplicateMethodCall: Smelly#m calls @foo.bar 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-        [3]:UncommunicativeMethodName: Smelly#m has the name 'm' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
-      """
-
-  Scenario: provide extra masking inline in comments
-    Given a smelly file with inline masking called 'inline.rb'
-    And a masking configuration file called 'config.reek'
-    When I run reek -c config.reek inline.rb
-    Then the exit status indicates smells
-    And it reports:
-      """
-      inline.rb -- 2 warnings:
-        [5]:UncommunicativeVariableName: Dirty has the variable name '@s' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-        [5]:UncommunicativeVariableName: Dirty#a has the variable name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      """
-
-  Scenario: Disable UtilityFunction for non-public methods
-    Given a smelly file called 'smelly.rb' with private, protected and public UtilityFunction methods
-    And a configuration file disabling UtilityFunction for non-public methods called 'config.reek'
-    When I run reek -c config.reek smelly.rb
+    Given the smelly file 'smelly.rb'
+    And a configuration file 'partial_mask.reek'
+    When I run reek -c partial_mask.reek smelly.rb
     Then the exit status indicates smells
     And it reports:
       """
       smelly.rb -- 1 warning:
-        [3]:UtilityFunction: Klass#public_method doesn't depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Utility-Function.md]
+        [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
+      """
+
+  Scenario: provide extra masking inline in comments
+    Given the smelly file 'smelly_with_inline_mask.rb'
+    And a configuration file 'partial_mask.reek'
+    When I run reek -c partial_mask.reek smelly_with_inline_mask.rb
+    Then it succeeds
+    And it reports nothing
+
+  Scenario: empty config file outputs normally
+    Given the smelly file 'smelly.rb'
+    And a configuration file 'empty.reek'
+    When I run reek -c empty.reek smelly.rb
+    Then the exit status indicates smells
+    And it reports:
+    """
+    smelly.rb -- 2 warnings:
+      [4]:UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
+      [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
+    """
+
+
+  Scenario: Disable UtilityFunction for non-public methods
+    Given the smelly file 'smelly_with_modifiers.rb'
+    And a configuration file 'non_public_modifiers_mask.reek'
+    When I run reek -c non_public_modifiers_mask.reek smelly_with_modifiers.rb
+    Then the exit status indicates smells
+    And it reports:
+      """
+      smelly_with_modifiers.rb -- 1 warning:
+        [7]:UtilityFunction: Klass#public_method doesn't depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Utility-Function.md]
       """
     But it does not report private or protected methods

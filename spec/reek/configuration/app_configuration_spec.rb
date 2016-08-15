@@ -11,11 +11,13 @@ RSpec.describe Reek::Configuration::AppConfiguration do
       [SAMPLES_PATH.join('two_smelly_files'),
        SAMPLES_PATH.join('source_with_non_ruby_files')]
     end
+
     let(:expected_default_directive) do
       { Reek::Smells::IrresponsibleModule => { 'enabled' => false } }
     end
+
     let(:expected_directory_directives) do
-      { Pathname.new('spec/samples/three_clean_files') =>
+      { SAMPLES_PATH.join('three_clean_files') =>
         { Reek::Smells::UtilityFunction => { 'enabled' => false } } }
     end
 
@@ -24,13 +26,13 @@ RSpec.describe Reek::Configuration::AppConfiguration do
     end
 
     let(:directory_directives_value) do
-      { 'spec/samples/three_clean_files' =>
+      { 'samples/three_clean_files' =>
         { 'UtilityFunction' => { 'enabled' => false } } }
     end
 
     let(:exclude_paths_value) do
-      ['spec/samples/two_smelly_files',
-       'spec/samples/source_with_non_ruby_files']
+      ['samples/two_smelly_files',
+       'samples/source_with_non_ruby_files']
     end
 
     let(:combined_value) do
@@ -74,14 +76,14 @@ RSpec.describe Reek::Configuration::AppConfiguration do
 
   describe '#directive_for' do
     context 'multiple directory directives and no default directive present' do
-      let(:source_via) { 'spec/samples/three_clean_files/dummy.rb' }
+      let(:source_via) { 'samples/three_clean_files/dummy.rb' }
       let(:baz_config)  { { Reek::Smells::IrresponsibleModule => { enabled: false } } }
       let(:bang_config) { { Reek::Smells::Attribute => { enabled: true } } }
 
       let(:directory_directives) do
         {
-          'spec/samples/two_smelly_files' => baz_config,
-          'spec/samples/three_clean_files' => bang_config
+          'samples/two_smelly_files' => baz_config,
+          'samples/three_clean_files' => bang_config
         }
       end
 
