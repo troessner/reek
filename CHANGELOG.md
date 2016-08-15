@@ -1,5 +1,11 @@
 # Change log
 
+## 4.2.4 (2016-08-15)
+
+* (troessner) Make Reek more resilient on incomprehensible source.
+* (troessner) Make our parameter handling consistent in smell detectors.
+* (Drenmi) Rename `#inspect` method to `#sniff`
+
 ## 4.2.3 (2016-08-05)
 
 * (soutaro) Add SexpExtensions::CSendNode for safe navigation operator
