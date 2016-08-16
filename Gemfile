@@ -12,7 +12,7 @@ group :development do
   gem 'rspec',         '~> 3.0'
   gem 'rubocop',       '~> 0.42.0'
   gem 'simplecov',     '~> 0.12.0'
-  gem 'yard',          '~> 0.8.7'
+  gem 'yard',          '~> 0.9.5'
   gem 'activesupport', '~> 4.2'
 
   platforms :mri do
