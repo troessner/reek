@@ -45,7 +45,7 @@ module Reek
 
       # @public
       def eql?(other)
-        (self <=> other) == 0
+        (self <=> other).zero?
       end
 
       def report_on(listener)
