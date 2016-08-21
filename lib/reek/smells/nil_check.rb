@@ -10,18 +10,29 @@ module Reek
     # See {file:docs/Nil-Check.md} for details.
     class NilCheck < SmellDetector
       def sniff(ctx)
-        call_node_finder = NodeFinder.new(ctx, :send, NilCallNodeDetector)
-        case_node_finder = NodeFinder.new(ctx, :when, NilWhenNodeDetector)
-        smelly_nodes = call_node_finder.smelly_nodes + case_node_finder.smelly_nodes
-
-        if smelly_nodes.any?
-          lines = smelly_nodes.map(&:line)
+        lines = NodeDetector.new(ctx).detect.map(&:line)
+        if lines.any?
           [smell_warning(
             context: ctx,
             lines: lines,
             message: 'performs a nil-check')]
         else
           []
+        end
+      end
+
+      # Detect all nodes that smell of NilCheck
+      class NodeDetector
+        attr_reader :ctx
+        def initialize(ctx)
+          @ctx = ctx
+        end
+
+        def detect
+          finders = [NodeFinder.new(ctx, :send, NilCallNodeDetector),
+                     NodeFinder.new(ctx, :when, NilWhenNodeDetector),
+                     NodeFinder.new(ctx, :csend, SafeNavigationNodeDetector)]
+          finders.flat_map(&:smelly_nodes)
         end
       end
 
@@ -82,6 +93,16 @@ module Reek
 
         def detect(node)
           node.condition_list.any? { |it| it.type == :nil }
+        end
+      end
+
+      # Detect safe navigation. Returns true for all nodes, since all :csend
+      # nodes are considered smelly.
+      module SafeNavigationNodeDetector
+        module_function
+
+        def detect(_node)
+          true
         end
       end
     end

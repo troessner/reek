@@ -66,13 +66,23 @@ RSpec.describe Reek::Smells::NilCheck do
     expect(src).to reek_of(:NilCheck)
   end
 
+  it 'reports when scope uses &.' do
+    src = <<-EOS
+    def foo(bar)
+      bar&.baz
+    end
+    EOS
+    expect(src).to reek_of(:NilCheck)
+  end
+
   it 'reports all lines when scope uses multiple nilchecks' do
     src = <<-EOS
     def foo(bar)
       bar.nil?
       bar === nil
+      bar&.baz
     end
     EOS
-    expect(src).to reek_of(:NilCheck, lines: [2, 3])
+    expect(src).to reek_of(:NilCheck, lines: [2, 3, 4])
   end
 end

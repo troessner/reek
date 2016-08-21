@@ -37,6 +37,7 @@ _Nil Check_ reports use of
 * <code>.nil?</code> method
 * <code>==</code> and <code>===</code> operators when checking vs. <code>nil</code>
 * case statements that use syntax like <code>when nil</code>
+* use of the safe navigation operator like `foo&.bar`
 
 ## Configuration
 
