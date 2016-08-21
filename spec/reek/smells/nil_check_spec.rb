@@ -6,8 +6,8 @@ require_relative 'smell_detector_shared'
 RSpec.describe Reek::Smells::NilCheck do
   it 'reports correctly the basic use case' do
     src = <<-EOS
-      def nilcheck foo
-        foo.nil?
+      def foo(bar)
+        bar.nil?
       end
     EOS
     expect(src).to reek_of :NilCheck,
@@ -19,55 +19,60 @@ RSpec.describe Reek::Smells::NilCheck do
     expect('def no_nils; end').not_to reek_of(:NilCheck)
   end
 
-  it 'reports when scope uses multiple nil? methods' do
+  it 'reports when scope uses #nil?' do
     src = <<-EOS
-    def chk_multi_nil(para)
-      para.nil?
-      puts "Hello"
-      \"\".nil?
+    def foo(bar)
+      bar.nil?
     end
     EOS
     expect(src).to reek_of(:NilCheck)
   end
 
-  it 'reports twice when scope uses == nil and === nil' do
+  it 'reports when scope uses == nil' do
     src = <<-EOS
-    def chk_eq_nil(para)
-      para == nil
-      para === nil
+    def foo(bar)
+      bar == nil
+    end
+    EOS
+    expect(src).to reek_of(:NilCheck)
+  end
+
+  it 'reports when scope uses === nil' do
+    src = <<-EOS
+    def foo(bar)
+      bar === nil
     end
     EOS
     expect(src).to reek_of(:NilCheck)
   end
 
   it 'reports when scope uses nil ==' do
-    expect('def chk_eq_nil_rev(para); nil == para; end').to reek_of(:NilCheck)
+    src = <<-EOS
+    def foo(bar)
+      nil == bar
+    end
+    EOS
+    expect(src).to reek_of(:NilCheck)
   end
 
-  it 'reports when scope uses multiple case-clauses checking nil' do
+  it 'reports when scope uses a case-clause checking nil' do
     src = <<-EOS
     def case_nil
-      case @inst_var
+      case @foo
       when nil then puts "Nil"
       end
-      puts "Hello"
-      case @inst_var2
-      when 1 then puts 1
-      when nil then puts nil.inspect
-      end
     end
     EOS
     expect(src).to reek_of(:NilCheck)
   end
 
-  it 'reports a when clause that checks nil and other values' do
+  it 'reports all lines when scope uses multiple nilchecks' do
     src = <<-EOS
-    def case_nil
-      case @inst_var
-      when nil, false then puts "Hello"
-      end
+    def foo(bar)
+      bar.nil?
+      bar === nil
     end
     EOS
-    expect(src).to reek_of(:NilCheck)
+    expect(src).to reek_of(:NilCheck, lines: [2, 3])
   end
 end

@@ -14,11 +14,14 @@ module Reek
         case_node_finder = NodeFinder.new(ctx, :when, NilWhenNodeDetector)
         smelly_nodes = call_node_finder.smelly_nodes + case_node_finder.smelly_nodes
 
-        smelly_nodes.map do |node|
-          smell_warning(
+        if smelly_nodes.any?
+          lines = smelly_nodes.map(&:line)
+          [smell_warning(
             context: ctx,
-            lines: [node.line],
-            message: 'performs a nil-check')
+            lines: lines,
+            message: 'performs a nil-check')]
+        else
+          []
         end
       end
 
