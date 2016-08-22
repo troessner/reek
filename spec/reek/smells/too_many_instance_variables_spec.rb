@@ -1,24 +1,26 @@
 require_relative '../../spec_helper'
 require_lib 'reek/smells/too_many_instance_variables'
-require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::TooManyInstanceVariables do
-  let(:detector) { build(:smell_detector, smell_type: :TooManyInstanceVariables) }
+  context 'reporting smell' do
+    it 'reports the smell parameters' do
+      src = <<-EOS
+        class Empty
+          def ivars
+            @a = @b = @c = @d = 1
+            @e = 1
+          end
+        end
+      EOS
 
-  it_should_behave_like 'SmellDetector'
+      message = 'has at least 5 instance variables'
 
-  def default_max_ivars
-    Reek::Smells::TooManyInstanceVariables::DEFAULT_MAX_IVARS
-  end
-
-  def too_many_ivars
-    default_max_ivars + 1
-  end
-
-  def ivar_sequence(count: default_max_ivars, alphabet: ('a'..'z').to_a)
-    alphabet.first(count).map do |name|
-      "@#{name}=#{rand}"
-    end.join(',')
+      expect(src).to reek_of(:TooManyInstanceVariables,
+                             lines: [1],
+                             count: 5,
+                             message: message,
+                             context: 'Empty')
+    end
   end
 
   context 'counting instance variables' do
@@ -26,7 +28,20 @@ RSpec.describe Reek::Smells::TooManyInstanceVariables do
       src = <<-EOS
         class Empty
           def ivars
-           #{ivar_sequence}
+            @a = @b = @c = @d = 1
+          end
+        end
+      EOS
+      expect(src).not_to reek_of(:TooManyInstanceVariables)
+    end
+
+    it 'has a configurable maximum' do
+      src = <<-EOS
+        # :reek:TooManyInstanceVariables: { max_instance_variables: 5 }
+        class Empty
+          def ivars
+            @a = @b = @c = @d = 1
+            @e = 1
           end
         end
       EOS
@@ -37,19 +52,85 @@ RSpec.describe Reek::Smells::TooManyInstanceVariables do
       src = <<-EOS
         class Empty
           def ivars
-           #{ivar_sequence}
-           #{ivar_sequence}
+            @a = @b = @c = @d = 1
+            @a = @b = @c = @d = 1
           end
         end
       EOS
       expect(src).not_to reek_of(:TooManyInstanceVariables)
     end
 
-    it 'should report excessive ivars' do
+    it 'should not report memoized ivars' do
       src = <<-EOS
         class Empty
           def ivars
-            #{ivar_sequence(count: too_many_ivars)}
+            @a = @b = @c = @d = 1
+            @e ||= 1
+          end
+        end
+      EOS
+      expect(src).not_to reek_of(:TooManyInstanceVariables)
+    end
+
+    it 'should not count ivars on inner classes altogether' do
+      src = <<-EOS
+        class Empty
+          class InnerA
+            def ivars
+              @a = @b = @c = @d = 1
+            end
+          end
+
+          class InnerB
+            def ivars
+              @e = 1
+            end
+          end
+        end
+      EOS
+      expect(src).not_to reek_of(:TooManyInstanceVariables)
+    end
+
+    it 'should not count ivars on modules altogether' do
+      src = <<-EOS
+        class Empty
+          class InnerA
+            def ivars
+              @a = @b = @c = @d = 1
+            end
+          end
+
+          module InnerB
+            def ivars
+              @e = 1
+            end
+          end
+        end
+      EOS
+      expect(src).not_to reek_of(:TooManyInstanceVariables)
+    end
+
+    it 'reports excessive ivars' do
+      src = <<-EOS
+        class Empty
+          def ivars
+            @a = @b = @c = @d = 1
+            @e = 1
+          end
+        end
+      EOS
+      expect(src).to reek_of(:TooManyInstanceVariables)
+    end
+
+    it 'reports excessive ivars even in different methods' do
+      src = <<-EOS
+        class Empty
+          def ivars_a
+            @a = @b = @c = @d = 1
+          end
+
+          def ivars_b
+            @e = 1
           end
         end
       EOS
@@ -60,39 +141,17 @@ RSpec.describe Reek::Smells::TooManyInstanceVariables do
       src = <<-EOS
         class Full
           def ivars_a
-            #{ivar_sequence}
+            @a = @b = @c = @d = 1
           end
         end
 
         class Full
           def ivars_b
-            #{ivar_sequence}
+            @a = @b = @c = @d = 1
           end
         end
       EOS
       expect(src).not_to reek_of(:TooManyInstanceVariables)
-    end
-  end
-
-  context 'when a smell is reported' do
-    let(:warning) do
-      src = <<-EOS
-        # Comment
-        class Empty
-          def ivars
-            #{ivar_sequence(count: too_many_ivars)}
-          end
-        end
-      EOS
-      ctx = Reek::Context::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
-      detector.sniff(ctx).first
-    end
-
-    it_should_behave_like 'common fields set correctly'
-
-    it 'reports the correct values' do
-      expect(warning.parameters[:count]).to eq(too_many_ivars)
-      expect(warning.lines).to eq([2])
     end
   end
 end
