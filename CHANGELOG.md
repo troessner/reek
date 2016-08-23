@@ -1,5 +1,9 @@
 # Change log
 
+## 4.2.5 (2016-08-23)
+
+* (mvz) Detect safe navigation operator and report on it.
+
 ## 4.2.4 (2016-08-15)
 
 * (troessner) Make Reek more resilient on incomprehensible source.
