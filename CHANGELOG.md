@@ -1,5 +1,9 @@
 # Change log
 
+## 4.3.0 (2016-08-23)
+
+* (backus) Add ManualDispatch smell.
+
 ## 4.2.5 (2016-08-23)
 
 * (mvz) Detect safe navigation operator and report on it.
