@@ -13,12 +13,10 @@ RSpec.describe Reek::Smells::TooManyInstanceVariables do
         end
       EOS
 
-      message = 'has at least 5 instance variables'
-
-      expect(src).to reek_of(:TooManyInstanceVariables,
+      expect(src).to reek_of(described_class,
                              lines: [1],
                              count: 5,
-                             message: message,
+                             message: 'has at least 5 instance variables',
                              context: 'Empty')
     end
   end
@@ -32,7 +30,7 @@ RSpec.describe Reek::Smells::TooManyInstanceVariables do
           end
         end
       EOS
-      expect(src).not_to reek_of(:TooManyInstanceVariables)
+      expect(src).not_to reek_of(described_class)
     end
 
     it 'has a configurable maximum' do
@@ -45,7 +43,7 @@ RSpec.describe Reek::Smells::TooManyInstanceVariables do
           end
         end
       EOS
-      expect(src).not_to reek_of(:TooManyInstanceVariables)
+      expect(src).not_to reek_of(described_class)
     end
 
     it 'counts each ivar only once' do
@@ -57,7 +55,7 @@ RSpec.describe Reek::Smells::TooManyInstanceVariables do
           end
         end
       EOS
-      expect(src).not_to reek_of(:TooManyInstanceVariables)
+      expect(src).not_to reek_of(described_class)
     end
 
     it 'should not report memoized ivars' do
@@ -69,7 +67,7 @@ RSpec.describe Reek::Smells::TooManyInstanceVariables do
           end
         end
       EOS
-      expect(src).not_to reek_of(:TooManyInstanceVariables)
+      expect(src).not_to reek_of(described_class)
     end
 
     it 'should not count ivars on inner classes altogether' do
@@ -88,7 +86,7 @@ RSpec.describe Reek::Smells::TooManyInstanceVariables do
           end
         end
       EOS
-      expect(src).not_to reek_of(:TooManyInstanceVariables)
+      expect(src).not_to reek_of(described_class)
     end
 
     it 'should not count ivars on modules altogether' do
@@ -107,7 +105,7 @@ RSpec.describe Reek::Smells::TooManyInstanceVariables do
           end
         end
       EOS
-      expect(src).not_to reek_of(:TooManyInstanceVariables)
+      expect(src).not_to reek_of(described_class)
     end
 
     it 'reports excessive ivars' do
@@ -119,7 +117,7 @@ RSpec.describe Reek::Smells::TooManyInstanceVariables do
           end
         end
       EOS
-      expect(src).to reek_of(:TooManyInstanceVariables)
+      expect(src).to reek_of(described_class)
     end
 
     it 'reports excessive ivars even in different methods' do
@@ -134,7 +132,7 @@ RSpec.describe Reek::Smells::TooManyInstanceVariables do
           end
         end
       EOS
-      expect(src).to reek_of(:TooManyInstanceVariables)
+      expect(src).to reek_of(described_class)
     end
 
     it 'should not report for ivars in 2 extensions' do
@@ -151,7 +149,7 @@ RSpec.describe Reek::Smells::TooManyInstanceVariables do
           end
         end
       EOS
-      expect(src).not_to reek_of(:TooManyInstanceVariables)
+      expect(src).not_to reek_of(described_class)
     end
   end
 end

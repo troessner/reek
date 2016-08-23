@@ -35,28 +35,14 @@ module Reek
       #
       def sniff(ctx)
         max_allowed_ivars = value(MAX_ALLOWED_IVARS_KEY, ctx)
-
-        count = count_instance_variables(ctx)
-
+        variables = ctx.local_nodes(:ivasgn, [:or_asgn]).map(&:name)
+        count = variables.uniq.size
         return [] if count <= max_allowed_ivars
-
         [smell_warning(
           context: ctx,
           lines: [ctx.exp.line],
           message: "has at least #{count} instance variables",
           parameters: { count: count })]
-      end
-
-      private
-
-      def count_instance_variables(ctx)
-        ctx.each_node(:ivasgn, ignored_nodes).map do |node|
-          node.children.first
-        end.uniq.size
-      end
-
-      def ignored_nodes
-        [:or_asgn, :class, :module]
       end
     end
   end
