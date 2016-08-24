@@ -1,10 +1,45 @@
 require_relative '../../spec_helper'
 require_lib 'reek/smells/feature_envy'
-require_lib 'reek/examiner'
-require_relative 'smell_detector_shared'
 
-# TODO: Bring specs in line with specs for other detectors
 RSpec.describe Reek::Smells::FeatureEnvy do
+  it 'reports the right values' do
+    src = <<-EOS
+      class Alpha
+        def bravo(charlie)
+          (charlie.delta - charlie.echo) * foxtrot
+        end
+      end
+    EOS
+
+    expect(src).to reek_of(:FeatureEnvy,
+                           lines:   [3, 3],
+                           context: 'Alpha#bravo',
+                           message: 'refers to charlie more than self (maybe move it to another class?)',
+                           source:  'string',
+                           name:    'charlie')
+  end
+
+  it 'does count all occurences' do
+    src = <<-EOS
+      class Alpha
+        def bravo(charlie)
+          (charlie.delta - charlie.echo) * foxtrot
+        end
+
+        def golf(hotel)
+          (hotel.india + hotel.juliett) * kilo
+        end
+      end
+    EOS
+
+    expect(src).to reek_of(:FeatureEnvy,
+                           lines: [3, 3],
+                           name:  'charlie')
+    expect(src).to reek_of(:FeatureEnvy,
+                           lines: [7, 7],
+                           name:  'hotel')
+  end
+
   context 'with no smell' do
     it 'should not report use of self' do
       expect('def simple() self.to_s + self.to_i end').not_to reek_of(:FeatureEnvy)
@@ -66,17 +101,20 @@ RSpec.describe Reek::Smells::FeatureEnvy do
           @nother.d
         end
       EOS
+
       expect(src).not_to reek_of(:FeatureEnvy)
     end
   end
 
   context 'with 2 calls to a parameter' do
     it 'reports the smell' do
-      expect('
+      src = <<-EOS
         def envy(arga)
           arga.b(arga) + arga.c(@fred)
         end
-      ').to reek_of(:FeatureEnvy, name: 'arga')
+      EOS
+
+      expect(src).to reek_of(:FeatureEnvy, name: 'arga')
     end
   end
 
@@ -90,6 +128,7 @@ RSpec.describe Reek::Smells::FeatureEnvy do
         total *= 1.15
       end
       EOS
+
     expect(src).to reek_of(:FeatureEnvy, name: 'total')
     expect(src).not_to reek_of(:FeatureEnvy, name: 'fred')
   end
@@ -103,35 +142,42 @@ RSpec.describe Reek::Smells::FeatureEnvy do
         total += fred.tax
       end
       EOS
+
     expect(src).to reek_of(:FeatureEnvy, name: 'total')
     expect(src).to reek_of(:FeatureEnvy, name: 'fred')
   end
 
   it 'should not be fooled by duplication' do
-    expect('
+    src = <<-EOS
       def feed(thing)
         @cow.feed_to(thing.pig)
         @duck.feed_to(thing.pig)
       end
-    ').to reek_only_of(:DuplicateMethodCall)
+    EOS
+
+    expect(src).to reek_only_of(:DuplicateMethodCall)
   end
 
   it 'should count local calls' do
-    expect('
+    src = <<-EOS
       def feed(thing)
         cow.feed_to(thing.pig)
         duck.feed_to(thing.pig)
       end
-    ').to reek_only_of(:DuplicateMethodCall)
+    EOS
+
+    expect(src).to reek_only_of(:DuplicateMethodCall)
   end
 
   it 'should report many calls to lvar' do
-    expect('
+    src = <<-EOS
       def envy()
         lv = @item
         lv.price + lv.tax
       end
-    ').to reek_only_of(:FeatureEnvy)
+    EOS
+
+    expect(src).to reek_only_of(:FeatureEnvy)
   end
 
   it 'ignores frequent use of a call' do
@@ -140,33 +186,36 @@ RSpec.describe Reek::Smells::FeatureEnvy do
 
   it 'counts =~ as a call' do
     src = <<-EOS
-    def foo arg
-      bar(arg.baz)
-      arg =~ /bar/
-    end
+      def foo arg
+        bar(arg.baz)
+        arg =~ /bar/
+      end
     EOS
+
     expect(src).to reek_of :FeatureEnvy
   end
 
   it 'counts += as a call' do
     src = <<-EOS
-    def foo arg
-      bar(arg.baz)
-      arg += 1
-    end
+      def foo arg
+        bar(arg.baz)
+        arg += 1
+      end
     EOS
+
     expect(src).to reek_of :FeatureEnvy
   end
 
   it 'counts ivar assignment as call to self' do
     src = <<-EOS
-    def foo
-      bar = baz(1, 2)
+      def foo
+        bar = baz(1, 2)
 
-      @quuz = bar.qux
-      @zyxy = bar.foobar
-    end
+        @quuz = bar.qux
+        @zyxy = bar.foobar
+      end
     EOS
+
     expect(src).not_to reek_of :FeatureEnvy
   end
 
@@ -180,11 +229,12 @@ RSpec.describe Reek::Smells::FeatureEnvy do
         self
       end
     EOS
+
     expect(src).not_to reek_of(:FeatureEnvy)
   end
 
   it 'counts references to self correctly' do
-    ruby = <<-EOS
+    src = <<-EOS
       def report
         unless @report
           @report = Report.new
@@ -195,11 +245,12 @@ RSpec.describe Reek::Smells::FeatureEnvy do
         @report
       end
     EOS
-    expect(ruby).not_to reek_of(:FeatureEnvy)
+
+    expect(src).not_to reek_of(:FeatureEnvy)
   end
 
   it 'interprets << correctly' do
-    ruby = <<-EOS
+    src = <<-EOS
       def report_on(report)
         if @is_doubled
           report.record_doubled_smell(self)
@@ -209,42 +260,6 @@ RSpec.describe Reek::Smells::FeatureEnvy do
       end
     EOS
 
-    expect(ruby).not_to reek_of(:FeatureEnvy)
-  end
-end
-
-RSpec.describe Reek::Smells::FeatureEnvy do
-  let(:detector) { build(:smell_detector, smell_type: :FeatureEnvy) }
-
-  it_should_behave_like 'SmellDetector'
-
-  context 'when a smell is reported' do
-    let(:receiver) { 'other' }
-
-    let(:warning) do
-      src = <<-EOS
-        def envious(other)
-          #{receiver}.call
-          self.do_nothing
-          #{receiver}.other
-          #{receiver}.fred
-        end
-      EOS
-      Reek::Examiner.new(src, filter_by_smells: ['FeatureEnvy']).smells.first
-    end
-
-    it_should_behave_like 'common fields set correctly'
-
-    it 'reports the name' do
-      expect(warning.parameters[:name]).to eq(receiver)
-    end
-
-    it 'reports the lines' do
-      expect(warning.lines).to eq([2, 4, 5])
-    end
-
-    it 'has the right message' do
-      expect(warning.message).to eq('refers to other more than self (maybe move it to another class?)')
-    end
+    expect(src).not_to reek_of(:FeatureEnvy)
   end
 end

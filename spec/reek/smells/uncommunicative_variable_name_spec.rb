@@ -1,13 +1,37 @@
 require_relative '../../spec_helper'
 require_lib 'reek/smells/uncommunicative_variable_name'
-require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::UncommunicativeVariableName do
-  let(:detector) do
-    build(:smell_detector, smell_type: :UncommunicativeVariableName)
+  it 'reports the right values' do
+    src = <<-EOS
+      def m
+        x = 5
+      end
+    EOS
+
+    expect(src).to reek_of(:UncommunicativeVariableName,
+                           lines:   [2],
+                           context: 'm',
+                           message: "has the variable name 'x'",
+                           source:  'string',
+                           name:    'x')
   end
 
-  it_should_behave_like 'SmellDetector'
+  it 'does count all occurences' do
+    src = <<-EOS
+      def m
+        a = 3
+        b = 7
+      end
+    EOS
+
+    expect(src).to reek_of(:UncommunicativeVariableName,
+                           lines: [2],
+                           name:  'a')
+    expect(src).to reek_of(:UncommunicativeVariableName,
+                           lines: [3],
+                           name:  'b')
+  end
 
   context 'field name' do
     it 'does not report use of one-letter fieldname' do
@@ -45,17 +69,6 @@ RSpec.describe Reek::Smells::UncommunicativeVariableName do
       src = "def simple(fred) #{bad_var} = jim(45) end"
       expect(src).to reek_of(:UncommunicativeVariableName,
                              name: bad_var)
-    end
-
-    it 'reports variable name only once' do
-      src = 'def simple(fred) x = jim(45); x = y end'
-      syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
-      ctx = Reek::Context::CodeContext.new(nil, syntax_tree)
-      smells = detector.sniff(ctx)
-      expect(smells.length).to eq(1)
-      expect(smells[0].smell_type).to eq(described_class.smell_type)
-      expect(smells[0].parameters[:name]).to eq('x')
-      expect(smells[0].lines).to eq([1, 1])
     end
 
     it 'reports a bad name inside a block' do
@@ -148,45 +161,6 @@ RSpec.describe Reek::Smells::UncommunicativeVariableName do
       EOS
       expect(src).to reek_of(:UncommunicativeVariableName, name: 'x')
       expect(src).to reek_of(:UncommunicativeVariableName, name: 'y')
-    end
-  end
-
-  context 'when a smell is reported' do
-    let(:warning) do
-      src = <<-EOS
-        def bad
-          unless @mod then
-             x2 = xy.to_s
-             x2
-             x2 = 56
-          end
-        end
-      EOS
-      syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
-      ctx = Reek::Context::CodeContext.new(nil, syntax_tree)
-      detector.sniff(ctx).first
-    end
-
-    it_should_behave_like 'common fields set correctly'
-
-    it 'reports the correct values' do
-      expect(warning.parameters[:name]).to eq('x2')
-      expect(warning.lines).to eq([3, 5])
-    end
-  end
-
-  context 'when a smell is reported in a singleton method' do
-    let(:warning) do
-      src = 'def self.bad() x2 = 4; end'
-      syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
-      ctx = Reek::Context::CodeContext.new(nil, syntax_tree)
-      detector.sniff(ctx).first
-    end
-
-    it_should_behave_like 'common fields set correctly'
-
-    it 'reports the fq context' do
-      expect(warning.context).to eq('self.bad')
     end
   end
 end

@@ -1,34 +1,19 @@
 require_relative '../../spec_helper'
 require_lib 'reek/smells/utility_function'
-require_lib 'reek/examiner'
-require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::UtilityFunction do
-  describe 'a detector' do
-    let(:detector) { build(:smell_detector, smell_type: :UtilityFunction) }
-
-    it_should_behave_like 'SmellDetector'
-
-    context 'when a smells is reported' do
-      let(:warning) do
-        src = <<-EOS
-          def simple(arga)
-            arga.b.c
-          end
-        EOS
-        Reek::Examiner.new(src, filter_by_smells: ['UtilityFunction']).smells[0]
+  it 'reports the right values' do
+    src = <<-EOS
+      def m(a)
+        a.b.c
       end
+    EOS
 
-      it_should_behave_like 'common fields set correctly'
-
-      it 'reports the line number of the method' do
-        expect(warning.lines).to eq([1])
-      end
-
-      it 'has the right message' do
-        expect(warning.message).to eq("doesn't depend on instance state (maybe move it to another class?)")
-      end
-    end
+    expect(src).to reek_of(:UtilityFunction,
+                           lines:   [1],
+                           context: 'm',
+                           message: "doesn't depend on instance state (maybe move it to another class?)",
+                           source:  'string')
   end
 
   context 'with a singleton method' do

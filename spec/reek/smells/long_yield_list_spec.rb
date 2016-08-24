@@ -1,52 +1,72 @@
 require_relative '../../spec_helper'
-require_lib 'reek/context/code_context'
 require_lib 'reek/smells/long_yield_list'
-require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::LongYieldList do
-  let(:detector) { build(:smell_detector, smell_type: :LongYieldList) }
+  it 'reports the right values' do
+    src = <<-EOS
+      class Dummy
+        def m(a, b, c, d)
+          yield a, b, c, d
+        end
+      end
+    EOS
 
-  it_should_behave_like 'SmellDetector'
-
-  context 'yield' do
-    it 'should not report yield with no parameters' do
-      src = 'def simple(arga, argb, &blk) f(3);yield; end'
-      expect(src).not_to reek_of(:LongYieldList)
-    end
-
-    it 'should not report yield with few parameters' do
-      src = 'def simple(arga, argb, &blk) f(3);yield a,b; end'
-      expect(src).not_to reek_of(:LongYieldList)
-    end
-
-    it 'should report yield with many parameters' do
-      src = 'def simple(arga, argb, &blk) f(3);yield arga,argb,arga,argb; end'
-      expect(src).to reek_of(:LongYieldList, count: 4)
-    end
-
-    it 'should not report yield of a long expression' do
-      src = 'def simple(arga, argb, &blk) f(3);yield(if @dec then argb else 5+3 end); end'
-      expect(src).not_to reek_of(:LongYieldList)
-    end
+    expect(src).to reek_of(:LongYieldList,
+                           lines:   [3],
+                           context: 'Dummy#m',
+                           message: 'yields 4 parameters',
+                           source:  'string',
+                           count:   4)
   end
 
-  context 'when a smells is reported' do
-    let(:warning) do
-      src = <<-EOS
-        def simple(arga, argb, &blk)
-          f(3)
-          yield(arga,argb,arga,argb)
+  it 'does count all occurences' do
+    src = <<-EOS
+      class Dummy
+        def m1(a, b, c, d)
+          yield a, b, c, d
         end
-      EOS
-      ctx = Reek::Context::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
-      detector.sniff(ctx).first
-    end
 
-    it_should_behave_like 'common fields set correctly'
+        def m2(a, b, c, d)
+          yield a, b, c, d
+        end
+      end
+    EOS
 
-    it 'reports the correct values' do
-      expect(warning.parameters[:count]).to eq(4)
-      expect(warning.lines).to eq([3])
-    end
+    expect(src).to reek_of(:LongYieldList,
+                           lines:   [3],
+                           context: 'Dummy#m1')
+    expect(src).to reek_of(:LongYieldList,
+                           lines:   [7],
+                           context: 'Dummy#m2')
+  end
+
+  it 'should not report yield with no parameters' do
+    src = <<-EOS
+      def m
+        yield
+      end
+    EOS
+
+    expect(src).not_to reek_of(:LongYieldList)
+  end
+
+  it 'should not report yield with 3 parameters' do
+    src = <<-EOS
+      def m(a, b, c)
+        yield a, b, c
+      end
+    EOS
+
+    expect(src).not_to reek_of(:LongYieldList)
+  end
+
+  it 'should report yield with 4 parameters' do
+    src = <<-EOS
+      def m(a, b, c, d)
+        yield a, b, c, d
+      end
+    EOS
+
+    expect(src).to reek_of(:LongYieldList)
   end
 end

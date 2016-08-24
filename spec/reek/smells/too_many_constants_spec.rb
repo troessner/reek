@@ -1,8 +1,22 @@
 require_relative '../../spec_helper'
 require_lib 'reek/smells/too_many_constants'
-require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::TooManyConstants do
+  it 'reports the right values' do
+    src = <<-EOS
+      class Dummy
+        A = B = C = D = E = F = 1
+      end
+    EOS
+
+    expect(src).to reek_of(:TooManyConstants,
+                           lines:   [1],
+                           context: 'Dummy',
+                           message: 'has 6 constants',
+                           source:  'string',
+                           count:   6)
+  end
+
   context 'counting constants' do
     it 'should not report for non-excessive constants' do
       src = <<-EOS

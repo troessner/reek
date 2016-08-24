@@ -1,11 +1,20 @@
 require_relative '../../spec_helper'
 require_lib 'reek/smells/uncommunicative_module_name'
-require_relative 'smell_detector_shared'
-require_lib 'reek/context/code_context'
 
 RSpec.describe Reek::Smells::UncommunicativeModuleName do
-  let(:detector) { build(:smell_detector, smell_type: :UncommunicativeModuleName) }
-  it_should_behave_like 'SmellDetector'
+  it 'reports the right values' do
+    src = <<-EOS
+      class D
+      end
+    EOS
+
+    expect(src).to reek_of(:UncommunicativeModuleName,
+                           lines:   [1],
+                           context: 'D',
+                           message: "has the name 'D'",
+                           source:  'string',
+                           name:    'D')
+  end
 
   describe 'default configuration' do
     ['class', 'module'].each do |type|
@@ -27,34 +36,12 @@ RSpec.describe Reek::Smells::UncommunicativeModuleName do
     end
   end
 
-  describe 'sniff' do
-    let(:source) { 'class Foo::X; end' }
-    let(:context) { code_context(source) }
-    let(:detector) { build(:smell_detector, smell_type: :UncommunicativeModuleName) }
-
-    it 'returns an array of smell warnings' do
-      smells = detector.sniff(context)
-      expect(smells.length).to eq(1)
-      expect(smells[0]).to be_a_kind_of(Reek::Smells::SmellWarning)
-    end
-
-    it 'contains proper smell warnings' do
-      smells = detector.sniff(context)
-      warning = smells[0]
-
-      expect(warning.smell_type).to eq(Reek::Smells::UncommunicativeModuleName.smell_type)
-      expect(warning.parameters[:name]).to eq('X')
-      expect(warning.context).to match(/#{warning.parameters[:name]}/)
-      expect(warning.lines).to eq([1])
-    end
-  end
-
   describe '`accept` patterns' do
     let(:source) { 'class Classy1; end' }
 
     it 'make smelly names pass via regex / strings given by list / literal' do
       [[/lassy/], /lassy/, ['lassy'], 'lassy'].each do |pattern|
-        expect(source).to_not reek_of(described_class).with_config('accept' => pattern)
+        expect(source).to_not reek_of(:UncommunicativeModuleName).with_config('accept' => pattern)
       end
     end
   end
@@ -64,7 +51,7 @@ RSpec.describe Reek::Smells::UncommunicativeModuleName do
 
     it 'reject smelly names via regex / strings given by list / literal' do
       [[/Helper/], /Helper/, ['Helper'], 'Helper'].each do |pattern|
-        expect(source).to reek_of(described_class).with_config('reject' => pattern)
+        expect(source).to reek_of(:UncommunicativeModuleName).with_config('reject' => pattern)
       end
     end
   end
