@@ -27,7 +27,9 @@ version, Ruby platform (MRI, JRuby, etc.), operating system.
 Try to provide a minimal example that reproduces the issue.
 Extra kudos if you can write it as a failing test. :)
 
-## Setup and Pull Request Basics
+## Pull Request
+
+### Getting started
 
 Fork Reek, then clone it, make sure you have
 [Bundler](http://bundler.io) installed, install dependencies
@@ -52,12 +54,80 @@ start contributing.
 
 Then start hacking and add new tests which make sure that your new feature works or
 demonstrate that your fix was needed.
+
+### Tests
+
 Reek is using [Rspec](http://rspec.info/) for unit and functional testing and [cucumber]() for integration tests.
 
 When it comes to Rspec we're trying to follow [betterspecs](http://betterspecs.org/).
-Additonally you can find an excellent cheat sheet on how to write idiomatic Rspec [here](http://www.rubypigeon.com/posts/rspec-core-cheat-sheet).
+We're not using Rspec's [shared examples](https://www.relishapp.com/rspec/rspec-core/docs/example-groups/shared-examples) because we find
+them rather harming than helpful.
+You can find an excellent cheat sheet on how to write idiomatic Rspec [here](http://www.rubypigeon.com/posts/rspec-core-cheat-sheet).
 
-We also care a lot about [good commit messages](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html).
+#### Spec naming conventions
+
+We do not use the popular "foo" / "bar" naming when it comes to the question "how to come up with good example names?".
+Instead, we use the [military alphabet](https://en.wikipedia.org/wiki/NATO_phonetic_alphabet) in ascending order
+which means that we would write this
+
+```Ruby
+class Foo
+  def bar(baz)
+    baz.quux
+  end
+end
+```
+
+rather like this:
+
+```Ruby
+class Alfa
+  def bravo(charlie)
+    charlie.delta
+  end
+end
+```
+
+#### Smell detector conventions
+
+All smell detector specs start out with 2 generic examples like this (the second one only if it makes sense):
+
+```Ruby
+it 'reports the right values' do
+  src = <<-EOS
+    def alfa
+      bravo = 5
+    end
+  EOS
+
+  expect(src).to reek_of(:UncommunicativeVariableName,
+                         lines:   [2],
+                         context: 'alfa',
+                         message: "has the variable name 'bravo'",
+                         source:  'string',
+                         name:    'bravo')
+end
+
+it 'does count all occurences' do
+  src = <<-EOS
+    def alfa
+      bravo = 3
+      charlie = 7
+    end
+  EOS
+
+  expect(src).to reek_of(:UncommunicativeVariableName,
+                         lines: [2],
+                         name:  'bravo')
+  expect(src).to reek_of(:UncommunicativeVariableName,
+                         lines: [3],
+                         name:  'charlie')
+end
+```
+
+### Finishing up
+
+We care a lot about [good commit messages](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html).
 
 Once you’re happy with your feature / fix – or want to
 share it as a work-in-progress and request comments – once

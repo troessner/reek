@@ -1,63 +1,70 @@
 require_relative '../../spec_helper'
 require_lib 'reek/smells/duplicate_method_call'
-require_lib 'reek/context/code_context'
-require_lib 'reek/context_builder'
-require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::DuplicateMethodCall do
-  context 'when a smell is reported' do
-    let(:detector) { build(:smell_detector, smell_type: :DuplicateMethodCall) }
-
-    let(:warning) do
-      src = <<-EOS
-        def double_thing(other)
-          other[@thing]
-          not_the_sam(at = all)
-          other[@thing]
+  it 'reports the right values' do
+    src = <<-EOS
+      class Alfa
+        def bravo(charlie)
+          charlie.delta
+          charlie.delta
         end
-      EOS
-      ctx = Reek::Context::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
-      smells = detector.sniff(ctx)
-      expect(smells.length).to eq(1)
-      smells.first
-    end
+      end
+    EOS
 
-    it_should_behave_like 'SmellDetector'
-    it_should_behave_like 'common fields set correctly'
+    expect(src).to reek_of(:DuplicateMethodCall,
+                           lines:   [3, 4],
+                           context: 'Alfa#bravo',
+                           message: 'calls charlie.delta 2 times',
+                           source:  'string',
+                           name:    'charlie.delta',
+                           count:   2)
+  end
 
-    it 'reports the call' do
-      expect(warning.parameters[:name]).to eq('other[@thing]')
-    end
+  it 'does count all occurences' do
+    src = <<-EOS
+      class Alfa
+        def bravo(charlie)
+          charlie.delta
+          charlie.delta
+        end
 
-    it 'reports the correct lines' do
-      expect(warning.lines).to eq([2, 4])
-    end
+        def echo(foxtrot)
+          foxtrot.golf
+          foxtrot.golf
+        end
+      end
+    EOS
+
+    expect(src).to reek_of(:DuplicateMethodCall,
+                           lines: [3, 4],
+                           name:  'charlie.delta',
+                           count: 2)
+    expect(src).to reek_of(:DuplicateMethodCall,
+                           lines: [8, 9],
+                           name:  'foxtrot.golf',
+                           count: 2)
   end
 
   context 'with repeated method calls' do
-    it 'reports repeated call' do
-      src = 'def double_thing() @other.thing + @other.thing end'
-      expect(src).to reek_of(:DuplicateMethodCall, name: '@other.thing')
-    end
-
     it 'reports repeated call to lvar' do
-      src = 'def double_thing(other) other[@thing] + other[@thing] end'
-      expect(src).to reek_of(:DuplicateMethodCall, name: 'other[@thing]')
+      src = 'def alfa(bravo); bravo.charlie + bravo.charlie; end'
+      expect(src).to reek_of(:DuplicateMethodCall, name: 'bravo.charlie')
     end
 
     it 'reports call parameters' do
-      src = 'def double_thing() @other.thing(2,3) + @other.thing(2,3) end'
-      expect(src).to reek_of(:DuplicateMethodCall, name: '@other.thing(2,3)')
+      src = 'def alfa; @bravo.charlie(2, 3) + @bravo.charlie(2, 3); end'
+      expect(src).to reek_of(:DuplicateMethodCall, name: '@bravo.charlie(2, 3)')
     end
 
     it 'should report nested calls' do
-      src = 'def double_thing() @other.thing.foo + @other.thing.foo end'
-      expect(src).to reek_of(:DuplicateMethodCall, name: '@other.thing')
-      expect(src).to reek_of(:DuplicateMethodCall, name: '@other.thing.foo')
+      src = 'def alfa; @bravo.charlie.delta + @bravo.charlie.delta; end'
+      expect(src).to reek_of(:DuplicateMethodCall, name: '@bravo.charlie')
+      expect(src).to reek_of(:DuplicateMethodCall, name: '@bravo.charlie.delta')
     end
 
     it 'should ignore calls to new' do
-      src = 'def double_thing() @other.new + @other.new end'
+      src = 'def alfa; @bravo.new + @bravo.new; end'
       expect(src).not_to reek_of(:DuplicateMethodCall)
     end
   end
@@ -65,15 +72,12 @@ RSpec.describe Reek::Smells::DuplicateMethodCall do
   context 'with repeated simple method calls' do
     it 'reports no smell' do
       src = <<-EOS
-        def foo
-          case bar
-          when :baz
-            :qux
-          else
-            bar
-          end
+        def alfa
+          bravo
+          bravo
         end
       EOS
+
       expect(src).not_to reek_of(:DuplicateMethodCall)
     end
   end
@@ -81,21 +85,23 @@ RSpec.describe Reek::Smells::DuplicateMethodCall do
   context 'with repeated simple method calls with blocks' do
     it 'reports a smell if the blocks are identical' do
       src = <<-EOS
-        def foo
-          bar { baz }
-          bar { baz }
+        def alfa
+          bravo { charlie }
+          bravo { charlie }
         end
       EOS
+
       expect(src).to reek_of(:DuplicateMethodCall)
     end
 
     it 'reports no smell if the blocks are different' do
       src = <<-EOS
-        def foo
-          bar { baz }
-          bar { qux }
+        def alfa
+          bravo { charlie }
+          bravo { delta }
         end
       EOS
+
       expect(src).not_to reek_of(:DuplicateMethodCall)
     end
   end
@@ -103,49 +109,59 @@ RSpec.describe Reek::Smells::DuplicateMethodCall do
   context 'with repeated method calls with receivers with blocks' do
     it 'reports a smell if the blocks are identical' do
       src = <<-EOS
-        def foo
-          bar.qux { baz }
-          bar.qux { baz }
+        def alfa
+          bravo.charlie { delta }
+          bravo.charlie { delta }
         end
       EOS
+
       expect(src).to reek_of(:DuplicateMethodCall)
     end
 
     it 'reports a smell if the blocks are different' do
       src = <<-EOS
-        def foo
-          bar.qux { baz }
-          bar.qux { qux }
+        def alfa
+          bravo.charlie { delta }
+          bravo.charlie { echo }
         end
       EOS
+
       expect(src).to reek_of(:DuplicateMethodCall)
     end
   end
 
   context 'with repeated attribute assignment' do
     it 'reports repeated assignment' do
-      src = 'def double_thing(thing) @other[thing] = true; @other[thing] = true; end'
-      expect(src).to reek_of(:DuplicateMethodCall, name: '@other[thing] = true')
-    end
-    it 'does not report multi-assignments' do
       src = <<-EOS
-        def _parse ctxt
-          ctxt.index, result = @ind, @result
-          error, ctxt.index = @err, @err_ind
+        def alfa(bravo)
+          @charlie[bravo] = true
+          @charlie[bravo] = true
         end
       EOS
+
+      expect(src).to reek_of(:DuplicateMethodCall)
+    end
+
+    it 'does not report multi-assignments' do
+      src = <<-EOS
+        def alfa
+          bravo, charlie = delta, echo
+          charlie, bravo = delta, echo
+        end
+      EOS
+
       expect(src).not_to reek_of(:DuplicateMethodCall)
     end
   end
 
   context 'non-repeated method calls' do
     it 'should not report similar calls' do
-      src = 'def equals(other) other.thing == self.thing end'
+      src = 'def alfa(bravo) bravo.charlie == self.charlie end'
       expect(src).not_to reek_of(:DuplicateMethodCall)
     end
 
     it 'should respect call parameters' do
-      src = 'def double_thing() @other.thing(3) + @other.thing(2) end'
+      src = 'def alfa; @bravo.charlie(3) + @bravo.charlie(2) end'
       expect(src).not_to reek_of(:DuplicateMethodCall)
     end
   end
@@ -156,47 +172,44 @@ RSpec.describe Reek::Smells::DuplicateMethodCall do
     end
 
     it 'does not report double calls' do
-      src = 'def double_thing() @other.thing + @other.thing end'
+      src = 'def alfa(bravo); bravo.charlie + bravo.charlie; end'
       expect(src).not_to reek_of(:DuplicateMethodCall).with_config(config)
     end
 
     it 'does not report triple calls' do
-      src = 'def double_thing() @other.thing + @other.thing + @other.thing end'
+      src = 'def alfa(bravo); bravo.charlie + bravo.charlie + bravo.charlie; end'
       expect(src).not_to reek_of(:DuplicateMethodCall).with_config(config)
     end
 
     it 'reports quadruple calls' do
-      src = '
-        def double_thing()
-          @other.thing + @other.thing + @other.thing + @other.thing
+      src = <<-EOS
+        def alfa
+          bravo.charlie + bravo.charlie + bravo.charlie + bravo.charlie
         end
-      '
+      EOS
+
       expect(src).to reek_of(:DuplicateMethodCall,
-                             name: '@other.thing', count: 4).with_config(config)
+                             count: 4).with_config(config)
     end
   end
 
   context 'allowing calls to some methods' do
-    let(:config) do
-      { Reek::Smells::DuplicateMethodCall::ALLOW_CALLS_KEY => ['@some.thing', /puts/] }
-    end
-
     it 'does not report calls to some methods' do
-      src = 'def double_some_thing() @some.thing + @some.thing end'
-
+      config = { Reek::Smells::DuplicateMethodCall::ALLOW_CALLS_KEY => ['@bravo.charlie'] }
+      src = 'def alfa; @bravo.charlie + @bravo.charlie; end'
       expect(src).not_to reek_of(:DuplicateMethodCall).with_config(config)
     end
 
     it 'reports calls to other methods' do
-      src = 'def double_other_thing() @other.thing + @other.thing end'
-
-      expect(src).to reek_of(:DuplicateMethodCall, name: '@other.thing').with_config(config)
+      config = { Reek::Smells::DuplicateMethodCall::ALLOW_CALLS_KEY => ['@delta.charlie'] }
+      src = 'def alfa; @bravo.charlie + @bravo.charlie; end'
+      expect(src).to reek_of(:DuplicateMethodCall, name: '@bravo.charlie').with_config(config)
     end
 
     it 'does not report calls to methods specifed with a regular expression' do
-      src = 'def double_puts() puts @other.thing; puts @other.thing end'
-
-      expect(src).to reek_of(:DuplicateMethodCall, name: '@other.thing').with_config(config)
+      config = { Reek::Smells::DuplicateMethodCall::ALLOW_CALLS_KEY => [/charlie/] }
+      src = 'def alfa; puts @bravo.charlie; puts @bravo.charlie; end'
+      expect(src).not_to reek_of(:DuplicateMethodCall, name: '@bravo.charlie').with_config(config)
     end
   end
 end

@@ -1,52 +1,52 @@
 require_relative '../../spec_helper'
-require_lib 'reek/context/code_context'
 require_lib 'reek/smells/long_yield_list'
-require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::LongYieldList do
-  let(:detector) { build(:smell_detector, smell_type: :LongYieldList) }
+  it 'reports the right values' do
+    src = <<-EOS
+      class Alfa
+        def bravo(charlie, delta, echo, foxtrot)
+          yield charlie, delta, echo, foxtrot
+        end
+      end
+    EOS
 
-  it_should_behave_like 'SmellDetector'
-
-  context 'yield' do
-    it 'should not report yield with no parameters' do
-      src = 'def simple(arga, argb, &blk) f(3);yield; end'
-      expect(src).not_to reek_of(:LongYieldList)
-    end
-
-    it 'should not report yield with few parameters' do
-      src = 'def simple(arga, argb, &blk) f(3);yield a,b; end'
-      expect(src).not_to reek_of(:LongYieldList)
-    end
-
-    it 'should report yield with many parameters' do
-      src = 'def simple(arga, argb, &blk) f(3);yield arga,argb,arga,argb; end'
-      expect(src).to reek_of(:LongYieldList, count: 4)
-    end
-
-    it 'should not report yield of a long expression' do
-      src = 'def simple(arga, argb, &blk) f(3);yield(if @dec then argb else 5+3 end); end'
-      expect(src).not_to reek_of(:LongYieldList)
-    end
+    expect(src).to reek_of(:LongYieldList,
+                           lines:   [3],
+                           context: 'Alfa#bravo',
+                           message: 'yields 4 parameters',
+                           source:  'string',
+                           count:   4)
   end
 
-  context 'when a smells is reported' do
-    let(:warning) do
-      src = <<-EOS
-        def simple(arga, argb, &blk)
-          f(3)
-          yield(arga,argb,arga,argb)
+  it 'does count all occurences' do
+    src = <<-EOS
+      class Alfa
+        def bravo(charlie, delta, echo, foxtrot)
+          yield charlie, delta, echo, foxtrot
         end
-      EOS
-      ctx = Reek::Context::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
-      detector.sniff(ctx).first
-    end
 
-    it_should_behave_like 'common fields set correctly'
+        def golf(hotel, india, juliett, kilo)
+          yield hotel, india, juliett, kilo
+        end
+      end
+    EOS
 
-    it 'reports the correct values' do
-      expect(warning.parameters[:count]).to eq(4)
-      expect(warning.lines).to eq([3])
-    end
+    expect(src).to reek_of(:LongYieldList,
+                           lines:   [3],
+                           context: 'Alfa#bravo')
+    expect(src).to reek_of(:LongYieldList,
+                           lines:   [7],
+                           context: 'Alfa#golf')
+  end
+
+  it 'does not report yield with 3 parameters' do
+    src = <<-EOS
+      def alfa(bravo, charlie, delta)
+        yield bravo, charlie, delta
+      end
+    EOS
+
+    expect(src).not_to reek_of(:LongYieldList)
   end
 end

@@ -1,157 +1,82 @@
 require_relative '../../spec_helper'
 require_lib 'reek/smells/subclassed_from_core_class'
-require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::SubclassedFromCoreClass do
-  let(:detector) { described_class.new }
-
-  it_should_behave_like 'SmellDetector'
-
-  context 'report' do
-    context 'smell line' do
-      context 'single class' do
-        it 'should report the core class in the message' do
-          src = <<-EOS
-            class Dummy < Hash
-            end
-          EOS
-
-          expect(src).to reek_of(:SubclassedFromCoreClass, lines: [1])
-        end
+  it 'reports the right values' do
+    src = <<-EOS
+      class Alfa < Hash
       end
+    EOS
 
-      context 'class inside a module' do
-        it 'should report the core class in the message' do
-          src = <<-EOS
-            module Namespace
-              class Dummy < Hash
-              end
-            end
-          EOS
-
-          expect(src).to reek_of(:SubclassedFromCoreClass, lines: [2])
-        end
-      end
-    end
-
-    context 'smell message' do
-      context 'Array' do
-        it 'should report the core class in the message' do
-          src = <<-EOS
-            class Dummy < Array
-            end
-          EOS
-
-          expect(src).to reek_of(:SubclassedFromCoreClass, message: 'inherits from a core class (Array)')
-        end
-      end
-
-      context 'Hash' do
-        it 'should report the core class in the message' do
-          src = <<-EOS
-            class Dummy < Hash
-            end
-          EOS
-
-          expect(src).to reek_of(:SubclassedFromCoreClass, message: 'inherits from a core class (Hash)')
-        end
-      end
-    end
+    expect(src).to reek_of(:SubclassedFromCoreClass,
+                           lines:    [1],
+                           context:  'Alfa',
+                           message:  'inherits from a core class (Hash)',
+                           source:   'string',
+                           ancestor: 'Hash')
   end
 
-  it 'does not inherit from a core class' do
+  it 'reports when inheriting from a core class inside a module' do
     src = <<-EOS
-      class Dummy
+      module Alfa
+        class Bravo < Hash
+        end
+      end
+    EOS
+
+    expect(src).to reek_of(:SubclassedFromCoreClass, context: 'Alfa::Bravo')
+  end
+
+  it 'does not report when not inheriting from a core class' do
+    src = <<-EOS
+      class Alfa
       end
     EOS
 
     expect(src).to_not reek_of(:SubclassedFromCoreClass)
   end
 
-  it 'should report if we inherit from a core class' do
+  it 'does not report on coincidental core class names in other namespaces' do
     src = <<-EOS
-      class Dummy < Array
+      class Alfa < Bravo::Array
       end
     EOS
 
-    expect(src).to reek_of(:SubclassedFromCoreClass, ancestor: 'Array', message: 'inherits from a core class (Array)')
-  end
-
-  it 'should not report on coincidental core class names in other namespaces' do
-    src = <<-EOS
-      class Dummy < My::Array
-      end
-    EOS
     expect(src).to_not reek_of(:SubclassedFromCoreClass)
   end
 
-  it 'should report if we inherit from a core class from within a namespaced class' do
-    src = <<-EOS
-      module Namespace
-        class Dummy < Array
-        end
-      end
-    EOS
-    expect(src).to reek_of(:SubclassedFromCoreClass, ancestor: 'Array')
+  it 'reports if we inherit from a core class using Class#new' do
+    src = 'Alfa = Class.new(Array)'
+    expect(src).to reek_of(:SubclassedFromCoreClass)
   end
 
-  it 'should report if we inherit from a core class using Class#new' do
-    src = 'Dummy = Class.new(Array)'
-    expect(src).to reek_of(:SubclassedFromCoreClass, ancestor: 'Array')
-  end
-
-  it 'should report if inner class inherit from a core class' do
+  it 'reports if inner class inherit from a core class' do
     src = <<-EOS
-      module Namespace
-        class Dummy
-          Dummiest = Class.new(Array)
-        end
+      class Alfa
+        Bravo = Class.new(Array)
       end
     EOS
-    expect(src).to reek_of(:SubclassedFromCoreClass, ancestor: 'Array')
+
+    expect(src).to reek_of(:SubclassedFromCoreClass, context: 'Alfa::Bravo')
   end
 
-  it 'should not report on coincidental core class names in other namespaces' do
-    src = <<-EOS
-      module Namespace
-        class Dummy
-          Dummiest = Class.new(My::Array)
-        end
-      end
-    EOS
+  it 'reports class which inherits from core class via Class.new' do
+    src = 'Alfa = Class.new(Array)'
+    expect(src).to reek_of(:SubclassedFromCoreClass)
+  end
+
+  it 'does not report class which inherits from allowed class via Class.new' do
+    src = 'Alfa = Class.new(StandardError)'
     expect(src).to_not reek_of(:SubclassedFromCoreClass)
   end
 
-  it 'should not report if inner class inherits from allowed classes' do
-    src = <<-EOS
-      module Namespace
-        class Dummy
-          Dummiest = Class.new(StandardError)
-        end
-      end
-    EOS
+  it 'does not report classes created with Struct.new' do
+    src = "Alfa = Struct.new('Array')"
     expect(src).to_not reek_of(:SubclassedFromCoreClass)
   end
 
-  it 'should not report if class is created with Struct.new' do
-    src = <<-EOS
-      module Namespace
-        class Dummy
-          Dummiest = Struct.new('Array')
-        end
-      end
-    EOS
-    expect(src).to_not reek_of(:SubclassedFromCoreClass)
-  end
-
-  it 'should only report classes created with Class.new' do
-    src = <<-EOS
-      module Namespace
-        class Dummy
-          Dummiest = Foo.new(Array)
-        end
-      end
-    EOS
+  it 'does not report class created by another class constructor taking a core class as argument' do
+    src = 'Charlie = Delta.new(Array)'
     expect(src).to_not reek_of(:SubclassedFromCoreClass)
   end
 end

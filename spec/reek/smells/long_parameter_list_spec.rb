@@ -1,107 +1,63 @@
 require_relative '../../spec_helper'
-require_lib 'reek/context/code_context'
 require_lib 'reek/smells/long_parameter_list'
-require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::LongParameterList do
-  context 'for methods with few parameters' do
-    it 'should report nothing for no parameters' do
-      expect('def simple; f(3);true; end').not_to reek_of(:LongParameterList)
-    end
-
-    it 'should report nothing for 1 parameter' do
-      expect('def simple(yep) f(3);true end').not_to reek_of(:LongParameterList)
-    end
-
-    it 'should report nothing for 2 parameters' do
-      expect('def simple(yep,zero) f(3);true end').not_to reek_of(:LongParameterList)
-    end
-
-    it 'should not count an optional block' do
-      src = 'def simple(alpha, yep, zero, &opt) f(3); true end'
-      expect(src).not_to reek_of(:LongParameterList)
-    end
-
-    it 'should not report inner block with too many parameters' do
-      src = '
-        def simple(yep,zero)
-          m[3]; rand(34); f.each { |arga, argb, argc, argd| true}
+  it 'reports the right values' do
+    src = <<-EOS
+      class Alfa
+        def bravo(charlie, delta, echo, foxtrot)
         end
-      '
-      expect(src).not_to reek_of(:LongParameterList)
-    end
-
-    describe 'and default values' do
-      it 'should report nothing for 1 parameter' do
-        expect('def simple(zero=nil) f(3);false end').not_to reek_of(:LongParameterList)
       end
+    EOS
 
-      it 'should report nothing for 2 parameters with 1 default' do
-        source = 'def simple(yep, zero=nil) f(3); false end'
-        expect(source).not_to reek_of(:LongParameterList)
-      end
-
-      it 'should report nothing for 2 defaulted parameters' do
-        source = 'def simple(yep=4, zero=nil) f(3); false end'
-        expect(source).not_to reek_of(:LongParameterList)
-      end
-    end
+    expect(src).to reek_of(:LongParameterList,
+                           lines:   [2],
+                           context: 'Alfa#bravo',
+                           message: 'has 4 parameters',
+                           source:  'string',
+                           count:   4)
   end
 
-  describe 'for methods with too many parameters' do
-    it 'should report 4 parameters' do
-      src = 'def simple(arga, argb, argc, argd) f(3);true end'
-      expect(src).to reek_of(:LongParameterList, count: 4)
-    end
-
-    it 'should report 8 parameters' do
-      src = 'def simple(arga, argb, argc, argd,arge, argf, argg, argh) f(3);true end'
-      expect(src).to reek_of(:LongParameterList, count: 8)
-    end
-
-    describe 'and default values' do
-      it 'should report 3 with 1 defaulted' do
-        src = 'def simple(polly, queue, yep, zero=nil) f(3);false end'
-        expect(src).to reek_of(:LongParameterList, count: 4)
-      end
-
-      it 'should report with 3 defaulted' do
-        src = 'def simple(aarg, polly=2, yep=:truth, zero=nil) f(3);false end'
-        expect(src).to reek_of(:LongParameterList, count: 4)
-      end
-    end
-  end
-end
-
-RSpec.describe Reek::Smells::LongParameterList do
-  let(:detector) { build(:smell_detector, smell_type: :LongParameterList) }
-
-  it_should_behave_like 'SmellDetector'
-
-  context 'when a smell is reported' do
-    let(:warning) do
-      src = <<-EOS
-        def badguy(arga, argb, argc, argd)
-          f(3)
-          true
+  it 'does count all occurences' do
+    src = <<-EOS
+      class Alfa
+        def bravo(charlie, delta, echo, foxtrot)
         end
-      EOS
-      ctx = Reek::Context::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
-      detector.sniff(ctx).first
-    end
 
-    it_should_behave_like 'common fields set correctly'
+        def golf(hotel, india, juliett, kilo)
+        end
+      end
+    EOS
 
-    it 'reports the number of parameters' do
-      expect(warning.parameters[:count]).to eq(4)
-    end
+    expect(src).to reek_of(:LongParameterList,
+                           lines:   [2],
+                           context: 'Alfa#bravo')
+    expect(src).to reek_of(:LongParameterList,
+                           lines:   [5],
+                           context: 'Alfa#golf')
+  end
 
-    it 'reports the line number of the method' do
-      expect(warning.lines).to eq([1])
-    end
+  it 'reports nothing for 3 parameters' do
+    expect('def alfa(bravo, charlie, delta); end').not_to reek_of(:LongParameterList)
+  end
 
-    it 'has the right message' do
-      expect(warning.message).to eq('has 4 parameters')
-    end
+  it 'does not count an optional block' do
+    src = 'def alfa(bravo, charlie, delta, &block); end'
+    expect(src).not_to reek_of(:LongParameterList)
+  end
+
+  it 'does not report inner block with too many parameters' do
+    src = <<-EOS
+      def alfa(bravo)
+        bravo.each { |charlie, delta, echo, foxtrot| }
+      end
+    EOS
+
+    expect(src).not_to reek_of(:LongParameterList)
+  end
+
+  it 'reports 4 parameters with default parameters' do
+    src = 'def alfa(bravo = 1, charlie = 2, delta = 3, echo = 4); end'
+    expect(src).to reek_of(:LongParameterList)
   end
 end

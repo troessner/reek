@@ -1,38 +1,53 @@
 require_relative '../../spec_helper'
-require_lib 'reek/context/module_context'
-require_relative 'smell_detector_shared'
+require_lib 'reek/smells/prima_donna_method'
 
 RSpec.describe Reek::Smells::PrimaDonnaMethod do
   it 'reports the right values' do
-    src = 'class C; def m!; end; end'
-    expect(src).to reek_of :PrimaDonnaMethod,
+    src = <<-EOS
+      class Alfa
+        def bravo!
+        end
+      end
+    EOS
+
+    expect(src).to reek_of(:PrimaDonnaMethod,
+                           lines:   [1],
+                           context: 'Alfa',
+                           message: 'has prima donna method `bravo!`',
+                           source:  'string',
+                           name:    :bravo!)
+  end
+
+  it 'does count all occurences' do
+    src = <<-EOS
+      class Alfa
+        def bravo!
+        end
+
+        def charlie!
+        end
+      end
+    EOS
+
+    expect(src).to reek_of(:PrimaDonnaMethod,
                            lines: [1],
-                           message: 'has prima donna method `m!`',
-                           name: :m!
+                           name:  :bravo!)
+    expect(src).to reek_of(:PrimaDonnaMethod,
+                           lines: [1],
+                           name:  :charlie!)
   end
 
   it 'should report nothing when method and bang counterpart exist' do
-    expect('class C; def m; end; def m!; end; end').not_to reek_of(:PrimaDonnaMethod)
-  end
+    src = <<-EOS
+      class Alfa
+        def bravo
+        end
 
-  it 'should report PrimaDonnaMethod when only bang method exists' do
-    expect('class C; def m!; end; end').to reek_of(:PrimaDonnaMethod)
-  end
+        def bravo!
+        end
+      end
+    EOS
 
-  describe 'the right smell' do
-    let(:detector) { build(:smell_detector, smell_type: :PrimaDonnaMethod) }
-    let(:src)      { 'class C; def m!; end; end' }
-    let(:ctx)      do
-      Reek::Context::ModuleContext.new(nil,
-                                       Reek::Source::SourceCode.from(src).syntax_tree)
-    end
-
-    it 'should be reported' do
-      smells = detector.sniff(ctx)
-      warning = smells[0]
-
-      expect(warning.smell_type).to eq('PrimaDonnaMethod')
-      expect(warning.lines).to eq([1])
-    end
+    expect(src).not_to reek_of(:PrimaDonnaMethod)
   end
 end
