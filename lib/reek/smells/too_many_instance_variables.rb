@@ -35,7 +35,8 @@ module Reek
       #
       def sniff(ctx)
         max_allowed_ivars = value(MAX_ALLOWED_IVARS_KEY, ctx)
-        count = ctx.local_nodes(:ivasgn).map { |ivasgn| ivasgn.children.first }.uniq.length
+        variables = ctx.local_nodes(:ivasgn, [:or_asgn]).map(&:name)
+        count = variables.uniq.size
         return [] if count <= max_allowed_ivars
         [smell_warning(
           context: ctx,
