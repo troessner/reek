@@ -24,6 +24,9 @@ DuplicateMethodCall:
 FeatureEnvy:
   enabled: true
   exclude: []
+InstanceVariableAssumption:
+  enabled: true
+  exclude: []
 IrresponsibleModule:
   enabled: true
   exclude: []
