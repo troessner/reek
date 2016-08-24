@@ -1,5 +1,11 @@
 # Change log
 
+## 4.4.0 (2016-08-24)
+
+* (waldyr) Add ignored nodes parameter to local_nodes
+* (waldyr) Add Instance Variable Assumption smell detector
+* (waldyr) Remove memoized instance variables from accounting of TooManyInstanceVariables smell
+
 ## 4.3.0 (2016-08-23)
 
 * (backus) Add ManualDispatch smell.
