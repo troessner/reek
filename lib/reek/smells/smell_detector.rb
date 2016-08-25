@@ -13,9 +13,7 @@ module Reek
     #   - {file:README.md}
     # for details.
     #
-    # :reek:TooManyMethods: { max_methods: 19 }
-    # :reek:TooManyInstanceVariables: { max_instance_variables: 5 }
-    # :reek:UnusedPrivateMethod: { exclude: [ inherited, smell_warning ] }
+    # :reek:UnusedPrivateMethod: { exclude: [ smell_warning ] }
     class SmellDetector
       attr_reader :config
       # The name of the config field that lists the names of code contexts
@@ -28,8 +26,7 @@ module Reek
       DEFAULT_EXCLUDE_SET = [].freeze
 
       def initialize(config = {})
-        @config       = SmellConfiguration.new self.class.default_config.merge(config)
-        @smells_found = []
+        @config = SmellConfiguration.new self.class.default_config.merge(config)
       end
 
       def smell_type
@@ -41,14 +38,10 @@ module Reek
       end
 
       def run_for(context)
-        return unless enabled_for?(context)
-        return if exception?(context)
+        return [] unless enabled_for?(context)
+        return [] if exception?(context)
 
-        self.smells_found = smells_found + sniff(context)
-      end
-
-      def report_on(collector)
-        smells_found.each { |smell| smell.report_on(collector) }
+        sniff(context)
       end
 
       def exception?(context)
@@ -62,8 +55,6 @@ module Reek
       end
 
       private
-
-      attr_accessor :smells_found
 
       def enabled_for?(context)
         config.enabled? && config_for(context)[SmellConfiguration::ENABLED_KEY] != false

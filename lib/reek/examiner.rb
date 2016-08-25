@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 require_relative 'context_builder'
 require_relative 'source/source_code'
-require_relative 'cli/warning_collector'
 require_relative 'smells/smell_repository'
 
 module Reek
@@ -9,8 +8,6 @@ module Reek
   # Applies all available smell detectors to a source.
   #
   # @public
-  #
-  # :reek:TooManyInstanceVariables: { max_instance_variables: 7 }
   class Examiner
     INCOMPREHENSIBLE_SOURCE_TEMPLATE = <<-EOS.freeze
       !!!
@@ -44,19 +41,24 @@ module Reek
                    configuration: Configuration::AppConfiguration.default,
                    smell_repository_class: Smells::SmellRepository)
       @source           = Source::SourceCode.from(source)
-      @collector        = CLI::WarningCollector.new
       @smell_types      = smell_repository_class.eligible_smell_types(filter_by_smells)
       @smell_repository = smell_repository_class.new(smell_types: @smell_types,
                                                      configuration: configuration.directive_for(description))
     end
 
-    # FIXME: Should be named "origin"
+    # @return [String] origin of the source being analysed
     #
+    # @public
+    def origin
+      @origin ||= source.origin
+    end
+
     # @return [String] description of the source being analysed
     #
     # @public
+    # @deprecated Use origin
     def description
-      @description ||= source.origin
+      origin
     end
 
     #
@@ -64,8 +66,7 @@ module Reek
     #
     # @public
     def smells
-      run
-      @smells ||= collector.warnings
+      @smells ||= run.sort.uniq
     end
 
     #
@@ -86,35 +87,31 @@ module Reek
 
     private
 
-    attr_reader :collector, :source, :smell_repository
+    attr_reader :source, :smell_repository
 
-    # Runs the Examiner on the given source to scan for code smells
-    # and returns the corresponding Examiner instance.
+    # Runs the Examiner on the given source to scan for code smells.
     #
     # In case one of the smell detectors raises an exception we probably hit a Reek bug.
     # So we catch the exception here, let the user know something went wrong
     # and continue with the analysis.
     #
-    # @return an instance of Examiner
-    #
-    # :reek:TooManyStatements: { max_statements: 6 }
+    # @return [Array<SmellWarning>] the smells found in the source
     def run
-      @run ||= begin
-        syntax_tree = source.syntax_tree
-        return self unless syntax_tree
-        begin
-          examine syntax_tree
-        rescue StandardError => exception
-          $stderr.puts format(INCOMPREHENSIBLE_SOURCE_TEMPLATE, source.origin, exception.inspect)
-        else
-          smell_repository.report_on(collector)
-        end
-        self
+      return [] unless syntax_tree
+      begin
+        examine_tree
+      rescue StandardError => exception
+        $stderr.puts format(INCOMPREHENSIBLE_SOURCE_TEMPLATE, origin, exception.inspect)
+        []
       end
     end
 
-    def examine(syntax_tree)
-      ContextBuilder.new(syntax_tree).context_tree.each do |element|
+    def syntax_tree
+      @syntax_tree ||= source.syntax_tree
+    end
+
+    def examine_tree
+      ContextBuilder.new(syntax_tree).context_tree.flat_map do |element|
         smell_repository.examine(element)
       end
     end

@@ -48,10 +48,6 @@ module Reek
         (self <=> other).zero?
       end
 
-      def report_on(listener)
-        listener.found_smell(self)
-      end
-
       # @public
       def to_hash
         stringified_params = Hash[parameters.map { |key, val| [key.to_s, val] }]
