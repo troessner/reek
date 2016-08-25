@@ -38,8 +38,8 @@ module Reek
   # To check for specific smells, use something like this:
   #
   #   ruby = 'def double_thing() @other.thing.foo + @other.thing.foo end'
-  #   ruby.should reek_of(:Duplication, /@other.thing[^\.]/)
-  #   ruby.should reek_of(:Duplication, /@other.thing.foo/)
+  #   ruby.should reek_of(:DuplicateMethodCall, name: '@other.thing')
+  #   ruby.should reek_of(:DuplicateMethodCall, name: '@other.thing.foo', count: 2)
   #   ruby.should_not reek_of(:FeatureEnvy)
   #
   # @public
