@@ -9,6 +9,13 @@ module Reek
     # code smell.
     #
     class ShouldReekOf
+      # Variant of Examiner that doesn't swallow exceptions
+      class UnsafeExaminer < Examiner
+        def run
+          examine_tree
+        end
+      end
+
       attr_reader :failure_message, :failure_message_when_negated
 
       def initialize(smell_type_or_class,
@@ -16,13 +23,15 @@ module Reek
                      configuration = Configuration::AppConfiguration.default)
         @smell_type = normalize smell_type_or_class
         @smell_details = smell_details
+        configuration.load_values(smell_type => { Smells::SmellConfiguration::ENABLED_KEY => true })
         @configuration = configuration
-        @configuration.load_values(smell_type => { Smells::SmellConfiguration::ENABLED_KEY => true })
       end
 
       def matches?(source)
         @matching_smell_types = nil
-        self.examiner = Examiner.new(source, configuration: configuration)
+        self.examiner = UnsafeExaminer.new(source,
+                                           filter_by_smells: [smell_type],
+                                           configuration: configuration)
         set_failure_messages
         matching_smell_details?
       end
@@ -49,12 +58,7 @@ module Reek
       end
 
       def matching_smell_types
-        @matching_smell_types ||= smell_matchers.
-          select { |it| it.matches_smell_type?(smell_type) }
-      end
-
-      def smell_matchers
-        examiner.smells.map { |it| SmellMatcher.new(it) }
+        @matching_smell_types ||= examiner.smells.map { |it| SmellMatcher.new(it) }
       end
 
       def matching_smell_types?
