@@ -4,14 +4,14 @@ require_lib 'reek/rake/task'
 RSpec.describe Reek::Rake::Task do
   describe '#source_files' do
     it 'is set to "lib/**/*.rb" by default' do
-      task = Reek::Rake::Task.new
+      task = described_class.new
       expect(task.source_files).to eq FileList['lib/**/*.rb']
     end
   end
 
   describe '#source_files=' do
     it 'sets source_files to a FileList when passed a string' do
-      task = Reek::Rake::Task.new
+      task = described_class.new
       task.source_files = '*.rb'
       expect(task.source_files).to eq FileList['*.rb']
     end
@@ -19,7 +19,7 @@ RSpec.describe Reek::Rake::Task do
 
   # SMELL: Testing a private method
   describe '#command' do
-    let(:task) { Reek::Rake::Task.new }
+    let(:task) { described_class.new }
 
     it 'does not include a config file by default' do
       expect(task.send(:command)).not_to include '-c'

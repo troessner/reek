@@ -23,7 +23,7 @@ RSpec.describe Reek::Smells::TooManyInstanceVariables do
                            count:   3).with_config(config)
   end
 
-  it 'should not report for non-excessive ivars' do
+  it 'does not report for non-excessive ivars' do
     src = <<-EOS
       class Alfa
         def bravo

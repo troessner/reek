@@ -402,60 +402,60 @@ end
 
 RSpec.describe Reek::AST::SexpExtensions::ModuleNode do
   context 'with a simple name' do
-    subject do
+    let(:exp) do
       Reek::Source::SourceCode.from('module Fred; end').syntax_tree
     end
 
     it 'has the correct #name' do
-      expect(subject.name).to eq 'Fred'
+      expect(exp.name).to eq 'Fred'
     end
 
     it 'has the correct #simple_name' do
-      expect(subject.simple_name).to eq 'Fred'
+      expect(exp.simple_name).to eq 'Fred'
     end
 
     it 'has a simple full_name' do
-      expect(subject.full_name('')).to eq 'Fred'
+      expect(exp.full_name('')).to eq 'Fred'
     end
 
     it 'has a fq full_name' do
-      expect(subject.full_name('Blimey::O::Reilly')).to eq 'Blimey::O::Reilly::Fred'
+      expect(exp.full_name('Blimey::O::Reilly')).to eq 'Blimey::O::Reilly::Fred'
     end
   end
 
   context 'with a scoped name' do
-    subject do
+    let(:exp) do
       Reek::Source::SourceCode.from('module Foo::Bar; end').syntax_tree
     end
 
     it 'has the correct #name' do
-      expect(subject.name).to eq 'Foo::Bar'
+      expect(exp.name).to eq 'Foo::Bar'
     end
 
     it 'has the correct #simple_name' do
-      expect(subject.simple_name).to eq 'Bar'
+      expect(exp.simple_name).to eq 'Bar'
     end
 
     it 'has a simple full_name' do
-      expect(subject.full_name('')).to eq 'Foo::Bar'
+      expect(exp.full_name('')).to eq 'Foo::Bar'
     end
 
-    it 'has a fq full_name' do
-      expect(subject.full_name('Blimey::O::Reilly')).to eq 'Blimey::O::Reilly::Foo::Bar'
+    it 'has a fully qualified full_name' do
+      expect(exp.full_name('Blimey::O::Reilly')).to eq 'Blimey::O::Reilly::Foo::Bar'
     end
   end
 
   context 'with a name scoped in a namespace that is not a constant' do
-    subject do
+    let(:exp) do
       Reek::Source::SourceCode.from('module foo::Bar; end').syntax_tree
     end
 
     it 'has the correct #name' do
-      expect(subject.name).to eq 'foo::Bar'
+      expect(exp.name).to eq 'foo::Bar'
     end
 
     it 'has the correct #simple_name' do
-      expect(subject.simple_name).to eq 'Bar'
+      expect(exp.simple_name).to eq 'Bar'
     end
   end
 end
@@ -463,12 +463,9 @@ end
 RSpec.describe Reek::AST::SexpExtensions::CasgnNode do
   describe '#defines_module?' do
     context 'with single assignment' do
-      subject do
-        sexp(:casgn, nil, :Foo)
-      end
-
       it 'does not define a module' do
-        expect(subject.defines_module?).to be_falsey
+        exp = sexp(:casgn, nil, :Foo)
+        expect(exp.defines_module?).to be_falsey
       end
     end
 

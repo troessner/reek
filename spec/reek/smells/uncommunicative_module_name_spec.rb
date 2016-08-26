@@ -41,7 +41,7 @@ RSpec.describe Reek::Smells::UncommunicativeModuleName do
 
     it 'makes smelly names pass via regex / strings given by list / literal' do
       [[/lfa/], /lfa/, ['lfa'], 'lfa'].each do |pattern|
-        expect(source).to_not reek_of(:UncommunicativeModuleName).with_config('accept' => pattern)
+        expect(source).not_to reek_of(:UncommunicativeModuleName).with_config('accept' => pattern)
       end
     end
   end
@@ -57,7 +57,7 @@ RSpec.describe Reek::Smells::UncommunicativeModuleName do
   end
 
   describe '.default_config' do
-    it 'should merge in the default accept and reject patterns' do
+    it 'merges in the default accept and reject patterns' do
       expected = {
         'enabled' => true,
         'exclude' => [],
@@ -69,7 +69,7 @@ RSpec.describe Reek::Smells::UncommunicativeModuleName do
   end
 
   describe '.contexts' do
-    it 'are scoped to classes and modules' do
+    it 'indicates that this smell is scoped to classes and modules' do
       expect(described_class.contexts).to eq([:module, :class])
     end
   end

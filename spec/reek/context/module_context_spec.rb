@@ -3,7 +3,7 @@ require_lib 'reek/context/module_context'
 require_lib 'reek/context/root_context'
 
 RSpec.describe Reek::Context::ModuleContext do
-  it 'should report module name for smell in method' do
+  it 'reports module name for smell in method' do
     expect('
       module Fred
         def simple(x) x + 1; end
@@ -11,7 +11,7 @@ RSpec.describe Reek::Context::ModuleContext do
     ').to reek_of(:UncommunicativeParameterName, name: 'x')
   end
 
-  it 'should not report module with empty class' do
+  it 'does not report module with empty class' do
     expect('
       # module for test
       module Fred
@@ -19,7 +19,7 @@ RSpec.describe Reek::Context::ModuleContext do
         class Jim; end; end').not_to reek
   end
 
-  it 'should recognise global constant' do
+  it 'recognises global constant' do
     expect('
       # module for test
       module ::Global
@@ -28,7 +28,7 @@ RSpec.describe Reek::Context::ModuleContext do
   end
 
   describe '#track_visibility' do
-    let(:context) { Reek::Context::ModuleContext.new(nil, double('exp1')) }
+    let(:context) { described_class.new(nil, double('exp1')) }
     let(:first_child) { Reek::Context::MethodContext.new(context, double('exp2', type: :def, name: :foo)) }
     let(:second_child) { Reek::Context::MethodContext.new(context, double('exp3', type: :def)) }
 

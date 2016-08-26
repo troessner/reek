@@ -8,7 +8,7 @@ require 'stringio'
 
 RSpec.describe Reek::Report::CodeClimateReport do
   let(:options) { {} }
-  let(:instance) { Reek::Report::CodeClimateReport.new(options) }
+  let(:instance) { described_class.new(options) }
   let(:examiner) { Reek::Examiner.new(source) }
 
   before do

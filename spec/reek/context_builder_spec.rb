@@ -2,46 +2,42 @@ require_relative '../spec_helper'
 require_lib 'reek/context_builder'
 
 RSpec.describe Reek::ContextBuilder do
-  describe '#initialize' do
-    describe 'the structure of the context_tree' do
-      let(:walker) do
-        code = 'class Car; def drive; end; end'
-        described_class.new(syntax_tree(code))
+  describe '#context_tree' do
+    let(:walker) do
+      code = 'class Car; def drive; end; end'
+      described_class.new(syntax_tree(code))
+    end
+    let(:context_tree) { walker.context_tree }
+    let(:module_context) { context_tree.children.first }
+    let(:method_context) { module_context.children.first }
+
+    it 'starts with a root node' do
+      expect(context_tree.type).to eq(:root)
+      expect(context_tree).to be_a(Reek::Context::RootContext)
+    end
+
+    it 'has one child' do
+      expect(context_tree.children.size).to eq(1)
+    end
+
+    describe 'the root node' do
+      it 'has one module_context' do
+        expect(module_context).to be_a(Reek::Context::ModuleContext)
       end
-      let(:context_tree) { walker.context_tree }
 
-      it 'starts with a root node' do
-        expect(context_tree.type).to eq(:root)
-        expect(context_tree).to be_a(Reek::Context::RootContext)
+      it 'holds a reference to the parent context' do
+        expect(module_context.parent).to eq(context_tree)
+      end
+    end
+
+    describe 'the module node' do
+      it 'has one method_context' do
+        expect(method_context).to be_a(Reek::Context::MethodContext)
+        expect(module_context.children.size).to eq(1)
       end
 
-      it 'has one child' do
-        expect(context_tree.children.size).to eq(1)
-      end
-
-      describe 'the root node' do
-        let(:module_context) { context_tree.children.first }
-
-        it 'has one module_context' do
-          expect(module_context).to be_a(Reek::Context::ModuleContext)
-        end
-
-        it 'holds a reference to the parent context' do
-          expect(module_context.parent).to eq(context_tree)
-        end
-
-        describe 'the module node' do
-          let(:method_context) { module_context.children.first }
-
-          it 'has one method_context' do
-            expect(method_context).to be_a(Reek::Context::MethodContext)
-            expect(module_context.children.size).to eq(1)
-          end
-
-          it 'holds a reference to the parent context' do
-            expect(method_context.parent).to eq(module_context)
-          end
-        end
+      it 'holds a reference to the parent context' do
+        expect(method_context.parent).to eq(module_context)
       end
     end
   end
@@ -368,7 +364,7 @@ RSpec.describe Reek::ContextBuilder do
       EOS
 
       syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
-      context_tree = Reek::ContextBuilder.new(syntax_tree).context_tree
+      context_tree = described_class.new(syntax_tree).context_tree
 
       class_node = context_tree.children.first
       start_method = class_node.children.first
@@ -390,7 +386,7 @@ RSpec.describe Reek::ContextBuilder do
       EOS
 
       syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
-      context_tree = Reek::ContextBuilder.new(syntax_tree).context_tree
+      context_tree = described_class.new(syntax_tree).context_tree
 
       class_context = context_tree.children.first
       method_context = class_context.children.first
@@ -410,7 +406,7 @@ RSpec.describe Reek::ContextBuilder do
       EOS
 
       syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
-      context_tree = Reek::ContextBuilder.new(syntax_tree).context_tree
+      context_tree = described_class.new(syntax_tree).context_tree
 
       class_context = context_tree.children.first
       foo_context = class_context.children.first
@@ -431,7 +427,7 @@ RSpec.describe Reek::ContextBuilder do
       EOS
 
       syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
-      context_tree = Reek::ContextBuilder.new(syntax_tree).context_tree
+      context_tree = described_class.new(syntax_tree).context_tree
 
       class_context = context_tree.children.first
       foo_context = class_context.children.first

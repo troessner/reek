@@ -25,8 +25,9 @@ RSpec.describe Reek::Smells::ControlParameter do
       end
     EOS
 
-    expect(src).to reek_of(:ControlParameter, lines: [2], argument: 'bravo')
-    expect(src).to reek_of(:ControlParameter, lines: [3], argument: 'charlie')
+    expect(src).
+      to reek_of(:ControlParameter, lines: [2], argument: 'bravo').
+      and reek_of(:ControlParameter, lines: [3], argument: 'charlie')
   end
 
   context 'parameter not used to determine code path' do

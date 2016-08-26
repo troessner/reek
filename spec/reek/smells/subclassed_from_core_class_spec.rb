@@ -33,7 +33,7 @@ RSpec.describe Reek::Smells::SubclassedFromCoreClass do
       end
     EOS
 
-    expect(src).to_not reek_of(:SubclassedFromCoreClass)
+    expect(src).not_to reek_of(:SubclassedFromCoreClass)
   end
 
   it 'does not report on coincidental core class names in other namespaces' do
@@ -42,7 +42,7 @@ RSpec.describe Reek::Smells::SubclassedFromCoreClass do
       end
     EOS
 
-    expect(src).to_not reek_of(:SubclassedFromCoreClass)
+    expect(src).not_to reek_of(:SubclassedFromCoreClass)
   end
 
   it 'reports if we inherit from a core class using Class#new' do
@@ -67,16 +67,16 @@ RSpec.describe Reek::Smells::SubclassedFromCoreClass do
 
   it 'does not report class which inherits from allowed class via Class.new' do
     src = 'Alfa = Class.new(StandardError)'
-    expect(src).to_not reek_of(:SubclassedFromCoreClass)
+    expect(src).not_to reek_of(:SubclassedFromCoreClass)
   end
 
   it 'does not report classes created with Struct.new' do
     src = "Alfa = Struct.new('Array')"
-    expect(src).to_not reek_of(:SubclassedFromCoreClass)
+    expect(src).not_to reek_of(:SubclassedFromCoreClass)
   end
 
   it 'does not report class created by another class constructor taking a core class as argument' do
     src = 'Charlie = Delta.new(Array)'
-    expect(src).to_not reek_of(:SubclassedFromCoreClass)
+    expect(src).not_to reek_of(:SubclassedFromCoreClass)
   end
 end

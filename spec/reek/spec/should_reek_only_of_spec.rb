@@ -2,14 +2,14 @@ require_relative '../../spec_helper'
 require_lib 'reek/spec'
 
 RSpec.describe Reek::Spec::ShouldReekOnlyOf do
-  let(:examiner) { double('examiner').as_null_object }
+  let(:examiner) { instance_double('Reek::Examiner').as_null_object }
   let(:expected_context_name) { 'SmellyClass#big_method' }
   let(:expected_smell_type) { :NestedIterators }
-  let(:matcher) { Reek::Spec::ShouldReekOnlyOf.new(expected_smell_type) }
+  let(:matcher) { described_class.new(expected_smell_type) }
   let(:matcher_matches) { matcher.matches_examiner?(examiner) }
 
   before do
-    expect(examiner).to receive(:smells) { smells }
+    allow(examiner).to receive(:smells) { smells }
     matcher_matches
   end
 
@@ -21,7 +21,7 @@ RSpec.describe Reek::Spec::ShouldReekOnlyOf do
     context 'when a match was expected' do
       let(:source) { 'the_path/to_a/source_file.rb' }
 
-      before { expect(examiner).to receive(:description).and_return(source) }
+      before { allow(examiner).to receive(:description).and_return(source) }
 
       it 'reports the source' do
         expect(matcher.failure_message).to match(source)
@@ -91,7 +91,7 @@ RSpec.describe Reek::Spec::ShouldReekOnlyOf do
 
     it 'reports the source when no match was expected' do
       source = 'the_path/to_a/source_file.rb'
-      expect(examiner).to receive(:description).and_return(source)
+      allow(examiner).to receive(:description).and_return(source)
       expect(matcher.failure_message_when_negated).to match(source)
     end
   end

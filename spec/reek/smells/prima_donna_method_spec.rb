@@ -29,15 +29,12 @@ RSpec.describe Reek::Smells::PrimaDonnaMethod do
       end
     EOS
 
-    expect(src).to reek_of(:PrimaDonnaMethod,
-                           lines: [1],
-                           name:  'bravo!')
-    expect(src).to reek_of(:PrimaDonnaMethod,
-                           lines: [1],
-                           name:  'charlie!')
+    expect(src).
+      to reek_of(:PrimaDonnaMethod, lines: [1], name: 'bravo!').
+      and reek_of(:PrimaDonnaMethod, lines: [1], name: 'charlie!')
   end
 
-  it 'should report nothing when method and bang counterpart exist' do
+  it 'reports nothing when method and bang counterpart exist' do
     src = <<-EOS
       class Alfa
         def bravo

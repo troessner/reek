@@ -27,7 +27,7 @@ RSpec.describe Reek::Smells::SmellConfiguration do
       expect(updated).to eq(base_config)
     end
 
-    it 'should override single values' do
+    it 'overrides single values' do
       updated = smell_config.merge('enabled' => false)
       expect(updated).to eq('accept'  => ['_'],
                             'enabled' => false,
@@ -35,7 +35,7 @@ RSpec.describe Reek::Smells::SmellConfiguration do
                             'reject'  => [/^.$/, /[0-9]$/, /[A-Z]/])
     end
 
-    it 'should override arrays of values' do
+    it 'overrides arrays of values' do
       updated = smell_config.merge('reject' => [/^.$/, /[3-9]$/])
       expect(updated).to eq('accept'  => ['_'],
                             'enabled' => true,
@@ -43,7 +43,7 @@ RSpec.describe Reek::Smells::SmellConfiguration do
                             'reject'  => [/^.$/, /[3-9]$/])
     end
 
-    it 'should override multiple values' do
+    it 'overrides multiple values' do
       updated = smell_config.merge('accept' => [/[A-Z]$/], 'enabled' => false)
       expect(updated).to eq('accept'  => [/[A-Z]$/],
                             'enabled' => false,

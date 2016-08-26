@@ -36,14 +36,9 @@ RSpec.describe Reek::Smells::DuplicateMethodCall do
       end
     EOS
 
-    expect(src).to reek_of(:DuplicateMethodCall,
-                           lines: [3, 4],
-                           name:  'charlie.delta',
-                           count: 2)
-    expect(src).to reek_of(:DuplicateMethodCall,
-                           lines: [8, 9],
-                           name:  'foxtrot.golf',
-                           count: 2)
+    expect(src).
+      to reek_of(:DuplicateMethodCall, lines: [3, 4], name:  'charlie.delta', count: 2).
+      and reek_of(:DuplicateMethodCall, lines: [8, 9], name:  'foxtrot.golf', count: 2)
   end
 
   context 'with repeated method calls' do
@@ -57,13 +52,14 @@ RSpec.describe Reek::Smells::DuplicateMethodCall do
       expect(src).to reek_of(:DuplicateMethodCall, name: '@bravo.charlie(2, 3)')
     end
 
-    it 'should report nested calls' do
+    it 'reports nested calls' do
       src = 'def alfa; @bravo.charlie.delta + @bravo.charlie.delta; end'
-      expect(src).to reek_of(:DuplicateMethodCall, name: '@bravo.charlie')
-      expect(src).to reek_of(:DuplicateMethodCall, name: '@bravo.charlie.delta')
+      expect(src).
+        to reek_of(:DuplicateMethodCall, name: '@bravo.charlie').
+        and reek_of(:DuplicateMethodCall, name: '@bravo.charlie.delta')
     end
 
-    it 'should ignore calls to new' do
+    it 'ignores calls to new' do
       src = 'def alfa; @bravo.new + @bravo.new; end'
       expect(src).not_to reek_of(:DuplicateMethodCall)
     end
@@ -155,12 +151,12 @@ RSpec.describe Reek::Smells::DuplicateMethodCall do
   end
 
   context 'non-repeated method calls' do
-    it 'should not report similar calls' do
+    it 'does not report similar calls' do
       src = 'def alfa(bravo) bravo.charlie == self.charlie end'
       expect(src).not_to reek_of(:DuplicateMethodCall)
     end
 
-    it 'should respect call parameters' do
+    it 'respects call parameters' do
       src = 'def alfa; @bravo.charlie(3) + @bravo.charlie(2) end'
       expect(src).not_to reek_of(:DuplicateMethodCall)
     end

@@ -6,7 +6,7 @@ RSpec.describe Reek::CLI::Application do
     it 'exits with default error code on invalid options' do
       call = lambda do
         Reek::CLI::Silencer.silently do
-          Reek::CLI::Application.new ['--foo']
+          described_class.new ['--foo']
         end
       end
       expect(call).to raise_error(SystemExit) do |error|
@@ -22,8 +22,8 @@ RSpec.describe Reek::CLI::Application do
   let(:configuration) { test_configuration_for(CONFIG_PATH.join('with_excluded_paths.reek')) }
 
   describe '#execute' do
-    let(:command) { double 'reek_command' }
-    let(:app) { Reek::CLI::Application.new [] }
+    let(:command) { instance_double 'Reek::CLI::Command::ReportCommand' }
+    let(:app) { described_class.new [] }
 
     before do
       allow(Reek::CLI::Command::ReportCommand).to receive(:new).and_return command
@@ -40,7 +40,7 @@ RSpec.describe Reek::CLI::Application do
           allow_any_instance_of(IO).to receive(:tty?).and_return(false)
         end
 
-        it 'should use source form pipe' do
+        it 'uses source form pipe' do
           app.execute
           expect(Reek::CLI::Command::ReportCommand).to have_received(:new).
             with(sources: [$stdin],
@@ -54,7 +54,7 @@ RSpec.describe Reek::CLI::Application do
           allow_any_instance_of(IO).to receive(:tty?).and_return(true)
         end
 
-        it 'should use working directory as source' do
+        it 'uses working directory as source' do
           expected_sources = Reek::Source::SourceLocator.new(['.']).sources
           app.execute
           expect(Reek::CLI::Command::ReportCommand).to have_received(:new).
@@ -64,7 +64,7 @@ RSpec.describe Reek::CLI::Application do
         end
 
         context 'when source files are excluded through configuration' do
-          let(:app) { Reek::CLI::Application.new ['--config', 'some_file.reek'] }
+          let(:app) { described_class.new ['--config', 'some_file.reek'] }
 
           before do
             allow(Reek::Configuration::AppConfiguration).
@@ -73,7 +73,7 @@ RSpec.describe Reek::CLI::Application do
               and_return configuration
           end
 
-          it 'should use configuration for excluded paths' do
+          it 'uses configuration for excluded paths' do
             expected_sources = Reek::Source::SourceLocator.
               new(['.'], configuration: configuration).sources
             expect(expected_sources).not_to include(path_excluded_in_configuration)
@@ -90,9 +90,9 @@ RSpec.describe Reek::CLI::Application do
     end
 
     context 'when source files given' do
-      let(:app) { Reek::CLI::Application.new ['.'] }
+      let(:app) { described_class.new ['.'] }
 
-      it 'should use sources from argv' do
+      it 'uses sources from argv' do
         expected_sources = Reek::Source::SourceLocator.new(['.']).sources
         app.execute
         expect(Reek::CLI::Command::ReportCommand).to have_received(:new).

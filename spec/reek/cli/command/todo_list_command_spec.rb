@@ -10,7 +10,7 @@ RSpec.describe Reek::CLI::Command::TodoListCommand do
 
   describe '#execute' do
     let(:options) { Reek::CLI::Options.new [] }
-    let(:configuration) { double 'configuration' }
+    let(:configuration) { instance_double 'Reek::Configuration::AppConfiguration' }
 
     let(:command) do
       described_class.new(options: options,

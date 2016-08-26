@@ -34,15 +34,12 @@ RSpec.describe Reek::Smells::InstanceVariableAssumption do
 
     EOS
 
-    expect(src).to reek_of(:InstanceVariableAssumption,
-                           lines: [1],
-                           assumption: '@charlie')
-    expect(src).to reek_of(:InstanceVariableAssumption,
-                           lines: [1],
-                           assumption: '@echo')
+    expect(src).
+      to reek_of(:InstanceVariableAssumption, lines: [1], assumption: '@charlie').
+      and reek_of(:InstanceVariableAssumption, lines: [1], assumption: '@echo')
   end
 
-  it 'should not report an empty class' do
+  it 'does not report an empty class' do
     src = <<-EOS
       class Alfa
       end

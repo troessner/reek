@@ -81,6 +81,7 @@ RSpec.configure do |config|
 
   config.mock_with :rspec do |mocks|
     mocks.verify_partial_doubles = true
+    mocks.verify_doubled_constant_names = true
   end
 
   # Avoid infinitely running tests. This is mainly useful when running mutant.
@@ -92,6 +93,8 @@ RSpec.configure do |config|
     end
   end
 end
+
+RSpec::Matchers.define_negated_matcher :not_reek_of, :reek_of
 
 private
 

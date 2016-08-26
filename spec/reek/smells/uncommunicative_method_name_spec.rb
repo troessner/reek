@@ -17,15 +17,18 @@ RSpec.describe Reek::Smells::UncommunicativeMethodName do
 
   describe 'default configuration' do
     it 'reports one-word names' do
-      expect('def a; end').to reek_of(:UncommunicativeMethodName)
+      src = 'def a; end'
+      expect(src).to reek_of(:UncommunicativeMethodName)
     end
 
     it 'reports names ending with a digit' do
-      expect('def xyz1; end').to reek_of(:UncommunicativeMethodName)
+      src = 'def xyz1; end'
+      expect(src).to reek_of(:UncommunicativeMethodName)
     end
 
     it 'reports camelcased names' do
-      expect('def aBBa; end').to reek_of(:UncommunicativeMethodName)
+      src = 'def aBBa; end'
+      expect(src).to reek_of(:UncommunicativeMethodName)
     end
 
     it 'does not report one-letter special characters' do
@@ -40,7 +43,7 @@ RSpec.describe Reek::Smells::UncommunicativeMethodName do
 
     it 'make smelly names pass via regex / strings given by list / literal' do
       [[/x/], /x/, ['x'], 'x'].each do |pattern|
-        expect(source).to_not reek_of(:UncommunicativeMethodName).with_config('accept' => pattern)
+        expect(source).not_to reek_of(:UncommunicativeMethodName).with_config('accept' => pattern)
       end
     end
   end
@@ -56,7 +59,7 @@ RSpec.describe Reek::Smells::UncommunicativeMethodName do
   end
 
   describe '.default_config' do
-    it 'should merge in the default accept and reject patterns' do
+    it 'merges in the default accept and reject patterns' do
       expected = {
         'enabled' => true,
         'exclude' => [],
@@ -68,7 +71,7 @@ RSpec.describe Reek::Smells::UncommunicativeMethodName do
   end
 
   describe '.contexts' do
-    it 'should be scoped to classes and modules' do
+    it 'is scoped to classes and modules' do
       expect(described_class.contexts).to eq([:def, :defs])
     end
   end

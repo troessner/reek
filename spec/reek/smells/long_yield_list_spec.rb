@@ -32,12 +32,9 @@ RSpec.describe Reek::Smells::LongYieldList do
       end
     EOS
 
-    expect(src).to reek_of(:LongYieldList,
-                           lines:   [3],
-                           context: 'Alfa#bravo')
-    expect(src).to reek_of(:LongYieldList,
-                           lines:   [7],
-                           context: 'Alfa#golf')
+    expect(src).
+      to reek_of(:LongYieldList, lines: [3], context: 'Alfa#bravo').
+      and reek_of(:LongYieldList, lines: [7], context: 'Alfa#golf')
   end
 
   it 'does not report yield with 3 parameters' do

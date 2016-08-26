@@ -3,7 +3,7 @@ require_lib 'reek/configuration/excluded_paths'
 
 RSpec.describe Reek::Configuration::ExcludedPaths do
   describe '#add' do
-    subject { [].extend(described_class) }
+    let(:exclusions) { [].extend(described_class) }
 
     context 'one of given paths is a file' do
       let(:file_as_path) { SAMPLES_PATH.join('inline.rb') }
@@ -11,7 +11,7 @@ RSpec.describe Reek::Configuration::ExcludedPaths do
 
       it 'raises an error if one of the given paths is a file' do
         Reek::CLI::Silencer.silently do
-          expect { subject.add(paths) }.to raise_error(SystemExit)
+          expect { exclusions.add(paths) }.to raise_error(SystemExit)
         end
       end
     end

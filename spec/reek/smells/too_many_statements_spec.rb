@@ -42,12 +42,9 @@ RSpec.describe Reek::Smells::TooManyStatements do
       end
     EOS
 
-    expect(src).to reek_of(:TooManyStatements,
-                           lines:   [2],
-                           context: 'Alfa#bravo').with_config(config)
-    expect(src).to reek_of(:TooManyStatements,
-                           lines:   [8],
-                           context: 'Alfa#foxtrot').with_config(config)
+    expect(src).
+      to reek_of(:TooManyStatements, lines: [2], context: 'Alfa#bravo').with_config(config).
+      and reek_of(:TooManyStatements, lines: [8], context: 'Alfa#foxtrot').with_config(config)
   end
 
   it 'does not report short methods' do

@@ -6,7 +6,7 @@ RSpec.describe Reek::CLI::Command::ReportCommand do
   describe '#execute' do
     let(:options) { Reek::CLI::Options.new [] }
 
-    let(:configuration) { double 'configuration' }
+    let(:configuration) { instance_double 'Reek::Configuration::AppConfiguration' }
     let(:sources) { [source_file] }
 
     let(:command) do

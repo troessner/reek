@@ -25,12 +25,9 @@ RSpec.describe Reek::Smells::IrresponsibleModule do
       end
     EOS
 
-    expect(src).to reek_of(:IrresponsibleModule,
-                           lines:   [1],
-                           context: 'Alfa')
-    expect(src).to reek_of(:IrresponsibleModule,
-                           lines:   [4],
-                           context: 'Alfa::Charlie')
+    expect(src).
+      to reek_of(:IrresponsibleModule, lines: [1], context: 'Alfa').
+      and reek_of(:IrresponsibleModule, lines: [4], context: 'Alfa::Charlie')
   end
 
   %w(class module).each do |scope|
