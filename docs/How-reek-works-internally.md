@@ -25,7 +25,7 @@
                                           |                                                          |
                                           |                                                          |
                                 ReekCommand (cli/reek_command)                                       |
-                                * uses a reporter (report/report)                                |
+                                * uses a reporter (report/report)                                    |
                                 * uses a SourceLocator (source/source_locator)                       |
                                 /         |         \                                                |
                                /          |          \                                               |
@@ -41,9 +41,8 @@
                                   * generates the AST out of the given source
                                   * adorns the generated AST via a TreeDresser (core/tree_dresser)
                                   * initializes a SmellRepository with all relevant smells (smells/smell_repository)
-                                  * initializes a WarningCollector (cli/warning_collector)
                                   * builds a tree of Contexts using ContextBuilder
-                                  * runs the smell detectors from the SmellRepository above on each of the contexts
+                                  * tells the SmellRepository above to run each of its smell detectors above on each of the contexts
                                   /       |       \
                                  /        |        \
                                 /         |         \
@@ -51,7 +50,7 @@
                                 \         |         /
                                  \        |        /
                                   \       |       /
-                                   WarningCollector
+                                   SmellRepository
                                           |
                                           |
                                           |

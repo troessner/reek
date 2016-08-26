@@ -67,7 +67,7 @@ RSpec.describe Reek::Examiner do
       end
 
       it 'has been run on the given source' do
-        expect(examiner.description).to eq('string')
+        expect(examiner.origin).to eq('string')
       end
 
       it 'has the right smells' do

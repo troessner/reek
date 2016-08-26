@@ -38,12 +38,8 @@ module Reek
         @detectors     = smell_types.map { |klass| klass.new configuration_for(klass) }
       end
 
-      def report_on(collector)
-        detectors.each { |detector| detector.report_on(collector) }
-      end
-
       def examine(context)
-        smell_detectors_for(context.type).each do |detector|
+        smell_detectors_for(context.type).flat_map do |detector|
           detector.run_for(context)
         end
       end
