@@ -31,6 +31,8 @@ module Reek
         @lines          = lines
         @message        = message
         @parameters     = parameters
+
+        freeze
       end
 
       # @public
