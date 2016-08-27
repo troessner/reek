@@ -31,6 +31,13 @@ RSpec.describe Reek::Smells::SmellWarning do
       it_should_behave_like 'first sorts ahead of second'
     end
 
+    context 'smells differing only by lines' do
+      let(:first) { build(:smell_warning, smell_detector: feature_envy_detector, lines: [2]) }
+      let(:second) { build(:smell_warning, smell_detector: feature_envy_detector, lines: [3]) }
+
+      it_should_behave_like 'first sorts ahead of second'
+    end
+
     context 'smells differing only by context' do
       let(:first) { build(:smell_warning, smell_detector: duplication_detector, context: 'first') }
       let(:second) do

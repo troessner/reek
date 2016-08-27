@@ -67,7 +67,7 @@ module Reek
       protected
 
       def sort_key
-        [smell_type, context, message]
+        [smell_type, context, message, lines]
       end
 
       private
