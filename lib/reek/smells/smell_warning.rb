@@ -31,16 +31,18 @@ module Reek
         @lines          = lines
         @message        = message
         @parameters     = parameters
+
+        freeze
       end
 
       # @public
       def hash
-        sort_key.hash
+        identifying_values.hash
       end
 
       # @public
       def <=>(other)
-        sort_key <=> other.sort_key
+        identifying_values <=> other.identifying_values
       end
 
       # @public
@@ -66,8 +68,8 @@ module Reek
 
       protected
 
-      def sort_key
-        [smell_type, context, message]
+      def identifying_values
+        [smell_type, context, message, lines]
       end
 
       private
