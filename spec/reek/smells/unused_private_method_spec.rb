@@ -1,12 +1,45 @@
 require_relative '../../spec_helper'
 require_lib 'reek/smells/unused_private_method'
-require_lib 'reek/examiner'
-require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::UnusedPrivateMethod do
-  let(:detector) { build(:smell_detector, smell_type: :UnusedPrivateMethod) }
+  it 'reports the right values' do
+    src = <<-EOS
+      class Dummy
+        private
 
-  it_should_behave_like 'SmellDetector'
+        def m
+        end
+      end
+    EOS
+
+    expect(src).to reek_of(:UnusedPrivateMethod,
+                           lines:   [4],
+                           context: 'Dummy',
+                           message: 'has the unused private instance method `m`',
+                           source:  'string',
+                           name:    :m)
+  end
+
+  it 'does count all occurences' do
+    src = <<-EOS
+      class Dummy
+        private
+
+        def m1
+        end
+
+        def m2
+        end
+      end
+    EOS
+
+    expect(src).to reek_of(:UnusedPrivateMethod,
+                           lines: [4],
+                           name:  :m1)
+    expect(src).to reek_of(:UnusedPrivateMethod,
+                           lines: [7],
+                           name:  :m2)
+  end
 
   context 'unused private methods' do
     it 'reports instance methods' do

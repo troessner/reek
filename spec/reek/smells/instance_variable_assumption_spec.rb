@@ -3,88 +3,65 @@ require_relative '../../spec_helper'
 require_lib 'reek/smells/instance_variable_assumption'
 
 RSpec.describe Reek::Smells::InstanceVariableAssumption do
-  describe 'warning' do
-    context 'smell line' do
-      it 'should report the lines' do
-        src = <<-EOS
-          class Dummy
-            def test
-              @a
-            end
-          end
-        EOS
-
-        expect(src).to reek_of(:InstanceVariableAssumption, lines: [1])
+  it 'reports the right values' do
+    src = <<-EOS
+      class Dummy
+        def meth
+          @a
+        end
       end
-    end
+    EOS
 
-    context 'smell parameters' do
-      it 'should report the lines' do
-        src = <<-EOS
-          class Dummy
-            def test
-              @a
-            end
-          end
-        EOS
+    expect(src).to reek_of(:InstanceVariableAssumption,
+                           lines:      [1],
+                           context:    'Dummy',
+                           message:    'assumes too much for instance variable @a',
+                           source:     'string',
+                           assumption: :@a)
+  end
 
-        expect(src).to reek_of(:InstanceVariableAssumption, assumption: :@a)
-      end
-    end
+  it 'does count all occurences' do
+    src = <<-EOS
+      class Dummy
+        def meth_1
+          @a
+        end
 
-    context 'smell context' do
-      it 'should report the context' do
-        src = <<-EOS
-          class Dummy
-            def test
-              @a
-            end
-          end
-        EOS
-
-        expect(src).to reek_of(:InstanceVariableAssumption, context: 'Dummy')
-      end
-    end
-
-    context 'smell message' do
-      it 'should report the ivars in the message' do
-        message_a = 'assumes too much for instance variable @a'
-        message_b = 'assumes too much for instance variable @b'
-
-        src = <<-EOS
-          class Dummy
-            def test
-              [@a, @b]
-            end
-          end
-        EOS
-
-        expect(src).to reek_of(:InstanceVariableAssumption, message: message_a)
-        expect(src).to reek_of(:InstanceVariableAssumption, message: message_b)
+        def meth_2
+          @b
+        end
       end
 
-      it 'should report each ivar once' do
-        message_a = 'assumes too much for instance variable @a'
-        message_b = 'assumes too much for instance variable @b'
-        message_c = 'assumes too much for instance variable @c'
+    EOS
 
-        src = <<-EOS
-          class Dummy
-            def test
-              [@a, @a, @b, @c]
-            end
+    expect(src).to reek_of(:InstanceVariableAssumption,
+                           lines: [1],
+                           assumption: :@a)
+    expect(src).to reek_of(:InstanceVariableAssumption,
+                           lines: [1],
+                           assumption: :@b)
+  end
 
-            def retest
-              @c
-            end
-          end
-        EOS
+  it 'should report each ivar once' do
+    message_a = 'assumes too much for instance variable @a'
+    message_b = 'assumes too much for instance variable @b'
+    message_c = 'assumes too much for instance variable @c'
 
-        expect(src).to reek_of(:InstanceVariableAssumption, message: message_a)
-        expect(src).to reek_of(:InstanceVariableAssumption, message: message_b)
-        expect(src).to reek_of(:InstanceVariableAssumption, message: message_c)
+    src = <<-EOS
+      class Dummy
+        def test
+          [@a, @a, @b, @c]
+        end
+
+        def retest
+          @c
+        end
       end
-    end
+    EOS
+
+    expect(src).to reek_of(:InstanceVariableAssumption, message: message_a)
+    expect(src).to reek_of(:InstanceVariableAssumption, message: message_b)
+    expect(src).to reek_of(:InstanceVariableAssumption, message: message_c)
   end
 
   it 'should not report an empty class' do

@@ -1,112 +1,98 @@
 require_relative '../../spec_helper'
 require_lib 'reek/smells/repeated_conditional'
-require_lib 'reek/context/code_context'
-require_relative 'smell_detector_shared'
-require_lib 'reek/source/source_code'
 
 RSpec.describe Reek::Smells::RepeatedConditional do
-  let(:detector) { build(:smell_detector, smell_type: :RepeatedConditional) }
+  it 'reports the right values' do
+    src = <<-EOS
+      class Dummy
+        attr_accessor :switch
 
-  it_should_behave_like 'SmellDetector'
+        def repeat_1
+          puts "Repeat 1!" if switch
+        end
 
-  context 'with no conditionals' do
-    it 'gathers an empty hash' do
-      ast = Reek::Source::SourceCode.from('module Stable; end').syntax_tree
-      ctx = Reek::Context::CodeContext.new(nil, ast)
-      expect(detector.conditional_counts(ctx).length).to eq(0)
-    end
+        def repeat_2
+          puts "Repeat 2!" if switch
+        end
+
+        def repeat_3
+          puts "Repeat 3!" if switch
+        end
+      end
+    EOS
+
+    expect(src).to reek_of(:RepeatedConditional,
+                           lines:   [5, 9, 13],
+                           context: 'Dummy',
+                           message: 'tests switch at least 3 times',
+                           source:  'string',
+                           name:    'switch',
+                           count:   3)
   end
 
-  context 'with a test of block_given?' do
-    it 'does not record the condition' do
-      ast = Reek::Source::SourceCode.from('def fred() yield(3) if block_given?; end').syntax_tree
-      ctx = Reek::Context::CodeContext.new(nil, ast)
-      expect(detector.conditional_counts(ctx).length).to eq(0)
-    end
+  it 'does count all occurences' do
+    src = <<-EOS
+      class Dummy
+        attr_accessor :switch
+
+        def repeat_1
+          puts "Repeat 1!" if switch
+          puts "And again!" if switch
+        end
+
+        def repeat_2
+          puts "Repeat 2!" if switch
+        end
+
+        def repeat_3
+          puts "Repeat 3!" if switch
+        end
+      end
+    EOS
+
+    expect(src).to reek_of(:RepeatedConditional, lines: [5, 6, 10, 14], count: 4)
   end
 
-  context 'with an empty condition' do
-    it 'does not record the condition' do
-      ast = Reek::Source::SourceCode.from('def fred() case; when 3; end; end').syntax_tree
-      ctx = Reek::Context::CodeContext.new(nil, ast)
-      expect(detector.conditional_counts(ctx).length).to eq(0)
-    end
+  it 'does not report two repeated conditionals' do
+    src = <<-EOS
+      class Dummy
+        attr_accessor :switch
+
+        def repeat_1
+          puts "Repeat 1!" if switch
+        end
+
+        def repeat_2
+          puts "Repeat 2!" if switch
+        end
+      end
+    EOS
+
+    expect(src).not_to reek_of(:RepeatedConditional)
   end
 
-  context 'with three identical conditionals' do
-    let(:cond) { '@field == :sym' }
-    let(:cond_expr) { Reek::Source::SourceCode.from(cond).syntax_tree }
+  it 'reports repeated conditionals regardless of `if` or `case` statements' do
+    src = <<-EOS
+      class Dummy
+        attr_accessor :switch
 
-    let(:conds) do
-      src = <<-EOS
-        class Scrunch
-          def first
-            puts "hello" if @debug
-            return #{cond} ? 0 : 3;
-          end
-          def second
-            if #{cond}
-              @other += " quarts"
-            end
-          end
-          def third
-            raise 'flu!' unless #{cond}
+        def repeat_1
+          puts "Repeat 1!" if switch
+        end
+
+        def repeat_2
+          case switch
+          when 1 then puts "Repeat 2!"
+          else 'nothing'
           end
         end
-      EOS
 
-      ast = Reek::Source::SourceCode.from(src).syntax_tree
-      ctx = Reek::Context::CodeContext.new(nil, ast)
-      detector.conditional_counts(ctx)
-    end
-
-    it 'finds both conditionals' do
-      expect(conds.length).to eq(2)
-    end
-
-    it 'returns the condition expr' do
-      expect(conds.keys[1]).to eq(cond_expr)
-    end
-
-    it 'knows there are three copies' do
-      expect(conds.values[1].length).to eq(3)
-    end
-  end
-
-  context 'with a matching if and case' do
-    let(:cond) { '@field == :sym' }
-    let(:cond_expr) { Reek::Source::SourceCode.from(cond).syntax_tree }
-
-    let(:conds) do
-      src = <<-EOS
-        class Scrunch
-          def alpha
-            return #{cond} ? 0 : 2;
-          end
-          def beta
-            case #{cond}
-            when :symbol
-              @tother += " pints"
-            end
-          end
+        def repeat_3
+          puts "Repeat 3!" if switch
         end
-      EOS
+      end
+    EOS
 
-      ast = Reek::Source::SourceCode.from(src).syntax_tree
-      ctx = Reek::Context::CodeContext.new(nil, ast)
-      detector.conditional_counts(ctx)
-    end
-
-    it 'finds exactly one conditional' do
-      expect(conds.length).to eq(1)
-    end
-
-    it 'returns the condition expr' do
-      expect(conds.keys[0]).to eq(cond_expr)
-    end
-
-    it 'knows there are two copies' do
-      expect(conds.values[0].length).to eq(2)
-    end
+    expect(src).to reek_of(:RepeatedConditional)
   end
 end
