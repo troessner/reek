@@ -8,8 +8,6 @@ module Reek
   module Context
     #
     # A context wrapper for any module found in a syntax tree.
-    #
-    # :reek:FeatureEnvy
     class ModuleContext < CodeContext
       attr_reader :visibility_tracker
 

@@ -50,7 +50,6 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
-      # :reek:FeatureEnvy
       def sniff(ctx)
         max_copies = value(MAX_COPIES_KEY, ctx)
         min_clump_size = value(MIN_CLUMP_SIZE_KEY, ctx)

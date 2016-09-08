@@ -443,7 +443,6 @@ module Reek
       self.class.private_method_defined?(name)
     end
 
-    # :reek:ControlParameter
     def increase_statement_count_by(sexp)
       current_context.statement_counter.increase_by sexp
     end

@@ -1,8 +1,7 @@
 # Smelly class
-# disables :reek:UncommunicativeVariableName
 class Smelly
-  # This will reek of UncommunicativeMethodName
-  def x
+  # :reek:UncommunicativeVariableName: { enabled: false }
+  def x    # This will reek of UncommunicativeMethodName
     y = 10 # This will NOT reek of UncommunicativeVariableName
   end
 end
