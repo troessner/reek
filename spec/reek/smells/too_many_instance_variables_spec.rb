@@ -46,6 +46,18 @@ RSpec.describe Reek::Smells::TooManyInstanceVariables do
       expect(src).not_to reek_of(described_class)
     end
 
+    it 'reeks of unneeded supression' do
+      src = <<-EOS
+        # :reek:TooManyInstanceVariables: { enabled: false }
+        class Empty
+          def ivars
+            @a = @b = @c = @d = 1
+          end
+        end
+      EOS
+      expect(src).to reek_of(described_class, message: 'test', test: 'test')
+    end
+
     it 'counts each ivar only once' do
       src = <<-EOS
         class Empty

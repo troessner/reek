@@ -37,8 +37,20 @@ module Reek
         self.class.contexts
       end
 
+      # :reek:DuplicateMethodCall: { enabled: false }
       def run_for(context)
-        return [] unless enabled_for?(context)
+        unless enabled_for?(context)
+          if sniff(context).empty?
+            return [smell_warning(
+              context: context,
+              lines: [context.exp.line],
+              message: 'test',
+              parameters: { test: 'test' })]
+          else
+            return []
+          end
+        end
+
         return [] if exception?(context)
 
         sniff(context)
