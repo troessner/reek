@@ -102,7 +102,6 @@ module Reek
           [:def, :defs]
         end
 
-        # :reek:UtilityFunction
         def default_config
           {
             SmellConfiguration::ENABLED_KEY => true,

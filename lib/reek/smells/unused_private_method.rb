@@ -36,7 +36,6 @@ module Reek
       # @param ctx [Context::ClassContext]
       # @return [Array<SmellWarning>]
       #
-      # :reek:FeatureEnvy
       def sniff(ctx)
         hits(ctx).map do |hit|
           name = hit.name

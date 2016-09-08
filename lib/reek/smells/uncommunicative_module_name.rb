@@ -63,7 +63,6 @@ module Reek
 
       private
 
-      # :reek:ControlParameter
       def acceptable_name?(context:, module_name:, fully_qualified_name:)
         accept_patterns(context).any? { |accept_pattern| fully_qualified_name.match accept_pattern } ||
           reject_patterns(context).none? { |reject_pattern| module_name.match reject_pattern }
