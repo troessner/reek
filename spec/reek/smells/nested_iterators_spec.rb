@@ -1,96 +1,148 @@
 require_relative '../../spec_helper'
 require_lib 'reek/smells/nested_iterators'
-require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::NestedIterators do
-  context 'with no iterators' do
-    it 'reports no smells' do
-      src = 'def fred() nothing = true; end'
-      expect(src).not_to reek_of(:NestedIterators)
-    end
+  it 'reports the right values' do
+    src = <<-EOS
+      def alfa(bravo)
+        bravo.each do |charlie|
+          charlie.each { |delta| delta }
+        end
+      end
+    EOS
+
+    expect(src).to reek_of(:NestedIterators,
+                           lines:   [3],
+                           context: 'alfa',
+                           message: 'contains iterators nested 2 deep',
+                           source:  'string',
+                           depth:   2)
   end
 
-  context 'with one iterator' do
-    it 'reports no smells' do
-      src = 'def fred() nothing.each {|item| item}; end'
-      expect(src).not_to reek_of(:NestedIterators)
-    end
+  it 'does count all occurences' do
+    src = <<-EOS
+      def alfa
+        bravo.each do |charlie|
+          charlie.each { |delta| delta }
+        end
+
+        echo.each do |foxtrot|
+          foxtrot.each do |golf|
+            golf.each { |hotel| hotel }
+          end
+        end
+      end
+    EOS
+
+    expect(src).to reek_of(:NestedIterators, lines: [3], depth: 2)
+    expect(src).to reek_of(:NestedIterators, lines: [8], depth: 3)
   end
 
-  it 'should report nested iterators in a method' do
-    src = 'def bad(fred) @fred.each {|item| item.each {|ting| ting.ting} } end'
-    expect(src).to reek_of(:NestedIterators)
+  it 'reports no smells with no iterators' do
+    src = 'def alfa; end'
+    expect(src).not_to reek_of(:NestedIterators)
+  end
+
+  it 'reports no smells with one iterator' do
+    src = <<-EOS
+      def alfa(bravo)
+        bravo.each { |charlie| charlie }
+      end
+    EOS
+
+    expect(src).not_to reek_of(:NestedIterators)
   end
 
   it 'should not report nested iterators for Object#tap' do
-    src = 'def do_stuff(*params); [].tap {|list| params.map {|param| list << (param + param)} } end'
+    src = <<-EOS
+      def alfa(bravo)
+        bravo.tap do |charlie|
+          charlie.each { |delta| delta }
+        end
+      end
+    EOS
+
     expect(src).not_to reek_of(:NestedIterators)
   end
 
   it 'should not report method with successive iterators' do
     src = <<-EOS
-      def bad(fred)
-        @fred.each {|item| item.each }
-        @jim.each {|ting| ting.each }
+      def alfa
+        @bravo.each   { |charlie| charlie }
+        @charlie.each { |delta| delta }
       end
     EOS
+
     expect(src).not_to reek_of(:NestedIterators)
   end
 
   it 'should not report method with chained iterators' do
     src = <<-EOS
-      def chained
-        @sig.keys.sort_by { |xray| xray.to_s }.each { |min| md5 << min.to_s }
+      def alfa
+        bravo.sort_by { |charlie| charlie }.each { |delta| delta }
       end
     EOS
+
     expect(src).not_to reek_of(:NestedIterators)
   end
 
   it 'detects an iterator with an empty block' do
     src = <<-EOS
-      def foo
-        bar do |bar|
-          baz {|baz| }
+      def alfa
+        bravo do |charlie|
+          charlie { |delta| }
         end
       end
     EOS
+
     expect(src).to reek_of(:NestedIterators)
   end
 
   it 'reports nesting inside iterator arguments' do
     src = <<-EOS
-      def bad(fred, ted)
-        fred.foo(
-          ted.each {|item|
-            item.each {|part|
-              part.baz
-            }
-          }
-        ) { |qux| qux.quuz }
+      def alfa(bravo)
+        bravo(
+          charlie.each do |delta|
+            delta.each { |echo| echo }
+          end
+        )
       end
     EOS
+
     expect(src).to reek_of(:NestedIterators, depth: 2)
   end
 
   it 'reports the deepest level of nesting only' do
     src = <<-EOS
-      def bad(fred)
-        fred.each {|item|
-          item.each {|part|
-            part.each {|sub| sub.foobar}
-          }
-        }
+      def alfa(bravo)
+        bravo.each do |charlie|
+          charlie.each do |delta|
+            delta.each { |echo| echo }
+          end
+        end
       end
     EOS
+
     expect(src).not_to reek_of(:NestedIterators, depth: 2)
-    expect(src).to reek_of(:NestedIterators, depth: 3)
+    expect(src).to reek_of(:NestedIterators, depth: 3, lines: [4])
+  end
+
+  it 'reports all lines on which nested iterators occur' do
+    source = <<-EOS
+      def alfa
+        @bravo.each { |charlie| charlie.each { |delta| @echo.send } }
+        @foxtrot.each { |golf| golf.each { |hotel| @india.send } }
+      end
+    EOS
+
+    expect(source).to reek_of(:NestedIterators, lines: [2, 3])
   end
 
   it 'handles the case where super receives a block' do
     src = <<-EOS
-      def super_call_with_block
-        super do |k|
-          nothing.each { |thing| item }
+      def alfa
+        super do |bravo|
+          bravo.each { |charlie| charlie }
         end
       end
     EOS
@@ -100,9 +152,9 @@ RSpec.describe Reek::Smells::NestedIterators do
 
   it 'handles the case where super receives a block and arguments' do
     src = <<-EOS
-      def super_call_with_block
-        super(foo) do |k|
-          nothing.each { |thing| item }
+      def alfa
+        super do |bravo|
+          bravo.each { |charlie| charlie }
         end
       end
     EOS
@@ -110,142 +162,94 @@ RSpec.describe Reek::Smells::NestedIterators do
     expect(src).to reek_of(:NestedIterators)
   end
 
-  describe 'sniff / warnings' do
-    let(:detector) { build(:smell_detector, smell_type: :NestedIterators) }
-
-    it 'reports a sensible warning message' do
-      source = <<-EOS
-        def foo
-          bar do |bar|
-            baz {|baz| }
-          end
+  it 'does not count iterators without block arguments' do
+    src = <<-EOS
+      def alfa
+        bravo do
+          charlie.each { |delta| delta }
         end
-      EOS
-      expect(source).to reek_of(:NestedIterators, message: 'contains iterators nested 2 deep')
-    end
+      end
+    EOS
 
-    it 'reports the name of the method and line of the deepest iterator' do
-      source = <<-EOS
-        def foo
-          bar do |bar|
-            baz {|baz| }
-          end
-        end
-      EOS
-      expect(source).to reek_of(:NestedIterators, lines: [3])
-    end
-
-    it 'reports all lines on which nested iterators occur' do
-      source = <<-EOS
-        def bad
-          @fred.each {|item| item.each {|part| @joe.send} }
-          @jim.each {|ting| ting.each {|piece| @hal.send} }
-        end
-      EOS
-
-      expect(source).to reek_of(:NestedIterators, lines: [2, 3])
-    end
-
-    it 'reports separete cases of nested iterators if levels are different' do
-      source = <<-EOS
-        def bad
-          @fred.each {|item| item.each {|part| part.foo} }
-          @jim.each {|ting| ting.each {|piece| piece.each {|atom| atom.foo } } }
-        end
-      EOS
-      expect(source).to reek_of(:NestedIterators, lines: [2], depth: 2)
-      expect(source).to reek_of(:NestedIterators, lines: [3], depth: 3)
-    end
-  end
-
-  describe 'iterators without block arguments' do
-    it 'does not count those iterators' do
-      source = <<-EOS
-        def foo
-          before do
-            item.each do |part|
-              puts part
-            end
-          end
-        end
-      EOS
-      expect(source).not_to reek_of(:NestedIterators)
-    end
+    expect(src).not_to reek_of(:NestedIterators)
   end
 
   context 'when blocks are specified as lambdas' do
     it 'does not report blocks that are not nested' do
-      source = <<-EOS
-        def foo
-          bar ->(x) { baz x }
+      src = <<-EOS
+        def alfa
+          bravo ->(charlie) { delta }
         end
       EOS
-      expect(source).not_to reek_of(:NestedIterators)
+
+      expect(src).not_to reek_of(:NestedIterators)
     end
 
     it 'reports blocks that are nested' do
-      source = <<-EOS
-        def foo
-          bar ->(x) { baz x, ->(y) { quux y } }
+      src = <<-EOS
+        def alfa
+          bravo ->(charlie) do
+            delta ->(echo) { echo }
+          end
         end
       EOS
-      expect(source).to reek_of(:NestedIterators)
+
+      expect(src).to reek_of(:NestedIterators)
     end
   end
 
   it 'reports nested iterators called via safe navigation' do
-    source = <<-EOS
-      def show_bottles(bars)
-        bars&.each do |bar|
-          bar&.each do |bottle|
-            puts bottle
-          end
+    src = <<-EOS
+      def alfa(bravo)
+        bravo&.each do |charlie|
+          charlie&.each { |delta| delta }
         end
       end
     EOS
-    expect(source).to reek_of(:NestedIterators)
+
+    expect(src).to reek_of(:NestedIterators)
   end
 
   it 'does not report unnested iterators called via safe navigation' do
-    source = <<-EOS
-      def show_bottles(bar)
-        bar&.each do |bottle|
-          puts bottle
-        end
+    src = <<-EOS
+      def alfa(bravo)
+        bravo&.each { |charlie| charlie }
+        delta&.each { |echo| echo }
       end
     EOS
-    expect(source).not_to reek_of(:NestedIterators)
+
+    expect(src).not_to reek_of(:NestedIterators)
   end
 
-  context 'when the allowed nesting depth is 3' do
+  context 'setting the allowed nesting depth to 3' do
     let(:config) do
       { Reek::Smells::NestedIterators::MAX_ALLOWED_NESTING_KEY => 3 }
     end
 
-    it 'should not report nested iterators 2 levels deep' do
+    it 'does not report nested iterators 3 levels deep' do
       src = <<-EOS
-        def bad(fred)
-          @fred.each {|one| one.each {|two| two.two} }
+        def alfa(bravo)
+          bravo.each do |charlie|
+            charlie.each do |delta|
+              delta.each { |echo| echo }
+            end
+          end
         end
       EOS
 
       expect(src).not_to reek_of(:NestedIterators).with_config(config)
     end
 
-    it 'should not report nested iterators 3 levels deep' do
+    it 'reports nested iterators 4 levels deep' do
       src = <<-EOS
-        def bad(fred)
-          @fred.each {|one| one.each {|two| two.each {|three| three.three} } }
-        end
-      EOS
-
-      expect(src).not_to reek_of(:NestedIterators).with_config(config)
-    end
-
-    it 'should report nested iterators 4 levels deep' do
-      src = <<-EOS
-        def bad(fred)
-          @fred.each {|one| one.each {|two| two.each {|three| three.each {|four| four.four} } } }
+        def alfa(bravo)
+          bravo.each do |charlie|
+            charlie.each do |delta|
+              delta.each do |echo|
+                echo.each { |foxtrot| foxtrot }
+              end
+            end
+          end
         end
       EOS
 
@@ -258,68 +262,70 @@ RSpec.describe Reek::Smells::NestedIterators do
       { Reek::Smells::NestedIterators::IGNORE_ITERATORS_KEY => ['ignore_me'] }
     end
 
-    it 'should not report nesting the ignored iterator inside another' do
-      src = 'def bad(fred) @fred.each {|item| item.ignore_me {|ting| ting.ting} } end'
-      expect(src).not_to reek_of(:NestedIterators).with_config(config)
-    end
-
-    it 'should not report nesting inside the ignored iterator' do
-      src = 'def bad(fred) @fred.ignore_me {|item| item.each {|ting| ting.ting} } end'
-      expect(src).not_to reek_of(:NestedIterators).with_config(config)
-    end
-
-    it 'should report nested iterators inside the ignored iterator' do
-      src = '
-        def bad(fred)
-          @fred.ignore_me {|item| item.each {|ting| ting.each {|other| other.other} } }
+    it 'does not report when nesting the ignored iterator inside another' do
+      src = <<-EOS
+        def alfa(bravo)
+          bravo.each do |charlie|
+            charlie.ignore_me { |delta| delta }
+          end
         end
-      '
+      EOS
+
+      expect(src).not_to reek_of(:NestedIterators).with_config(config)
+    end
+
+    it 'does not report a nested iterator inside the ignored iterator' do
+      src = <<-EOS
+        def alfa(bravo)
+          bravo.ignore_me do |charlie|
+            charlie.each { |delta| delta }
+          end
+        end
+      EOS
+
+      expect(src).not_to reek_of(:NestedIterators).with_config(config)
+    end
+
+    it 'reports nested iterators inside the ignored iterator' do
+      src = <<-EOS
+        def alfa(bravo)
+          bravo.ignore_me do |charlie|
+            charlie.each do |delta|
+              delta.each { |echo| echo }
+            end
+          end
+        end
+      EOS
+
       expect(src).to reek_of(:NestedIterators, depth: 2).with_config(config)
     end
 
-    it 'should report nested iterators outside the ignored iterator' do
-      src = '
-        def bad(fred)
-          @fred.each {|item| item.each {|ting| ting.ignore_me {|other| other.other} } }
+    it 'reports nested iterators outside the ignored iterator' do
+      src = <<-EOS
+        def alfa(bravo)
+          bravo.each do |charlie|
+            charlie.each do |delta|
+              delta.ignore_me { |echo| echo }
+            end
+          end
         end
-      '
+      EOS
+
       expect(src).to reek_of(:NestedIterators, depth: 2).with_config(config)
     end
 
     it 'should report nested iterators with the ignored iterator between them' do
-      src = '
-        def bad(fred)
-          @fred.each {|item| item.ignore_me {|ting| ting.ting {|other| other.other} } }
-        end
-      '
-      expect(src).to reek_of(:NestedIterators, depth: 2).with_config(config)
-    end
-  end
-end
-
-RSpec.describe Reek::Smells::NestedIterators do
-  let(:detector) { build(:smell_detector, smell_type: :NestedIterators) }
-
-  it_should_behave_like 'SmellDetector'
-
-  context 'when a smell is reported' do
-    let(:warning) do
       src = <<-EOS
-        def fred()
-          nothing.each do |item|
-            again.each {|thing| item }
+        def alfa(bravo)
+          bravo.each do |charlie|
+            charlie.ignore_me do |delta|
+              delta.each { |echo| echo }
+            end
           end
         end
       EOS
-      ctx = Reek::Context::CodeContext.new(nil, Reek::Source::SourceCode.from(src).syntax_tree)
-      detector.sniff(ctx).first
-    end
 
-    it_should_behave_like 'common fields set correctly'
-
-    it 'reports correct values' do
-      expect(warning.parameters[:depth]).to eq(2)
-      expect(warning.lines).to eq([3])
+      expect(src).to reek_of(:NestedIterators, depth: 2).with_config(config)
     end
   end
 end

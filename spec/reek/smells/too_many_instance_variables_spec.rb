@@ -2,154 +2,131 @@ require_relative '../../spec_helper'
 require_lib 'reek/smells/too_many_instance_variables'
 
 RSpec.describe Reek::Smells::TooManyInstanceVariables do
-  context 'reporting smell' do
-    it 'reports the smell parameters' do
-      src = <<-EOS
-        class Empty
-          def ivars
-            @a = @b = @c = @d = 1
-            @e = 1
-          end
-        end
-      EOS
-
-      expect(src).to reek_of(described_class,
-                             lines: [1],
-                             count: 5,
-                             message: 'has at least 5 instance variables',
-                             context: 'Empty')
-    end
+  let(:config) do
+    { Reek::Smells::TooManyInstanceVariables::MAX_ALLOWED_IVARS_KEY => 2 }
   end
 
-  context 'counting instance variables' do
-    it 'should not report for non-excessive ivars' do
-      src = <<-EOS
-        class Empty
-          def ivars
-            @a = @b = @c = @d = 1
-          end
+  it 'reports the right values' do
+    src = <<-EOS
+      class Alfa
+        def bravo
+          @charlie = @delta = @echo = 1
         end
-      EOS
-      expect(src).not_to reek_of(described_class)
-    end
+      end
+    EOS
 
-    it 'has a configurable maximum' do
-      src = <<-EOS
-        # :reek:TooManyInstanceVariables: { max_instance_variables: 5 }
-        class Empty
-          def ivars
-            @a = @b = @c = @d = 1
-            @e = 1
-          end
+    expect(src).to reek_of(:TooManyInstanceVariables,
+                           lines:   [1],
+                           context: 'Alfa',
+                           message: 'has at least 3 instance variables',
+                           source:  'string',
+                           count:   3).with_config(config)
+  end
+
+  it 'should not report for non-excessive ivars' do
+    src = <<-EOS
+      class Alfa
+        def bravo
+          @charlie = @delta = 1
         end
-      EOS
-      expect(src).not_to reek_of(described_class)
-    end
+      end
+    EOS
 
-    it 'counts each ivar only once' do
-      src = <<-EOS
-        class Empty
-          def ivars
-            @a = @b = @c = @d = 1
-            @a = @b = @c = @d = 1
-          end
+    expect(src).not_to reek_of(:TooManyInstanceVariables).with_config(config)
+  end
+
+  it 'has a configurable maximum' do
+    src = <<-EOS
+      # :reek:TooManyInstanceVariables: { max_instance_variables: 3 }
+      class Alfa
+        def bravo
+          @charlie = @delta = @echo = 1
         end
-      EOS
-      expect(src).not_to reek_of(described_class)
-    end
+      end
+    EOS
 
-    it 'should not report memoized ivars' do
-      src = <<-EOS
-        class Empty
-          def ivars
-            @a = @b = @c = @d = 1
-            @e ||= 1
-          end
+    expect(src).not_to reek_of(:TooManyInstanceVariables).with_config(config)
+  end
+
+  it 'counts each ivar only once' do
+    src = <<-EOS
+      class Alfa
+        def bravo
+          @charlie = @delta = 1
+          @charlie = @delta = 1
         end
-      EOS
-      expect(src).not_to reek_of(described_class)
-    end
+      end
+    EOS
 
-    it 'should not count ivars on inner classes altogether' do
-      src = <<-EOS
-        class Empty
-          class InnerA
-            def ivars
-              @a = @b = @c = @d = 1
-            end
-          end
+    expect(src).not_to reek_of(:TooManyInstanceVariables).with_config(config)
+  end
 
-          class InnerB
-            def ivars
-              @e = 1
-            end
-          end
+  it 'does not report memoized bravo' do
+    src = <<-EOS
+      class Alfa
+        def bravo
+          @charlie = @delta = 1
+          @echo ||= 1
         end
-      EOS
-      expect(src).not_to reek_of(described_class)
-    end
+      end
+    EOS
 
-    it 'should not count ivars on modules altogether' do
-      src = <<-EOS
-        class Empty
-          class InnerA
-            def ivars
-              @a = @b = @c = @d = 1
-            end
-          end
+    expect(src).not_to reek_of(:TooManyInstanceVariables).with_config(config)
+  end
 
-          module InnerB
-            def ivars
-              @e = 1
-            end
-          end
-        end
-      EOS
-      expect(src).not_to reek_of(described_class)
-    end
-
-    it 'reports excessive ivars' do
-      src = <<-EOS
-        class Empty
-          def ivars
-            @a = @b = @c = @d = 1
-            @e = 1
-          end
-        end
-      EOS
-      expect(src).to reek_of(described_class)
-    end
-
-    it 'reports excessive ivars even in different methods' do
-      src = <<-EOS
-        class Empty
-          def ivars_a
-            @a = @b = @c = @d = 1
-          end
-
-          def ivars_b
-            @e = 1
-          end
-        end
-      EOS
-      expect(src).to reek_of(described_class)
-    end
-
-    it 'should not report for ivars in 2 extensions' do
-      src = <<-EOS
-        class Full
-          def ivars_a
-            @a = @b = @c = @d = 1
+  it 'does not count ivars across inner classes' do
+    src = <<-EOS
+      class Alfa
+        class Bravo
+          def charlie
+            @delta = @echo = 1
           end
         end
 
-        class Full
-          def ivars_b
-            @a = @b = @c = @d = 1
+        class Hotel
+          def india
+            @juliett = 1
           end
         end
-      EOS
-      expect(src).not_to reek_of(described_class)
-    end
+      end
+    EOS
+
+    expect(src).not_to reek_of(:TooManyInstanceVariables).with_config(config)
+  end
+
+  it 'does not count ivars across inner modules and classes' do
+    src = <<-EOS
+      class Alfa
+        class Bravo
+          def charlie
+            @delta = @echo = 1
+          end
+        end
+
+        module Foxtrot
+          def golf
+            @hotel = 1
+          end
+        end
+      end
+    EOS
+
+    expect(src).not_to reek_of(:TooManyInstanceVariables).with_config(config)
+  end
+
+  it 'reports excessive ivars across different methods' do
+    src = <<-EOS
+      class Alfa
+        def bravo
+          @charlie = @delta = 1
+        end
+
+        def golf
+          @hotel = 1
+        end
+      end
+    EOS
+
+    expect(src).to reek_of(:TooManyInstanceVariables).with_config(config)
   end
 end

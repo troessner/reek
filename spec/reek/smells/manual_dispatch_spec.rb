@@ -1,31 +1,49 @@
 require_relative '../../spec_helper'
 require_lib 'reek/smells/too_many_constants'
-require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::ManualDispatch do
-  it 'reports manual dispatch smell when using #respond_to?' do
+  it 'reports the right values' do
     src = <<-EOS
-      class Dummy
-        def call
-          fail if unrelated_guard_clause?
-
-          if foo.respond_to?(:bar, true)
-            hello
-            foo.baz
-            foo.bar
-          end
+      class Alfa
+        def bravo(charlie)
+          true if charlie.respond_to?(:to_a)
         end
       end
     EOS
 
-    expect(src).to reek_of(:ManualDispatch, message: 'manually dispatches method call', lines: [5])
+    expect(src).to reek_of(:ManualDispatch,
+                           lines:   [3],
+                           context: 'Alfa#bravo',
+                           message: 'manually dispatches method call',
+                           source:  'string')
+  end
+
+  it 'does count all occurences' do
+    src = <<-EOS
+      class Alfa
+        def bravo(charlie)
+          true if charlie.respond_to?(:to_a)
+        end
+
+        def delta(echo)
+          true if echo.respond_to?(:to_a)
+        end
+      end
+    EOS
+
+    expect(src).to reek_of(:ManualDispatch,
+                           lines:   [3],
+                           context: 'Alfa#bravo')
+    expect(src).to reek_of(:ManualDispatch,
+                           lines:   [7],
+                           context: 'Alfa#delta')
   end
 
   it 'reports manual dispatch smell when using #respond_to? on implicit self' do
     src = <<-EOS
-      class Dummy
-        def call
-          bar if respond_to?(:bar)
+      class Alfa
+        def bravo
+          charlie if respond_to?(:delta)
         end
       end
     EOS
@@ -35,9 +53,9 @@ RSpec.describe Reek::Smells::ManualDispatch do
 
   it 'reports manual dispatch within a conditional' do
     src = <<-EOS
-      class Dummy
-        def call
-          foo.respond_to?(:bar) && foo.bar
+      class Alfa
+        def bravo
+          charlie.respond_to?(:delta) && charlie.echo
         end
       end
     EOS

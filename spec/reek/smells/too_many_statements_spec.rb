@@ -1,69 +1,93 @@
 require_relative '../../spec_helper'
 require_lib 'reek/smells/too_many_statements'
-require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::TooManyStatements do
-  it 'should not report short methods' do
-    src = 'def short(arga) alf = f(1);@bet = 2;@cut = 3;@dit = 4; @emp = 5;end'
-    expect(src).not_to reek_of(:TooManyStatements)
+  let(:config) do
+    { Reek::Smells::TooManyStatements::MAX_ALLOWED_STATEMENTS_KEY => 2 }
   end
 
-  it 'should report long methods' do
-    src = 'def long() alf = f(1);@bet = 2;@cut = 3;@dit = 4; @emp = 5;@fry = 6;end'
-    expect(src).to reek_of(:TooManyStatements)
-  end
-
-  it 'should not report initialize' do
+  it 'reports the right values' do
     src = <<-EOS
-      def initialize(arga)
-        alf = f(1); @bet = 2; @cut = 3; @dit = 4; @emp = 5; @fry = 6
-      end
-    EOS
-    expect(src).not_to reek_of(:TooManyStatements)
-  end
-
-  it 'should report long inner block' do
-    src = <<-EOS
-      def long()
-        f(3)
-        self.each do |xyzero|
-          xyzero = 1
-          xyzero = 2
-          xyzero = 3
-          xyzero = 4
-          xyzero = 5
-          xyzero = 6
+      class Alfa
+        def bravo
+          charlie = 1
+          delta   = 2
+          echo    = 3
         end
       end
     EOS
-    expect(src).to reek_of(:TooManyStatements)
+
+    expect(src).to reek_of(:TooManyStatements,
+                           lines:   [2],
+                           context: 'Alfa#bravo',
+                           message: 'has approx 3 statements',
+                           source:  'string',
+                           count:   3).with_config(config)
   end
-end
 
-RSpec.describe Reek::Smells::TooManyStatements do
-  let(:detector) { build(:smell_detector, smell_type: :TooManyStatements) }
+  it 'does count all occurences' do
+    src = <<-EOS
+      class Alfa
+        def bravo
+          charlie = 1
+          delta   = 2
+          echo    = 3
+        end
 
-  it_should_behave_like 'SmellDetector'
+        def foxtrot
+          golf  = 1
+          hotel = 2
+          india = 3
+        end
+      end
+    EOS
 
-  context 'when the method has 30 statements' do
-    let(:number_of_statements) { 30 }
-    let(:smells) do
-      ctx = double('method_context').as_null_object
-      expect(ctx).to receive(:number_of_statements).and_return(number_of_statements)
-      expect(ctx).to receive(:config_for).with(described_class).and_return({})
-      detector.sniff(ctx)
-    end
+    expect(src).to reek_of(:TooManyStatements,
+                           lines:   [2],
+                           context: 'Alfa#bravo').with_config(config)
+    expect(src).to reek_of(:TooManyStatements,
+                           lines:   [8],
+                           context: 'Alfa#foxtrot').with_config(config)
+  end
 
-    it 'reports only 1 smell' do
-      expect(smells.length).to eq(1)
-    end
+  it 'does not report short methods' do
+    src = <<-EOS
+      class Alfa
+        def bravo
+          charlie = 1
+          delta   = 2
+        end
+      end
+    EOS
 
-    it 'reports the number of statements' do
-      expect(smells[0].parameters[:count]).to eq(number_of_statements)
-    end
+    expect(src).not_to reek_of(:TooManyStatements).with_config(config)
+  end
 
-    it 'reports the correct smell sub class' do
-      expect(smells[0].smell_type).to eq(described_class.smell_type)
-    end
+  it 'does not report initialize' do
+    src = <<-EOS
+      class Alfa
+        def initialize
+          charlie = 1
+          delta   = 2
+          echo    = 3
+        end
+      end
+    EOS
+
+    expect(src).not_to reek_of(:TooManyStatements).with_config(config)
+  end
+
+  it 'reports long inner block' do
+    src = <<-EOS
+      def long
+        self.each do |x|
+          charlie = 1
+          delta   = 2
+          echo    = 3
+        end
+      end
+    EOS
+
+    expect(src).to reek_of(:TooManyStatements).with_config(config)
   end
 end

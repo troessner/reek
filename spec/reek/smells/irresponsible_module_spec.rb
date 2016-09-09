@@ -1,208 +1,191 @@
 require_relative '../../spec_helper'
-require_lib 'reek/context/code_context'
 require_lib 'reek/smells/irresponsible_module'
-require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::IrresponsibleModule do
-  it 'reports a class without a comment' do
-    src = 'class BadClass; end'
-    expect(src).to reek_of :IrresponsibleModule,
-                           lines: [1],
-                           message: 'has no descriptive comment'
-  end
-
-  it 'reports a module without a comment' do
-    src = 'module BadClass; end'
-    expect(src).to reek_of(:IrresponsibleModule, context: 'BadClass')
-  end
-
-  it 'does not report re-opened modules' do
+  it 'reports the right values' do
     src = <<-EOS
-      # Abstract base class
-      class C; end
-
-      class C; def foo; end; end
+      class Alfa
+      end
     EOS
-    expect(src).not_to reek_of(:IrresponsibleModule)
+
+    expect(src).to reek_of(:IrresponsibleModule,
+                           lines:   [1],
+                           context: 'Alfa',
+                           message: 'has no descriptive comment',
+                           source:  'string')
   end
 
-  it 'does not report a class having a comment' do
+  it 'does count all occurences' do
     src = <<-EOS
-      # test class
-      class Responsible; end
+      class Alfa
+        # Method is necessary because we don't count empty classes.
+        def bravo; end
+        class Charlie
+        end
+      end
     EOS
-    expect(src).not_to reek_of(:IrresponsibleModule)
+
+    expect(src).to reek_of(:IrresponsibleModule,
+                           lines:   [1],
+                           context: 'Alfa')
+    expect(src).to reek_of(:IrresponsibleModule,
+                           lines:   [4],
+                           context: 'Alfa::Charlie')
   end
 
-  it 'reports a class with an empty comment' do
-    src = <<-EOS
-      #
-      #
-      #
-      class BadClass; end
-    EOS
-    expect(src).to reek_of(:IrresponsibleModule, context: 'BadClass')
-  end
+  %w(class module).each do |scope|
+    it "reports a #{scope} without a comment" do
+      src = <<-EOS
+        #{scope} Alfa
+        end
+      EOS
 
-  it 'reports a class with a preceding comment with intermittent material' do
-    src = <<-EOS
-      # This is a valid comment
+      expect(src).to reek_of(:IrresponsibleModule)
+    end
 
-      require 'foo'
+    it "does not report re-opened #{scope}" do
+      src = <<-EOS
+        # Abstract base
+        #{scope} Alfa; end
 
-      class Bar; end
-    EOS
-    expect(src).to reek_of(:IrresponsibleModule, context: 'Bar')
-  end
+        #{scope} Alfa; def bravo; end; end
+      EOS
 
-  it 'reports a class with a trailing comment' do
-    src = <<-EOS
-      class BadClass
-      end # end BadClass
-    EOS
-    expect(src).to reek_of(:IrresponsibleModule, context: 'BadClass')
-  end
+      expect(src).not_to reek_of(:IrresponsibleModule)
+    end
 
-  it 'reports a fully qualified class name correctly' do
-    src = 'class Foo::Bar; end'
-    expect(src).to reek_of(:IrresponsibleModule, context: 'Foo::Bar')
-  end
+    it "does not report a #{scope} having a comment" do
+      src = <<-EOS
+        # Do not report me
+        #{scope} Alfa; end
+      EOS
 
-  it 'does not report modules used only as namespaces' do
-    src = <<-EOS
-      module Foo
-        # Describes Bar
-        class Bar
-          def baz
+      expect(src).not_to reek_of(:IrresponsibleModule)
+    end
+
+    it "reports a #{scope} with an empty comment" do
+      src = <<-EOS
+        #
+        #
+        #
+        #{scope} Alfa; end
+      EOS
+
+      expect(src).to reek_of(:IrresponsibleModule)
+    end
+
+    it "reports a #{scope} with a preceding comment with intermittent material" do
+      src = <<-EOS
+        # This is a valid comment
+
+        require 'alfa'
+
+        #{scope} Bravo
+        end
+      EOS
+
+      expect(src).to reek_of(:IrresponsibleModule)
+    end
+
+    it "reports a #{scope} with only a trailing comment" do
+      src = <<-EOS
+        #{scope} Alfa
+        end # end scope
+      EOS
+
+      expect(src).to reek_of(:IrresponsibleModule)
+    end
+
+    it "does not report #{scope} used only as namespaces" do
+      src = <<-EOS
+        #{scope} Alfa
+          # Describes Bravo
+          #{scope} Bravo
+            def charlie
+            end
           end
         end
-      end
-    EOS
-    expect(src).not_to reek_of(:IrresponsibleModule)
-  end
+      EOS
 
-  it 'does not report classes used only as namespaces' do
-    src = <<-EOS
-      class Foo
-        # Describes Bar
-        module Bar
-          def qux
+      expect(src).not_to reek_of(:IrresponsibleModule)
+    end
+
+    it "reports #{scope} that have both a nested #{scope} and methods" do
+      src = <<-EOS
+        #{scope} Alfa
+          def bravo
+          end
+
+          # Describes Charlie
+          #{scope} Charlie
           end
         end
-      end
-    EOS
-    expect(src).not_to reek_of(:IrresponsibleModule)
-  end
+      EOS
 
-  it 'reports modules that have both nested modules and methods' do
-    src = <<-EOS
-      module Foo
-        def foofoo
-        end
-        # Describes Bar
-        module Bar
-        end
-      end
-    EOS
-    expect(src).to reek_of(:IrresponsibleModule, context: 'Foo')
-  end
+      expect(src).to reek_of(:IrresponsibleModule, context: 'Alfa')
+    end
 
-  it 'reports modules that have both nested modules and singleton methods' do
-    src = <<-EOS
-      module Foo
-        def self.foofoo
-        end
-        # Describes Bar
-        module Bar
-        end
-      end
-    EOS
-    expect(src).to reek_of(:IrresponsibleModule, context: 'Foo')
-  end
+    it "reports #{scope} that has both a nested #{scope} and singleton methods" do
+      src = <<-EOS
+        #{scope} Alfa
+          def self.bravo
+          end
 
-  it 'reports modules that have both nested modules and methods on the singleton class' do
-    src = <<-EOS
-      module Foo
-        class << self
-          def foofoo
+          # Describes Charlie
+          #{scope} Charlie
           end
         end
-        # Describes Bar
-        module Bar
+      EOS
+
+      expect(src).to reek_of(:IrresponsibleModule, context: 'Alfa')
+    end
+
+    it "does not report a namespace #{scope} that has a nested class through assignment" do
+      src = <<-EOS
+        #{scope} Alfa
+          # Bravo is responsible
+          Bravo = Class.new Charlie do
+            def delta; end
+          end
         end
-      end
-    EOS
-    expect(src).to reek_of(:IrresponsibleModule, context: 'Foo')
-  end
+      EOS
 
-  it 'does not report namespace modules that have a nested class through assignment' do
-    src = <<-EOS
-      module Qux
-        # Foo is responsible
-        Foo = Class.new Bar do
-          def quux; end
+      expect(src).not_to reek_of(:IrresponsibleModule)
+    end
+
+    it "reports a #{scope} defined through assignment" do
+      src = <<-EOS
+        # Alfa is responsible, but Bravo is not
+        #{scope} Alfa
+          Bravo = Class.new Charlie # Only "class" is supposed to reek here.
         end
-      end
-    EOS
-    expect(src).not_to reek_of(:IrresponsibleModule)
-  end
+      EOS
 
-  it 'reports classes that have a defined superclass' do
-    src = <<-EOS
-      class Foo < Bar; end
-    EOS
-    expect(src).to reek_of(:IrresponsibleModule, context: 'Foo')
-  end
+      expect(src).to reek_of(:IrresponsibleModule, context: 'Alfa::Bravo')
+    end
 
-  it 'reports classes defined through assignment' do
-    src = <<-EOS
-      # Qux is responsible, but Foo is not
-      module Qux
-        Foo = Class.new Bar
-      end
-    EOS
-    expect(src).to reek_of(:IrresponsibleModule, context: 'Qux::Foo')
-  end
+    it 'reports structs defined through assignment' do
+      src = <<-EOS
+        # Alfa is responsible, but Bravo is not
+        #{scope} Alfa
+          Bravo = Struct.new(:charlie)
+        end
+      EOS
 
-  it 'reports top level classes defined through assignment' do
-    src = <<-EOS
-      Foo = Class.new Bar
-    EOS
-    expect(src).to reek_of(:IrresponsibleModule, context: 'Foo')
-  end
+      expect(src).to reek_of(:IrresponsibleModule, context: 'Alfa::Bravo')
+    end
 
-  it 'reports structs defined through assignment' do
-    src = <<-EOS
-      # Qux is responsible, but Foo is not
-      module Qux
-        Foo = Struct.new(:x, :y)
-      end
-    EOS
-    expect(src).to reek_of(:IrresponsibleModule, context: 'Qux::Foo')
-  end
+    it 'does not report constants that are not classes' do
+      src = <<-EOS
+        #{scope} Alfa
+          Bravo = 23
+          Charlie = Hash.new
+          Delta = ''.freeze
+          Echo = Class.new.new
+        end
+      EOS
 
-  it 'reports top level structs defined through assignment' do
-    src = <<-EOS
-      Foo = Struct.new(:x, :y)
-    EOS
-    expect(src).to reek_of(:IrresponsibleModule, context: 'Foo')
-  end
-
-  it 'does not report constants that are not classes' do
-    src = <<-EOS
-      module Qux
-        Foo = 23
-        Bar = Hash.new
-        Quuz = 'foo'.freeze
-        Zyxxy = Class.new.new
-      end
-    EOS
-    expect(src).not_to reek_of(:IrresponsibleModule)
-  end
-
-  context 'when a smell is reported' do
-    let(:detector) { build(:smell_detector, smell_type: :IrresponsibleModule) }
-
-    it_should_behave_like 'SmellDetector'
+      expect(src).not_to reek_of(:IrresponsibleModule)
+    end
   end
 end

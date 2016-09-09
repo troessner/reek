@@ -1,88 +1,99 @@
 require_relative '../../spec_helper'
-require_lib 'reek/context/code_context'
 require_lib 'reek/smells/nil_check'
-require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::NilCheck do
-  it 'reports correctly the basic use case' do
+  it 'reports the right values' do
     src = <<-EOS
-      def foo(bar)
-        bar.nil?
+      def alfa(bravo)
+        bravo.nil?
       end
     EOS
-    expect(src).to reek_of :NilCheck,
-                           lines: [2],
-                           message: 'performs a nil-check'
+
+    expect(src).to reek_of(:NilCheck,
+                           lines:   [2],
+                           context: 'alfa',
+                           message: 'performs a nil-check',
+                           source:  'string')
+  end
+
+  it 'does count all occurences' do
+    src = <<-EOS
+      def alfa(bravo, charlie)
+        bravo.nil?
+        charlie.nil?
+      end
+    EOS
+
+    expect(src).to reek_of(:NilCheck,
+                           lines:   [2, 3],
+                           context: 'alfa')
   end
 
   it 'reports nothing when scope includes no nil checks' do
-    expect('def no_nils; end').not_to reek_of(:NilCheck)
-  end
-
-  it 'reports when scope uses #nil?' do
-    src = <<-EOS
-    def foo(bar)
-      bar.nil?
-    end
-    EOS
-    expect(src).to reek_of(:NilCheck)
+    expect('def alfa; end').not_to reek_of(:NilCheck)
   end
 
   it 'reports when scope uses == nil' do
     src = <<-EOS
-    def foo(bar)
-      bar == nil
-    end
+      def alfa(bravo)
+        bravo == nil
+      end
     EOS
+
     expect(src).to reek_of(:NilCheck)
   end
 
   it 'reports when scope uses === nil' do
     src = <<-EOS
-    def foo(bar)
-      bar === nil
-    end
+      def alfa(bravo)
+        bravo === nil
+      end
     EOS
+
     expect(src).to reek_of(:NilCheck)
   end
 
   it 'reports when scope uses nil ==' do
     src = <<-EOS
-    def foo(bar)
-      nil == bar
-    end
+      def alfa(bravo)
+        nil == bravo
+      end
     EOS
+
     expect(src).to reek_of(:NilCheck)
   end
 
   it 'reports when scope uses a case-clause checking nil' do
     src = <<-EOS
-    def case_nil
-      case @foo
-      when nil then puts "Nil"
+      def alfa(bravo)
+        case bravo
+        when nil then puts "Nil"
+        end
       end
-    end
     EOS
+
     expect(src).to reek_of(:NilCheck)
   end
 
   it 'reports when scope uses &.' do
     src = <<-EOS
-    def foo(bar)
-      bar&.baz
-    end
+      def alfa(bravo)
+        bravo&.charlie
+      end
     EOS
+
     expect(src).to reek_of(:NilCheck)
   end
 
   it 'reports all lines when scope uses multiple nilchecks' do
     src = <<-EOS
-    def foo(bar)
-      bar.nil?
-      bar === nil
-      bar&.baz
-    end
+      def alfa(bravo)
+        bravo.nil?
+        @charlie === nil
+        delta&.echo
+      end
     EOS
+
     expect(src).to reek_of(:NilCheck, lines: [2, 3, 4])
   end
 end
