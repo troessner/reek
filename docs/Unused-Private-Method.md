@@ -37,7 +37,7 @@ configuration option (which is part of the [Basic Smell Options](Basic-Smell-Opt
 for instance like this (an example from Reek's own codebase):
 
 ```Ruby
-# :reek:UnusedPrivateMethod: { exclude: [ !ruby/regexp /process_/ ] }
+# :reek:UnusedPrivateMethod { exclude: [ !ruby/regexp /process_/ ] }
 class ContextBuilder
   def process_begin
     # ....

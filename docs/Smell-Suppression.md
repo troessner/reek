@@ -51,10 +51,10 @@ def many_parameters_it_has foo, bar, baz, qux
 end
 ```
 
-It is also possible to specify options for a particular smell detector, like so:
+It is also possible to specify options for a particular smell detector in hash-style:
 
 ```ruby
-# :reek:LongParameterList: { max_params: 4 }
+# :reek:LongParameterList { max_params: 4 }
 def many_parameters_it_has foo, bar, baz, qux
   # ...
 end
@@ -66,17 +66,17 @@ also use via comment.
 E.g.:
 
 ```ruby
-# :reek:TooManyStatements: { max_statements: 6 }
+# :reek:TooManyStatements { max_statements: 6 }
 def too_many
   # ...
 end
 
-# :reek:NestedIterators: { max_allowed_nesting: 2 }
+# :reek:NestedIterators { max_allowed_nesting: 2 }
 def quax
   foo.each {|bar| bar.each {|baz| baz.qux(qux)}}
 end
 
-# :reek:DuplicateMethodCall: { max_calls: 3 }
+# :reek:DuplicateMethodCall { max_calls: 3 }
 def quax
   foo.to_i + foo.to_i + foo.to_i
 end
@@ -86,7 +86,7 @@ Keep in mind that there are also smell detectors that operate on a class or
 module level, e.g.:
 
 ```ruby
-# :reek:TooManyInstanceVariables: { max_instance_variables: 8 }
+# :reek:TooManyInstanceVariables { max_instance_variables: 8 }
 class Klass
   # ...
 end
