@@ -52,7 +52,7 @@ module Reek
         smell_warning(
           context: ctx,
           lines: [ctx.exp.line],
-          message: "has prima donna method `#{name}`",
+          message: "has prima donna method '#{name}'",
           parameters: { name: name })
       end
     end

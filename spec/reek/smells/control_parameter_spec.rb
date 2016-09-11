@@ -12,7 +12,7 @@ RSpec.describe Reek::Smells::ControlParameter do
     expect(src).to reek_of(:ControlParameter,
                            lines:    [2],
                            context:  'alfa',
-                           message:  'is controlled by argument bravo',
+                           message:  "is controlled by argument 'bravo'",
                            source:   'string',
                            argument: 'bravo')
   end

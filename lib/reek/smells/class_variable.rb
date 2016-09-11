@@ -29,7 +29,7 @@ module Reek
           smell_warning(
             context: ctx,
             lines: lines,
-            message: "declares the class variable #{variable}",
+            message: "declares the class variable '#{variable}'",
             parameters: { name: variable.to_s })
         end
       end

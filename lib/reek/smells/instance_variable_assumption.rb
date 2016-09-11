@@ -33,7 +33,7 @@ module Reek
       private
 
       def build_smell_warning(ctx, assumption)
-        message = "assumes too much for instance variable #{assumption}"
+        message = "assumes too much for instance variable '#{assumption}'"
 
         smell_warning(
           context: ctx,

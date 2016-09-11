@@ -13,7 +13,7 @@ RSpec.describe Reek::Smells::PrimaDonnaMethod do
     expect(src).to reek_of(:PrimaDonnaMethod,
                            lines:   [1],
                            context: 'Alfa',
-                           message: 'has prima donna method `bravo!`',
+                           message: "has prima donna method 'bravo!'",
                            source:  'string',
                            name:    :bravo!)
   end

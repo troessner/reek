@@ -70,7 +70,7 @@ module Reek
 
       # @private
       def self.print_clump(clump)
-        "[#{clump.map(&:to_s).join(', ')}]"
+        "[#{clump.map { |parameter| "'#{parameter}'" }.join(', ')}]"
       end
     end
   end

@@ -48,7 +48,7 @@ module Reek
           smell_warning(
             context: ctx,
             lines: lines,
-            message: "refers to #{name} more than self (maybe move it to another class?)",
+            message: "refers to '#{name}' more than self (maybe move it to another class?)",
             parameters: { name: name.to_s })
         end
       end

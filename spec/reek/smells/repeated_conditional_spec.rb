@@ -24,7 +24,7 @@ RSpec.describe Reek::Smells::RepeatedConditional do
     expect(src).to reek_of(:RepeatedConditional,
                            lines:   [5, 9, 13],
                            context: 'Alfa',
-                           message: 'tests bravo at least 3 times',
+                           message: "tests 'bravo' at least 3 times",
                            source:  'string',
                            name:    'bravo',
                            count:   3)

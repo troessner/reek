@@ -46,7 +46,7 @@ module Reek
         smell_attributes = {
           context: ctx,
           lines: [ctx.exp.line],
-          message: "inherits from a core class (#{ancestor_name})",
+          message: "inherits from core class '#{ancestor_name}'",
           parameters: { ancestor: ancestor_name }
         }
 

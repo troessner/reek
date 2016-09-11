@@ -52,7 +52,7 @@ module Reek
           smell_warning(
             context: ctx,
             lines: found_call.lines,
-            message: "calls #{found_call.call} #{found_call.occurs} times",
+            message: "calls '#{found_call.call}' #{found_call.occurs} times",
             parameters: { name: found_call.call, count: found_call.occurs })
         end
       end

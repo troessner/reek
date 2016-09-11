@@ -43,7 +43,7 @@ module Reek
           smell_warning(
             context: ctx,
             lines: [hit.line],
-            message: "has the unused private instance method `#{name}`",
+            message: "has the unused private instance method '#{name}'",
             parameters: { name: name })
         end
       end

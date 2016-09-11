@@ -58,7 +58,7 @@ module Reek
           smell_warning(
             context: ctx,
             lines: lines,
-            message: "tests #{expression} at least #{occurs} times",
+            message: "tests '#{expression}' at least #{occurs} times",
             parameters: { name: expression, count: occurs })
         end
       end

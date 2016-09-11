@@ -14,7 +14,7 @@ RSpec.describe Reek::Smells::FeatureEnvy do
     expect(src).to reek_of(:FeatureEnvy,
                            lines:   [3, 3],
                            context: 'Alfa#bravo',
-                           message: 'refers to charlie more than self (maybe move it to another class?)',
+                           message: "refers to 'charlie' more than self (maybe move it to another class?)",
                            source:  'string',
                            name:    'charlie')
   end

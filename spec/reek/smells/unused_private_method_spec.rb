@@ -15,7 +15,7 @@ RSpec.describe Reek::Smells::UnusedPrivateMethod do
     expect(src).to reek_of(:UnusedPrivateMethod,
                            lines:   [4],
                            context: 'Alfa',
-                           message: 'has the unused private instance method `charlie`',
+                           message: "has the unused private instance method 'charlie'",
                            source:  'string',
                            name:    :charlie)
   end
