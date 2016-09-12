@@ -13,9 +13,11 @@ module Reek
     # and they hurt the flow of reading, because the reader must slow
     # down to interpret the names.
     #
-    # Currently +UncommunicativeName+ checks for
-    # * 1-character names
-    # * names ending with a number
+    # Currently +UncommunicativeName+ checks for:
+    #
+    # * single-character names
+    # * any name ending with a number
+    # * camelCaseVariableNames
     #
     # See {file:docs/Uncommunicative-Variable-Name.md} for details.
     #
@@ -24,13 +26,17 @@ module Reek
       # The name of the config field that lists the regexps of
       # smelly names to be reported.
       REJECT_KEY = 'reject'.freeze
-      DEFAULT_REJECT_SET = [/^.$/, /[0-9]$/, /[A-Z]/].freeze
+      DEFAULT_REJECT_SET = [
+        /^.$/, # single-character names
+        /[0-9]$/,  # any name ending with a number
+        /[A-Z]/    # camelCaseVariableNames
+      ].freeze
 
       # The name of the config field that lists the specific names that are
       # to be treated as exceptions; these names will not be reported as
       # uncommunicative.
       ACCEPT_KEY = 'accept'.freeze
-      DEFAULT_ACCEPT_SET = ['_'].freeze
+      DEFAULT_ACCEPT_SET = [/^_$/].freeze
 
       def self.default_config
         super.merge(
@@ -51,7 +57,7 @@ module Reek
         self.reject_names = value(REJECT_KEY, ctx)
         self.accept_names = value(ACCEPT_KEY, ctx)
         variable_names(ctx.exp).select do |name, _lines|
-          bad_name?(name, ctx)
+          uncommunicative_variable_name?(name)
         end.map do |name, lines|
           smell_warning(
             context: ctx,
@@ -61,10 +67,16 @@ module Reek
         end
       end
 
-      def bad_name?(name, _ctx)
-        var = name.to_s.gsub(/^[@\*\&]*/, '')
-        return false if accept_names.include?(var)
-        reject_names.find { |patt| patt =~ var }
+      private
+
+      def uncommunicative_variable_name?(name)
+        sanitized_name = name.to_s.gsub(/^[@\*\&]*/, '')
+        !acceptable_name?(sanitized_name)
+      end
+
+      def acceptable_name?(name)
+        Array(accept_names).any? { |accept_pattern| name.match accept_pattern } ||
+          Array(reject_names).none? { |reject_pattern| name.match reject_pattern }
       end
 
       # :reek:TooManyStatements: { max_statements: 6 }
@@ -123,8 +135,6 @@ module Reek
         var = varname.to_sym
         accumulator[var].push(exp.line)
       end
-
-      private
 
       attr_accessor :accept_names, :reject_names
     end

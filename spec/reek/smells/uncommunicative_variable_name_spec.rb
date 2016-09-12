@@ -56,14 +56,14 @@ RSpec.describe Reek::Smells::UncommunicativeVariableName do
       expect(src).to reek_of(:UncommunicativeVariableName, name: 'x')
     end
 
-    it 'reports name of the form "x2"' do
-      src = 'def alfa; x2 = bravo(); end'
-      expect(src).to reek_of(:UncommunicativeVariableName, name: 'x2')
-    end
-
-    it 'reports long name ending in a number' do
+    it 'reports names ending with a digit' do
       src = 'def alfa; var123 = bravo(); end'
       expect(src).to reek_of(:UncommunicativeVariableName, name: 'var123')
+    end
+
+    it 'reports camelcased names' do
+      src = 'def alfa; bravoCharlie = delta(); end'
+      expect(src).to reek_of(:UncommunicativeVariableName, name: 'bravoCharlie')
     end
 
     it 'reports a bad name inside a block' do
@@ -74,6 +74,11 @@ RSpec.describe Reek::Smells::UncommunicativeVariableName do
     it 'reports variable name outside any method' do
       src = 'class Alfa; x = bravo(); end'
       expect(src).to reek_of(:UncommunicativeVariableName, name: 'x')
+    end
+
+    it "reports bad names starting with '_'" do
+      src = 'def alfa; _bravoCharlie_42 = delta(); end'
+      expect(src).to reek_of(:UncommunicativeVariableName, name: '_bravoCharlie_42')
     end
   end
 
@@ -152,6 +157,49 @@ RSpec.describe Reek::Smells::UncommunicativeVariableName do
 
       expect(src).to reek_of(:UncommunicativeVariableName, name: 'x')
       expect(src).to reek_of(:UncommunicativeVariableName, name: 'y')
+    end
+  end
+
+  describe '`accept` patterns' do
+    let(:src) { 'def alfa; bravo2 = 42; end' }
+
+    it 'make smelly names pass via regex / strings given by list / literal' do
+      expect(src).to reek_of(:UncommunicativeVariableName)
+
+      [[/bravo2/], /bravo2/, ['bravo2'], 'bravo2'].each do |pattern|
+        expect(src).to_not reek_of(:UncommunicativeVariableName).with_config('accept' => pattern)
+      end
+    end
+  end
+
+  describe '`reject` patterns' do
+    let(:src) { 'def alfa; foobar = 42; end' }
+
+    it 'reject smelly names via regex / strings given by list / literal' do
+      expect(src).not_to reek_of(:UncommunicativeVariableName)
+
+      [[/foobar/], /foobar/, ['foobar'], 'foobar'].each do |pattern|
+        expect(src).to reek_of(:UncommunicativeVariableName).with_config('reject' => pattern)
+      end
+    end
+  end
+
+  describe '.default_config' do
+    it 'should merge in the default accept and reject patterns' do
+      expected = {
+        'enabled' => true,
+        'exclude' => [],
+        'reject'  => [/^.$/, /[0-9]$/, /[A-Z]/],
+        'accept'  => [/^_$/]
+      }
+
+      expect(described_class.default_config).to eq(expected)
+    end
+  end
+
+  describe '.contexts' do
+    it 'are scoped to classes, modules, instance and singleton methods' do
+      expect(described_class.contexts).to eq([:module, :class, :def, :defs])
     end
   end
 end
