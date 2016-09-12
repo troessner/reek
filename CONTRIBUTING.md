@@ -49,7 +49,7 @@ Once you’re sure your copy of Reek works create your own feature branch from o
 git checkout -b your_feature_or_fix_name
 ```
 
-Make sure you have read our [style guide](docs/style-guide.md) before you
+Make sure you have read our [style guide](docs/Style-Guide.md) before you
 start contributing.
 
 Then start hacking and add new tests which make sure that your new feature works or
