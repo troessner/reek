@@ -11,8 +11,10 @@ Reek currently includes checks for the following smells:
   * [Control Parameter](Control-Parameter.md)
 * [Data Clump](Data-Clump.md)
 * [Duplicate Method Call](Duplicate-Method-Call.md)
+* [Instance Variable Assumption](Instance-Variable-Assumption.md)
 * [Irresponsible Module](Irresponsible-Module.md)
 * [Large Class](Large-Class.md), including
+  * [Too Many Constants](Too-Many-Constants.md)
   * [Too Many Instance Variables](Too-Many-Instance-Variables.md)
   * [Too Many Methods](Too-Many-Methods.md)
 * [Long Parameter List](Long-Parameter-List.md), and its special case [Long Yield List](Long-Yield-List.md)
@@ -23,8 +25,10 @@ Reek currently includes checks for the following smells:
 * [Nested Iterators](Nested-Iterators.md)
 * [Prima-Donna-Method](Prima-Donna-Method.md)
 * [Simulated Polymorphism](Simulated-Polymorphism.md), including
+  * [Manual Dispatch](Manual-Dispatch.md)
   * [Nil Check](Nil-Check.md)
   * [Repeated Conditional](Repeated-Conditional.md)
+* [Subclassed From Core Class](Subclassed-From-Core-Class.md)
 * [Too Many Statements](Too-Many-Statements.md)
 * [Uncommunicative Name](Uncommunicative-Name.md), including
   * [Uncommunicative Method Name](Uncommunicative-Method-Name.md)

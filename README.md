@@ -210,13 +210,25 @@ Reek currently includes checks for some aspects of
 and more. See the [Code Smells](docs/Code-Smells.md)
 for up to date details of exactly what Reek will check in your code.
 
-Note that [Unused Private Method](docs/Unused-Private-Method.md) is disabled by default
+**Special configuration for controversial detectors:**
+
+[Unused Private Method](docs/Unused-Private-Method.md) is disabled by default
 because it is [kind of controversial](https://github.com/troessner/reek/issues/844) which means
-you have to explicitly activate in your configuration via
+you have to explicitly activate it in your configuration via
 
 ```Yaml
 UnusedPrivateMethod:
   enabled: true
+```
+
+[Utility Function](docs/Utility-Function.md) is a [controversial detector](https://github.com/troessner/reek/issues/681)
+as well that can turn out to be really unforgiving.
+As a consequence, we made it possible to disable it for non-public methods like this:
+
+```Yaml
+---
+UtilityFunction:
+  public_methods_only: true
 ```
 
 ## Configuration
