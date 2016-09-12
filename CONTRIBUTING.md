@@ -27,7 +27,7 @@ version, Ruby platform (MRI, JRuby, etc.), operating system.
 Try to provide a minimal example that reproduces the issue.
 Extra kudos if you can write it as a failing test. :)
 
-## Pull Request
+## Contribute features, bugfixes, documentation
 
 ### Getting started
 
@@ -64,7 +64,7 @@ We're not using Rspec's [shared examples](https://www.relishapp.com/rspec/rspec-
 them rather harming than helpful.
 You can find an excellent cheat sheet on how to write idiomatic Rspec [here](http://www.rubypigeon.com/posts/rspec-core-cheat-sheet).
 
-#### Spec naming conventions
+**Spec naming conventions**
 
 We do not use the popular "foo" / "bar" naming when it comes to the question "how to come up with good example names?".
 Instead, we use the [military alphabet](https://en.wikipedia.org/wiki/NATO_phonetic_alphabet) in ascending order
@@ -88,42 +88,9 @@ class Alfa
 end
 ```
 
-#### Smell detector conventions
+### How to write new smell detectors
 
-All smell detector specs start out with 2 generic examples like this (the second one only if it makes sense):
-
-```Ruby
-it 'reports the right values' do
-  src = <<-EOS
-    def alfa
-      bravo = 5
-    end
-  EOS
-
-  expect(src).to reek_of(:UncommunicativeVariableName,
-                         lines:   [2],
-                         context: 'alfa',
-                         message: "has the variable name 'bravo'",
-                         source:  'string',
-                         name:    'bravo')
-end
-
-it 'does count all occurences' do
-  src = <<-EOS
-    def alfa
-      bravo = 3
-      charlie = 7
-    end
-  EOS
-
-  expect(src).to reek_of(:UncommunicativeVariableName,
-                         lines: [2],
-                         name:  'bravo')
-  expect(src).to reek_of(:UncommunicativeVariableName,
-                         lines: [3],
-                         name:  'charlie')
-end
-```
+Please see [our separate guide](docs/How-To-Write-New-Detectors.md) for this.
 
 ### Finishing up
 
