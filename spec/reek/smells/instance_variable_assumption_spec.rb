@@ -15,7 +15,7 @@ RSpec.describe Reek::Smells::InstanceVariableAssumption do
     expect(src).to reek_of(:InstanceVariableAssumption,
                            lines:      [1],
                            context:    'Alfa',
-                           message:    'assumes too much for instance variable @charlie',
+                           message:    "assumes too much for instance variable '@charlie'",
                            source:     'string',
                            assumption: :@charlie)
   end

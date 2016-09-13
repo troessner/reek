@@ -31,7 +31,7 @@ Feature: Unused Private Method detector
     Then it reports:
     """
     sample.rb -- 1 warning:
-      [4]:UnusedPrivateMethod: Outer::Smelly has the unused private instance method `foobar` [https://github.com/troessner/reek/blob/master/docs/Unused-Private-Method.md]
+      [4]:UnusedPrivateMethod: Outer::Smelly has the unused private instance method 'foobar' [https://github.com/troessner/reek/blob/master/docs/Unused-Private-Method.md]
     """
 
   Scenario: Use regexes for excluding contexts
@@ -62,5 +62,5 @@ Feature: Unused Private Method detector
     Then it reports:
     """
     sample.rb -- 1 warning:
-      [4]:UnusedPrivateMethod: Outer::Smelly has the unused private instance method `foobar` [https://github.com/troessner/reek/blob/master/docs/Unused-Private-Method.md]
+      [4]:UnusedPrivateMethod: Outer::Smelly has the unused private instance method 'foobar' [https://github.com/troessner/reek/blob/master/docs/Unused-Private-Method.md]
     """

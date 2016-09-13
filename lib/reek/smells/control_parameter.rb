@@ -56,7 +56,7 @@ module Reek
           smell_warning(
             context: ctx,
             lines: control_parameter.lines,
-            message: "is controlled by argument #{argument}",
+            message: "is controlled by argument '#{argument}'",
             parameters: { argument: argument })
         end
       end

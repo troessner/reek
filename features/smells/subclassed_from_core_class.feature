@@ -10,5 +10,5 @@ Feature: Smell - SubclassedFromCoreClass
     Then it reports:
     """
     my_hash.rb -- 1 warning:
-      [2]:SubclassedFromCoreClass: MyHash inherits from a core class (Hash) [https://github.com/troessner/reek/blob/master/docs/Subclassed-From-Core-Class.md]
+      [2]:SubclassedFromCoreClass: MyHash inherits from core class 'Hash' [https://github.com/troessner/reek/blob/master/docs/Subclassed-From-Core-Class.md]
     """

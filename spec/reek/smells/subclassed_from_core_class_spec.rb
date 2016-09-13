@@ -11,7 +11,7 @@ RSpec.describe Reek::Smells::SubclassedFromCoreClass do
     expect(src).to reek_of(:SubclassedFromCoreClass,
                            lines:    [1],
                            context:  'Alfa',
-                           message:  'inherits from a core class (Hash)',
+                           message:  "inherits from core class 'Hash'",
                            source:   'string',
                            ancestor: 'Hash')
   end

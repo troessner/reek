@@ -90,7 +90,7 @@ RSpec.describe Reek::Examiner do
 
       smell = examiner.smells.first
       expect(smell).to be_a(Reek::Smells::SmellWarning)
-      expect(smell.message).to eq('calls bar.call_me() 2 times')
+      expect(smell.message).to eq("calls 'bar.call_me()' 2 times")
     end
 
     context 'source is empty' do

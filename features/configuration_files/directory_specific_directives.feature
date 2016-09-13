@@ -50,7 +50,7 @@ Feature: Directory directives
     Then it reports:
     """
     web_app/app/controllers/users_controller.rb -- 1 warning:
-      [1]:InstanceVariableAssumption: UsersController assumes too much for instance variable @user [https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md]
+      [1]:InstanceVariableAssumption: UsersController assumes too much for instance variable '@user' [https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md]
     web_app/app/models/user.rb -- 2 warnings:
       [1]:IrresponsibleModule: User has no descriptive comment [https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md]
       [2]:UnusedParameters: User#logged_in_with_role has unused parameter 'r' [https://github.com/troessner/reek/blob/master/docs/Unused-Parameters.md]
@@ -121,7 +121,7 @@ Feature: Directory directives
     Then it reports:
     """
     web_app/app/controllers/users_controller.rb -- 3 warnings:
-      [1]:InstanceVariableAssumption: UsersController assumes too much for instance variable @user [https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md]
+      [1]:InstanceVariableAssumption: UsersController assumes too much for instance variable '@user' [https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md]
       [1]:IrresponsibleModule: UsersController has no descriptive comment [https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md]
       [4]:NestedIterators: UsersController#show contains iterators nested 2 deep [https://github.com/troessner/reek/blob/master/docs/Nested-Iterators.md]
     web_app/app/models/user.rb -- 1 warning:
@@ -167,10 +167,10 @@ Feature: Directory directives
     Then it reports:
     """
     other/projects_controller.rb -- 2 warnings:
-      [1]:InstanceVariableAssumption: ProjectController assumes too much for instance variable @project [https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md]
+      [1]:InstanceVariableAssumption: ProjectController assumes too much for instance variable '@project' [https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md]
       [4]:NestedIterators: ProjectController#show contains iterators nested 2 deep [https://github.com/troessner/reek/blob/master/docs/Nested-Iterators.md]
     web_app/app/controllers/users_controller.rb -- 2 warnings:
-      [1]:InstanceVariableAssumption: UsersController assumes too much for instance variable @user [https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md]
+      [1]:InstanceVariableAssumption: UsersController assumes too much for instance variable '@user' [https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md]
       [1]:IrresponsibleModule: UsersController has no descriptive comment [https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md]
     4 total warnings
     """

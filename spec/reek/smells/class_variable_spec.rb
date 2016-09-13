@@ -12,7 +12,7 @@ RSpec.describe Reek::Smells::ClassVariable do
     expect(src).to reek_of(:ClassVariable,
                            lines:   [2],
                            context: 'Alfa',
-                           message: 'declares the class variable @@bravo',
+                           message: "declares the class variable '@@bravo'",
                            source:  'string',
                            name:    '@@bravo')
   end

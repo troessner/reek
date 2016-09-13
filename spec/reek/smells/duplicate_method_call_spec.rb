@@ -15,7 +15,7 @@ RSpec.describe Reek::Smells::DuplicateMethodCall do
     expect(src).to reek_of(:DuplicateMethodCall,
                            lines:   [3, 4],
                            context: 'Alfa#bravo',
-                           message: 'calls charlie.delta 2 times',
+                           message: "calls 'charlie.delta' 2 times",
                            source:  'string',
                            name:    'charlie.delta',
                            count:   2)

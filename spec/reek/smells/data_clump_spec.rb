@@ -14,7 +14,7 @@ RSpec.describe Reek::Smells::DataClump do
     expect(src).to reek_of(:DataClump,
                            lines:      [2, 3, 4],
                            context:    'Alfa',
-                           message:    'takes parameters [echo, foxtrot] to 3 methods',
+                           message:    "takes parameters ['echo', 'foxtrot'] to 3 methods",
                            source:     'string',
                            parameters: ['echo', 'foxtrot'],
                            count:      3)
