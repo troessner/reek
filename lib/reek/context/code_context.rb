@@ -161,7 +161,9 @@ module Reek
       attr_reader :refs
 
       def configuration_via_code_commment
-        @configuration_via_code_commment ||= CodeComment.new(full_comment).config
+        @configuration_via_code_commment ||= CodeComment.new(comment: full_comment,
+                                                             line: exp.line,
+                                                             source: exp.source).config
       end
 
       def full_comment

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 require 'yaml'
+require_relative 'smells/smell_detector'
+require_relative 'errors'
 
 module Reek
   #
@@ -25,14 +27,20 @@ module Reek
 
     #
     # @param comment [String] - the original comment as found in the source code
-    #   E.g.:
-    #   "\n        # :reek:Duplication: { enabled: false }\n      "
+    # @param line [Integer] - start of the expression the comment belongs to
+    # @param source [String] - Path to source file or "string"
     #
-    def initialize(comment)
+    def initialize(comment:, line: nil, source: nil)
       @original_comment  = comment
       @config            = Hash.new { |hash, key| hash[key] = {} }
 
       @original_comment.scan(CONFIGURATION_REGEX) do |detector, _option_string, options|
+        unless Smells::SmellDetector.valid_detector?(detector)
+          raise BadDetectorInCommentError, detector: detector,
+                                           source: source,
+                                           line: line,
+                                           original_comment: @original_comment
+        end
         @config.merge! detector => YAML.load(options || DISABLE_DETECTOR_CONFIGURATION)
       end
     end

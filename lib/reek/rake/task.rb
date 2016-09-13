@@ -9,8 +9,6 @@ require 'English'
 module Reek
   #
   # Defines a task library for running Reek.
-  # (Classes here will be configured via the Rakefile, and therefore will
-  # possess a :reek:attribute or two.)
   #
   # @public
   module Rake
