@@ -356,7 +356,7 @@ end
 You can even pass in smell specific configuration settings:
 
 ```Ruby
-# :reek:NestedIterators: { max_allowed_nesting: 2 }
+# :reek:NestedIterators { max_allowed_nesting: 2 }
 def smelly_method foo
   foo.each {|bar| bar.each {|baz| baz.qux}}
 end

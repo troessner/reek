@@ -30,6 +30,14 @@ RSpec.describe Reek::CodeComment do
 
   context 'comment config' do
     it 'parses hashed options' do
+      comment = '# :reek:Duplication { enabled: false }'
+      config = described_class.new(comment).config
+      expect(config).to include('Duplication')
+      expect(config['Duplication']).to include('enabled')
+      expect(config['Duplication']['enabled']).to be_falsey
+    end
+
+    it "supports hashed options with the legacy separator ':' after the smell detector" do
       comment = '# :reek:Duplication: { enabled: false }'
       config = described_class.new(comment).config
       expect(config).to include('Duplication')
@@ -39,8 +47,8 @@ RSpec.describe Reek::CodeComment do
 
     it 'parses multiple hashed options' do
       config = described_class.new('
-        # :reek:Duplication: { enabled: false }
-        # :reek:NestedIterators: { enabled: true }
+        # :reek:Duplication { enabled: false }
+        # :reek:NestedIterators { enabled: true }
       ').config
       expect(config).to include('Duplication', 'NestedIterators')
       expect(config['Duplication']).to include('enabled')
@@ -51,7 +59,7 @@ RSpec.describe Reek::CodeComment do
 
     it 'parses multiple hashed options on the same line' do
       config = described_class.new('
-        #:reek:Duplication: { enabled: false } and :reek:NestedIterators: { enabled: true }
+        #:reek:Duplication { enabled: false } and :reek:NestedIterators { enabled: true }
       ').config
       expect(config).to include('Duplication', 'NestedIterators')
       expect(config['Duplication']).to include('enabled')
@@ -85,8 +93,8 @@ RSpec.describe Reek::CodeComment do
     it 'removes the configuration options from the comment' do
       subject = described_class.new('
         # Actual
-        # :reek:Duplication: { enabled: false }
-        # :reek:NestedIterators: { enabled: true }
+        # :reek:Duplication { enabled: false }
+        # :reek:NestedIterators { enabled: true }
         # comment
       ')
       expect(subject.send(:sanitized_comment)).to eq('Actual comment')

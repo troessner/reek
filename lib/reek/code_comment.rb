@@ -7,10 +7,19 @@ module Reek
   # module, class and method definitions.
   #
   class CodeComment
-    CONFIGURATION_REGEX            = /:reek:(\w+)(:\s*\{.*?\})?/
+    CONFIGURATION_REGEX = /
+                          :reek: # prefix
+                          (\w+)  # smell detector e.g.: UncommunicativeVariableName
+                          (
+                            :? # legacy separator
+                            \s*
+                            (\{.*?\}) # optional details in hash style e.g.: { max_methods: 30 }
+                          )?
+                         /x
     SANITIZE_REGEX                 = /(#|\n|\s)+/ # Matches '#', newlines and > 1 whitespaces.
-    DISABLE_DETECTOR_CONFIGURATION = ': { enabled: false }'.freeze
+    DISABLE_DETECTOR_CONFIGURATION = '{ enabled: false }'.freeze
     MINIMUM_CONTENT_LENGTH         = 2
+    LEGACY_SEPARATOR               = ':'.freeze
 
     attr_reader :config
 
@@ -23,8 +32,8 @@ module Reek
       @original_comment  = comment
       @config            = Hash.new { |hash, key| hash[key] = {} }
 
-      @original_comment.scan(CONFIGURATION_REGEX) do |smell_type, options|
-        @config.merge! YAML.load(smell_type + (options || DISABLE_DETECTOR_CONFIGURATION))
+      @original_comment.scan(CONFIGURATION_REGEX) do |detector, _option_string, options|
+        @config.merge! detector => YAML.load(options || DISABLE_DETECTOR_CONFIGURATION)
       end
     end
 
