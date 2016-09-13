@@ -91,21 +91,3 @@ Duplication:
   status:
     is_active: true
 </pre>
-
-[Control Couple](Control-Couple.md):
-
-<pre>
-- !ruby/object:Reek::SmellWarning 
-  location: 
-    source: $stdin
-    lines: 
-    - 2
-    context: Turn#fred
-  smell: 
-    class: ControlCouple
-    subclass: BooleanParameter
-    parameter: arg
-    message: has boolean parameter 'arg'
-  status:
-    is_active: true
-</pre>

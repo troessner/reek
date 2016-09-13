@@ -19,7 +19,7 @@ exclusions for each smell.
 To stop Reek reporting smells in any method called `write` you might create a configuration file containing this:
 
 ```yaml
-ControlCouple: 
+DuplicateMethodCall:
   exclude:
   - write
 ```
@@ -27,7 +27,7 @@ ControlCouple:
 Or a little more sophisticated using a Ruby regex like this:
 
 ```yaml
-ControlCouple: 
+DuplicateMethodCall:
   exclude:
   - !ruby/regexp /write/
 ```
