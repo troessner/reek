@@ -1,5 +1,11 @@
 # Change log
 
+## 4.4.1 (2016-09-13)
+
+* (troessner) Quote names in smell detector messages
+* (troessner) Make our CodeComment regex more lenient
+* (troessner) Fix UncommunicativeVariableName does not take regex configuration into account
+
 ## 4.4.0 (2016-08-24)
 
 * (waldyr) Add ignored nodes parameter to local_nodes
