@@ -51,3 +51,99 @@ Reek's Duplicate Method Call detector currently offers the [Basic Smell Options]
 Option | Value | Effect
 -------|-------|-------
 `max_calls` |  integer | The maximum number of duplicate calls allowed within a method. Defaults to 1.
+`allow_calls` | an array of strings or regular expressions | Ignores any context who matches it |
+
+## Example configuration
+
+### Adjusting `max_calls`
+
+Imagine code like this:
+
+```Ruby
+class Alfa
+  def bravo
+    charlie.delta
+    charlie.delta
+  end
+end
+```
+
+This would report:
+
+>>
+src.rb -- 1 warning:
+  [4, 5]:DuplicateMethodCall: Alfa#bravo calls 'charlie.delta' 2 times
+
+If you want to allow those double calls here you can disable it in 2 different ways:
+
+1.) Via source code comment:
+
+```Ruby
+class Alfa
+  # :reek:DuplicateMethodCall { max_calls: 2 }
+  def bravo
+    charlie.delta
+    charlie.delta
+  end
+end
+```
+
+2.) Via configuration file:
+
+```Yaml
+DuplicateMethodCall:
+  max_calls: 2
+```
+
+Note though that the latter way will set `max_calls` to 2 for all instances
+of the smell detector which might not be what you want - in this case
+you'll have to use source code comments.
+
+### Adjusting `allow_calls`
+
+Imagine code like this:
+
+```Ruby
+class Alfa
+  def bravo
+    charlie.delta
+    charlie.delta
+    echo.foxtrot
+    echo.foxtrot
+  end
+end
+```
+
+This would report:
+
+>>
+src.rb -- 2 warnings:
+  [4, 5]:DuplicateMethodCall: Alfa#bravo calls charlie.delta 2 times
+  [6, 7]:DuplicateMethodCall: Alfa#bravo calls echo.foxtrot 2 times
+
+So let's say you're ok with the `echo.foxtrot` calls you can stop reporting them like this:
+
+1.) Via source code comment:
+
+```Ruby
+class Alfa
+  # :reek:DuplicateMethodCall { allow_calls: ['echo.foxtrot'] }
+  def bravo
+    charlie.delta
+    charlie.delta
+    echo.foxtrot
+    echo.foxtrot
+  end
+end
+```
+
+2.) Via configuration file:
+
+```Yaml
+DuplicateMethodCall:
+  allow_calls:
+  - 'echo.foxtrot'
+```
+
+Note though that the latter way will allow those calls across your source code which might not be what you want.
+In this case you'll have to use source code comments.
