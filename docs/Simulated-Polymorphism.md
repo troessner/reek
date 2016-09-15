@@ -13,4 +13,4 @@ Conditional code is hard to read and understand, because the reader must hold mo
 
 ## Current Support in Reek
 
-Reek checks for [Repeated Conditional](Repeated-Conditional.md)  and for [Nil Check](Nil-Check.md).
+Reek checks for [Manual Dispatch](Manual-Dispatch.md), [Repeated Conditional](Repeated-Conditional.md)  and for [Nil Check](Nil-Check.md).
