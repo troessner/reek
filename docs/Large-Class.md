@@ -9,7 +9,8 @@ size of the corresponding instance of `Class`.)
 
 ## Current Support in Reek
 
-Reek offers two checks in this category.
+Reek offers three checks in this category.
 
+* [Too Many Constants](Too-Many-Constants.md)
 * [Too Many Instance Variables](Too-Many-Instance-Variables.md)
 * [Too Many Methods](Too-Many-Methods.md)
