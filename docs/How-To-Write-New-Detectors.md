@@ -59,6 +59,20 @@ module Reek
 end
 ```
 
+For your detector to be properly loaded you need to require it in `lib/reek/smells.rb` as well.
+
+### defaults.reek
+
+After you ran
+
+```
+bundle exec rake
+```
+
+for the first time with your shiny new detector in place the `defaults.reek`
+file should have been updated automatically. Make sure you don't forget to check
+in those changes as well.
+
 ### Documentation
 
 * Above every `SmellDetector::sniff` method it should be documented what the expected AST is
@@ -66,6 +80,8 @@ end
   take any arbitrary existing smell detector documentation page as template (since
   they all have the same structure already)
 * The detector should be listed under [Code Smells](docs/Code-Smells.md)
+* Depending on what your detector does it might make sense to add it to other doc pages as
+  well e.g. [Simulated Polymorphism](docs/Simulated-Polymorphism.md)
 
 ### Rspec examples
 
