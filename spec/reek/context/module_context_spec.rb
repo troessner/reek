@@ -28,9 +28,13 @@ RSpec.describe Reek::Context::ModuleContext do
   end
 
   describe '#track_visibility' do
-    let(:context) { described_class.new(nil, double('exp1')) }
-    let(:first_child) { Reek::Context::MethodContext.new(context, double('exp2', type: :def, name: :foo)) }
-    let(:second_child) { Reek::Context::MethodContext.new(context, double('exp3', type: :def)) }
+    let(:main_exp) { instance_double('Reek::AST::Node') }
+    let(:first_def) { instance_double('Reek::AST::SexpExtensions::DefNode', name: :foo) }
+    let(:second_def) { instance_double('Reek::AST::SexpExtensions::DefNode') }
+
+    let(:context) { described_class.new(nil, main_exp) }
+    let(:first_child) { Reek::Context::MethodContext.new(context, first_def) }
+    let(:second_child) { Reek::Context::MethodContext.new(context, second_def) }
 
     it 'sets visibility on subsequent child contexts' do
       context.append_child_context first_child
