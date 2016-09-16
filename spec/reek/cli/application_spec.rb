@@ -62,29 +62,29 @@ RSpec.describe Reek::CLI::Application do
                  configuration: Reek::Configuration::AppConfiguration,
                  options: Reek::CLI::Options)
         end
-      end
 
-      context 'when source files are excluded through configuration' do
-        let(:app) { Reek::CLI::Application.new ['--config', 'some_file.reek'] }
+        context 'when source files are excluded through configuration' do
+          let(:app) { Reek::CLI::Application.new ['--config', 'some_file.reek'] }
 
-        before do
-          allow(Reek::Configuration::AppConfiguration).
-            to receive(:from_path).
-            with(Pathname.new('some_file.reek')).
-            and_return configuration
-        end
+          before do
+            allow(Reek::Configuration::AppConfiguration).
+              to receive(:from_path).
+              with(Pathname.new('some_file.reek')).
+              and_return configuration
+          end
 
-        it 'should use configuration for excluded paths' do
-          expected_sources = Reek::Source::SourceLocator.
-            new(['.'], configuration: configuration).sources
-          expect(expected_sources).not_to include(path_excluded_in_configuration)
+          it 'should use configuration for excluded paths' do
+            expected_sources = Reek::Source::SourceLocator.
+              new(['.'], configuration: configuration).sources
+            expect(expected_sources).not_to include(path_excluded_in_configuration)
 
-          app.execute
+            app.execute
 
-          expect(Reek::CLI::Command::ReportCommand).to have_received(:new).
-            with(sources: expected_sources,
-                 configuration: configuration,
-                 options: Reek::CLI::Options)
+            expect(Reek::CLI::Command::ReportCommand).to have_received(:new).
+              with(sources: expected_sources,
+                   configuration: configuration,
+                   options: Reek::CLI::Options)
+          end
         end
       end
     end
