@@ -25,8 +25,6 @@ RSpec.shared_examples_for 'one smell found' do
 end
 
 RSpec.describe Reek::Examiner do
-  let(:expected_first_smell) { 'NestedIterators' }
-
   context 'with a fragrant String' do
     let(:examiner) { described_class.new('def good() true; end') }
 

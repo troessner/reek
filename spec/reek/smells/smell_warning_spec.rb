@@ -96,7 +96,6 @@ RSpec.describe Reek::Smells::SmellWarning do
   end
 
   context '#yaml_hash' do
-    let(:class) { 'FeatureEnvy' }
     let(:context_name) { 'Module::Class#method/block' }
     let(:lines) { [24, 513] }
     let(:message) { 'test message' }
