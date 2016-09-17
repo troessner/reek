@@ -53,7 +53,7 @@ module Reek
           context: ctx,
           lines: [ctx.exp.line],
           message: "has prima donna method '#{name}'",
-          parameters: { name: name })
+          parameters: { name: name.to_s })
       end
     end
   end

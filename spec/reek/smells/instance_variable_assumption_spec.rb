@@ -17,7 +17,7 @@ RSpec.describe Reek::Smells::InstanceVariableAssumption do
                            context:    'Alfa',
                            message:    "assumes too much for instance variable '@charlie'",
                            source:     'string',
-                           assumption: :@charlie)
+                           assumption: '@charlie')
   end
 
   it 'does count all occurences' do
@@ -36,10 +36,10 @@ RSpec.describe Reek::Smells::InstanceVariableAssumption do
 
     expect(src).to reek_of(:InstanceVariableAssumption,
                            lines: [1],
-                           assumption: :@charlie)
+                           assumption: '@charlie')
     expect(src).to reek_of(:InstanceVariableAssumption,
                            lines: [1],
-                           assumption: :@echo)
+                           assumption: '@echo')
   end
 
   it 'should not report an empty class' do
@@ -76,7 +76,7 @@ RSpec.describe Reek::Smells::InstanceVariableAssumption do
       end
     EOS
 
-    expect(src).to reek_of(:InstanceVariableAssumption, assumption: :@delta)
+    expect(src).to reek_of(:InstanceVariableAssumption, assumption: '@delta')
   end
 
   it 'reports inner class even if outer class initializes the variable' do

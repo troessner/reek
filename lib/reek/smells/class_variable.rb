@@ -40,13 +40,13 @@ module Reek
       #
       # :reek:TooManyStatements: { max_statements: 7 }
       # :reek:FeatureEnvy
-      def class_variables_in(ast)
+      def class_variables_in(exp)
         result = Hash.new { |hash, key| hash[key] = [] }
         collector = proc do |cvar_node|
           result[cvar_node.name].push(cvar_node.line)
         end
         [:cvar, :cvasgn, :cvdecl].each do |stmt_type|
-          ast.each_node(stmt_type, [:class, :module], &collector)
+          exp.each_node(stmt_type, [:class, :module], &collector)
         end
         result
       end
