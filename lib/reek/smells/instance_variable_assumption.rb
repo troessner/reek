@@ -39,7 +39,7 @@ module Reek
           context: ctx,
           lines: [ctx.exp.line],
           message: message,
-          parameters: { assumption: assumption })
+          parameters: { assumption: assumption.to_s })
       end
 
       # :reek:UtilityFunction

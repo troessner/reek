@@ -21,7 +21,7 @@ module Reek
       #
       # :reek:FeatureEnvy
       def sniff(ctx)
-        ctx.default_assignments.select do |_param, value|
+        ctx.default_assignments.select do |_parameter, value|
           [:true, :false].include?(value.type)
         end.map do |parameter, _value|
           smell_warning(

@@ -44,7 +44,7 @@ module Reek
             context: ctx,
             lines: [hit.line],
             message: "has the unused private instance method '#{name}'",
-            parameters: { name: name })
+            parameters: { name: name.to_s })
         end
       end
 

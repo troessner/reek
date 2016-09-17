@@ -15,7 +15,7 @@ RSpec.describe Reek::Smells::PrimaDonnaMethod do
                            context: 'Alfa',
                            message: "has prima donna method 'bravo!'",
                            source:  'string',
-                           name:    :bravo!)
+                           name:    'bravo!')
   end
 
   it 'does count all occurences' do
@@ -31,10 +31,10 @@ RSpec.describe Reek::Smells::PrimaDonnaMethod do
 
     expect(src).to reek_of(:PrimaDonnaMethod,
                            lines: [1],
-                           name:  :bravo!)
+                           name:  'bravo!')
     expect(src).to reek_of(:PrimaDonnaMethod,
                            lines: [1],
-                           name:  :charlie!)
+                           name:  'charlie!')
   end
 
   it 'should report nothing when method and bang counterpart exist' do
