@@ -30,30 +30,31 @@ module Reek
       end
 
       def sniff(ctx)
-        ctx.node_instance_methods.map do |method_sexp|
-          check_for_smells(method_sexp, ctx)
-        end.compact
+        ctx.node_instance_methods.select do |method_sexp|
+          prima_donna_method?(method_sexp, ctx)
+        end.map do |method_sexp|
+          name = method_sexp.name
+          smell_warning(
+            context: ctx,
+            lines: [ctx.exp.line],
+            message: "has prima donna method '#{name}'",
+            parameters: { name: name.to_s })
+        end
       end
 
       private
 
-      # :reek:FeatureEnvy
-      # :reek:TooManyStatements: { max_statements: 6 }
-      def check_for_smells(method_sexp, ctx)
-        return unless method_sexp.ends_with_bang?
+      def prima_donna_method?(method_sexp, ctx)
+        return false unless method_sexp.ends_with_bang?
+        return false if version_without_bang_exists?(method_sexp, ctx)
+        true
+      end
 
-        version_without_bang = ctx.node_instance_methods.find do |sexp_item|
+      # :reek:UtilityFunction
+      def version_without_bang_exists?(method_sexp, ctx)
+        ctx.node_instance_methods.find do |sexp_item|
           sexp_item.name.to_s == method_sexp.name_without_bang
         end
-
-        return if version_without_bang
-
-        name = method_sexp.name
-        smell_warning(
-          context: ctx,
-          lines: [ctx.exp.line],
-          message: "has prima donna method '#{name}'",
-          parameters: { name: name.to_s })
       end
     end
   end
