@@ -4,12 +4,12 @@ require_lib 'reek/context/module_context'
 
 RSpec.describe Reek::Context::CodeContext do
   context 'name recognition' do
-    let(:ctx)       { Reek::Context::CodeContext.new(nil, exp) }
+    let(:ctx)       { described_class.new(nil, exp) }
     let(:exp)       { double('exp') }
     let(:exp_name)  { 'random_name' }
     let(:full_name) { "::::::::::::::::::::#{exp_name}" }
 
-    before :each do
+    before do
       allow(exp).to receive(:name).and_return(exp_name)
       allow(exp).to receive(:full_name).and_return(full_name)
     end
@@ -43,11 +43,11 @@ RSpec.describe Reek::Context::CodeContext do
     end
 
     context 'when there is an outer' do
-      let(:ctx)        { Reek::Context::CodeContext.new(outer, exp) }
+      let(:ctx)        { described_class.new(outer, exp) }
       let(:outer_name) { 'another_random sting' }
-      let(:outer)      { Reek::Context::CodeContext.new(nil, double('exp1')) }
+      let(:outer)      { described_class.new(nil, double('exp1')) }
 
-      before :each do
+      before do
         ctx.register_with_parent outer
         allow(outer).to receive(:full_name).at_least(:once).and_return(outer_name)
       end
@@ -71,7 +71,7 @@ RSpec.describe Reek::Context::CodeContext do
       let(:ctx) do
         src = 'module Emptiness; end'
         ast = Reek::Source::SourceCode.from(src).syntax_tree
-        Reek::Context::CodeContext.new(nil, ast)
+        described_class.new(nil, ast)
       end
 
       it 'yields no calls' do
@@ -90,10 +90,8 @@ RSpec.describe Reek::Context::CodeContext do
         end
       end
 
-      context 'with no block' do
-        it 'returns an empty array of ifs' do
-          expect(ctx.each_node(:if, [])).to be_empty
-        end
+      it 'returns an empty array of ifs when no block is passed' do
+        expect(ctx.each_node(:if, [])).to be_empty
       end
     end
 
@@ -101,7 +99,7 @@ RSpec.describe Reek::Context::CodeContext do
       let(:ctx) do
         src = "module Loneliness; def calloo; puts('hello') end; end"
         ast = Reek::Source::SourceCode.from(src).syntax_tree
-        Reek::Context::CodeContext.new(nil, ast)
+        described_class.new(nil, ast)
       end
 
       it 'yields no ifs' do
@@ -129,10 +127,8 @@ RSpec.describe Reek::Context::CodeContext do
         ctx.each_node(:def, []) { |exp| expect(exp.children.first).to eq(:calloo) }
       end
 
-      context 'pruning the traversal' do
-        it 'ignores the call inside the method' do
-          expect(ctx.each_node(:send, [:def])).to be_empty
-        end
+      it 'ignores the call inside the method if the traversal is pruned' do
+        expect(ctx.each_node(:send, [:def])).to be_empty
       end
     end
 
@@ -153,7 +149,7 @@ RSpec.describe Reek::Context::CodeContext do
         end
       EOS
       ast = Reek::Source::SourceCode.from(src).syntax_tree
-      ctx = Reek::Context::CodeContext.new(nil, ast)
+      ctx = described_class.new(nil, ast)
       expect(ctx.each_node(:if, []).length).to eq(3)
     end
   end
@@ -170,10 +166,10 @@ RSpec.describe Reek::Context::CodeContext do
     end
     let(:expression) { Reek::Source::SourceCode.from(src).syntax_tree }
     let(:outer) { nil }
-    let(:context) { Reek::Context::CodeContext.new(outer, expression) }
+    let(:context) { described_class.new(outer, expression) }
     let(:sniffer) { double('sniffer') }
 
-    before :each do
+    before do
       context.register_with_parent(outer)
       allow(sniffer).to receive(:smell_type).and_return('DuplicateMethodCall')
     end
@@ -185,9 +181,9 @@ RSpec.describe Reek::Context::CodeContext do
     end
 
     context 'when there is an outer context' do
-      let(:outer) { Reek::Context::CodeContext.new(nil, double('exp1')) }
+      let(:outer) { described_class.new(nil, double('exp1')) }
 
-      before :each do
+      before do
         allow(outer).to receive(:config_for).with(sniffer).and_return(
           'max_calls' => 2)
       end
@@ -200,9 +196,9 @@ RSpec.describe Reek::Context::CodeContext do
   end
 
   describe '#register_with_parent' do
-    let(:context) { Reek::Context::CodeContext.new(nil, double('exp1')) }
-    let(:first_child) { Reek::Context::CodeContext.new(context, double('exp2')) }
-    let(:second_child) { Reek::Context::CodeContext.new(context, double('exp3')) }
+    let(:context) { described_class.new(nil, double('exp1')) }
+    let(:first_child) { described_class.new(context, double('exp2')) }
+    let(:second_child) { described_class.new(context, double('exp3')) }
 
     it "appends the element to the parent context's list of children" do
       first_child.register_with_parent context
@@ -213,9 +209,9 @@ RSpec.describe Reek::Context::CodeContext do
   end
 
   describe '#each' do
-    let(:context) { Reek::Context::CodeContext.new(nil, double('exp1')) }
-    let(:first_child) { Reek::Context::CodeContext.new(context, double('exp2')) }
-    let(:second_child) { Reek::Context::CodeContext.new(context, double('exp3')) }
+    let(:context) { described_class.new(nil, double('exp1')) }
+    let(:first_child) { described_class.new(context, double('exp2')) }
+    let(:second_child) { described_class.new(context, double('exp3')) }
 
     it 'yields each child' do
       first_child.register_with_parent context

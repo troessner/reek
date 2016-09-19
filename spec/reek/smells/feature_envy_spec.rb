@@ -32,62 +32,69 @@ RSpec.describe Reek::Smells::FeatureEnvy do
       end
     EOS
 
-    expect(src).to reek_of(:FeatureEnvy,
-                           lines: [3, 3],
-                           name:  'charlie')
-    expect(src).to reek_of(:FeatureEnvy,
-                           lines: [7, 7],
-                           name:  'hotel')
+    expect(src).
+      to reek_of(:FeatureEnvy, lines: [3, 3], name:  'charlie').
+      and reek_of(:FeatureEnvy, lines: [7, 7], name:  'hotel')
   end
 
   it 'does not report use of self' do
-    expect('def alfa; self.to_s + self.to_i; end').not_to reek_of(:FeatureEnvy)
+    src = 'def alfa; self.to_s + self.to_i; end'
+    expect(src).not_to reek_of(:FeatureEnvy)
   end
 
   it 'does not report vcall with no argument' do
-    expect('def alfa; bravo; end').not_to reek_of(:FeatureEnvy)
+    src = 'def alfa; bravo; end'
+    expect(src).not_to reek_of(:FeatureEnvy)
   end
 
   it 'does not report single use' do
-    expect('def alfa(bravo); bravo.charlie(@delta); end').not_to reek_of(:FeatureEnvy)
+    src = 'def alfa(bravo); bravo.charlie(@delta); end'
+    expect(src).not_to reek_of(:FeatureEnvy)
   end
 
   it 'does not report return value' do
-    expect('def alfa(bravo); bravo.charlie(@delta); bravo; end').not_to reek_of(:FeatureEnvy)
+    src = 'def alfa(bravo); bravo.charlie(@delta); bravo; end'
+    expect(src).not_to reek_of(:FeatureEnvy)
   end
 
   it 'does ignore global variables' do
-    expect('def alfa; $bravo.to_a; $bravo[@charlie]; end').not_to reek_of(:FeatureEnvy)
+    src = 'def alfa; $bravo.to_a; $bravo[@charlie]; end'
+    expect(src).not_to reek_of(:FeatureEnvy)
   end
 
   it 'does not report class methods' do
-    expect('def alfa; self.class.bravo(self); end').not_to reek_of(:FeatureEnvy)
+    src = 'def alfa; self.class.bravo(self); end'
+    expect(src).not_to reek_of(:FeatureEnvy)
   end
 
   it 'does not report single use of an ivar' do
-    expect('def alfa; @bravo.to_a; end').not_to reek_of(:FeatureEnvy)
+    src = 'def alfa; @bravo.to_a; end'
+    expect(src).not_to reek_of(:FeatureEnvy)
   end
 
   it 'does not report returning an ivar' do
-    expect('def alfa; @bravo.to_a; @bravo; end').not_to reek_of(:FeatureEnvy)
+    src = 'def alfa; @bravo.to_a; @bravo; end'
+    expect(src).not_to reek_of(:FeatureEnvy)
   end
 
   it 'does not report ivar usage in a parameter' do
-    expect('def alfa; @bravo.charlie + delta(@bravo) - echo(@bravo) end').
-      not_to reek_of(:FeatureEnvy)
+    src = 'def alfa; @bravo.charlie + delta(@bravo) - echo(@bravo) end'
+    expect(src).not_to reek_of(:FeatureEnvy)
   end
 
   it 'does not report single use of an lvar' do
-    expect('def alfa; bravo = @charlie; bravo.to_a; end').not_to reek_of(:FeatureEnvy)
+    src = 'def alfa; bravo = @charlie; bravo.to_a; end'
+    expect(src).not_to reek_of(:FeatureEnvy)
   end
 
   it 'does not report returning an lvar' do
-    expect('def alfa; bravo = @charlie; bravo.to_a; lv end').not_to reek_of(:FeatureEnvy)
+    src = 'def alfa; bravo = @charlie; bravo.to_a; lv end'
+    expect(src).not_to reek_of(:FeatureEnvy)
   end
 
   it 'ignores lvar usage in a parameter' do
-    expect('def alfa; bravo = @item; bravo.charlie + delta(bravo) - echo(bravo); end').
-      not_to reek_of(:FeatureEnvy)
+    src = 'def alfa; bravo = @item; bravo.charlie + delta(bravo) - echo(bravo); end'
+    expect(src).not_to reek_of(:FeatureEnvy)
   end
 
   it 'ignores multiple ivars' do
@@ -115,11 +122,12 @@ RSpec.describe Reek::Smells::FeatureEnvy do
       end
       EOS
 
-    expect(src).to reek_of(:FeatureEnvy, name: 'delta')
-    expect(src).not_to reek_of(:FeatureEnvy, name: 'bravo')
+    expect(src).
+      to reek_of(:FeatureEnvy, name: 'delta').
+      and not_reek_of(:FeatureEnvy, name: 'bravo')
   end
 
-  it 'should report multiple affinities' do
+  it 'reports multiple affinities' do
     src = <<-EOS
       def alfa
         bravo = @charlie
@@ -129,8 +137,9 @@ RSpec.describe Reek::Smells::FeatureEnvy do
       end
       EOS
 
-    expect(src).to reek_of(:FeatureEnvy, name: 'delta')
-    expect(src).to reek_of(:FeatureEnvy, name: 'bravo')
+    expect(src).
+      to reek_of(:FeatureEnvy, name: 'delta').
+      and reek_of(:FeatureEnvy, name: 'bravo')
   end
 
   it 'is not be fooled by duplication' do

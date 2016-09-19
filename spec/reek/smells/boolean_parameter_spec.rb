@@ -22,14 +22,9 @@ RSpec.describe Reek::Smells::BooleanParameter do
       end
     EOS
 
-    expect(src).to reek_of(:BooleanParameter,
-                           lines:   [1],
-                           context: 'alfa',
-                           parameter: 'bravo')
-    expect(src).to reek_of(:BooleanParameter,
-                           lines:   [1],
-                           context: 'alfa',
-                           parameter: 'charlie')
+    expect(src).
+      to reek_of(:BooleanParameter, lines: [1], context: 'alfa', parameter: 'bravo').
+      and reek_of(:BooleanParameter, lines: [1], context: 'alfa', parameter: 'charlie')
   end
 
   context 'in a method' do
@@ -41,17 +36,17 @@ RSpec.describe Reek::Smells::BooleanParameter do
     it 'reports two parameters defaulted to booleans in a mixed parameter list' do
       src = 'def alfa(bravo, charlie = true, delta = false, &echo) end'
 
-      expect(src).to reek_of(:BooleanParameter, parameter: 'charlie')
-      expect(src).to reek_of(:BooleanParameter, parameter: 'delta')
-
-      expect(src).not_to reek_of(:BooleanParameter, parameter: 'bravo')
-      expect(src).not_to reek_of(:BooleanParameter, parameter: 'echo')
+      expect(src).to reek_of(:BooleanParameter, parameter: 'charlie').
+        and reek_of(:BooleanParameter, parameter: 'delta').
+        and not_reek_of(:BooleanParameter, parameter: 'bravo').
+        and not_reek_of(:BooleanParameter, parameter: 'echo')
     end
 
     it 'reports keyword parameters defaulted to booleans' do
       src = 'def alfa(bravo: true, charlie: false) end'
-      expect(src).to reek_of(:BooleanParameter, parameter: 'bravo')
-      expect(src).to reek_of(:BooleanParameter, parameter: 'charlie')
+      expect(src).
+        to reek_of(:BooleanParameter, parameter: 'bravo').
+        and reek_of(:BooleanParameter, parameter: 'charlie')
     end
 
     it 'does not report regular parameters' do
@@ -89,11 +84,10 @@ RSpec.describe Reek::Smells::BooleanParameter do
     it 'reports two parameters defaulted to booleans' do
       src = 'def self.alfa(bravo, charlie = true, delta = false, &echo) end'
 
-      expect(src).to reek_of(:BooleanParameter, parameter: 'charlie')
-      expect(src).to reek_of(:BooleanParameter, parameter: 'delta')
-
-      expect(src).not_to reek_of(:BooleanParameter, parameter: 'bravo')
-      expect(src).not_to reek_of(:BooleanParameter, parameter: 'echo')
+      expect(src).to reek_of(:BooleanParameter, parameter: 'charlie').
+        and reek_of(:BooleanParameter, parameter: 'delta').
+        and not_reek_of(:BooleanParameter, parameter: 'bravo').
+        and not_reek_of(:BooleanParameter, parameter: 'echo')
     end
   end
 end

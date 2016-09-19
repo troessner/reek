@@ -33,13 +33,15 @@ RSpec.describe Reek::TreeDresser do
     end
 
     it 'dresses `def` nodes properly' do
-      expect(def_node).to be_a Reek::AST::SexpExtensions::DefNode
-      expect(def_node).to be_a Reek::AST::SexpExtensions::MethodNodeBase
+      expect(def_node).
+        to be_a(Reek::AST::SexpExtensions::DefNode).
+        and be_a(Reek::AST::SexpExtensions::MethodNodeBase)
     end
 
     it 'dresses `args` nodes properly' do
-      expect(args_node).to be_a Reek::AST::SexpExtensions::ArgsNode
-      expect(args_node).to be_a Reek::AST::SexpExtensions::NestedAssignables
+      expect(args_node).
+        to be_a(Reek::AST::SexpExtensions::ArgsNode).
+        and be_a(Reek::AST::SexpExtensions::NestedAssignables)
     end
 
     it 'dresses `send` nodes properly' do

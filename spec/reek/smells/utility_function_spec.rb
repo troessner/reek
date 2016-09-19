@@ -17,31 +17,37 @@ RSpec.describe Reek::Smells::UtilityFunction do
   end
 
   it 'counts a local call in a param initializer' do
-    expect('def alfa(bravo = charlie) bravo.to_s end').not_to reek_of(:UtilityFunction)
+    src = 'def alfa(bravo = charlie) bravo.to_s end'
+    expect(src).not_to reek_of(:UtilityFunction)
   end
 
   it 'counts usages of self' do
-    expect('def alfa(bravo); alfa.bravo(self); end').not_to reek_of(:UtilityFunction)
+    src = 'def alfa(bravo); alfa.bravo(self); end'
+    expect(src).not_to reek_of(:UtilityFunction)
   end
 
   it 'counts self reference within a dstr' do
-    expect('def alfa(bravo); "#{self} #{bravo}"; end').not_to reek_of(:UtilityFunction)
+    src = 'def alfa(bravo); "#{self} #{bravo}"; end'
+    expect(src).not_to reek_of(:UtilityFunction)
   end
 
   it 'counts calls to self within a dstr' do
-    expect('def alfa(bravo); "#{self.gsub(/charlie/, /delta/)}"; end').
+    src = 'def alfa(bravo); "#{self.gsub(/charlie/, /delta/)}"; end'
+    expect(src).
       not_to reek_of(:UtilityFunction)
   end
 
   it 'does not report a method that calls super' do
-    expect('def alfa(bravo) super; bravo.to_s; end').not_to reek_of(:UtilityFunction)
+    src = 'def alfa(bravo) super; bravo.to_s; end'
+    expect(src).not_to reek_of(:UtilityFunction)
   end
 
   it 'does not report a method that calls super with arguments' do
-    expect('def alfa(bravo) super(bravo); bravo.to_s; end').not_to reek_of(:UtilityFunction)
+    src = 'def alfa(bravo) super(bravo); bravo.to_s; end'
+    expect(src).not_to reek_of(:UtilityFunction)
   end
 
-  it 'should recognise a deep call' do
+  it 'recognises a deep call' do
     src = <<-EOS
         class Alfa
           def bravo(charlie)
@@ -58,31 +64,38 @@ RSpec.describe Reek::Smells::UtilityFunction do
   end
 
   it 'does not report empty method' do
-    expect('def alfa(bravo); end').not_to reek_of(:UtilityFunction)
+    src = 'def alfa(bravo); end'
+    expect(src).not_to reek_of(:UtilityFunction)
   end
 
   it 'does not report literal' do
-    expect('def alfa; 3; end').not_to reek_of(:UtilityFunction)
+    src = 'def alfa; 3; end'
+    expect(src).not_to reek_of(:UtilityFunction)
   end
 
   it 'does not report instance variable reference' do
-    expect('def alfa; @bravo; end').not_to reek_of(:UtilityFunction)
+    src = 'def alfa; @bravo; end'
+    expect(src).not_to reek_of(:UtilityFunction)
   end
 
   it 'does not report vcall' do
-    expect('def alfa; bravo; end').not_to reek_of(:UtilityFunction)
+    src = 'def alfa; bravo; end'
+    expect(src).not_to reek_of(:UtilityFunction)
   end
 
   it 'does not report references to self' do
-    expect('def alfa; self; end').not_to reek_of(:UtilityFunction)
+    src = 'def alfa; self; end'
+    expect(src).not_to reek_of(:UtilityFunction)
   end
 
   it 'recognises an ivar reference within a block' do
-    expect('def alfa(bravo) bravo.each { @charlie = 3} end').not_to reek_of(:UtilityFunction)
+    src = 'def alfa(bravo) bravo.each { @charlie = 3} end'
+    expect(src).not_to reek_of(:UtilityFunction)
   end
 
   it 'reports a call to a constant' do
-    expect('def simple(arga) FIELDS[arga] end').to reek_of(:UtilityFunction, context: 'simple')
+    src = 'def simple(arga) FIELDS[arga] end'
+    expect(src).to reek_of(:UtilityFunction, context: 'simple')
   end
 
   context 'Singleton methods' do

@@ -110,40 +110,37 @@ RSpec.describe Reek::Examiner do
     context 'with an incomprehensible source that causes Reek to crash' do
       let(:source) { 'class C; def does_crash_reek; end; end' }
 
-      subject do
+      let(:examiner) do
         smell_repository = instance_double 'Reek::Smells::SmellRepository'
-        expect(smell_repository).to receive(:examine) do
+        allow(smell_repository).to receive(:examine) do
           raise ArgumentError, 'Looks like bad source'
         end
         class_double('Reek::Smells::SmellRepository').as_stubbed_const
         allow(Reek::Smells::SmellRepository).to receive(:eligible_smell_types)
-        expect(Reek::Smells::SmellRepository).to receive(:new) { smell_repository }
+        allow(Reek::Smells::SmellRepository).to receive(:new).and_return smell_repository
 
-        examiner = described_class.new source
-        examiner
+        described_class.new source
       end
 
-      it 'has no warnings' do
+      it 'returns no smell warnings' do
         Reek::CLI::Silencer.silently do
-          expect(subject.smells).to be_empty
+          expect(examiner.smells).to be_empty
         end
       end
 
-      describe 'message on STDERR' do
-        it 'contains the origin' do
-          origin = 'string'
-          expect { subject.smells }.to output(/#{origin}/).to_stderr
-        end
+      it 'outputs the origin to STDERR' do
+        origin = 'string'
+        expect { examiner.smells }.to output(/#{origin}/).to_stderr
+      end
 
-        it 'explains what to do' do
-          explanation = 'It would be great if you could report this back to the Reek team'
-          expect { subject.smells }.to output(/#{explanation}/).to_stderr
-        end
+      it 'explains what to do to STDERR' do
+        explanation = 'It would be great if you could report this back to the Reek team'
+        expect { examiner.smells }.to output(/#{explanation}/).to_stderr
+      end
 
-        it 'contains the original exception' do
-          original = '#<ArgumentError: Looks like bad source>'
-          expect { subject.smells }.to output(/#{original}/).to_stderr
-        end
+      it 'outputs the original exception to STDERR' do
+        original = '#<ArgumentError: Looks like bad source>'
+        expect { examiner.smells }.to output(/#{original}/).to_stderr
       end
     end
   end

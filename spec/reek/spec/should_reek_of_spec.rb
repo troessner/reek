@@ -24,7 +24,7 @@ RSpec.describe Reek::Spec::ShouldReekOf do
   describe 'different sources of input' do
     context 'checking code in a string' do
       let(:clean_code) { 'def good() true; end' }
-      let(:matcher) { Reek::Spec::ShouldReekOf.new(:UncommunicativeVariableName, name: 'y') }
+      let(:matcher) { described_class.new(:UncommunicativeVariableName, name: 'y') }
       let(:smelly_code) { 'def x() y = 4; end' }
 
       it 'matches a smelly String' do
@@ -42,7 +42,7 @@ RSpec.describe Reek::Spec::ShouldReekOf do
     end
 
     context 'checking code in a File' do
-      let(:matcher) { Reek::Spec::ShouldReekOf.new(:UncommunicativeMethodName, name: 'x') }
+      let(:matcher) { described_class.new(:UncommunicativeMethodName, name: 'x') }
 
       it 'matches a smelly file' do
         expect(matcher.matches?(SMELLY_FILE)).to be_truthy
@@ -56,7 +56,7 @@ RSpec.describe Reek::Spec::ShouldReekOf do
 
   describe 'smell types and smell details' do
     context 'passing in smell_details with unknown parameter name' do
-      let(:matcher) { Reek::Spec::ShouldReekOf.new(:UncommunicativeVariableName, foo: 'y') }
+      let(:matcher) { described_class.new(:UncommunicativeVariableName, foo: 'y') }
       let(:smelly_code) { 'def x() y = 4; end' }
 
       it 'raises ArgumentError' do
@@ -65,7 +65,7 @@ RSpec.describe Reek::Spec::ShouldReekOf do
     end
 
     context 'both are matching' do
-      let(:matcher) { Reek::Spec::ShouldReekOf.new(:UncommunicativeVariableName, name: 'y') }
+      let(:matcher) { described_class.new(:UncommunicativeVariableName, name: 'y') }
       let(:smelly_code) { 'def x() y = 4; end' }
 
       it 'is truthy' do
@@ -76,8 +76,8 @@ RSpec.describe Reek::Spec::ShouldReekOf do
     context 'no smell_type is matching' do
       let(:smelly_code) { 'def dummy() y = 4; end' }
 
-      let(:falsey_matcher) { Reek::Spec::ShouldReekOf.new(:FeatureEnvy, name: 'y') }
-      let(:truthy_matcher) { Reek::Spec::ShouldReekOf.new(:UncommunicativeVariableName, name: 'y') }
+      let(:falsey_matcher) { described_class.new(:FeatureEnvy, name: 'y') }
+      let(:truthy_matcher) { described_class.new(:UncommunicativeVariableName, name: 'y') }
 
       it 'is falsey' do
         expect(falsey_matcher.matches?(smelly_code)).to be_falsey
@@ -100,7 +100,7 @@ RSpec.describe Reek::Spec::ShouldReekOf do
 
     context 'smell type is matching but smell details are not' do
       let(:smelly_code) { 'def double_thing() @other.thing.foo + @other.thing.foo end' }
-      let(:matcher) { Reek::Spec::ShouldReekOf.new(:DuplicateMethodCall, name: 'foo', count: 15) }
+      let(:matcher) { described_class.new(:DuplicateMethodCall, name: 'foo', count: 15) }
 
       it 'is falsey' do
         expect(matcher.matches?(smelly_code)).to be_falsey
@@ -130,15 +130,20 @@ RSpec.describe Reek::Spec::ShouldReekOf do
     end
   end
 
-  it 'enables the smell detector to match automatically' do
-    default_config = Reek::Smells::UnusedPrivateMethod.default_config
-    expect(default_config[Reek::Smells::SmellConfiguration::ENABLED_KEY]).to be_falsy
+  context 'for a smell that is disabled by default' do
+    before do
+      default_config = Reek::Smells::UnusedPrivateMethod.default_config
+      expect(default_config[Reek::Smells::SmellConfiguration::ENABLED_KEY]).to be_falsy
+    end
 
-    expect('class C; private; def foo; end; end').to reek_of(:UnusedPrivateMethod)
+    it 'enables the smell detector to match automatically' do
+      src = 'class C; private; def foo; end; end'
+      expect(src).to reek_of(:UnusedPrivateMethod)
+    end
   end
 
   describe '#with_config' do
-    let(:matcher) { Reek::Spec::ShouldReekOf.new(:UncommunicativeVariableName) }
+    let(:matcher) { described_class.new(:UncommunicativeVariableName) }
     let(:configured_matcher) { matcher.with_config('accept' => 'x') }
 
     it 'uses the passed-in configuration for matching' do

@@ -1,3 +1,6 @@
+require:
+  - rubocop-rspec
+
 AllCops:
   Exclude:
     - 'samples/**/*'
@@ -22,6 +25,49 @@ Metrics/LineLength:
 # Keyword arguments make long parameter lists readable
 Metrics/ParameterLists:
   CountKeywordArgs: false
+
+# FIXME: Update specs to avoid offenses
+RSpec/AnyInstance:
+  Exclude:
+    - 'spec/reek/cli/application_spec.rb'
+
+# This file does not test a class
+RSpec/DescribeClass:
+  Exclude:
+    - 'spec/quality/reek_source_spec.rb'
+
+# Our examples are large because we have source literals in them
+RSpec/ExampleLength:
+  Enabled: false
+
+# FIXME: Split up files to avoid offenses
+RSpec/MultipleDescribes:
+  Exclude:
+    - 'spec/reek/ast/sexp_extensions_spec.rb'
+    - 'spec/reek/report/location_formatter_spec.rb'
+
+# FIXME: Update specs to avoid offenses
+RSpec/MultipleExpectations:
+  Exclude:
+    - 'spec/reek/cli/application_spec.rb'
+    - 'spec/reek/code_comment_spec.rb'
+    - 'spec/reek/configuration/app_configuration_spec.rb'
+    - 'spec/reek/context/module_context_spec.rb'
+    - 'spec/reek/context_builder_spec.rb'
+    - 'spec/reek/examiner_spec.rb'
+    - 'spec/reek/spec/should_reek_of_spec.rb'
+
+# FIXME: Update specs to avoid offenses
+RSpec/NestedGroups:
+  Exclude:
+    - 'spec/reek/cli/application_spec.rb'
+
+# FIXME: Update specs to avoid offenses
+RSpec/VerifiedDoubles:
+  Exclude:
+    - 'spec/reek/context/code_context_spec.rb'
+    - 'spec/reek/context/method_context_spec.rb'
+    - 'spec/reek/context/module_context_spec.rb'
 
 Style/AccessorMethodName:
   Exclude:

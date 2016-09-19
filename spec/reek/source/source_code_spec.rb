@@ -6,20 +6,20 @@ RSpec.describe Reek::Source::SourceCode do
   describe '#syntax_tree' do
     it 'associates comments with the AST' do
       source = "# this is\n# a comment\ndef foo; end"
-      source_code = Reek::Source::SourceCode.new(code: source, origin: '(string)')
+      source_code = described_class.new(code: source, origin: '(string)')
       result = source_code.syntax_tree
       expect(result.leading_comment).to eq "# this is\n# a comment"
     end
 
     it 'cleanly processes empty source' do
-      source_code = Reek::Source::SourceCode.new(code: '', origin: '(string)')
+      source_code = described_class.new(code: '', origin: '(string)')
       result = source_code.syntax_tree
       expect(result).to be_nil
     end
 
     it 'cleanly processes empty source with comments' do
       source = "# this is\n# a comment\n"
-      source_code = Reek::Source::SourceCode.new(code: source, origin: '(string)')
+      source_code = described_class.new(code: source, origin: '(string)')
       result = source_code.syntax_tree
       expect(result).to be_nil
     end
@@ -29,8 +29,8 @@ RSpec.describe Reek::Source::SourceCode do
     let(:catcher) { StringIO.new }
     let(:source_name) { 'Test source' }
     let(:error_message) { 'Error message' }
-    let(:parser) { double('parser') }
-    let(:src) { Reek::Source::SourceCode.new(code: '', origin: source_name, parser: parser) }
+    let(:parser) { class_double(Parser::Ruby23) }
+    let(:src) { described_class.new(code: '', origin: source_name, parser: parser) }
 
     before { $stderr = catcher }
 
@@ -61,7 +61,7 @@ RSpec.describe Reek::Source::SourceCode do
 
     context 'with a Parser::SyntaxError' do
       let(:error_class) { Parser::SyntaxError }
-      let(:diagnostic) { double('diagnostic', message: error_message) }
+      let(:diagnostic) { instance_double('Parser::Diagnostic', message: error_message) }
 
       before do
         allow(parser).to receive(:parse_with_comments).

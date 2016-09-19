@@ -33,12 +33,9 @@ RSpec.describe Reek::Smells::UnusedPrivateMethod do
       end
     EOS
 
-    expect(src).to reek_of(:UnusedPrivateMethod,
-                           lines: [4],
-                           name:  'charlie')
-    expect(src).to reek_of(:UnusedPrivateMethod,
-                           lines: [7],
-                           name:  'charlie')
+    expect(src).
+      to reek_of(:UnusedPrivateMethod, lines: [4], name: 'charlie').
+      and reek_of(:UnusedPrivateMethod, lines: [7], name: 'charlie')
   end
 
   context 'unused private methods' do
@@ -51,8 +48,9 @@ RSpec.describe Reek::Smells::UnusedPrivateMethod do
         end
       EOF
 
-      expect(source).to reek_of(:UnusedPrivateMethod, name: 'bravo')
-      expect(source).to reek_of(:UnusedPrivateMethod, name: 'charlie')
+      expect(source).
+        to reek_of(:UnusedPrivateMethod, name: 'bravo').
+        and reek_of(:UnusedPrivateMethod, name: 'charlie')
     end
 
     it 'reports instance methods in the correct class' do
@@ -65,12 +63,9 @@ RSpec.describe Reek::Smells::UnusedPrivateMethod do
         end
       EOF
 
-      expect(source).to reek_of(:UnusedPrivateMethod,
-                                context: 'Alfa::Bravo',
-                                name: 'charlie')
-      expect(source).not_to reek_of(:UnusedPrivateMethod,
-                                    context: 'Alfa',
-                                    name: 'charlie')
+      expect(source).
+        to reek_of(:UnusedPrivateMethod, context: 'Alfa::Bravo', name: 'charlie').
+        and not_reek_of(:UnusedPrivateMethod, context: 'Alfa', name: 'charlie')
     end
 
     it 'discounts calls to identically named methods in nested classes' do
@@ -90,12 +85,9 @@ RSpec.describe Reek::Smells::UnusedPrivateMethod do
         end
       EOF
 
-      expect(source).not_to reek_of(:UnusedPrivateMethod,
-                                    context: 'Alfa::Bravo',
-                                    name: 'charlie')
-      expect(source).to reek_of(:UnusedPrivateMethod,
-                                context: 'Alfa',
-                                name: 'charlie')
+      expect(source).
+        to reek_of(:UnusedPrivateMethod, context: 'Alfa', name: 'charlie').
+        and not_reek_of(:UnusedPrivateMethod, context: 'Alfo::Bravo', name: 'charlie')
     end
 
     it 'creates warnings correctly' do
@@ -107,12 +99,9 @@ RSpec.describe Reek::Smells::UnusedPrivateMethod do
         end
       EOF
 
-      expect(source).to reek_of(:UnusedPrivateMethod,
-                                name: 'bravo',
-                                lines: [3])
-      expect(source).to reek_of(:UnusedPrivateMethod,
-                                name: 'charlie',
-                                lines: [4])
+      expect(source).
+        to reek_of(:UnusedPrivateMethod, name: 'bravo', lines: [3]).
+        and reek_of(:UnusedPrivateMethod, name: 'charlie', lines: [4])
     end
   end
 
@@ -127,8 +116,9 @@ RSpec.describe Reek::Smells::UnusedPrivateMethod do
         end
       EOF
 
-      expect(source).to reek_of(:UnusedPrivateMethod, name: 'charlie')
-      expect(source).not_to reek_of(:UnusedPrivateMethod, name: 'bravo')
+      expect(source).
+        to reek_of(:UnusedPrivateMethod, name: 'charlie').
+        and not_reek_of(:UnusedPrivateMethod, name: 'bravo')
     end
   end
 
@@ -188,15 +178,17 @@ RSpec.describe Reek::Smells::UnusedPrivateMethod do
     it 'excludes them via direct match in the app configuration' do
       config = { Reek::Smells::SmellDetector::EXCLUDE_KEY => ['Alfa#charlie'] }
 
-      expect(source).to reek_of(:UnusedPrivateMethod, name: 'bravo').with_config(config)
-      expect(source).not_to reek_of(:UnusedPrivateMethod, name: 'charlie').with_config(config)
+      expect(source).
+        to reek_of(:UnusedPrivateMethod, name: 'bravo').with_config(config).
+        and not_reek_of(:UnusedPrivateMethod, name: 'charlie').with_config(config)
     end
 
     it 'excludes them via regex in the app configuration' do
       config = { Reek::Smells::SmellDetector::EXCLUDE_KEY => [/charlie/] }
 
-      expect(source).to reek_of(:UnusedPrivateMethod, name: 'bravo').with_config(config)
-      expect(source).not_to reek_of(:UnusedPrivateMethod, name: 'charlie').with_config(config)
+      expect(source).
+        to reek_of(:UnusedPrivateMethod, name: 'bravo').with_config(config).
+        and not_reek_of(:UnusedPrivateMethod, name: 'charlie').with_config(config)
     end
   end
 end

@@ -3,7 +3,7 @@ require_lib 'reek/examiner'
 require_lib 'reek/report/report'
 
 RSpec.describe Reek::Report::XMLReport do
-  let(:xml_report) { Reek::Report::XMLReport.new }
+  let(:xml_report) { described_class.new }
 
   context 'empty source' do
     it 'prints empty checkstyle XML' do

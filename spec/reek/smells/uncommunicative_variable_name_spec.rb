@@ -25,12 +25,8 @@ RSpec.describe Reek::Smells::UncommunicativeVariableName do
       end
     EOS
 
-    expect(src).to reek_of(:UncommunicativeVariableName,
-                           lines: [2],
-                           name:  'x')
-    expect(src).to reek_of(:UncommunicativeVariableName,
-                           lines: [3],
-                           name:  'y')
+    expect(src).to reek_of(:UncommunicativeVariableName, lines: [2], name:  'x').
+      and reek_of(:UncommunicativeVariableName, lines: [3], name:  'y')
   end
 
   context 'instance variables' do
@@ -90,8 +86,8 @@ RSpec.describe Reek::Smells::UncommunicativeVariableName do
         end
       EOS
 
-      expect(src).to reek_of(:UncommunicativeVariableName, name: 'x')
-      expect(src).to reek_of(:UncommunicativeVariableName, name: 'y')
+      expect(src).to reek_of(:UncommunicativeVariableName, name: 'x').
+        and reek_of(:UncommunicativeVariableName, name: 'y')
     end
 
     it 'reports block parameters used outside of methods' do
@@ -121,8 +117,8 @@ RSpec.describe Reek::Smells::UncommunicativeVariableName do
         end
       EOS
 
-      expect(src).to reek_of(:UncommunicativeVariableName, name: 'x')
-      expect(src).to reek_of(:UncommunicativeVariableName, name: 'y')
+      expect(src).to reek_of(:UncommunicativeVariableName, name: 'x').
+        and reek_of(:UncommunicativeVariableName, name: 'y')
     end
 
     it 'reports splatted nested block parameters' do
@@ -132,8 +128,8 @@ RSpec.describe Reek::Smells::UncommunicativeVariableName do
         end
       EOS
 
-      expect(src).to reek_of(:UncommunicativeVariableName, name: 'x')
-      expect(src).to reek_of(:UncommunicativeVariableName, name: 'y')
+      expect(src).to reek_of(:UncommunicativeVariableName, name: 'x').
+        and reek_of(:UncommunicativeVariableName, name: 'y')
     end
 
     it 'reports deeply nested block parameters' do
@@ -143,9 +139,9 @@ RSpec.describe Reek::Smells::UncommunicativeVariableName do
         end
       EOS
 
-      expect(src).to reek_of(:UncommunicativeVariableName, name: 'x')
-      expect(src).to reek_of(:UncommunicativeVariableName, name: 'y')
-      expect(src).to reek_of(:UncommunicativeVariableName, name: 'z')
+      expect(src).to reek_of(:UncommunicativeVariableName, name: 'x').
+        and reek_of(:UncommunicativeVariableName, name: 'y').
+        and reek_of(:UncommunicativeVariableName, name: 'z')
     end
 
     it 'reports shadowed block parameters' do
@@ -155,19 +151,19 @@ RSpec.describe Reek::Smells::UncommunicativeVariableName do
         end
       EOS
 
-      expect(src).to reek_of(:UncommunicativeVariableName, name: 'x')
-      expect(src).to reek_of(:UncommunicativeVariableName, name: 'y')
+      expect(src).to reek_of(:UncommunicativeVariableName, name: 'x').
+        and reek_of(:UncommunicativeVariableName, name: 'y')
     end
   end
 
   describe '`accept` patterns' do
     let(:src) { 'def alfa; bravo2 = 42; end' }
 
+    # FIXME: Move the loop out of the it?
     it 'make smelly names pass via regex / strings given by list / literal' do
-      expect(src).to reek_of(:UncommunicativeVariableName)
-
       [[/bravo2/], /bravo2/, ['bravo2'], 'bravo2'].each do |pattern|
-        expect(src).to_not reek_of(:UncommunicativeVariableName).with_config('accept' => pattern)
+        expect(src).to reek_of(:UncommunicativeVariableName).
+          and not_reek_of(:UncommunicativeVariableName).with_config('accept' => pattern)
       end
     end
   end
@@ -175,17 +171,17 @@ RSpec.describe Reek::Smells::UncommunicativeVariableName do
   describe '`reject` patterns' do
     let(:src) { 'def alfa; foobar = 42; end' }
 
+    # FIXME: Move the loop out of the it?
     it 'reject smelly names via regex / strings given by list / literal' do
-      expect(src).not_to reek_of(:UncommunicativeVariableName)
-
       [[/foobar/], /foobar/, ['foobar'], 'foobar'].each do |pattern|
-        expect(src).to reek_of(:UncommunicativeVariableName).with_config('reject' => pattern)
+        expect(src).to not_reek_of(:UncommunicativeVariableName).
+          and reek_of(:UncommunicativeVariableName).with_config('reject' => pattern)
       end
     end
   end
 
   describe '.default_config' do
-    it 'should merge in the default accept and reject patterns' do
+    it 'merges in the default accept and reject patterns' do
       expected = {
         'enabled' => true,
         'exclude' => [],

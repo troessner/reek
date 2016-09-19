@@ -9,6 +9,8 @@ module Reek
     # code smell.
     #
     class ShouldReekOf
+      include RSpec::Matchers::Composable
+
       # Variant of Examiner that doesn't swallow exceptions
       class UnsafeExaminer < Examiner
         def run

@@ -3,7 +3,7 @@ require_lib 'reek/examiner'
 require_lib 'reek/report/report'
 
 RSpec.describe Reek::Report::HTMLReport do
-  let(:instance) { Reek::Report::HTMLReport.new }
+  let(:instance) { described_class.new }
 
   context 'with an empty source' do
     let(:examiner) { Reek::Examiner.new('') }

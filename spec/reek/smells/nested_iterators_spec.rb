@@ -34,8 +34,9 @@ RSpec.describe Reek::Smells::NestedIterators do
       end
     EOS
 
-    expect(src).to reek_of(:NestedIterators, lines: [3], depth: 2)
-    expect(src).to reek_of(:NestedIterators, lines: [8], depth: 3)
+    expect(src).
+      to reek_of(:NestedIterators, lines: [3], depth: 2).
+      and reek_of(:NestedIterators, lines: [8], depth: 3)
   end
 
   it 'reports no smells with no iterators' do
@@ -53,7 +54,7 @@ RSpec.describe Reek::Smells::NestedIterators do
     expect(src).not_to reek_of(:NestedIterators)
   end
 
-  it 'should not report nested iterators for Object#tap' do
+  it 'does not report nested iterators for Object#tap' do
     src = <<-EOS
       def alfa(bravo)
         bravo.tap do |charlie|
@@ -65,7 +66,7 @@ RSpec.describe Reek::Smells::NestedIterators do
     expect(src).not_to reek_of(:NestedIterators)
   end
 
-  it 'should not report method with successive iterators' do
+  it 'does not report method with successive iterators' do
     src = <<-EOS
       def alfa
         @bravo.each   { |charlie| charlie }
@@ -76,7 +77,7 @@ RSpec.describe Reek::Smells::NestedIterators do
     expect(src).not_to reek_of(:NestedIterators)
   end
 
-  it 'should not report method with chained iterators' do
+  it 'does not report method with chained iterators' do
     src = <<-EOS
       def alfa
         bravo.sort_by { |charlie| charlie }.each { |delta| delta }
@@ -123,8 +124,9 @@ RSpec.describe Reek::Smells::NestedIterators do
       end
     EOS
 
-    expect(src).not_to reek_of(:NestedIterators, depth: 2)
-    expect(src).to reek_of(:NestedIterators, depth: 3, lines: [4])
+    expect(src).
+      to not_reek_of(:NestedIterators, depth: 2).
+      and reek_of(:NestedIterators, depth: 3, lines: [4])
   end
 
   it 'reports all lines on which nested iterators occur' do
@@ -314,7 +316,7 @@ RSpec.describe Reek::Smells::NestedIterators do
       expect(src).to reek_of(:NestedIterators, depth: 2).with_config(config)
     end
 
-    it 'should report nested iterators with the ignored iterator between them' do
+    it 'reports nested iterators with the ignored iterator between them' do
       src = <<-EOS
         def alfa(bravo)
           bravo.each do |charlie|

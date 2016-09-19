@@ -23,12 +23,9 @@ RSpec.describe Reek::Smells::Attribute do
       end
     EOS
 
-    expect(src).to reek_of(:Attribute,
-                           lines:   [2],
-                           context: 'Alfa#bravo')
-    expect(src).to reek_of(:Attribute,
-                           lines:   [3],
-                           context: 'Alfa#charlie')
+    expect(src).
+      to reek_of(:Attribute, lines: [2], context: 'Alfa#bravo').
+      and reek_of(:Attribute, lines: [3], context: 'Alfa#charlie')
   end
 
   it 'records nothing with no attributes' do
@@ -37,7 +34,7 @@ RSpec.describe Reek::Smells::Attribute do
       end
     EOS
 
-    expect(src).to_not reek_of(:Attribute)
+    expect(src).not_to reek_of(:Attribute)
   end
 
   context 'with attributes' do
@@ -49,7 +46,7 @@ RSpec.describe Reek::Smells::Attribute do
         end
       EOS
 
-      expect(src).to_not reek_of(:Attribute)
+      expect(src).not_to reek_of(:Attribute)
     end
 
     it 'records writer attribute' do
@@ -115,7 +112,7 @@ RSpec.describe Reek::Smells::Attribute do
         end
       EOS
 
-      expect(src).to_not reek_of(:Attribute)
+      expect(src).not_to reek_of(:Attribute)
     end
 
     it "doesn't record private attributes" do
@@ -130,7 +127,7 @@ RSpec.describe Reek::Smells::Attribute do
         end
       EOS
 
-      expect(src).to_not reek_of(:Attribute)
+      expect(src).not_to reek_of(:Attribute)
     end
 
     it 'records attr_writer defined in public section' do
