@@ -1,5 +1,9 @@
 # Change log
 
+## 4.4.2 (2016-09-21)
+
+* (troessner) Fail properly on bad configuration comments
+
 ## 4.4.1 (2016-09-13)
 
 * (troessner) Quote names in smell detector messages
