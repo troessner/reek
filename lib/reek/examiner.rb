@@ -96,12 +96,17 @@ module Reek
     # and continue with the analysis.
     #
     # @return [Array<SmellWarning>] the smells found in the source
+    #
+    # :reek:TooManyStatements { max_statements: 8 }
     def run
       return [] unless syntax_tree
       begin
         examine_tree
+      rescue BadDetectorInCommentError => exception
+        warn exception
+        []
       rescue StandardError => exception
-        $stderr.puts format(INCOMPREHENSIBLE_SOURCE_TEMPLATE, origin, exception.inspect)
+        warn format(INCOMPREHENSIBLE_SOURCE_TEMPLATE, origin, exception.inspect)
         []
       end
     end

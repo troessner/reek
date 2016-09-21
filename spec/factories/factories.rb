@@ -52,4 +52,15 @@ FactoryGirl.define do
           parameters: parameters)
     end
   end
+
+  factory :code_comment, class: Reek::CodeComment do
+    comment ''
+    line 1
+    source 'string'
+    initialize_with do
+      new comment: comment,
+          line: line,
+          source: source
+    end
+  end
 end

@@ -106,6 +106,10 @@ module Reek
         1
       end
 
+      def source
+        loc.expression.source_buffer.name
+      end
+
       protected
 
       # See ".each_node" for documentation.

@@ -64,7 +64,7 @@ module Reek
       end
 
       def descriptively_commented?
-        CodeComment.new(exp.leading_comment).descriptive?
+        CodeComment.new(comment: exp.leading_comment).descriptive?
       end
 
       # A namespace module is a module (or class) that is only there for namespacing

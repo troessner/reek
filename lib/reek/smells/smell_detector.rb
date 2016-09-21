@@ -72,9 +72,8 @@ module Reek
       def smell_warning(options = {})
         context = options.fetch(:context)
         exp = context.exp
-        ctx_source = exp.loc.expression.source_buffer.name
         SmellWarning.new(self,
-                         source: ctx_source,
+                         source: exp.source,
                          context: context.full_name,
                          lines: options.fetch(:lines),
                          message: options.fetch(:message),
@@ -102,8 +101,26 @@ module Reek
           descendants << subclass
         end
 
+        #
+        # Returns all descendants of SmellDetector
+        #
+        # @return [Array<Constant>], e.g.:
+        #   [Reek::Smells::Attribute,
+        #    Reek::Smells::BooleanParameter,
+        #    Reek::Smells::ClassVariable,
+        #    ...]
+        #
         def descendants
           @descendants ||= []
+        end
+
+        #
+        # @param detector [String] the detector in question, e.g. 'DuplicateMethodCall'
+        # @return [Boolean]
+        #
+        def valid_detector?(detector)
+          descendants.map { |descendant| descendant.to_s.split('::').last }.
+            include?(detector)
         end
       end
     end

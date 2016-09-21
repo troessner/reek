@@ -33,4 +33,14 @@ RSpec.describe Reek::Smells::SmellDetector do
       end
     end
   end
+
+  describe '.valid_detector?' do
+    it 'returns true for a valid detector' do
+      expect(described_class.valid_detector?('DuplicateMethodCall')).to be true
+    end
+
+    it 'returns false for an invalid detector' do
+      expect(described_class.valid_detector?('Unknown')).to be false
+    end
+  end
 end
