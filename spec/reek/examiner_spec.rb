@@ -128,18 +128,18 @@ RSpec.describe Reek::Examiner do
         end
       end
 
-      it 'outputs the origin to STDERR' do
+      it 'prints the origin' do
         origin = 'string'
         expect { examiner.smells }.to output(/#{origin}/).to_stderr
       end
 
-      it 'explains what to do to STDERR' do
-        explanation = 'It would be great if you could report this back to the Reek team'
+      it 'explains what to do' do
+        explanation = 'Please double check your Reek configuration'
         expect { examiner.smells }.to output(/#{explanation}/).to_stderr
       end
 
-      it 'outputs the original exception to STDERR' do
-        original = '#<ArgumentError: Looks like bad source>'
+      it 'contains a message' do
+        original = 'Looks like bad source'
         expect { examiner.smells }.to output(/#{original}/).to_stderr
       end
     end

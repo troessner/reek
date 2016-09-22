@@ -12,14 +12,30 @@ module Reek
     INCOMPREHENSIBLE_SOURCE_TEMPLATE = <<-EOS.freeze
       !!!
       Source %s can not be processed by Reek.
-      This is most likely a Reek bug.
-      It would be great if you could report this back to the Reek team
-      by opening up a corresponding issue at https://github.com/troessner/reek/issues
-      Make sure to include the source in question, the Reek version
+
+      This is most likely either a bug in your Reek configuration (config file or
+      source code comments) or a Reek bug.
+
+      Please double check your Reek configuration taking the original exception
+      below into account -  you might have misspelled a smell detector for instance.
+      (In the future Reek will handle configuration errors more gracefully, something
+      we are working on already).
+
+      If you feel that this is not a problem with your Reek configuration but with
+      Reek itself it would be great if you could report this back to the Reek
+      team by opening up a corresponding issue at https://github.com/troessner/reek/issues.
+
+      Please make sure to include the source in question, the Reek version
       and the original exception below.
 
-      Original exception:
+      Exception message:
+
       %s
+
+      Original exception:
+
+      %s
+
       !!!
     EOS
     #
@@ -106,7 +122,10 @@ module Reek
         warn exception
         []
       rescue StandardError => exception
-        warn format(INCOMPREHENSIBLE_SOURCE_TEMPLATE, origin, exception.inspect)
+        warn format(INCOMPREHENSIBLE_SOURCE_TEMPLATE,
+                    origin,
+                    exception.message,
+                    exception.backtrace.join("\n\t"))
         []
       end
     end
