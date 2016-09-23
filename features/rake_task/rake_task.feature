@@ -14,6 +14,9 @@ Feature: Reek can be driven through its Task
     Then the exit status indicates an error
     And it reports:
       """
+      Inspecting 1 file(s):
+      S
+
       smelly.rb -- 2 warnings:
         [4]:UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
         [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
@@ -31,6 +34,9 @@ Feature: Reek can be driven through its Task
     Then the exit status indicates an error
     And it reports:
       """
+      Inspecting 1 file(s):
+      S
+
       smelly.rb -- 2 warnings:
         [4]:UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
         [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
@@ -48,6 +54,9 @@ Feature: Reek can be driven through its Task
     Then the exit status indicates an error
     And it reports:
       """
+      Inspecting 1 file(s):
+      S
+
       smelly.rb -- 2 warnings:
         [4]:UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
         [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
@@ -79,6 +88,9 @@ Feature: Reek can be driven through its Task
     And it succeeds
     And it reports:
       """
+      Inspecting 1 file(s):
+      S
+
       smelly.rb -- 2 warnings:
         [4]:UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
         [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
@@ -95,4 +107,9 @@ Feature: Reek can be driven through its Task
       end
       """
     Then it succeeds
-    And it reports nothing
+    And it reports:
+      """
+      Inspecting 1 file(s):
+      .
+
+      """

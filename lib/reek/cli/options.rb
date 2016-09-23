@@ -10,7 +10,8 @@ module Reek
     #
     # See {file:docs/Command-Line-Options.md} for details.
     #
-    # :reek:TooManyInstanceVariables: { max_instance_variables: 10 }
+    # :reek:TooManyInstanceVariables: { max_instance_variables: 11 }
+    # :reek:TooManyMethods: { max_methods: 17 }
     # :reek:Attribute: { enabled: false }
     #
     class Options
@@ -22,6 +23,7 @@ module Reek
       attr_accessor :colored,
                     :config_file,
                     :location_format,
+                    :progress_format,
                     :report_format,
                     :show_empty,
                     :show_links,
@@ -35,6 +37,7 @@ module Reek
         @parser             = OptionParser.new
         @report_format      = :text
         @location_format    = :numbers
+        @progress_format    = :dots
         @show_links         = true
         @smells_to_detect   = []
         @colored            = color_support?
@@ -113,11 +116,13 @@ module Reek
         end
       end
 
+      # :reek:TooManyStatements: { max_statements: 6 }
       def set_report_formatting_options
         parser.separator "\nText format options:"
         set_up_color_option
         set_up_verbosity_options
         set_up_location_formatting_options
+        set_up_progress_formatting_options
         set_up_sorting_option
       end
 
@@ -146,6 +151,13 @@ module Reek
         parser.on('-s', '--single-line',
                   'Show location in editor-compatible single-line-per-smell format') do
           self.location_format = :single_line
+        end
+      end
+
+      def set_up_progress_formatting_options
+        parser.on('-P', '--[no-]progress',
+                  'Show progress of each source as it is examined (default: true)') do |show_progress|
+          self.progress_format = show_progress ? :dots : :quiet
         end
       end
 

@@ -4,6 +4,7 @@ require 'pathname'
 require 'rainbow'
 
 require_relative 'formatter'
+require_relative 'progress_formatter'
 
 module Reek
   # @public
@@ -15,7 +16,7 @@ module Reek
     #
     # @public
     #
-    # :reek:TooManyInstanceVariables: { max_instance_variables: 6 }
+    # :reek:TooManyInstanceVariables: { max_instance_variables: 7 }
     class BaseReport
       NO_WARNINGS_COLOR = :green
       WARNINGS_COLOR = :red
@@ -26,10 +27,12 @@ module Reek
       def initialize(heading_formatter: Formatter::QuietHeadingFormatter,
                      report_formatter: Formatter,
                      sort_by_issue_count: false,
-                     warning_formatter: Formatter::SimpleWarningFormatter.new)
+                     warning_formatter: Formatter::SimpleWarningFormatter.new,
+                     progress_formatter: ProgressFormatter::Quiet.new(0))
         @examiners           = []
         @heading_formatter   = heading_formatter.new(report_formatter)
         @report_formatter    = report_formatter
+        @progress_formatter  = progress_formatter
         @sort_by_issue_count = sort_by_issue_count
         @total_smell_count   = 0
         @warning_formatter   = warning_formatter
@@ -69,7 +72,7 @@ module Reek
       private
 
       attr_reader :examiners, :heading_formatter, :report_formatter,
-                  :sort_by_issue_count, :warning_formatter
+                  :sort_by_issue_count, :warning_formatter, :progress_formatter
     end
   end
 end
