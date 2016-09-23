@@ -37,7 +37,8 @@ module Reek
               warning_formatter: warning_formatter,
               report_formatter: Report::Formatter,
               sort_by_issue_count: sort_by_issue_count,
-              heading_formatter: heading_formatter)
+              heading_formatter: heading_formatter,
+              progress_formatter: progress_formatter.new(sources.length))
         end
 
         def report_class
@@ -58,6 +59,10 @@ module Reek
 
         def heading_formatter
           Report.heading_formatter(options.show_empty ? :verbose : :quiet)
+        end
+
+        def progress_formatter
+          Report.progress_formatter(options.progress_format)
         end
 
         def sort_by_issue_count
