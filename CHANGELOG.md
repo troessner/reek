@@ -1,5 +1,9 @@
 # Change log
 
+## 4.4.3 (2016-09-24)
+
+* (troessner) Improve handling of internal errors in detectors and the corresponding error messages
+
 ## 4.4.2 (2016-09-21)
 
 * (troessner) Fail properly on bad configuration comments
