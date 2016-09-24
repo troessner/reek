@@ -59,6 +59,7 @@ Feature: Reek can be controlled using command-line options
               --[no-]color                 Use colors for the output (default: true)
           -V, --[no-]empty-headings        Show headings for smell-free source files (default: false)
           -U, --[no-]wiki-links            Show link to related wiki page for each smell (default: true)
+          -P, --[no-]progress              Show progress of each file (default: true)
           -n, --[no-]line-numbers          Show line numbers in the output (default: true)
           -s, --single-line                Show location in editor-compatible single-line-per-smell format
               --sort-by SORTING            Sort reported files by the given criterium:

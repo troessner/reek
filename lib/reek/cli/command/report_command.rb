@@ -37,7 +37,9 @@ module Reek
               warning_formatter: warning_formatter,
               report_formatter: Report::Formatter,
               sort_by_issue_count: sort_by_issue_count,
-              heading_formatter: heading_formatter)
+              heading_formatter: heading_formatter,
+              sources_count: sources.length,
+              show_progress: options.show_progress)
         end
 
         def report_class

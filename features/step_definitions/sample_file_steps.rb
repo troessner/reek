@@ -15,6 +15,23 @@ Given(/^a directory called 'clean' containing two clean files$/) do
   write_file('clean/clean_two.rb', contents)
 end
 
+Given(/^a directory called 'mixed_files' containing some clean and smelly files$/) do
+  write_file('mixed_files/clean.rb', <<-EOS.strip_heredoc)
+    # clean class for testing purposes
+    class Clean
+      def assign
+        puts @sub.title
+        @sub.map {|para| para.name }
+      end
+    end
+  EOS
+  write_file('mixed_files/dirty.rb', <<-EOS.strip_heredoc)
+    class Dirty
+      def a; end
+    end
+  EOS
+end
+
 Given(/^a directory called 'smelly' containing two smelly files$/) do
   contents = SMELLY_FILE.read
 

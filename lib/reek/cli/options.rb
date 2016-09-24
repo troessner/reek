@@ -10,7 +10,7 @@ module Reek
     #
     # See {file:docs/Command-Line-Options.md} for details.
     #
-    # :reek:TooManyInstanceVariables: { max_instance_variables: 10 }
+    # :reek:TooManyInstanceVariables: { max_instance_variables: 11 }
     # :reek:Attribute: { enabled: false }
     #
     class Options
@@ -25,6 +25,7 @@ module Reek
                     :report_format,
                     :show_empty,
                     :show_links,
+                    :show_progress,
                     :sorting,
                     :success_exit_code,
                     :failure_exit_code,
@@ -36,6 +37,7 @@ module Reek
         @report_format      = :text
         @location_format    = :numbers
         @show_links         = true
+        @show_progress      = true
         @smells_to_detect   = []
         @colored            = color_support?
         @success_exit_code  = DEFAULT_SUCCESS_EXIT_CODE
@@ -127,6 +129,7 @@ module Reek
         end
       end
 
+      # :reek:TooManyStatements: { max_statements: 6 }
       def set_up_verbosity_options
         parser.on('-V', '--[no-]empty-headings',
                   'Show headings for smell-free source files (default: false)') do |show_empty|
@@ -135,6 +138,9 @@ module Reek
         parser.on('-U', '--[no-]wiki-links',
                   'Show link to related wiki page for each smell (default: true)') do |show_links|
           self.show_links = show_links
+        end
+        parser.on('-P', '--[no-]progress', 'Show progress of each file (default: true)') do |show_progress|
+          self.show_progress = show_progress
         end
       end
 
