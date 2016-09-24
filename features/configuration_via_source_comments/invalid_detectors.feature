@@ -18,7 +18,7 @@ Feature: Erroneous source comments are handled properly
     When I run reek bad_detector.rb
     Then it reports the error "Error: You are trying to configure an unknown smell detector 'UnknownDetectorName'"
 
-  Scenario: One good file, one bad file
+  Scenario: Unknown smell detector - one good file, one bad file
     Given a file named "bad_detector.rb" with:
       """
       # Test class
