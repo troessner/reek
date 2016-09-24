@@ -20,7 +20,12 @@ Feature: Masking smells using config files
     And a configuration file 'full_mask.reek'
     When I run reek -c full_mask.reek smelly.rb
     Then it succeeds
-    And it reports nothing
+    And it reports:
+      """
+      Inspecting 1 file(s):
+      .
+
+      """
 
   Scenario: allow masking some calls for duplication smell
     Given the smelly file 'smelly.rb'
@@ -29,6 +34,9 @@ Feature: Masking smells using config files
     Then the exit status indicates smells
     And it reports:
       """
+      Inspecting 1 file(s):
+      S
+
       smelly.rb -- 1 warning:
         [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
       """
@@ -38,7 +46,12 @@ Feature: Masking smells using config files
     And a configuration file 'partial_mask.reek'
     When I run reek -c partial_mask.reek smelly_with_inline_mask.rb
     Then it succeeds
-    And it reports nothing
+    And it reports:
+    """
+    Inspecting 1 file(s):
+    .
+
+    """
 
   Scenario: empty config file outputs normally
     Given the smelly file 'smelly.rb'
@@ -47,11 +60,13 @@ Feature: Masking smells using config files
     Then the exit status indicates smells
     And it reports:
     """
+    Inspecting 1 file(s):
+    S
+
     smelly.rb -- 2 warnings:
       [4]:UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
       [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
     """
-
 
   Scenario: Disable UtilityFunction for non-public methods
     Given the smelly file 'smelly_with_modifiers.rb'
@@ -60,6 +75,9 @@ Feature: Masking smells using config files
     Then the exit status indicates smells
     And it reports:
       """
+      Inspecting 1 file(s):
+      S
+
       smelly_with_modifiers.rb -- 1 warning:
         [7]:UtilityFunction: Klass#public_method doesn't depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Utility-Function.md]
       """

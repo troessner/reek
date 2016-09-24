@@ -2,6 +2,7 @@
 require_relative 'report/report'
 require_relative 'report/formatter'
 require_relative 'report/heading_formatter'
+require_relative 'report/progress_formatter'
 
 module Reek
   # Reek reporting functionality.
@@ -24,6 +25,11 @@ module Reek
     HEADING_FORMATTERS = {
       verbose: HeadingFormatter::Verbose,
       quiet: HeadingFormatter::Quiet
+    }.freeze
+
+    PROGRESS_FORMATTERS = {
+      dots: ProgressFormatter::Dots,
+      quiet: ProgressFormatter::Quiet
     }.freeze
 
     WARNING_FORMATTER_CLASSES = {
@@ -59,6 +65,16 @@ module Reek
     #
     def self.heading_formatter(heading_format)
       HEADING_FORMATTERS.fetch(heading_format)
+    end
+
+    # Map progress format symbol to a report class.
+    #
+    # @param [Symbol] progress_format The format to map
+    #
+    # @return The mapped progress class
+    #
+    def self.progress_formatter(progress_format)
+      PROGRESS_FORMATTERS.fetch(progress_format)
     end
 
     # Map warning format symbol to a report class.

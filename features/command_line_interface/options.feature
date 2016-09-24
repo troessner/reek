@@ -61,6 +61,7 @@ Feature: Reek can be controlled using command-line options
           -U, --[no-]wiki-links            Show link to related wiki page for each smell (default: true)
           -n, --[no-]line-numbers          Show line numbers in the output (default: true)
           -s, --single-line                Show location in editor-compatible single-line-per-smell format
+          -P, --[no-]progress              Show progress of each source as it is examined (default: true)
               --sort-by SORTING            Sort reported files by the given criterium:
                                              smelliness ("smelliest" files first)
                                              none (default - output in processing order)

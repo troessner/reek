@@ -4,6 +4,7 @@ require 'pathname'
 require 'rainbow'
 require_relative 'formatter'
 require_relative 'heading_formatter'
+require_relative 'progress_formatter'
 
 module Reek
   # @public
@@ -15,7 +16,7 @@ module Reek
     #
     # @public
     #
-    # :reek:TooManyInstanceVariables: { max_instance_variables: 6 }
+    # :reek:TooManyInstanceVariables: { max_instance_variables: 7 }
     class Base
       NO_WARNINGS_COLOR = :green
       WARNINGS_COLOR = :red
@@ -25,10 +26,12 @@ module Reek
       # :reek:BooleanParameter
       def initialize(heading_formatter: HeadingFormatter::Quiet,
                      report_formatter: Formatter, sort_by_issue_count: false,
-                     warning_formatter: SimpleWarningFormatter.new)
+                     warning_formatter: SimpleWarningFormatter.new,
+                     progress_formatter: ProgressFormatter::Quiet.new(0))
         @examiners           = []
         @heading_formatter   = heading_formatter.new(report_formatter)
         @report_formatter    = report_formatter
+        @progress_formatter  = progress_formatter
         @sort_by_issue_count = sort_by_issue_count
         @total_smell_count   = 0
         @warning_formatter   = warning_formatter
@@ -70,7 +73,7 @@ module Reek
       private
 
       attr_reader :examiners, :heading_formatter, :report_formatter,
-                  :sort_by_issue_count, :warning_formatter
+                  :sort_by_issue_count, :warning_formatter, :progress_formatter
     end
 
     #
@@ -79,8 +82,22 @@ module Reek
     # @public
     class TextReport < Base
       # @public
+      def initialize(*args)
+        super(*args)
+
+        progress_formatter.header
+      end
+
+      # @public
+      def add_examiner(examiner)
+        progress_formatter.progress examiner
+        super(examiner)
+      end
+
+      # @public
       def show
         sort_examiners if smells?
+        progress_formatter.footer
         display_summary
         display_total_smell_count
       end

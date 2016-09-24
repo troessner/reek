@@ -16,6 +16,9 @@ Feature: Offer different ways how to load configuration
     Then the exit status indicates smells
     And it reports:
       """
+      Inspecting 1 file(s):
+      S
+
       smelly.rb -- 2 warnings:
         [4]:UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
         [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
@@ -43,6 +46,9 @@ Feature: Offer different ways how to load configuration
     Then the exit status indicates smells
     And it reports:
       """
+      Inspecting 1 file(s):
+      S
+
       smelly.rb -- 1 warning:
         [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
       """
