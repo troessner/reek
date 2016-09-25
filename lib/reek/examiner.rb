@@ -2,6 +2,8 @@
 require_relative 'context_builder'
 require_relative 'source/source_code'
 require_relative 'smells/smell_repository'
+require_relative 'errors/bad_detector_in_comment_error'
+require_relative 'errors/bad_detector_configuration_in_comment_error'
 
 module Reek
   #
@@ -118,7 +120,8 @@ module Reek
       return [] unless syntax_tree
       begin
         examine_tree
-      rescue BadDetectorInCommentError => exception
+      rescue Errors::BadDetectorInCommentError,
+             Errors::BadDetectorConfigurationInCommentError => exception
         warn exception
         []
       rescue StandardError => exception
