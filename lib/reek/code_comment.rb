@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 require 'yaml'
 require_relative 'smells/smell_detector'
-require_relative 'errors'
+require_relative 'errors/bad_detector_in_comment_error'
+require_relative 'errors/bad_detector_configuration_in_comment_error'
 
 module Reek
   #
@@ -41,7 +42,16 @@ module Reek
                                            line: line,
                                            original_comment: @original_comment
         end
-        @config.merge! detector => YAML.load(options || DISABLE_DETECTOR_CONFIGURATION)
+        begin
+          parsed_options = YAML.load(options || DISABLE_DETECTOR_CONFIGURATION)
+        rescue Psych::SyntaxError
+          raise Errors::BadDetectorConfigurationInCommentError, detector: detector,
+                                                                source: source,
+                                                                line: line,
+                                                                original_comment: @original_comment
+        end
+
+        @config.merge! detector => parsed_options
       end
     end
 
