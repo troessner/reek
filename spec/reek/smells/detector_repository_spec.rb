@@ -1,8 +1,8 @@
 require_relative '../../spec_helper'
 require_lib 'reek/smells/smell_detector'
-require_lib 'reek/smells/smell_repository'
+require_lib 'reek/smells/detector_repository'
 
-RSpec.describe Reek::Smells::SmellRepository do
+RSpec.describe Reek::Smells::DetectorRepository do
   describe '.smell_types' do
     let(:smell_types) { described_class.smell_types }
 

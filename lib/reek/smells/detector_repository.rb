@@ -6,9 +6,9 @@ require_relative '../configuration/app_configuration'
 module Reek
   module Smells
     #
-    # Contains all the existing smells and exposes operations on them.
+    # Contains all the existing smell detectors and exposes operations on them.
     #
-    class SmellRepository
+    class DetectorRepository
       # @return [Array<Reek::Smells::SmellDetector>] All known SmellDetectors
       #         e.g. [Reek::Smells::BooleanParameter, Reek::Smells::ClassVariable].
       def self.smell_types
