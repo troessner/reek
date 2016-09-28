@@ -8,6 +8,10 @@ AllCops:
     - 'vendor/**/*'
   TargetRubyVersion: 2.1
 
+Lint/HandleExceptions:
+  Exclude:
+    - 'spec/reek/configuration/configuration_file_finder_spec.rb'
+
 # FIXME: Make the class shorter
 Metrics/ClassLength:
   Exclude:

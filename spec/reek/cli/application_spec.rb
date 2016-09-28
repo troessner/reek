@@ -10,7 +10,7 @@ RSpec.describe Reek::CLI::Application do
         end
       end
       expect(call).to raise_error(SystemExit) do |error|
-        expect(error.status).to eq Reek::CLI::Options::DEFAULT_ERROR_EXIT_CODE
+        expect(error.status).to eq Reek::CLI::Status::DEFAULT_ERROR_EXIT_CODE
       end
     end
   end

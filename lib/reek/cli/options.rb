@@ -2,6 +2,7 @@
 require 'optparse'
 require 'rainbow'
 require_relative '../version'
+require_relative 'status'
 
 module Reek
   module CLI
@@ -15,10 +16,6 @@ module Reek
     # :reek:Attribute: { enabled: false }
     #
     class Options
-      DEFAULT_SUCCESS_EXIT_CODE  = 0
-      DEFAULT_ERROR_EXIT_CODE    = 1
-      DEFAULT_FAILURE_EXIT_CODE  = 2
-
       attr_reader :argv, :parser, :smells_to_detect
       attr_accessor :colored,
                     :config_file,
@@ -41,8 +38,8 @@ module Reek
         @show_links         = true
         @smells_to_detect   = []
         @colored            = tty_output?
-        @success_exit_code  = DEFAULT_SUCCESS_EXIT_CODE
-        @failure_exit_code  = DEFAULT_FAILURE_EXIT_CODE
+        @success_exit_code  = Status::DEFAULT_SUCCESS_EXIT_CODE
+        @failure_exit_code  = Status::DEFAULT_FAILURE_EXIT_CODE
         @generate_todo_list = false
 
         set_up_parser
@@ -179,12 +176,12 @@ module Reek
         parser.separator "\nExit codes:"
         parser.on('--success-exit-code CODE',
                   'The exit code when no smells are found '\
-                  "(default: #{DEFAULT_SUCCESS_EXIT_CODE})") do |option|
+                  "(default: #{Status::DEFAULT_SUCCESS_EXIT_CODE})") do |option|
           self.success_exit_code = Integer(option)
         end
         parser.on('--failure-exit-code CODE',
                   'The exit code when smells are found '\
-                  "(default: #{DEFAULT_FAILURE_EXIT_CODE})") do |option|
+                  "(default: #{Status::DEFAULT_FAILURE_EXIT_CODE})") do |option|
           self.failure_exit_code = Integer(option)
         end
       end

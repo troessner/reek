@@ -26,7 +26,7 @@ RSpec.describe Reek::CLI::Command::ReportCommand do
         result = Reek::CLI::Silencer.silently do
           command.execute
         end
-        expect(result).to eq Reek::CLI::Options::DEFAULT_SUCCESS_EXIT_CODE
+        expect(result).to eq Reek::CLI::Status::DEFAULT_SUCCESS_EXIT_CODE
       end
     end
 
@@ -37,7 +37,7 @@ RSpec.describe Reek::CLI::Command::ReportCommand do
         result = Reek::CLI::Silencer.silently do
           command.execute
         end
-        expect(result).to eq Reek::CLI::Options::DEFAULT_FAILURE_EXIT_CODE
+        expect(result).to eq Reek::CLI::Status::DEFAULT_FAILURE_EXIT_CODE
       end
     end
   end

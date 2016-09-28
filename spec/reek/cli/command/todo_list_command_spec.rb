@@ -40,7 +40,7 @@ RSpec.describe Reek::CLI::Command::TodoListCommand do
 
       it 'returns a success code' do
         result = command.execute
-        expect(result).to eq(Reek::CLI::Options::DEFAULT_SUCCESS_EXIT_CODE)
+        expect(result).to eq(Reek::CLI::Status::DEFAULT_SUCCESS_EXIT_CODE)
       end
 
       it 'writes a todo file' do
@@ -111,7 +111,7 @@ RSpec.describe Reek::CLI::Command::TodoListCommand do
 
       it 'returns a success code' do
         result = command.execute
-        expect(result).to eq Reek::CLI::Options::DEFAULT_SUCCESS_EXIT_CODE
+        expect(result).to eq Reek::CLI::Status::DEFAULT_SUCCESS_EXIT_CODE
       end
 
       it 'does not write a todo file' do

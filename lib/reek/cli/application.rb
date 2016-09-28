@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require_relative 'options'
+require_relative 'status'
 require_relative '../configuration/app_configuration'
 require_relative '../source/source_locator'
 require_relative 'command/report_command'
@@ -36,15 +37,15 @@ module Reek
       def configure_options(argv)
         Options.new(argv).parse
       rescue OptionParser::InvalidOption => error
-        $stderr.puts "Error: #{error}"
-        exit Options::DEFAULT_ERROR_EXIT_CODE
+        warn "Error: #{error}"
+        exit Status::DEFAULT_ERROR_EXIT_CODE
       end
 
       def configure_app_configuration(config_file)
         Configuration::AppConfiguration.from_path(config_file)
       rescue Reek::Configuration::ConfigFileException => error
-        $stderr.puts "Error: #{error}"
-        exit Options::DEFAULT_ERROR_EXIT_CODE
+        warn "Error: #{error}"
+        exit Status::DEFAULT_ERROR_EXIT_CODE
       end
 
       def command_class
