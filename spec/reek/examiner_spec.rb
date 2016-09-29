@@ -146,28 +146,56 @@ RSpec.describe Reek::Examiner do
   end
 
   describe 'bad comment config' do
-    let(:source) do
-      <<-EOS
-        # :reek:DoesNotExist
-        def alfa; end
-      EOS
+    context 'unknown smell detector' do
+      let(:source) do
+        <<-EOS
+          # :reek:DoesNotExist
+          def alfa; end
+        EOS
+      end
+
+      it 'prints out a proper message' do
+        expected_output = "You are trying to configure an unknown smell detector 'DoesNotExist'"
+
+        expect do
+          described_class.new(source).smells
+        end.to output(/#{expected_output}/).to_stderr
+      end
+
+      it 'prints out a line and a source' do
+        expected_output = "The source is 'string' and the comment belongs "\
+                          'to the expression starting in line 2.'
+
+        expect do
+          described_class.new(source).smells
+        end.to output(/#{expected_output}/).to_stderr
+      end
     end
 
-    it 'prints out a proper message' do
-      expected_output = "You are trying to configure an unknown smell detector 'DoesNotExist'"
+    context 'garbage in detector config' do
+      let(:source) do
+        <<-EOS
+          # :reek:UncommunicativeMethodName { thats: a: bad: config }
+          def alfa; end
+        EOS
+      end
 
-      expect do
-        described_class.new(source).smells
-      end.to output(/#{expected_output}/).to_stderr
-    end
+      it 'prints out a proper message' do
+        expected_output = "Error: You are trying to configure the smell detector 'UncommunicativeMethodName'"
 
-    it 'prints out a line and a source' do
-      expected_output = "The source is 'string' and the comment belongs "\
-                        'to the expression starting in line 2.'
+        expect do
+          described_class.new(source).smells
+        end.to output(/#{expected_output}/).to_stderr
+      end
 
-      expect do
-        described_class.new(source).smells
-      end.to output(/#{expected_output}/).to_stderr
+      it 'prints out a line and a source' do
+        expected_output = "The source is 'string' and "\
+                          'the comment belongs to the expression starting in line 2'
+
+        expect do
+          described_class.new(source).smells
+        end.to output(/#{expected_output}/).to_stderr
+      end
     end
   end
 end
