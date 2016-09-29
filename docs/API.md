@@ -55,9 +55,6 @@ Note that `Reek::Examiner.new` can take `source` as `String`, `Pathname`, `File`
 Everything that is mentioned in this document can be considered stable in the
 sense that it will only change across major versions.
 
-`Reek 3` was the first major version with a stable API. As soon as `Reek 4`
-is released we will mark the differences between `3` and `4`.
-
 There is one thing in this API documentation you can't and shouldn't rely on:
 The `SmellWarning` messages itself.
 
