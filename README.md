@@ -404,13 +404,23 @@ via:
 reek -c whatever/.todo.reek lib/
 ```
 
-Note that if you re-run
+It's important to understand that the number one use case of the `--todo` flag
+is to be run once at the beginning of the introduction of Reek to ease the transition.
+If you find yourself re-running Reek with the `--todo` flag in order to silence new warnings
+you're defeating the purpose of both the `--todo` flag and of Reek itself.
+
+As a consequence, running Reek with the `--todo` flag again will overwrite '.todo.reek' without
+asking (should not be a problem since this file is supposed to be versioned) and
+without taking **any** other configuration file you might have into account.
+
+This means that when you run
 
 ```Bash
-reek --todo lib/
+reek -c other_configuration.reek --todo lib/
 ```
 
-'.todo.reek' will get overwritten with a possibly updated configuration.
+`other_configuration.reek` will simply be ignored (as outlined before, Reek
+is supposed to have one configuration file and one file only).
 
 ## Usage
 
