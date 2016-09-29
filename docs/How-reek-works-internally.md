@@ -40,9 +40,9 @@
                                       Examiner (core/examiner)  --------------------------------------
                                   * generates the AST out of the given source
                                   * adorns the generated AST via a TreeDresser (core/tree_dresser)
-                                  * initializes a SmellRepository with all relevant smells (smells/smell_repository)
+                                  * initializes a DetectorRepository with all relevant smells (smells/detector_repository)
                                   * builds a tree of Contexts using ContextBuilder
-                                  * tells the SmellRepository above to run each of its smell detectors above on each of the contexts
+                                  * tells the DetectorRepository above to run each of its smell detectors above on each of the contexts
                                   /       |       \
                                  /        |        \
                                 /         |         \
@@ -50,7 +50,7 @@
                                 \         |         /
                                  \        |        /
                                   \       |       /
-                                   SmellRepository
+                                   DetectorRepository
                                           |
                                           |
                                           |
@@ -66,7 +66,7 @@ The overall workflow is like this:
             |
             |
             |
-        Initialize SmellRepository only with eligible smells
+        Initialize DetectorRepository only with eligible SmellDetectors
             |
             |
             |
@@ -111,4 +111,4 @@ The overall workflow is like this:
             |
             |
       A ContextBuilder then traverses this now adorned tree again and
-      runs all SmellDetectors from the SmellRepository above
+      runs all SmellDetectors from the DetectorRepository above

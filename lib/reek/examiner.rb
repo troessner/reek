@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 require_relative 'context_builder'
 require_relative 'source/source_code'
-require_relative 'smells/smell_repository'
 require_relative 'errors/bad_detector_in_comment_error'
 require_relative 'errors/bad_detector_configuration_in_comment_error'
+require_relative 'smells/detector_repository'
 
 module Reek
   #
@@ -57,11 +57,11 @@ module Reek
     def initialize(source,
                    filter_by_smells: [],
                    configuration: Configuration::AppConfiguration.default,
-                   smell_repository_class: Smells::SmellRepository)
-      @source           = Source::SourceCode.from(source)
-      @smell_types      = smell_repository_class.eligible_smell_types(filter_by_smells)
-      @smell_repository = smell_repository_class.new(smell_types: @smell_types,
-                                                     configuration: configuration.directive_for(description))
+                   detector_repository_class: Smells::DetectorRepository)
+      @source              = Source::SourceCode.from(source)
+      @smell_types         = detector_repository_class.eligible_smell_types(filter_by_smells)
+      @detector_repository = detector_repository_class.new(smell_types: @smell_types,
+                                                           configuration: configuration.directive_for(description))
     end
 
     # @return [String] origin of the source being analysed
@@ -105,7 +105,7 @@ module Reek
 
     private
 
-    attr_reader :source, :smell_repository
+    attr_reader :source, :detector_repository
 
     # Runs the Examiner on the given source to scan for code smells.
     #
@@ -139,7 +139,7 @@ module Reek
 
     def examine_tree
       ContextBuilder.new(syntax_tree).context_tree.flat_map do |element|
-        smell_repository.examine(element)
+        detector_repository.examine(element)
       end
     end
   end
