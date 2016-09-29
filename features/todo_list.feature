@@ -40,20 +40,6 @@ Feature:
     When I run reek -c .todo.reek smelly.rb
     Then it succeeds
 
-  Scenario: Respects a configuration file
-    Given the smelly file 'smelly.rb'
-    And a configuration file 'partial_mask.reek'
-    When I run reek -c partial_mask.reek --todo smelly.rb
-    Then it succeeds
-    And a file named ".todo.reek" should exist
-    And the file ".todo.reek" should contain:
-      """
-      ---
-      UncommunicativeVariableName:
-        exclude:
-        - Smelly#x
-      """
-
   Scenario: Reacts appropiately when there are no smells
     Given the clean file 'clean.rb'
     When I run reek --todo clean.rb
@@ -63,3 +49,45 @@ Feature:
 
       '.todo.reek' not generated because there were no smells found!
       """
+
+  Scenario: Mercilessly overwrite existing .todo.reek files
+    Given the smelly file 'smelly.rb'
+    And a file named ".todo.reek" with:
+      """
+      ---
+      # smelly.rb reeks of UncommunicativeMethodName and UncommunicativeVariableName
+      # so the configuration below will partially mask this
+      UncommunicativeMethodName:
+        enabled: false
+      """
+    When I run `reek -c .todo.reek smelly.rb`
+    Then it reports:
+      """
+      smelly.rb -- 1 warning:
+        [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
+      """
+    When I run `reek --todo smelly.rb`
+    Then it succeeds
+    When I run `reek -c .todo.reek smelly.rb`
+    Then it reports nothing
+
+  Scenario: Ignore existing other configuration files that are passed explicitly
+    Given the smelly file 'smelly.rb'
+    And a file named "config.reek" with:
+      """
+      ---
+      # smelly.rb reeks of UncommunicativeMethodName and UncommunicativeVariableName
+      # so the configuration below will partially mask this
+      UncommunicativeMethodName:
+        enabled: false
+      """
+    When I run `reek -c config.reek smelly.rb`
+    Then it reports:
+      """
+      smelly.rb -- 1 warning:
+        [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
+      """
+    When I run `reek -c config.reek --todo smelly.rb`
+    Then it succeeds
+    When I run `reek -c .todo.reek smelly.rb`
+    Then it reports nothing
