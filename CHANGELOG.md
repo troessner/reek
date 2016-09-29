@@ -1,5 +1,10 @@
 # Change log
 
+## 4.4.4 (2016-09-29)
+
+* (troessner) Create a fresh todo file on every run
+* (troessner) Handle garbage in comment config properly
+
 ## 4.4.3 (2016-09-24)
 
 * (troessner) Improve handling of internal errors in detectors and the corresponding error messages
