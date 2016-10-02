@@ -3,8 +3,8 @@ require_lib 'reek/configuration/directory_directives'
 
 RSpec.describe Reek::Configuration::DirectoryDirectives do
   describe '#directive_for' do
-    let(:baz_config)  { { Reek::Smells::IrresponsibleModule => { enabled: false } } }
-    let(:bang_config) { { Reek::Smells::Attribute => { enabled: true } } }
+    let(:baz_config)  { { Reek::SmellDetectors::IrresponsibleModule => { enabled: false } } }
+    let(:bang_config) { { Reek::SmellDetectors::Attribute => { enabled: true } } }
     let(:directives) do
       {
         Pathname.new('foo/bar/baz')  => baz_config,

@@ -87,7 +87,7 @@ RSpec.describe Reek::Examiner do
       examiner = described_class.new code, filter_by_smells: ['DuplicateMethodCall']
 
       smell = examiner.smells.first
-      expect(smell).to be_a(Reek::Smells::SmellWarning)
+      expect(smell).to be_a(Reek::SmellDetectors::SmellWarning)
       expect(smell.message).to eq("calls 'bar.call_me()' 2 times")
     end
 
@@ -111,13 +111,13 @@ RSpec.describe Reek::Examiner do
       let(:source) { 'class C; def does_crash_reek; end; end' }
 
       let(:examiner) do
-        detector_repository = instance_double 'Reek::Smells::DetectorRepository'
+        detector_repository = instance_double 'Reek::SmellDetectors::DetectorRepository'
         allow(detector_repository).to receive(:examine) do
           raise ArgumentError, 'Looks like bad source'
         end
-        class_double('Reek::Smells::DetectorRepository').as_stubbed_const
-        allow(Reek::Smells::DetectorRepository).to receive(:eligible_smell_types)
-        allow(Reek::Smells::DetectorRepository).to receive(:new).and_return detector_repository
+        class_double('Reek::SmellDetectors::DetectorRepository').as_stubbed_const
+        allow(Reek::SmellDetectors::DetectorRepository).to receive(:eligible_smell_types)
+        allow(Reek::SmellDetectors::DetectorRepository).to receive(:new).and_return detector_repository
 
         described_class.new source
       end

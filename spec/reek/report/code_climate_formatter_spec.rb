@@ -5,7 +5,7 @@ RSpec.describe Reek::Report::CodeClimateFormatter do
   describe '#render' do
     let(:warning) do
       FactoryGirl.build(:smell_warning,
-                        smell_detector: Reek::Smells::UtilityFunction.new,
+                        smell_detector: Reek::SmellDetectors::UtilityFunction.new,
                         context:        'context foo',
                         message:        'message bar',
                         lines:          [1, 2],

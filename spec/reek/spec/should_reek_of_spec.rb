@@ -13,7 +13,7 @@ RSpec.describe Reek::Spec::ShouldReekOf do
     end
 
     it 'reports duplicate calls by smell detector class' do
-      expect(ruby).to reek_of(Reek::Smells::DuplicateMethodCall)
+      expect(ruby).to reek_of(Reek::SmellDetectors::DuplicateMethodCall)
     end
 
     it 'does not report any feature envy' do
@@ -132,8 +132,8 @@ RSpec.describe Reek::Spec::ShouldReekOf do
 
   context 'for a smell that is disabled by default' do
     before do
-      default_config = Reek::Smells::UnusedPrivateMethod.default_config
-      expect(default_config[Reek::Smells::SmellConfiguration::ENABLED_KEY]).to be_falsy
+      default_config = Reek::SmellDetectors::UnusedPrivateMethod.default_config
+      expect(default_config[Reek::SmellDetectors::SmellConfiguration::ENABLED_KEY]).to be_falsy
     end
 
     it 'enables the smell detector to match automatically' do

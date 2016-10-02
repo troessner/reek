@@ -1,5 +1,5 @@
 require 'reek'
-require 'reek/smells'
+require 'reek/smell_detectors'
 
 # Ataru setup module.
 module Setup
