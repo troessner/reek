@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Reek
   module Errors
     # Gets raised when trying to configure a detector which is unknown to us.
@@ -21,9 +22,9 @@ module Reek
 
       EOS
 
-      def initialize(detector:, source:, line:, original_comment:)
+      def initialize(detector_name:, source:, line:, original_comment:)
         message = format(UNKNOWN_SMELL_DETECTOR_MESSAGE,
-                         detector,
+                         detector_name,
                          source,
                          line,
                          original_comment)
