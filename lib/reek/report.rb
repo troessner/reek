@@ -1,7 +1,11 @@
 # frozen_string_literal: true
-require_relative 'report/report'
+require_relative 'report/code_climate'
+require_relative 'report/html_report'
+require_relative 'report/json_report'
+require_relative 'report/text_report'
+require_relative 'report/xml_report'
+require_relative 'report/yaml_report'
 require_relative 'report/formatter'
-require_relative 'report/heading_formatter'
 
 module Reek
   # Reek reporting functionality.
@@ -16,19 +20,19 @@ module Reek
     }.freeze
 
     LOCATION_FORMATTERS = {
-      single_line: SingleLineLocationFormatter,
-      plain: BlankLocationFormatter,
-      numbers: DefaultLocationFormatter
+      single_line: Formatter::SingleLineLocationFormatter,
+      plain: Formatter::BlankLocationFormatter,
+      numbers: Formatter::DefaultLocationFormatter
     }.freeze
 
     HEADING_FORMATTERS = {
-      verbose: HeadingFormatter::Verbose,
-      quiet: HeadingFormatter::Quiet
+      verbose: Formatter::VerboseHeadingFormatter,
+      quiet: Formatter::QuietHeadingFormatter
     }.freeze
 
     WARNING_FORMATTER_CLASSES = {
-      wiki_links: WikiLinkWarningFormatter,
-      simple: SimpleWarningFormatter
+      wiki_links: Formatter::WikiLinkWarningFormatter,
+      simple: Formatter::SimpleWarningFormatter
     }.freeze
 
     # Map report format symbol to a report class.

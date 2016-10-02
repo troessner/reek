@@ -1,7 +1,6 @@
-require_relative '../../spec_helper'
+require_relative '../../../spec_helper'
 require_lib 'reek/examiner'
-require_lib 'reek/report/report'
-require_lib 'reek/report/formatter'
+require_lib 'reek/report/code_climate'
 
 require 'json'
 require 'stringio'

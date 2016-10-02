@@ -1,6 +1,6 @@
 require_relative '../../spec_helper'
 require_lib 'reek/examiner'
-require_lib 'reek/report/report'
+require_lib 'reek/report/yaml_report'
 require_lib 'reek/report/formatter'
 
 require 'yaml'
@@ -51,7 +51,7 @@ RSpec.describe Reek::Report::YAMLReport do
       expect(result).to eq expected
     end
     context 'with link formatter' do
-      let(:options) { { warning_formatter: Reek::Report::WikiLinkWarningFormatter.new } }
+      let(:options) { { warning_formatter: Reek::Report::Formatter::WikiLinkWarningFormatter.new } }
 
       it 'prints documentation links' do
         out = StringIO.new

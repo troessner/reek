@@ -1,4 +1,4 @@
-require_relative '../../spec_helper'
+require_relative '../../../spec_helper'
 require_lib 'reek/report/code_climate/code_climate_formatter'
 
 RSpec.describe Reek::Report::CodeClimateFormatter do

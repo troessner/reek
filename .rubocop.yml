@@ -44,8 +44,8 @@ RSpec/ExampleLength:
 RSpec/MultipleDescribes:
   Exclude:
     - 'spec/reek/ast/sexp_extensions_spec.rb'
-    - 'spec/reek/report/location_formatter_spec.rb'
     - 'spec/reek/code_comment_spec.rb'
+    - 'spec/reek/report/formatter/location_formatter_spec.rb'
 
 # FIXME: Update specs to avoid offenses
 RSpec/MultipleExpectations:
@@ -69,6 +69,12 @@ RSpec/VerifiedDoubles:
     - 'spec/reek/context/code_context_spec.rb'
     - 'spec/reek/context/method_context_spec.rb'
     - 'spec/reek/context/module_context_spec.rb'
+
+# rubocop-rspec expects a CodeClimate namespace to go with the code_climate directory.
+RSpec/FilePath:
+  Exclude:
+    - 'spec/reek/report/code_climate/code_climate_formatter_spec.rb'
+    - 'spec/reek/report/code_climate/code_climate_report_spec.rb'
 
 Style/AccessorMethodName:
   Exclude:
