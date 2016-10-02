@@ -145,6 +145,20 @@ RSpec.describe Reek::Examiner do
     end
   end
 
+  describe 'unneeded comment config' do
+    it 'prints out a proper message' do
+      source = <<-EOS
+        # :reek:TooManyStatements
+        def alfa; end
+      EOS
+      expected_output = 'Error: UnneededSuppression'
+
+      expect do
+        described_class.new(source).smells
+      end.to output(/#{expected_output}/).to_stderr
+    end
+  end
+
   describe 'bad comment config' do
     context 'unknown smell detector' do
       let(:source) do

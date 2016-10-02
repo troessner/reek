@@ -2,6 +2,7 @@
 require_relative 'context_builder'
 require_relative 'source/source_code'
 require_relative 'errors/bad_detector_in_comment_error'
+require_relative 'errors/unneeded_suppression'
 require_relative 'errors/bad_detector_configuration_in_comment_error'
 require_relative 'smells/detector_repository'
 
@@ -121,6 +122,7 @@ module Reek
       begin
         examine_tree
       rescue Errors::BadDetectorInCommentError,
+             Errors::UnneededSupression,
              Errors::BadDetectorConfigurationInCommentError => exception
         warn exception
         []
