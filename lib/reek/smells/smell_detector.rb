@@ -38,10 +38,13 @@ module Reek
       end
 
       def run_for(context)
-        return [] unless enabled_for?(context)
         return [] if exception?(context)
 
-        sniff(context)
+        if enabled_for?(context)
+          sniff(context)
+        else
+          check_suppression(context)
+        end
       end
 
       def exception?(context)
@@ -58,6 +61,12 @@ module Reek
 
       def enabled_for?(context)
         config.enabled? && config_for(context)[SmellConfiguration::ENABLED_KEY] != false
+      end
+
+      def check_suppression(context)
+        return [] unless sniff(context).empty?
+
+        raise Reek::Errors::UnneededSupression
       end
 
       def value(key, ctx)
