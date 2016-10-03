@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 require_relative 'context_builder'
-require_relative 'source/source_code'
 require_relative 'errors/bad_detector_in_comment_error'
-require_relative 'errors/bad_detector_configuration_in_comment_error'
+require_relative 'errors/garbage_detector_configuration_in_comment_error'
 require_relative 'smell_detectors/detector_repository'
+require_relative 'source/source_code'
 
 module Reek
   #
@@ -121,7 +121,7 @@ module Reek
       begin
         examine_tree
       rescue Errors::BadDetectorInCommentError,
-             Errors::BadDetectorConfigurationInCommentError => exception
+             Errors::GarbageDetectorConfigurationInCommentError => exception
         warn exception
         []
       rescue StandardError => exception

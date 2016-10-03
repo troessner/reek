@@ -1,7 +1,5 @@
 require_relative '../spec_helper'
 require_lib 'reek/code_comment'
-require_lib 'reek/errors/bad_detector_configuration_in_comment_error'
-require_lib 'reek/errors/bad_detector_in_comment_error'
 
 RSpec.describe Reek::CodeComment do
   context 'with an empty comment' do
@@ -124,20 +122,24 @@ RSpec.describe Reek::CodeComment do
       expect(comment.send(:sanitized_comment)).to eq('Actual comment')
     end
   end
+end
 
-  context 'bad comment config' do
-    it 'raises BadDetectorInCommentError on unknown detector in comment config' do
+RSpec.describe Reek::CodeComment::CodeCommentValidator do
+  context 'bad detector' do
+    it 'raises BadDetectorInCommentError' do
       expect do
         FactoryGirl.build(:code_comment,
                           comment: '# :reek:DoesNotExist')
       end.to raise_error(Reek::Errors::BadDetectorInCommentError)
     end
+  end
 
-    it 'raises BadDetectorConfigurationInComment on garbage in comment config' do
+  context 'unparsable detector configuration' do
+    it 'raises GarbageDetectorConfigurationInCommentError' do
       expect do
         comment = '# :reek:UncommunicativeMethodName { thats: a: bad: config }'
         FactoryGirl.build(:code_comment, comment: comment)
-      end.to raise_error(Reek::Errors::BadDetectorConfigurationInCommentError)
+      end.to raise_error(Reek::Errors::GarbageDetectorConfigurationInCommentError)
     end
   end
 end

@@ -1,9 +1,10 @@
 # frozen_string_literal: true
+
 module Reek
   module Errors
     # Gets raised when trying to use a configuration for a detector
     # that can't be parsed into a hash.
-    class BadDetectorConfigurationInCommentError < RuntimeError
+    class GarbageDetectorConfigurationInCommentError < RuntimeError
       BAD_DETECTOR_CONFIGURATION_MESSAGE = <<-EOS.freeze
 
         Error: You are trying to configure the smell detector '%s'.
@@ -20,9 +21,9 @@ module Reek
 
       EOS
 
-      def initialize(detector:, source:, line:, original_comment:)
+      def initialize(detector_name:, source:, line:, original_comment:)
         message = format(BAD_DETECTOR_CONFIGURATION_MESSAGE,
-                         detector,
+                         detector_name,
                          source,
                          line,
                          original_comment)

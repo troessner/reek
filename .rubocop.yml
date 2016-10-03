@@ -45,6 +45,7 @@ RSpec/MultipleDescribes:
   Exclude:
     - 'spec/reek/ast/sexp_extensions_spec.rb'
     - 'spec/reek/report/location_formatter_spec.rb'
+    - 'spec/reek/code_comment_spec.rb'
 
 # FIXME: Update specs to avoid offenses
 RSpec/MultipleExpectations:
