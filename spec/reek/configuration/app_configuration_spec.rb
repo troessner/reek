@@ -13,12 +13,12 @@ RSpec.describe Reek::Configuration::AppConfiguration do
     end
 
     let(:expected_default_directive) do
-      { Reek::Smells::IrresponsibleModule => { 'enabled' => false } }
+      { Reek::SmellDetectors::IrresponsibleModule => { 'enabled' => false } }
     end
 
     let(:expected_directory_directives) do
       { SAMPLES_PATH.join('three_clean_files') =>
-        { Reek::Smells::UtilityFunction => { 'enabled' => false } } }
+        { Reek::SmellDetectors::UtilityFunction => { 'enabled' => false } } }
     end
 
     let(:default_directive_value) do
@@ -77,8 +77,8 @@ RSpec.describe Reek::Configuration::AppConfiguration do
   describe '#directive_for' do
     context 'multiple directory directives and no default directive present' do
       let(:source_via) { 'samples/three_clean_files/dummy.rb' }
-      let(:baz_config)  { { Reek::Smells::IrresponsibleModule => { enabled: false } } }
-      let(:bang_config) { { Reek::Smells::Attribute => { enabled: true } } }
+      let(:baz_config)  { { Reek::SmellDetectors::IrresponsibleModule => { enabled: false } } }
+      let(:bang_config) { { Reek::SmellDetectors::Attribute => { enabled: true } } }
 
       let(:directory_directives) do
         {
@@ -95,12 +95,12 @@ RSpec.describe Reek::Configuration::AppConfiguration do
 
     context 'directory directive and default directive present' do
       let(:directory) { 'spec/samples/two_smelly_files/' }
-      let(:directory_config) { { Reek::Smells::TooManyStatements => { max_statements: 8 } } }
+      let(:directory_config) { { Reek::SmellDetectors::TooManyStatements => { max_statements: 8 } } }
       let(:directory_directives) { { directory => directory_config } }
       let(:default_directive) do
         {
-          Reek::Smells::IrresponsibleModule => { enabled: false },
-          Reek::Smells::TooManyStatements => { max_statements: 15 }
+          Reek::SmellDetectors::IrresponsibleModule => { enabled: false },
+          Reek::SmellDetectors::TooManyStatements => { max_statements: 15 }
         }
       end
       let(:source_via) { "#{directory}/dummy.rb" }
@@ -110,16 +110,16 @@ RSpec.describe Reek::Configuration::AppConfiguration do
         configuration = described_class.from_hash configuration_as_hash
         actual = configuration.directive_for(source_via)
 
-        expect(actual[Reek::Smells::IrresponsibleModule]).to be_truthy
-        expect(actual[Reek::Smells::TooManyStatements]).to be_truthy
-        expect(actual[Reek::Smells::TooManyStatements][:max_statements]).to eq(8)
+        expect(actual[Reek::SmellDetectors::IrresponsibleModule]).to be_truthy
+        expect(actual[Reek::SmellDetectors::TooManyStatements]).to be_truthy
+        expect(actual[Reek::SmellDetectors::TooManyStatements][:max_statements]).to eq(8)
       end
     end
 
     context 'no directory directive but a default directive present' do
       let(:source_via) { 'spec/samples/three_clean_files/dummy.rb' }
-      let(:default_directive) { { Reek::Smells::IrresponsibleModule => { enabled: false } } }
-      let(:attribute_config) { { Reek::Smells::Attribute => { enabled: false } } }
+      let(:default_directive) { { Reek::SmellDetectors::IrresponsibleModule => { enabled: false } } }
+      let(:attribute_config) { { Reek::SmellDetectors::Attribute => { enabled: false } } }
       let(:directory_directives) do
         { 'spec/samples/two_smelly_files' => attribute_config }
       end

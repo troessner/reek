@@ -1,6 +1,6 @@
-require_relative '../../lib/reek/smells'
-require_relative '../../lib/reek/smells/smell_detector'
-require_relative '../../lib/reek/smells/smell_warning'
+require_relative '../../lib/reek/smell_detectors'
+require_relative '../../lib/reek/smell_detectors/base_detector'
+require_relative '../../lib/reek/smell_detectors/smell_warning'
 require_relative '../../lib/reek/cli/options'
 
 FactoryGirl.define do
@@ -23,18 +23,18 @@ FactoryGirl.define do
     end
   end
 
-  factory :smell_detector, class: Reek::Smells::SmellDetector do
+  factory :smell_detector, class: Reek::SmellDetectors::BaseDetector do
     skip_create
     transient do
       smell_type 'FeatureEnvy'
     end
 
     initialize_with do
-      ::Reek::Smells.const_get(smell_type).new
+      ::Reek::SmellDetectors.const_get(smell_type).new
     end
   end
 
-  factory :smell_warning, class: Reek::Smells::SmellWarning do
+  factory :smell_warning, class: Reek::SmellDetectors::SmellWarning do
     skip_create
     smell_detector
     context 'self'

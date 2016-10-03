@@ -1,11 +1,11 @@
-require_relative '../lib/reek/smells/detector_repository'
+require_relative '../lib/reek/smell_detectors/detector_repository'
 require 'yaml'
 
 namespace :configuration do
   desc 'Updates the default configuration file when smell defaults change'
   task :update_default_configuration do
     DEFAULT_SMELL_CONFIGURATION = 'defaults.reek'.freeze
-    content = Reek::Smells::DetectorRepository.smell_types.each_with_object({}) do |klass, hash|
+    content = Reek::SmellDetectors::DetectorRepository.smell_types.each_with_object({}) do |klass, hash|
       hash[klass.smell_type] = klass.default_config
     end
     File.open(DEFAULT_SMELL_CONFIGURATION, 'w') { |file| YAML.dump(content, file) }

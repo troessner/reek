@@ -14,7 +14,7 @@ module Reek
           true
         when String
           begin
-            Reek::Smells.const_defined? key
+            Reek::SmellDetectors.const_defined? key
           rescue NameError
             false
           end
@@ -27,7 +27,7 @@ module Reek
         when Class
           key
         else
-          Reek::Smells.const_get key
+          Reek::SmellDetectors.const_get key
         end
       end
 

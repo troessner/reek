@@ -144,7 +144,7 @@ Instead of the smell detector names you can also use the full detector class in
 your configuration hash, for example:
 
 ```ruby
-config_hash = { Reek::Smells::IrresponsibleModule => { 'enabled' => false } }
+config_hash = { Reek::SmellDetectors::IrresponsibleModule => { 'enabled' => false } }
 ```
 
 Of course, directory specific configuration and excluded paths are supported as

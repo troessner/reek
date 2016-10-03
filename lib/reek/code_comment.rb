@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 require 'yaml'
-require_relative 'smells/smell_detector'
+require_relative 'smell_detectors/base_detector'
 require_relative 'errors/bad_detector_in_comment_error'
 require_relative 'errors/bad_detector_configuration_in_comment_error'
 
@@ -38,7 +38,7 @@ module Reek
       @config            = Hash.new { |hash, key| hash[key] = {} }
 
       @original_comment.scan(CONFIGURATION_REGEX) do |detector, _option_string, options|
-        escalate_bad_detector(detector) unless Smells::SmellDetector.valid_detector?(detector)
+        escalate_bad_detector(detector) unless SmellDetectors::BaseDetector.valid_detector?(detector)
 
         begin
           parsed_options = YAML.load(options || DISABLE_DETECTOR_CONFIGURATION)

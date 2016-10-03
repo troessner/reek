@@ -25,7 +25,7 @@ module Reek
                      configuration = Configuration::AppConfiguration.default)
         @smell_type = normalize smell_type_or_class
         @smell_details = smell_details
-        configuration.load_values(smell_type => { Smells::SmellConfiguration::ENABLED_KEY => true })
+        configuration.load_values(smell_type => { SmellDetectors::SmellConfiguration::ENABLED_KEY => true })
         @configuration = configuration
       end
 
