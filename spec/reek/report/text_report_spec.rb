@@ -1,16 +1,15 @@
 require_relative '../../spec_helper'
 require_lib 'reek/examiner'
-require_lib 'reek/report/report'
+require_lib 'reek/report/text_report'
 require_lib 'reek/report/formatter'
-require_lib 'reek/report/heading_formatter'
 require 'rainbow'
 
 RSpec.describe Reek::Report::TextReport do
   let(:report_options) do
     {
-      warning_formatter: Reek::Report::SimpleWarningFormatter.new,
+      warning_formatter: Reek::Report::Formatter::SimpleWarningFormatter.new,
       report_formatter: Reek::Report::Formatter,
-      heading_formatter: Reek::Report::HeadingFormatter::Quiet
+      heading_formatter: Reek::Report::Formatter::QuietHeadingFormatter
     }
   end
   let(:instance) { described_class.new report_options }

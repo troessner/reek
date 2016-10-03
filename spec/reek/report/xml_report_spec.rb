@@ -1,6 +1,6 @@
 require_relative '../../spec_helper'
 require_lib 'reek/examiner'
-require_lib 'reek/report/report'
+require_lib 'reek/report/xml_report'
 
 RSpec.describe Reek::Report::XMLReport do
   let(:xml_report) { described_class.new }

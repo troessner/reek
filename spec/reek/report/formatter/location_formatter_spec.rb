@@ -1,7 +1,7 @@
-require_relative '../../spec_helper'
+require_relative '../../../spec_helper'
 require_lib 'reek/report/formatter'
 
-RSpec.describe Reek::Report::BlankLocationFormatter do
+RSpec.describe Reek::Report::Formatter::BlankLocationFormatter do
   let(:warning) { build(:smell_warning, lines: [11, 9, 250, 100]) }
 
   describe '.format' do
@@ -11,7 +11,7 @@ RSpec.describe Reek::Report::BlankLocationFormatter do
   end
 end
 
-RSpec.describe Reek::Report::DefaultLocationFormatter do
+RSpec.describe Reek::Report::Formatter::DefaultLocationFormatter do
   let(:warning) { build(:smell_warning, lines: [11, 9, 250, 100]) }
 
   describe '.format' do
@@ -21,7 +21,7 @@ RSpec.describe Reek::Report::DefaultLocationFormatter do
   end
 end
 
-RSpec.describe Reek::Report::SingleLineLocationFormatter do
+RSpec.describe Reek::Report::Formatter::SingleLineLocationFormatter do
   let(:warning) { build(:smell_warning, lines: [11, 9, 250, 100]) }
 
   describe '.format' do
