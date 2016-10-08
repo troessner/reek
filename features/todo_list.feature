@@ -15,6 +15,9 @@ Feature:
     Then the exit status indicates smells
     And it reports:
       """
+      Inspecting 1 file(s):
+      S
+
       smelly.rb -- 2 warnings:
         [4]:UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
         [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
@@ -63,13 +66,21 @@ Feature:
     When I run `reek -c .todo.reek smelly.rb`
     Then it reports:
       """
+      Inspecting 1 file(s):
+      S
+
       smelly.rb -- 1 warning:
         [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
       """
     When I run `reek --todo smelly.rb`
     Then it succeeds
     When I run `reek -c .todo.reek smelly.rb`
-    Then it reports nothing
+    Then it reports:
+      """
+      Inspecting 1 file(s):
+      .
+
+      """
 
   Scenario: Ignore existing other configuration files that are passed explicitly
     Given the smelly file 'smelly.rb'
@@ -84,10 +95,18 @@ Feature:
     When I run `reek -c config.reek smelly.rb`
     Then it reports:
       """
+      Inspecting 1 file(s):
+      S
+
       smelly.rb -- 1 warning:
         [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
       """
     When I run `reek -c config.reek --todo smelly.rb`
     Then it succeeds
     When I run `reek -c .todo.reek smelly.rb`
-    Then it reports nothing
+    Then it reports:
+      """
+      Inspecting 1 file(s):
+      .
+
+      """

@@ -9,6 +9,9 @@ Feature: Correctly formatted reports
     Then the exit status indicates smells
     And it reports:
       """
+      Inspecting 2 file(s):
+      SS
+
       smelly/dirty_one.rb -- 2 warnings:
         [4]:UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
         [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
@@ -29,6 +32,9 @@ Feature: Correctly formatted reports
     Then the exit status indicates smells
     And it reports:
       """
+      Inspecting 2 file(s):
+      SS
+
       smelly/dirty_one.rb -- 2 warnings:
         [4]:UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
         [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
@@ -50,6 +56,9 @@ Feature: Correctly formatted reports
     Then the exit status indicates smells
     And it reports:
       """
+      Inspecting 2 file(s):
+      SS
+
       smelly/dirty_two.rb -- 2 warnings:
         [4]:UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
         [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
@@ -70,6 +79,9 @@ Feature: Correctly formatted reports
     Then it succeeds
     And it reports:
       """
+      Inspecting 2 file(s):
+      ..
+
       0 total warnings
       """
 
@@ -79,6 +91,9 @@ Feature: Correctly formatted reports
     Then it succeeds
     And it reports:
       """
+      Inspecting 2 file(s):
+      ..
+
       clean/clean_one.rb -- 0 warnings
       clean/clean_two.rb -- 0 warnings
       0 total warnings
@@ -95,6 +110,9 @@ Feature: Correctly formatted reports
     Then it succeeds
     And it reports:
       """
+      Inspecting 2 file(s):
+      ..
+
       0 total warnings
       """
 
@@ -109,6 +127,9 @@ Feature: Correctly formatted reports
     Then the exit status indicates smells
     And it reports:
       """
+      Inspecting 1 file(s):
+      S
+
       smelly.rb -- 2 warnings:
         UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
         UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
@@ -126,6 +147,9 @@ Feature: Correctly formatted reports
     Then the exit status indicates smells
     And it reports:
       """
+      Inspecting 1 file(s):
+      S
+
       smelly.rb -- 2 warnings:
         [4]:UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
         [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
@@ -143,6 +167,9 @@ Feature: Correctly formatted reports
     Then the exit status indicates smells
     And it reports:
       """
+      Inspecting 1 file(s):
+      S
+
       smelly.rb -- 2 warnings:
         smelly.rb:4: UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
         smelly.rb:5: UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
@@ -161,6 +188,9 @@ Feature: Correctly formatted reports
     Then the exit status indicates smells
     And it reports:
       """
+      Inspecting 2 file(s):
+      SS
+
       smelly/dirty_one.rb -- 2 warnings:
         [4]:UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
         [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
@@ -181,6 +211,9 @@ Feature: Correctly formatted reports
     Then the exit status indicates smells
     And it reports:
       """
+      Inspecting 1 file(s):
+      S
+
       smelly.rb -- 2 warnings:
         [4]:UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
         [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
@@ -197,6 +230,9 @@ Feature: Correctly formatted reports
     Then the exit status indicates smells
     And it reports:
       """
+      Inspecting 1 file(s):
+      S
+
       smelly.rb -- 2 warnings:
         [4]:UncommunicativeMethodName: Smelly#x has the name 'x'
         [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y'
@@ -208,6 +244,9 @@ Feature: Correctly formatted reports
     Then the exit status indicates smells
     And it reports:
       """
+      Inspecting 1 file(s):
+      S
+
       smelly.rb -- 2 warnings:
         UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
         UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]

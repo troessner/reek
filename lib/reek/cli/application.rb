@@ -54,6 +54,7 @@ module Reek
       def sources
         if no_source_files_given?
           if input_was_piped?
+            disable_progress_output_unless_verbose
             source_from_pipe
           else
             working_directory_as_source
@@ -88,6 +89,10 @@ module Reek
 
       def source_from_pipe
         [$stdin]
+      end
+
+      def disable_progress_output_unless_verbose
+        options.progress_format = :quiet unless options.show_empty
       end
     end
   end

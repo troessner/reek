@@ -30,6 +30,11 @@ module Reek
       quiet: Formatter::QuietHeadingFormatter
     }.freeze
 
+    PROGRESS_FORMATTERS = {
+      dots: Formatter::ProgressFormatter::Dots,
+      quiet: Formatter::ProgressFormatter::Quiet
+    }.freeze
+
     WARNING_FORMATTER_CLASSES = {
       wiki_links: Formatter::WikiLinkWarningFormatter,
       simple: Formatter::SimpleWarningFormatter
@@ -63,6 +68,16 @@ module Reek
     #
     def self.heading_formatter(heading_format)
       HEADING_FORMATTERS.fetch(heading_format)
+    end
+
+    # Map progress format symbol to a report class.
+    #
+    # @param [Symbol] progress_format The format to map
+    #
+    # @return The mapped progress class
+    #
+    def self.progress_formatter(progress_format)
+      PROGRESS_FORMATTERS.fetch(progress_format)
     end
 
     # Map warning format symbol to a report class.

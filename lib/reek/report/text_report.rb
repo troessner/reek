@@ -9,8 +9,23 @@ module Reek
     # @public
     #
     class TextReport < BaseReport
+      # @public
+      def initialize(*args)
+        super(*args)
+
+        progress_formatter.header
+      end
+
+      # @public
+      def add_examiner(examiner)
+        progress_formatter.progress examiner
+        super(examiner)
+      end
+
+      # @public
       def show
         sort_examiners if smells?
+        progress_formatter.footer
         display_summary
         display_total_smell_count
       end
