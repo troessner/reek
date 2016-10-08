@@ -25,9 +25,6 @@ Feature: Mix `accept` and `reject` configuration settings
     When I run `reek -c config.reek smelly.rb`
     Then it reports:
     """
-    Inspecting 1 file(s):
-    S
-
     smelly.rb -- 2 warnings:
       [4]:UncommunicativeMethodName: awesome_helper has the name 'awesome_helper' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
       [3]:UncommunicativeMethodName: foobar has the name 'foobar' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
@@ -55,9 +52,6 @@ Feature: Mix `accept` and `reject` configuration settings
     When I run `reek -c config.reek smelly.rb`
     Then it reports:
     """
-    Inspecting 1 file(s):
-    S
-
     smelly.rb -- 1 warning:
       [3]:UncommunicativeModuleName: BaseHelper has the name 'BaseHelper' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Module-Name.md]
     """
@@ -82,9 +76,6 @@ Feature: Mix `accept` and `reject` configuration settings
     When I run `reek -c config.reek smelly.rb`
     Then it reports:
     """
-    Inspecting 1 file(s):
-    S
-
     smelly.rb -- 1 warning:
       [3]:UncommunicativeParameterName: omg has the parameter name 'foobar' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Parameter-Name.md]
     """

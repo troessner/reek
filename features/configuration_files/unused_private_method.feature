@@ -30,9 +30,6 @@ Feature: Unused Private Method detector
     When I run `reek -c config.reek sample.rb`
     Then it reports:
     """
-    Inspecting 1 file(s):
-    S
-
     sample.rb -- 1 warning:
       [4]:UnusedPrivateMethod: Outer::Smelly has the unused private instance method 'foobar' [https://github.com/troessner/reek/blob/master/docs/Unused-Private-Method.md]
     """
@@ -64,9 +61,6 @@ Feature: Unused Private Method detector
     When I run `reek -c config.reek sample.rb`
     Then it reports:
     """
-    Inspecting 1 file(s):
-    S
-
     sample.rb -- 1 warning:
       [4]:UnusedPrivateMethod: Outer::Smelly has the unused private instance method 'foobar' [https://github.com/troessner/reek/blob/master/docs/Unused-Private-Method.md]
     """

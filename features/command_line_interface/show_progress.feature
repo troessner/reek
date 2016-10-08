@@ -5,7 +5,7 @@ Feature: Show progress
 
   Scenario: shows progress output on mixed files by default
     Given a directory called 'mixed_files' containing some clean and smelly files
-    When I run reek mixed_files
+    When I run reek --progress mixed_files
     Then the exit status indicates smells
     And it reports:
       """

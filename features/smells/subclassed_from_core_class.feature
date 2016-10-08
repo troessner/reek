@@ -9,9 +9,6 @@ Feature: Smell - SubclassedFromCoreClass
     When I run `reek my_hash.rb`
     Then it reports:
     """
-    Inspecting 1 file(s):
-    S
-
     my_hash.rb -- 1 warning:
       [2]:SubclassedFromCoreClass: MyHash inherits from core class 'Hash' [https://github.com/troessner/reek/blob/master/docs/Subclassed-From-Core-Class.md]
     """

@@ -14,9 +14,6 @@ Feature: Smell - TooManyConstants
     When I run `reek my_class.rb`
     Then it reports:
     """
-    Inspecting 1 file(s):
-    S
-
     my_class.rb -- 1 warning:
       [1]:TooManyConstants: MyClass has 6 constants [https://github.com/troessner/reek/blob/master/docs/Too-Many-Constants.md]
     """
