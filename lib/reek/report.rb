@@ -6,7 +6,6 @@ require_relative 'report/text_report'
 require_relative 'report/xml_report'
 require_relative 'report/yaml_report'
 require_relative 'report/formatter'
-require_relative 'report/progress_formatter'
 
 module Reek
   # Reek reporting functionality.
@@ -32,8 +31,8 @@ module Reek
     }.freeze
 
     PROGRESS_FORMATTERS = {
-      dots: ProgressFormatter::Dots,
-      quiet: ProgressFormatter::Quiet
+      dots: Formatter::ProgressFormatter::Dots,
+      quiet: Formatter::ProgressFormatter::Quiet
     }.freeze
 
     WARNING_FORMATTER_CLASSES = {

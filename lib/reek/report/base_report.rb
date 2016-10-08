@@ -4,7 +4,6 @@ require 'pathname'
 require 'rainbow'
 
 require_relative 'formatter'
-require_relative 'progress_formatter'
 
 module Reek
   # @public
@@ -28,7 +27,7 @@ module Reek
                      report_formatter: Formatter,
                      sort_by_issue_count: false,
                      warning_formatter: Formatter::SimpleWarningFormatter.new,
-                     progress_formatter: ProgressFormatter::Quiet.new(0))
+                     progress_formatter: Formatter::ProgressFormatter::Quiet.new(0))
         @examiners           = []
         @heading_formatter   = heading_formatter.new(report_formatter)
         @report_formatter    = report_formatter
