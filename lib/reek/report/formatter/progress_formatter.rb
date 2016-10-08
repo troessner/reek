@@ -36,15 +36,15 @@ module Reek
           WARNINGS_COLOR = :red
 
           def header
-            print "Inspecting #{sources_count} file(s):\n"
+            "Inspecting #{sources_count} file(s):\n"
           end
 
           def progress(examiner)
-            print examiner.smelly? ? display_smelly : display_clean
+            examiner.smelly? ? display_smelly : display_clean
           end
 
           def footer
-            print "\n\n"
+            "\n\n"
           end
 
           private

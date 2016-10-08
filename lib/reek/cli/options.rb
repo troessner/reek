@@ -37,10 +37,10 @@ module Reek
         @parser             = OptionParser.new
         @report_format      = :text
         @location_format    = :numbers
-        @progress_format    = :dots
+        @progress_format    = tty_output? ? :dots : :quiet
         @show_links         = true
         @smells_to_detect   = []
-        @colored            = color_support?
+        @colored            = tty_output?
         @success_exit_code  = DEFAULT_SUCCESS_EXIT_CODE
         @failure_exit_code  = DEFAULT_FAILURE_EXIT_CODE
         @generate_todo_list = false
@@ -56,8 +56,12 @@ module Reek
 
       private
 
+      # TTY output generally means the output will not undergo further
+      # processing by a machine, but will be viewed by a human. This means
+      # features like coloring can be safely enabled by default.
+      #
       # :reek:UtilityFunction
-      def color_support?
+      def tty_output?
         $stdout.tty?
       end
 

@@ -23,7 +23,9 @@ RSpec.describe Reek::CLI::Command::ReportCommand do
       let(:source_file) { CLEAN_FILE }
 
       it 'returns a success code' do
-        result = command.execute
+        result = Reek::CLI::Silencer.silently do
+          command.execute
+        end
         expect(result).to eq Reek::CLI::Options::DEFAULT_SUCCESS_EXIT_CODE
       end
     end
