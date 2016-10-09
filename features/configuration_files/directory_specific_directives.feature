@@ -49,9 +49,6 @@ Feature: Directory directives
     When I run `reek -c web_app/config.reek web_app/`
     Then it reports:
     """
-    Inspecting 3 file(s):
-    S.S
-
     web_app/app/controllers/users_controller.rb -- 1 warning:
       [1]:InstanceVariableAssumption: UsersController assumes too much for instance variable '@user' [https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md]
     web_app/app/models/user.rb -- 2 warnings:
@@ -76,12 +73,7 @@ Feature: Directory directives
       end
       """
     When I run `reek -c web_app/config.reek controllers`
-    Then it reports:
-    """
-    Inspecting 1 file(s):
-    .
-
-    """
+    Then it reports nothing
 
   Scenario: Partially mask smells in different directories
     Given a file named "web_app/config.reek" with:
@@ -128,9 +120,6 @@ Feature: Directory directives
     When I run `reek -c web_app/config.reek web_app/`
     Then it reports:
     """
-    Inspecting 3 file(s):
-    S.S
-
     web_app/app/controllers/users_controller.rb -- 3 warnings:
       [1]:InstanceVariableAssumption: UsersController assumes too much for instance variable '@user' [https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md]
       [1]:IrresponsibleModule: UsersController has no descriptive comment [https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md]
@@ -177,9 +166,6 @@ Feature: Directory directives
     When I run `reek -c config.reek other/ web_app/`
     Then it reports:
     """
-    Inspecting 2 file(s):
-    SS
-
     other/projects_controller.rb -- 2 warnings:
       [1]:InstanceVariableAssumption: ProjectController assumes too much for instance variable '@project' [https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md]
       [4]:NestedIterators: ProjectController#show contains iterators nested 2 deep [https://github.com/troessner/reek/blob/master/docs/Nested-Iterators.md]
@@ -275,9 +261,6 @@ Feature: Directory directives
     When I run `reek -c config.reek foo/`
     Then it reports:
     """
-    Inspecting 2 file(s):
-    SS
-
     foo/bar/baz/klass.rb -- 1 warning:
       [4]:NestedIterators: Klass#meth contains iterators nested 2 deep [https://github.com/troessner/reek/blob/master/docs/Nested-Iterators.md]
     foo/bar/klazz.rb -- 1 warning:

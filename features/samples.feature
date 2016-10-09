@@ -11,9 +11,6 @@ Feature: Basic smell detection
     Then the exit status indicates smells
     And it reports:
     """
-    Inspecting 3 file(s):
-    SSS
-
     inline.rb -- 51 warnings:
       BooleanParameter: Inline::C#parse_signature has boolean parameter 'raw' [https://github.com/troessner/reek/blob/master/docs/Boolean-Parameter.md]
       ClassVariable: Inline declares the class variable '@@directory' [https://github.com/troessner/reek/blob/master/docs/Class-Variable.md]
