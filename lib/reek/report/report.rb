@@ -85,19 +85,19 @@ module Reek
       def initialize(*args)
         super(*args)
 
-        progress_formatter.header
+        print progress_formatter.header
       end
 
       # @public
       def add_examiner(examiner)
-        progress_formatter.progress examiner
+        print progress_formatter.progress examiner
         super(examiner)
       end
 
       # @public
       def show
         sort_examiners if smells?
-        progress_formatter.footer
+        print progress_formatter.footer
         display_summary
         display_total_smell_count
       end
