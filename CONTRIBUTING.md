@@ -27,7 +27,7 @@ version, Ruby platform (MRI, JRuby, etc.), operating system.
 Try to provide a minimal example that reproduces the issue.
 Extra kudos if you can write it as a failing test. :)
 
-## Contribute features, bugfixes, documentation
+## Contributing features, bugfixes, documentation
 
 ### Getting started
 
@@ -55,20 +55,21 @@ start contributing.
 Then start hacking and add new tests which make sure that your new feature works or
 demonstrate that your fix was needed.
 
-### Tests
+### RSpec Specs
 
-Reek is using [Rspec](http://rspec.info/) for unit and functional testing and [cucumber]() for integration tests.
+Reek uses [Rspec](http://rspec.info/) for unit and functional testing.
 
-When it comes to Rspec we're trying to follow [betterspecs](http://betterspecs.org/).
-We're not using Rspec's [shared examples](https://www.relishapp.com/rspec/rspec-core/docs/example-groups/shared-examples) because we find
-them rather harming than helpful.
-You can find an excellent cheat sheet on how to write idiomatic Rspec [here](http://www.rubypigeon.com/posts/rspec-core-cheat-sheet).
+We're trying to follow [betterspecs](http://betterspecs.org/). We're not using
+RSpec's
+[shared examples](https://www.relishapp.com/rspec/rspec-core/docs/example-groups/shared-examples)
+because we find them rather harming than helpful. You can find an excellent
+cheat sheet on how to write idiomatic Rspec
+[here](http://www.rubypigeon.com/posts/rspec-core-cheat-sheet).
 
-**Spec naming conventions**
-
-We do not use the popular "foo" / "bar" naming when it comes to the question "how to come up with good example names?".
-Instead, we use the [military alphabet](https://en.wikipedia.org/wiki/NATO_phonetic_alphabet) in ascending order
-which means that we would write this
+We do not use the popular "foo" / "bar" naming when it comes to the question
+"how to come up with good example names?". Instead, we use the
+[military alphabet](https://en.wikipedia.org/wiki/NATO_phonetic_alphabet) in
+ascending order which means that we would write this
 
 ```Ruby
 class Foo
@@ -88,13 +89,43 @@ class Alfa
 end
 ```
 
-### How to write new smell detectors
+### Cucumber Features
+
+Reek uses [Cucumber](https://cucumber.io/) with
+[Aruba](https://github.com/cucumber/aruba) for integration tests. Keep the
+following in mind when writing cucumber features.
+
+#### What to test
+
+Not everything needs a cucumber feature. We try to limit cucumber features to
+things that really require end-to-end testing of Reek's behavior. In
+particular, this means individual smell detectors should not have their own
+scenarios.
+
+#### TTY output checks
+
+Some default behaviors of Reek depend on whether the output is a TTY, for
+example output coloring and the progress bar. Because under Aruba stdout is
+*not* a TTY, Reeks default behavior in the scenarios is different in this
+regard than if it were run in a terminal.
+
+#### Failing Cucumber Scenarios
+
+If there is a failing scenario and you can not figure out why it is failing,
+just run the failing scenario: `bundle exec cucumber
+features/failing_scenario.feature:line`. By doing so Aruba will leave its set
+up in the `tmp/aruba` directory. You can then `cd` into this directory and run
+Reek the same way the cucumber scenario actually ran it. This way you can debug
+scenario failures that can be very opaque sometimes.
+
+### Writing new smell detectors
 
 Please see [our separate guide](docs/How-To-Write-New-Detectors.md) for this.
 
-### Finishing up
+### Creating your pull request
 
-We care a lot about [good commit messages](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html).
+We care a lot about [good commit
+messages](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html).
 
 Once you’re happy with your feature / fix – or want to
 share it as a work-in-progress and request comments – once
@@ -116,13 +147,14 @@ Then go to your GitHub fork and [make a pull
 request](https://help.github.com/articles/creating-a-pull-request/)
 to the original repository.
 
-## Review and Fixes
+### Review and Fixes
 
 Try to gauge and let us know in the pull request whether what
 you propose is a backward-compatible bugfix and should go into the
 next patch release, is a backward-compatible feature and should go
 into the next minor release, or has to break backward-compatibility
-and so needs to wait for the next major release of Reek.
+and so needs to wait for the next major release of Reek. See also our
+versioning policy below.
 
 Once your PR is open someone will review it, discuss the details (if
 needed) and either merge right away or ask for some further fixes.
@@ -142,14 +174,11 @@ git rebase -i master
 # squash squash squash
 git push -f origin
 ```
-## Failing Cucumber Scenarios
-
-If there is a failing scenario and you can not figure out why it is failing, just run the failing scenario: `bundle exec cucumber features/failing_scenario.feature:line`. By doing so Aruba will leave its set up in the `tmp/aruba` directory. You can then `cd` into this directory and run Reek the same way the cucumber scenario actually ran it. This way you can debug scenario failures that can be very opaque sometimes.
 
 ## Versioning policy
 
 We are following [semantic versioning](http://semver.org/).
 
-## Breaking changes
-
-If you're working on a change that is breaking backwards-compatibility according to our versioning policy from above just go ahead with your pull request like normal. We'll discuss this then in the pull request and help you to point your pull request to the right branch.
+If you're working on a change that is breaking backwards-compatibility
+just go ahead with your pull request like normal. We'll discuss this then in
+the pull request and help you to point your pull request to the right branch.
