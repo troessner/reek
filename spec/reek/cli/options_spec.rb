@@ -14,13 +14,23 @@ RSpec.describe Reek::CLI::Options do
     end
 
     it 'enables colors when stdout is a TTY' do
+      allow($stdout).to receive_messages(tty?: true)
+      expect(options.colored).to be true
+    end
+
+    it 'does not enable colors when stdout is not a TTY' do
       allow($stdout).to receive_messages(tty?: false)
       expect(options.colored).to be false
     end
 
-    it 'does not enable colors when stdout is not a TTY' do
+    it 'enables progress when stdout is a TTY' do
       allow($stdout).to receive_messages(tty?: true)
-      expect(options.colored).to be true
+      expect(options.progress_format).to eq :dots
+    end
+
+    it 'does not enable progress when stdout is not a TTY' do
+      allow($stdout).to receive_messages(tty?: false)
+      expect(options.progress_format).to eq :quiet
     end
   end
 

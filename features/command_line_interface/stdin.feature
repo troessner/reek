@@ -18,9 +18,6 @@ Feature: Reek reads from $stdin when no files are given
     Then it succeeds
     And it reports:
       """
-      Inspecting 1 file(s):
-      .
-
       STDIN -- 0 warnings
       """
 

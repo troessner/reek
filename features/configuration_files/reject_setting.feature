@@ -33,9 +33,6 @@ Feature: `reject` configuration setting
     When I run `reek -c config.reek smelly.rb`
     Then it reports:
     """
-    Inspecting 1 file(s):
-    S
-
     smelly.rb -- 5 warnings:
       [4]:UncommunicativeMethodName: Dummy#awesome_helper has the name 'awesome_helper' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
       [6]:UncommunicativeMethodName: Dummy#little_helper has the name 'little_helper' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
@@ -72,9 +69,6 @@ Feature: `reject` configuration setting
     When I run `reek -c config.reek smelly.rb`
     Then it reports:
     """
-    Inspecting 1 file(s):
-    S
-
     smelly.rb -- 5 warnings:
       [4]:UncommunicativeMethodName: Dummy#awesome_helper has the name 'awesome_helper' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
       [6]:UncommunicativeMethodName: Dummy#little_helper has the name 'little_helper' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
