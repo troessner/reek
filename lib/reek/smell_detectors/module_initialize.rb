@@ -23,13 +23,11 @@ module Reek
       # :reek:FeatureEnvy
       def sniff(ctx)
         ctx.local_nodes(:def) do |node|
-          if node.name.to_s == 'initialize'
-            return [
-              smell_warning(
-                context: ctx,
-                lines:   [ctx.exp.line],
-                message: 'has initialize method')
-            ]
+          if node.name == :initialize
+            return smell_warning(
+              context: ctx,
+              lines:   [ctx.exp.line],
+              message: 'has initialize method')
           end
         end
         []
