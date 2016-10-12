@@ -43,5 +43,9 @@ RSpec.describe Reek::Report::CodeClimateFormatter do
     it 'sets remediation points based on the smell detector' do
       expect(json['remediation_points']).to eq 250_000
     end
+
+    it 'sets fingerprint based on warning context' do
+      expect(json['fingerprint']).to eq '70c530e45999af129d520f1f579f967f'
+    end
   end
 end

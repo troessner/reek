@@ -15,6 +15,7 @@ module Reek
                             categories: categories,
                             location: location,
                             remediation_points: remediation_points,
+                            fingerprint: fingerprint,
                             content: content).render
       end
 
@@ -43,6 +44,10 @@ module Reek
 
       def remediation_points
         configuration[warning.smell_type].fetch('remediation_points')
+      end
+
+      def fingerprint
+        CodeClimateFingerprint.new(warning).compute
       end
 
       def content
