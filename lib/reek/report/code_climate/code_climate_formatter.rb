@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require 'codeclimate_engine'
+require_relative 'code_climate_configuration'
 
 module Reek
   module Report
@@ -56,8 +57,7 @@ module Reek
 
       def configuration
         @configuration ||= begin
-          config_file = File.expand_path('../code_climate_configuration.yml', __FILE__)
-          YAML.load_file config_file
+          CodeClimateConfiguration.load
         end
       end
     end
