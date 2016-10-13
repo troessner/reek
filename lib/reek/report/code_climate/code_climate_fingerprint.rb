@@ -1,4 +1,6 @@
 # frozen_string_literal: true
+require 'digest'
+
 module Reek
   module Report
     # Generates a string to uniquely identify a smell
@@ -14,7 +16,7 @@ module Reek
 
         identify_warning
 
-        identifying_aspects.hexdigest
+        identifying_aspects.hexdigest.freeze
       end
 
       private
