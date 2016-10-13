@@ -1,5 +1,12 @@
 # Change log
 
+## 4.5.0 (2016-10-12)
+
+* (maxjacobson) Emit fingerprints in Code Climate reporter
+* (mvz) Disable progress for piped output
+* (mvz) Update progress formatter to match changed file location
+* (jhubert) Add progress formatters for showing progress on each file
+
 ## 4.4.4 (2016-09-29)
 
 * (troessner) Create a fresh todo file on every run
