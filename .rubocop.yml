@@ -74,6 +74,7 @@ RSpec/VerifiedDoubles:
 # rubocop-rspec expects a CodeClimate namespace to go with the code_climate directory.
 RSpec/FilePath:
   Exclude:
+    - 'spec/reek/report/code_climate/code_climate_configuration_spec.rb'
     - 'spec/reek/report/code_climate/code_climate_fingerprint_spec.rb'
     - 'spec/reek/report/code_climate/code_climate_formatter_spec.rb'
     - 'spec/reek/report/code_climate/code_climate_report_spec.rb'
