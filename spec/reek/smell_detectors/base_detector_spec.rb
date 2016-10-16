@@ -1,5 +1,6 @@
 require_relative '../../spec_helper'
 require_lib 'reek/smell_detectors/base_detector'
+require_lib 'reek/smell_detectors/duplicate_method_call'
 
 RSpec.describe Reek::SmellDetectors::BaseDetector do
   describe '.todo_configuration_for' do
@@ -41,6 +42,23 @@ RSpec.describe Reek::SmellDetectors::BaseDetector do
 
     it 'returns false for an invalid detector' do
       expect(described_class.valid_detector?('Unknown')).to be false
+    end
+  end
+
+  describe '.to_detector' do
+    it 'returns the right detector' do
+      expect(described_class.to_detector('DuplicateMethodCall')).to eq(Reek::SmellDetectors::DuplicateMethodCall)
+    end
+
+    it 'raise NameError for an invalid detector name' do
+      expect { described_class.to_detector('Unknown') }.to raise_error(NameError)
+    end
+  end
+
+  describe '.configuration_keys' do
+    it 'returns the right keys' do
+      expected_keys = Reek::SmellDetectors::DuplicateMethodCall.configuration_keys.to_a
+      expect(expected_keys).to eq([:enabled, :exclude, :max_calls, :allow_calls])
     end
   end
 end

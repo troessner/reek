@@ -51,3 +51,18 @@ Feature: Erroneous source comments are handled properly
     And it reports the error "Unfortunately we can not parse the configuration you have given."
     And it reports the error "The source is 'bad_comment.rb'"
     And it reports the error "the comment belongs to the expression starting in line 3"
+
+  Scenario: Bad configuration key
+    Given a file named "bad_comment.rb" with:
+      """
+      # Test class
+      # exclude -> elude and accept -> accipt are bad keys
+      # :reek:UncommunicativeMethodName { elude: 'foo', accipt: 'bar' }
+      def x
+      end
+      """
+    When I run reek bad_comment.rb
+    Then it reports the error "Error: You are trying to configure the smell detector 'UncommunicativeMethodName'"
+    And it reports the error "in one of your source code comments with the unknown option 'elude', 'accipt'"
+    And it reports the error "The source is 'bad_comment.rb'"
+    And it reports the error "the comment belongs to the expression starting in line 4"

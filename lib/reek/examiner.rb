@@ -121,7 +121,8 @@ module Reek
       begin
         examine_tree
       rescue Errors::BadDetectorInCommentError,
-             Errors::GarbageDetectorConfigurationInCommentError => exception
+             Errors::GarbageDetectorConfigurationInCommentError,
+             Errors::BadDetectorConfigurationKeyInCommentError => exception
         warn exception
         []
       rescue StandardError => exception

@@ -142,4 +142,44 @@ RSpec.describe Reek::CodeComment::CodeCommentValidator do
       end.to raise_error(Reek::Errors::GarbageDetectorConfigurationInCommentError)
     end
   end
+
+  describe 'validating configuration keys' do
+    context 'basic options mispelled' do
+      it 'raises BadDetectorConfigurationKeyInCommentError' do
+        expect do
+          # exclude -> exlude and enabled -> nabled
+          comment = '# :reek:UncommunicativeMethodName { exlude: alfa, nabled: true }'
+          FactoryGirl.build(:code_comment, comment: comment)
+        end.to raise_error(Reek::Errors::BadDetectorConfigurationKeyInCommentError)
+      end
+    end
+
+    context 'basic options not mispelled' do
+      it 'does not raise' do
+        expect do
+          comment = '# :reek:UncommunicativeMethodName { exclude: alfa, enabled: true }'
+          FactoryGirl.build(:code_comment, comment: comment)
+        end.not_to raise_error
+      end
+    end
+
+    context 'unknown custom options' do
+      it 'raises BadDetectorConfigurationKeyInCommentError' do
+        expect do
+          # max_copies -> mx_copies and min_clump_size -> mn_clump_size
+          comment = '# :reek:DataClump { mx_copies: 4, mn_clump_size: 3 }'
+          FactoryGirl.build(:code_comment, comment: comment)
+        end.to raise_error(Reek::Errors::BadDetectorConfigurationKeyInCommentError)
+      end
+    end
+
+    context 'valid custom options' do
+      it 'does not raise' do
+        expect do
+          comment = '# :reek:DataClump { max_copies: 4, min_clump_size: 3 }'
+          FactoryGirl.build(:code_comment, comment: comment)
+        end.not_to raise_error
+      end
+    end
+  end
 end

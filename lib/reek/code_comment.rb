@@ -4,6 +4,7 @@ require 'yaml'
 
 require_relative 'smell_detectors/base_detector'
 require_relative 'errors/bad_detector_in_comment_error'
+require_relative 'errors/bad_detector_configuration_key_in_comment_error'
 require_relative 'errors/garbage_detector_configuration_in_comment_error'
 
 module Reek
@@ -75,10 +76,10 @@ module Reek
     # 2.) Garbage in the detector configuration like { thats: a: bad: config }
     # 3.) Unknown configuration keys (e.g. by doing a simple typo: "exclude" vs. "exlude" )
     # 4.) Bad data types given as values for those keys
-    # This class validates [1] and [2] at the moment but will also validate [3]
-    # and [4] in the future.
+    # This class validates [1], [2] and [3] at the moment but will also validate
+    # [4] in the future.
     #
-    # :reek:TooManyInstanceVariables: { max_instance_variables: 5 }
+    # :reek:TooManyInstanceVariables: { max_instance_variables: 7 }
     class CodeCommentValidator
       #
       # @param detector_name [String] - the detector class that was parsed out of the original
@@ -94,16 +95,20 @@ module Reek
         @line             = line
         @source           = source
         @options          = options
+        @detector_class   = nil # We only know this one after our first initial checks
+        @parsed_options   = nil # We only know this one after our first initial checks
       end
 
       #
       # Method can raise the following errors:
       #   * Errors::BadDetectorInCommentError
       #   * Errors::GarbageDetectorConfigurationInCommentError
+      #   * Errors::BadDetectorConfigurationKeyInCommentError
       # @return [undefined]
       def validate
         escalate_bad_detector
         escalate_bad_detector_configuration
+        escalate_unknown_configuration_key
       end
 
       private
@@ -112,7 +117,9 @@ module Reek
                   :original_comment,
                   :line,
                   :source,
-                  :options
+                  :options,
+                  :detector_class,
+                  :parsed_options
 
       def escalate_bad_detector
         return if SmellDetectors::BaseDetector.valid_detector?(detector_name)
@@ -123,12 +130,45 @@ module Reek
       end
 
       def escalate_bad_detector_configuration
-        YAML.load(options || CodeComment::DISABLE_DETECTOR_CONFIGURATION)
+        @parsed_options = YAML.load(options || CodeComment::DISABLE_DETECTOR_CONFIGURATION)
       rescue Psych::SyntaxError
         raise Errors::GarbageDetectorConfigurationInCommentError, detector_name: detector_name,
                                                                   original_comment: original_comment,
                                                                   source: source,
                                                                   line: line
+      end
+
+      def escalate_unknown_configuration_key
+        @detector_class = SmellDetectors::BaseDetector.to_detector(detector_name)
+
+        return if given_keys_legit?
+        raise Errors::BadDetectorConfigurationKeyInCommentError, detector_name: detector_name,
+                                                                 offensive_keys: configuration_keys_difference,
+                                                                 original_comment: original_comment,
+                                                                 source: source,
+                                                                 line: line
+      end
+
+      # @return [Boolean] - all keys in code comment are applicable to the detector in question
+      def given_keys_legit?
+        given_configuration_keys.subset? valid_detector_keys
+      end
+
+      # @return [Set] - the configuration keys that are found in the code comment
+      def given_configuration_keys
+        parsed_options.keys.map(&:to_sym).to_set
+      end
+
+      # @return [String] - all keys from the code comment that look bad
+      def configuration_keys_difference
+        given_configuration_keys.difference(valid_detector_keys).
+          to_a.map { |key| "'#{key}'" }.
+          join(', ')
+      end
+
+      # @return [Set] - all keys that are legit for the given detector
+      def valid_detector_keys
+        detector_class.configuration_keys
       end
     end
   end
