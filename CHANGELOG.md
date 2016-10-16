@@ -1,5 +1,9 @@
 # Change log
 
+## 4.5.1 (2016-10-16)
+
+* (troessner) Validate configuration keys in code comments.
+
 ## 4.5.0 (2016-10-12)
 
 * (maxjacobson) Emit fingerprints in Code Climate reporter
