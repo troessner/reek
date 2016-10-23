@@ -33,8 +33,8 @@ RSpec.describe Reek::SmellDetectors::FeatureEnvy do
     EOS
 
     expect(src).
-      to reek_of(:FeatureEnvy, lines: [3, 3], name:  'charlie').
-      and reek_of(:FeatureEnvy, lines: [7, 7], name:  'hotel')
+      to reek_of(:FeatureEnvy, lines: [3, 3], name: 'charlie').
+      and reek_of(:FeatureEnvy, lines: [7, 7], name: 'hotel')
   end
 
   it 'does not report use of self' do

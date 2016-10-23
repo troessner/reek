@@ -37,8 +37,8 @@ RSpec.describe Reek::SmellDetectors::DuplicateMethodCall do
     EOS
 
     expect(src).
-      to reek_of(:DuplicateMethodCall, lines: [3, 4], name:  'charlie.delta', count: 2).
-      and reek_of(:DuplicateMethodCall, lines: [8, 9], name:  'foxtrot.golf', count: 2)
+      to reek_of(:DuplicateMethodCall, lines: [3, 4], name: 'charlie.delta', count: 2).
+      and reek_of(:DuplicateMethodCall, lines: [8, 9], name: 'foxtrot.golf', count: 2)
   end
 
   context 'with repeated method calls' do

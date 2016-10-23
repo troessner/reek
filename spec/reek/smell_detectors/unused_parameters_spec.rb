@@ -24,7 +24,7 @@ RSpec.describe Reek::SmellDetectors::UnusedParameters do
 
     expect(src).
       to reek_of(:UnusedParameters, lines: [1], name: 'bravo').
-      and reek_of(:UnusedParameters, lines: [1], name:  'charlie')
+      and reek_of(:UnusedParameters, lines: [1], name: 'charlie')
   end
 
   it 'reports nothing for no parameters' do

@@ -10,7 +10,7 @@ RSpec.describe Reek::Report::CodeClimateConfiguration do
   smell_types.each do |name|
     config = yml.fetch(name)
     it "provides remediation_points for #{name}" do
-      expect(config['remediation_points']).to be_a Fixnum
+      expect(config['remediation_points']).to be_a Integer
     end
 
     it "provides content for #{name}" do
