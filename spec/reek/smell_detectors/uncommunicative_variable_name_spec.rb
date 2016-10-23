@@ -25,8 +25,8 @@ RSpec.describe Reek::SmellDetectors::UncommunicativeVariableName do
       end
     EOS
 
-    expect(src).to reek_of(:UncommunicativeVariableName, lines: [2], name:  'x').
-      and reek_of(:UncommunicativeVariableName, lines: [3], name:  'y')
+    expect(src).to reek_of(:UncommunicativeVariableName, lines: [2], name: 'x').
+      and reek_of(:UncommunicativeVariableName, lines: [3], name: 'y')
   end
 
   context 'instance variables' do

@@ -15,7 +15,7 @@ group :development do
   gem 'activesupport', '~> 4.2'
 
   if RUBY_VERSION >= '2.3'
-    gem 'rubocop',       '~> 0.42.0'
+    gem 'rubocop',       '~> 0.44.1'
     gem 'rubocop-rspec', '~> 1.7'
   end
 
