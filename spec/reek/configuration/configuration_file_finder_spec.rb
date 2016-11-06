@@ -32,8 +32,9 @@ RSpec.describe Reek::Configuration::ConfigurationFileFinder do
     end
 
     it 'returns the file even if it’s just ‘.reek’' do
-      found = described_class.find(current: CONFIG_PATH)
-      expect(found).to eq(CONFIG_PATH.join('.reek'))
+      single_configuration_file_dir = CONFIG_PATH.join('single_configuration_file')
+      found = described_class.find(current: single_configuration_file_dir)
+      expect(found).to eq(single_configuration_file_dir.join('.reek'))
     end
 
     it 'returns the file in home if traversing from the current dir fails' do
@@ -91,25 +92,47 @@ RSpec.describe Reek::Configuration::ConfigurationFileFinder do
       end
     end
 
-    describe '.load_from_file' do
-      let(:sample_configuration_loaded) do
-        {
-          'UncommunicativeVariableName' => { 'enabled' => false },
-          'UncommunicativeMethodName'   => { 'enabled' => false }
-        }
+    context 'more than one configuration file' do
+      let(:path) { CONFIG_PATH.join('more_than_one_configuration_file') }
+
+      it 'prints a message on STDERR' do
+        expected_message = "Error: Found multiple configuration files 'regular.reek', 'todo.reek'"
+        expect do
+          begin
+            described_class.find(current: path)
+          rescue SystemExit
+          end
+        end.to output(/#{expected_message}/).to_stderr
       end
 
-      it 'loads the configuration from given file' do
-        configuration = described_class.load_from_file(CONFIG_PATH.join('full_mask.reek'))
-        expect(configuration).to eq(sample_configuration_loaded)
+      it 'exits' do
+        Reek::CLI::Silencer.silently do
+          expect do
+            described_class.find(current: path)
+          end.to raise_error(SystemExit)
+        end
       end
     end
+  end
 
-    private
-
-    def skip_if_a_config_in_tempdir
-      found = described_class.find(current: Pathname.new(Dir.tmpdir))
-      skip "skipped: #{found} exists and would fail this test" if found
+  describe '.load_from_file' do
+    let(:sample_configuration_loaded) do
+      {
+        'UncommunicativeVariableName' => { 'enabled' => false },
+        'UncommunicativeMethodName'   => { 'enabled' => false }
+      }
     end
+
+    it 'loads the configuration from given file' do
+      configuration = described_class.load_from_file(CONFIG_PATH.join('full_mask.reek'))
+      expect(configuration).to eq(sample_configuration_loaded)
+    end
+  end
+
+  private
+
+  def skip_if_a_config_in_tempdir
+    found = described_class.find(current: Pathname.new(Dir.tmpdir))
+    skip "skipped: #{found} exists and would fail this test" if found
   end
 end

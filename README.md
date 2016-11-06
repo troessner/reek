@@ -16,8 +16,9 @@
   - [Configuration file](#configuration-file)
     - [Configuration loading](#configuration-loading)
     - [Configuration options](#configuration-options)
-  - [Source code comments](#source-code-comments)
   - [Generating a 'todo' list](#generating-a-todo-list)
+  - [Beware of multiple configuration files](#beware-of-multiple-configuration-files)
+  - [Source code comments](#source-code-comments)
 - [Usage](#usage)
 - [Developing Reek / Contributing](#developing-reek--contributing)
 - [Output formats](#output-formats)
@@ -355,30 +356,6 @@ configurations you can also check out [the `default.reek` file in this repositor
 Note that you do not need a configuration file at all.
 If you're fine with all the [defaults](defaults.reek) we set you can skip this completely.
 
-### Source code comments
-
-In case you need to suppress a smell warning and you can't or don't want to
-use configuration files for whatever reasons you can also use special
-source code comments like this:
-
-```Ruby
-# This method smells of :reek:NestedIterators
-def smelly_method foo
-  foo.each {|bar| bar.each {|baz| baz.qux}}
-end
-```
-
-You can even pass in smell specific configuration settings:
-
-```Ruby
-# :reek:NestedIterators { max_allowed_nesting: 2 }
-def smelly_method foo
-  foo.each {|bar| bar.each {|baz| baz.qux}}
-end
-```
-
-This is an incredible powerful feature and further explained under [Smell Suppresion](docs/Smell-Suppression.md).
-
 ### Generating a 'todo' list
 
 Integrating tools like Reek into an existing larger codebase can be daunting when you have to fix
@@ -424,6 +401,42 @@ reek -c other_configuration.reek --todo lib/
 
 `other_configuration.reek` will simply be ignored (as outlined before, Reek
 is supposed to have one configuration file and one file only).
+
+### Beware of multiple configuration files
+
+Reek takes one configuration file and one configuration file only.
+
+If you have more than one configuration file in the same directory Reek
+will not know what configuration file to use. If this happens Reek will
+print a warning on STDERR and exit with the failure exit status 1.
+
+In case you have to have one or more configuration files in the directory (e.g. you're
+toying around with different, mutually exclusive settings) you need to tell Reek
+explicitly which file to use via `reek -c config.reek`.
+
+### Source code comments
+
+In case you need to suppress a smell warning and you can't or don't want to
+use configuration files for whatever reasons you can also use special
+source code comments like this:
+
+```Ruby
+# This method smells of :reek:NestedIterators
+def smelly_method foo
+  foo.each {|bar| bar.each {|baz| baz.qux}}
+end
+```
+
+You can even pass in smell specific configuration settings:
+
+```Ruby
+# :reek:NestedIterators { max_allowed_nesting: 2 }
+def smelly_method foo
+  foo.each {|bar| bar.each {|baz| baz.qux}}
+end
+```
+
+This is an incredible powerful feature and further explained under [Smell Suppresion](docs/Smell-Suppression.md).
 
 ## Usage
 
