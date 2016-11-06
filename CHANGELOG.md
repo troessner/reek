@@ -1,5 +1,9 @@
 # Change log
 
+## 4.5.2 (2016-11-06)
+
+* (troessner) Warn about multiple configuration files.
+
 ## 4.5.1 (2016-10-16)
 
 * (troessner) Validate configuration keys in code comments.
