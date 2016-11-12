@@ -74,15 +74,10 @@ See the "Quickstart" example from above.
 Checks the target source code for instances of "smell type"
 and returns true only if it can find one of them that matches.
 
-Remember that this includes our "smell types" as well. So it could be the
-"smell type" UtilityFunction, which is represented as a concrete class
-in Reek but it could also be "Duplication" which is a "smell categgory".
+You can pass the smell type you want to check for as String or as Symbol:
 
-You could pass many different types of input here:
 - `:UtilityFunction`
 - `"UtilityFunction"`
-- `Reek::Smells::UtilityFunction` (the right way if you really want to pass a
-  class)
 
 It is recommended to pass this as a symbol like `:UtilityFunction`. However we
 don't enforce this.
@@ -106,20 +101,20 @@ So in a nutshell `reek_of` takes the following two arguments:
 
 ```Ruby
   reek_of(:FeatureEnvy)
-  reek_of(Reek::Smells::UtilityFunction)
+  reek_of(:UtilityFunction)
 ```
 
 With smell_details:
 
 ```Ruby
-  reek_of(UncommunicativeParameterName, name: 'x2')
-  reek_of(DataClump, count: 3)
+  reek_of(:UncommunicativeParameterName, name: 'x2')
+  reek_of(:DataClump, count: 3)
 ```
 
 **Examples from a real spec**
 
 ```Ruby
-  expect(src).to reek_of(Reek::Smells::DuplicateMethodCall, name: '@other.thing')
+  expect(src).to reek_of(:DuplicateMethodCall, name: '@other.thing')
 ```
 
 ### reek_only_of

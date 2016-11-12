@@ -48,10 +48,10 @@ module Reek
     # Checks the target source code for instances of "smell type"
     # and returns true only if it can find one of them that matches.
     #
-    # You could pass many different types of input here:
+    # You can pass the smell type you want to check for as String or as Symbol:
+    #
     #   - :UtilityFunction
     #   - "UtilityFunction"
-    #   - Reek::Smells::UtilityFunction
     #
     # It is recommended to pass this as a symbol like :UtilityFunction. However we don't
     # enforce this.
@@ -70,7 +70,7 @@ module Reek
     # @example Without smell_details
     #
     #   reek_of(:FeatureEnvy)
-    #   reek_of(Reek::Smells::UtilityFunction)
+    #   reek_of(:UtilityFunction)
     #
     # @example With smell_details
     #
@@ -79,7 +79,7 @@ module Reek
     #
     # @example From a real spec
     #
-    #   expect(src).to reek_of(Reek::Smells::DuplicateMethodCall, name: '@other.thing')
+    #   expect(src).to reek_of(:DuplicateMethodCall, name: '@other.thing')
     #
     # @public
     #
