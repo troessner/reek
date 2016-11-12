@@ -1,6 +1,6 @@
 require_relative '../../lib/reek/smell_detectors'
 require_relative '../../lib/reek/smell_detectors/base_detector'
-require_relative '../../lib/reek/smell_detectors/smell_warning'
+require_relative '../../lib/reek/smell_warning'
 require_relative '../../lib/reek/cli/options'
 
 FactoryGirl.define do
@@ -34,7 +34,7 @@ FactoryGirl.define do
     end
   end
 
-  factory :smell_warning, class: Reek::SmellDetectors::SmellWarning do
+  factory :smell_warning, class: Reek::SmellWarning do
     skip_create
     smell_detector
     context 'self'

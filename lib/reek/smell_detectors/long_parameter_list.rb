@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 require_relative 'smell_configuration'
 require_relative 'base_detector'
-require_relative 'smell_warning'
 
 module Reek
   module SmellDetectors

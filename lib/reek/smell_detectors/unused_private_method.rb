@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 require_relative 'base_detector'
-require_relative 'smell_warning'
 require_relative '../context/method_context'
 
 module Reek

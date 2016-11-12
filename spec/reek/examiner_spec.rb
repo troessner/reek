@@ -87,7 +87,7 @@ RSpec.describe Reek::Examiner do
       examiner = described_class.new code, filter_by_smells: ['DuplicateMethodCall']
 
       smell = examiner.smells.first
-      expect(smell).to be_a(Reek::SmellDetectors::SmellWarning)
+      expect(smell).to be_a(Reek::SmellWarning)
       expect(smell.message).to eq("calls 'bar.call_me()' 2 times")
     end
 
