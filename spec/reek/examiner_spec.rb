@@ -111,13 +111,13 @@ RSpec.describe Reek::Examiner do
       let(:source) { 'class C; def does_crash_reek; end; end' }
 
       let(:examiner) do
-        detector_repository = instance_double 'Reek::SmellDetectors::DetectorRepository'
+        detector_repository = instance_double 'Reek::DetectorRepository'
         allow(detector_repository).to receive(:examine) do
           raise ArgumentError, 'Looks like bad source'
         end
-        class_double('Reek::SmellDetectors::DetectorRepository').as_stubbed_const
-        allow(Reek::SmellDetectors::DetectorRepository).to receive(:eligible_smell_types)
-        allow(Reek::SmellDetectors::DetectorRepository).to receive(:new).and_return detector_repository
+        class_double('Reek::DetectorRepository').as_stubbed_const
+        allow(Reek::DetectorRepository).to receive(:eligible_smell_types)
+        allow(Reek::DetectorRepository).to receive(:new).and_return detector_repository
 
         described_class.new source
       end
