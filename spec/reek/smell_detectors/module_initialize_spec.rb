@@ -49,4 +49,15 @@ RSpec.describe Reek::SmellDetectors::ModuleInitialize do
 
     expect(src).not_to reek_of(:ModuleInitialize)
   end
+
+  it 'can be disabled via comment' do
+    src = <<-EOS
+      # :reek:ModuleInitialize
+      module Alfa
+        def initialize; end
+      end
+    EOS
+
+    expect(src).not_to reek_of(:ModuleInitialize)
+  end
 end
