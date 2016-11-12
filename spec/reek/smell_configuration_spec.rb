@@ -1,7 +1,7 @@
-require_relative '../../spec_helper'
-require_lib 'reek/smell_detectors/smell_configuration'
+require_relative '../spec_helper'
+require_lib 'reek/smell_configuration'
 
-RSpec.describe Reek::SmellDetectors::SmellConfiguration do
+RSpec.describe Reek::SmellConfiguration do
   context 'when overriding default configs' do
     let(:base_config) do
       {
