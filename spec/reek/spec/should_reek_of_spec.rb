@@ -133,7 +133,7 @@ RSpec.describe Reek::Spec::ShouldReekOf do
   context 'for a smell that is disabled by default' do
     before do
       default_config = Reek::SmellDetectors::UnusedPrivateMethod.default_config
-      expect(default_config[Reek::SmellDetectors::SmellConfiguration::ENABLED_KEY]).to be_falsy
+      expect(default_config[Reek::SmellConfiguration::ENABLED_KEY]).to be_falsy
     end
 
     it 'enables the smell detector to match automatically' do
