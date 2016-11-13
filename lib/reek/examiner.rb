@@ -2,7 +2,7 @@
 require_relative 'context_builder'
 require_relative 'errors/bad_detector_in_comment_error'
 require_relative 'errors/garbage_detector_configuration_in_comment_error'
-require_relative 'smell_detectors/detector_repository'
+require_relative 'detector_repository'
 require_relative 'source/source_code'
 
 module Reek
@@ -57,7 +57,7 @@ module Reek
     def initialize(source,
                    filter_by_smells: [],
                    configuration: Configuration::AppConfiguration.default,
-                   detector_repository_class: SmellDetectors::DetectorRepository)
+                   detector_repository_class: DetectorRepository)
       @source              = Source::SourceCode.from(source)
       @smell_types         = detector_repository_class.eligible_smell_types(filter_by_smells)
       @detector_repository = detector_repository_class.new(smell_types: @smell_types,
