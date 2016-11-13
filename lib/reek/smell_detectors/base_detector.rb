@@ -107,9 +107,9 @@ module Reek
         # Returns all descendants of BaseDetector
         #
         # @return [Array<Constant>], e.g.:
-        #   [Reek::Smells::Attribute,
-        #    Reek::Smells::BooleanParameter,
-        #    Reek::Smells::ClassVariable,
+        #   [Reek::SmellDetectors::Attribute,
+        #    Reek::SmellDetectors::BooleanParameter,
+        #    Reek::SmellDetectors::ClassVariable,
         #    ...]
         #
         def descendants
