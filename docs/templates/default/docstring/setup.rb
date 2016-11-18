@@ -10,14 +10,7 @@ end
 
 def api_marker
   return if object.type == :root
-  case api_text
-  when 'public'
-    # erb(:public_api_marker)
-  when 'private'
-    # Let section 'private' handle this.
-  else
-    erb(:private)
-  end
+  erb(:private) unless ['public', 'private'].include? api_text
 end
 
 private
