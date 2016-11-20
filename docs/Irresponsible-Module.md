@@ -2,7 +2,14 @@
 
 ## Introduction
 
-Classes and modules are the units of reuse and release. It is therefore considered good practice to annotate every class and module with a brief comment outlining its responsibilities.
+Classes and modules are the units of reuse and release. It is therefore
+considered good practice to annotate every class and module with a brief
+comment outlining its responsibilities.
+
+For further guideline on how to write good documentation in Ruby, see these
+links:
+- [Rails API documentation guidelines](http://edgeguides.rubyonrails.org/api_documentation_guidelines.html)
+- [Comment should explain why](https://blog.codinghorror.com/code-tells-you-how-comments-tell-you-why/)
 
 ## Example
 
