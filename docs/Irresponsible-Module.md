@@ -9,7 +9,7 @@ comment outlining its responsibilities.
 For further guideline on how to write good documentation in Ruby, see these
 links:
 - [Rails API documentation guidelines](http://edgeguides.rubyonrails.org/api_documentation_guidelines.html)
-- [Comment should explain why](https://blog.codinghorror.com/code-tells-you-how-comments-tell-you-why/)
+- [Comments tell you why](https://blog.codinghorror.com/code-tells-you-how-comments-tell-you-why/)
 
 ## Example
 
