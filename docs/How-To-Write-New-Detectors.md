@@ -9,19 +9,19 @@ it covers and the overall rationale behind it.
 
 ### Structure
 
-All smell detectors reside in `lib/reek/smells` and have the following base structure:
+All smell detectors reside in `lib/reek/smell_detectors` and have the following base structure:
 
 ```Ruby
-require_relative 'smell_detector'
+require_relative 'base_detector'
 require_relative 'smell_warning'
 
 module Reek
-  module Smells
+  module SmellDetectors
     #
     # Here goes your introduction for this detector.
     #
     # See {file:docs/Your-Detector.md} for details.
-    class YourDetector < SmellDetector
+    class YourDetector < BaseDetector
       def self.contexts
         [:class] # In case you're operating on class contexts only - just an example.
       end
@@ -37,7 +37,7 @@ module Reek
         # This can just be a method but it can also be a more sophisticated set up.
         # Check out other smell detectors to get a feeling for what to do here.
         found_smells(ctx).map do |smell|
-          # "smell_warning" is defined in SmellDetector and should be used by you
+          # "smell_warning" is defined in BaseDetector and should be used by you
           # to construct smell warnings
           smell_warning(
             context: ctx,
@@ -59,7 +59,7 @@ module Reek
 end
 ```
 
-For your detector to be properly loaded you need to require it in `lib/reek/smells.rb` as well.
+For your detector to be properly loaded you need to require it in `lib/reek/smell_detectors.rb` as well.
 
 ### defaults.reek
 
