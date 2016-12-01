@@ -35,6 +35,44 @@ RSpec.describe Reek::SmellDetectors::BaseDetector do
     end
   end
 
+  describe 'unnecessary suppression' do
+    class Reek::SmellDetectors::UselessDetector < described_class
+      def sniff(_)
+        []
+      end
+    end
+
+    let(:subclass) { Reek::SmellDetectors::UselessDetector }
+
+    it 'reports on unnecessary suppression of a smell from the code comment' do
+      src = <<-EOS
+        # :reek:UselessDetector
+        def alfa(bravo); end
+      EOS
+
+      expect(src).to reek_of(:UselessDetector,
+                             lines:   [],
+                             context: 'alfa',
+                             message: "is unnecessarily suppressed",
+                             source:  'string')
+    end
+
+    it 'reports on unnecessary suppression of a smell from the reek config' do
+      src = <<-EOS
+        # :reek:DuplicateMethodCall
+        def alfa(bravo)
+          bravo.charlie
+        end
+      EOS
+
+      expect(src).to reek_of(:DuplicateMethodCall,
+                             lines:   [],
+                             context: 'alfa',
+                             message: "is unnecessarily suppressed",
+                             source:  'string')
+    end
+  end
+
   describe '.valid_detector?' do
     it 'returns true for a valid detector' do
       expect(described_class.valid_detector?('DuplicateMethodCall')).to be true
