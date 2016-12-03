@@ -19,7 +19,7 @@ module Reek
   # counting. Ideally `ContextBuilder` would only build up the context tree and leave the
   # statement and reference counting to the contexts.
   #
-  # :reek:TooManyMethods: { max_methods: 30 }
+  # :reek:TooManyMethods: { max_methods: 31 }
   # :reek:UnusedPrivateMethod: { exclude: [ !ruby/regexp /process_/ ] }
   class ContextBuilder
     attr_reader :context_tree
@@ -225,6 +225,30 @@ module Reek
     # We record one reference to `self`.
     #
     def process_zsuper(_)
+      current_context.record_use_of_self
+    end
+
+    # Handles `super` nodes a.k.a. calls to `super` with arguments
+    #
+    # An input example that would trigger this method would be:
+    #
+    #   def call_me; super(); end
+    #
+    # or
+    #
+    #   def call_me; super(bar); end
+    #
+    # but not
+    #
+    #   def call_me; super; end
+    #
+    # and not
+    #
+    #   def call_me; super do end; end
+    #
+    # We record one reference to `self`.
+    #
+    def process_super(_)
       current_context.record_use_of_self
     end
 

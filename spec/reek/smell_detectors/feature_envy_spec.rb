@@ -97,6 +97,11 @@ RSpec.describe Reek::SmellDetectors::FeatureEnvy do
     expect(src).not_to reek_of(:FeatureEnvy)
   end
 
+  it 'does not report parameter method called with super ' do
+    src = 'def alfa(bravo) super(bravo.to_s); end'
+    expect(src).not_to reek_of(:FeatureEnvy)
+  end
+
   it 'ignores multiple ivars' do
     src = <<-EOS
       def func
