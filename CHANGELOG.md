@@ -1,5 +1,9 @@
 # Change log
 
+## 4.5.3 (2016-12-05)
+
+* (jhubert) Stop reporting FeatureEnvy with super and arguments.
+
 ## 4.5.2 (2016-11-06)
 
 * (troessner) Warn about multiple configuration files.
