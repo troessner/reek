@@ -21,6 +21,8 @@ matrix:
     - rvm: rbx-2
     - rvm: ruby-head
   fast_finish: true
+before_install:
+  - gem install bundler
 notifications:
   email:
     - timo.roessner@googlemail.com
