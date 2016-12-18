@@ -2,14 +2,16 @@ source 'https://rubygems.org'
 
 gemspec
 
+ruby RUBY_VERSION
+
 group :development do
-  gem 'activesupport', '~> 4.2'
+  gem 'activesupport', '>= 4.2'
   gem 'aruba',         '~> 0.14.0'
   gem 'ataru',         '~> 0.2.0'
   gem 'cucumber',      '~> 2.0'
   gem 'factory_girl',  '~> 4.0'
   gem 'mutant-rspec',  '~> 0.8.8'
-  gem 'rake',          '~> 11.1'
+  gem 'rake',          '~> 12.0'
   gem 'rspec',         '~> 3.0'
   gem 'simplecov',     '~> 0.12.0'
   gem 'yard',          '~> 0.9.5'
