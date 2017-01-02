@@ -43,22 +43,5 @@ RSpec.describe Reek::AST::ReferenceCollector do
     it 'ignores global variables' do
       expect(refs_to_self('def no_envy(arga) $s2.to_a; $s2[arga] end')).to eq(0)
     end
-
-    it 'ignores global variables' do
-      src = <<-EOS
-        def accept(t, pat = /.*/nm, &block)
-          if pat
-            pat.respond_to?(:match) or raise TypeError, "has no `match'"
-          else
-            pat = t if t.respond_to?(:match)
-          end
-          unless block
-            block = pat.method(:convert).to_proc if pat.respond_to?(:convert)
-          end
-          @atype[t] = [pat, block]
-        end
-      EOS
-      expect(refs_to_self(src)).to eq(2)
-    end
   end
 end
