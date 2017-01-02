@@ -65,6 +65,7 @@ RSpec/MultipleExpectations:
 
 # FIXME: Update specs to avoid offenses
 RSpec/NestedGroups:
+  MaxNesting: 3
   Exclude:
     - 'spec/reek/cli/application_spec.rb'
 
