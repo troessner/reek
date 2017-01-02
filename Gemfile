@@ -22,7 +22,7 @@ group :development do
   end
 
   platforms :mri do
-    gem 'redcarpet', '~> 3.3.1'
+    gem 'redcarpet', '~> 3.4.0'
   end
 end
 
