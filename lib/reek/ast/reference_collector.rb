@@ -6,8 +6,6 @@ module Reek
     # of an abstract syntax tree.
     #
     class ReferenceCollector
-      STOP_NODES = [:class, :module, :def, :defs].freeze
-
       def initialize(ast)
         @ast = ast
       end
@@ -22,12 +20,12 @@ module Reek
 
       def explicit_self_calls
         [:self, :super, :zsuper, :ivar, :ivasgn].flat_map do |node_type|
-          ast.each_node(node_type, STOP_NODES)
+          ast.each_node(node_type)
         end
       end
 
       def implicit_self_calls
-        ast.each_node(:send, STOP_NODES).reject(&:receiver)
+        ast.each_node(:send).reject(&:receiver)
       end
     end
   end
