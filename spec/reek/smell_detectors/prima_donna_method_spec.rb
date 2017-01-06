@@ -47,4 +47,16 @@ RSpec.describe Reek::SmellDetectors::PrimaDonnaMethod do
 
     expect(src).not_to reek_of(:PrimaDonnaMethod)
   end
+
+  it 'does not report methods we excluded via comment' do
+    source = <<-EOF
+      # :reek:PrimaDonnaMethod: { exclude: [ bravo! ] }
+      class Alfa
+        def bravo!
+        end
+      end
+    EOF
+
+    expect(source).not_to reek_of(:PrimaDonnaMethod)
+  end
 end

@@ -28,6 +28,24 @@ module Reek
         [:class]
       end
 
+      #
+      # @param ctx [Context::ModuleContext]
+      # @return [Array<SmellWarning>]
+      #
+      # Given this code:
+      #
+      # class Alfa
+      #   def bravo!
+      #   end
+      # end
+      #
+      # An example `ctx` could look like this:
+      #
+      # s(:class,
+      #   s(:const, nil, :Alfa), nil,
+      #     s(:def, :bravo!,
+      #       s(:args), nil))
+      #
       def sniff(ctx)
         ctx.node_instance_methods.select do |method_sexp|
           prima_donna_method?(method_sexp, ctx)
@@ -45,6 +63,7 @@ module Reek
 
       def prima_donna_method?(method_sexp, ctx)
         return false unless method_sexp.ends_with_bang?
+        return false if ignore_method?(method_sexp, ctx)
         return false if version_without_bang_exists?(method_sexp, ctx)
         true
       end
@@ -54,6 +73,17 @@ module Reek
         ctx.node_instance_methods.find do |sexp_item|
           sexp_item.name.to_s == method_sexp.name_without_bang
         end
+      end
+
+      #
+      # @param method_node [Reek::AST::Node],
+      #   e.g. s(:def, :bravo!, s(:args), nil)
+      # @param ctx [Context::ModuleContext]
+      # @return [Boolean]
+      #
+      def ignore_method?(method_node, ctx)
+        ignore_method_names = value(EXCLUDE_KEY, ctx) # e.g. ["bravo!"]
+        ignore_method_names.include? method_node.name.to_s # method_node.name is e.g.: :bravo!
       end
     end
   end

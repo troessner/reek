@@ -41,7 +41,9 @@ Feature: Reek can be controlled using command-line options
 
       Configuration:
           -c, --config FILE                Read configuration options from FILE
-              --smell SMELL                Detect smell SMELL (default: all enabled smells)
+              --smell SMELL                Only look for a specific smell.
+                                           Call it like this: reek --smell PrimaDonnaMethod source.rb
+                                           Check out https://github.com/troessner/reek/blob/master/docs/Code-Smells.md for a list of smells
 
       Generate a todo list:
           -t, --todo                       Generate a todo list
