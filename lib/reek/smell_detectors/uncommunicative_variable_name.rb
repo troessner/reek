@@ -48,9 +48,24 @@ module Reek
       end
 
       #
-      # Checks the given +context+ for uncommunicative names.
+      # Checks the given context for uncommunicative names.
       #
+      #
+      # @param ctx [Context::MethodContext]
       # @return [Array<SmellWarning>]
+      #
+      # Given this code:
+      #
+      # def alfa
+      #   x = 5
+      # end
+      #
+      # An example `ctx` could look like this:
+      #
+      # s(:def, :alfa,
+      #   s(:args),
+      #     s(:lvasgn, :x,
+      #       s(:int, 5)))
       #
       def sniff(ctx)
         self.reject_names = value(REJECT_KEY, ctx)
