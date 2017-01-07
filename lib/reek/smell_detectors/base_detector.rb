@@ -15,7 +15,7 @@ module Reek
     # for details.
     #
     # :reek:UnusedPrivateMethod: { exclude: [ smell_warning ] }
-    # :reek:TooManyMethods: { max_methods: 18 }
+    # :reek:TooManyMethods: { max_methods: 22 }
     class BaseDetector
       attr_reader :config
       # The name of the config field that lists the names of code contexts
@@ -68,7 +68,7 @@ module Reek
       def unnecessarily_suppressed?(results, context)
         Array(results).empty? &&
           exception_or_disabled_for?(context) &&
-            enabled_and_included_by_default?(context)
+          enabled_and_included_by_default?(context)
       end
 
       def exception_or_disabled_for?(context)
@@ -107,7 +107,7 @@ module Reek
       def unnecessary_suppression_warning(options = {})
         smell_warning(context: options.fetch(:context),
                       lines: [],
-                      message: "is unnecessarily suppressed")
+                      message: 'is unnecessarily suppressed')
       end
 
       class << self
