@@ -44,7 +44,7 @@ RSpec.describe Reek::SmellDetectors::BaseDetector do
 
     let(:subclass) { Reek::SmellDetectors::UselessDetector }
 
-    it 'reports on unnecessary suppression of a smell from the code comment' do
+    it 'is reported when a method is unnecessarily disabled' do
       src = <<-EOS
         # :reek:UselessDetector
         def alfa(bravo); end
@@ -57,17 +57,18 @@ RSpec.describe Reek::SmellDetectors::BaseDetector do
                              source:  'string')
     end
 
-    it 'reports on unnecessary suppression of a smell from the reek config' do
+    it 'is reported when a method is unnecessarily excluded' do
       src = <<-EOS
-        # :reek:DuplicateMethodCall
-        def alfa(bravo)
-          bravo.charlie
+        # :reek:UselessDetector { exclude: ['bravo'] }
+        class Alfa
+          def bravo
+          end
         end
       EOS
 
-      expect(src).to reek_of(:DuplicateMethodCall,
+      expect(src).to reek_of(:UselessDetector,
                              lines:   [],
-                             context: 'alfa',
+                             context: 'Alfa#bravo',
                              message: "is unnecessarily suppressed",
                              source:  'string')
     end

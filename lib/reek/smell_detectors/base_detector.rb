@@ -40,8 +40,6 @@ module Reek
       end
 
       def run_for(context)
-        return [] unless config.enabled?
-
         check_for_unnecessary_suppression(sniff(context), context)
       end
 
@@ -58,7 +56,7 @@ module Reek
       private
 
       def check_for_unnecessary_suppression(results, context)
-        if Array(results).empty? && exception_or_disabled_for?(context)
+        if unnecessarily_suppressed?(results, context)
           [unnecessary_suppression_warning(context: context)]
         elsif exception_or_disabled_for?(context)
           []
@@ -67,12 +65,23 @@ module Reek
         end
       end
 
+      def unnecessarily_suppressed?(results, context)
+        Array(results).empty? &&
+          exception_or_disabled_for?(context) &&
+            enabled_and_included_by_default?(context)
+      end
+
       def exception_or_disabled_for?(context)
         disabled_for?(context) || exception?(context)
       end
 
       def disabled_for?(context)
         config_for(context)[SmellConfiguration::ENABLED_KEY] == false
+      end
+
+      def enabled_and_included_by_default?(context)
+        defaults = self.class.default_config
+        defaults.fetch('enabled') && !context.matches?(defaults.fetch('exclude', []))
       end
 
       def value(key, ctx)
