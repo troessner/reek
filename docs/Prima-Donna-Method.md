@@ -61,3 +61,30 @@ method `foo` of the `Dangerous` module.
 ## Configuration
 
 _Prima Donna Method_ offers the [Basic Smell Options](Basic-Smell-Options.md).
+
+## Example configuration via source comment
+
+Imagine code like this:
+
+```Ruby
+class Alfa
+  def bravo!
+  end
+end
+```
+
+This would report:
+
+>>
+ruby.rb -- 1 warning:
+  [1]:PrimaDonnaMethod: Alfa has prima donna method 'bravo!'
+
+If you want to suppress this warning you can do this via source comment like this:
+
+```Ruby
+# :reek:PrimaDonnaMethod: { exclude: [ bravo! ] }
+class Alfa
+  def bravo!
+  end
+end
+```

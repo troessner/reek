@@ -95,7 +95,11 @@ module Reek
         parser.on('-c', '--config FILE', 'Read configuration options from FILE') do |file|
           self.config_file = Pathname.new(file)
         end
-        parser.on('--smell SMELL', 'Detect smell SMELL (default: all enabled smells)') do |smell|
+        parser.on('--smell SMELL',
+                  'Only look for a specific smell.',
+                  'Call it like this: reek --smell PrimaDonnaMethod source.rb',
+                  'Check out https://github.com/troessner/reek/blob/master/docs/Code-Smells.md '\
+                  'for a list of smells') do |smell|
           smells_to_detect << smell
         end
       end

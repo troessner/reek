@@ -48,6 +48,33 @@ end
 Note that disabling this detector via comment works on a class scope, not
 a method scope (like you can see above).
 
+Another simple example would be:
+
+```Ruby
+class Alfa
+  private
+  def bravo
+  end
+end
+```
+
+This would report:
+
+>>
+ruby.rb -- 1 warning:
+  [3]:UnusedPrivateMethod: Alfa has the unused private instance method 'bravo'
+
+If you want to suppress this warning you can do this via source comment like this:
+
+```Ruby
+# :reek:UnusedPrivateMethod: { exclude: bravo }
+class Alfa
+  private
+  def bravo
+  end
+end
+```
+
 ## Known limitations
 
 * Method calls via dynamic dispatch (e.g. via `send`) is something Reek (or any other
