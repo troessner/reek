@@ -147,7 +147,7 @@ RSpec.describe Reek::SmellDetectors::FeatureEnvy do
       and reek_of(:FeatureEnvy, name: 'bravo')
   end
 
-  it 'is not be fooled by duplication' do
+  it 'is not fooled by duplication' do
     src = <<-EOS
       def alfa(bravo)
         @charlie.delta(bravo.echo)
@@ -155,18 +155,18 @@ RSpec.describe Reek::SmellDetectors::FeatureEnvy do
       end
     EOS
 
-    expect(src).to reek_only_of(:DuplicateMethodCall)
+    expect(src).to reek_only_of(:DuplicateMethodCall, name: 'bravo.echo')
   end
 
-  it 'does not count local calls' do
+  it 'counts local calls' do
     src = <<-EOS
       def alfa(bravo)
-        @charlie.delta(bravo.echo)
-        @foxtrot.delta(bravo.echo)
+        charlie.delta(bravo.echo)
+        foxtrot.delta(bravo.echo)
       end
     EOS
 
-    expect(src).to reek_only_of(:DuplicateMethodCall)
+    expect(src).to reek_only_of(:DuplicateMethodCall, name: 'bravo.echo')
   end
 
   it 'reports many calls to lvar' do

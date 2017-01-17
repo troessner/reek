@@ -46,8 +46,8 @@ Then /^it reports:$/ do |report|
 end
 
 Then /^it reports this yaml:$/ do |expected_yaml|
-  expected_warnings = YAML.load(expected_yaml.chomp)
-  actual_warnings = YAML.load(last_command_started.stdout)
+  expected_warnings = YAML.safe_load(expected_yaml.chomp)
+  actual_warnings = YAML.safe_load(last_command_started.stdout)
   expect(actual_warnings).to eq expected_warnings
 end
 

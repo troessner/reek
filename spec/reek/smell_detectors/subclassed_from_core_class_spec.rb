@@ -45,11 +45,6 @@ RSpec.describe Reek::SmellDetectors::SubclassedFromCoreClass do
     expect(src).not_to reek_of(:SubclassedFromCoreClass)
   end
 
-  it 'reports if we inherit from a core class using Class#new' do
-    src = 'Alfa = Class.new(Array)'
-    expect(src).to reek_of(:SubclassedFromCoreClass)
-  end
-
   it 'reports if inner class inherit from a core class' do
     src = <<-EOS
       class Alfa
