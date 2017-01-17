@@ -1,5 +1,9 @@
 # Change log
 
+## 4.5.4 (2017-01-17)
+
+* (troessner) Improve documentation and fix PrimaDonnaMethod detector configuration via comment.
+
 ## 4.5.3 (2016-12-05)
 
 * (jhubert) Stop reporting FeatureEnvy with super and arguments.
