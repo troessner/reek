@@ -1,10 +1,11 @@
 # frozen_string_literal: true
+require_relative 'base_error'
 
 module Reek
   module Errors
     # Gets raised when trying to use a configuration for a detector
     # that can't be parsed into a hash.
-    class GarbageDetectorConfigurationInCommentError < RuntimeError
+    class GarbageDetectorConfigurationInCommentError < BaseError
       BAD_DETECTOR_CONFIGURATION_MESSAGE = <<-EOS.freeze
 
         Error: You are trying to configure the smell detector '%s'.

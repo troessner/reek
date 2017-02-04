@@ -3,7 +3,6 @@ require_relative 'context_builder'
 require_relative 'detector_repository'
 require_relative 'errors/incomprehensible_source_error'
 require_relative 'source/source_code'
-require_relative 'logging_error_handler'
 
 module Reek
   #
@@ -36,7 +35,7 @@ module Reek
                    filter_by_smells: [],
                    configuration: Configuration::AppConfiguration.default,
                    detector_repository_class: DetectorRepository,
-                   error_handler: LoggingErrorHandler.new)
+                   error_handler: NullHandler.new)
       @source              = Source::SourceCode.from(source)
       @smell_types         = detector_repository_class.eligible_smell_types(filter_by_smells)
       @detector_repository = detector_repository_class.new(smell_types: @smell_types,
@@ -100,8 +99,7 @@ module Reek
       return [] unless syntax_tree
       begin
         examine_tree
-      # TODO: Rescue a common Reek error superclass
-      rescue StandardError => exception
+      rescue Errors::BaseError => exception
         raise unless @error_handler.handle exception
         []
       end
@@ -115,6 +113,8 @@ module Reek
       ContextBuilder.new(syntax_tree).context_tree.flat_map do |element|
         detector_repository.examine(element)
       end
+    rescue Errors::BaseError
+      raise
     rescue StandardError => exception
       raise Errors::IncomprehensibleSourceError, origin: origin, original_exception: exception
     end

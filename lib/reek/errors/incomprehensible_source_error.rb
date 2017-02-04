@@ -1,9 +1,10 @@
 # frozen_string_literal: true
+require_relative 'base_error'
 
 module Reek
   module Errors
-    # Gets raised when ...
-    class IncomprehensibleSourceError < RuntimeError
+    # Gets raised when Reek is unable to process the source
+    class IncomprehensibleSourceError < BaseError
       INCOMPREHENSIBLE_SOURCE_TEMPLATE = <<-EOS.freeze
         !!!
         Source %s can not be processed by Reek.
