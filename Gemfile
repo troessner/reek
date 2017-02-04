@@ -17,8 +17,8 @@ group :development do
   gem 'yard',          '~> 0.9.5'
 
   if RUBY_VERSION >= '2.3'
-    gem 'rubocop',       '~> 0.46.0'
-    gem 'rubocop-rspec', '~> 1.9.0'
+    gem 'rubocop',       '~> 0.47.1'
+    gem 'rubocop-rspec', '~> 1.10.0'
   end
 
   platforms :mri do

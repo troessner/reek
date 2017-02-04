@@ -12,6 +12,11 @@ Lint/HandleExceptions:
   Exclude:
     - 'spec/reek/configuration/configuration_file_finder_spec.rb'
 
+# Spec blocks can be any size
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+
 # FIXME: Make the class shorter
 Metrics/ClassLength:
   Exclude:
@@ -44,6 +49,12 @@ RSpec/DescribeClass:
 RSpec/ExampleLength:
   Enabled: false
 
+# FIXME: Find a better way to block output during specs, and fix relevant examples.
+RSpec/ExpectOutput:
+  Exclude:
+    - 'spec/reek/cli/command/todo_list_command_spec.rb'
+    - 'spec/reek/source/source_code_spec.rb'
+
 # FIXME: Split up files to avoid offenses
 RSpec/MultipleDescribes:
   Exclude:
@@ -65,7 +76,6 @@ RSpec/MultipleExpectations:
 
 # FIXME: Update specs to avoid offenses
 RSpec/NestedGroups:
-  MaxNesting: 3
   Exclude:
     - 'spec/reek/cli/application_spec.rb'
 

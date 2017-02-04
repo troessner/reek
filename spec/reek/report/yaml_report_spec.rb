@@ -30,8 +30,8 @@ RSpec.describe Reek::Report::YAMLReport do
       out = StringIO.new
       instance.show(out)
       out.rewind
-      result = YAML.load(out.read)
-      expected = YAML.load <<-EOS
+      result = YAML.safe_load(out.read)
+      expected = YAML.safe_load <<-EOS
 ---
 - context:        "simple"
   lines:
@@ -57,8 +57,8 @@ RSpec.describe Reek::Report::YAMLReport do
         out = StringIO.new
         instance.show(out)
         out.rewind
-        result = YAML.load(out.read)
-        expected = YAML.load <<-EOS
+        result = YAML.safe_load(out.read)
+        expected = YAML.safe_load <<-EOS
 ---
 - context:        "simple"
   lines:

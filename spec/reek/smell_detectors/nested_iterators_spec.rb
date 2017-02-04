@@ -155,7 +155,7 @@ RSpec.describe Reek::SmellDetectors::NestedIterators do
   it 'handles the case where super receives a block and arguments' do
     src = <<-EOS
       def alfa
-        super do |bravo|
+        super(delta) do |bravo|
           bravo.each { |charlie| charlie }
         end
       end
