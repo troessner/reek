@@ -63,7 +63,7 @@ Feature: Basic smell detection
       UncommunicativeVariableName: Inline::C#module_name has the variable name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
       UncommunicativeVariableName: Inline::C#parse_signature has the variable name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
       UtilityFunction: Inline::C#strip_comments doesn't depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Utility-Function.md]
-    optparse.rb -- 130 warnings:
+    optparse.rb -- 126 warnings:
       Attribute: OptionParser#banner is a writable attribute [https://github.com/troessner/reek/blob/master/docs/Attribute.md]
       Attribute: OptionParser#default_argv is a writable attribute [https://github.com/troessner/reek/blob/master/docs/Attribute.md]
       Attribute: OptionParser#program_name is a writable attribute [https://github.com/troessner/reek/blob/master/docs/Attribute.md]
@@ -127,10 +127,6 @@ Feature: Basic smell detection
       LongParameterList: OptionParser::Switch#initialize has 7 parameters [https://github.com/troessner/reek/blob/master/docs/Long-Parameter-List.md]
       LongParameterList: OptionParser::Switch#summarize has 5 parameters [https://github.com/troessner/reek/blob/master/docs/Long-Parameter-List.md]
       ManualDispatch: OptionParser#make_switch manually dispatches method call [https://github.com/troessner/reek/blob/master/docs/Manual-Dispatch.md]
-      ManualDispatch: OptionParser#make_switch manually dispatches method call [https://github.com/troessner/reek/blob/master/docs/Manual-Dispatch.md]
-      ManualDispatch: OptionParser#make_switch manually dispatches method call [https://github.com/troessner/reek/blob/master/docs/Manual-Dispatch.md]
-      ManualDispatch: OptionParser::List#accept manually dispatches method call [https://github.com/troessner/reek/blob/master/docs/Manual-Dispatch.md]
-      ManualDispatch: OptionParser::List#accept manually dispatches method call [https://github.com/troessner/reek/blob/master/docs/Manual-Dispatch.md]
       ManualDispatch: OptionParser::List#accept manually dispatches method call [https://github.com/troessner/reek/blob/master/docs/Manual-Dispatch.md]
       ManualDispatch: OptionParser::List#add_banner manually dispatches method call [https://github.com/troessner/reek/blob/master/docs/Manual-Dispatch.md]
       ManualDispatch: OptionParser::List#summarize manually dispatches method call [https://github.com/troessner/reek/blob/master/docs/Manual-Dispatch.md]
@@ -194,7 +190,7 @@ Feature: Basic smell detection
       UnusedParameters: OptionParser::Completion#convert has unused parameter 'opt' [https://github.com/troessner/reek/blob/master/docs/Unused-Parameters.md]
       UnusedParameters: OptionParser::Switch::NoArgument#parse has unused parameter 'argv' [https://github.com/troessner/reek/blob/master/docs/Unused-Parameters.md]
       UnusedParameters: OptionParser::Switch::OptionalArgument#parse has unused parameter 'argv' [https://github.com/troessner/reek/blob/master/docs/Unused-Parameters.md]
-    redcloth.rb -- 111 warnings:
+    redcloth.rb -- 110 warnings:
       Attribute: RedCloth#filter_html is a writable attribute [https://github.com/troessner/reek/blob/master/docs/Attribute.md]
       Attribute: RedCloth#filter_styles is a writable attribute [https://github.com/troessner/reek/blob/master/docs/Attribute.md]
       Attribute: RedCloth#hard_breaks is a writable attribute [https://github.com/troessner/reek/blob/master/docs/Attribute.md]
@@ -237,7 +233,6 @@ Feature: Basic smell detection
       LongParameterList: RedCloth#textile_bq has 4 parameters [https://github.com/troessner/reek/blob/master/docs/Long-Parameter-List.md]
       LongParameterList: RedCloth#textile_fn_ has 5 parameters [https://github.com/troessner/reek/blob/master/docs/Long-Parameter-List.md]
       LongParameterList: RedCloth#textile_p has 4 parameters [https://github.com/troessner/reek/blob/master/docs/Long-Parameter-List.md]
-      ManualDispatch: RedCloth#block_textile_prefix manually dispatches method call [https://github.com/troessner/reek/blob/master/docs/Manual-Dispatch.md]
       ManualDispatch: RedCloth#block_textile_prefix manually dispatches method call [https://github.com/troessner/reek/blob/master/docs/Manual-Dispatch.md]
       NestedIterators: RedCloth#block_textile_lists contains iterators nested 3 deep [https://github.com/troessner/reek/blob/master/docs/Nested-Iterators.md]
       NestedIterators: RedCloth#block_textile_table contains iterators nested 2 deep [https://github.com/troessner/reek/blob/master/docs/Nested-Iterators.md]
@@ -306,5 +301,5 @@ Feature: Basic smell detection
       UtilityFunction: RedCloth#lT doesn't depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Utility-Function.md]
       UtilityFunction: RedCloth#no_textile doesn't depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Utility-Function.md]
       UtilityFunction: RedCloth#v_align doesn't depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Utility-Function.md]
-    292 total warnings
+    287 total warnings
     """
