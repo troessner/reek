@@ -20,11 +20,10 @@ module Reek
       #
       # :reek:FeatureEnvy
       def sniff(ctx)
-        ctx.each_node(:send).flat_map do |node|
-          next unless node.name.equal?(:respond_to?)
-
-          smell_warning(context: ctx, lines: [node.line], message: MESSAGE)
-        end.compact
+        smelly_nodes = ctx.each_node(:send).select { |node| node.name == :respond_to? }
+        return [] if smelly_nodes.empty?
+        lines = smelly_nodes.map(&:line)
+        [smell_warning(context: ctx, lines: lines, message: MESSAGE)]
       end
     end
   end

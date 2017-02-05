@@ -59,4 +59,17 @@ RSpec.describe Reek::SmellDetectors::ManualDispatch do
 
     expect(src).to reek_of(:ManualDispatch)
   end
+
+  it 'reports occurences in a single method as one smell warning' do
+    src = <<-EOS
+      class Alfa
+        def bravo(charlie, delta)
+          return true if charlie.respond_to?(:to_a)
+          true if delta.respond_to?(:to_a)
+        end
+      end
+    EOS
+
+    expect(src).to reek_of(:ManualDispatch, lines: [3, 4], context: 'Alfa#bravo')
+  end
 end
