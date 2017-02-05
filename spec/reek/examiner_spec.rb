@@ -122,30 +122,29 @@ RSpec.describe Reek::Examiner do
         described_class.new source
       end
 
-      it 'returns no smell warnings' do
-        Reek::CLI::Silencer.silently do
-          expect(examiner.smells).to be_empty
-        end
+      it 'raises an incomprehensible source error' do
+        expect { examiner.smells }.to raise_error Reek::Errors::IncomprehensibleSourceError
       end
 
-      it 'prints the origin' do
+      it 'explains the origin of the error' do
         origin = 'string'
-        expect { examiner.smells }.to output(/#{origin}/).to_stderr
+        expect { examiner.smells }.to raise_error.with_message(/#{origin}/)
       end
 
       it 'explains what to do' do
         explanation = 'Please double check your Reek configuration'
-        expect { examiner.smells }.to output(/#{explanation}/).to_stderr
+        expect { examiner.smells }.to raise_error.with_message(/#{explanation}/)
       end
 
-      it 'contains a message' do
+      it 'contains the original error message' do
         original = 'Looks like bad source'
-        expect { examiner.smells }.to output(/#{original}/).to_stderr
+        expect { examiner.smells }.to raise_error.with_message(/#{original}/)
       end
     end
   end
 
   describe 'bad comment config' do
+    let(:examiner) { described_class.new(source) }
     context 'unknown smell detector' do
       let(:source) do
         <<-EOS
@@ -154,21 +153,21 @@ RSpec.describe Reek::Examiner do
         EOS
       end
 
-      it 'prints out a proper message' do
-        expected_output = "You are trying to configure an unknown smell detector 'DoesNotExist'"
-
-        expect do
-          described_class.new(source).smells
-        end.to output(/#{expected_output}/).to_stderr
+      it 'raises a bad detector name error' do
+        expect { examiner.smells }.to raise_error Reek::Errors::BadDetectorInCommentError
       end
 
-      it 'prints out a line and a source' do
-        expected_output = "The source is 'string' and the comment belongs "\
-                          'to the expression starting in line 2.'
+      it 'explains the reason for the error' do
+        message = "You are trying to configure an unknown smell detector 'DoesNotExist'"
 
-        expect do
-          described_class.new(source).smells
-        end.to output(/#{expected_output}/).to_stderr
+        expect { examiner.smells }.to raise_error.with_message(/#{message}/)
+      end
+
+      it 'explains the origin of the error' do
+        details = "The source is 'string' and the comment belongs "\
+                  'to the expression starting in line 2.'
+
+        expect { examiner.smells }.to raise_error.with_message(/#{details}/)
       end
     end
 
@@ -180,21 +179,21 @@ RSpec.describe Reek::Examiner do
         EOS
       end
 
-      it 'prints out a proper message' do
-        expected_output = "Error: You are trying to configure the smell detector 'UncommunicativeMethodName'"
-
-        expect do
-          described_class.new(source).smells
-        end.to output(/#{expected_output}/).to_stderr
+      it 'raises a garbarge configuration error' do
+        expect { examiner.smells }.to raise_error Reek::Errors::GarbageDetectorConfigurationInCommentError
       end
 
-      it 'prints out a line and a source' do
-        expected_output = "The source is 'string' and "\
-                          'the comment belongs to the expression starting in line 2'
+      it 'explains the reason for the error' do
+        message = "Error: You are trying to configure the smell detector 'UncommunicativeMethodName'"
 
-        expect do
-          described_class.new(source).smells
-        end.to output(/#{expected_output}/).to_stderr
+        expect { examiner.smells }.to raise_error.with_message(/#{message}/)
+      end
+
+      it 'explains the origin of the error' do
+        details = "The source is 'string' and the comment belongs "\
+                  'to the expression starting in line 2.'
+
+        expect { examiner.smells }.to raise_error.with_message(/#{details}/)
       end
     end
   end

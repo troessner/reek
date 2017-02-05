@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 require_relative 'context_builder'
-require_relative 'errors/bad_detector_in_comment_error'
-require_relative 'errors/garbage_detector_configuration_in_comment_error'
 require_relative 'detector_repository'
+require_relative 'errors/incomprehensible_source_error'
 require_relative 'source/source_code'
 
 module Reek
@@ -11,35 +10,13 @@ module Reek
   #
   # @public
   class Examiner
-    INCOMPREHENSIBLE_SOURCE_TEMPLATE = <<-EOS.freeze
-      !!!
-      Source %s can not be processed by Reek.
+    # Handles no errors
+    class NullHandler
+      def handle(_exception)
+        false
+      end
+    end
 
-      This is most likely either a bug in your Reek configuration (config file or
-      source code comments) or a Reek bug.
-
-      Please double check your Reek configuration taking the original exception
-      below into account -  you might have misspelled a smell detector for instance.
-      (In the future Reek will handle configuration errors more gracefully, something
-      we are working on already).
-
-      If you feel that this is not a problem with your Reek configuration but with
-      Reek itself it would be great if you could report this back to the Reek
-      team by opening up a corresponding issue at https://github.com/troessner/reek/issues.
-
-      Please make sure to include the source in question, the Reek version
-      and the original exception below.
-
-      Exception message:
-
-      %s
-
-      Original exception:
-
-      %s
-
-      !!!
-    EOS
     #
     # Creates an Examiner which scans the given +source+ for code smells.
     #
@@ -57,11 +34,13 @@ module Reek
     def initialize(source,
                    filter_by_smells: [],
                    configuration: Configuration::AppConfiguration.default,
-                   detector_repository_class: DetectorRepository)
+                   detector_repository_class: DetectorRepository,
+                   error_handler: NullHandler.new)
       @source              = Source::SourceCode.from(source)
       @smell_types         = detector_repository_class.eligible_smell_types(filter_by_smells)
       @detector_repository = detector_repository_class.new(smell_types: @smell_types,
                                                            configuration: configuration.directive_for(description))
+      @error_handler       = error_handler
     end
 
     # @return [String] origin of the source being analysed
@@ -120,16 +99,8 @@ module Reek
       return [] unless syntax_tree
       begin
         examine_tree
-      rescue Errors::BadDetectorInCommentError,
-             Errors::GarbageDetectorConfigurationInCommentError,
-             Errors::BadDetectorConfigurationKeyInCommentError => exception
-        warn exception
-        []
-      rescue StandardError => exception
-        warn format(INCOMPREHENSIBLE_SOURCE_TEMPLATE,
-                    origin,
-                    exception.message,
-                    exception.backtrace.join("\n\t"))
+      rescue Errors::BaseError => exception
+        raise unless @error_handler.handle exception
         []
       end
     end
@@ -142,6 +113,10 @@ module Reek
       ContextBuilder.new(syntax_tree).context_tree.flat_map do |element|
         detector_repository.examine(element)
       end
+    rescue Errors::BaseError
+      raise
+    rescue StandardError => exception
+      raise Errors::IncomprehensibleSourceError, origin: origin, original_exception: exception
     end
   end
 end
