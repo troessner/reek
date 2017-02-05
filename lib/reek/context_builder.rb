@@ -248,8 +248,9 @@ module Reek
     #
     # We record one reference to `self`.
     #
-    def process_super(_)
+    def process_super(exp)
       current_context.record_use_of_self
+      process(exp)
     end
 
     # Handles `block` nodes.
