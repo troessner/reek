@@ -1,5 +1,12 @@
 # Change log
 
+## 4.5.5 (2017-02-05)
+
+* (mvz) Load YAML in code comments safely
+* (mvz) Combine lines for manual dispatch smells
+* (mvz) Respect exclude_paths when passing sources on the command line
+* (mvz) Ensure explicit arguments of super() are processed
+
 ## 4.5.4 (2017-01-17)
 
 * (troessner) Improve documentation and fix PrimaDonnaMethod detector configuration via comment.
