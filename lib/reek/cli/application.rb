@@ -85,7 +85,7 @@ module Reek
       end
 
       def sources_from_argv
-        Source::SourceLocator.new(argv).sources
+        Source::SourceLocator.new(argv, configuration: configuration).sources
       end
 
       def source_from_pipe
