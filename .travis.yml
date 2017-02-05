@@ -1,4 +1,5 @@
 sudo: false
+dist: trusty
 cache: bundler
 language: ruby
 bundler_args: --without debugging
@@ -6,23 +7,24 @@ script: bundle exec rake ci
 rvm:
   - 2.1
   - 2.2
-  - 2.3.0
-  - rbx-2
+  - 2.3
+  - 2.4
+  - jruby-9.1.7.0
+  - jruby-head
   - ruby-head
+  - rubinius-3
 matrix:
-  include:
-    - rvm: jruby
-      env: JRUBY_OPTS='--2.0 --server -Xcompile.invokedynamic=false'
-    - rvm: jruby-head
-      env: JRUBY_OPTS='--server -Xcompile.invokedynamic=false'
   allow_failures:
-    - rvm: jruby
+    - rvm: jruby-9.1.7.0
     - rvm: jruby-head
-    - rvm: rbx-2
     - rvm: ruby-head
+    - rvm: rubinius-3
   fast_finish: true
 before_install:
-  - gem install bundler
+  - rvm use @global
+  - gem uninstall bundler -x
+  - gem install bundler --version=1.13.7
+  - bundler --version
 notifications:
   email:
     - timo.roessner@googlemail.com
