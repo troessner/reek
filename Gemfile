@@ -13,7 +13,7 @@ group :development do
   gem 'mutant-rspec',  '~> 0.8.8'
   gem 'rake',          '~> 12.0'
   gem 'rspec',         '~> 3.0'
-  gem 'simplecov',     '~> 0.12.0'
+  gem 'simplecov',     '~> 0.13.0'
   gem 'yard',          '~> 0.9.5'
 
   if RUBY_VERSION >= '2.3'
