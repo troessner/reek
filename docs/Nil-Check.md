@@ -17,7 +17,7 @@ Given
 class Klass
   def nil_checker(argument)
     if argument.nil?
-      puts "argument isn't nil!"
+      puts "argument is nil!"
     end
   end
 end
