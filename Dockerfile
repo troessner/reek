@@ -20,6 +20,7 @@ USER ${user}
 
 WORKDIR ${app_dir}
 
+RUN gem install rake
 RUN bundle install --without debugging development
 
 VOLUME ${code_dir}
