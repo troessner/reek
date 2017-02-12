@@ -84,9 +84,9 @@ RSpec.configure do |config|
     mocks.verify_doubled_constant_names = true
   end
 
-  # Avoid infinitely running tests. This is mainly useful when running mutant.
-  # Set the DEBUG environment variable to something truthy like '1' to disable
-  # this and allow using pry without specs failing.
+  # Avoid infinitely running tests. This is mainly useful when running a
+  # mutation tester. Set the DEBUG environment variable to something truthy
+  # like '1' to disable this and allow using pry without specs failing.
   unless ENV['DEBUG']
     config.around(:each) do |example|
       Timeout.timeout(5, &example)

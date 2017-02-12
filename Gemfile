@@ -10,7 +10,6 @@ group :development do
   gem 'ataru',         '~> 0.2.0'
   gem 'cucumber',      '~> 2.0'
   gem 'factory_girl',  '~> 4.0'
-  gem 'mutant-rspec',  '~> 0.8.8'
   gem 'rake',          '~> 12.0'
   gem 'rspec',         '~> 3.0'
   gem 'simplecov',     '~> 0.13.0'
