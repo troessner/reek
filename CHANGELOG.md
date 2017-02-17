@@ -1,5 +1,10 @@
 # Change log
 
+## 4.5.6 (2017-02-17)
+
+* (mvz) Raise on errors inside of Examiner#smells instead of outputting to STDERR
+* (mvz) Update parser dependency
+
 ## 4.5.5 (2017-02-05)
 
 * (mvz) Load YAML in code comments safely
@@ -25,10 +30,10 @@
 
 ## 4.5.0 (2016-10-12)
 
-* (maxjacobson) Emit fingerprints in Code Climate reporter
-* (mvz) Disable progress for piped output
-* (mvz) Update progress formatter to match changed file location
 * (jhubert) Add progress formatters for showing progress on each file
+* (mvz) Update progress formatter to match changed file location
+* (mvz) Disable progress for piped output
+* (maxjacobson) Emit fingerprints in Code Climate reporter
 
 ## 4.4.4 (2016-09-29)
 
