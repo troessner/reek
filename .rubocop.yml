@@ -53,7 +53,6 @@ RSpec/ExampleLength:
 RSpec/ExpectOutput:
   Exclude:
     - 'spec/reek/cli/command/todo_list_command_spec.rb'
-    - 'spec/reek/source/source_code_spec.rb'
 
 # FIXME: Split up files to avoid offenses
 RSpec/MultipleDescribes:

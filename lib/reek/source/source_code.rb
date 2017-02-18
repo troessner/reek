@@ -5,6 +5,7 @@ Reek::CLI::Silencer.silently do
 end
 require_relative '../tree_dresser'
 require_relative '../ast/node'
+require_relative '../errors/parse_error'
 
 # Opt in to new way of representing lambdas
 Parser::Builders::Default.emit_lambda = true
@@ -87,7 +88,7 @@ module Reek
             begin
               ast, comments = parser.parse_with_comments(source, origin)
             rescue Racc::ParseError, Parser::SyntaxError => error
-              $stderr.puts "#{origin}: #{error.class.name}: #{error}"
+              raise Errors::ParseError, origin: origin, original_exception: error
             end
 
             # See https://whitequark.github.io/parser/Parser/Source/Comment/Associator.html

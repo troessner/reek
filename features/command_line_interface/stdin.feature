@@ -35,5 +35,5 @@ Feature: Reek reads from $stdin when no files are given
   Scenario: syntax error causes the source to be ignored
     When I pass "= invalid syntax =" to reek
     Then it reports a parsing error
-    Then it succeeds
+    And the exit status indicates an error
     And it reports nothing

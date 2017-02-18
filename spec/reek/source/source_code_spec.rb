@@ -26,36 +26,15 @@ RSpec.describe Reek::Source::SourceCode do
   end
 
   context 'when the parser fails' do
-    let(:catcher) { StringIO.new }
     let(:source_name) { 'Test source' }
     let(:error_message) { 'Error message' }
     let(:parser) { class_double(Parser::Ruby23) }
     let(:src) { described_class.new(code: '', origin: source_name, parser: parser) }
 
-    before { $stderr = catcher }
-
     shared_examples_for 'handling and recording the error' do
-      it 'does not raise an error' do
-        src.syntax_tree
-      end
-
-      it 'returns an empty syntax tree' do
-        expect(src.syntax_tree).to be_nil
-      end
-
-      it 'records the syntax error' do
-        src.syntax_tree
-        expect(catcher.string).to match(error_class.name)
-      end
-
-      it 'records the source name' do
-        src.syntax_tree
-        expect(catcher.string).to match(source_name)
-      end
-
-      it 'records the error message' do
-        src.syntax_tree
-        expect(catcher.string).to match(error_message)
+      it 'raises an informative error' do
+        expect { src.syntax_tree }.
+          to raise_error(/#{source_name}: #{error_class.name}: #{error_message}/)
       end
     end
 
@@ -91,10 +70,8 @@ RSpec.describe Reek::Source::SourceCode do
       end
 
       it 'raises the error' do
-        expect { src.syntax_tree }.to raise_error
+        expect { src.syntax_tree }.to raise_error error_class
       end
     end
-
-    after { $stderr = STDERR }
   end
 end
