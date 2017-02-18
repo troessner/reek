@@ -98,6 +98,8 @@ module Reek
     #       "reek_only_of" will fail in that case.
     #   2.) "reek_only_of" doesn't support the additional smell_details hash.
     #
+    # @param smell_type [Symbol, String, Class] The "smell type" to check for.
+    #
     # @public
     #
     # :reek:UtilityFunction
