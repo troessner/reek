@@ -23,7 +23,7 @@ RSpec.describe Reek::CLI::Command::TodoListCommand do
       allow(File).to receive(:write)
     end
 
-    after(:all) do
+    after do
       $stdout = STDOUT
     end
 
