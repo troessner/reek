@@ -49,11 +49,6 @@ RSpec/DescribeClass:
 RSpec/ExampleLength:
   Enabled: false
 
-# FIXME: Find a better way to block output during specs, and fix relevant examples.
-RSpec/ExpectOutput:
-  Exclude:
-    - 'spec/reek/cli/command/todo_list_command_spec.rb'
-
 # FIXME: Split up files to avoid offenses
 RSpec/MultipleDescribes:
   Exclude:
