@@ -1,5 +1,4 @@
-Feature:
-
+Feature: Auto-generate a todo file
   Write a Reek configuration as a kind of todo list that will prevent Reek
   from reporting smells on the current code.
   This can then be worked on later on.
