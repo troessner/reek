@@ -16,7 +16,7 @@ RSpec.describe Reek::Report::CodeClimateFingerprint do
                           source:         'a/ruby/source/file.rb')
       end
 
-      it 'it computes the fingerprint' do
+      it 'computes the fingerprint' do
         expect(computed).to eq expected_fingerprint
       end
     end
@@ -41,7 +41,7 @@ RSpec.describe Reek::Report::CodeClimateFingerprint do
                           source:         'a/ruby/source/file.rb')
       end
 
-      it 'it returns nil' do
+      it 'returns nil' do
         expect(computed).to be_nil
       end
     end
