@@ -30,14 +30,14 @@ RSpec.describe Reek::SmellWarning do
       let(:first) { build(:smell_warning, smell_detector: duplication_detector) }
       let(:second) { build(:smell_warning, smell_detector: feature_envy_detector) }
 
-      it_should_behave_like 'first sorts ahead of second'
+      it_behaves_like 'first sorts ahead of second'
     end
 
     context 'smells differing only by lines' do
       let(:first) { build(:smell_warning, smell_detector: feature_envy_detector, lines: [2]) }
       let(:second) { build(:smell_warning, smell_detector: feature_envy_detector, lines: [3]) }
 
-      it_should_behave_like 'first sorts ahead of second'
+      it_behaves_like 'first sorts ahead of second'
     end
 
     context 'smells differing only by context' do
@@ -46,7 +46,7 @@ RSpec.describe Reek::SmellWarning do
         build(:smell_warning, smell_detector: duplication_detector, context: 'second')
       end
 
-      it_should_behave_like 'first sorts ahead of second'
+      it_behaves_like 'first sorts ahead of second'
     end
 
     context 'smells differing only by message' do
@@ -59,7 +59,7 @@ RSpec.describe Reek::SmellWarning do
                               context: 'ctx', message: 'second message')
       end
 
-      it_should_behave_like 'first sorts ahead of second'
+      it_behaves_like 'first sorts ahead of second'
     end
 
     context 'smell name takes precedence over message' do
@@ -70,7 +70,7 @@ RSpec.describe Reek::SmellWarning do
         build(:smell_warning, smell_detector: utility_function_detector, message: 'first message')
       end
 
-      it_should_behave_like 'first sorts ahead of second'
+      it_behaves_like 'first sorts ahead of second'
     end
 
     context 'smells differing everywhere' do
@@ -86,7 +86,7 @@ RSpec.describe Reek::SmellWarning do
                               message: "has the variable name '@s'")
       end
 
-      it_should_behave_like 'first sorts ahead of second'
+      it_behaves_like 'first sorts ahead of second'
     end
   end
 

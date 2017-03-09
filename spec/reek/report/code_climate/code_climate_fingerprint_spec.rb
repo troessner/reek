@@ -23,12 +23,12 @@ RSpec.describe Reek::Report::CodeClimateFingerprint do
 
     context 'with code at a specific location' do
       let(:lines) { [1] }
-      it_should_behave_like 'computes a fingerprint with no parameters'
+      it_behaves_like 'computes a fingerprint with no parameters'
     end
 
     context 'with code at a different location' do
       let(:lines) { [5] }
-      it_should_behave_like 'computes a fingerprint with no parameters'
+      it_behaves_like 'computes a fingerprint with no parameters'
     end
 
     context 'when the fingerprint should not be computed' do
@@ -66,14 +66,14 @@ RSpec.describe Reek::Report::CodeClimateFingerprint do
       let(:name) { 'bravo' }
       let(:expected_fingerprint) { '9c3fd378178118a67e9509f87cae24f9' }
 
-      it_should_behave_like 'computes a fingerprint with identifying parameters'
+      it_behaves_like 'computes a fingerprint with identifying parameters'
     end
 
     context 'when the name is another thing it has another fingerprint' do
       let(:name) { 'echo' }
       let(:expected_fingerprint) { 'd2a6d2703ce04cca65e7300b7de4b89f' }
 
-      it_should_behave_like 'computes a fingerprint with identifying parameters'
+      it_behaves_like 'computes a fingerprint with identifying parameters'
     end
 
     shared_examples_for 'computes a fingerprint with identifying and non-identifying parameters' do
@@ -98,7 +98,7 @@ RSpec.describe Reek::Report::CodeClimateFingerprint do
       let(:lines) { [1, 7, 10, 13, 15] }
       let(:expected_fingerprint) { '238733f4f51ba5473dcbe94a43ec5400' }
 
-      it_should_behave_like 'computes a fingerprint with identifying and non-identifying parameters'
+      it_behaves_like 'computes a fingerprint with identifying and non-identifying parameters'
     end
 
     context 'when the non-identifying parameters change, it computes the same fingerprint' do
@@ -107,7 +107,7 @@ RSpec.describe Reek::Report::CodeClimateFingerprint do
       let(:lines) { [1, 7, 10, 13, 15, 17, 19, 20, 25] }
       let(:expected_fingerprint) { '238733f4f51ba5473dcbe94a43ec5400' }
 
-      it_should_behave_like 'computes a fingerprint with identifying and non-identifying parameters'
+      it_behaves_like 'computes a fingerprint with identifying and non-identifying parameters'
     end
 
     context 'but when the identifying parameters change, it computes a different fingerprint' do
@@ -116,7 +116,7 @@ RSpec.describe Reek::Report::CodeClimateFingerprint do
       let(:lines) { [1, 7, 10, 13, 15] }
       let(:expected_fingerprint) { 'e0c35e9223cc19bdb9a04fb3e60573e1' }
 
-      it_should_behave_like 'computes a fingerprint with identifying and non-identifying parameters'
+      it_behaves_like 'computes a fingerprint with identifying and non-identifying parameters'
     end
   end
 end

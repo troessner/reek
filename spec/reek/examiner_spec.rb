@@ -28,14 +28,14 @@ RSpec.describe Reek::Examiner do
   context 'with a fragrant String' do
     let(:examiner) { described_class.new('def good() true; end') }
 
-    it_should_behave_like 'no smells found'
+    it_behaves_like 'no smells found'
   end
 
   context 'with a smelly String' do
     let(:examiner) { described_class.new('def fine() y = 4; end') }
     let(:expected_first_smell) { 'UncommunicativeVariableName' }
 
-    it_should_behave_like 'one smell found'
+    it_behaves_like 'one smell found'
   end
 
   context 'with a partially masked smelly File' do
@@ -48,13 +48,13 @@ RSpec.describe Reek::Examiner do
     let(:path) { CONFIG_PATH.join('partial_mask.reek') }
     let(:expected_first_smell) { 'UncommunicativeVariableName' }
 
-    it_should_behave_like 'one smell found'
+    it_behaves_like 'one smell found'
   end
 
   context 'with a fragrant File' do
     let(:examiner) { described_class.new(CLEAN_FILE) }
 
-    it_should_behave_like 'no smells found'
+    it_behaves_like 'no smells found'
   end
 
   describe '.new' do
