@@ -36,14 +36,14 @@ RSpec.describe Reek::Spec::ShouldReekOnlyOf do
   context 'with no smells' do
     let(:smells) { [] }
 
-    it_should_behave_like 'no match'
+    it_behaves_like 'no match'
   end
 
   context 'with 1 non-matching smell' do
     let(:control_couple_detector) { build(:smell_detector, smell_type: 'ControlParameter') }
     let(:smells) { [build(:smell_warning, smell_detector: control_couple_detector)] }
 
-    it_should_behave_like 'no match'
+    it_behaves_like 'no match'
   end
 
   context 'with 2 non-matching smells' do
@@ -56,7 +56,7 @@ RSpec.describe Reek::Spec::ShouldReekOnlyOf do
       ]
     end
 
-    it_should_behave_like 'no match'
+    it_behaves_like 'no match'
   end
 
   context 'with 1 non-matching and 1 matching smell' do
@@ -70,7 +70,7 @@ RSpec.describe Reek::Spec::ShouldReekOnlyOf do
       ]
     end
 
-    it_should_behave_like 'no match'
+    it_behaves_like 'no match'
   end
 
   context 'with 1 matching smell' do

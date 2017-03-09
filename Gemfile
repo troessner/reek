@@ -17,7 +17,7 @@ group :development do
 
   if RUBY_VERSION >= '2.3'
     gem 'rubocop',       '~> 0.47.1'
-    gem 'rubocop-rspec', '~> 1.12.0'
+    gem 'rubocop-rspec', '~> 1.13.0'
   end
 
   platforms :mri do

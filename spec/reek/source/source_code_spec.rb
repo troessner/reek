@@ -47,7 +47,7 @@ RSpec.describe Reek::Source::SourceCode do
           and_raise error_class.new(diagnostic)
       end
 
-      it_should_behave_like 'handling and recording the error'
+      it_behaves_like 'handling and recording the error'
     end
 
     context 'with a Racc::ParseError' do
@@ -58,7 +58,7 @@ RSpec.describe Reek::Source::SourceCode do
           and_raise(error_class.new(error_message))
       end
 
-      it_should_behave_like 'handling and recording the error'
+      it_behaves_like 'handling and recording the error'
     end
 
     context 'with a generic error' do
