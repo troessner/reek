@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative '../examiner'
 require_relative '../report/formatter'
 require_relative 'should_reek_of'

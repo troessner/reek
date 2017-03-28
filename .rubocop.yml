@@ -8,6 +8,10 @@ AllCops:
     - 'vendor/**/*'
   TargetRubyVersion: 2.1
 
+# Assume the programmer knows how bracketed block syntax works
+Lint/AmbiguousBlockAssociation:
+  Enabled: false
+
 Lint/HandleExceptions:
   Exclude:
     - 'spec/reek/configuration/configuration_file_finder_spec.rb'
@@ -106,6 +110,10 @@ Style/FrozenStringLiteralComment:
     - 'lib/**/*'
   EnforcedStyle: always
 
+# Use active_support's strip_heredoc to indent heredocs
+Style/IndentHeredoc:
+  EnforcedStyle: active_support
+
 # Allow multiline block chains
 Style/MultilineBlockChain:
   Enabled: false
@@ -126,6 +134,14 @@ Style/MultilineOperationIndentation:
 Style/ParallelAssignment:
   Enabled: false
 
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    default: ()
+    '%W': ()
+    '%I': ()
+    '%w': ()
+    '%i': ()
+
 # Allow Perl-style references to regex matches
 Style/PerlBackrefs:
   Enabled: false
@@ -133,6 +149,10 @@ Style/PerlBackrefs:
 # Allow single-line method definitions
 Style/SingleLineMethods:
   Enabled: false
+
+# Prefer symbols to look like symbols
+Style/SymbolArray:
+  EnforcedStyle: brackets
 
 # Allow small arrays of words with quotes
 Style/WordArray:

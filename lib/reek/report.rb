@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative 'report/code_climate'
 require_relative 'report/html_report'
 require_relative 'report/json_report'

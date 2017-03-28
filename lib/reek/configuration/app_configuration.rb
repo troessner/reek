@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'pathname'
 require_relative './configuration_file_finder'
 require_relative './configuration_validator'

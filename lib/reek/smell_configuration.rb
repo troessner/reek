@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Reek
   #
   # Represents a single set of configuration options for a smell detector

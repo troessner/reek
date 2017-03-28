@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Reek
   module Context
     # Responsible for tracking visibilities in regards to CodeContexts.

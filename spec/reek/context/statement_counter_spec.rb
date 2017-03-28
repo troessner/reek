@@ -3,6 +3,7 @@ require_lib 'reek/context/statement_counter'
 
 RSpec.describe Reek::Context::StatementCounter do
   let(:counter) { described_class.new }
+
   describe '#increase_by' do
     it 'does not increase if passed a falsy value' do
       counter.increase_by(nil)

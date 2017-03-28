@@ -31,21 +31,21 @@ RSpec.describe Reek::Report::YAMLReport do
       instance.show(out)
       out.rewind
       result = YAML.safe_load(out.read)
-      expected = YAML.safe_load <<-EOS
----
-- context:        "simple"
-  lines:
-  - 1
-  message:        "has the parameter name 'a'"
-  smell_type:     "UncommunicativeParameterName"
-  source:         "string"
-  name:           "a"
-- context:        "simple"
-  lines:
-  - 1
-  message:        "doesn't depend on instance state (maybe move it to another class?)"
-  smell_type:     "UtilityFunction"
-  source:         "string"
+      expected = YAML.safe_load <<-EOS.strip_heredoc
+        ---
+        - context:        "simple"
+          lines:
+          - 1
+          message:        "has the parameter name 'a'"
+          smell_type:     "UncommunicativeParameterName"
+          source:         "string"
+          name:           "a"
+        - context:        "simple"
+          lines:
+          - 1
+          message:        "doesn't depend on instance state (maybe move it to another class?)"
+          smell_type:     "UtilityFunction"
+          source:         "string"
       EOS
 
       expect(result).to eq expected
@@ -58,23 +58,23 @@ RSpec.describe Reek::Report::YAMLReport do
         instance.show(out)
         out.rewind
         result = YAML.safe_load(out.read)
-        expected = YAML.safe_load <<-EOS
----
-- context:        "simple"
-  lines:
-  - 1
-  message:        "has the parameter name 'a'"
-  smell_type:     "UncommunicativeParameterName"
-  source:         "string"
-  name:           "a"
-  wiki_link:      "https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Parameter-Name.md"
-- context:        "simple"
-  lines:
-  - 1
-  message:        "doesn't depend on instance state (maybe move it to another class?)"
-  smell_type:     "UtilityFunction"
-  source:         "string"
-  wiki_link:      "https://github.com/troessner/reek/blob/master/docs/Utility-Function.md"
+        expected = YAML.safe_load <<-EOS.strip_heredoc
+          ---
+          - context:        "simple"
+            lines:
+            - 1
+            message:        "has the parameter name 'a'"
+            smell_type:     "UncommunicativeParameterName"
+            source:         "string"
+            name:           "a"
+            wiki_link:      "https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Parameter-Name.md"
+          - context:        "simple"
+            lines:
+            - 1
+            message:        "doesn't depend on instance state (maybe move it to another class?)"
+            smell_type:     "UtilityFunction"
+            source:         "string"
+            wiki_link:      "https://github.com/troessner/reek/blob/master/docs/Utility-Function.md"
         EOS
 
         expect(result).to eq expected

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative 'smell_detectors'
 require_relative 'smell_detectors/base_detector'
 require_relative 'configuration/app_configuration'
