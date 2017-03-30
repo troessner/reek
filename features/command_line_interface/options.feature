@@ -67,6 +67,8 @@ Feature: Reek can be controlled using command-line options
               --sort-by SORTING            Sort reported files by the given criterium:
                                              smelliness ("smelliest" files first)
                                              none (default - output in processing order)
+              --force-exclusion            Force excluding files specified in the configuration `exclude_paths`
+                                             even if they are explicitly passed as arguments
 
      Exit codes:
               --success-exit-code CODE     The exit code when no smells are found (default: 0)

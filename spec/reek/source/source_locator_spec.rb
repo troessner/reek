@@ -29,34 +29,66 @@ RSpec.describe Reek::Source::SourceLocator do
       end
     end
 
+    # rubocop:disable RSpec/NestedGroups
     context 'exclude paths' do
       let(:configuration) do
         test_configuration_for(CONFIG_PATH.join('with_excluded_paths.reek'))
       end
 
-      let(:path) { SAMPLES_PATH.join('source_with_exclude_paths') }
+      let(:options) { instance_double('Reek::CLI::Options', force_exclusion?: false) }
 
-      let(:expected_paths) do
-        [path.join('nested/uncommunicative_parameter_name.rb')]
+      context 'when the path is a file name in an excluded directory' do
+        let(:path) { SAMPLES_PATH.join('source_with_exclude_paths', 'ignore_me', 'uncommunicative_method_name.rb') }
+
+        context 'when options.force_exclusion? is true' do
+          before do
+            allow(options).to receive(:force_exclusion?).and_return(true)
+          end
+
+          it 'excludes this file' do
+            sources = described_class.new([path], configuration: configuration, options: options).sources
+            expect(sources).not_to include(path)
+          end
+        end
+
+        context 'when options.force_exclusion? is false' do
+          before do
+            allow(options).to receive(:force_exclusion?).and_return(false)
+          end
+
+          it 'includes this file' do
+            sources = described_class.new([path], configuration: configuration, options: options).sources
+            expect(sources).to include(path)
+          end
+        end
       end
 
-      let(:paths_that_are_expected_to_be_ignored) do
-        [
-          path.join('ignore_me/uncommunicative_method_name.rb'),
-          path.join('nested/ignore_me_as_well/irresponsible_module.rb')
-        ]
-      end
+      context 'when path is a directory' do
+        let(:path) { SAMPLES_PATH.join('source_with_exclude_paths') }
 
-      it 'does not use excluded paths' do
-        sources = described_class.new([path], configuration: configuration).sources
-        expect(sources).not_to include(*paths_that_are_expected_to_be_ignored)
-      end
+        let(:expected_paths) do
+          [path.join('nested/uncommunicative_parameter_name.rb')]
+        end
 
-      it 'scans directories that are not excluded' do
-        sources = described_class.new([path], configuration: configuration).sources
-        expect(sources).to eq expected_paths
+        let(:paths_that_are_expected_to_be_ignored) do
+          [
+            path.join('ignore_me/uncommunicative_method_name.rb'),
+            path.join('nested/ignore_me_as_well/irresponsible_module.rb')
+          ]
+        end
+
+        it 'does not use excluded paths' do
+          sources = described_class.new([path], configuration: configuration, options: options).sources
+          expect(sources).not_to include(*paths_that_are_expected_to_be_ignored)
+        end
+
+        it 'scans directories that are not excluded' do
+          sources = described_class.new([path], configuration: configuration).sources
+          expect(sources).to eq expected_paths
+        end
       end
     end
+    # rubocop:enable RSpec/NestedGroups
 
     context 'non-Ruby paths' do
       let(:path) { SAMPLES_PATH.join('source_with_non_ruby_files') }
