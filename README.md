@@ -557,6 +557,9 @@ Just add this to your configuration file:
     enabled: false
   UtilityFunction:
     enabled: false
+"app/mailers":
+  InstanceVariableAssumption:
+    enabled: false
 ```
 
 Be careful though, Reek does not merge your configuration entries, so if you already have a directory directive for "app/controllers" or "app/helpers" you need to update those directives instead of copying the above YAML sample into your configuration file.
