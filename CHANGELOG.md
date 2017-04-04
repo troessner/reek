@@ -1,5 +1,10 @@
 # Change log
 
+## 4.6.0 (2017-04-04)
+
+* (IanWhitney) Implement `--force-exclusion` flag
+* (mvz) Raise Reek-specific error on parse errors
+
 ## 4.5.6 (2017-02-17)
 
 * (mvz) Raise on errors inside of Examiner#smells instead of outputting to STDERR
