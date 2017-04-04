@@ -32,6 +32,10 @@ RSpec.describe Reek::CLI::Options do
       allow($stdout).to receive_messages(tty?: false)
       expect(options.progress_format).to eq :quiet
     end
+
+    it 'sets force_exclusion to false by default' do
+      expect(options.force_exclusion?).to be false
+    end
   end
 
   describe 'parse' do

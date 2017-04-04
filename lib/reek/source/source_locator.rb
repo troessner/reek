@@ -11,7 +11,8 @@ module Reek
       # Initialize with the paths we want to search.
       #
       # paths - a list of paths as Strings
-      def initialize(paths, configuration: Configuration::AppConfiguration.default)
+      def initialize(paths, configuration: Configuration::AppConfiguration.default, options: Reek::CLI::Options.new)
+        @options = options
         @paths = paths.flat_map do |string|
           path = Pathname.new(string)
           current_directory?(path) ? path.entries : path
@@ -29,7 +30,7 @@ module Reek
 
       private
 
-      attr_reader :configuration, :paths
+      attr_reader :configuration, :paths, :options
 
       # :reek:TooManyStatements: { max_statements: 7 }
       # :reek:NestedIterators: { max_allowed_nesting: 2 }
@@ -44,9 +45,20 @@ module Reek
             if path.directory?
               ignore_path?(path) ? Find.prune : next
             elsif ruby_file?(path)
-              relevant_paths << path
+              relevant_paths << path unless ignore_file?(path)
             end
           end
+        end
+      end
+
+      def ignore_file?(path)
+        if options.force_exclusion?
+          path.ascend do |ascendant|
+            break true if path_excluded?(ascendant)
+            false
+          end
+        else
+          false
         end
       end
 

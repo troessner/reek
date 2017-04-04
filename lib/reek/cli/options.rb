@@ -11,8 +11,8 @@ module Reek
     #
     # See {file:docs/Command-Line-Options.md} for details.
     #
-    # :reek:TooManyInstanceVariables: { max_instance_variables: 11 }
-    # :reek:TooManyMethods: { max_methods: 17 }
+    # :reek:TooManyInstanceVariables: { max_instance_variables: 12 }
+    # :reek:TooManyMethods: { max_methods: 18 }
     # :reek:Attribute: { enabled: false }
     #
     class Options
@@ -27,7 +27,8 @@ module Reek
                     :sorting,
                     :success_exit_code,
                     :failure_exit_code,
-                    :generate_todo_list
+                    :generate_todo_list,
+                    :force_exclusion
 
       def initialize(argv = [])
         @argv               = argv
@@ -41,6 +42,7 @@ module Reek
         @success_exit_code  = Status::DEFAULT_SUCCESS_EXIT_CODE
         @failure_exit_code  = Status::DEFAULT_FAILURE_EXIT_CODE
         @generate_todo_list = false
+        @force_exclusion    = false
 
         set_up_parser
       end
@@ -49,6 +51,10 @@ module Reek
         parser.parse!(argv)
         Rainbow.enabled = colored
         self
+      end
+
+      def force_exclusion?
+        @force_exclusion
       end
 
       private
@@ -121,7 +127,7 @@ module Reek
         end
       end
 
-      # :reek:TooManyStatements: { max_statements: 6 }
+      # :reek:TooManyStatements: { max_statements: 7 }
       def set_report_formatting_options
         parser.separator "\nText format options:"
         set_up_color_option
@@ -129,6 +135,7 @@ module Reek
         set_up_location_formatting_options
         set_up_progress_formatting_options
         set_up_sorting_option
+        set_up_force_exclusion_option
       end
 
       def set_up_color_option
@@ -172,6 +179,14 @@ module Reek
                   '  smelliness ("smelliest" files first)',
                   '  none (default - output in processing order)') do |sorting|
           self.sorting = sorting
+        end
+      end
+
+      def set_up_force_exclusion_option
+        parser.on('--force-exclusion',
+                  'Force excluding files specified in the configuration `exclude_paths`',
+                  '  even if they are explicitly passed as arguments') do |force_exclusion|
+          self.force_exclusion = force_exclusion
         end
       end
 
