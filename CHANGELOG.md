@@ -1,5 +1,9 @@
 # Change log
 
+## 4.6.1 (2017-04-05)
+
+* (IanWhitney) Properly handle absolute paths.
+
 ## 4.6.0 (2017-04-04)
 
 * (IanWhitney) Implement `--force-exclusion` flag
