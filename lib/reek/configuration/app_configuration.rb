@@ -62,7 +62,7 @@ module Reek
       end
 
       def path_excluded?(path)
-        excluded_paths.include?(path)
+        excluded_paths.map(&:expand_path).include?(path.expand_path)
       end
 
       def load_values(configuration_hash)

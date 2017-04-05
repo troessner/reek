@@ -37,6 +37,36 @@ RSpec.describe Reek::Source::SourceLocator do
 
       let(:options) { instance_double('Reek::CLI::Options', force_exclusion?: false) }
 
+      context 'when the path is absolute' do
+        let(:path) do
+          SAMPLES_PATH.join('source_with_exclude_paths',
+                            'ignore_me',
+                            'uncommunicative_method_name.rb').expand_path
+        end
+
+        context 'and options.force_exclusion? is true' do
+          before do
+            allow(options).to receive(:force_exclusion?).and_return(true)
+          end
+
+          it 'excludes this file' do
+            sources = described_class.new([path], configuration: configuration, options: options).sources
+            expect(sources).not_to include(path)
+          end
+        end
+
+        context 'and options.force_exclusion? is false' do
+          before do
+            allow(options).to receive(:force_exclusion?).and_return(false)
+          end
+
+          it 'includes this file' do
+            sources = described_class.new([path], configuration: configuration, options: options).sources
+            expect(sources).to include(path)
+          end
+        end
+      end
+
       context 'when the path is a file name in an excluded directory' do
         let(:path) { SAMPLES_PATH.join('source_with_exclude_paths', 'ignore_me', 'uncommunicative_method_name.rb') }
 
