@@ -23,11 +23,13 @@ RSpec.describe Reek::Report::CodeClimateFingerprint do
 
     context 'with code at a specific location' do
       let(:lines) { [1] }
+
       it_behaves_like 'computes a fingerprint with no parameters'
     end
 
     context 'with code at a different location' do
       let(:lines) { [5] }
+
       it_behaves_like 'computes a fingerprint with no parameters'
     end
 

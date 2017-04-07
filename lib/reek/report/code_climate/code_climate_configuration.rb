@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Reek
   module Report
     # loads the smell type metadata to present in Code Climate

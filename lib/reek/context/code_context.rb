@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative '../code_comment'
 require_relative '../ast/object_refs'
 require_relative 'statement_counter'
@@ -19,7 +20,7 @@ module Reek
       include Enumerable
       extend Forwardable
       delegate each_node: :exp
-      delegate %i(name type) => :exp
+      delegate [:name, :type] => :exp
 
       attr_reader :children, :parent, :exp, :statement_counter
 

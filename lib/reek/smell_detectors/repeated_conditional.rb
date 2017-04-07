@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative '../ast/node'
 require_relative 'base_detector'
 

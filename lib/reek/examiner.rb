@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative 'context_builder'
 require_relative 'detector_repository'
 require_relative 'errors/incomprehensible_source_error'

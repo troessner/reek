@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative 'base_detector'
 
 module Reek
@@ -67,8 +68,8 @@ module Reek
         defined_private_methods = ctx.defined_instance_methods(visibility: :private)
         called_method_names     = ctx.instance_method_calls.map(&:name)
 
-        defined_private_methods.select do |defined_method|
-          !called_method_names.include?(defined_method.name)
+        defined_private_methods.reject do |defined_method|
+          called_method_names.include?(defined_method.name)
         end
       end
 

@@ -145,6 +145,7 @@ RSpec.describe Reek::Examiner do
 
   describe 'bad comment config' do
     let(:examiner) { described_class.new(source) }
+
     context 'unknown smell detector' do
       let(:source) do
         <<-EOS

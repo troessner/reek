@@ -253,6 +253,7 @@ end
 
 RSpec.describe Reek::AST::SexpExtensions::LvarNode do
   let(:node) { sexp(:lvar, :foo) }
+
   describe '#var_name' do
     it 'returns the lvar’s name' do
       expect(node.var_name).to eq(:foo)
