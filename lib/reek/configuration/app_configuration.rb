@@ -69,7 +69,7 @@ module Reek
       def load_values(configuration_hash)
         configuration_hash.each do |key, value|
           if key == EXCLUDE_PATHS_KEY
-            excluded_paths.add value
+            excluded_paths.add Array(value)
           elsif smell_type?(key)
             default_directive.add key, value
           else
