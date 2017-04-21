@@ -100,6 +100,7 @@ Reek is officially running on the following MRI rubies:
   - 2.1
   - 2.2
   - 2.3
+  - 2.4
 
 Other rubies like Rubinius or JRuby are not officially supported but should work as well.
 
