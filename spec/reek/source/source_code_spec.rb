@@ -28,7 +28,7 @@ RSpec.describe Reek::Source::SourceCode do
   context 'when the parser fails' do
     let(:source_name) { 'Test source' }
     let(:error_message) { 'Error message' }
-    let(:parser) { class_double(Parser::Ruby23) }
+    let(:parser) { class_double(Parser::Ruby24) }
     let(:src) { described_class.new(code: '', origin: source_name, parser: parser) }
 
     shared_examples_for 'handling and recording the error' do
