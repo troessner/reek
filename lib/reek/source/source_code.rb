@@ -2,7 +2,7 @@
 
 require_relative '../cli/silencer'
 Reek::CLI::Silencer.silently do
-  require 'parser/ruby23'
+  require 'parser/ruby24'
 end
 require_relative '../tree_dresser'
 require_relative '../ast/node'
@@ -27,7 +27,7 @@ module Reek
       # code   - Ruby code as String
       # origin - 'STDIN', 'string' or a filepath as String
       # parser - the parser to use for generating AST's out of the given source
-      def initialize(code:, origin:, parser: Parser::Ruby23)
+      def initialize(code:, origin:, parser: Parser::Ruby24)
         @source = code
         @origin = origin
         @parser = parser
