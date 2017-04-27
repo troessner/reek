@@ -1,5 +1,10 @@
 # Change log
 
+## 4.6.2 (2017-04-27)
+
+* (pocke) Prevent from breaking on a string with escape sequence incompatible with UTF-8
+* (pocke) Use Ruby 2.4 parser for parsing code
+
 ## 4.6.1 (2017-04-05)
 
 * (IanWhitney) Properly handle absolute paths.
