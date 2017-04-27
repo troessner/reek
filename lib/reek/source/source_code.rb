@@ -6,6 +6,7 @@ Reek::CLI::Silencer.silently do
 end
 require_relative '../tree_dresser'
 require_relative '../ast/node'
+require_relative '../ast/builder'
 require_relative '../errors/parse_error'
 
 # Opt in to new way of representing lambdas
@@ -27,7 +28,7 @@ module Reek
       # code   - Ruby code as String
       # origin - 'STDIN', 'string' or a filepath as String
       # parser - the parser to use for generating AST's out of the given source
-      def initialize(code:, origin:, parser: Parser::Ruby24)
+      def initialize(code:, origin:, parser: default_parser)
         @source = code
         @origin = origin
         @parser = parser
@@ -83,11 +84,14 @@ module Reek
       #
       #  @return [Anonymous subclass of Reek::AST::Node] the AST presentation
       #          for the given source
+      # :reek:TooManyStatements: { max_statements: 7 }
       def syntax_tree
         @syntax_tree ||=
           begin
+            buffer = Parser::Source::Buffer.new(origin, 1)
+            buffer.source = source
             begin
-              ast, comments = parser.parse_with_comments(source, origin)
+              ast, comments = parser.parse_with_comments(buffer)
             rescue Racc::ParseError, Parser::SyntaxError => error
               raise Errors::ParseError, origin: origin, original_exception: error
             end
@@ -101,6 +105,15 @@ module Reek
       private
 
       attr_reader :parser, :source
+
+      # :reek:UtilityFunction
+      def default_parser
+        Parser::Ruby24.new(AST::Builder.new).tap do |parser|
+          diagnostics = parser.diagnostics
+          diagnostics.all_errors_are_fatal = true
+          diagnostics.ignore_warnings      = true
+        end
+      end
     end
   end
 end
