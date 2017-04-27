@@ -23,12 +23,19 @@ RSpec.describe Reek::Source::SourceCode do
       result = source_code.syntax_tree
       expect(result).to be_nil
     end
+
+    it 'does not crash with sequences incompatible with UTF-8' do
+      source = '"\xFF"'
+      source_code = described_class.new(code: source, origin: '(string)')
+      result = source_code.syntax_tree
+      expect(result.children.first).to eq "\xFF"
+    end
   end
 
   context 'when the parser fails' do
     let(:source_name) { 'Test source' }
     let(:error_message) { 'Error message' }
-    let(:parser) { class_double(Parser::Ruby24) }
+    let(:parser) { instance_double('Parser::Ruby24') }
     let(:src) { described_class.new(code: '', origin: source_name, parser: parser) }
 
     shared_examples_for 'handling and recording the error' do
