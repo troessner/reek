@@ -1,5 +1,6 @@
 require 'pathname'
 require 'timeout'
+require 'active_support/core_ext/string/strip'
 require_relative '../lib/reek'
 require_relative '../lib/reek/spec'
 require_relative '../lib/reek/ast/ast_node_class_map'

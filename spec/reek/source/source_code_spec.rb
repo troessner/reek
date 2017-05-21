@@ -34,50 +34,31 @@ RSpec.describe Reek::Source::SourceCode do
 
   context 'when the parser fails' do
     let(:source_name) { 'Test source' }
-    let(:error_message) { 'Error message' }
-    let(:parser) { instance_double('Parser::Ruby24') }
-    let(:src) { described_class.new(code: '', origin: source_name, parser: parser) }
-
-    shared_examples_for 'handling and recording the error' do
-      it 'raises an informative error' do
-        expect { src.syntax_tree }.
-          to raise_error(/#{source_name}: #{error_class.name}: #{error_message}/)
-      end
-    end
+    let(:src) { described_class.new(code: code, origin: source_name, **parser) }
 
     context 'with a Parser::SyntaxError' do
-      let(:error_class) { Parser::SyntaxError }
-      let(:diagnostic) { instance_double('Parser::Diagnostic', message: error_message) }
+      let(:code) { '== Invalid Syntax ==' }
+      let(:parser) { {} }
 
-      before do
-        allow(parser).to receive(:parse_with_comments).
-          and_raise error_class.new(diagnostic)
+      it 'adds a diagnostic' do
+        expect(src.diagnostics.size).to eq 2
       end
-
-      it_behaves_like 'handling and recording the error'
-    end
-
-    context 'with a Racc::ParseError' do
-      let(:error_class) { Racc::ParseError }
-
-      before do
-        allow(parser).to receive(:parse_with_comments).
-          and_raise(error_class.new(error_message))
-      end
-
-      it_behaves_like 'handling and recording the error'
     end
 
     context 'with a generic error' do
+      let(:code) { '' }
       let(:error_class) { RuntimeError }
-
-      before do
-        allow(parser).to receive(:parse_with_comments).
-          and_raise(error_class.new(error_message))
+      let(:error_message) { 'An error' }
+      let(:parser) do
+        parser = instance_double('Parser::Ruby24')
+        allow(parser).to receive(:parse_with_comments).and_raise(error_class, error_message)
+        {
+          parser: parser
+        }
       end
 
       it 'raises the error' do
-        expect { src.syntax_tree }.to raise_error error_class
+        expect { src }.to raise_error error_class, error_message
       end
     end
   end

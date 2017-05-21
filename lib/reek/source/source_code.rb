@@ -7,7 +7,6 @@ end
 require_relative '../tree_dresser'
 require_relative '../ast/node'
 require_relative '../ast/builder'
-require_relative '../errors/parse_error'
 
 # Opt in to new way of representing lambdas
 Parser::Builders::Default.emit_lambda = true
@@ -21,7 +20,7 @@ module Reek
       IO_IDENTIFIER     = 'STDIN'.freeze
       STRING_IDENTIFIER = 'string'.freeze
 
-      attr_reader :origin
+      attr_reader :origin, :diagnostics, :syntax_tree
 
       # Initializer.
       #
@@ -29,9 +28,9 @@ module Reek
       # origin - 'STDIN', 'string' or a filepath as String
       # parser - the parser to use for generating AST's out of the given source
       def initialize(code:, origin:, parser: default_parser)
-        @source = code
         @origin = origin
-        @parser = parser
+        @diagnostics = []
+        @syntax_tree = parse(parser, code)
       end
 
       # Initializes an instance of SourceCode given a source.
@@ -53,13 +52,22 @@ module Reek
         end
       end
 
+      # @return [true|false] Returns true if parsed file does not have any syntax errors.
+      def valid_syntax?
+        @diagnostics.none? { |diagnostic| [:error, :fatal].include?(diagnostic.level) }
+      end
+
+      private
+
+      attr_reader :source
+
       # Parses the given source into an AST and associates the source code comments with it.
       # This AST is then traversed by a TreeDresser which adorns the nodes in the AST
       # with our SexpExtensions.
       # Finally this AST is returned where each node is an anonymous subclass of Reek::AST::Node
       #
-      # Important to note is that Reek will not fail on unparseable files but rather print out
-      # a warning and then just continue.
+      # Important to note is that Reek will not fail on unparseable files but rather register a
+      # parse error to @diagnostics and then just continue.
       #
       # Given this @source:
       #
@@ -82,36 +90,34 @@ module Reek
       # where each node is possibly adorned with our SexpExtensions (see ast/ast_node_class_map
       # and ast/sexp_extensions for details).
       #
-      #  @return [Anonymous subclass of Reek::AST::Node] the AST presentation
-      #          for the given source
-      # :reek:TooManyStatements: { max_statements: 7 }
-      def syntax_tree
-        @syntax_tree ||=
-          begin
-            buffer = Parser::Source::Buffer.new(origin, 1)
-            buffer.source = source
-            begin
-              ast, comments = parser.parse_with_comments(buffer)
-            rescue Racc::ParseError, Parser::SyntaxError => error
-              raise Errors::ParseError, origin: origin, original_exception: error
-            end
+      # @param parser [Parser::Ruby24]
+      # @param source [String] - Ruby code
+      # @return [Anonymous subclass of Reek::AST::Node] the AST presentation
+      #         for the given source
+      def parse(parser, source)
+        buffer = Parser::Source::Buffer.new(origin, 1)
+        buffer.source = source
+        begin
+          ast, comments = parser.parse_with_comments(buffer)
+        rescue Parser::SyntaxError # rubocop:disable Lint/HandleExceptions
+          # All errors are in diagnostics. No need to handle exception.
+        end
 
-            # See https://whitequark.github.io/parser/Parser/Source/Comment/Associator.html
-            comment_map = Parser::Source::Comment.associate(ast, comments) if ast
-            TreeDresser.new.dress(ast, comment_map)
-          end
+        # See https://whitequark.github.io/parser/Parser/Source/Comment/Associator.html
+        comment_map = Parser::Source::Comment.associate(ast, comments) if ast
+        TreeDresser.new.dress(ast, comment_map)
       end
 
-      private
-
-      attr_reader :parser, :source
-
-      # :reek:UtilityFunction
+      # :reek:TooManyStatements: { max_statements: 6 }
+      # :reek:FeatureEnvy
       def default_parser
         Parser::Ruby24.new(AST::Builder.new).tap do |parser|
           diagnostics = parser.diagnostics
-          diagnostics.all_errors_are_fatal = true
-          diagnostics.ignore_warnings      = true
+          diagnostics.all_errors_are_fatal = false
+          diagnostics.ignore_warnings      = false
+          diagnostics.consumer = lambda do |diagnostic|
+            @diagnostics << diagnostic
+          end
         end
       end
     end

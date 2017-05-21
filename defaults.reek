@@ -66,6 +66,9 @@ RepeatedConditional:
 SubclassedFromCoreClass:
   enabled: true
   exclude: []
+Syntax:
+  enabled: true
+  exclude: []
 TooManyConstants:
   enabled: true
   exclude: []

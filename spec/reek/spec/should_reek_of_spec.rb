@@ -1,7 +1,6 @@
 require 'pathname'
 require_relative '../../spec_helper'
 require_lib 'reek/spec'
-require 'active_support/core_ext/string/strip'
 require 'active_support/core_ext/hash/except'
 
 RSpec.describe Reek::Spec::ShouldReekOf do
