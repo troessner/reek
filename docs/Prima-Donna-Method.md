@@ -82,7 +82,7 @@ ruby.rb -- 1 warning:
 If you want to suppress this warning you can do this via source comment like this:
 
 ```Ruby
-# :reek:PrimaDonnaMethod: { exclude: [ bravo! ] }
+# :reek:PrimaDonnaMethod { exclude: [ bravo! ] }
 class Alfa
   def bravo!
   end
