@@ -1,5 +1,9 @@
 # Change log
 
+## 4.7.0 (2017-05-31)
+
+* (pocke) Introduce Syntax smell detector
+
 ## 4.6.2 (2017-04-27)
 
 * (pocke) Prevent from breaking on a string with escape sequence incompatible with UTF-8
