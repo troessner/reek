@@ -8,6 +8,30 @@ AllCops:
     - 'vendor/**/*'
   TargetRubyVersion: 2.1
 
+# Place . on the previous line
+Layout/DotPosition:
+  EnforcedStyle: trailing
+
+# Require empty lines between defs, except for one-line defs
+Layout/EmptyLineBetweenDefs:
+  AllowAdjacentOneLineDefs: true
+
+# Use active_support's strip_heredoc to indent heredocs
+Layout/IndentHeredoc:
+  EnforcedStyle: active_support
+
+# Always put the closing brace on the last line
+Layout/MultilineMethodCallBraceLayout:
+  EnforcedStyle: same_line
+
+# Indent one level for follow-up lines
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+# Indent one level for follow-up lines
+Layout/MultilineOperationIndentation:
+  EnforcedStyle: indented
+
 # Assume the programmer knows how bracketed block syntax works
 Lint/AmbiguousBlockAssociation:
   Enabled: false
@@ -95,14 +119,6 @@ Style/Documentation:
     - 'lib/reek/ast/sexp_extensions/super.rb'
     - 'lib/reek/ast/sexp_extensions/variables.rb'
 
-# Place . on the previous line
-Style/DotPosition:
-  EnforcedStyle: trailing
-
-# Require empty lines between defs, except for one-line defs
-Style/EmptyLineBetweenDefs:
-  AllowAdjacentOneLineDefs: true
-
 # Require comment for files in lib and bin
 Style/FrozenStringLiteralComment:
   Include:
@@ -110,25 +126,9 @@ Style/FrozenStringLiteralComment:
     - 'lib/**/*'
   EnforcedStyle: always
 
-# Use active_support's strip_heredoc to indent heredocs
-Style/IndentHeredoc:
-  EnforcedStyle: active_support
-
 # Allow multiline block chains
 Style/MultilineBlockChain:
   Enabled: false
-
-# Always put the closing brace on the last line
-Style/MultilineMethodCallBraceLayout:
-  EnforcedStyle: same_line
-
-# Indent one level for follow-up lines
-Style/MultilineMethodCallIndentation:
-  EnforcedStyle: indented
-
-# Indent one level for follow-up lines
-Style/MultilineOperationIndentation:
-  EnforcedStyle: indented
 
 # There's nothing wrong with parallel assignment
 Style/ParallelAssignment:
