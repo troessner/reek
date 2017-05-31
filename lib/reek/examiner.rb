@@ -97,12 +97,15 @@ module Reek
     #
     # :reek:TooManyStatements { max_statements: 8 }
     def run
-      return [] unless syntax_tree
-      begin
-        examine_tree
-      rescue Errors::BaseError => exception
-        raise unless @error_handler.handle exception
-        []
+      if source.valid_syntax? && syntax_tree
+        begin
+          examine_tree
+        rescue Errors::BaseError => exception
+          raise unless @error_handler.handle exception
+          []
+        end
+      else
+        SmellDetectors::Syntax.smells_from_source(source)
       end
     end
 

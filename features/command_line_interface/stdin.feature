@@ -34,6 +34,10 @@ Feature: Reek reads from $stdin when no files are given
 
   Scenario: syntax error causes the source to be ignored
     When I pass "= invalid syntax =" to reek
-    Then it reports a parsing error
-    And the exit status indicates an error
-    And it reports nothing
+    Then the exit status indicates smells
+    And it reports:
+      """
+      STDIN -- 2 warnings:
+        [2]:Syntax: This file has unexpected token $end [https://github.com/troessner/reek/blob/master/docs/Syntax.md]
+        [1]:Syntax: This file has unexpected token tEQL [https://github.com/troessner/reek/blob/master/docs/Syntax.md]
+      """
