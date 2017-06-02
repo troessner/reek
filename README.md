@@ -53,7 +53,7 @@ Reek is a tool that examines Ruby classes, modules and methods and reports any
 
 For an excellent introduction to
 [Code Smells](docs/Code-Smells.md) and Reek check out [this blog post](https://blog.codeship.com/how-to-find-ruby-code-smells-with-reek/)
-or [that one](https://troessner.svbtle.com/the-latest-and-greatest-additions-to-reek). There is also [this talk](https://www.youtube.com/watch?v=ZzqOuHI5MkA) from the [RubyConf Portugal](http://rubyconf.pt/).
+or [that one](https://troessner.svbtle.com/the-latest-and-greatest-additions-to-reek). There is also [this talk](https://www.youtube.com/watch?v=ZzqOuHI5MkA) from the [RubyConf Portugal](http://rubyconf.pt/) and [this one](https://www.youtube.com/watch?v=pazYe7WRWRU) from the [RubyConfLT](https://rubyconf.lt/) (there is also a [slide deck](http://talks.chastell.net/rubyconf-by-lt-2016/#/) if you prefer that).
 
 Install it via rubygems:
 
