@@ -7,9 +7,10 @@ module Reek
     # Check syntax errors.
     # Note: this detector is called by examiner directly unlike other detectors.
     class Syntax < BaseDetector
-      DummyContext = Struct.new(:exp, :full_name).new(
-        Struct.new('Exp', :source).new(nil),
-        'This file')
+      # Context duck type for this atypical smell detector
+      DummyContext = Struct.new(:exp, :full_name)
+      # Exp duck type for this atypical smell detector
+      DummyExp = Struct.new(:source)
 
       def self.contexts
         []
@@ -21,9 +22,12 @@ module Reek
 
       # :reek:FeatureEnvy
       def smells_from_source(source)
+        context = DummyContext.new(
+          DummyExp.new(source.origin),
+          'This file')
         source.diagnostics.map do |diagnostic|
           smell_warning(
-            context: DummyContext,
+            context: context,
             lines: [diagnostic.location.line],
             message: "has #{diagnostic.message}")
         end
