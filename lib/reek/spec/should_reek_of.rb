@@ -12,13 +12,6 @@ module Reek
     class ShouldReekOf
       include RSpec::Matchers::Composable
 
-      # Variant of Examiner that doesn't swallow exceptions
-      class UnsafeExaminer < Examiner
-        def run
-          examine_tree
-        end
-      end
-
       attr_reader :failure_message, :failure_message_when_negated
 
       def initialize(smell_type_or_class,
@@ -32,9 +25,9 @@ module Reek
 
       def matches?(source)
         @matching_smell_types = nil
-        self.examiner = UnsafeExaminer.new(source,
-                                           filter_by_smells: [smell_type],
-                                           configuration: configuration)
+        self.examiner = Examiner.new(source,
+                                     filter_by_smells: [smell_type],
+                                     configuration: configuration)
         set_failure_messages
         matching_smell_details?
       end
