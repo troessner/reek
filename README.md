@@ -147,7 +147,7 @@ class ShoppingCart < ActiveRecord::Base
   has_many :items
 
   def gross_price
-    items.sum { |item| item.gross_price }
+    items.sum(&:gross_price)
   end
 end
 
