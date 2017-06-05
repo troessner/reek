@@ -41,3 +41,30 @@ Feature: Exclude paths directives
     When I run `reek -c config.reek --force-exclusion bad_files_live_here/smelly.rb`
     Then it succeeds
     And it reports nothing
+  Scenario: Two exclude_paths sections
+    Given a file named "bad_files_live_here/smelly.rb" with:
+      """
+      # A smelly example class
+      class Smelly
+        def alfa(bravo); end
+      end
+      """
+    And a file named "other_smelly_directory/smelly.rb" with:
+      """
+      # A smelly example class
+      class Smelly
+        def alfa(bravo); end
+      end
+      """
+    And a file named "config.reek" with:
+      """
+      ---
+      exclude_paths:
+        - bad_files_live_here
+      ---
+      exclude_paths:
+        - other_smelly_directory
+      """
+    When I run `reek -c config.reek .`
+    Then it succeeds
+    And it reports nothing

@@ -59,22 +59,46 @@ module Reek
         # @param path [String]
         # @return [Hash]
         #
-        # :reek:TooManyStatements: { max_statements: 6 }
+        # :reek:TooManyStatements: { max_statements: 7 }
         def load_from_file(path)
           return {} unless path
+
           begin
-            configuration = YAML.load_file(path) || {}
+            yaml_documents = YAML.load_stream File.read(path)
           rescue => error
             raise ConfigFileException, "Invalid configuration file #{path}, error is #{error}"
           end
 
-          unless configuration.is_a? Hash
+          unless yaml_documents.all? { |document| document.is_a? Hash }
             raise ConfigFileException, "Invalid configuration file \"#{path}\" -- Not a hash"
           end
-          configuration
+
+          array_of_hashes_to_hash(yaml_documents)
         end
 
         private
+
+        # Combines multiple hashes into a single hash.
+        # If two hashes have the same key, the values are combined
+        #
+        # Example
+        #   array_of_hashes_to_hash([{"exclude_path"=>["first_path"], "other" => 1}, {"exclude_path"=>["second_path"]}])
+        #   => {"exclude_path"=>["first_path", "second_path"]], "other"=>1}
+        #
+        # :reek:NestedIterators: { max_allowed_nesting: 2 }
+        # :reek:TooManyStatements: { max_statements: 8 }
+        def array_of_hashes_to_hash(array_of_hashes)
+          hash_with_array_default = Hash.new { |hash, key| hash[key] = [] }
+
+          combined_hash = array_of_hashes.each_with_object(hash_with_array_default) do |hash, acc|
+            hash.each { |key, value| acc[key] << value }
+          end
+
+          combined_hash.each do |key, value|
+            value.flatten!
+            combined_hash[key] = value.first if value.count == 1
+          end
+        end
 
         #
         # Recursively traverse directories down to find a configuration file.
