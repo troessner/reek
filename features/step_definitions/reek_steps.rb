@@ -84,3 +84,15 @@ end
 Then /^it reports the current version$/ do
   expect(last_command_started).to have_output("reek #{Reek::Version::STRING}")
 end
+
+Then /^it reports this Code Climate output:$/ do |expected_output|
+  expected_issues = expected_output.split('NULL_BYTE_CHARACTER').map do |issue|
+    JSON.parse(issue)
+  end
+
+  actual_issues = last_command_started.stdout.split("\0").map do |issue|
+    JSON.parse(issue)
+  end
+
+  expect(actual_issues).to eq(expected_issues)
+end
