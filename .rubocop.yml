@@ -113,6 +113,10 @@ Style/AccessorMethodName:
   Exclude:
     - 'lib/reek/context/visibility_tracker.rb'
 
+# Allow and/or for control flow only
+Style/AndOr:
+  EnforcedStyle: conditionals
+
 Style/Documentation:
   Exclude:
     - 'lib/reek/ast/sexp_extensions/send.rb'
