@@ -37,6 +37,22 @@ module Reek
       end
 
       #
+      # Carries out a depth-first traversal of this syntax tree, yielding every
+      # Sexp except any node whose type is listed in the Array `ignoring`. Any
+      # node type in `dont_recurse_children` will be yielded, but its children
+      # will not be walked.
+      #
+      # Examples:
+      #   context.walk_tree() do |node| .... end
+      def walk_tree(ignoring = [], dont_recurse_children = [], &blk)
+        yield self unless ignoring.include?(type)
+        return if dont_recurse_children.include?(type)
+        each_sexp do |elem|
+          elem.walk_tree(ignoring, dont_recurse_children, &blk)
+        end
+      end
+
+      #
       # Carries out a depth-first traversal of this syntax tree, yielding
       # every Sexp of type `target_type`. The traversal ignores any node
       # whose type is listed in the Array `ignoring`.
