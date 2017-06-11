@@ -184,5 +184,15 @@ RSpec.describe Reek::SmellDetectors::IrresponsibleModule do
 
       expect(src).not_to reek_of(:IrresponsibleModule)
     end
+
+    it 'reports undocumented classes with method calls in it' do
+      src = <<-EOS
+        class Alfa
+          does :some_thing
+        end
+      EOS
+
+      expect(src).to reek_of(:IrresponsibleModule)
+    end
   end
 end

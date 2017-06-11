@@ -77,7 +77,22 @@ module Reek
       def namespace_module?
         return false if exp.type == :casgn
         contents = exp.children.last
-        contents && contents.find_nodes([:def, :defs], [:casgn, :class, :module]).empty?
+        return false unless contents
+
+        ignore = [:begin]
+        allowed_child_types = [:casgn, :class, :module]
+        non_namespace = false
+        alloweds = []
+        
+        contents.walk_tree(ignore, allowed_child_types) do |elem|
+          if !allowed_child_types.include?(elem.type)
+            non_namespace = true
+            break
+          end
+          alloweds << elem
+        end
+        
+        (!non_namespace && !alloweds.empty?)
       end
 
       def track_visibility(visibility, names)
