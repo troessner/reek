@@ -1,5 +1,9 @@
 # Change log
 
+## 4.7.1 (2017-06-12)
+
+* (mvz) Improve IrresponsibleModule and fix some bugs along
+
 ## 4.7.0 (2017-05-31)
 
 * (pocke) Introduce Syntax smell detector
