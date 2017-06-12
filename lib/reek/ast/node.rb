@@ -107,6 +107,15 @@ module Reek
         1
       end
 
+      # Most nodes represent only one statement (although they can have nested
+      # statements). The special type :begin exists primarily to contain more
+      # statements.
+      #
+      # @return Array of unique outer-level statements contained in this node
+      def statements
+        [self]
+      end
+
       def source
         loc.expression.source_buffer.name
       end

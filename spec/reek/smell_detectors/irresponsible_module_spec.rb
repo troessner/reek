@@ -107,6 +107,24 @@ RSpec.describe Reek::SmellDetectors::IrresponsibleModule do
       expect(src).not_to reek_of(:IrresponsibleModule, context: 'Alfa')
     end
 
+    it "does not report #{scope} used only as a namespace for several nested moduless" do
+      src = <<-EOS
+        #{scope} Alfa
+          # Describes Bravo
+          class Bravo
+            def charlie
+            end
+          end
+
+          # Describes Delta
+          module Delta
+          end
+        end
+      EOS
+
+      expect(src).not_to reek_of(:IrresponsibleModule, context: 'Alfa')
+    end
+
     it "reports #{scope} that is used as a namespace but also has methods" do
       src = <<-EOS
         #{scope} Alfa

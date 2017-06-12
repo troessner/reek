@@ -76,7 +76,8 @@ module Reek
       #
       # :reek:FeatureEnvy
       def namespace_module?
-        children = direct_children
+        return false if exp.type == :casgn
+        children = exp.direct_children
         children.any? && children.all? { |child| [:casgn, :class, :module].include? child.type }
       end
 
@@ -93,46 +94,6 @@ module Reek
       end
 
       private
-
-      # In the AST, the set of children of a module that a human might identify
-      # is coded in three different ways.
-      #
-      # If there are no children, the last element of the module node is nil,
-      # like so:
-      #
-      #   s(:class,
-      #     s(:const, nil, :C),
-      #     nil,
-      #     nil)
-      #
-      # If there is one child, the last element of the module node is that
-      # child, like so:
-      #
-      #   s(:class,
-      #     s(:const, nil, :C),
-      #     nil,
-      #     s(:def, :f, s(:args), nil))
-      #
-      # If there is more than one child, those are wrapped as children in a
-      # node of type :begin, like so:
-      #
-      #   s(:class,
-      #     s(:const, nil, :Alfa),
-      #     nil,
-      #     s(:begin,
-      #       s(:def, :bravo, s(:args), nil),
-      #       s(:class, s(:const, nil, :Charlie), nil, nil)))
-      #
-      # This method unifies those three ways to avoid having to handle them
-      # differently.
-      #
-      # @return an array of directly visible children of the module
-      #
-      # :reek:FeatureEnvy
-      def direct_children
-        contents = exp.children.last or return []
-        contents.type == :begin ? contents.children : [contents]
-      end
 
       def instance_method_children
         children.select(&:instance_method?)
