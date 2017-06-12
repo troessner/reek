@@ -10,7 +10,6 @@ module Reek
     #
     # A context wrapper for any module found in a syntax tree.
     #
-    # :reek:FeatureEnvy
     class ModuleContext < CodeContext
       attr_reader :visibility_tracker
 
@@ -74,10 +73,12 @@ module Reek
       # However, if the module is empty, it is not considered a namespace module.
       #
       # @return true if the module is a namespace module
+      #
+      # :reek:FeatureEnvy
       def namespace_module?
         return false if exp.type == :casgn
-        contents = exp.children.last
-        contents && contents.find_nodes([:def, :defs], [:casgn, :class, :module]).empty?
+        children = exp.direct_children
+        children.any? && children.all? { |child| [:casgn, :class, :module].include? child.type }
       end
 
       def track_visibility(visibility, names)
@@ -91,6 +92,8 @@ module Reek
                                                       visibility: visibility,
                                                       names: names
       end
+
+      private
 
       def instance_method_children
         children.select(&:instance_method?)

@@ -4,6 +4,7 @@ require_relative 'reference_collector'
 
 require_relative 'sexp_extensions/arguments'
 require_relative 'sexp_extensions/attribute_assignments'
+require_relative 'sexp_extensions/begin'
 require_relative 'sexp_extensions/block'
 require_relative 'sexp_extensions/case'
 require_relative 'sexp_extensions/constant'
