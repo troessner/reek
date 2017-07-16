@@ -32,15 +32,6 @@ RSpec.describe Reek::SmellDetectors::UncommunicativeParameterName do
   { 'alfa.' => 'with a receiver',
     '' => 'without a receiver' }.each do |host, description|
     context "in a method definition #{description}" do
-      it 'does not recognise *' do
-        expect("def #{host}bravo(*); end").not_to reek_of(:UncommunicativeParameterName)
-      end
-
-      it 'does not report unused parameters' do
-        src = "def #{host}bravo(x); charlie; end"
-        expect(src).not_to reek_of(:UncommunicativeParameterName)
-      end
-
       it 'does not report two-letter parameter names' do
         src = "def #{host}bravo(ab); charlie(ab); end"
         expect(src).not_to reek_of(:UncommunicativeParameterName)
@@ -56,6 +47,26 @@ RSpec.describe Reek::SmellDetectors::UncommunicativeParameterName do
         expect(src).to reek_of(:UncommunicativeParameterName, name: 'param2')
       end
 
+      it 'reports unused parameters' do
+        src = "def #{host}bravo(x); charlie; end"
+        expect(src).to reek_of(:UncommunicativeParameterName)
+      end
+
+      it 'reports splat parameters' do
+        expect("def #{host}bravo(*a); charlie(a); end").
+          to reek_of(:UncommunicativeParameterName, name: 'a')
+      end
+
+      it 'reports double splat parameters' do
+        expect("def #{host}bravo(**a); charlie(a); end").
+          to reek_of(:UncommunicativeParameterName, name: 'a')
+      end
+
+      it 'reports block parameters' do
+        expect("def #{host}bravo(&a); charlie(a); end").
+          to reek_of(:UncommunicativeParameterName, name: 'a')
+      end
+
       it 'does not report unused anonymous parameter' do
         src = "def #{host}bravo(_); charlie; end"
         expect(src).not_to reek_of(:UncommunicativeParameterName)
@@ -63,12 +74,20 @@ RSpec.describe Reek::SmellDetectors::UncommunicativeParameterName do
 
       it 'reports used anonymous parameter' do
         src = "def #{host}bravo(_); charlie(_) end"
-        expect(src).to reek_of(:UncommunicativeParameterName)
+        expect(src).to reek_of(:UncommunicativeParameterName, name: '_')
       end
 
       it 'reports used parameters marked as unused' do
         src = "def #{host}bravo(_unused) charlie(_unused) end"
-        expect(src).to reek_of(:UncommunicativeParameterName)
+        expect(src).to reek_of(:UncommunicativeParameterName, name: '_unused')
+      end
+
+      it 'does not report anonymous splat' do
+        expect("def #{host}bravo(*); end").not_to reek_of(:UncommunicativeParameterName)
+      end
+
+      it 'does not report anonymous double splat' do
+        expect("def #{host}bravo(**); end").not_to reek_of(:UncommunicativeParameterName)
       end
 
       it 'reports names inside array decomposition' do

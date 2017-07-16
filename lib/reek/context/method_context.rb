@@ -36,7 +36,7 @@ module Reek
         # stop at the `lvasgn` and not detect the contained `lvar`.
         # Hence we first get all `lvar` nodes followed by all `lvasgn` nodes.
         #
-        (local_nodes(:lvar) + local_nodes(:lvasgn)).find { |node| node.var_name == param.to_sym }
+        (local_nodes(:lvar) + local_nodes(:lvasgn)).find { |node| node.var_name == param.name }
       end
 
       # :reek:FeatureEnvy
@@ -44,7 +44,7 @@ module Reek
         exp.arguments.reject do |param|
           param.anonymous_splat? ||
             param.marked_unused? ||
-            uses_param?(param.plain_name)
+            uses_param?(param)
         end
       end
 
