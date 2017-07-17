@@ -49,17 +49,6 @@ RSpec.describe Reek::SmellDetectors::IrresponsibleModule do
       expect(src).not_to reek_of(:IrresponsibleModule)
     end
 
-    it "does not report re-opened #{scope} in the same file" do
-      src = <<-EOS
-        # This comment describes Alfa
-        #{scope} Alfa; end
-
-        #{scope} Alfa; def bravo; end; end
-      EOS
-
-      expect(src).not_to reek_of(:IrresponsibleModule)
-    end
-
     it "reports a #{scope} with an empty comment" do
       src = <<-EOS
         #

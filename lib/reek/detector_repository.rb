@@ -35,31 +35,25 @@ module Reek
                    configuration: {})
       @configuration = configuration
       @smell_types   = smell_types
-      @detectors     = smell_types.map { |klass| klass.new configuration_for(klass) }
     end
 
     def examine(context)
-      smell_detectors_for(context.type).flat_map do |detector|
-        detector.run_for(context)
+      smell_detectors_for(context.type).flat_map do |klass|
+        detector = klass.new configuration: configuration_for(klass), context: context
+        detector.run
       end
     end
 
     private
 
-    attr_reader :configuration, :smell_types, :detectors
+    attr_reader :configuration, :smell_types
 
     def configuration_for(klass)
       configuration.fetch klass, {}
     end
 
     def smell_detectors_for(type)
-      enabled_detectors.select do |detector|
-        detector.contexts.include? type
-      end
-    end
-
-    def enabled_detectors
-      detectors.select { |detector| detector.config.enabled? }
+      smell_types.select { |detector| detector.contexts.include? type }
     end
   end
 end
