@@ -28,27 +28,20 @@ module Reek
       # in any configuration file.
       DEFAULT_EXCLUDE_SET = [].freeze
 
-      def initialize(config = {})
-        @config = SmellConfiguration.new self.class.default_config.merge(config)
+      def initialize(configuration: {}, context: nil)
+        @config = SmellConfiguration.new self.class.default_config.merge(configuration)
+        @context = context
       end
 
       def smell_type
         self.class.smell_type
       end
 
-      def contexts
-        self.class.contexts
-      end
-
-      def run_for(context)
-        return [] unless enabled_for?(context)
-        return [] if exception?(context)
+      def run
+        return [] unless enabled?
+        return [] if exception?
 
         sniff(context)
-      end
-
-      def exception?(context)
-        context.matches?(value(EXCLUDE_KEY, context))
       end
 
       def self.todo_configuration_for(smells)
@@ -59,7 +52,13 @@ module Reek
 
       private
 
-      def enabled_for?(context)
+      attr_reader :context
+
+      def exception?
+        context.matches?(value(EXCLUDE_KEY, context))
+      end
+
+      def enabled?
         config.enabled? && config_for(context)[SmellConfiguration::ENABLED_KEY] != false
       end
 
