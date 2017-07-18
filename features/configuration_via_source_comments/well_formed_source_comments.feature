@@ -114,3 +114,19 @@ Feature: Well formed source comments are handled properly
       configure_detector_specific_option.rb -- 1 warning:
         [3]:TooManyInstanceVariables: Alfa has at least 3 instance variables [https://github.com/troessner/reek/blob/master/docs/Too-Many-Instance-Variables.md]
       """
+
+  Scenario: Disable smell detector unnecessarily
+    Given a file named "disable_detector_implicitly.rb" with:
+      """
+      # Test class
+      # :reek:TooManyInstanceVariables
+      class Alfa
+      end
+      """
+    When I run reek disable_detector_implicitly.rb
+    Then the exit status indicates smells
+    And it reports:
+      """
+      disable_detector_implicitly.rb -- 1 warning:
+        []:TooManyInstanceVariables: Alfa is unnecessarily suppressed [https://github.com/troessner/reek/blob/master/docs/Too-Many-Instance-Variables.md]
+      """
