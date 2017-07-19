@@ -152,13 +152,13 @@ module Reek
     # which we later use for smell detectors like FeatureEnvy.
     #
     def process_send(exp)
+      process(exp)
       case current_context
       when Context::ModuleContext
         handle_send_for_modules exp
       when Context::MethodContext
         handle_send_for_methods exp
       end
-      process(exp)
     end
 
     # Handles `op_asgn` nodes a.k.a. Ruby's assignment operators.

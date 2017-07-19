@@ -221,6 +221,18 @@ RSpec.describe Reek::SmellDetectors::UtilityFunction do
 
         expect(src).not_to reek_of(:UtilityFunction).with_config(config)
       end
+
+      it 'does not report UtilityFunction when private is used as a def modifier' do
+        src = <<-EOS
+          class Alfa
+            private def bravo(charlie)
+              charlie.delta.echo
+            end
+          end
+        EOS
+
+        expect(src).not_to reek_of(:UtilityFunction).with_config(config)
+      end
     end
 
     context 'protected methods' do
@@ -229,6 +241,18 @@ RSpec.describe Reek::SmellDetectors::UtilityFunction do
           class Alfa
             protected
             def bravo(charlie)
+              charlie.delta.echo
+            end
+          end
+        EOS
+
+        expect(src).not_to reek_of(:UtilityFunction).with_config(config)
+      end
+
+      it 'does not report UtilityFunction when protected is used as a def modifier' do
+        src = <<-EOS
+          class Alfa
+            protected def bravo(charlie)
               charlie.delta.echo
             end
           end
