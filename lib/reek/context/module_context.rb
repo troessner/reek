@@ -84,9 +84,6 @@ module Reek
         visibility_tracker.track_visibility children: instance_method_children,
                                             visibility: visibility,
                                             names: names
-      end
-
-      def track_singleton_visibility(visibility, names)
         visibility_tracker.track_singleton_visibility children: singleton_method_children,
                                                       visibility: visibility,
                                                       names: names

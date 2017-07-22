@@ -23,10 +23,6 @@ module Reek
           ([receiver] + args).compact
         end
 
-        def arg_names
-          args.map { |arg| arg.children.first }
-        end
-
         def module_creation_call?
           object_creation_call? && module_creation_receiver?
         end
