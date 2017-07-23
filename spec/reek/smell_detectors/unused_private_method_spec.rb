@@ -103,6 +103,17 @@ RSpec.describe Reek::SmellDetectors::UnusedPrivateMethod do
         to reek_of(:UnusedPrivateMethod, name: 'bravo', lines: [3]).
         and reek_of(:UnusedPrivateMethod, name: 'charlie', lines: [4])
     end
+
+    it 'reports instance methods defined as private with a modifier' do
+      source = <<-EOF
+        class Alfa
+          private def bravo; end
+        end
+      EOF
+
+      expect(source).
+        to reek_of(:UnusedPrivateMethod, name: 'bravo')
+    end
   end
 
   describe 'configuring the detector via source code comment' do

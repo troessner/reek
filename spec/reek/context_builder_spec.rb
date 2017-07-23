@@ -220,6 +220,26 @@ RSpec.describe Reek::ContextBuilder do
       described_class.new(syntax_tree(code)).context_tree
     end
 
+    it 'marks instance methods when using a def modifier' do
+      code = <<-EOS
+        class Foo
+          private def bar
+          end
+
+          def baz
+          end
+        end
+      EOS
+
+      root = context_tree_for(code)
+      module_context = root.children.first
+      method_contexts = module_context.children
+      aggregate_failures do
+        expect(method_contexts[0].visibility).to eq :private
+        expect(method_contexts[1].visibility).to eq :public
+      end
+    end
+
     it 'does not mark class methods with instance visibility' do
       code = <<-EOS
         class Foo
