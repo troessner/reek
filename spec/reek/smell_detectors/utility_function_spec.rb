@@ -262,4 +262,32 @@ RSpec.describe Reek::SmellDetectors::UtilityFunction do
       end
     end
   end
+
+  describe 'disabling with a comment' do
+    it 'disables the method following the comment' do
+      src = <<-EOS
+        class Alfa
+          # :reek:UtilityFunction
+          def bravo(charlie)
+            charlie.delta.echo
+          end
+        end
+      EOS
+
+      expect(src).not_to reek_of(:UtilityFunction)
+    end
+
+    it 'disables a method when it has a visibility modifier' do
+      src = <<-EOS
+        class Alfa
+          # :reek:UtilityFunction
+          private def bravo(charlie)
+            charlie.delta.echo
+          end
+        end
+      EOS
+
+      expect(src).not_to reek_of(:UtilityFunction)
+    end
+  end
 end

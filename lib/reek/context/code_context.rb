@@ -26,39 +26,8 @@ module Reek
 
       # Initializes a new CodeContext.
       #
-      # @param _parent [CodeContext, nil] The parent context
       # @param exp [Reek::AST::Node] The code described by this context
-      #
-      # For example, given the following code:
-      #
-      #   class Omg
-      #     def foo(x)
-      #       puts x
-      #     end
-      #   end
-      #
-      # The {ContextBuilder} object first instantiates a {RootContext}, which has no parent.
-      #
-      # Next, it instantiates a {ModuleContext}, with +parent+ being the
-      # {RootContext} just created, and +exp+ looking like this:
-      #
-      #  (class
-      #    (const nil :Omg) nil
-      #    (def :foo
-      #      (args
-      #        (arg :x))
-      #      (send nil :puts
-      #        (lvar :x))))
-      #
-      # Finally, {ContextBuilder} will instantiate a {MethodContext}. This time,
-      # +parent+ is the {ModuleContext} created above, and +exp+ is:
-      #
-      #   (def :foo
-      #     (args
-      #       (arg :x))
-      #     (send nil :puts
-      #       (lvar :x)))
-      def initialize(_parent, exp)
+      def initialize(exp)
         @exp                = exp
         @children           = []
         @statement_counter  = StatementCounter.new
@@ -91,6 +60,44 @@ module Reek
         end
       end
 
+      # Link the present context to its parent.
+      #
+      # @param parent [Reek::AST::Node] The parent context of the code described by this context
+      #
+      # For example, given the following code:
+      #
+      #   class Omg
+      #     def foo(x)
+      #       puts x
+      #     end
+      #   end
+      #
+      # The {ContextBuilder} object first instantiates a {RootContext}, which has no parent.
+      #
+      # Next, it instantiates a {ModuleContext}, with +exp+ looking like this:
+      #
+      #  (class
+      #    (const nil :Omg) nil
+      #    (def :foo
+      #      (args
+      #        (arg :x))
+      #      (send nil :puts
+      #        (lvar :x))))
+      #
+      # It will then call #register_with_parent on the {ModuleContext}, passing
+      # in the parent {RootContext}.
+      #
+      # Finally, {ContextBuilder} will instantiate a {MethodContext}. This time,
+      # +exp+ is:
+      #
+      #   (def :foo
+      #     (args
+      #       (arg :x))
+      #     (send nil :puts
+      #       (lvar :x)))
+      #
+      # Then it will call #register_with_parent on the {MethodContext}, passing
+      # in the parent {ModuleContext}.
       def register_with_parent(parent)
         @parent = parent.append_child_context(self) if parent
       end

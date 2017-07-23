@@ -11,10 +11,10 @@ module Reek
     class AttributeContext < CodeContext
       attr_accessor :visibility
 
-      def initialize(context, exp, send_expression)
+      def initialize(exp, send_expression)
         @visibility = :public
         @send_expression = send_expression
-        super context, exp
+        super exp
       end
 
       def full_comment

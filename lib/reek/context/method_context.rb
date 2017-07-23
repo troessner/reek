@@ -12,9 +12,10 @@ module Reek
       attr_accessor :visibility
       attr_reader :refs
 
-      def initialize(context, exp)
+      def initialize(exp, parent_exp)
+        @parent_exp = parent_exp
         @visibility = :public
-        super
+        super exp
       end
 
       def references_self?
@@ -80,6 +81,17 @@ module Reek
       def non_public_visibility?
         visibility != :public
       end
+
+      def full_comment
+        own = super
+        return own unless own.empty?
+        return parent_exp.full_comment if parent_exp
+        ''
+      end
+
+      private
+
+      attr_reader :parent_exp
     end
   end
 end

@@ -10,9 +10,9 @@ module Reek
     class SendContext < CodeContext
       attr_reader :name
 
-      def initialize(context, exp, name)
+      def initialize(exp, name)
         @name = name
-        super context, exp
+        super exp
       end
     end
   end

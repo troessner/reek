@@ -4,7 +4,7 @@ require_lib 'reek/context/module_context'
 
 RSpec.describe Reek::Context::CodeContext do
   context 'name recognition' do
-    let(:ctx)       { described_class.new(nil, exp) }
+    let(:ctx)       { described_class.new(exp) }
     let(:exp)       { instance_double('Reek::AST::SexpExtensions::ModuleNode') }
     let(:exp_name)  { 'random_name' }
     let(:full_name) { "::::::::::::::::::::#{exp_name}" }
@@ -43,9 +43,9 @@ RSpec.describe Reek::Context::CodeContext do
     end
 
     context 'when there is an outer' do
-      let(:ctx)        { described_class.new(outer, exp) }
+      let(:ctx)        { described_class.new(exp) }
       let(:outer_name) { 'another_random sting' }
-      let(:outer)      { described_class.new(nil, instance_double('Reek::AST::Node')) }
+      let(:outer)      { described_class.new(instance_double('Reek::AST::Node')) }
 
       before do
         ctx.register_with_parent outer
@@ -71,7 +71,7 @@ RSpec.describe Reek::Context::CodeContext do
       let(:ctx) do
         src = 'module Emptiness; end'
         ast = Reek::Source::SourceCode.from(src).syntax_tree
-        described_class.new(nil, ast)
+        described_class.new(ast)
       end
 
       it 'yields no calls' do
@@ -99,7 +99,7 @@ RSpec.describe Reek::Context::CodeContext do
       let(:ctx) do
         src = "module Loneliness; def calloo; puts('hello') end; end"
         ast = Reek::Source::SourceCode.from(src).syntax_tree
-        described_class.new(nil, ast)
+        described_class.new(ast)
       end
 
       it 'yields no ifs' do
@@ -149,7 +149,7 @@ RSpec.describe Reek::Context::CodeContext do
         end
       EOS
       ast = Reek::Source::SourceCode.from(src).syntax_tree
-      ctx = described_class.new(nil, ast)
+      ctx = described_class.new(ast)
       expect(ctx.each_node(:if, []).length).to eq(3)
     end
   end
@@ -166,7 +166,7 @@ RSpec.describe Reek::Context::CodeContext do
     end
     let(:expression) { Reek::Source::SourceCode.from(src).syntax_tree }
     let(:outer) { nil }
-    let(:context) { described_class.new(outer, expression) }
+    let(:context) { described_class.new(expression) }
     let(:sniffer) { class_double('Reek::SmellDetectors::BaseDetector') }
 
     before do
@@ -181,7 +181,7 @@ RSpec.describe Reek::Context::CodeContext do
     end
 
     context 'when there is an outer context' do
-      let(:outer) { described_class.new(nil, instance_double('Reek::AST::Node')) }
+      let(:outer) { described_class.new(instance_double('Reek::AST::Node')) }
 
       before do
         allow(outer).to receive(:config_for).with(sniffer).and_return(
@@ -196,9 +196,9 @@ RSpec.describe Reek::Context::CodeContext do
   end
 
   describe '#register_with_parent' do
-    let(:context) { described_class.new(nil, instance_double('Reek::AST::Node')) }
-    let(:first_child) { described_class.new(context, instance_double('Reek::AST::Node')) }
-    let(:second_child) { described_class.new(context, instance_double('Reek::AST::Node')) }
+    let(:context) { described_class.new(instance_double('Reek::AST::Node')) }
+    let(:first_child) { described_class.new(instance_double('Reek::AST::Node')) }
+    let(:second_child) { described_class.new(instance_double('Reek::AST::Node')) }
 
     it "appends the element to the parent context's list of children" do
       first_child.register_with_parent context
@@ -209,9 +209,9 @@ RSpec.describe Reek::Context::CodeContext do
   end
 
   describe '#each' do
-    let(:context) { described_class.new(nil, instance_double('Reek::AST::Node')) }
-    let(:first_child) { described_class.new(context, instance_double('Reek::AST::Node')) }
-    let(:second_child) { described_class.new(context, instance_double('Reek::AST::Node')) }
+    let(:context) { described_class.new(instance_double('Reek::AST::Node')) }
+    let(:first_child) { described_class.new(instance_double('Reek::AST::Node')) }
+    let(:second_child) { described_class.new(instance_double('Reek::AST::Node')) }
 
     it 'yields each child' do
       first_child.register_with_parent context

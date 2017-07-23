@@ -13,9 +13,8 @@ module Reek
     class ModuleContext < CodeContext
       attr_reader :visibility_tracker
 
-      def initialize(context, exp)
+      def initialize(exp)
         super
-
         @visibility_tracker = VisibilityTracker.new
       end
 

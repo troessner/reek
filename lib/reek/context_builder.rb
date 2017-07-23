@@ -22,6 +22,7 @@ module Reek
   #
   # :reek:TooManyMethods: { max_methods: 31 }
   # :reek:UnusedPrivateMethod: { exclude: [ !ruby/regexp /process_/ ] }
+  # :reek:DataClump
   class ContextBuilder
     attr_reader :context_tree
 
@@ -58,10 +59,10 @@ module Reek
     # RootContext -> children: 1 ModuleContext -> children: 1 MethodContext
     #
     # @return [Reek::Context::RootContext] tree of nested contexts
-    def build(exp)
+    def build(exp, parent_exp = nil)
       context_processor = "process_#{exp.type}"
       if context_processor_exists?(context_processor)
-        send(context_processor, exp)
+        send(context_processor, exp, parent_exp)
       else
         process exp
       end
@@ -71,12 +72,12 @@ module Reek
     # Handles every node for which we have no context_processor.
     #
     def process(exp)
-      exp.children.grep(AST::Node).each(&method(:build))
+      exp.children.grep(AST::Node).each { |child| build(child, exp) }
     end
 
     # Handles `module` and `class` nodes.
     #
-    def process_module(exp)
+    def process_module(exp, _parent)
       inside_new_context(Context::ModuleContext, exp) do
         process(exp)
       end
@@ -91,7 +92,7 @@ module Reek
     #   class << self
     #   end
     #
-    def process_sclass(exp)
+    def process_sclass(exp, _parent)
       inside_new_context(Context::GhostContext, exp) do
         process(exp)
       end
@@ -103,9 +104,9 @@ module Reek
     #
     #   Foo = Class.new Bar
     #
-    def process_casgn(exp)
+    def process_casgn(exp, parent)
       if exp.defines_module?
-        process_module(exp)
+        process_module(exp, parent)
       else
         process(exp)
       end
@@ -119,8 +120,8 @@ module Reek
     #
     # Given the above example we would count 2 statements overall.
     #
-    def process_def(exp)
-      inside_new_context(current_context.method_context_class, exp) do
+    def process_def(exp, parent)
+      inside_new_context(current_context.method_context_class, exp, parent) do
         increase_statement_count_by(exp.body)
         process(exp)
       end
@@ -134,8 +135,8 @@ module Reek
     #
     # Given the above example we would count 2 statements overall.
     #
-    def process_defs(exp)
-      inside_new_context(Context::SingletonMethodContext, exp) do
+    def process_defs(exp, parent)
+      inside_new_context(Context::SingletonMethodContext, exp, parent) do
         increase_statement_count_by(exp.body)
         process(exp)
       end
@@ -151,7 +152,7 @@ module Reek
     # we also record to what the method call is referring to
     # which we later use for smell detectors like FeatureEnvy.
     #
-    def process_send(exp)
+    def process_send(exp, _parent)
       process(exp)
       case current_context
       when Context::ModuleContext
@@ -173,7 +174,7 @@ module Reek
     #
     # We record one reference to `x` given the example above.
     #
-    def process_op_asgn(exp)
+    def process_op_asgn(exp, _parent)
       current_context.record_call_to(exp)
       process(exp)
     end
@@ -192,7 +193,7 @@ module Reek
     #
     # We record one reference to `self`.
     #
-    def process_ivar(exp)
+    def process_ivar(exp, _parent)
       current_context.record_use_of_self
       process(exp)
     end
@@ -205,7 +206,7 @@ module Reek
     #
     #   def self.foo; end
     #
-    def process_self(_)
+    def process_self(_, _parent)
       current_context.record_use_of_self
     end
 
@@ -225,7 +226,7 @@ module Reek
     #
     # We record one reference to `self`.
     #
-    def process_zsuper(_)
+    def process_zsuper(_, _parent)
       current_context.record_use_of_self
     end
 
@@ -249,7 +250,7 @@ module Reek
     #
     # We record one reference to `self`.
     #
-    def process_super(exp)
+    def process_super(exp, _parent)
       current_context.record_use_of_self
       process(exp)
     end
@@ -262,7 +263,7 @@ module Reek
     #
     # Counts non-empty blocks as one statement.
     #
-    def process_block(exp)
+    def process_block(exp, _parent)
       increase_statement_count_by(exp.block)
       process(exp)
     end
@@ -282,7 +283,7 @@ module Reek
     # At the end we subtract one statement because the surrounding context was already counted
     # as one (e.g. via `process_def`).
     #
-    def process_begin(exp)
+    def process_begin(exp, _parent)
       increase_statement_count_by(exp.children)
       decrease_statement_count
       process(exp)
@@ -308,7 +309,7 @@ module Reek
     # `children[1]` refers to the `if` body (so `puts 'bingo'` from above) and
     # `children[2]` to the `else` body (so `3` from above), which might be nil.
     #
-    def process_if(exp)
+    def process_if(exp, _parent)
       children = exp.children
       increase_statement_count_by(children[1])
       increase_statement_count_by(children[2])
@@ -331,7 +332,7 @@ module Reek
     #
     # `children[1]` below refers to the `while` body (so `puts 'bingo'` from above)
     #
-    def process_while(exp)
+    def process_while(exp, _parent)
       increase_statement_count_by(exp.children[1])
       decrease_statement_count
       process(exp)
@@ -354,7 +355,7 @@ module Reek
     #
     # `children[2]` below refers to the `while` body (so `puts i` from above)
     #
-    def process_for(exp)
+    def process_for(exp, _parent)
       increase_statement_count_by(exp.children[2])
       decrease_statement_count
       process(exp)
@@ -384,7 +385,7 @@ module Reek
     # `exp` would be the whole method body wrapped under a `rescue` node.
     # See `process_resbody` for additional reference.
     #
-    def process_rescue(exp)
+    def process_rescue(exp, _parent)
       increase_statement_count_by(exp.children.first)
       decrease_statement_count
       process(exp)
@@ -412,7 +413,7 @@ module Reek
     # `exp` would be the whole `rescue` body.
     # See `process_rescue` for additional reference.
     #
-    def process_resbody(exp)
+    def process_resbody(exp, _parent)
       increase_statement_count_by(exp.children[1..-1].compact)
       process(exp)
     end
@@ -434,7 +435,7 @@ module Reek
     # At the end we subtract one statement because the surrounding context was already counted
     # as one (e.g. via `process_def`).
     #
-    def process_case(exp)
+    def process_case(exp, _parent)
       increase_statement_count_by(exp.else_body)
       decrease_statement_count
       process(exp)
@@ -460,7 +461,7 @@ module Reek
     #
     # Counts the `when` body.
     #
-    def process_when(exp)
+    def process_when(exp, _parent)
       increase_statement_count_by(exp.body)
       process(exp)
     end
@@ -482,11 +483,11 @@ module Reek
     # yields to the given block and then restores the previous context.
     #
     # @param klass [Context::*Context] - context class
-    # @param exp - current expression
+    # @param args - arguments for the class initializer
     # @yield block
     #
-    def inside_new_context(klass, exp)
-      new_context = append_new_context(klass, exp)
+    def inside_new_context(klass, *args)
+      new_context = append_new_context(klass, *args)
 
       orig, self.current_context = current_context, new_context
       yield
@@ -502,7 +503,7 @@ module Reek
     # @return [Context::*Context] - the context that was appended
     #
     def append_new_context(klass, *args)
-      klass.new(current_context, *args).tap do |new_context|
+      klass.new(*args).tap do |new_context|
         new_context.register_with_parent(current_context)
       end
     end
