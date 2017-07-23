@@ -81,6 +81,17 @@ module Reek
       def non_public_visibility?
         visibility != :public
       end
+
+      def full_comment
+        own = super
+        return own unless own.empty?
+        return parent_exp.full_comment if parent_exp
+        ''
+      end
+
+      private
+
+      attr_reader :parent_exp
     end
   end
 end
