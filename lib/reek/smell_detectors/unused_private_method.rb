@@ -75,6 +75,7 @@ module Reek
 
       #
       # @param ctx [Context::ClassContext]
+      # @param method [Context::MethodContext]
       # @return [Boolean]
       #
       # :reek:FeatureEnvy
