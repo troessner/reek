@@ -33,8 +33,8 @@ RSpec.describe Reek::Context::ModuleContext do
     let(:second_def) { instance_double('Reek::AST::SexpExtensions::DefNode') }
 
     let(:context) { described_class.new(main_exp) }
-    let(:first_child) { Reek::Context::MethodContext.new(first_def) }
-    let(:second_child) { Reek::Context::MethodContext.new(second_def) }
+    let(:first_child) { Reek::Context::MethodContext.new(first_def, main_exp) }
+    let(:second_child) { Reek::Context::MethodContext.new(second_def, main_exp) }
 
     it 'sets visibility on subsequent child contexts' do
       context.append_child_context first_child

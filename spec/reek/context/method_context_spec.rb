@@ -2,7 +2,7 @@ require_relative '../../spec_helper'
 require_lib 'reek/context/method_context'
 
 RSpec.describe Reek::Context::MethodContext do
-  let(:method_context) { described_class.new(exp) }
+  let(:method_context) { described_class.new(exp, nil) }
 
   describe '#matches?' do
     let(:exp) { instance_double('Reek::AST::SexpExtensions::ModuleNode').as_null_object }
@@ -31,7 +31,7 @@ RSpec.describe Reek::Context::MethodContext do
   describe '#default_assignments' do
     def assignments_from(src)
       exp = Reek::Source::SourceCode.from(src).syntax_tree
-      ctx = Reek::Context::MethodContext.new(exp)
+      ctx = Reek::Context::MethodContext.new(exp, nil)
       ctx.default_assignments
     end
 

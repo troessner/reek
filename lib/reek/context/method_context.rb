@@ -12,9 +12,10 @@ module Reek
       attr_accessor :visibility
       attr_reader :refs
 
-      def initialize(exp)
+      def initialize(exp, parent_exp)
+        @parent_exp = parent_exp
         @visibility = :public
-        super
+        super exp
       end
 
       def references_self?
