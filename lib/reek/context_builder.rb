@@ -502,7 +502,7 @@ module Reek
     # @return [Context::*Context] - the context that was appended
     #
     def append_new_context(klass, *args)
-      klass.new(current_context, *args).tap do |new_context|
+      klass.new(*args).tap do |new_context|
         new_context.register_with_parent(current_context)
       end
     end

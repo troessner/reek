@@ -12,7 +12,7 @@ module Reek
       attr_accessor :visibility
       attr_reader :refs
 
-      def initialize(context, exp)
+      def initialize(exp)
         @visibility = :public
         super
       end
