@@ -12,11 +12,8 @@ module Reek
     # methods to ease the transition from Sexp to AST::Node.
     #
     class Node < ::Parser::AST::Node
-      attr_reader :parent
-
       def initialize(type, children = [], options = {})
         @comments = options.fetch(:comments, [])
-        @parent   = options.fetch(:parent, nil)
         super
       end
 

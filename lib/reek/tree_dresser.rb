@@ -39,13 +39,13 @@ module Reek
     #
     # :reek:FeatureEnvy
     # :reek:TooManyStatements: { max_statements: 6 }
-    def dress(sexp, comment_map, parent: nil)
+    def dress(sexp, comment_map)
       return sexp unless sexp.is_a? ::Parser::AST::Node
       type = sexp.type
-      children = sexp.children.map { |child| dress(child, comment_map, parent: sexp) }
+      children = sexp.children.map { |child| dress(child, comment_map) }
       comments = comment_map[sexp]
       klass_map.klass_for(type).new(type, children,
-                                    location: sexp.loc, comments: comments, parent: parent)
+                                    location: sexp.loc, comments: comments)
     end
 
     private
