@@ -494,8 +494,8 @@ module Reek
       self.current_context = orig
     end
 
-    # Append a new child context to the current context but does not change the
-    # current context.
+    # Appends a new child context to the current context but does not change
+    # the current context.
     #
     # @param klass [Context::*Context] - context class
     # @param args - arguments for the class initializer
