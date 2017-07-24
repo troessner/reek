@@ -1,5 +1,11 @@
 # Change log
 
+## 4.7.2 (2017-07-24)
+
+* (mvz) Also report unused uncommunicative parameter names
+* (mvz) Track visibility correctly when using method definition visibility modifiers
+* (mvz) Handle method comments when using method definition visibility modifiers
+
 ## 4.7.1 (2017-06-12)
 
 * (mvz) Improve IrresponsibleModule and fix some bugs along
