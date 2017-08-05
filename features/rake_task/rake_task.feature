@@ -114,3 +114,25 @@ Feature: Reek can be driven through its Task
     When I run `rake reek`
     Then it succeeds
     And it reports nothing
+
+  Scenario: REEK_SRC overrides the files to check
+    Given the smelly file 'smelly.rb'
+    And the clean file 'clean.rb'
+    And a file "Rakefile" with:
+      """
+      require 'reek/rake/task'
+
+      Reek::Rake::Task.new do |t|
+        t.source_files = 'clean.rb'
+        t.reek_opts = '--no-color'
+      end
+      """
+    When I set the environment variable "REEK_SRC" to "smelly.rb"
+    And I run `rake reek`
+    Then the exit status indicates an error
+    And it reports:
+      """
+      smelly.rb -- 2 warnings:
+        [4]:UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
+        [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
+      """
