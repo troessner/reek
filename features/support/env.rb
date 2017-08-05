@@ -21,15 +21,6 @@ class ReekWorld
     type(stdin)
     close_input
   end
-
-  def rake(name, task_def)
-    header = <<-EOS.strip_heredoc
-      require 'reek/rake/task'
-
-    EOS
-    write_file 'Rakefile', header + task_def
-    run_simple("rake #{name}", false)
-  end
 end
 
 World do
