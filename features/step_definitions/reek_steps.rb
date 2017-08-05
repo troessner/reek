@@ -6,10 +6,6 @@ When /^I pass "([^\"]*)" to reek *(.*)$/ do |stdin, args|
   reek_with_pipe(stdin, args)
 end
 
-When /^I run rake (\w*) with:$/ do |name, task_def|
-  rake(name, task_def)
-end
-
 Then /^it reports nothing$/ do
   expect(last_command_started).to have_output_on_stdout('')
 end
