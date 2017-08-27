@@ -509,10 +509,8 @@ module Reek
     end
 
     def handle_send_for_modules(exp)
-      method_name = exp.name
-      arg_names = exp.arg_names
-      current_context.track_visibility(method_name, arg_names)
-      current_context.track_singleton_visibility(method_name, arg_names)
+      arg_names = exp.args.map { |arg| arg.children.first }
+      current_context.track_visibility(exp.name, arg_names)
       register_attributes(exp)
     end
 

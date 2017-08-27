@@ -303,10 +303,6 @@ RSpec.describe Reek::AST::SexpExtensions::SendNode do
   context 'with no parameters' do
     let(:node) { sexp(:send, nil, :hello) }
 
-    it 'has no argument names' do
-      expect(node.arg_names).to eq []
-    end
-
     it 'is not considered to be a writable attr' do
       expect(sexp(:send, nil, :attr).attr_with_writable_flag?).to be_falsey
     end
@@ -341,22 +337,6 @@ RSpec.describe Reek::AST::SexpExtensions::SendNode do
 
     it 'is considered to be an object creation call' do
       expect(node.object_creation_call?).to be_truthy
-    end
-  end
-
-  context 'with 1 literal parameter' do
-    let(:node) { sexp(:send, nil, :hello, sexp(:lit, :param)) }
-
-    it 'has 1 argument name' do
-      expect(node.arg_names).to eq [:param]
-    end
-  end
-
-  context 'with 2 literal parameters' do
-    let(:node) { sexp(:send, nil, :hello, sexp(:lit, :x), sexp(:lit, :y)) }
-
-    it 'has 2 argument names' do
-      expect(node.arg_names).to eq [:x, :y]
     end
   end
 end
