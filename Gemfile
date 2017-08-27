@@ -12,7 +12,7 @@ group :development do
   gem 'factory_girl',  '~> 4.0'
   gem 'rake',          '~> 12.0'
   gem 'rspec',         '~> 3.0'
-  gem 'simplecov',     '~> 0.14.0'
+  gem 'simplecov',     '~> 0.15.0'
   gem 'yard',          '~> 0.9.5'
 
   if RUBY_VERSION >= '2.3'
