@@ -114,7 +114,7 @@ module Reek
     # @public
     #
     # :reek:UtilityFunction
-    def reek(configuration = Configuration::AppConfiguration.default)
+    def reek(configuration = Configuration::AppConfiguration.from_path)
       ShouldReek.new(configuration: configuration)
     end
   end
