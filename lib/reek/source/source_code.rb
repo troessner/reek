@@ -9,7 +9,7 @@ require_relative '../ast/node'
 require_relative '../ast/builder'
 
 # Opt in to new way of representing lambdas
-Parser::Builders::Default.emit_lambda = true
+Reek::AST::Builder.emit_lambda = true
 
 module Reek
   module Source

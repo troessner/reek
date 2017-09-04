@@ -30,6 +30,13 @@ RSpec.describe Reek::Source::SourceCode do
       result = source_code.syntax_tree
       expect(result.children.first).to eq "\xFF"
     end
+
+    it 'returns a :lambda node for lambda expressions' do
+      source = '->() { }'
+      source_code = described_class.new(code: source, origin: '(string)')
+      result = source_code.syntax_tree
+      expect(result.children.first.type).to eq :lambda
+    end
   end
 
   context 'when the parser fails' do
