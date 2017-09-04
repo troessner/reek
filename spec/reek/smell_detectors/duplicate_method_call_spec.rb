@@ -126,6 +126,40 @@ RSpec.describe Reek::SmellDetectors::DuplicateMethodCall do
     end
   end
 
+  context 'with repeated method calls inside blocks' do
+    it 'does not report calls to parameters of different blocks' do
+      src = <<-EOS
+        def alfa(bravo, charlie)
+          bravo.each { |delta| delta.echo }
+          charlie.each { |delta| delta.echo }
+        end
+      EOS
+      expect(src).not_to reek_of(:DuplicateMethodCall)
+    end
+
+    it 'does not report calls inside lambda expressions' do
+      src = <<-EOS
+        def alfa
+          bravo = ->(delta) { delta.echo.foxtrot }
+          charlie = ->(delta) { delta.echo }
+        end
+      EOS
+      expect(src).not_to reek_of(:DuplicateMethodCall)
+    end
+
+    it 'reports calls to parameters of blocks' do
+      src = <<-EOS
+        def alfa(bravo)
+          bravo.each do |delta|
+            delta.echo
+            delta.echo
+          end
+        end
+      EOS
+      expect(src).to reek_of(:DuplicateMethodCall)
+    end
+  end
+
   context 'with repeated attribute assignment' do
     it 'reports repeated assignment' do
       src = <<-EOS
