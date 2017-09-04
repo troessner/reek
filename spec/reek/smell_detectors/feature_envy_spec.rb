@@ -152,6 +152,36 @@ RSpec.describe Reek::SmellDetectors::FeatureEnvy do
       and reek_of(:FeatureEnvy, name: 'bravo')
   end
 
+  it 'reports calls inside lambda expressions' do
+    src = <<-EOS
+      def alfa(bravo)
+        [
+          -> { bravo.charlie },
+          -> { bravo.delta },
+          -> { bravo.echo },
+          foxtrot
+        ]
+      end
+    EOS
+
+    expect(src).to reek_of(:FeatureEnvy)
+  end
+
+  it 'does not report different lambda parameters with the same name' do
+    src = <<-EOS
+      def alfa
+        [
+          ->(bravo) { bravo.charlie },
+          ->(bravo) { bravo.delta },
+          ->(bravo) { bravo.echo },
+          foxtrot
+        ]
+      end
+    EOS
+
+    expect(src).not_to reek_of(:FeatureEnvy)
+  end
+
   it 'is not fooled by duplication' do
     src = <<-EOS
       def alfa(bravo)
