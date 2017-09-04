@@ -6,7 +6,7 @@ module Reek
     # An AST Builder for ruby parser.
     #
     class Builder < ::Parser::Builders::Default
-      # This is a work around for parsing ruby code that has a string with invliad sequence as UTF-8.
+      # This is a work around for parsing ruby code that has a string with invalid sequence as UTF-8.
       # See. https://github.com/whitequark/parser/issues/283
       def string_value(token)
         value(token)
