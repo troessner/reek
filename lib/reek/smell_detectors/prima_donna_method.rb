@@ -53,7 +53,7 @@ module Reek
           name = method_sexp.name
           smell_warning(
             context: context,
-            lines: [source_line],
+            lines: [method_sexp.line],
             message: "has prima donna method '#{name}'",
             parameters: { name: name.to_s })
         end
