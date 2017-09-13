@@ -27,15 +27,20 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
-      def sniff(ctx)
-        max_allowed_statements = value(MAX_ALLOWED_STATEMENTS_KEY, ctx)
-        count = ctx.number_of_statements
+      def sniff
+        count = context.number_of_statements
         return [] if count <= max_allowed_statements
         [smell_warning(
-          context: ctx,
-          lines: [ctx.exp.line],
+          context: context,
+          lines: [source_line],
           message: "has approx #{count} statements",
           parameters: { count: count })]
+      end
+
+      private
+
+      def max_allowed_statements
+        value(MAX_ALLOWED_STATEMENTS_KEY, context)
       end
     end
   end

@@ -37,24 +37,31 @@ module Reek
       end
 
       #
-      # Looks for duplicate calls within the body of the method +ctx+.
+      # Looks for duplicate calls within the body of the method context.
       #
       # @return [Array<SmellWarning>]
       #
-      # :reek:FeatureEnvy
-      # :reek:DuplicateMethodCall: { max_calls: 2 }
-      def sniff(ctx)
-        max_allowed_calls = value(MAX_ALLOWED_CALLS_KEY, ctx)
-        allow_calls = value(ALLOW_CALLS_KEY, ctx)
-
-        collector = CallCollector.new(ctx, max_allowed_calls, allow_calls)
+      def sniff
+        collector = CallCollector.new(context, max_allowed_calls, allow_calls)
         collector.smelly_calls.map do |found_call|
+          call = found_call.call
+          occurs = found_call.occurs
           smell_warning(
-            context: ctx,
+            context: context,
             lines: found_call.lines,
-            message: "calls '#{found_call.call}' #{found_call.occurs} times",
-            parameters: { name: found_call.call, count: found_call.occurs })
+            message: "calls '#{call}' #{occurs} times",
+            parameters: { name: call, count: occurs })
         end
+      end
+
+      private
+
+      def max_allowed_calls
+        value(MAX_ALLOWED_CALLS_KEY, context)
+      end
+
+      def allow_calls
+        value(ALLOW_CALLS_KEY, context)
       end
 
       # Collects information about a single found call

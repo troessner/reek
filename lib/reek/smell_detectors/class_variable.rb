@@ -24,10 +24,10 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
-      def sniff(ctx)
-        class_variables_in(ctx.exp).map do |variable, lines|
+      def sniff
+        class_variables_in_context.map do |variable, lines|
           smell_warning(
-            context: ctx,
+            context: context,
             lines: lines,
             message: "declares the class variable '#{variable}'",
             parameters: { name: variable.to_s })
@@ -39,14 +39,13 @@ module Reek
       # in the given module.
       #
       # :reek:TooManyStatements: { max_statements: 7 }
-      # :reek:FeatureEnvy
-      def class_variables_in(exp)
+      def class_variables_in_context
         result = Hash.new { |hash, key| hash[key] = [] }
         collector = proc do |cvar_node|
           result[cvar_node.name].push(cvar_node.line)
         end
         [:cvar, :cvasgn, :cvdecl].each do |stmt_type|
-          exp.each_node(stmt_type, [:class, :module], &collector)
+          expression.each_node(stmt_type, [:class, :module], &collector)
         end
         result
       end

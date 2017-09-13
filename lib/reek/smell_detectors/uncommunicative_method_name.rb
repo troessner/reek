@@ -36,29 +36,29 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
-      def sniff(context)
+      def sniff
         name = context.name.to_s
-        return [] if acceptable_name?(name: name, context: context)
+        return [] if acceptable_name?(name)
 
         [smell_warning(
           context: context,
-          lines: [context.exp.line],
+          lines: [source_line],
           message: "has the name '#{name}'",
           parameters: { name: name })]
       end
 
       private
 
-      def acceptable_name?(name:, context:)
-        accept_patterns(context).any? { |accept_pattern| name.match accept_pattern } ||
-          reject_patterns(context).none? { |reject_pattern| name.match reject_pattern }
+      def acceptable_name?(name)
+        accept_patterns.any? { |accept_pattern| name.match accept_pattern } ||
+          reject_patterns.none? { |reject_pattern| name.match reject_pattern }
       end
 
-      def reject_patterns(context)
+      def reject_patterns
         Array value(REJECT_KEY, context)
       end
 
-      def accept_patterns(context)
+      def accept_patterns
         Array value(ACCEPT_KEY, context)
       end
     end

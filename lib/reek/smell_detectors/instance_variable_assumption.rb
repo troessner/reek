@@ -19,32 +19,32 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
-      def sniff(ctx)
-        method_expressions = ctx.node_instance_methods
-
-        assumptions = (variables_from_context(method_expressions) -
-          variables_from_initialize(method_expressions)).uniq
+      def sniff
+        assumptions = (variables_from_context - variables_from_initialize).uniq
 
         assumptions.map do |assumption|
-          build_smell_warning(ctx, assumption)
+          build_smell_warning(assumption)
         end
       end
 
       private
 
-      def build_smell_warning(ctx, assumption)
+      def method_expressions
+        @method_expressions ||= context.node_instance_methods
+      end
+
+      def build_smell_warning(assumption)
         message = "assumes too much for instance variable '#{assumption}'"
 
         smell_warning(
-          context: ctx,
-          lines: [ctx.exp.line],
+          context: context,
+          lines: [source_line],
           message: message,
           parameters: { assumption: assumption.to_s })
       end
 
-      # :reek:UtilityFunction
-      def variables_from_initialize(instance_methods)
-        initialize_exp = instance_methods.detect do |method|
+      def variables_from_initialize
+        initialize_exp = method_expressions.detect do |method|
           method.name == :initialize
         end
 
@@ -53,8 +53,8 @@ module Reek
         initialize_exp.each_node(:ivasgn).map(&:name)
       end
 
-      def variables_from_context(instance_methods)
-        instance_methods.map do |method|
+      def variables_from_context
+        method_expressions.map do |method|
           method.find_nodes(assumption_nodes, ignored_nodes).map(&:name)
         end.flatten
       end

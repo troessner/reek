@@ -21,7 +21,6 @@ module Reek
     #
     # See {file:docs/Uncommunicative-Variable-Name.md} for details.
     #
-    # :reek:DataClump: { max_copies: 4 }
     class UncommunicativeVariableName < BaseDetector
       # The name of the config field that lists the regexps of
       # smelly names to be reported.
@@ -53,14 +52,12 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
-      def sniff(ctx)
-        self.reject_names = value(REJECT_KEY, ctx)
-        self.accept_names = value(ACCEPT_KEY, ctx)
-        variable_names(ctx.exp).select do |name, _lines|
+      def sniff
+        variable_names.select do |name, _lines|
           uncommunicative_variable_name?(name)
         end.map do |name, lines|
           smell_warning(
-            context: ctx,
+            context: context,
             lines: lines,
             message: "has the variable name '#{name}'",
             parameters: { name: name.to_s })
@@ -68,6 +65,14 @@ module Reek
       end
 
       private
+
+      def reject_names
+        @reject_names ||= value(REJECT_KEY, context)
+      end
+
+      def accept_names
+        @accept_names ||= value(ACCEPT_KEY, context)
+      end
 
       def uncommunicative_variable_name?(name)
         sanitized_name = name.to_s.gsub(/^[@\*\&]*/, '')
@@ -79,34 +84,31 @@ module Reek
           Array(reject_names).none? { |reject_pattern| name.match reject_pattern }
       end
 
-      # :reek:TooManyStatements: { max_statements: 6 }
-      def variable_names(exp)
+      def variable_names
         result = Hash.new { |hash, key| hash[key] = [] }
-        find_assignment_variable_names(exp, result)
-        find_block_argument_variable_names(exp, result)
-        result.to_a.sort_by { |name, _| name.to_s }
+        find_assignment_variable_names(result)
+        find_block_argument_variable_names(result)
+        result
       end
 
-      # :reek:UtilityFunction
-      def find_assignment_variable_names(exp, accumulator)
-        assignment_nodes = exp.each_node(:lvasgn, [:class, :module, :defs, :def])
+      def find_assignment_variable_names(accumulator)
+        assignment_nodes = expression.each_node(:lvasgn, [:class, :module, :defs, :def])
 
-        case exp.type
+        case expression.type
         when :class, :module
-          assignment_nodes += exp.each_node(:ivasgn, [:class, :module])
+          assignment_nodes += expression.each_node(:ivasgn, [:class, :module])
         end
 
         assignment_nodes.each { |asgn| accumulator[asgn.children.first].push(asgn.line) }
       end
 
-      # :reek:FeatureEnvy
       # :reek:TooManyStatements: { max_statements: 6 }
-      def find_block_argument_variable_names(exp, accumulator)
-        arg_search_exp = case exp.type
+      def find_block_argument_variable_names(accumulator)
+        arg_search_exp = case expression.type
                          when :class, :module
-                           exp
+                           expression
                          when :defs, :def
-                           exp.body
+                           expression.body
                          end
 
         return unless arg_search_exp
@@ -135,8 +137,6 @@ module Reek
         var = varname.to_sym
         accumulator[var].push(exp.line)
       end
-
-      attr_accessor :accept_names, :reject_names
     end
   end
 end

@@ -41,40 +41,37 @@ module Reek
       end
 
       #
-      # Checks the given +context+ for uncommunicative names.
+      # Checks the detector's context for uncommunicative names.
       #
       # @return [Array<SmellWarning>]
       #
-      def sniff(context)
+      def sniff
         fully_qualified_name = context.full_name
-        exp                  = context.exp
-        module_name          = exp.simple_name
+        module_name          = expression.simple_name
 
-        return [] if acceptable_name?(context: context,
-                                      module_name: module_name,
+        return [] if acceptable_name?(module_name: module_name,
                                       fully_qualified_name: fully_qualified_name)
 
         [smell_warning(
           context: context,
-          lines: [exp.line],
+          lines: [source_line],
           message: "has the name '#{module_name}'",
           parameters: { name: module_name })]
       end
 
       private
 
-      # :reek:ControlParameter
-      def acceptable_name?(context:, module_name:, fully_qualified_name:)
-        accept_patterns(context).any? { |accept_pattern| fully_qualified_name.match accept_pattern } ||
-          reject_patterns(context).none? { |reject_pattern| module_name.match reject_pattern }
+      def acceptable_name?(module_name:, fully_qualified_name:)
+        accept_patterns.any? { |accept_pattern| fully_qualified_name.match accept_pattern } ||
+          reject_patterns.none? { |reject_pattern| module_name.match reject_pattern }
       end
 
-      def reject_patterns(context)
-        Array value(REJECT_KEY, context)
+      def reject_patterns
+        @reject_patterns ||= Array value(REJECT_KEY, context)
       end
 
-      def accept_patterns(context)
-        Array value(ACCEPT_KEY, context)
+      def accept_patterns
+        @accept_patterns ||= Array value(ACCEPT_KEY, context)
       end
     end
   end

@@ -34,22 +34,24 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
-      def sniff(ctx)
-        max_allowed_constants = value(MAX_ALLOWED_CONSTANTS_KEY, ctx)
-
-        count = ctx.each_node(:casgn, IGNORED_NODES).delete_if(&:defines_module?).length
+      def sniff
+        count = context.each_node(:casgn, IGNORED_NODES).delete_if(&:defines_module?).length
 
         return [] if count <= max_allowed_constants
 
-        build_smell_warning(ctx, count)
+        build_smell_warning(count)
       end
 
       private
 
-      def build_smell_warning(ctx, count)
+      def max_allowed_constants
+        value(MAX_ALLOWED_CONSTANTS_KEY, context)
+      end
+
+      def build_smell_warning(count)
         [smell_warning(
-          context: ctx,
-          lines: [ctx.exp.line],
+          context: context,
+          lines: [source_line],
           message: "has #{count} constants",
           parameters: { count: count })]
       end

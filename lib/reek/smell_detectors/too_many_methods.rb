@@ -31,20 +31,25 @@ module Reek
       end
 
       #
-      # Checks +ctx+ for too many methods
+      # Checks context for too many methods
       #
       # @return [Array<SmellWarning>]
       #
-      def sniff(ctx)
-        max_allowed_methods = value(MAX_ALLOWED_METHODS_KEY, ctx)
+      def sniff
         # TODO: Only checks instance methods!
-        actual = ctx.node_instance_methods.length
+        actual = context.node_instance_methods.length
         return [] if actual <= max_allowed_methods
         [smell_warning(
-          context: ctx,
-          lines: [ctx.exp.line],
+          context: context,
+          lines: [source_line],
           message: "has at least #{actual} methods",
           parameters: { count: actual })]
+      end
+
+      private
+
+      def max_allowed_methods
+        value(MAX_ALLOWED_METHODS_KEY, context)
       end
     end
   end

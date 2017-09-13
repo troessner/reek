@@ -32,16 +32,20 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
-      def sniff(ctx)
-        max_allowed_params = value(MAX_ALLOWED_PARAMS_KEY, ctx)
-        exp = ctx.exp
-        count = exp.arg_names.length
+      def sniff
+        count = expression.arg_names.length
         return [] if count <= max_allowed_params
         [smell_warning(
-          context: ctx,
-          lines: [exp.line],
+          context: context,
+          lines: [source_line],
           message: "has #{count} parameters",
           parameters: { count: count })]
+      end
+
+      private
+
+      def max_allowed_params
+        value(MAX_ALLOWED_PARAMS_KEY, context)
       end
     end
   end
