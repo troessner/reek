@@ -11,7 +11,7 @@ RSpec.describe Reek::SmellDetectors::PrimaDonnaMethod do
     EOS
 
     expect(src).to reek_of(:PrimaDonnaMethod,
-                           lines:   [1],
+                           lines:   [2],
                            context: 'Alfa',
                            message: "has prima donna method 'bravo!'",
                            source:  'string',
@@ -30,8 +30,8 @@ RSpec.describe Reek::SmellDetectors::PrimaDonnaMethod do
     EOS
 
     expect(src).
-      to reek_of(:PrimaDonnaMethod, lines: [1], name: 'bravo!').
-      and reek_of(:PrimaDonnaMethod, lines: [1], name: 'charlie!')
+      to reek_of(:PrimaDonnaMethod, lines: [2], name: 'bravo!').
+      and reek_of(:PrimaDonnaMethod, lines: [5], name: 'charlie!')
   end
 
   it 'reports nothing when method and bang counterpart exist' do
