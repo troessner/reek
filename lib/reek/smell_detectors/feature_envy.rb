@@ -42,11 +42,11 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
-      def sniff(ctx)
-        return [] unless ctx.references_self?
-        envious_receivers(ctx).map do |name, lines|
+      def sniff
+        return [] unless context.references_self?
+        envious_receivers.map do |name, lines|
           smell_warning(
-            context: ctx,
+            context: context,
             lines: lines,
             message: "refers to '#{name}' more than self (maybe move it to another class?)",
             parameters: { name: name.to_s })
@@ -55,9 +55,11 @@ module Reek
 
       private
 
-      # :reek:UtilityFunction
-      def envious_receivers(ctx)
-        refs = ctx.refs
+      def refs
+        @refs ||= context.refs
+      end
+
+      def envious_receivers
         return {} if refs.self_is_max?
         refs.most_popular
       end

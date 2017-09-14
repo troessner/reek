@@ -50,14 +50,11 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
-      # :reek:FeatureEnvy
-      def sniff(ctx)
-        max_copies = value(MAX_COPIES_KEY, ctx)
-        min_clump_size = value(MIN_CLUMP_SIZE_KEY, ctx)
-        MethodGroup.new(ctx, min_clump_size, max_copies).clumps.map do |clump, methods|
+      def sniff
+        MethodGroup.new(context, min_clump_size, max_copies).clumps.map do |clump, methods|
           methods_length = methods.length
           smell_warning(
-            context: ctx,
+            context: context,
             lines: methods.map(&:line),
             message: "takes parameters #{DataClump.print_clump(clump)} " \
                      "to #{methods_length} methods",
@@ -71,6 +68,16 @@ module Reek
       # @private
       def self.print_clump(clump)
         "[#{clump.map { |parameter| "'#{parameter}'" }.join(', ')}]"
+      end
+
+      private
+
+      def max_copies
+        value(MAX_COPIES_KEY, context)
+      end
+
+      def min_clump_size
+        value(MIN_CLUMP_SIZE_KEY, context)
       end
     end
   end

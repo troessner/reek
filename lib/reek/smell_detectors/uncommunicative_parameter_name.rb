@@ -38,17 +38,15 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
-      def sniff(context)
-        expression = context.exp
-
+      def sniff
         params = expression.parameters.select do |param|
-          uncommunicative_parameter?(parameter: param, context: context)
+          uncommunicative_parameter?(param)
         end
 
         params.map(&:name).map do |name|
           smell_warning(
             context: context,
-            lines: [expression.line],
+            lines: [source_line],
             message: "has the parameter name '#{name}'",
             parameters: { name: name.to_s })
         end
@@ -56,22 +54,21 @@ module Reek
 
       private
 
-      def uncommunicative_parameter?(parameter:, context:)
-        !acceptable_name?(parameter: parameter, context: context) &&
+      def uncommunicative_parameter?(parameter)
+        !acceptable_name?(parameter.plain_name) &&
           (context.uses_param?(parameter) || !parameter.marked_unused?)
       end
 
-      def acceptable_name?(parameter:, context:)
-        name = parameter.plain_name
-        accept_patterns(context).any? { |accept_pattern| name.match accept_pattern } ||
-          reject_patterns(context).none? { |reject_pattern| name.match reject_pattern }
+      def acceptable_name?(name)
+        accept_patterns.any? { |accept_pattern| name.match accept_pattern } ||
+          reject_patterns.none? { |reject_pattern| name.match reject_pattern }
       end
 
-      def reject_patterns(context)
+      def reject_patterns
         Array value(REJECT_KEY, context)
       end
 
-      def accept_patterns(context)
+      def accept_patterns
         Array value(ACCEPT_KEY, context)
       end
     end

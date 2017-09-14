@@ -41,14 +41,11 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
-      def sniff(ctx)
-        configure_ignore_iterators ctx
-        violations = find_violations ctx
-
-        violations.group_by(&:depth).map do |depth, group|
+      def sniff
+        find_violations.group_by(&:depth).map do |depth, group|
           lines = group.map(&:line)
           smell_warning(
-            context: ctx,
+            context: context,
             lines: lines,
             message: "contains iterators nested #{depth} deep",
             parameters: { depth: depth })
@@ -56,8 +53,6 @@ module Reek
       end
 
       private
-
-      attr_accessor :ignore_iterators
 
       # Finds the set of independent most deeply nested iterators that are
       # nested more deeply than allowed.
@@ -69,10 +64,8 @@ module Reek
       #
       # @return [Array<Iterator>]
       #
-      def find_violations(ctx)
-        candidates = find_candidates ctx
-        max_allowed_nesting = max_nesting(ctx)
-        candidates.select { |it| it.depth > max_allowed_nesting }
+      def find_violations
+        find_candidates.select { |it| it.depth > max_allowed_nesting }
       end
 
       # Finds the set of independent most deeply nested iterators regardless of
@@ -80,9 +73,8 @@ module Reek
       #
       # @return [Array<Iterator>]
       #
-      def find_candidates(ctx)
-        exp = ctx.exp
-        scout(exp: exp, depth: 0)
+      def find_candidates
+        scout(exp: expression, depth: 0)
       end
 
       # A little digression into parser's sexp is necessary here:
@@ -121,16 +113,16 @@ module Reek
         end
       end
 
-      def configure_ignore_iterators(ctx)
-        self.ignore_iterators = value(IGNORE_ITERATORS_KEY, ctx)
+      def ignore_iterators
+        @ignore_iterators ||= value(IGNORE_ITERATORS_KEY, context)
       end
 
       def increment_depth(iterator, depth)
         ignored_iterator?(iterator) ? depth : depth + 1
       end
 
-      def max_nesting(ctx)
-        value(MAX_ALLOWED_NESTING_KEY, ctx)
+      def max_allowed_nesting
+        @max_allowed_nesting ||= value(MAX_ALLOWED_NESTING_KEY, context)
       end
 
       # :reek:FeatureEnvy

@@ -56,30 +56,27 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
-      # :reek:FeatureEnvy
-      # :reek:TooManyStatements: { max_statements: 6 }
-      def sniff(ctx)
-        return [] if ctx.singleton_method? || ctx.module_function?
-        return [] if ctx.references_self?
-        return [] if num_helper_methods(ctx).zero?
-        return [] if ignore_method?(ctx)
+      def sniff
+        return [] if context.singleton_method? || context.module_function?
+        return [] if context.references_self?
+        return [] if num_helper_methods.zero?
+        return [] if ignore_method?
 
         [smell_warning(
-          context: ctx,
-          lines: [ctx.exp.line],
+          context: context,
+          lines: [source_line],
           message: "doesn't depend on instance state (maybe move it to another class?)")]
       end
 
       private
 
-      # :reek:UtilityFunction
-      def num_helper_methods(method_ctx)
-        method_ctx.local_nodes(:send).length
+      def num_helper_methods
+        context.local_nodes(:send).length
       end
 
-      def ignore_method?(method_ctx)
-        method_ctx.non_public_visibility? &&
-          value(PUBLIC_METHODS_ONLY_KEY, method_ctx)
+      def ignore_method?
+        context.non_public_visibility? &&
+          value(PUBLIC_METHODS_ONLY_KEY, context)
       end
     end
   end

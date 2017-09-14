@@ -19,12 +19,11 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
-      # :reek:FeatureEnvy
-      def sniff(ctx)
-        smelly_nodes = ctx.each_node(:send).select { |node| node.name == :respond_to? }
+      def sniff
+        smelly_nodes = context.each_node(:send).select { |node| node.name == :respond_to? }
         return [] if smelly_nodes.empty?
         lines = smelly_nodes.map(&:line)
-        [smell_warning(context: ctx, lines: lines, message: MESSAGE)]
+        [smell_warning(context: context, lines: lines, message: MESSAGE)]
       end
     end
   end

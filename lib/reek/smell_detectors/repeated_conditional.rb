@@ -46,21 +46,25 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
-      # :reek:TooManyStatements: { max_statements: 6 }
       # :reek:DuplicateMethodCall: { max_calls: 2 }
-      def sniff(ctx)
-        max_identical_ifs = value(MAX_IDENTICAL_IFS_KEY, ctx)
-        conditional_counts(ctx).select do |_key, lines|
+      def sniff
+        conditional_counts.select do |_key, lines|
           lines.length > max_identical_ifs
         end.map do |key, lines|
           occurs = lines.length
           expression = key.format_to_ruby
           smell_warning(
-            context: ctx,
+            context: context,
             lines: lines,
             message: "tests '#{expression}' at least #{occurs} times",
             parameters: { name: expression, count: occurs })
         end
+      end
+
+      private
+
+      def max_identical_ifs
+        @max_identical_ifs ||= value(MAX_IDENTICAL_IFS_KEY, context)
       end
 
       #
@@ -69,15 +73,14 @@ module Reek
       # occurs. Ignores nested classes and modules.
       #
       # :reek:TooManyStatements: { max_statements: 9 }
-      # :reek:FeatureEnvy
-      def conditional_counts(sexp)
+      def conditional_counts
         result = Hash.new { |hash, key| hash[key] = [] }
         collector = proc do |node|
           next unless (condition = node.condition)
           next if condition == BLOCK_GIVEN_CONDITION
           result[condition].push(condition.line)
         end
-        [:if, :case].each { |stmt| sexp.local_nodes(stmt, &collector) }
+        [:if, :case].each { |stmt| context.local_nodes(stmt, &collector) }
         result
       end
     end

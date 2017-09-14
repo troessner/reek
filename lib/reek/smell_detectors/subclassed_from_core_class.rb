@@ -26,26 +26,26 @@ module Reek
       # class Foo < Bar; end;
       #
       # @return [Array<SmellWarning>]
-      def sniff(ctx)
-        superclass = ctx.exp.superclass
+      def sniff
+        superclass = expression.superclass
 
         return [] unless superclass
 
-        sniff_superclass(ctx, superclass.name)
+        sniff_superclass superclass.name
       end
 
       private
 
-      def sniff_superclass(ctx, superclass_name)
+      def sniff_superclass(superclass_name)
         return [] unless CORE_CLASSES.include?(superclass_name)
 
-        [build_smell_warning(ctx, superclass_name)]
+        [build_smell_warning(superclass_name)]
       end
 
-      def build_smell_warning(ctx, ancestor_name)
+      def build_smell_warning(ancestor_name)
         smell_attributes = {
-          context: ctx,
-          lines: [ctx.exp.line],
+          context: context,
+          lines: [source_line],
           message: "inherits from core class '#{ancestor_name}'",
           parameters: { ancestor: ancestor_name }
         }

@@ -19,14 +19,13 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
-      # :reek:FeatureEnvy
-      def sniff(ctx)
-        ctx.default_assignments.select do |_parameter, value|
+      def sniff
+        context.default_assignments.select do |_parameter, value|
           [:true, :false].include?(value.type)
         end.map do |parameter, _value|
           smell_warning(
-            context: ctx,
-            lines: [ctx.exp.line],
+            context: context,
+            lines: [source_line],
             message: "has boolean parameter '#{parameter}'",
             parameters: { parameter: parameter.to_s })
         end

@@ -9,11 +9,11 @@ module Reek
     #
     # See {file:docs/Nil-Check.md} for details.
     class NilCheck < BaseDetector
-      def sniff(ctx)
-        lines = NodeDetector.new(ctx).detect.map(&:line)
+      def sniff
+        lines = detect_nodes.map(&:line)
         if lines.any?
           [smell_warning(
-            context: ctx,
+            context: context,
             lines: lines,
             message: 'performs a nil-check')]
         else
@@ -21,19 +21,13 @@ module Reek
         end
       end
 
-      # Detect all nodes that smell of NilCheck
-      class NodeDetector
-        attr_reader :ctx
-        def initialize(ctx)
-          @ctx = ctx
-        end
+      private
 
-        def detect
-          finders = [NodeFinder.new(ctx, :send, NilCallNodeDetector),
-                     NodeFinder.new(ctx, :when, NilWhenNodeDetector),
-                     NodeFinder.new(ctx, :csend, SafeNavigationNodeDetector)]
-          finders.flat_map(&:smelly_nodes)
-        end
+      def detect_nodes
+        finders = [NodeFinder.new(context, :send, NilCallNodeDetector),
+                   NodeFinder.new(context, :when, NilWhenNodeDetector),
+                   NodeFinder.new(context, :csend, SafeNavigationNodeDetector)]
+        finders.flat_map(&:smelly_nodes)
       end
 
       #

@@ -24,20 +24,24 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
-      # :reek:FeatureEnvy
       # :reek:DuplicateMethodCall: { max_calls: 2 }
-      def sniff(ctx)
-        max_allowed_params = value(MAX_ALLOWED_PARAMS_KEY, ctx)
-        ctx.local_nodes(:yield).select do |yield_node|
+      def sniff
+        context.local_nodes(:yield).select do |yield_node|
           yield_node.args.length > max_allowed_params
         end.map do |yield_node|
           count = yield_node.args.length
           smell_warning(
-            context: ctx,
+            context: context,
             lines: [yield_node.line],
             message: "yields #{count} parameters",
             parameters: { count: count })
         end
+      end
+
+      private
+
+      def max_allowed_params
+        value(MAX_ALLOWED_PARAMS_KEY, context)
       end
     end
   end

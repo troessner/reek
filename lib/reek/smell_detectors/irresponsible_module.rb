@@ -19,24 +19,18 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
-      def sniff(ctx)
-        return [] if descriptive?(ctx) || ctx.namespace_module?
-        expression = ctx.exp
+      def sniff
+        return [] if descriptive_context? || context.namespace_module?
         [smell_warning(
-          context: ctx,
-          lines: [expression.line],
+          context: context,
+          lines: [source_line],
           message: 'has no descriptive comment')]
       end
 
       private
 
-      def descriptive
-        @descriptive ||= {}
-      end
-
-      # :reek:FeatureEnvy
-      def descriptive?(ctx)
-        descriptive[ctx.full_name] ||= ctx.descriptively_commented?
+      def descriptive_context?
+        context.descriptively_commented?
       end
     end
   end

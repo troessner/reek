@@ -30,7 +30,6 @@ module Reek
       end
 
       #
-      # @param ctx [Context::ModuleContext]
       # @return [Array<SmellWarning>]
       #
       # Given this code:
@@ -40,21 +39,21 @@ module Reek
       #   end
       # end
       #
-      # An example `ctx` could look like this:
+      # An example context could look like this:
       #
       # s(:class,
       #   s(:const, nil, :Alfa), nil,
       #     s(:def, :bravo!,
       #       s(:args), nil))
       #
-      def sniff(ctx)
-        ctx.node_instance_methods.select do |method_sexp|
-          prima_donna_method?(method_sexp, ctx)
+      def sniff
+        context.node_instance_methods.select do |method_sexp|
+          prima_donna_method?(method_sexp)
         end.map do |method_sexp|
           name = method_sexp.name
           smell_warning(
-            context: ctx,
-            lines: [ctx.exp.line],
+            context: context,
+            lines: [source_line],
             message: "has prima donna method '#{name}'",
             parameters: { name: name.to_s })
         end
@@ -62,16 +61,15 @@ module Reek
 
       private
 
-      def prima_donna_method?(method_sexp, ctx)
+      def prima_donna_method?(method_sexp)
         return false unless method_sexp.ends_with_bang?
-        return false if ignore_method?(method_sexp, ctx)
-        return false if version_without_bang_exists?(method_sexp, ctx)
+        return false if ignore_method? method_sexp
+        return false if version_without_bang_exists? method_sexp
         true
       end
 
-      # :reek:UtilityFunction
-      def version_without_bang_exists?(method_sexp, ctx)
-        ctx.node_instance_methods.find do |sexp_item|
+      def version_without_bang_exists?(method_sexp)
+        context.node_instance_methods.find do |sexp_item|
           sexp_item.name.to_s == method_sexp.name_without_bang
         end
       end
@@ -79,12 +77,15 @@ module Reek
       #
       # @param method_node [Reek::AST::Node],
       #   e.g. s(:def, :bravo!, s(:args), nil)
-      # @param ctx [Context::ModuleContext]
       # @return [Boolean]
       #
-      def ignore_method?(method_node, ctx)
-        ignore_method_names = value(EXCLUDE_KEY, ctx) # e.g. ["bravo!"]
+      def ignore_method?(method_node)
         ignore_method_names.include? method_node.name.to_s # method_node.name is e.g.: :bravo!
+      end
+
+      # e.g. ["bravo!"]
+      def ignore_method_names
+        @ignore_method_names ||= value(EXCLUDE_KEY, context)
       end
     end
   end

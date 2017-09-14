@@ -27,20 +27,21 @@ module Reek
       end
 
       #
-      # Here you should document what you expect "ctx" to look like.
+      # Here you should document what you expect the detector's context to look
+      # like.
       #
       # @return [Array<SmellWarning>]
       #
-      def sniff(ctx)
+      def sniff
         # "found_smells" below is just an abstraction for
-        # "find the smells in question" and iteratore over them.
+        # "find the smells in question" and iterate over them.
         # This can just be a method but it can also be a more sophisticated set up.
         # Check out other smell detectors to get a feeling for what to do here.
-        found_smells(ctx).map do |smell|
+        found_smells.map do |smell|
           # "smell_warning" is defined in BaseDetector and should be used by you
           # to construct smell warnings
           smell_warning(
-            context: ctx,
+            context: context,
             lines: [], # lines on which the smell was detected
             message: "...", # the message that is printed on STDOUT
             # whatever you interpolate into the "message" should go into

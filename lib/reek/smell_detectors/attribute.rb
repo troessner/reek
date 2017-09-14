@@ -16,10 +16,6 @@ module Reek
     #
     # TODO: Catch attributes declared "by hand"
     class Attribute < BaseDetector
-      def initialize(*args)
-        super
-      end
-
       def self.contexts # :nodoc:
         [:sym]
       end
@@ -29,10 +25,10 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
-      def sniff(ctx)
-        attributes_in(ctx).map do |_attribute, line|
+      def sniff
+        attributes_in_context.map do |_attribute, line|
           smell_warning(
-            context: ctx,
+            context: context,
             lines: [line],
             message: 'is a writable attribute')
         end
@@ -40,10 +36,9 @@ module Reek
 
       private
 
-      # :reek:UtilityFunction
-      def attributes_in(module_ctx)
-        if module_ctx.visibility == :public
-          call_node = module_ctx.exp
+      def attributes_in_context
+        if context.visibility == :public
+          call_node = expression
           [[call_node.name, call_node.line]]
         else
           []

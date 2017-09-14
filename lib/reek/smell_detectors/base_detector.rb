@@ -41,7 +41,7 @@ module Reek
         return [] unless enabled?
         return [] if exception?
 
-        sniff(context)
+        sniff
       end
 
       def self.todo_configuration_for(smells)
@@ -53,6 +53,14 @@ module Reek
       private
 
       attr_reader :context
+
+      def expression
+        @expression ||= context.exp
+      end
+
+      def source_line
+        @line ||= expression.line
+      end
 
       def exception?
         context.matches?(value(EXCLUDE_KEY, context))
