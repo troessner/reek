@@ -8,11 +8,11 @@ RSpec.describe Reek::Spec::ShouldReek do
     let(:smelly_code) { 'def x() y = 4; end' }
 
     it 'matches a smelly String' do
-      expect(matcher.matches?(smelly_code)).to be_truthy
+      expect(matcher).to be_matches(smelly_code)
     end
 
     it 'doesnt match a fragrant String' do
-      expect(matcher.matches?(clean_code)).to be_falsey
+      expect(matcher).not_to be_matches(clean_code)
     end
 
     it 'reports the smells when should_not fails' do
@@ -26,11 +26,11 @@ RSpec.describe Reek::Spec::ShouldReek do
       let(:matcher) { described_class.new }
 
       it 'matches a smelly File' do
-        expect(matcher.matches?(SMELLY_FILE)).to be_truthy
+        expect(matcher).to be_matches(SMELLY_FILE)
       end
 
       it 'doesnt match a fragrant File' do
-        expect(matcher.matches?(CLEAN_FILE)).to be_falsey
+        expect(matcher).not_to be_matches(CLEAN_FILE)
       end
 
       it 'reports the smells when should_not fails' do
@@ -45,7 +45,7 @@ RSpec.describe Reek::Spec::ShouldReek do
       let(:matcher) { described_class.new(configuration: configuration) }
 
       it 'masks smells using the relevant configuration' do
-        expect(matcher.matches?(SMELLY_FILE)).to be_falsey
+        expect(matcher).not_to be_matches(SMELLY_FILE)
       end
     end
   end

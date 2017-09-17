@@ -6,7 +6,7 @@ module Reek
   module Errors
     # Gets raised when Reek is unable to process the source
     class IncomprehensibleSourceError < BaseError
-      INCOMPREHENSIBLE_SOURCE_TEMPLATE = <<-EOS.freeze
+      INCOMPREHENSIBLE_SOURCE_TEMPLATE = <<-MESSAGE.freeze
         !!!
         Source %s can not be processed by Reek.
 
@@ -34,7 +34,7 @@ module Reek
         %s
 
         !!!
-      EOS
+      MESSAGE
 
       def initialize(origin:, original_exception:)
         message = format(INCOMPREHENSIBLE_SOURCE_TEMPLATE,

@@ -90,7 +90,7 @@ RSpec.configure do |config|
   # mutation tester. Set the DEBUG environment variable to something truthy
   # like '1' to disable this and allow using pry without specs failing.
   unless ENV['DEBUG']
-    config.around(:each) do |example|
+    config.around do |example|
       Timeout.timeout(5, &example)
     end
   end

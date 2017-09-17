@@ -18,7 +18,7 @@ module Reek
     # The order in which ConfigurationFileFinder tries to find such a
     # configuration file is exactly like above.
     module ConfigurationFileFinder
-      TOO_MANY_CONFIGURATION_FILES_MESSAGE = <<-EOS.freeze
+      TOO_MANY_CONFIGURATION_FILES_MESSAGE = <<-MESSAGE.freeze
 
         Error: Found multiple configuration files %s
         while scanning directory %s.
@@ -27,7 +27,7 @@ module Reek
         1) Remove all offending files.
         2) Be specific about which one you want to load via the -c switch.
 
-      EOS
+      MESSAGE
 
       class << self
         #
@@ -64,7 +64,7 @@ module Reek
           return {} unless path
           begin
             configuration = YAML.load_file(path) || {}
-          rescue => error
+          rescue StandardError => error
             raise ConfigFileException, "Invalid configuration file #{path}, error is #{error}"
           end
 

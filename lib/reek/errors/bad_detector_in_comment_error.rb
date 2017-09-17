@@ -8,7 +8,7 @@ module Reek
     # This might happen for multiple reasons. The users might have a typo in
     # his comment or he might use a detector that does not exist anymore.
     class BadDetectorInCommentError < BaseError
-      UNKNOWN_SMELL_DETECTOR_MESSAGE = <<-EOS.freeze
+      UNKNOWN_SMELL_DETECTOR_MESSAGE = <<-MESSAGE.freeze
 
         Error: You are trying to configure an unknown smell detector '%s' in one
         of your source code comments.
@@ -22,7 +22,7 @@ module Reek
           * what smell detectors are available: https://github.com/troessner/reek/blob/master/docs/Code-Smells.md
         Update the offensive comment (or remove it if no longer applicable) and re-run Reek.
 
-      EOS
+      MESSAGE
 
       def initialize(detector_name:, source:, line:, original_comment:)
         message = format(UNKNOWN_SMELL_DETECTOR_MESSAGE,

@@ -21,16 +21,15 @@ RSpec.describe Reek::SmellDetectors::BaseDetector do
     context 'with default exclusions present' do
       let(:subclass) { Reek::SmellDetectors::TooManyStatements }
 
-      before do
-        expect(subclass.default_config['exclude']).to eq ['initialize']
-      end
-
       it 'includes default exclusions' do
         detector = subclass.new
         smell = create(:smell_warning, smell_detector: detector, context: 'Foo#bar')
         result = subclass.todo_configuration_for([smell])
 
-        expect(result).to eq('TooManyStatements' => { 'exclude' => ['initialize', 'Foo#bar'] })
+        aggregate_failures do
+          expect(subclass.default_config['exclude']).to eq ['initialize']
+          expect(result).to eq('TooManyStatements' => { 'exclude' => ['initialize', 'Foo#bar'] })
+        end
       end
     end
   end

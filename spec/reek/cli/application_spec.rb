@@ -15,13 +15,11 @@ RSpec.describe Reek::CLI::Application do
     end
   end
 
-  let(:path_excluded_in_configuration) do
-    SAMPLES_PATH.join('source_with_exclude_paths/ignore_me/uncommunicative_method_name.rb')
-  end
-
-  let(:configuration) { test_configuration_for(CONFIG_PATH.join('with_excluded_paths.reek')) }
-
   describe '#execute' do
+    let(:path_excluded_in_configuration) do
+      SAMPLES_PATH.join('source_with_exclude_paths/ignore_me/uncommunicative_method_name.rb')
+    end
+    let(:configuration) { test_configuration_for(CONFIG_PATH.join('with_excluded_paths.reek')) }
     let(:command) { instance_double 'Reek::CLI::Command::ReportCommand' }
     let(:app) { described_class.new [] }
 

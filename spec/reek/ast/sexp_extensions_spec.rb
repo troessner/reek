@@ -304,7 +304,7 @@ RSpec.describe Reek::AST::SexpExtensions::SendNode do
     let(:node) { sexp(:send, nil, :hello) }
 
     it 'is not considered to be a writable attr' do
-      expect(sexp(:send, nil, :attr).attr_with_writable_flag?).to be_falsey
+      expect(sexp(:send, nil, :attr)).not_to be_attr_with_writable_flag
     end
   end
 
@@ -312,15 +312,15 @@ RSpec.describe Reek::AST::SexpExtensions::SendNode do
     let(:bare_new) { sexp(:send, nil, :new) }
 
     it 'is not considered to be a module creation call' do
-      expect(bare_new.module_creation_call?).to be_falsey
+      expect(bare_new).not_to be_module_creation_call
     end
 
     it 'is not considered to have a module creation receiver' do
-      expect(bare_new.module_creation_receiver?).to be_falsey
+      expect(bare_new).not_to be_module_creation_receiver
     end
 
     it 'is considered to be an object creation call' do
-      expect(bare_new.object_creation_call?).to be_truthy
+      expect(bare_new).to be_object_creation_call
     end
   end
 
@@ -328,15 +328,15 @@ RSpec.describe Reek::AST::SexpExtensions::SendNode do
     let(:node) { Reek::Source::SourceCode.from('(foo ? bar : baz).new').syntax_tree }
 
     it 'is not considered to be a module creation call' do
-      expect(node.module_creation_call?).to be_falsey
+      expect(node).not_to be_module_creation_call
     end
 
     it 'is not considered to have a module creation receiver' do
-      expect(node.module_creation_receiver?).to be_falsey
+      expect(node).not_to be_module_creation_receiver
     end
 
     it 'is considered to be an object creation call' do
-      expect(node.object_creation_call?).to be_truthy
+      expect(node).to be_object_creation_call
     end
   end
 end
@@ -446,14 +446,14 @@ RSpec.describe Reek::AST::SexpExtensions::CasgnNode do
     context 'with single assignment' do
       it 'does not define a module' do
         exp = sexp(:casgn, nil, :Foo)
-        expect(exp.defines_module?).to be_falsey
+        expect(exp).not_to be_defines_module
       end
     end
 
     context 'with implicit receiver to new' do
       it 'does not define a module' do
         exp = sexp(:casgn, nil, :Foo, sexp(:send, nil, :new))
-        expect(exp.defines_module?).to be_falsey
+        expect(exp).not_to be_defines_module
       end
     end
 
@@ -461,7 +461,7 @@ RSpec.describe Reek::AST::SexpExtensions::CasgnNode do
       it 'does not define a module' do
         exp = Reek::Source::SourceCode.from('Foo = Class.new(Bar)').syntax_tree
 
-        expect(exp.defines_module?).to be_truthy
+        expect(exp).to be_defines_module
       end
     end
 
@@ -469,7 +469,7 @@ RSpec.describe Reek::AST::SexpExtensions::CasgnNode do
       it 'does not define a module' do
         exp = Reek::Source::SourceCode.from('C = ->{}').syntax_tree
 
-        expect(exp.defines_module?).to be_falsey
+        expect(exp).not_to be_defines_module
       end
     end
 
@@ -477,7 +477,7 @@ RSpec.describe Reek::AST::SexpExtensions::CasgnNode do
       it 'does not define a module' do
         exp = Reek::Source::SourceCode.from('C = "hello"').syntax_tree
 
-        expect(exp.defines_module?).to be_falsey
+        expect(exp).not_to be_defines_module
       end
     end
   end

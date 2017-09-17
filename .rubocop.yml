@@ -36,6 +36,15 @@ Layout/MultilineOperationIndentation:
 Lint/AmbiguousBlockAssociation:
   Enabled: false
 
+# Some of our source examples include interpolation explicitely.
+Lint/InterpolationCheck:
+  Exclude:
+    - 'spec/**/*'
+
+# We use :true and :false as AST node types.
+Lint/BooleanSymbol:
+  Enabled: false
+
 Lint/HandleExceptions:
   Exclude:
     - 'spec/reek/configuration/configuration_file_finder_spec.rb'
@@ -62,6 +71,15 @@ Metrics/LineLength:
 # Keyword arguments make long parameter lists readable
 Metrics/ParameterLists:
   CountKeywordArgs: false
+
+Naming/AccessorMethodName:
+  Exclude:
+    - 'lib/reek/context/visibility_tracker.rb'
+
+# EOS is a fine name to use in our specs
+Naming/HeredocDelimiterNaming:
+  Exclude:
+    - 'spec/**/*'
 
 # FIXME: Update specs to avoid offenses
 RSpec/AnyInstance:
@@ -108,10 +126,6 @@ RSpec/FilePath:
     - 'spec/reek/report/code_climate/code_climate_fingerprint_spec.rb'
     - 'spec/reek/report/code_climate/code_climate_formatter_spec.rb'
     - 'spec/reek/report/code_climate/code_climate_report_spec.rb'
-
-Style/AccessorMethodName:
-  Exclude:
-    - 'lib/reek/context/visibility_tracker.rb'
 
 # Allow and/or for control flow only
 Style/AndOr:
