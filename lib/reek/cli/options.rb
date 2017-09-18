@@ -82,7 +82,7 @@ module Reek
 
       def set_banner
         program_name = parser.program_name
-        parser.banner = <<-EOB.gsub(/^[ ]+/, '')
+        parser.banner = <<-BANNER.gsub(/^[ ]+/, '')
           Usage: #{program_name} [options] [files]
 
           Examples:
@@ -93,7 +93,7 @@ module Reek
 
           See https://wiki.github.com/troessner/reek for detailed help.
 
-        EOB
+        BANNER
       end
 
       # :reek:TooManyStatements: { max_statements: 6 }

@@ -27,16 +27,16 @@ RSpec.describe Reek::Spec::ShouldReekOf do
       let(:smelly_code) { 'def x() y = 4; end' }
 
       it 'matches a smelly String' do
-        expect(matcher.matches?(smelly_code)).to be_truthy
+        expect(matcher).to be_matches(smelly_code)
       end
 
       it 'doesnt match a fragrant String' do
-        expect(matcher.matches?(clean_code)).to be_falsey
+        expect(matcher).not_to be_matches(clean_code)
       end
 
       it 're-calculates matches every time' do
         matcher.matches? smelly_code
-        expect(matcher.matches?(clean_code)).to be_falsey
+        expect(matcher).not_to be_matches(clean_code)
       end
     end
 
@@ -44,11 +44,11 @@ RSpec.describe Reek::Spec::ShouldReekOf do
       let(:matcher) { described_class.new(:UncommunicativeMethodName, name: 'x') }
 
       it 'matches a smelly file' do
-        expect(matcher.matches?(SMELLY_FILE)).to be_truthy
+        expect(matcher).to be_matches(SMELLY_FILE)
       end
 
       it 'doesnt match a fragrant file' do
-        expect(matcher.matches?(CLEAN_FILE)).to be_falsey
+        expect(matcher).not_to be_matches(CLEAN_FILE)
       end
     end
   end
@@ -68,7 +68,7 @@ RSpec.describe Reek::Spec::ShouldReekOf do
       let(:smelly_code) { 'def x() y = 4; end' }
 
       it 'is truthy' do
-        expect(matcher.matches?(smelly_code)).to be_truthy
+        expect(matcher).to be_matches(smelly_code)
       end
     end
 
@@ -79,7 +79,7 @@ RSpec.describe Reek::Spec::ShouldReekOf do
       let(:truthy_matcher) { described_class.new(:UncommunicativeVariableName, name: 'y') }
 
       it 'is falsey' do
-        expect(falsey_matcher.matches?(smelly_code)).to be_falsey
+        expect(falsey_matcher).not_to be_matches(smelly_code)
       end
 
       it 'sets the proper error message' do
@@ -102,7 +102,7 @@ RSpec.describe Reek::Spec::ShouldReekOf do
       let(:matcher) { described_class.new(:DuplicateMethodCall, name: 'foo', count: 15) }
 
       it 'is falsey' do
-        expect(matcher.matches?(smelly_code)).to be_falsey
+        expect(matcher).not_to be_matches(smelly_code)
       end
 
       it 'sets the proper error message' do
@@ -130,14 +130,14 @@ RSpec.describe Reek::Spec::ShouldReekOf do
   end
 
   context 'for a smell that is disabled by default' do
-    before do
-      default_config = Reek::SmellDetectors::UnusedPrivateMethod.default_config
-      expect(default_config[Reek::SmellConfiguration::ENABLED_KEY]).to be_falsy
-    end
-
     it 'enables the smell detector to match automatically' do
+      default_config = Reek::SmellDetectors::UnusedPrivateMethod.default_config
       src = 'class C; private; def foo; end; end'
-      expect(src).to reek_of(:UnusedPrivateMethod)
+
+      aggregate_failures do
+        expect(default_config[Reek::SmellConfiguration::ENABLED_KEY]).to be_falsy
+        expect(src).to reek_of(:UnusedPrivateMethod)
+      end
     end
   end
 
@@ -146,13 +146,13 @@ RSpec.describe Reek::Spec::ShouldReekOf do
     let(:configured_matcher) { matcher.with_config('accept' => 'x') }
 
     it 'uses the passed-in configuration for matching' do
-      expect(configured_matcher.matches?('def foo; q = 2; end')).to be_truthy
-      expect(configured_matcher.matches?('def foo; x = 2; end')).to be_falsey
+      expect(configured_matcher).to be_matches('def foo; q = 2; end')
+      expect(configured_matcher).not_to be_matches('def foo; x = 2; end')
     end
 
     it 'leaves the original matcher intact' do
-      expect(configured_matcher.matches?('def foo; x = 2; end')).to be_falsey
-      expect(matcher.matches?('def foo; x = 2; end')).to be_truthy
+      expect(configured_matcher).not_to be_matches('def foo; x = 2; end')
+      expect(matcher).to be_matches('def foo; x = 2; end')
     end
   end
 end

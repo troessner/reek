@@ -12,33 +12,33 @@ RSpec.describe Reek::Spec::SmellMatcher do
 
   context '#matches?' do
     it 'matches on class symbol' do
-      expect(matcher.matches?(:UncommunicativeVariableName)).to be_truthy
+      expect(matcher).to be_matches(:UncommunicativeVariableName)
     end
 
     it 'matches on class symbol and params' do
-      expect(matcher.matches?(:UncommunicativeVariableName,
-                              test: 'something')).to be_truthy
+      expect(matcher).to be_matches(:UncommunicativeVariableName,
+                                    test: 'something')
     end
 
     it 'matches on class symbol, params and attributes' do
-      expect(matcher.matches?(:UncommunicativeVariableName,
-                              test: 'something',
-                              message: "has the variable name '@s'")).to be_truthy
+      expect(matcher).to be_matches(:UncommunicativeVariableName,
+                                    test: 'something',
+                                    message: "has the variable name '@s'")
     end
 
     it 'does not match on different class symbol' do
-      expect(matcher.matches?(:FeatureEnvy)).to be_falsy
+      expect(matcher).not_to be_matches(:FeatureEnvy)
     end
 
     it 'does not match on different params' do
-      expect(matcher.matches?(:UncommunicativeVariableName,
-                              test: 'something else')).to be_falsy
+      expect(matcher).not_to be_matches(:UncommunicativeVariableName,
+                                        test: 'something else')
     end
 
     it 'does not match on different attributes' do
-      expect(matcher.matches?(:UncommunicativeVariableName,
-                              test: 'something',
-                              message: 'nothing')).to be_falsy
+      expect(matcher).not_to be_matches(:UncommunicativeVariableName,
+                                        test: 'something',
+                                        message: 'nothing')
     end
 
     it 'raises error on uncomparable attribute' do
@@ -52,31 +52,31 @@ RSpec.describe Reek::Spec::SmellMatcher do
 
   context '#matches_smell_type?' do
     it 'matches on class symbol' do
-      expect(matcher.matches_smell_type?(:UncommunicativeVariableName)).to be_truthy
+      expect(matcher).to be_matches_smell_type(:UncommunicativeVariableName)
     end
 
     it 'does not match on different class symbol' do
-      expect(matcher.matches_smell_type?(:FeatureEnvy)).to be_falsy
+      expect(matcher).not_to be_matches_smell_type(:FeatureEnvy)
     end
   end
 
   context '#matches_attributes?' do
     it 'matches on params' do
-      expect(matcher.matches_attributes?(test: 'something')).to be_truthy
+      expect(matcher).to be_matches_attributes(test: 'something')
     end
 
     it 'matches on class symbol, params and attributes' do
-      expect(matcher.matches_attributes?(test: 'something',
-                                         message: "has the variable name '@s'")).to be_truthy
+      expect(matcher).to be_matches_attributes(test: 'something',
+                                               message: "has the variable name '@s'")
     end
 
     it 'does not match on different params' do
-      expect(matcher.matches_attributes?(test: 'something else')).to be_falsy
+      expect(matcher).not_to be_matches_attributes(test: 'something else')
     end
 
     it 'does not match on different attributes' do
-      expect(matcher.matches_attributes?(test: 'something',
-                                         message: 'nothing')).to be_falsy
+      expect(matcher).not_to be_matches_attributes(test: 'something',
+                                                   message: 'nothing')
     end
 
     it 'raises error on uncomparable attribute' do
