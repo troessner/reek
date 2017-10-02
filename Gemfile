@@ -8,7 +8,7 @@ group :development do
   gem 'activesupport', '>= 4.2'
   gem 'aruba',         '~> 0.14.0'
   gem 'ataru',         '~> 0.2.0'
-  gem 'cucumber',      '~> 2.0'
+  gem 'cucumber',      '~> 3.0'
   gem 'factory_girl',  '~> 4.0'
   gem 'rake',          '~> 12.0'
   gem 'rspec',         '~> 3.0'
@@ -17,7 +17,7 @@ group :development do
 
   if RUBY_VERSION >= '2.3'
     gem 'rubocop',       '~> 0.50.0'
-    gem 'rubocop-rspec', '~> 1.17.0'
+    gem 'rubocop-rspec', '~> 1.18.0'
   end
 
   platforms :mri do
