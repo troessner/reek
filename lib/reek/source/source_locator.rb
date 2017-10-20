@@ -69,7 +69,7 @@ module Reek
 
       # :reek:UtilityFunction
       def print_no_such_file_error(path)
-        $stderr.puts "Error: No such file - #{path}"
+        warn "Error: No such file - #{path}"
       end
 
       # :reek:UtilityFunction
