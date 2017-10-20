@@ -16,7 +16,7 @@ group :development do
   gem 'yard',          '~> 0.9.5'
 
   if RUBY_VERSION >= '2.3'
-    gem 'rubocop',       '~> 0.50.0'
+    gem 'rubocop',       '~> 0.51.0'
     gem 'rubocop-rspec', '~> 1.18.0'
   end
 
