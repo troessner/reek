@@ -19,7 +19,7 @@ module Reek
 
         %s
 
-        Original exception:
+        Original backtrace:
 
         %s
 
@@ -29,7 +29,7 @@ module Reek
       def initialize(origin:, original_exception:)
         message = format(ENCODING_ERROR_TEMPLATE,
                          origin,
-                         original_exception.message,
+                         original_exception.inspect,
                          original_exception.backtrace.join("\n\t"))
         super message
       end
