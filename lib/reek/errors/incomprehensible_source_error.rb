@@ -8,9 +8,9 @@ module Reek
     class IncomprehensibleSourceError < BaseError
       INCOMPREHENSIBLE_SOURCE_TEMPLATE = <<-MESSAGE.freeze
         !!!
-        Source %s can not be processed by Reek.
+        Source %s cannot be processed by Reek.
 
-        This is most likely either a bug in your Reek configuration (config file or
+        This is most likely either a problem in your Reek configuration (config file or
         source code comments) or a Reek bug.
 
         Please double check your Reek configuration taking the original exception

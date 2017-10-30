@@ -78,7 +78,7 @@ end
 ## Known limitations
 
 * Method calls via dynamic dispatch (e.g. via `send`) is something Reek (or any other
-  static tool for that matter) can not detect.
+  static tool for that matter) cannot detect.
 * Method calls via callback like [Rails filters](http://guides.rubyonrails.org/action_controller_overview.html#filters)
   will trigger this as well, e.g.:
 
