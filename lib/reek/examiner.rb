@@ -3,6 +3,7 @@
 require_relative 'context_builder'
 require_relative 'detector_repository'
 require_relative 'errors/incomprehensible_source_error'
+require_relative 'errors/encoding_error'
 require_relative 'source/source_code'
 
 module Reek
@@ -112,8 +113,10 @@ module Reek
       case exception
       when Errors::BaseError
         exception
+      when EncodingError
+        Errors::EncodingError.new origin: origin, original_exception: exception
       else
-        Errors::IncomprehensibleSourceError.new(origin: origin, original_exception: exception)
+        Errors::IncomprehensibleSourceError.new origin: origin, original_exception: exception
       end
     end
 
