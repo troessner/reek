@@ -1,5 +1,13 @@
 # Change log
 
+## 4.7.3 (2017-11-05)
+
+* (mvz) Handle UTF-8 files in all locales
+* (troessner) Handle encoding and other errors when parsing the source
+* (mvz) Report method source line in PrimaDonnaMethod
+* (mvz) Pick up config file in reek matcher
+* (mvz) Let REEK_SRC override set values in rake task
+
 ## 4.7.2 (2017-07-24)
 
 * (mvz) Also report unused uncommunicative parameter names
