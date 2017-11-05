@@ -109,10 +109,11 @@ module Reek
       # @param source [String] - Ruby code
       # @return [Anonymous subclass of Reek::AST::Node] the AST presentation
       #         for the given source
-      # :reek:TooManyStatements { max_statements: 7 }
+      # :reek:TooManyStatements { max_statements: 8 }
       def parse(parser, source)
         begin
           buffer = Parser::Source::Buffer.new(origin, 1)
+          source.force_encoding(Encoding::UTF_8)
           buffer.source = source
         rescue EncodingError => exception
           raise Errors::EncodingError, origin: origin, original_exception: exception
