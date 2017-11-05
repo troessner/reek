@@ -8,7 +8,7 @@ module Reek
     class EncodingError < BaseError
       ENCODING_ERROR_TEMPLATE = <<-MESSAGE.freeze
         !!!
-        Source '%s' can not be processed by Reek due to an encoding error in the source file.
+        Source '%s' cannot be processed by Reek due to an encoding error in the source file.
 
         This is a problem that is outside of Reek's scope and should be fixed by you, the
         user, in order for Reek being able to continue.

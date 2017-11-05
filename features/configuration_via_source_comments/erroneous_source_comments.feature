@@ -48,7 +48,7 @@ Feature: Erroneous source comments are handled properly
       """
     When I run reek bad_comment.rb
     Then it reports the error "Error: You are trying to configure the smell detector 'UncommunicativeMethodName'"
-    And it reports the error "Unfortunately we can not parse the configuration you have given."
+    And it reports the error "Unfortunately we cannot parse the configuration you have given."
     And it reports the error "The source is 'bad_comment.rb'"
     And it reports the error "the comment belongs to the expression starting in line 3"
 

@@ -10,7 +10,7 @@ module Reek
       BAD_DETECTOR_CONFIGURATION_MESSAGE = <<-MESSAGE.freeze
 
         Error: You are trying to configure the smell detector '%s'.
-        Unfortunately we can not parse the configuration you have given.
+        Unfortunately we cannot parse the configuration you have given.
         The source is '%s' and the comment belongs to the expression starting in line %d.
         Here's the original comment:
 

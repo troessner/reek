@@ -54,7 +54,7 @@ RSpec.describe Reek::Source::SourceCode do
     end
 
     it 'explains the origin of the error' do
-      message = "Source '#{source_name}' can not be processed by Reek due to an encoding error in the source file."
+      message = "Source '#{source_name}' cannot be processed by Reek due to an encoding error in the source file."
       expect { src.syntax_tree }.to raise_error.with_message(/#{message}/)
     end
   end

@@ -111,7 +111,7 @@ regard than if it were run in a terminal.
 
 #### Failing Cucumber Scenarios
 
-If there is a failing scenario and you can not figure out why it is failing,
+If there is a failing scenario and you cannot figure out why it is failing,
 just run the failing scenario: `bundle exec cucumber
 features/failing_scenario.feature:line`. By doing so Aruba will leave its set
 up in the `tmp/aruba` directory. You can then `cd` into this directory and run
