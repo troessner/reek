@@ -1,5 +1,6 @@
 require_relative '../spec_helper'
 require_lib 'reek/examiner'
+require_lib 'reek/logging_error_handler'
 
 RSpec.shared_examples_for 'no smells found' do
   it 'is not smelly' do
@@ -107,7 +108,7 @@ RSpec.describe Reek::Examiner do
       end
     end
 
-    context 'with an incomprehensible source that causes Reek to crash' do
+    context 'with an incomprehensible source that causes the detectors to crash' do
       let(:source) { 'class C; def does_crash_reek; end; end' }
 
       let(:examiner) do
@@ -139,6 +140,42 @@ RSpec.describe Reek::Examiner do
       it 'contains the original error message' do
         original = 'Looks like bad source'
         expect { examiner.smells }.to raise_error.with_message(/#{original}/)
+      end
+    end
+  end
+
+  context 'when the source causes the source buffer to crash' do
+    let(:source) { 'I make the buffer crash' }
+
+    before do
+      buffer = double
+      allow(buffer).to receive(:source=) { raise RuntimeError }
+      allow(Parser::Source::Buffer).to receive(:new).and_return(buffer)
+    end
+
+    context 'if the error handler does not handle the error' do
+      let(:examiner) { described_class.new(source) }
+
+      it 'does not raise an error during initialization' do
+        expect { examiner }.not_to raise_error
+      end
+
+      it 'raises an incomprehensible source error when asked for smells' do
+        expect { examiner.smells }.to raise_error Reek::Errors::IncomprehensibleSourceError
+      end
+    end
+
+    context 'if the error handler handles the error' do
+      let(:handler) { instance_double(Reek::LoggingErrorHandler, handle: true) }
+      let(:examiner) { described_class.new(source, error_handler: handler) }
+
+      it 'does not raise an error when asked for smells' do
+        expect { examiner.smells }.not_to raise_error
+      end
+
+      it 'passes the wrapped error to the handler' do
+        examiner.smells
+        expect(handler).to have_received(:handle).with(Reek::Errors::IncomprehensibleSourceError)
       end
     end
   end

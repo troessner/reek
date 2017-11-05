@@ -7,6 +7,7 @@ end
 require_relative '../tree_dresser'
 require_relative '../ast/node'
 require_relative '../ast/builder'
+require_relative '../errors/encoding_error'
 
 # Opt in to new way of representing lambdas
 Reek::AST::Builder.emit_lambda = true
@@ -20,7 +21,7 @@ module Reek
       IO_IDENTIFIER     = 'STDIN'.freeze
       STRING_IDENTIFIER = 'string'.freeze
 
-      attr_reader :origin, :diagnostics, :syntax_tree
+      attr_reader :origin
 
       # Initializer.
       #
@@ -30,7 +31,8 @@ module Reek
       def initialize(code:, origin:, parser: default_parser)
         @origin = origin
         @diagnostics = []
-        @syntax_tree = parse(parser, code)
+        @parser = parser
+        @code = code
       end
 
       # Initializes an instance of SourceCode given a source.
@@ -54,10 +56,23 @@ module Reek
 
       # @return [true|false] Returns true if parsed file does not have any syntax errors.
       def valid_syntax?
-        @diagnostics.none? { |diagnostic| [:error, :fatal].include?(diagnostic.level) }
+        diagnostics.none? { |diagnostic| [:error, :fatal].include?(diagnostic.level) }
+      end
+
+      def diagnostics
+        parse_if_needed
+        @diagnostics
+      end
+
+      def syntax_tree
+        parse_if_needed
       end
 
       private
+
+      def parse_if_needed
+        @syntax_tree ||= parse(@parser, @code)
+      end
 
       attr_reader :source
 
@@ -94,9 +109,14 @@ module Reek
       # @param source [String] - Ruby code
       # @return [Anonymous subclass of Reek::AST::Node] the AST presentation
       #         for the given source
+      # :reek:TooManyStatements { max_statements: 7 }
       def parse(parser, source)
-        buffer = Parser::Source::Buffer.new(origin, 1)
-        buffer.source = source
+        begin
+          buffer = Parser::Source::Buffer.new(origin, 1)
+          buffer.source = source
+        rescue EncodingError => exception
+          raise Errors::EncodingError, origin: origin, original_exception: exception
+        end
         begin
           ast, comments = parser.parse_with_comments(buffer)
         rescue Parser::SyntaxError # rubocop:disable Lint/HandleExceptions
