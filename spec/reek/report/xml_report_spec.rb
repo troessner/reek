@@ -5,7 +5,7 @@ require_lib 'reek/report/xml_report'
 RSpec.describe Reek::Report::XMLReport do
   let(:xml_report) { described_class.new }
 
-  context 'empty source' do
+  context 'with an empty source' do
     it 'prints empty checkstyle XML' do
       xml_report.add_examiner Reek::Examiner.new('')
       xml = "<?xml version='1.0'?>\n<checkstyle/>\n"
@@ -13,7 +13,7 @@ RSpec.describe Reek::Report::XMLReport do
     end
   end
 
-  context 'source with voliations' do
+  context 'with a source with violations' do
     it 'prints non-empty checkstyle XML' do
       xml_report.add_examiner Reek::Examiner.new(SMELLY_FILE)
       xml = SAMPLES_PATH.join('checkstyle.xml').read

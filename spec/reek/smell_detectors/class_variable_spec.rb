@@ -63,49 +63,43 @@ RSpec.describe Reek::SmellDetectors::ClassVariable do
   end
 
   ['class', 'module'].each do |scope|
-    context "Scoped to #{scope}" do
-      context 'set in a method' do
-        it 'reports correctly' do
-          src = <<-EOS
-            #{scope} Alfa
-              def bravo
-                @@charlie = {}
-              end
+    context "when examining a #{scope}" do
+      it 'reports a class variable set in a method' do
+        src = <<-EOS
+          #{scope} Alfa
+            def bravo
+              @@charlie = {}
             end
-          EOS
+          end
+        EOS
 
-          expect(src).to reek_of(:ClassVariable)
-        end
+        expect(src).to reek_of(:ClassVariable, name: '@@charlie')
       end
 
-      context 'used in a method' do
-        it 'reports correctly' do
-          src = <<-EOS
-            #{scope} Alfa
-              def bravo
-                puts @@charlie
-              end
+      it 'reports a class variable used in a method' do
+        src = <<-EOS
+          #{scope} Alfa
+            def bravo
+              puts @@charlie
             end
-          EOS
+          end
+        EOS
 
-          expect(src).to reek_of(:ClassVariable)
-        end
+        expect(src).to reek_of(:ClassVariable, name: '@@charlie')
       end
 
-      context "set in #{scope} and used in a method" do
-        it 'reports correctly' do
-          src = <<-EOS
-            #{scope} Alfa
-              @@bravo = 42
+      it "reports a class variable set in the #{scope} body and used in a method" do
+        src = <<-EOS
+          #{scope} Alfa
+            @@bravo = 42
 
-              def charlie
-                puts @@bravo
-              end
+            def charlie
+              puts @@bravo
             end
-          EOS
+          end
+        EOS
 
-          expect(src).to reek_of(:ClassVariable)
-        end
+        expect(src).to reek_of(:ClassVariable, name: '@@bravo')
       end
     end
   end

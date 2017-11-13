@@ -21,7 +21,7 @@ RSpec.describe Reek::CLI::Command::TodoListCommand do
       allow(File).to receive(:write).with(described_class::FILE_NAME, String)
     end
 
-    context 'smells found' do
+    context 'when smells are found' do
       let(:source_file) { SMELLY_FILE }
 
       it 'shows a proper message' do
@@ -44,7 +44,7 @@ RSpec.describe Reek::CLI::Command::TodoListCommand do
       end
     end
 
-    context 'no smells found' do
+    context 'when no smells re found' do
       let(:source_file) { CLEAN_FILE }
 
       it 'shows a proper message' do

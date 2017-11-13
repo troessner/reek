@@ -56,7 +56,7 @@ RSpec.describe Reek::AST::Node do
     end
   end
 
-  context 'hash' do
+  describe '#hash' do
     it 'hashes equal for equal sexps' do
       node1 = sexp(:def, :jim, sexp(:args), sexp(:send, sexp(:int, 4), :+, sexp(:send, nil, :fred)))
       node2 = sexp(:def, :jim, sexp(:args), sexp(:send, sexp(:int, 4), :+, sexp(:send, nil, :fred)))
@@ -77,7 +77,7 @@ RSpec.describe Reek::AST::Node do
   end
 
   describe '#line' do
-    context 'source from file' do
+    context 'with source from a file' do
       let(:file) { SAMPLES_PATH.join('smelly.rb') }
       let(:ast) { Reek::Source::SourceCode.from(file).syntax_tree }
 
@@ -86,7 +86,7 @@ RSpec.describe Reek::AST::Node do
       end
     end
 
-    context 'source from string' do
+    context 'with source from a string' do
       let(:source) { File.read(SAMPLES_PATH.join('smelly.rb')) }
       let(:ast) { Reek::Source::SourceCode.from(source).syntax_tree }
 
@@ -97,7 +97,7 @@ RSpec.describe Reek::AST::Node do
   end
 
   describe '#source' do
-    context 'source from file' do
+    context 'with source from a file' do
       let(:file) { SAMPLES_PATH.join('smelly.rb') }
       let(:ast) { Reek::Source::SourceCode.from(file).syntax_tree }
 
@@ -106,7 +106,7 @@ RSpec.describe Reek::AST::Node do
       end
     end
 
-    context 'source from string' do
+    context 'with source from a string' do
       let(:source) { File.read(SAMPLES_PATH.join('smelly.rb')) }
       let(:ast) { Reek::Source::SourceCode.from(source).syntax_tree }
 

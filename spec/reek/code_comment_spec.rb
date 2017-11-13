@@ -14,7 +14,7 @@ RSpec.describe Reek::CodeComment do
     end
   end
 
-  context 'comment checks' do
+  describe '#descriptive' do
     it 'rejects an empty comment' do
       comment = FactoryGirl.build(:code_comment, comment: '#')
       expect(comment).not_to be_descriptive
@@ -36,7 +36,7 @@ RSpec.describe Reek::CodeComment do
     end
   end
 
-  context 'good comment config' do
+  describe 'good comment config' do
     it 'parses hashed options' do
       comment = '# :reek:DuplicateMethodCall { enabled: false }'
       config = FactoryGirl.build(:code_comment,
@@ -125,7 +125,7 @@ RSpec.describe Reek::CodeComment do
 end
 
 RSpec.describe Reek::CodeComment::CodeCommentValidator do
-  context 'bad detector' do
+  context 'when the comment contains an unknown detector name' do
     it 'raises BadDetectorInCommentError' do
       expect do
         FactoryGirl.build(:code_comment,
@@ -134,7 +134,7 @@ RSpec.describe Reek::CodeComment::CodeCommentValidator do
     end
   end
 
-  context 'unparsable detector configuration' do
+  context 'when the comment contains an unparsable detector configuration' do
     it 'raises GarbageDetectorConfigurationInCommentError' do
       expect do
         comment = '# :reek:UncommunicativeMethodName { thats: a: bad: config }'
@@ -144,7 +144,7 @@ RSpec.describe Reek::CodeComment::CodeCommentValidator do
   end
 
   describe 'validating configuration keys' do
-    context 'basic options mispelled' do
+    context 'when basic options are mispelled' do
       it 'raises BadDetectorConfigurationKeyInCommentError' do
         expect do
           # exclude -> exlude and enabled -> nabled
@@ -154,7 +154,7 @@ RSpec.describe Reek::CodeComment::CodeCommentValidator do
       end
     end
 
-    context 'basic options not mispelled' do
+    context 'when basic options are not mispelled' do
       it 'does not raise' do
         expect do
           comment = '# :reek:UncommunicativeMethodName { exclude: alfa, enabled: true }'
@@ -170,7 +170,7 @@ RSpec.describe Reek::CodeComment::CodeCommentValidator do
       end
     end
 
-    context 'unknown custom options' do
+    context 'when unknown custom options are specified' do
       it 'raises BadDetectorConfigurationKeyInCommentError' do
         expect do
           # max_copies -> mx_copies and min_clump_size -> mn_clump_size
@@ -180,7 +180,7 @@ RSpec.describe Reek::CodeComment::CodeCommentValidator do
       end
     end
 
-    context 'valid custom options' do
+    context 'when valid custom options are specified' do
       it 'does not raise' do
         expect do
           comment = '# :reek:DataClump { max_copies: 4, min_clump_size: 3 }'

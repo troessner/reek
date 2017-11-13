@@ -90,7 +90,7 @@ RSpec.describe Reek::Configuration::ConfigurationFileFinder do
       end
     end
 
-    context 'more than one configuration file' do
+    context 'with more than one configuration file' do
       let(:path) { CONFIG_PATH.join('more_than_one_configuration_file') }
 
       it 'prints a message on STDERR' do

@@ -10,7 +10,7 @@ RSpec.describe Reek::Spec::SmellMatcher do
   end
   let(:matcher) { described_class.new(smell_warning) }
 
-  context '#matches?' do
+  describe '#matches?' do
     it 'matches on class symbol' do
       expect(matcher).to be_matches(:UncommunicativeVariableName)
     end
@@ -50,7 +50,7 @@ RSpec.describe Reek::Spec::SmellMatcher do
     end
   end
 
-  context '#matches_smell_type?' do
+  describe '#matches_smell_type?' do
     it 'matches on class symbol' do
       expect(matcher).to be_matches_smell_type(:UncommunicativeVariableName)
     end
@@ -60,7 +60,7 @@ RSpec.describe Reek::Spec::SmellMatcher do
     end
   end
 
-  context '#matches_attributes?' do
+  describe '#matches_attributes?' do
     it 'matches on params' do
       expect(matcher).to be_matches_attributes(test: 'something')
     end

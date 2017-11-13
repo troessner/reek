@@ -38,7 +38,7 @@ RSpec.describe Reek::SmellDetectors::UnusedPrivateMethod do
       and reek_of(:UnusedPrivateMethod, lines: [7], name: 'charlie')
   end
 
-  context 'unused private methods' do
+  context 'when a class has unused private methods' do
     it 'reports instance methods' do
       source = <<-EOF
         class Alfa
@@ -116,7 +116,7 @@ RSpec.describe Reek::SmellDetectors::UnusedPrivateMethod do
     end
   end
 
-  describe 'configuring the detector via source code comment' do
+  context 'when the detector is configured via a source code comment' do
     it 'does not report methods we excluded' do
       source = <<-EOF
         # :reek:UnusedPrivateMethod: { exclude: [ bravo ] }
@@ -133,8 +133,8 @@ RSpec.describe Reek::SmellDetectors::UnusedPrivateMethod do
     end
   end
 
-  context 'used private methods' do
-    it 'are not reported' do
+  context 'when a class has only used private methods' do
+    it 'reports nothing' do
       source = <<-EOF
         class Alfa
           def bravo
@@ -150,8 +150,8 @@ RSpec.describe Reek::SmellDetectors::UnusedPrivateMethod do
     end
   end
 
-  context 'unused protected methods' do
-    it 'are not reported' do
+  context 'when a class has unused protected methods' do
+    it 'reports nothing' do
       source = <<-EOF
         class Alfa
           protected
@@ -163,8 +163,8 @@ RSpec.describe Reek::SmellDetectors::UnusedPrivateMethod do
     end
   end
 
-  context 'unused public methods' do
-    it 'are not reported' do
+  context 'when a class has unused public methods' do
+    it 'reports nothing' do
       source = <<-EOF
         class Alfa
           def bravo; end
@@ -175,7 +175,7 @@ RSpec.describe Reek::SmellDetectors::UnusedPrivateMethod do
     end
   end
 
-  describe 'prevent methods from being reported' do
+  describe 'preventing methods from being reported' do
     let(:source) do
       <<-EOF
         class Alfa

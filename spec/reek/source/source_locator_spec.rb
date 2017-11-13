@@ -5,7 +5,7 @@ require_lib 'reek/source/source_locator'
 
 RSpec.describe Reek::Source::SourceLocator do
   describe '#sources' do
-    context 'applied to hidden directories' do
+    context 'when applied to hidden directories' do
       let(:path) { SAMPLES_PATH.join('source_with_hidden_directories') }
 
       let(:expected_paths) do
@@ -30,7 +30,7 @@ RSpec.describe Reek::Source::SourceLocator do
     end
 
     # rubocop:disable RSpec/NestedGroups
-    context 'exclude paths' do
+    context 'with excluded paths' do
       let(:configuration) do
         test_configuration_for(CONFIG_PATH.join('with_excluded_paths.reek'))
       end
@@ -44,7 +44,7 @@ RSpec.describe Reek::Source::SourceLocator do
                             'uncommunicative_method_name.rb').expand_path
         end
 
-        context 'and options.force_exclusion? is true' do
+        context 'when options.force_exclusion? is true' do
           before do
             allow(options).to receive(:force_exclusion?).and_return(true)
           end
@@ -55,7 +55,7 @@ RSpec.describe Reek::Source::SourceLocator do
           end
         end
 
-        context 'and options.force_exclusion? is false' do
+        context 'when options.force_exclusion? is false' do
           before do
             allow(options).to receive(:force_exclusion?).and_return(false)
           end
@@ -120,7 +120,7 @@ RSpec.describe Reek::Source::SourceLocator do
     end
     # rubocop:enable RSpec/NestedGroups
 
-    context 'non-Ruby paths' do
+    context 'with non-Ruby paths' do
       let(:path) { SAMPLES_PATH.join('source_with_non_ruby_files') }
       let(:expected_sources) do
         [path.join('uncommunicative_parameter_name.rb')]
@@ -145,7 +145,7 @@ RSpec.describe Reek::Source::SourceLocator do
       end
     end
 
-    context 'passing "." or "./" as argument' do
+    context 'when passing "." or "./" as argument' do
       let(:expected_sources) do
         [Pathname.new('spec/spec_helper.rb'), Pathname.new('lib/reek.rb')]
       end

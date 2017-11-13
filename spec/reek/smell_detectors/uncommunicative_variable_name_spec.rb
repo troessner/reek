@@ -29,7 +29,7 @@ RSpec.describe Reek::SmellDetectors::UncommunicativeVariableName do
       and reek_of(:UncommunicativeVariableName, lines: [3], name: 'y')
   end
 
-  context 'instance variables' do
+  context 'when examining instance variables' do
     it 'does not report use of one-letter names' do
       src = 'class Alfa; def bravo; @x; end; end'
       expect(src).not_to reek_of(:UncommunicativeVariableName)
@@ -41,7 +41,7 @@ RSpec.describe Reek::SmellDetectors::UncommunicativeVariableName do
     end
   end
 
-  context 'local variables' do
+  context 'when examining local variables' do
     it 'does not report single underscore as a variable name' do
       src = 'def alfa; _ = bravo(); end'
       expect(src).not_to reek_of(:UncommunicativeVariableName)
@@ -78,7 +78,7 @@ RSpec.describe Reek::SmellDetectors::UncommunicativeVariableName do
     end
   end
 
-  context 'block parameters' do
+  context 'when examining block parameters' do
     it 'reports all relevant block parameters' do
       src = <<-EOS
         def alfa

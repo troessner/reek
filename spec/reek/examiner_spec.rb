@@ -58,27 +58,12 @@ RSpec.describe Reek::Examiner do
     it_behaves_like 'no smells found'
   end
 
-  describe '.new' do
-    context 'returns a proper Examiner' do
-      let(:source) { 'class C; def f; end; end' }
-      let(:examiner) do
-        described_class.new(source)
-      end
+  describe '#origin' do
+    let(:source) { 'class C; def f; end; end' }
+    let(:examiner) { described_class.new(source) }
 
-      it 'has been run on the given source' do
-        expect(examiner.origin).to eq('string')
-      end
-
-      it 'has the right smells' do
-        smells = examiner.smells
-        expect(smells[0].message).to eq('has no descriptive comment')
-        expect(smells[1].message).to eq("has the name 'f'")
-        expect(smells[2].message).to eq("has the name 'C'")
-      end
-
-      it 'has the right smell count' do
-        expect(examiner.smells_count).to eq(3)
-      end
+    it 'returns "string" for a string source' do
+      expect(examiner.origin).to eq('string')
     end
   end
 
@@ -92,7 +77,20 @@ RSpec.describe Reek::Examiner do
       expect(smell.message).to eq("calls 'bar.call_me()' 2 times")
     end
 
-    context 'source is empty' do
+    context 'with a source with three smells' do
+      let(:source) { 'class C; def f; end; end' }
+      let(:examiner) { described_class.new(source) }
+
+      it 'has the right smells' do
+        smells = examiner.smells
+        expect(smells.map(&:message)).
+          to eq ['has no descriptive comment',
+                 "has the name 'f'",
+                 "has the name 'C'"]
+      end
+    end
+
+    context 'when source only contains comments' do
       let(:source) do
         <<-EOS
             # Just a comment
@@ -144,6 +142,15 @@ RSpec.describe Reek::Examiner do
     end
   end
 
+  describe '#smells_count' do
+    let(:source) { 'class C; def f; end; end' }
+    let(:examiner) { described_class.new(source) }
+
+    it 'has the right smell count' do
+      expect(examiner.smells_count).to eq(3)
+    end
+  end
+
   context 'when the source causes the source buffer to crash' do
     let(:source) { 'I make the buffer crash' }
 
@@ -153,7 +160,7 @@ RSpec.describe Reek::Examiner do
       allow(Parser::Source::Buffer).to receive(:new).and_return(buffer)
     end
 
-    context 'if the error handler does not handle the error' do
+    context 'when the error handler does not handle the error' do
       let(:examiner) { described_class.new(source) }
 
       it 'does not raise an error during initialization' do
@@ -165,7 +172,7 @@ RSpec.describe Reek::Examiner do
       end
     end
 
-    context 'if the error handler handles the error' do
+    context 'when the error handler handles the error' do
       let(:handler) { instance_double(Reek::LoggingErrorHandler, handle: true) }
       let(:examiner) { described_class.new(source, error_handler: handler) }
 
@@ -206,7 +213,7 @@ RSpec.describe Reek::Examiner do
   describe 'bad comment config' do
     let(:examiner) { described_class.new(source) }
 
-    context 'unknown smell detector' do
+    context 'with an unknown smell detector' do
       let(:source) do
         <<-EOS
           # :reek:DoesNotExist
@@ -232,7 +239,7 @@ RSpec.describe Reek::Examiner do
       end
     end
 
-    context 'garbage in detector config' do
+    context 'with garbage in detector config' do
       let(:source) do
         <<-EOS
           # :reek:UncommunicativeMethodName { thats: a: bad: config }

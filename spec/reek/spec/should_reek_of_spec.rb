@@ -21,7 +21,7 @@ RSpec.describe Reek::Spec::ShouldReekOf do
   end
 
   describe 'different sources of input' do
-    context 'checking code in a string' do
+    context 'when checking code in a string' do
       let(:clean_code) { 'def good() true; end' }
       let(:matcher) { described_class.new(:UncommunicativeVariableName, name: 'y') }
       let(:smelly_code) { 'def x() y = 4; end' }
@@ -40,7 +40,7 @@ RSpec.describe Reek::Spec::ShouldReekOf do
       end
     end
 
-    context 'checking code in a File' do
+    context 'when checking code in a File' do
       let(:matcher) { described_class.new(:UncommunicativeMethodName, name: 'x') }
 
       it 'matches a smelly file' do
@@ -54,7 +54,7 @@ RSpec.describe Reek::Spec::ShouldReekOf do
   end
 
   describe 'smell types and smell details' do
-    context 'passing in smell_details with unknown parameter name' do
+    context 'when passing in smell_details with unknown parameter name' do
       let(:matcher) { described_class.new(:UncommunicativeVariableName, foo: 'y') }
       let(:smelly_code) { 'def x() y = 4; end' }
 
@@ -63,7 +63,7 @@ RSpec.describe Reek::Spec::ShouldReekOf do
       end
     end
 
-    context 'both are matching' do
+    context 'when both are matching' do
       let(:matcher) { described_class.new(:UncommunicativeVariableName, name: 'y') }
       let(:smelly_code) { 'def x() y = 4; end' }
 
@@ -72,7 +72,7 @@ RSpec.describe Reek::Spec::ShouldReekOf do
       end
     end
 
-    context 'no smell_type is matching' do
+    context 'when no smell_type is matching' do
       let(:smelly_code) { 'def dummy() y = 4; end' }
 
       let(:falsey_matcher) { described_class.new(:FeatureEnvy, name: 'y') }
@@ -97,7 +97,7 @@ RSpec.describe Reek::Spec::ShouldReekOf do
       end
     end
 
-    context 'smell type is matching but smell details are not' do
+    context 'when smell type is matching but smell details are not' do
       let(:smelly_code) { 'def double_thing() @other.thing.foo + @other.thing.foo end' }
       let(:matcher) { described_class.new(:DuplicateMethodCall, name: 'foo', count: 15) }
 
@@ -129,7 +129,7 @@ RSpec.describe Reek::Spec::ShouldReekOf do
     end
   end
 
-  context 'for a smell that is disabled by default' do
+  context 'with a smell that is disabled by default' do
     it 'enables the smell detector to match automatically' do
       default_config = Reek::SmellDetectors::UnusedPrivateMethod.default_config
       src = 'class C; private; def foo; end; end'
