@@ -39,26 +39,6 @@ RSpec.describe Reek::Source::SourceCode do
     end
   end
 
-  context 'with a source that triggers an encoding error' do
-    let(:source_name) { 'Bad source' }
-    let(:code) do
-      <<-SRC.strip_heredoc
-      # encoding: US-ASCII
-      puts 'こんにちは世界'
-      SRC
-    end
-    let(:src) { described_class.new(code: code, origin: source_name) }
-
-    it 'raises an encoding error' do
-      expect { src.syntax_tree }.to raise_error Reek::Errors::EncodingError
-    end
-
-    it 'explains the origin of the error' do
-      message = "Source '#{source_name}' cannot be processed by Reek due to an encoding error in the source file."
-      expect { src.syntax_tree }.to raise_error.with_message(/#{message}/)
-    end
-  end
-
   context 'when the parser fails' do
     let(:source_name) { 'Test source' }
     let(:src) { described_class.new(code: code, origin: source_name, **parser) }

@@ -180,6 +180,29 @@ RSpec.describe Reek::Examiner do
     end
   end
 
+  context 'with a source that triggers an encoding error' do
+    let(:examiner) { described_class.new(source) }
+    let(:source) do
+      <<-SRC.strip_heredoc
+      # encoding: US-ASCII
+      puts 'こんにちは世界'
+      SRC
+    end
+
+    it 'does not raise an error during initialization' do
+      expect { examiner }.not_to raise_error
+    end
+
+    it 'raises an encoding error when asked for smells' do
+      expect { examiner.smells }.to raise_error Reek::Errors::EncodingError
+    end
+
+    it 'explains the origin of the error' do
+      message = "Source 'string' cannot be processed by Reek due to an encoding error in the source file."
+      expect { examiner.smells }.to raise_error.with_message(/#{message}/)
+    end
+  end
+
   describe 'bad comment config' do
     let(:examiner) { described_class.new(source) }
 

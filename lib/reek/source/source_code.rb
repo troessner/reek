@@ -7,7 +7,6 @@ end
 require_relative '../tree_dresser'
 require_relative '../ast/node'
 require_relative '../ast/builder'
-require_relative '../errors/encoding_error'
 
 # Opt in to new way of representing lambdas
 Reek::AST::Builder.emit_lambda = true
@@ -109,20 +108,12 @@ module Reek
       # @param source [String] - Ruby code
       # @return [Anonymous subclass of Reek::AST::Node] the AST presentation
       #         for the given source
-      # :reek:TooManyStatements { max_statements: 8 }
+      # :reek:TooManyStatements { max_statements: 6 }
       def parse(parser, source)
-        begin
-          buffer = Parser::Source::Buffer.new(origin, 1)
-          source.force_encoding(Encoding::UTF_8)
-          buffer.source = source
-        rescue EncodingError => exception
-          raise Errors::EncodingError, origin: origin, original_exception: exception
-        end
-        begin
-          ast, comments = parser.parse_with_comments(buffer)
-        rescue Parser::SyntaxError # rubocop:disable Lint/HandleExceptions
-          # All errors are in diagnostics. No need to handle exception.
-        end
+        buffer = Parser::Source::Buffer.new(origin, 1)
+        source.force_encoding(Encoding::UTF_8)
+        buffer.source = source
+        ast, comments = parser.parse_with_comments(buffer)
 
         # See https://whitequark.github.io/parser/Parser/Source/Comment/Associator.html
         comment_map = Parser::Source::Comment.associate(ast, comments) if ast
