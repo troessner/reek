@@ -8,12 +8,12 @@ RSpec.describe Reek::Report::CodeClimateFingerprint do
     shared_examples_for 'computes a fingerprint with no parameters' do
       let(:expected_fingerprint) { 'e68badd29db51c92363a7c6a2438d722' }
       let(:warning) do
-        FactoryGirl.build(:smell_warning,
-                          smell_detector: Reek::SmellDetectors::UtilityFunction.new,
-                          context:        'alfa',
-                          message:        "doesn't depend on instance state (maybe move it to another class?)",
-                          lines:          lines,
-                          source:         'a/ruby/source/file.rb')
+        build(:smell_warning,
+              smell_detector: Reek::SmellDetectors::UtilityFunction.new,
+              context:        'alfa',
+              message:        "doesn't depend on instance state (maybe move it to another class?)",
+              lines:          lines,
+              source:         'a/ruby/source/file.rb')
       end
 
       it 'computes the fingerprint' do
@@ -35,12 +35,12 @@ RSpec.describe Reek::Report::CodeClimateFingerprint do
 
     context 'when the fingerprint should not be computed' do
       let(:warning) do
-        FactoryGirl.build(:smell_warning,
-                          smell_detector: Reek::SmellDetectors::ManualDispatch.new,
-                          context:        'Alfa#bravo',
-                          message:        'manually dispatches method call',
-                          lines:          [4],
-                          source:         'a/ruby/source/file.rb')
+        build(:smell_warning,
+              smell_detector: Reek::SmellDetectors::ManualDispatch.new,
+              context:        'Alfa#bravo',
+              message:        'manually dispatches method call',
+              lines:          [4],
+              source:         'a/ruby/source/file.rb')
       end
 
       it 'returns nil' do
@@ -50,13 +50,13 @@ RSpec.describe Reek::Report::CodeClimateFingerprint do
 
     shared_examples_for 'computes a fingerprint with identifying parameters' do
       let(:warning) do
-        FactoryGirl.build(:smell_warning,
-                          smell_detector: Reek::SmellDetectors::ClassVariable.new,
-                          context:        'Alfa',
-                          message:        "declares the class variable '@@#{name}'",
-                          lines:          [4],
-                          parameters:     { name: "@@#{name}" },
-                          source:         'a/ruby/source/file.rb')
+        build(:smell_warning,
+              smell_detector: Reek::SmellDetectors::ClassVariable.new,
+              context:        'Alfa',
+              message:        "declares the class variable '@@#{name}'",
+              lines:          [4],
+              parameters:     { name: "@@#{name}" },
+              source:         'a/ruby/source/file.rb')
       end
 
       it 'computes the fingerprint' do
@@ -80,13 +80,13 @@ RSpec.describe Reek::Report::CodeClimateFingerprint do
 
     shared_examples_for 'computes a fingerprint with identifying and non-identifying parameters' do
       let(:warning) do
-        FactoryGirl.build(:smell_warning,
-                          smell_detector: Reek::SmellDetectors::DuplicateMethodCall.new,
-                          context:        "Alfa##{name}",
-                          message:        "calls '#{name}' #{count} times",
-                          lines:          lines,
-                          parameters:     { name: "@@#{name}", count: count },
-                          source:         'a/ruby/source/file.rb')
+        build(:smell_warning,
+              smell_detector: Reek::SmellDetectors::DuplicateMethodCall.new,
+              context:        "Alfa##{name}",
+              message:        "calls '#{name}' #{count} times",
+              lines:          lines,
+              parameters:     { name: "@@#{name}", count: count },
+              source:         'a/ruby/source/file.rb')
       end
 
       it 'computes the fingerprint' do

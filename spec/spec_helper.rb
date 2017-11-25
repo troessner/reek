@@ -15,8 +15,8 @@ Reek::CLI::Silencer.silently do
   end
 end
 
-require 'factory_girl'
-FactoryGirl.find_definitions
+require 'factory_bot'
+FactoryBot.find_definitions
 
 # Simple helpers for our specs.
 module Helpers
@@ -76,7 +76,7 @@ end
 RSpec.configure do |config|
   config.filter_run :focus
   config.run_all_when_everything_filtered = true
-  config.include FactoryGirl::Syntax::Methods
+  config.include FactoryBot::Syntax::Methods
   config.include Helpers
 
   config.disable_monkey_patching!

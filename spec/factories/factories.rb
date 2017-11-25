@@ -3,7 +3,7 @@ require_relative '../../lib/reek/smell_detectors/base_detector'
 require_relative '../../lib/reek/smell_warning'
 require_relative '../../lib/reek/cli/options'
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :method_context, class: Reek::Context::MethodContext do
     skip_create
     transient do

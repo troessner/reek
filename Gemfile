@@ -9,7 +9,7 @@ group :development do
   gem 'aruba',         '~> 0.14.0'
   gem 'ataru',         '~> 0.2.0'
   gem 'cucumber',      '~> 3.0'
-  gem 'factory_girl',  '~> 4.0'
+  gem 'factory_bot',   '~> 4.0'
   gem 'rake',          '~> 12.0'
   gem 'rspec',         '~> 3.0'
   gem 'simplecov',     '~> 0.15.0'
