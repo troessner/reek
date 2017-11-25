@@ -3,18 +3,7 @@ require_relative '../../lib/reek/smell_detectors/base_detector'
 require_relative '../../lib/reek/smell_warning'
 require_relative '../../lib/reek/cli/options'
 
-FactoryGirl.define do
-  factory :method_context, class: Reek::Context::MethodContext do
-    skip_create
-    transient do
-      source 'def foo; end'
-    end
-
-    initialize_with do
-      new(nil, Reek::Source::SourceCode.from(source).syntax_tree)
-    end
-  end
-
+FactoryBot.define do
   factory :smell_detector, class: Reek::SmellDetectors::BaseDetector do
     skip_create
     transient do
