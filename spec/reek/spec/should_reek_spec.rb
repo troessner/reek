@@ -22,7 +22,7 @@ RSpec.describe Reek::Spec::ShouldReek do
   end
 
   describe 'checking code in a File' do
-    context 'matcher without masking' do
+    context 'without masking' do
       let(:matcher) { described_class.new }
 
       it 'matches a smelly File' do
@@ -39,7 +39,7 @@ RSpec.describe Reek::Spec::ShouldReek do
       end
     end
 
-    context 'matcher without masking' do
+    context 'with masking' do
       let(:path) { CONFIG_PATH.join('full_mask.reek') }
       let(:configuration) { test_configuration_for(path) }
       let(:matcher) { described_class.new(configuration: configuration) }

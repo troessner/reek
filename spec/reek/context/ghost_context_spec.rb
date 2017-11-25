@@ -42,7 +42,7 @@ RSpec.describe Reek::Context::GhostContext do
       expect(ghost.children).to include child
     end
 
-    context 'if the grandparent is also a ghost' do
+    context 'when the grandparent is also a ghost' do
       let(:child_ghost) { described_class.new(nil) }
 
       before do

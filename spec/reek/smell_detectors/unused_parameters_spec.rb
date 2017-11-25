@@ -61,7 +61,7 @@ RSpec.describe Reek::SmellDetectors::UnusedParameters do
     expect(src).not_to reek_of(:UnusedParameters)
   end
 
-  context 'using super' do
+  context 'when using super' do
     it 'reports nothing with implicit arguments' do
       src = 'def alfa(*bravo); super; end'
       expect(src).not_to reek_of(:UnusedParameters)
@@ -83,7 +83,7 @@ RSpec.describe Reek::SmellDetectors::UnusedParameters do
     end
   end
 
-  context 'anonymous parameters' do
+  context 'with anonymous parameters' do
     it 'reports nothing for unused anonymous parameter' do
       src = 'def alfa(_); end'
       expect(src).not_to reek_of(:UnusedParameters)
@@ -95,7 +95,7 @@ RSpec.describe Reek::SmellDetectors::UnusedParameters do
     end
   end
 
-  context 'splatted parameters' do
+  context 'with splatted parameters' do
     it 'reports nothing for used splatted parameter' do
       src = 'def alfa(*bravo); bravo; end'
       expect(src).not_to reek_of(:UnusedParameters)

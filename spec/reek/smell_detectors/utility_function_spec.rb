@@ -98,7 +98,7 @@ RSpec.describe Reek::SmellDetectors::UtilityFunction do
     expect(src).to reek_of(:UtilityFunction, context: 'simple')
   end
 
-  context 'Singleton methods' do
+  context 'when examining singleton methods' do
     ['class', 'module'].each do |scope|
       it "does not report for #{scope} with `class << self` notation" do
         src = "#{scope} Alfa; class << self; def bravo(charlie) charlie.to_s; end; end; end"
@@ -111,7 +111,7 @@ RSpec.describe Reek::SmellDetectors::UtilityFunction do
       end
     end
 
-    context 'by using `module_function`' do
+    context 'when defined by using `module_function`' do
       it 'does not report UtilityFunction also when using multiple arguments' do
         src = <<-EOS
           class Alfa
@@ -194,7 +194,7 @@ RSpec.describe Reek::SmellDetectors::UtilityFunction do
       { Reek::SmellDetectors::UtilityFunction::PUBLIC_METHODS_ONLY_KEY => true }
     end
 
-    context 'public methods' do
+    context 'when examining public methods' do
       it 'still reports UtilityFunction' do
         src = <<-EOS
           class Alfa
@@ -208,7 +208,7 @@ RSpec.describe Reek::SmellDetectors::UtilityFunction do
       end
     end
 
-    context 'private methods' do
+    context 'when examining private methods' do
       it 'does not report UtilityFunction' do
         src = <<-EOS
           class Alfa
@@ -235,7 +235,7 @@ RSpec.describe Reek::SmellDetectors::UtilityFunction do
       end
     end
 
-    context 'protected methods' do
+    context 'when examining protected methods' do
       it 'does not report UtilityFunction' do
         src = <<-EOS
           class Alfa

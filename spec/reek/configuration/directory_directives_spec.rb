@@ -13,13 +13,13 @@ RSpec.describe Reek::Configuration::DirectoryDirectives do
     end
     let(:source_via) { 'foo/bar/bang/dummy.rb' }
 
-    context 'our source is in a directory for which we have a directive' do
+    context 'when our source is in a directory for which we have a directive' do
       it 'returns the corresponding directive' do
         expect(directives.directive_for(source_via)).to eq(bang_config)
       end
     end
 
-    context 'our source is not in a directory for which we have a directive' do
+    context 'when our source is not in a directory for which we have a directive' do
       it 'returns nil' do
         expect(directives.directive_for('does/not/exist')).to eq(nil)
       end
@@ -31,7 +31,7 @@ RSpec.describe Reek::Configuration::DirectoryDirectives do
       {}.extend(described_class)
     end
 
-    context 'one of given paths is a file' do
+    context 'when one of given paths is a file' do
       let(:file_as_path) { SAMPLES_PATH.join('inline.rb') }
 
       it 'raises an error' do

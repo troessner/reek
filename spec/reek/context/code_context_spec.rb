@@ -3,7 +3,7 @@ require_lib 'reek/context/method_context'
 require_lib 'reek/context/module_context'
 
 RSpec.describe Reek::Context::CodeContext do
-  context 'name recognition' do
+  describe '#full_name' do
     let(:ctx)       { described_class.new(exp) }
     let(:exp)       { instance_double('Reek::AST::SexpExtensions::ModuleNode') }
     let(:exp_name)  { 'random_name' }
@@ -14,8 +14,53 @@ RSpec.describe Reek::Context::CodeContext do
       allow(exp).to receive(:full_name).and_return(full_name)
     end
 
+    it 'creates the correct full name' do
+      expect(ctx.full_name).to eq(full_name)
+    end
+
+    context 'when there is an outer' do
+      let(:outer_name) { 'another_random sting' }
+      let(:outer)      { described_class.new(instance_double('Reek::AST::Node')) }
+
+      before do
+        ctx.register_with_parent outer
+        allow(outer).to receive(:full_name).at_least(:once).and_return(outer_name)
+      end
+
+      it 'creates the correct full name' do
+        expect(ctx.full_name).to eq(full_name)
+      end
+
+      it 'passes the outer name to exp#full_name' do
+        ctx.full_name
+        expect(exp).to have_received(:full_name).with outer_name
+      end
+    end
+  end
+
+  describe '#name' do
+    let(:ctx)       { described_class.new(exp) }
+    let(:exp)       { instance_double('Reek::AST::SexpExtensions::ModuleNode') }
+    let(:exp_name)  { 'random_name' }
+
+    before do
+      allow(exp).to receive(:name).and_return(exp_name)
+    end
+
     it 'gets its short name from the exp' do
       expect(ctx.name).to eq(exp_name)
+    end
+  end
+
+  describe '#matches?' do
+    let(:ctx)       { described_class.new(exp) }
+    let(:exp)       { instance_double('Reek::AST::SexpExtensions::ModuleNode') }
+    let(:exp_name)  { 'random_name' }
+    let(:full_name) { "::::::::::::::::::::#{exp_name}" }
+
+    before do
+      allow(exp).to receive(:name).and_return(exp_name)
+      allow(exp).to receive(:full_name).and_return(full_name)
     end
 
     it 'does not match an empty list' do
@@ -31,29 +76,36 @@ RSpec.describe Reek::Context::CodeContext do
     end
 
     it 'recognises its own short name' do
+      expect(ctx.matches?([exp_name])).to eq(true)
+    end
+
+    it 'recognises its own short name in a list' do
       expect(ctx.matches?(['banana', exp_name])).to eq(true)
     end
 
     it 'recognises its short name as a regex' do
-      expect(ctx.matches?([/banana/, /#{exp_name}/])).to eq(true)
+      expect(ctx.matches?([/#{exp_name}/])).to eq(true)
     end
 
     it 'does not blow up on []-ended Strings' do
       expect(ctx.matches?(['banana[]', exp_name])).to eq(true)
     end
 
+    it 'recognises its own full name' do
+      expect(ctx.matches?(['banana', full_name])).to eq(true)
+    end
+
+    it 'recognises its full name as a regex' do
+      expect(ctx.matches?([/banana/, /#{full_name}/])).to eq(true)
+    end
+
     context 'when there is an outer' do
-      let(:ctx)        { described_class.new(exp) }
       let(:outer_name) { 'another_random sting' }
       let(:outer)      { described_class.new(instance_double('Reek::AST::Node')) }
 
       before do
         ctx.register_with_parent outer
         allow(outer).to receive(:full_name).at_least(:once).and_return(outer_name)
-      end
-
-      it 'creates the correct full name' do
-        expect(ctx.full_name).to eq(full_name)
       end
 
       it 'recognises its own full name' do
@@ -66,8 +118,8 @@ RSpec.describe Reek::Context::CodeContext do
     end
   end
 
-  context 'enumerating syntax elements' do
-    context 'in an empty module' do
+  describe '#each_node' do
+    context 'with an empty module' do
       let(:ctx) do
         src = 'module Emptiness; end'
         ast = Reek::Source::SourceCode.from(src).syntax_tree

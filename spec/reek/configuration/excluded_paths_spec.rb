@@ -5,7 +5,7 @@ RSpec.describe Reek::Configuration::ExcludedPaths do
   describe '#add' do
     let(:exclusions) { [].extend(described_class) }
 
-    context 'one of given paths is a file' do
+    context 'when one of given paths is a file' do
       let(:file_as_path) { SAMPLES_PATH.join('inline.rb') }
       let(:paths) { [SAMPLES_PATH, file_as_path] }
 

@@ -117,6 +117,7 @@ RSpec/MultipleExpectations:
 # FIXME: Update specs to avoid offenses
 RSpec/NestedGroups:
   Exclude:
+    - 'spec/reek/report/code_climate/code_climate_fingerprint_spec.rb'
     - 'spec/reek/cli/application_spec.rb'
 
 # rubocop-rspec expects a CodeClimate namespace to go with the code_climate directory.

@@ -27,7 +27,7 @@ RSpec.describe Reek::SmellDetectors::BooleanParameter do
       and reek_of(:BooleanParameter, lines: [1], context: 'alfa', parameter: 'charlie')
   end
 
-  context 'in a method' do
+  context 'when examining an instance method' do
     it 'reports a parameter defaulted to false' do
       src = 'def alfa(bravo = false) end'
       expect(src).to reek_of(:BooleanParameter)
@@ -70,7 +70,7 @@ RSpec.describe Reek::SmellDetectors::BooleanParameter do
     end
   end
 
-  context 'in a singleton method' do
+  context 'when examining a singleton method' do
     it 'reports a parameter defaulted to true' do
       src = 'def self.alfa(bravo = true) end'
       expect(src).to reek_of(:BooleanParameter)

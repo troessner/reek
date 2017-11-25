@@ -223,7 +223,7 @@ RSpec.describe Reek::SmellDetectors::NestedIterators do
     expect(src).not_to reek_of(:NestedIterators)
   end
 
-  context 'setting the allowed nesting depth to 3' do
+  context 'when setting the allowed nesting depth to 3' do
     let(:config) do
       { Reek::SmellDetectors::NestedIterators::MAX_ALLOWED_NESTING_KEY => 3 }
     end

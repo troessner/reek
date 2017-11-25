@@ -374,7 +374,7 @@ end
 RSpec.describe Reek::AST::SexpExtensions::LambdaNode do
   let(:node) { sexp(:lambda) }
 
-  context '#name' do
+  describe '#name' do
     it 'returns :lambda' do
       expect(node.name).to eq 'lambda'
     end

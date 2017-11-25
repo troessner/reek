@@ -150,7 +150,7 @@ RSpec.describe Reek::SmellDetectors::DuplicateMethodCall do
     end
   end
 
-  context 'non-repeated method calls' do
+  context 'with non-repeated method calls' do
     it 'does not report similar calls' do
       src = 'def alfa(bravo) bravo.charlie == self.charlie end'
       expect(src).not_to reek_of(:DuplicateMethodCall)
@@ -162,7 +162,7 @@ RSpec.describe Reek::SmellDetectors::DuplicateMethodCall do
     end
   end
 
-  context 'allowing up to 3 calls' do
+  context 'when allowing up to 3 calls' do
     let(:config) do
       { Reek::SmellDetectors::DuplicateMethodCall::MAX_ALLOWED_CALLS_KEY => 3 }
     end
@@ -189,7 +189,7 @@ RSpec.describe Reek::SmellDetectors::DuplicateMethodCall do
     end
   end
 
-  context 'allowing calls to some methods' do
+  context 'when allowing calls to some methods' do
     it 'does not report calls to some methods' do
       config = { Reek::SmellDetectors::DuplicateMethodCall::ALLOW_CALLS_KEY => ['@bravo.charlie'] }
       src = 'def alfa; @bravo.charlie + @bravo.charlie; end'

@@ -30,7 +30,7 @@ RSpec.describe Reek::SmellDetectors::ControlParameter do
       and reek_of(:ControlParameter, lines: [3], argument: 'charlie')
   end
 
-  context 'parameter not used to determine code path' do
+  context 'when a parameter is not used to determine code path' do
     it 'does not report a ternary check on an ivar' do
       src = 'def alfa(bravo) @charlie ? bravo : false end'
       expect(src).not_to reek_of(:ControlParameter)
@@ -52,7 +52,7 @@ RSpec.describe Reek::SmellDetectors::ControlParameter do
     end
   end
 
-  context 'parameter only used to determine code path' do
+  context 'when a parameter is only used to determine code path' do
     it 'reports a ternary check on a parameter' do
       src = 'def alfa(bravo); bravo ? true : false; end'
       expect(src).to reek_of(:ControlParameter)
@@ -188,7 +188,7 @@ RSpec.describe Reek::SmellDetectors::ControlParameter do
     end
   end
 
-  context 'parameter used besides determining code path' do
+  context 'when a parameter is used besides determining code path' do
     it 'does not report on if conditional expression' do
       src = 'def alfa(bravo); if bravo then charlie(bravo); end end'
       expect(src).not_to reek_of(:ControlParameter)
