@@ -85,15 +85,6 @@ RSpec.configure do |config|
     mocks.verify_partial_doubles = true
     mocks.verify_doubled_constant_names = true
   end
-
-  # Avoid infinitely running tests. This is mainly useful when running a
-  # mutation tester. Set the DEBUG environment variable to something truthy
-  # like '1' to disable this and allow using pry without specs failing.
-  unless ENV['DEBUG']
-    config.around do |example|
-      Timeout.timeout(5, &example)
-    end
-  end
 end
 
 RSpec::Matchers.define_negated_matcher :not_reek_of, :reek_of
