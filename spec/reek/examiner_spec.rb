@@ -131,13 +131,17 @@ RSpec.describe Reek::Examiner do
       end
 
       it 'explains what to do' do
-        explanation = 'Please double check your Reek configuration'
+        explanation = 'It would be great if you could report this back to the Reek team'
         expect { examiner.smells }.to raise_error.with_message(/#{explanation}/)
       end
 
       it 'contains the original error message' do
         original = 'Looks like bad source'
         expect { examiner.smells }.to raise_error.with_message(/#{original}/)
+      end
+
+      it 'shows the original exception class' do
+        expect { examiner.smells }.to raise_error.with_message(/ArgumentError/)
       end
     end
   end
@@ -207,6 +211,10 @@ RSpec.describe Reek::Examiner do
     it 'explains the origin of the error' do
       message = "Source 'string' cannot be processed by Reek due to an encoding error in the source file."
       expect { examiner.smells }.to raise_error.with_message(/#{message}/)
+    end
+
+    it 'shows the original exception class' do
+      expect { examiner.smells }.to raise_error.with_message(/InvalidByteSequenceError/)
     end
   end
 
