@@ -49,9 +49,8 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
-      # :reek:FeatureEnvy
       def sniff
-        ControlParameterCollector.new(context).control_parameters.map do |control_parameter|
+        control_parameters.map do |control_parameter|
           argument = control_parameter.name.to_s
           smell_warning(
             context: context,
@@ -59,6 +58,22 @@ module Reek
             message: "is controlled by argument '#{argument}'",
             parameters: { argument: argument })
         end
+      end
+
+      private
+
+      def control_parameters
+        potential_parameters.
+          map { |param| FoundControlParameter.new(param, find_matches(param)) }.
+          select(&:smells?)
+      end
+
+      def potential_parameters
+        expression.parameter_names
+      end
+
+      def find_matches(param)
+        ControlParameterFinder.new(expression, param).find_matches
       end
 
       #
@@ -166,35 +181,6 @@ module Reek
       end
 
       private_constant :ControlParameterFinder
-
-      #
-      # Collects all control parameters in a given context.
-      #
-      class ControlParameterCollector
-        def initialize(context)
-          @context = context
-        end
-
-        def control_parameters
-          potential_parameters.
-            map { |param| FoundControlParameter.new(param, find_matches(param)) }.
-            select(&:smells?)
-        end
-
-        private
-
-        attr_reader :context
-
-        def potential_parameters
-          context.exp.parameter_names
-        end
-
-        def find_matches(param)
-          ControlParameterFinder.new(context.exp, param).find_matches
-        end
-      end
-
-      private_constant :ControlParameterCollector
     end
   end
 end
