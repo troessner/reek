@@ -54,7 +54,6 @@ module Reek
           occurs = lines.length
           expression = key.format_to_ruby
           smell_warning(
-            context: context,
             lines: lines,
             message: "tests '#{expression}' at least #{occurs} times",
             parameters: { name: expression, count: occurs })

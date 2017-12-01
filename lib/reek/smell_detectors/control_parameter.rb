@@ -53,7 +53,6 @@ module Reek
         control_parameters.map do |control_parameter|
           argument = control_parameter.name.to_s
           smell_warning(
-            context: context,
             lines: control_parameter.lines,
             message: "is controlled by argument '#{argument}'",
             parameters: { argument: argument })

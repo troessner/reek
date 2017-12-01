@@ -47,7 +47,6 @@ module Reek
         return [] unless context.references_self?
         envious_receivers.map do |name, lines|
           smell_warning(
-            context: context,
             lines: lines,
             message: "refers to '#{name}' more than self (maybe move it to another class?)",
             parameters: { name: name.to_s })

@@ -31,7 +31,6 @@ module Reek
         end.map do |yield_node|
           count = yield_node.args.length
           smell_warning(
-            context: context,
             lines: [yield_node.line],
             message: "yields #{count} parameters",
             parameters: { count: count })

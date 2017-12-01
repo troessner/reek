@@ -23,7 +23,7 @@ module Reek
         smelly_nodes = context.local_nodes(:send).select { |node| node.name == :respond_to? }
         return [] if smelly_nodes.empty?
         lines = smelly_nodes.map(&:line)
-        [smell_warning(context: context, lines: lines, message: MESSAGE)]
+        [smell_warning(lines: lines, message: MESSAGE)]
       end
     end
   end

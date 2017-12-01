@@ -41,7 +41,6 @@ module Reek
           # "smell_warning" is defined in BaseDetector and should be used by you
           # to construct smell warnings
           smell_warning(
-            context: context,
             lines: [], # lines on which the smell was detected
             message: "...", # the message that is printed on STDOUT
             # whatever you interpolate into the "message" should go into

@@ -45,7 +45,6 @@ module Reek
 
         params.map(&:name).map do |name|
           smell_warning(
-            context: context,
             lines: [source_line],
             message: "has the parameter name '#{name}'",
             parameters: { name: name.to_s })

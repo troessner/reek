@@ -24,7 +24,6 @@ module Reek
           [:true, :false].include?(value.type)
         end.map do |parameter, _value|
           smell_warning(
-            context: context,
             lines: [source_line],
             message: "has boolean parameter '#{parameter}'",
             parameters: { parameter: parameter.to_s })

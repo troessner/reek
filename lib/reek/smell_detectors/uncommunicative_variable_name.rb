@@ -57,7 +57,6 @@ module Reek
           uncommunicative_variable_name?(name)
         end.map do |name, lines|
           smell_warning(
-            context: context,
             lines: lines,
             message: "has the variable name '#{name}'",
             parameters: { name: name.to_s })

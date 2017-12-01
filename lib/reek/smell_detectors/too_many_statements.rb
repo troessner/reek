@@ -31,7 +31,6 @@ module Reek
         count = context.number_of_statements
         return [] if count <= max_allowed_statements
         [smell_warning(
-          context: context,
           lines: [source_line],
           message: "has approx #{count} statements",
           parameters: { count: count })]

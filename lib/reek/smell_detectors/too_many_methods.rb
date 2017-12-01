@@ -40,7 +40,6 @@ module Reek
         actual = context.node_instance_methods.length
         return [] if actual <= max_allowed_methods
         [smell_warning(
-          context: context,
           lines: [source_line],
           message: "has at least #{actual} methods",
           parameters: { count: actual })]
