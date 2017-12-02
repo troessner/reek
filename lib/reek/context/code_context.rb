@@ -19,7 +19,6 @@ module Reek
     class CodeContext
       include Enumerable
       extend Forwardable
-      delegate each_node: :exp
       delegate [:name, :type] => :exp
 
       attr_reader :children, :parent, :exp, :statement_counter
@@ -40,8 +39,8 @@ module Reek
       # @yield block that is executed for every node.
       #
       def local_nodes(type, ignored = [], &blk)
-        ignored += [:casgn, :class, :module]
-        each_node(type, ignored, &blk)
+        ignored |= [:class, :module]
+        exp.each_node(type, ignored, &blk)
       end
 
       # Iterate over `self` and child contexts.
