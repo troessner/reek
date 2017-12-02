@@ -3,6 +3,12 @@ engines:
     enabled: true
   reek:
     enabled: true
+  duplication:
+    enabled: true
+    config:
+      languages:
+        ruby:
+          mass_threshold: 29
 ratings:
   paths:
     - lib/**/*

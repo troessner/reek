@@ -6,9 +6,11 @@ module Reek
   module Errors
     # Gets raised when Reek is unable to process the source due to an EncodingError
     class EncodingError < BaseError
-      ENCODING_ERROR_TEMPLATE = <<-MESSAGE.freeze
+      TEMPLATE = "Source '%s' cannot be processed by Reek due to an encoding error in the source file.".freeze
+
+      LONG_TEMPLATE = <<-MESSAGE.freeze
         !!!
-        Source '%s' cannot be processed by Reek due to an encoding error in the source file.
+        %s
 
         This is a problem that is outside of Reek's scope and should be fixed by you, the
         user, in order for Reek being able to continue.
@@ -26,12 +28,15 @@ module Reek
         !!!
       MESSAGE
 
-      def initialize(origin:, original_exception:)
-        message = format(ENCODING_ERROR_TEMPLATE,
-                         origin,
-                         original_exception.inspect,
-                         original_exception.backtrace.join("\n\t"))
-        super message
+      def initialize(origin:)
+        super format(TEMPLATE, origin)
+      end
+
+      def long_message
+        format(LONG_TEMPLATE,
+               message,
+               cause.inspect,
+               cause.backtrace.join("\n\t"))
       end
     end
   end

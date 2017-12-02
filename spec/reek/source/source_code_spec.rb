@@ -41,11 +41,11 @@ RSpec.describe Reek::Source::SourceCode do
 
   context 'when the parser fails' do
     let(:source_name) { 'Test source' }
-    let(:src) { described_class.new(code: code, origin: source_name, **parser) }
+    let(:src) { described_class.new(code: code, origin: source_name, **options) }
 
     context 'with a Parser::SyntaxError' do
       let(:code) { '== Invalid Syntax ==' }
-      let(:parser) { {} }
+      let(:options) { {} }
 
       it 'adds a diagnostic' do
         expect(src.diagnostics.size).to eq 2
@@ -56,7 +56,7 @@ RSpec.describe Reek::Source::SourceCode do
       let(:code) { '' }
       let(:error_class) { RuntimeError }
       let(:error_message) { 'An error' }
-      let(:parser) do
+      let(:options) do
         parser = instance_double('Parser::Ruby24')
         allow(parser).to receive(:parse_with_comments).and_raise(error_class, error_message)
         {
@@ -65,7 +65,7 @@ RSpec.describe Reek::Source::SourceCode do
       end
 
       it 'raises the error' do
-        expect { src.valid_syntax? }.to raise_error error_class, error_message
+        expect { src.syntax_tree }.to raise_error error_class, error_message
       end
     end
   end

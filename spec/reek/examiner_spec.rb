@@ -127,21 +127,25 @@ RSpec.describe Reek::Examiner do
 
       it 'explains the origin of the error' do
         origin = 'string'
-        expect { examiner.smells }.to raise_error.with_message(/#{origin}/)
+        expect { examiner.smells }.
+          to raise_error.with_message("Source #{origin} cannot be processed by Reek.")
       end
 
       it 'explains what to do' do
         explanation = 'It would be great if you could report this back to the Reek team'
-        expect { examiner.smells }.to raise_error.with_message(/#{explanation}/)
+        expect { examiner.smells }.
+          to raise_error { |it| expect(it.long_message).to match(/#{explanation}/) }
       end
 
       it 'contains the original error message' do
         original = 'Looks like bad source'
-        expect { examiner.smells }.to raise_error.with_message(/#{original}/)
+        expect { examiner.smells }.
+          to raise_error { |it| expect(it.long_message).to match(/#{original}/) }
       end
 
       it 'shows the original exception class' do
-        expect { examiner.smells }.to raise_error.with_message(/ArgumentError/)
+        expect { examiner.smells }.
+          to raise_error { |it| expect(it.long_message).to match(/ArgumentError/) }
       end
     end
   end
@@ -214,7 +218,8 @@ RSpec.describe Reek::Examiner do
     end
 
     it 'shows the original exception class' do
-      expect { examiner.smells }.to raise_error.with_message(/InvalidByteSequenceError/)
+      expect { examiner.smells }.
+        to raise_error { |it| expect(it.long_message).to match(/InvalidByteSequenceError/) }
     end
   end
 
