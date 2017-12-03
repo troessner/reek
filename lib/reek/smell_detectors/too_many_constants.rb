@@ -35,7 +35,7 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       def sniff
-        count = context.local_nodes(:casgn).delete_if(&:defines_module?).length
+        count = context.local_nodes(:casgn).reject(&:defines_module?).length
 
         return [] if count <= max_allowed_constants
 

@@ -71,7 +71,7 @@ module Reek
       private
 
       def num_helper_methods
-        context.local_nodes(:send).length
+        context.local_nodes(:send).to_a.length
       end
 
       def ignore_method?

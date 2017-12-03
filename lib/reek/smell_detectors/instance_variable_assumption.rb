@@ -55,16 +55,8 @@ module Reek
 
       def variables_from_context
         method_expressions.map do |method|
-          method.find_nodes(assumption_nodes, ignored_nodes).map(&:name)
+          method.each_node(:ivar, [:or_asgn]).map(&:name)
         end.flatten
-      end
-
-      def assumption_nodes
-        [:ivar]
-      end
-
-      def ignored_nodes
-        [:or_asgn]
       end
     end
   end

@@ -10,7 +10,7 @@ module Reek
         end
 
         def body_nodes(type, ignoring = [])
-          children[1..-1].compact.flat_map { |child| child.find_nodes(type, ignoring) }
+          children[1..-1].compact.flat_map { |child| child.each_node(type, ignoring).to_a }
         end
 
         def else_body

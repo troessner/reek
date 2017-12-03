@@ -144,12 +144,42 @@ RSpec.describe Reek::SmellDetectors::ControlParameter do
       expect(src).to reek_of(:ControlParameter)
     end
 
-    it 'reports on nested if statements where the inner if is a control parameter' do
+    it 'reports on nested suffix if statements where the inner if is a control parameter' do
       src = <<-EOS
         def nested(bravo)
           if true
             charlie
             charlie if bravo
+          end
+        end
+      EOS
+
+      expect(src).to reek_of(:ControlParameter)
+    end
+
+    it 'reports on nested full if statements where the inner if is a control parameter' do
+      src = <<-EOS
+        def alfa(bravo)
+          if true
+            charlie
+          else
+            if bravo
+              delta
+            end
+          end
+        end
+      EOS
+
+      expect(src).to reek_of(:ControlParameter)
+    end
+
+    it 'reports on elsif statements' do
+      src = <<-EOS
+        def alfa(bravo)
+          if true
+            charlie
+          elsif bravo
+            delta
           end
         end
       EOS

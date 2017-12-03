@@ -107,7 +107,7 @@ RSpec.describe Reek::AST::SexpExtensions::DefNode do
     end
 
     it 'finds nodes in the body with #body_nodes' do
-      expect(node.body_nodes([:first])).to eq [sexp(:first)]
+      expect(node.body_nodes([:first]).to_a).to eq [sexp(:first)]
     end
   end
 

@@ -34,54 +34,38 @@ module Reek
       end
 
       #
-      # Carries out a depth-first traversal of this syntax tree, yielding
-      # every Sexp of type `target_type`. The traversal ignores any node
-      # whose type is listed in the Array `ignoring`.
+      # Carries out a depth-first traversal of this syntax tree, yielding every
+      # Sexp of the searched for type or types. The traversal stops at any node
+      # whose type is listed in `ignoring`.
+      #
+      # If a type is searched for *and* listed in ignoring, it will be yielded
+      # but traversal will not continue to its children.
+      #
+      # If the root's type is ignored, traversal does not stop, unless the root
+      # is of a target type.
+      #
       # Takes a block as well.
       #
-      # target_type - the type to look for, e.g. :send, :block
-      # ignoring - types to ignore, e.g. [:casgn, :class, :module]
-      # blk - block to execute for every hit. Gets passed in the matching element itself.
+      # @param target_types [Symbol, Array<Symbol>] the type or types to look
+      #     for
+      # @param ignoring [Array<Symbol>] types to ignore
+      # @param blk block to execute for every hit. Gets passed in the
+      #     matching element itself.
       #
-      # Examples:
-      #   context.each_node(:send, [:mlhs]) do |call_node| .... end
-      #   context.each_node(:lvar).any? { |it| it.var_name == 'something' }
+      # @example
+      #   node.each_node(:send, [:mlhs]) do |call_node| .... end
+      #   node.each_node(:lvar).any? { |it| it.var_name == 'something' }
+      #   node.each_node([:block]).flat_map do |elem| ... end
       #
       # Returns an array with all matching nodes.
-      # TODO: without a block, this doesn't do what one might expect
-      def each_node(target_type, ignoring = [], &blk)
-        if block_given?
-          look_for_type(target_type, ignoring, &blk)
-        else
-          result = []
-          look_for_type(target_type, ignoring) { |exp| result << exp }
-          result
-        end
-      end
+      def each_node(target_types, ignoring = [], &blk)
+        return enum_for(:each_node, target_types, ignoring) unless block_given?
 
-      #
-      # Carries out a depth-first traversal of this syntax tree, yielding
-      # every Sexp of type `target_type`. The traversal ignores any node
-      # whose type is listed in the Array `ignoring`, including the top node.
-      # Takes a block as well.
-      #
-      # target_types - the types to look for, e.g. [:send, :block]
-      # ignoring - types to ignore, e.g. [:casgn, :class, :module]
-      # blk - block to execute for every hit
-      #
-      # Examples:
-      #   exp.find_nodes([:block]).flat_map do |elem| ... end
-      #
-      # Returns an array with all matching nodes.
-      def find_nodes(target_types, ignoring = [])
-        result = []
-        look_for_types(target_types, ignoring) { |exp| result << exp }
-        result
+        look_for(Array(target_types), ignoring, &blk)
       end
 
       def contains_nested_node?(target_type)
-        look_for_type(target_type) { |_elem| return true }
-        false
+        each_node(target_type).any?
       end
 
       # :reek:DuplicateMethodCall { max_calls: 2 } is ok for lines.first
@@ -120,22 +104,22 @@ module Reek
       protected
 
       # See ".each_node" for documentation.
-      def look_for_type(target_type, ignoring = [], &blk)
-        each_sexp do |elem|
-          elem.look_for_type(target_type, ignoring, &blk) unless ignoring.include?(elem.type)
-        end
-        yield self if type == target_type
-      end
-
-      # See ".find_nodes" for documentation.
-      def look_for_types(target_types, ignoring = [], &blk)
-        return if ignoring.include?(type)
+      def look_for(target_types, ignoring, &blk)
         if target_types.include? type
           yield self
-        else
-          each_sexp do |elem|
-            elem.look_for_types(target_types, ignoring, &blk)
-          end
+          return if ignoring.include?(type)
+        end
+        each_sexp do |elem|
+          elem.look_for_recurse(target_types, ignoring, &blk)
+        end
+      end
+
+      # See ".each_node" for documentation.
+      def look_for_recurse(target_types, ignoring, &blk)
+        yield self if target_types.include? type
+        return if ignoring.include? type
+        each_sexp do |elem|
+          elem.look_for_recurse(target_types, ignoring, &blk)
         end
       end
 

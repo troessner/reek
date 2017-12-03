@@ -30,11 +30,9 @@ module Reek
         end
 
         def body_nodes(types, ignoring = [])
-          if body
-            body.find_nodes(types, ignoring)
-          else
-            []
-          end
+          return [] unless body
+          return [] if ignoring.include?(body.type)
+          body.each_node(types, ignoring | types)
         end
       end
 
