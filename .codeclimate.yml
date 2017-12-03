@@ -1,4 +1,5 @@
-engines:
+version: "2"
+plugins:
   rubocop:
     enabled: true
   reek:
@@ -9,10 +10,7 @@ engines:
       languages:
         ruby:
           mass_threshold: 29
-ratings:
-  paths:
-    - lib/**/*
-exclude_paths:
+exclude_patterns:
   - coverage/
   - docs/
   - features/
