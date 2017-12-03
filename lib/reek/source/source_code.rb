@@ -53,11 +53,6 @@ module Reek
         end
       end
 
-      # @return [true|false] Returns true if parsed file does not have any syntax errors.
-      def valid_syntax?
-        diagnostics.none? { |diagnostic| [:error, :fatal].include?(diagnostic.level) }
-      end
-
       def diagnostics
         parse_if_needed
         @diagnostics
@@ -116,7 +111,7 @@ module Reek
         ast, comments = parser.parse_with_comments(buffer)
 
         # See https://whitequark.github.io/parser/Parser/Source/Comment/Associator.html
-        comment_map = Parser::Source::Comment.associate(ast, comments) if ast
+        comment_map = Parser::Source::Comment.associate(ast, comments)
         TreeDresser.new.dress(ast, comment_map)
       end
 

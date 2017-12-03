@@ -6,9 +6,11 @@ module Reek
   module Errors
     # Gets raised when Reek is unable to process the source
     class IncomprehensibleSourceError < BaseError
-      INCOMPREHENSIBLE_SOURCE_TEMPLATE = <<-MESSAGE.freeze
+      TEMPLATE = 'Source %s cannot be processed by Reek.'.freeze
+
+      LONG_TEMPLATE = <<-MESSAGE.freeze
         !!!
-        Source %s cannot be processed by Reek.
+        %s
 
         This is most likely a Reek bug.
 
@@ -29,12 +31,15 @@ module Reek
         !!!
       MESSAGE
 
-      def initialize(origin:, original_exception:)
-        message = format(INCOMPREHENSIBLE_SOURCE_TEMPLATE,
-                         origin,
-                         original_exception.inspect,
-                         original_exception.backtrace.join("\n\t"))
-        super message
+      def initialize(origin:)
+        super format(TEMPLATE, origin)
+      end
+
+      def long_message
+        format(LONG_TEMPLATE,
+               message,
+               cause.inspect,
+               cause.backtrace.join("\n\t"))
       end
     end
   end

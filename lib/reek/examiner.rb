@@ -96,28 +96,24 @@ module Reek
     #
     # @return [Array<SmellWarning>] the smells found in the source
     #
-    # :reek:TooManyStatements { max_statements: 6 }
     def run
-      if source.valid_syntax? && syntax_tree
-        examine_tree
-      else
-        SmellDetectors::Syntax.smells_from_source(source)
+      wrap_exceptions do
+        examine_tree || report_syntax_errors
       end
     rescue StandardError => exception
-      wrapper = wrap_exception exception
-      raise wrapper unless @error_handler.handle wrapper
+      raise unless @error_handler.handle exception
       []
     end
 
-    def wrap_exception(exception)
-      case exception
-      when Errors::BaseError
-        exception
-      when EncodingError
-        Errors::EncodingError.new origin: origin, original_exception: exception
-      else
-        Errors::IncomprehensibleSourceError.new origin: origin, original_exception: exception
-      end
+    # :reek:TooManyStatements { max_statements: 6 }
+    def wrap_exceptions
+      yield
+    rescue Errors::BaseError
+      raise
+    rescue EncodingError
+      raise Errors::EncodingError, origin: origin
+    rescue StandardError
+      raise Errors::IncomprehensibleSourceError, origin: origin
     end
 
     def syntax_tree
@@ -125,9 +121,14 @@ module Reek
     end
 
     def examine_tree
+      return unless syntax_tree
       ContextBuilder.new(syntax_tree).context_tree.flat_map do |element|
         detector_repository.examine(element)
       end
+    end
+
+    def report_syntax_errors
+      SmellDetectors::Syntax.smells_from_source(source)
     end
   end
 end
