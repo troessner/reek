@@ -121,7 +121,7 @@ module Reek
         # :reek:TooManyStatements: { max_statements: 6 }
         # :reek:DuplicateMethodCall: { max_calls: 2 }
         def collect_calls(result)
-          context.each_node(:send, [:mlhs]) do |call_node|
+          context.local_nodes(:send, [:mlhs]) do |call_node|
             next if call_node.object_creation_call?
             next if simple_method_call? call_node
             result[call_node].record(call_node)

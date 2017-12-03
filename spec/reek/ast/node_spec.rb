@@ -2,6 +2,91 @@ require_relative '../../spec_helper'
 require_lib 'reek/ast/node'
 
 RSpec.describe Reek::AST::Node do
+  describe '#each_node' do
+    context 'with an empty module' do
+      let(:ast) do
+        src = 'module Emptiness; end'
+        Reek::Source::SourceCode.from(src).syntax_tree
+      end
+
+      it 'yields no calls' do
+        ast.each_node(:send, []) { |exp| raise "#{exp} yielded by empty module!" }
+      end
+
+      it 'yields one module' do
+        mods = 0
+        ast.each_node(:module, []) { |_exp| mods += 1 }
+        expect(mods).to eq(1)
+      end
+
+      it "yields the module's full AST" do
+        ast.each_node(:module, []) do |exp|
+          expect(exp).to eq(sexp(:module, sexp(:const, nil, :Emptiness), nil))
+        end
+      end
+
+      it 'returns an empty array of ifs when no block is passed' do
+        expect(ast.each_node(:if, [])).to be_empty
+      end
+    end
+
+    context 'with a nested element' do
+      let(:ast) do
+        src = "module Loneliness; def calloo; puts('hello') end; end"
+        Reek::Source::SourceCode.from(src).syntax_tree
+      end
+
+      it 'yields no ifs' do
+        ast.each_node(:if, []) { |exp| raise "#{exp} yielded by empty module!" }
+      end
+      it 'yields one module' do
+        expect(ast.each_node(:module, []).length).to eq(1)
+      end
+
+      it "yields the module's full AST" do
+        ast.each_node(:module, []) do |exp|
+          expect(exp).to eq sexp(:module,
+                                 sexp(:const, nil, :Loneliness),
+                                 sexp(:def, :calloo,
+                                      sexp(:args),
+                                      sexp(:send, nil, :puts, sexp(:str, 'hello'))))
+        end
+      end
+
+      it 'yields one method' do
+        expect(ast.each_node(:def, []).length).to eq(1)
+      end
+
+      it "yields the method's full AST" do
+        ast.each_node(:def, []) { |exp| expect(exp.children.first).to eq(:calloo) }
+      end
+
+      it 'ignores the call inside the method if the traversal is pruned' do
+        expect(ast.each_node(:send, [:def])).to be_empty
+      end
+    end
+
+    it 'finds 3 ifs in a class' do
+      src = <<-EOS
+        class Scrunch
+          def first
+            return @field == :sym ? 0 : 3;
+          end
+          def second
+            if @field == :sym
+              @other += " quarts"
+            end
+          end
+          def third
+            raise 'flu!' unless @field == :sym
+          end
+        end
+      EOS
+      ast = Reek::Source::SourceCode.from(src).syntax_tree
+      expect(ast.each_node(:if, []).length).to eq(3)
+    end
+  end
+
   describe '#format_to_ruby' do
     it 'returns #to_s if location is not present' do
       ast = sexp(:self)

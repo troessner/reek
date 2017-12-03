@@ -21,7 +21,7 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       def sniff
-        context.local_nodes(:def) do |node|
+        context.local_nodes(:def, [:casgn]) do |node|
           if node.name == :initialize
             return smell_warning(
               context: context,
