@@ -25,7 +25,8 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       def sniff
-        class_variables_in_context.map do |variable, lines|
+        class_variables_in_context.map do |variable, occurences|
+          lines = occurences.map(&:line)
           smell_warning(
             context: context,
             lines: lines,
@@ -38,16 +39,8 @@ module Reek
       # Collects the names of the class variables declared and/or used
       # in the given module.
       #
-      # :reek:TooManyStatements: { max_statements: 7 }
       def class_variables_in_context
-        result = Hash.new { |hash, key| hash[key] = [] }
-        collector = proc do |cvar_node|
-          result[cvar_node.name].push(cvar_node.line)
-        end
-        [:cvar, :cvasgn, :cvdecl].each do |stmt_type|
-          expression.each_node(stmt_type, [:class, :module], &collector)
-        end
-        result
+        context.local_nodes([:cvar, :cvasgn, :cvdecl]).group_by(&:name)
       end
     end
   end

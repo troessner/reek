@@ -25,8 +25,8 @@ RSpec.describe Reek::AST::Node do
         end
       end
 
-      it 'returns an empty array of ifs when no block is passed' do
-        expect(ast.each_node(:if, [])).to be_empty
+      it 'returns an enumerator when no block is passed' do
+        expect(ast.each_node(:if)).to be_instance_of Enumerator
       end
     end
 
@@ -37,14 +37,15 @@ RSpec.describe Reek::AST::Node do
       end
 
       it 'yields no ifs' do
-        ast.each_node(:if, []) { |exp| raise "#{exp} yielded by empty module!" }
+        ast.each_node(:if) { |exp| raise "#{exp} yielded by empty module!" }
       end
+
       it 'yields one module' do
-        expect(ast.each_node(:module, []).length).to eq(1)
+        expect(ast.each_node(:module).to_a.length).to eq(1)
       end
 
       it "yields the module's full AST" do
-        ast.each_node(:module, []) do |exp|
+        ast.each_node(:module) do |exp|
           expect(exp).to eq sexp(:module,
                                  sexp(:const, nil, :Loneliness),
                                  sexp(:def, :calloo,
@@ -54,7 +55,7 @@ RSpec.describe Reek::AST::Node do
       end
 
       it 'yields one method' do
-        expect(ast.each_node(:def, []).length).to eq(1)
+        expect(ast.each_node(:def).to_a.length).to eq(1)
       end
 
       it "yields the method's full AST" do
@@ -62,7 +63,7 @@ RSpec.describe Reek::AST::Node do
       end
 
       it 'ignores the call inside the method if the traversal is pruned' do
-        expect(ast.each_node(:send, [:def])).to be_empty
+        expect(ast.each_node(:send, [:def]).to_a).to be_empty
       end
     end
 
@@ -83,7 +84,7 @@ RSpec.describe Reek::AST::Node do
         end
       EOS
       ast = Reek::Source::SourceCode.from(src).syntax_tree
-      expect(ast.each_node(:if, []).length).to eq(3)
+      expect(ast.each_node(:if).to_a.length).to eq(3)
     end
   end
 

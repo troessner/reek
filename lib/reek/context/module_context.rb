@@ -59,7 +59,7 @@ module Reek
       # @deprecated use `defined_instance_methods` instead
       #
       def node_instance_methods
-        local_nodes(:def)
+        local_nodes(:def).to_a
       end
 
       def descriptively_commented?

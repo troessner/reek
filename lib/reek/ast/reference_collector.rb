@@ -12,7 +12,7 @@ module Reek
       end
 
       def num_refs_to_self
-        (explicit_self_calls + implicit_self_calls).size
+        (explicit_self_calls.to_a + implicit_self_calls.to_a).size
       end
 
       private
@@ -20,9 +20,7 @@ module Reek
       attr_reader :ast
 
       def explicit_self_calls
-        [:self, :super, :zsuper, :ivar, :ivasgn].flat_map do |node_type|
-          ast.each_node(node_type)
-        end
+        ast.each_node([:self, :super, :zsuper, :ivar, :ivasgn])
       end
 
       def implicit_self_calls

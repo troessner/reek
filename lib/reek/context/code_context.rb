@@ -44,7 +44,7 @@ module Reek
       end
 
       # Iterate over `self` and child contexts.
-      # The main difference (among others) to `each_node` is that we are traversing
+      # The main difference (among others) to `local_nodes` is that we are traversing
       # `CodeContexts` here, not AST nodes (see `Reek::AST::Node`).
       #
       # @yield block that is executed for every node.

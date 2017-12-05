@@ -10,7 +10,7 @@ module Reek
         end
 
         def body_nodes(type, ignoring = [])
-          children[1].find_nodes type, ignoring
+          children[1].each_node type, ignoring
         end
       end
 

@@ -92,11 +92,11 @@ module Reek
       end
 
       def find_assignment_variable_names(accumulator)
-        assignment_nodes = expression.each_node(:lvasgn, [:class, :module, :defs, :def])
+        assignment_nodes = expression.each_node(:lvasgn, [:class, :module, :defs, :def]).to_a
 
         case expression.type
         when :class, :module
-          assignment_nodes += expression.each_node(:ivasgn, [:class, :module])
+          assignment_nodes += expression.each_node(:ivasgn, [:class, :module]).to_a
         end
 
         assignment_nodes.each { |asgn| accumulator[asgn.children.first].push(asgn.line) }
