@@ -9,7 +9,7 @@ plugins:
     config:
       languages:
         ruby:
-          mass_threshold: 29
+          mass_threshold: 35
 exclude_patterns:
   - coverage/
   - docs/

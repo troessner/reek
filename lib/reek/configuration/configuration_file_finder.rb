@@ -20,8 +20,8 @@ module Reek
     module ConfigurationFileFinder
       TOO_MANY_CONFIGURATION_FILES_MESSAGE = <<-MESSAGE.freeze
 
-        Error: Found multiple configuration files %s
-        while scanning directory %s.
+        Error: Found multiple configuration files %<files>s
+        while scanning directory %<directory>s.
 
         Reek supports only one configuration file. You have 2 options now:
         1) Remove all offending files.
@@ -111,7 +111,7 @@ module Reek
         #
         def escalate_too_many_configuration_files(found, directory)
           offensive_files = found.map { |file| "'#{file.basename}'" }.join(', ')
-          warn format(TOO_MANY_CONFIGURATION_FILES_MESSAGE, offensive_files, directory)
+          warn format(TOO_MANY_CONFIGURATION_FILES_MESSAGE, files: offensive_files, directory: directory)
           exit 1
         end
       end

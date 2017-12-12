@@ -10,12 +10,12 @@ module Reek
     class BadDetectorInCommentError < BaseError
       UNKNOWN_SMELL_DETECTOR_MESSAGE = <<-MESSAGE.freeze
 
-        Error: You are trying to configure an unknown smell detector '%s' in one
+        Error: You are trying to configure an unknown smell detector '%<detector>s' in one
         of your source code comments.
-        The source is '%s' and the comment belongs to the expression starting in line %d.
+        The source is '%<source>s' and the comment belongs to the expression starting in line %<line>d.
         Here's the original comment:
 
-        %s
+        %<comment>s
 
         Please see the Reek docs for:
           * how to configure Reek via source code comments: https://github.com/troessner/reek/blob/master/docs/Smell-Suppression.md
@@ -26,10 +26,10 @@ module Reek
 
       def initialize(detector_name:, source:, line:, original_comment:)
         message = format(UNKNOWN_SMELL_DETECTOR_MESSAGE,
-                         detector_name,
-                         source,
-                         line,
-                         original_comment)
+                         detector: detector_name,
+                         source: source,
+                         line: line,
+                         comment: original_comment)
         super message
       end
     end
