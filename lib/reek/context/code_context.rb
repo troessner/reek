@@ -118,9 +118,7 @@ module Reek
         line = exp.line
         case type
         when :lvar, :lvasgn
-          unless exp.object_creation_call?
-            refs.record_reference(name: receiver.name, line: line)
-          end
+          refs.record_reference(name: receiver.name, line: line) unless exp.object_creation_call?
         when :self
           refs.record_reference(name: :self, line: line)
         end
