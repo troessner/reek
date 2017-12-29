@@ -2,6 +2,7 @@ sudo: false
 dist: trusty
 cache: bundler
 language: ruby
+before_install: gem update --system
 bundler_args: --without debugging
 script: bundle exec rake ci
 rvm:
@@ -9,13 +10,14 @@ rvm:
   - 2.2
   - 2.3
   - 2.4
-  - jruby-9.1.7.0
+  - 2.5
+  - jruby-9.1.15.0
   - jruby-head
   - ruby-head
   - rubinius-3
 matrix:
   allow_failures:
-    - rvm: jruby-9.1.7.0
+    - rvm: jruby-9.1.15.0
     - rvm: jruby-head
     - rvm: ruby-head
     - rvm: rubinius-3
