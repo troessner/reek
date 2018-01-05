@@ -158,13 +158,26 @@ RSpec.describe Reek::SmellDetectors::FeatureEnvy do
         [
           -> { bravo.charlie },
           -> { bravo.delta },
-          -> { bravo.echo },
           foxtrot
         ]
       end
     EOS
 
-    expect(src).to reek_of(:FeatureEnvy)
+    expect(src).to reek_of(:FeatureEnvy, name: 'bravo')
+  end
+
+  it 'reports calls inside block' do
+    src = <<-EOS
+      def alfa(bravo)
+        [
+          Proc.new { bravo.charlie },
+          Proc.new { bravo.delta },
+          foxtrot
+        ]
+      end
+    EOS
+
+    expect(src).to reek_of(:FeatureEnvy, name: 'bravo')
   end
 
   it 'does not report different lambda parameters with the same name' do
@@ -173,13 +186,26 @@ RSpec.describe Reek::SmellDetectors::FeatureEnvy do
         [
           ->(bravo) { bravo.charlie },
           ->(bravo) { bravo.delta },
-          ->(bravo) { bravo.echo },
           foxtrot
         ]
       end
     EOS
 
-    expect(src).not_to reek_of(:FeatureEnvy)
+    expect(src).not_to reek_of(:FeatureEnvy, name: 'bravo')
+  end
+
+  it 'does not report different block parameters with the same name' do
+    src = <<-EOS
+      def alfa
+        [
+          Proc.new { |bravo| bravo.charlie },
+          Proc.new { |bravo| bravo.delta },
+          foxtrot
+        ]
+      end
+    EOS
+
+    expect(src).not_to reek_of(:FeatureEnvy, name: 'bravo')
   end
 
   it 'is not fooled by duplication' do
