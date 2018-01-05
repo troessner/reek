@@ -22,5 +22,5 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency 'codeclimate-engine-rb', '~> 0.4.0'
   s.add_runtime_dependency 'parser',                '< 2.5', '>= 2.4.0.0'
-  s.add_runtime_dependency 'rainbow',               '~> 2.0'
+  s.add_runtime_dependency 'rainbow',               '~> 3.0'
 end
