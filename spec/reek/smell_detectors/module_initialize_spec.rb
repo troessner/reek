@@ -50,6 +50,20 @@ RSpec.describe Reek::SmellDetectors::ModuleInitialize do
     expect(src).not_to reek_of(:ModuleInitialize)
   end
 
+  it 'reports nothing for a method named initialize in a nested dynamic class' do
+    src = <<-EOF
+      module Alfa
+        def self.bravo
+          Class.new do
+            def initialize; end
+          end
+        end
+      end
+    EOF
+
+    expect(src).not_to reek_of(:ModuleInitialize)
+  end
+
   it 'can be disabled via comment' do
     src = <<-EOS
       # :reek:ModuleInitialize
