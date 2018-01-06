@@ -1,5 +1,12 @@
 # Change log
 
+## Unreleased
+
+* (mvz) Print original exception class in certain error messages
+* (mvz) Only include long exception message in CLI output
+* (chastell) Add official support for Ruby 2.5
+* (mvz) Do not detect ModuleInitialize for nested dynamic classes
+
 ## 4.7.3 (2017-11-05)
 
 * (mvz) Handle UTF-8 files in all locales
