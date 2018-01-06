@@ -7,7 +7,7 @@
 - [Overview](#overview)
 - [Quickstart](#quickstart)
 - [Example](#example)
-- [Supported rubies](#supported-rubies)
+- [Supported Ruby versions](#supported-ruby-versions)
 - [Fixing Smell Warnings](#fixing-smell-warnings)
 - [Sources](#sources)
 - [Code smells](#code-smells)
@@ -93,16 +93,17 @@ demo.rb -- 2 warnings:
   [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
 ```
 
-## Supported rubies
+## Supported Ruby versions
 
-Reek is officially running on the following MRI rubies:
+Reek is officially supported for the following CRuby versions:
 
   - 2.1
   - 2.2
   - 2.3
   - 2.4
+  - 2.5
 
-Other rubies like Rubinius or JRuby are not officially supported but should work as well.
+Other Ruby implementations (like Rubinius or JRuby) are not officially supported but should work as well.
 
 ## Fixing Smell Warnings
 
