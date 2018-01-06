@@ -43,9 +43,9 @@ module Reek
         AttributeContext
       end
 
-      def defined_instance_methods(visibility: :public)
+      def defined_instance_methods(visibility: :any)
         instance_method_children.select do |context|
-          context.visibility == visibility
+          visibility == :any || context.visibility == visibility
         end
       end
 
