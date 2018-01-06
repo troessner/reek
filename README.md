@@ -529,6 +529,20 @@ If you don't feel like getting your hands dirty with code there are still other 
 * Open up an [issue](https://github.com/troessner/reek/issues) and report bugs
 * Suggest other improvements like additional smells for instance
 
+### Running Code Climate locally
+
+If you run into Code Climate issues (e.g., go over code duplication
+threshold) you might want to be able to run Code Climate against
+the Reek codebase locally. To do this, you need to do the following:
+
+* [install Docker CE](https://docs.docker.com/engine/installation/)
+* [install Code Climate CLI](https://github.com/codeclimate/codeclimate#installation)
+* `gem install codeclimate`
+* `codeclimate engines:install`
+
+Now you can run various Code Climate engines,
+e.g., `codeclimate analyze -e duplication`
+
 ## Output formats
 
 Reek supports 5 output formats:
