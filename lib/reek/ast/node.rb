@@ -33,6 +33,10 @@ module Reek
         loc && loc.line
       end
 
+      def name
+        to_s
+      end
+
       #
       # Carries out a depth-first traversal of this syntax tree, yielding every
       # Sexp of the searched for type or types. The traversal stops at any node
