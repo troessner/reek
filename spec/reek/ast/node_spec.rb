@@ -201,4 +201,11 @@ RSpec.describe Reek::AST::Node do
       end
     end
   end
+
+  describe '#name' do
+    it 'returns #to_s if no override is present' do
+      ast = sexp(:foo)
+      expect(ast.name).to eq ast.to_s
+    end
+  end
 end
