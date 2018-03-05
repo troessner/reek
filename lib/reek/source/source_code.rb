@@ -2,7 +2,7 @@
 
 require_relative '../cli/silencer'
 Reek::CLI::Silencer.silently do
-  require 'parser/ruby24'
+  require 'parser/ruby25'
 end
 require_relative '../tree_dresser'
 require_relative '../ast/node'
@@ -99,7 +99,7 @@ module Reek
       # where each node is possibly adorned with our SexpExtensions (see ast/ast_node_class_map
       # and ast/sexp_extensions for details).
       #
-      # @param parser [Parser::Ruby24]
+      # @param parser [Parser::Ruby25]
       # @param source [String] - Ruby code
       # @return [Anonymous subclass of Reek::AST::Node] the AST presentation
       #         for the given source
@@ -118,7 +118,7 @@ module Reek
       # :reek:TooManyStatements: { max_statements: 6 }
       # :reek:FeatureEnvy
       def default_parser
-        Parser::Ruby24.new(AST::Builder.new).tap do |parser|
+        Parser::Ruby25.new(AST::Builder.new).tap do |parser|
           diagnostics = parser.diagnostics
           diagnostics.all_errors_are_fatal = false
           diagnostics.ignore_warnings      = false
