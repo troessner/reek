@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+## 4.8.0 (2018-03-05)
+
+* (pocke) Support Ruby 2.5
 * (mvz) Print original exception class in certain error messages
 * (mvz) Only include long exception message in CLI output
 * (chastell) Add official support for Ruby 2.5
