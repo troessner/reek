@@ -57,7 +57,7 @@ RSpec.describe Reek::Source::SourceCode do
       let(:error_class) { RuntimeError }
       let(:error_message) { 'An error' }
       let(:options) do
-        parser = instance_double('Parser::Ruby24')
+        parser = instance_double('Parser::Ruby25')
         allow(parser).to receive(:parse_with_comments).and_raise(error_class, error_message)
         {
           parser: parser

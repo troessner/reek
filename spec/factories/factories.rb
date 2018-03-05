@@ -22,7 +22,7 @@ FactoryBot.define do
     source 'dummy_file'
     lines [42]
     message 'smell warning message'
-    parameters { {} }
+    parameters({})
 
     initialize_with do
       new(smell_detector,
