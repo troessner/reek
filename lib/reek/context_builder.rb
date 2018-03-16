@@ -206,7 +206,7 @@ module Reek
     #
     #   def self.foo; end
     #
-    def process_self(_, _parent)
+    def process_self(_exp, _parent)
       current_context.record_use_of_self
     end
 
@@ -226,7 +226,7 @@ module Reek
     #
     # We record one reference to `self`.
     #
-    def process_zsuper(_, _parent)
+    def process_zsuper(_exp, _parent)
       current_context.record_use_of_self
     end
 

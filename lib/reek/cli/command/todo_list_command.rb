@@ -14,12 +14,11 @@ module Reek
         FILE_NAME = '.todo.reek'.freeze
 
         def execute
-          smells = scan_for_smells
           if smells.empty?
             puts "\n'.todo.reek' not generated because "\
                     'there were no smells found!'
           else
-            File.write FILE_NAME, groups_for(smells).to_yaml
+            File.write FILE_NAME, groups.to_yaml
             puts "\n'.todo.reek' generated! You can now use "\
                     'this as a starting point for your configuration.'
           end
@@ -28,14 +27,13 @@ module Reek
 
         private
 
-        def scan_for_smells
-          sources.map do |source|
-            Examiner.new(source,
-                         filter_by_smells: smell_names)
+        def smells
+          @smells ||= sources.map do |source|
+            Examiner.new(source, filter_by_smells: smell_names)
           end.map(&:smells).flatten
         end
 
-        def groups_for(smells)
+        def groups
           @groups ||=
             begin
               todos = smells.group_by(&:smell_class).map do |smell_class, smells_for_class|

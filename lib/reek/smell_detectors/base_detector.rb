@@ -59,7 +59,7 @@ module Reek
       end
 
       def source_line
-        @line ||= expression.line
+        @source_line ||= expression.line
       end
 
       def exception?
