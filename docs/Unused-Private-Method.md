@@ -84,7 +84,7 @@ end
 
 ```Ruby
   class BankController < ActionController::Base
-    before_filter :audit
+    before_action :audit
 
     private
     def audit
