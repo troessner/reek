@@ -1,6 +1,8 @@
 # Change log
 
-## Unreleased
+## 4.8.1 (2018-04-12)
+
+* (mvz) Loosen dependency on rainbow
 
 ## 4.8.0 (2018-03-05)
 
