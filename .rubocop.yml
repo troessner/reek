@@ -49,6 +49,11 @@ Lint/HandleExceptions:
   Exclude:
     - 'spec/reek/configuration/configuration_file_finder_spec.rb'
 
+# Rubocop 0.56 gives false positives for this cop.
+# See https://github.com/bbatsov/rubocop/issues/5887
+Lint/SplatKeywordArguments:
+  Enabled: false
+
 # Spec blocks can be any size
 Metrics/BlockLength:
   Exclude:
