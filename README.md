@@ -308,6 +308,7 @@ DataClump:
 # You can configure smells on a per-directory base.
 # E.g. the classic Rails case: controllers smell of NestedIterators (see /docs/Nested-Iterators.md) and
 # helpers smell of UtilityFunction (see docs/Utility-Function.md)
+# Note that we only allow configuration on a directory level, not a file level, so all paths have to point to directories.
 "web_app/app/controllers":
   NestedIterators:
     enabled: false
