@@ -2,9 +2,6 @@ sudo: false
 dist: trusty
 cache: bundler
 language: ruby
-before_install:
-  - gem update --system
-  - gem install bundler
 bundler_args: --without debugging
 script: bundle exec rake ci
 rvm:
