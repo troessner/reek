@@ -105,7 +105,7 @@ module Reek
         end
         parser.on('--smell SMELL',
                   'Only look for a specific smell.',
-                  'Call it like this: reek --smell PrimaDonnaMethod source.rb',
+                  'Call it like this: reek --smell MissingSafeMethod source.rb',
                   'Check out https://github.com/troessner/reek/blob/master/docs/Code-Smells.md '\
                   'for a list of smells') do |smell|
           smells_to_detect << smell

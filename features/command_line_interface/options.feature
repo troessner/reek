@@ -42,7 +42,7 @@ Feature: Reek can be controlled using command-line options
       Configuration:
           -c, --config FILE                Read configuration options from FILE
               --smell SMELL                Only look for a specific smell.
-                                           Call it like this: reek --smell PrimaDonnaMethod source.rb
+                                           Call it like this: reek --smell MissingSafeMethod source.rb
                                            Check out https://github.com/troessner/reek/blob/master/docs/Code-Smells.md for a list of smells
 
       Generate a todo list:
@@ -99,10 +99,10 @@ Feature: Reek can be controlled using command-line options
       LongParameterList
       LongYieldList
       ManualDispatch
+      MissingSafeMethod
       ModuleInitialize
       NestedIterators
       NilCheck
-      PrimaDonnaMethod
       RepeatedConditional
       SubclassedFromCoreClass
       Syntax
