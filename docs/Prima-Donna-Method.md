@@ -18,7 +18,7 @@ An exclamation mark in method names means (the explanation below is taken from
 > dangerous version of exit. flatten! is the dangerous version of flatten. And
 > so forth.
 
-Such a method is called _Prima Donna Method_ if and only if her non-bang
+Such a method is called _Prima Donna Method_ if and only if the non-bang
 version does not exist and this method is reported as a smell.
 
 ## Example
