@@ -119,7 +119,7 @@ RSpec.describe Reek::SmellDetectors::UnusedPrivateMethod do
   context 'when the detector is configured via a source code comment' do
     it 'does not report methods we excluded' do
       source = <<-EOF
-        # :reek:UnusedPrivateMethod: { exclude: [ bravo ] }
+        # :reek:UnusedPrivateMethod { exclude: [ bravo ] }
         class Alfa
           private
           def bravo; end
