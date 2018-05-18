@@ -68,6 +68,12 @@ Metrics/ClassLength:
 # FIXME: Lower the method length by fixing the biggest offenders
 Metrics/MethodLength:
   Max: 15
+  Exclude:
+    - 'lib/reek/cli/options.rb'
+
+Metrics/AbcSize:
+  Exclude:
+    - 'lib/reek/cli/options.rb'
 
 # Be rather lenient with line length
 Metrics/LineLength:

@@ -44,6 +44,12 @@ module Reek
       end
     end
 
+    # @return [Array<String>] The names of all known SmellDetectors
+    #         e.g. ["BooleanParameter", "ClassVariable"].
+    def self.available_detector_names
+      smell_types.map(&:smell_type)
+    end
+
     private
 
     attr_reader :configuration, :smell_types
