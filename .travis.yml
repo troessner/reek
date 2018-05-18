@@ -8,7 +8,6 @@ before_install:
 bundler_args: --without debugging
 script: bundle exec rake ci
 rvm:
-  - 2.1
   - 2.2
   - 2.3
   - 2.4

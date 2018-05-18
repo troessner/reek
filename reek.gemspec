@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.executables = s.files.grep(%r{^bin/}).map { |path| File.basename(path) }
   s.homepage = 'https://github.com/troessner/reek/wiki'
   s.rdoc_options = %w(--main README.md -x assets/|bin/|config/|features/|spec/|tasks/)
-  s.required_ruby_version = '>= 2.1.0'
+  s.required_ruby_version = '>= 2.2.0'
   s.summary = 'Code smell detector for Ruby'
 
   s.add_runtime_dependency 'codeclimate-engine-rb', '~> 0.4.0'
