@@ -5,7 +5,6 @@ Gem::Specification.new do |s|
   s.version = Reek::Version::STRING
 
   s.authors = ['Kevin Rutherford', 'Timo Roessner', 'Matijs van Zuijlen', 'Piotr Szotkowski']
-  s.default_executable = 'reek'
   s.description =
     'Reek is a tool that examines Ruby classes, modules and methods and reports ' \
     'any code smells it finds.'
