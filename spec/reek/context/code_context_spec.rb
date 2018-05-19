@@ -121,7 +121,7 @@ RSpec.describe Reek::Context::CodeContext do
   describe '#config_for' do
     let(:src) do
       <<-EOS
-        # :reek:DuplicateMethodCall: { allow_calls: [ puts ] }')
+        # :reek:DuplicateMethodCall { allow_calls: [ puts ] }')
         def repeated_greeting
           puts 'Hello!'
           puts 'Hello!'

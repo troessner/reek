@@ -17,7 +17,6 @@ module Reek
                           :reek: # prefix
                           (\w+)  # smell detector e.g.: UncommunicativeVariableName
                           (
-                            :? # legacy separator
                             \s*
                             (\{.*?\}) # optional details in hash style e.g.: { max_methods: 30 }
                           )?
@@ -25,7 +24,6 @@ module Reek
     SANITIZE_REGEX                 = /(#|\n|\s)+/ # Matches '#', newlines and > 1 whitespaces.
     DISABLE_DETECTOR_CONFIGURATION = '{ enabled: false }'.freeze
     MINIMUM_CONTENT_LENGTH         = 2
-    LEGACY_SEPARATOR               = ':'.freeze
 
     attr_reader :config
 
