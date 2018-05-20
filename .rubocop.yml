@@ -6,7 +6,7 @@ AllCops:
     - 'samples/**/*'
     - 'tmp/**/*'
     - 'vendor/**/*'
-  TargetRubyVersion: 2.1
+  TargetRubyVersion: 2.2
 
 # Place . on the previous line
 Layout/DotPosition:
