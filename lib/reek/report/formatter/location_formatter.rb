@@ -34,7 +34,7 @@ module Reek
         module_function
 
         def format(warning)
-          "#{warning.source}:#{warning.lines.sort.first}: "
+          "#{warning.source}:#{warning.lines.min}: "
         end
       end
     end

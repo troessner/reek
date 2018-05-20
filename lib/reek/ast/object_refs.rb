@@ -50,7 +50,7 @@ module Reek
       end
 
       def self_is_max?
-        refs.empty? || most_popular.keys.include?(:self)
+        refs.empty? || most_popular.key?(:self)
       end
 
       private
