@@ -77,8 +77,9 @@ RSpec.describe Reek::Configuration::AppConfiguration do
   describe '#directive_for' do
     context 'with multiple directory directives and no default directive present' do
       let(:source_via) { 'samples/three_clean_files/dummy.rb' }
-      let(:baz_config)  { { Reek::SmellDetectors::IrresponsibleModule => { enabled: false } } }
-      let(:bang_config) { { Reek::SmellDetectors::Attribute => { enabled: true } } }
+      let(:baz_config)  { { IrresponsibleModule: { enabled: false } } }
+      let(:bang_config) { { Attribute: { enabled: true } } }
+      let(:expected_result) { { Reek::SmellDetectors::Attribute => { enabled: true } } }
 
       let(:directory_directives) do
         {
@@ -89,22 +90,21 @@ RSpec.describe Reek::Configuration::AppConfiguration do
 
       it 'returns the corresponding directive' do
         configuration = described_class.from_hash directory_directives
-        expect(configuration.directive_for(source_via)).to eq(bang_config)
+        expect(configuration.directive_for(source_via)).to eq expected_result
       end
     end
 
     context 'with directory directive and default directive present' do
       let(:directory) { 'spec/samples/two_smelly_files/' }
-      let(:directory_config) { { Reek::SmellDetectors::TooManyStatements => { max_statements: 8 } } }
-      let(:directory_directives) { { directory => directory_config } }
-      let(:default_directive) do
+      let(:source_via) { "#{directory}/dummy.rb" }
+
+      let(:configuration_as_hash) do
         {
-          Reek::SmellDetectors::IrresponsibleModule => { enabled: false },
-          Reek::SmellDetectors::TooManyStatements => { max_statements: 15 }
+          directory => { TooManyStatements: { max_statements: 8 } },
+          :IrresponsibleModule => { enabled: false },
+          :TooManyStatements => { max_statements: 15 }
         }
       end
-      let(:source_via) { "#{directory}/dummy.rb" }
-      let(:configuration_as_hash) { directory_directives.merge(default_directive) }
 
       it 'returns the directory directive with the default directive reverse-merged' do
         configuration = described_class.from_hash configuration_as_hash
@@ -116,18 +116,21 @@ RSpec.describe Reek::Configuration::AppConfiguration do
       end
     end
 
-    context 'with no directory directive but a default directive present' do
+    context 'with a path not covered by a directory directive but a default directive present' do
       let(:source_via) { 'spec/samples/three_clean_files/dummy.rb' }
-      let(:default_directive) { { Reek::SmellDetectors::IrresponsibleModule => { enabled: false } } }
-      let(:attribute_config) { { Reek::SmellDetectors::Attribute => { enabled: false } } }
-      let(:directory_directives) do
-        { 'spec/samples/two_smelly_files' => attribute_config }
+
+      let(:configuration_as_hash) do
+        {
+          :IrresponsibleModule => { enabled: false },
+          'spec/samples/two_smelly_files' => { Attribute: { enabled: false } }
+        }
       end
-      let(:configuration_as_hash) { directory_directives.merge(default_directive) }
+
+      let(:expected_result) { { Reek::SmellDetectors::IrresponsibleModule => { enabled: false } } }
 
       it 'returns the default directive' do
         configuration = described_class.from_hash configuration_as_hash
-        expect(configuration.directive_for(source_via)).to eq(default_directive)
+        expect(configuration.directive_for(source_via)).to eq expected_result
       end
     end
   end
