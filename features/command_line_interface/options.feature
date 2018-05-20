@@ -76,5 +76,47 @@ Feature: Reek can be controlled using command-line options
 
       Utility options:
           -h, --help                       Show this message
+          -l, --list                       List all available smell detectors
           -v, --version                    Show version
+      """
+
+  Scenario: List all available smell detectors
+    When I run reek --list
+    Then it succeeds
+    And it reports:
+      """
+      All available smell detectors:
+
+      Attribute
+      BooleanParameter
+      ClassVariable
+      ControlParameter
+      DataClump
+      DuplicateMethodCall
+      FeatureEnvy
+      InstanceVariableAssumption
+      IrresponsibleModule
+      LongParameterList
+      LongYieldList
+      ManualDispatch
+      ModuleInitialize
+      NestedIterators
+      NilCheck
+      PrimaDonnaMethod
+      RepeatedConditional
+      SubclassedFromCoreClass
+      Syntax
+      TooManyConstants
+      TooManyInstanceVariables
+      TooManyMethods
+      TooManyStatements
+      UncommunicativeMethodName
+      UncommunicativeModuleName
+      UncommunicativeParameterName
+      UncommunicativeVariableName
+      UnusedParameters
+      UnusedPrivateMethod
+      UtilityFunction
+
+      Check out https://github.com/troessner/reek/blob/master/docs/Code-Smells.md for a details on each detector
       """

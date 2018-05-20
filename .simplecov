@@ -1,6 +1,7 @@
 SimpleCov.start do
   track_files 'lib/**/*.rb'
   add_filter 'lib/reek/version.rb' # version.rb is loaded too early to test
+  add_filter 'lib/reek/cli/options.rb' # tested mostly via integration tests
 end
 
 SimpleCov.at_exit do
