@@ -17,12 +17,7 @@ module Reek
 
       # :reek:UtilityFunction
       def key_to_smell_detector(key)
-        case key
-        when Class
-          key
-        else
-          Reek::SmellDetectors.const_get key
-        end
+        Reek::SmellDetectors.const_get key
       end
 
       def error_message_for_file_given(pathname)
