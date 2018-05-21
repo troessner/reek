@@ -10,26 +10,14 @@ module Reek
 
       # :reek:UtilityFunction
       def smell_type?(key)
-        case key
-        when Class
-          true
-        when String
-          begin
-            Reek::SmellDetectors.const_defined? key
-          rescue NameError
-            false
-          end
-        end
+        Reek::SmellDetectors.const_defined? key
+      rescue NameError
+        false
       end
 
       # :reek:UtilityFunction
       def key_to_smell_detector(key)
-        case key
-        when Class
-          key
-        else
-          Reek::SmellDetectors.const_get key
-        end
+        Reek::SmellDetectors.const_get key
       end
 
       def error_message_for_file_given(pathname)

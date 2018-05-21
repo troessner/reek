@@ -14,10 +14,10 @@ module Reek
 
       attr_reader :failure_message, :failure_message_when_negated
 
-      def initialize(smell_type_or_class,
+      def initialize(smell_type,
                      smell_details = {},
                      configuration = Configuration::AppConfiguration.default)
-        @smell_type = normalize smell_type_or_class
+        @smell_type = smell_type.to_s
         @smell_details = smell_details
         configuration.load_values(smell_type => { SmellConfiguration::ENABLED_KEY => true })
         @configuration = configuration
@@ -94,16 +94,6 @@ module Reek
 
       def origin
         examiner.description
-      end
-
-      # :reek:UtilityFunction
-      def normalize(smell_type_or_class)
-        case smell_type_or_class
-        when Class
-          smell_type_or_class.smell_type
-        else
-          smell_type_or_class.to_s
-        end
       end
     end
   end

@@ -11,10 +11,6 @@ RSpec.describe Reek::Spec::ShouldReekOf do
       expect(ruby).to reek_of(:DuplicateMethodCall)
     end
 
-    it 'reports duplicate calls by smell detector class' do
-      expect(ruby).to reek_of(Reek::SmellDetectors::DuplicateMethodCall)
-    end
-
     it 'does not report any feature envy' do
       expect(ruby).not_to reek_of(:FeatureEnvy)
     end
