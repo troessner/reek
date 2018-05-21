@@ -21,10 +21,10 @@ module Reek
     #   gets distorted and diluted, and ! ceases to convey any information
     #   whatsoever.
     #
-    # Such a method is called PrimaDonnaMethod and is reported as a smell.
+    # Such a method is called MissingSafeMethod and is reported as a smell.
     #
-    # See {file:docs/Prima-Donna-Method.md} for details.
-    class PrimaDonnaMethod < BaseDetector
+    # See {file:docs/Missing-Safe-Method.md} for details.
+    class MissingSafeMethod < BaseDetector
       def self.contexts # :nodoc:
         [:class]
       end
@@ -48,20 +48,20 @@ module Reek
       #
       def sniff
         context.node_instance_methods.select do |method_sexp|
-          prima_donna_method?(method_sexp)
+          missing_safe_method?(method_sexp)
         end.map do |method_sexp|
           name = method_sexp.name
           smell_warning(
             context: context,
             lines: [method_sexp.line],
-            message: "has prima donna method '#{name}'",
+            message: "has missing safe method '#{name}'",
             parameters: { name: name.to_s })
         end
       end
 
       private
 
-      def prima_donna_method?(method_sexp)
+      def missing_safe_method?(method_sexp)
         return false unless method_sexp.ends_with_bang?
         return false if ignore_method? method_sexp
         return false if version_without_bang_exists? method_sexp

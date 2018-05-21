@@ -44,6 +44,9 @@ LongYieldList:
 ManualDispatch:
   enabled: true
   exclude: []
+MissingSafeMethod:
+  enabled: true
+  exclude: []
 ModuleInitialize:
   enabled: true
   exclude: []
@@ -54,9 +57,6 @@ NestedIterators:
   ignore_iterators:
   - tap
 NilCheck:
-  enabled: true
-  exclude: []
-PrimaDonnaMethod:
   enabled: true
   exclude: []
 RepeatedConditional:
