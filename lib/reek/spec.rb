@@ -65,7 +65,7 @@ module Reek
     # raise an ArgumentError to give you a hint that you passed something that doesn't make
     # much sense.
     #
-    # @param smell_type [Symbol, String, Class] The "smell type" to check for.
+    # @param smell_type [Symbol, String] The "smell type" to check for.
     # @param smell_details [Hash] A hash containing "smell warning" parameters
     #
     # @example Without smell_details
@@ -99,7 +99,7 @@ module Reek
     #       "reek_only_of" will fail in that case.
     #   2.) "reek_only_of" doesn't support the additional smell_details hash.
     #
-    # @param smell_type [Symbol, String, Class] The "smell type" to check for.
+    # @param smell_type [Symbol, String] The "smell type" to check for.
     #
     # @public
     #
