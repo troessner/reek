@@ -97,8 +97,7 @@ demo.rb -- 2 warnings:
 
 Reek is officially supported for the following CRuby versions:
 
-  - 2.1
-  - 2.2
+  - 2.2 (EOL)
   - 2.3
   - 2.4
   - 2.5
