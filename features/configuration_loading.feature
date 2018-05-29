@@ -3,7 +3,7 @@ Feature: Offer different ways how to load configuration
   Reek can be configured in two ways:
   - Using the cli "-c" switch to pass a configuration file on the command line.
   - Having a Reek configuration file that is automatically found. Reek will
-    look for a file ending in .reek in the following places, in order:
+    look for a file ending in .reek.yml in the following places, in order:
     - The current working directory
     - The working directory's ancestor directories, traversing all the way up
       to the root.
@@ -30,19 +30,51 @@ Feature: Offer different ways how to load configuration
 
   Scenario: Configuration file in working directory
     Given the smelly file 'smelly.rb'
-    And a configuration file 'full_mask.reek'
+    And a configuration file '.reek.yml'
     When I run reek smelly.rb
     Then it reports no errors
     And it succeeds
 
-  Scenario: Two opposing configuration files and we stop after the first one
-    Given the smelly file 'smelly.rb' in a subdirectory
-    And a configuration file 'partial_mask.reek' in a subdirectory
-    And a configuration file 'full_mask.reek'
-    When I run "reek smelly.rb" in a subdirectory
+  Scenario: Do not use the default config file when we explicitly specify one configuration file
+    Given the smelly file 'smelly.rb'
+    And a file named "config.reek" with:
+      """
+      ---
+      UncommunicativeMethodName:
+        enabled: false
+      """
+    And a file named ".reek.yml" with:
+      """
+      ---
+      UncommunicativeVariableName:
+        enabled: false
+      """
+    When I run reek -c config.reek smelly.rb
     Then the exit status indicates smells
     And it reports:
       """
       smelly.rb -- 1 warning:
         [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
+      """
+
+  Scenario: Prefer the default config file over other configuration files
+    Given the smelly file 'smelly.rb'
+    And a file named "config.reek" with:
+      """
+      ---
+      UncommunicativeMethodName:
+        enabled: false
+      """
+    And a file named ".reek.yml" with:
+      """
+      ---
+      UncommunicativeVariableName:
+        enabled: false
+      """
+    When I run reek smelly.rb
+    Then the exit status indicates smells
+    And it reports:
+      """
+      smelly.rb -- 1 warning:
+        [4]:UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
       """
