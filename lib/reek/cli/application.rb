@@ -6,6 +6,7 @@ require_relative '../configuration/app_configuration'
 require_relative '../source/source_locator'
 require_relative 'command/report_command'
 require_relative 'command/todo_list_command'
+require_relative '../../reek/errors/config_file_exception'
 
 module Reek
   module CLI
@@ -42,7 +43,7 @@ module Reek
 
       def configure_app_configuration(config_file)
         Configuration::AppConfiguration.from_path(config_file)
-      rescue Reek::Configuration::ConfigFileException => error
+      rescue Errors::ConfigFileException => error
         warn "Error: #{error}"
         exit Status::DEFAULT_ERROR_EXIT_CODE
       end

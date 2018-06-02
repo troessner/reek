@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
 require 'pathname'
+require 'yaml'
+require_relative './configuration_validator'
+require_relative '../errors/config_file_exception'
+require_relative './schema_validator'
 
 module Reek
   module Configuration
-    # Raised when config file is not properly readable.
-    class ConfigFileException < StandardError; end
     #
     # ConfigurationFileFinder is responsible for finding Reek's configuration.
     #
@@ -18,6 +20,7 @@ module Reek
     # The order in which ConfigurationFileFinder tries to find such a
     # configuration file is exactly like above.
     module ConfigurationFileFinder
+      include ConfigurationValidator
       TOO_MANY_CONFIGURATION_FILES_MESSAGE = <<-MESSAGE.freeze
 
         Error: Found multiple configuration files %<files>s
@@ -65,12 +68,9 @@ module Reek
           begin
             configuration = YAML.load_file(path) || {}
           rescue StandardError => error
-            raise ConfigFileException, "Invalid configuration file #{path}, error is #{error}"
+            raise Errors::ConfigFileException, "Invalid configuration file #{path}, error is #{error}"
           end
-
-          unless configuration.is_a? Hash
-            raise ConfigFileException, "Invalid configuration file \"#{path}\" -- Not a hash"
-          end
+          SchemaValidator.validate configuration
           configuration
         end
 
@@ -110,6 +110,7 @@ module Reek
         # @return [undefined]
         #
         def escalate_too_many_configuration_files(found, directory)
+          # Follow up TODO: Shouldn't this rather raise a ConfigFileException?
           offensive_files = found.map { |file| "'#{file.basename}'" }.join(', ')
           warn format(TOO_MANY_CONFIGURATION_FILES_MESSAGE, files: offensive_files, directory: directory)
           exit 1

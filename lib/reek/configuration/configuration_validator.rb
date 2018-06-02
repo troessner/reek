@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative '../errors/config_file_exception'
+
 module Reek
   module Configuration
     #
@@ -26,7 +28,10 @@ module Reek
 
       def with_valid_directory(path)
         directory = Pathname.new path.to_s.chomp('/')
-        abort(error_message_for_file_given(directory)) if directory.file?
+        if directory.file?
+          raise Errors::ConfigFileException,
+                "Configuration error: `#{directory}` is supposed to be a directory but is a file"
+        end
         yield directory if block_given?
       end
     end
