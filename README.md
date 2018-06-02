@@ -307,12 +307,21 @@ DataClump:
 # E.g. the classic Rails case: controllers smell of NestedIterators (see /docs/Nested-Iterators.md) and
 # helpers smell of UtilityFunction (see docs/Utility-Function.md)
 # Note that we only allow configuration on a directory level, not a file level, so all paths have to point to directories.
-"web_app/app/controllers":
-  NestedIterators:
-    enabled: false
-"web_app/app/helpers":
-  UtilityFunction:
-    enabled: false
+directories:
+  "web_app/app/controllers":
+    NestedIterators:
+      enabled: false
+  "web_app/app/helpers":
+    UtilityFunction:
+      enabled: false
+# In case you're still running Reek 4 you have to omit the "directories" key and place the directory directives on top
+# level like this:
+# "web_app/app/controllers":
+#   NestedIterators:
+#     enabled: false
+# "web_app/app/helpers":
+#   UtilityFunction:
+#     enabled: false
 
 ### Excluding directories
 
@@ -335,9 +344,11 @@ IrresponsibleModule:
 TooManyStatements:
   max_statements: 5
 
-"app/controllers":
-  TooManyStatements:
-    max_statements: 10
+# In case you're still running Reek 4 you have to omit the "directories" key, see the example config above.
+directories:
+  "app/controllers":
+    TooManyStatements:
+      max_statements: 10
 ```
 
 translates to:

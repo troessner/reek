@@ -24,17 +24,23 @@ module Reek
 
       # Adds a directive and returns self.
       #
-      # @param path [Pathname] the path
-      # @param config [Hash] the configuration
+      # @param directory_config [Hash] the configuration e.g.:
+      #   {
+      #    "samples/two_smelly_files" => {:IrresponsibleModule=>{:enabled=>false}},
+      #    "samples/three_clean_files" => {:Attribute=>{:enabled=>true}}
+      #   }
       #
       # @return [self]
       #
       # :reek:NestedIterators: { max_allowed_nesting: 2 }
-      def add(path, config)
-        with_valid_directory(path) do |directory|
-          self[directory] = config.each_with_object({}) do |(key, value), hash|
-            abort(error_message_for_invalid_smell_type(key)) unless smell_type?(key)
-            hash[key_to_smell_detector(key)] = value
+      # :reek:TooManyStatements { max_statements: 6 }
+      def add(directory_config)
+        directory_config.each do |path, detector_config|
+          with_valid_directory(path) do |directory|
+            self[directory] = detector_config.each_with_object({}) do |(key, value), hash|
+              abort(error_message_for_invalid_smell_type(key)) unless smell_type?(key)
+              hash[key_to_smell_detector(key)] = value
+            end
           end
         end
         self

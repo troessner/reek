@@ -8,16 +8,17 @@ Feature: Directory directives
     Given a file named "web_app/config.reek" with:
       """
       ---
-      "web_app/app/controllers":
-        IrresponsibleModule:
-          enabled: false
-        NestedIterators:
-          enabled: false
-      "web_app/app/helpers":
-        IrresponsibleModule:
-          enabled: false
-        UtilityFunction:
-          enabled: false
+      directories:
+        "web_app/app/controllers":
+          IrresponsibleModule:
+            enabled: false
+          NestedIterators:
+            enabled: false
+        "web_app/app/helpers":
+          IrresponsibleModule:
+            enabled: false
+          UtilityFunction:
+            enabled: false
       """
     And a file named "web_app/app/controllers/users_controller.rb" with:
       """
@@ -61,9 +62,10 @@ Feature: Directory directives
     Given a file named "web_app/config.reek" with:
       """
       ---
-      "controllers/":
-        IrresponsibleModule:
-          enabled: false
+      directories:
+        "controllers/":
+          IrresponsibleModule:
+            enabled: false
       """
     And a file named "controllers/users_controller.rb" with:
       """
@@ -79,17 +81,18 @@ Feature: Directory directives
     Given a file named "web_app/config.reek" with:
       """
       ---
-      "web_app/app/controllers":
-        IrresponsibleModule:
-          enabled: true
-      "web_app/app/helpers":
-        IrresponsibleModule:
-          enabled: false
-        UtilityFunction:
-          enabled: false
-      "web_app/app/models":
-        IrresponsibleModule:
-          enabled: false
+      directories:
+        "web_app/app/controllers":
+          IrresponsibleModule:
+            enabled: true
+        "web_app/app/helpers":
+          IrresponsibleModule:
+            enabled: false
+          UtilityFunction:
+            enabled: false
+        "web_app/app/models":
+          IrresponsibleModule:
+            enabled: false
       """
     And a file named "web_app/app/controllers/users_controller.rb" with:
       """
@@ -133,11 +136,12 @@ Feature: Directory directives
     Given a file named "config.reek" with:
       """
       ---
-      "web_app/app/controllers":
-        IrresponsibleModule:
-          enabled: true
-        NestedIterators:
-          enabled: false
+      directories:
+        "web_app/app/controllers":
+          IrresponsibleModule:
+            enabled: true
+          NestedIterators:
+            enabled: false
       IrresponsibleModule:
         enabled: false
       NestedIterators:
@@ -179,10 +183,11 @@ Feature: Directory directives
     Given a file named "config.reek" with:
       """
       ---
-      "dummy_directory":
-        # Typo: Should be NestedIterators
-        IteratorsNested:
-          enabled: false
+      directories:
+        "dummy_directory":
+          # Typo: Should be NestedIterators
+          IteratorsNested:
+            enabled: false
       """
     And a file named "dummy_directory/dummy.rb" with:
       """
@@ -204,9 +209,10 @@ Feature: Directory directives
     Given a file named "config.reek" with:
       """
       ---
-      "dummy_directory/dummy.rb":
-        NestedIterators:
-          enabled: false
+      directories:
+        "dummy_directory/dummy.rb":
+          NestedIterators:
+            enabled: false
       """
     And a file named "dummy_directory/dummy.rb" with:
       """
@@ -225,16 +231,17 @@ Feature: Directory directives
     Given a file named "config.reek" with:
       """
       ---
-      "foo/bar/baz":
-        IrresponsibleModule:
-          enabled: false
-        NestedIterators:
-          enabled: true
-      "foo/bar":
-        IrresponsibleModule:
-          enabled: true
-        NestedIterators:
-          enabled: false
+      directories:
+        "foo/bar/baz":
+          IrresponsibleModule:
+            enabled: false
+          NestedIterators:
+            enabled: true
+        "foo/bar":
+          IrresponsibleModule:
+            enabled: true
+          NestedIterators:
+            enabled: false
       """
     And a file named "foo/bar/baz/klass.rb" with:
       """
