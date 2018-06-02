@@ -1,0 +1,305 @@
+---
+type: "//rec"
+optional:
+  Attribute:
+    type: "//rec"
+    optional:
+      enabled:
+        type: "//bool"
+      exclude:
+        type: "//arr"
+        contents: "//str"
+  BooleanParameter:
+    type: "//rec"
+    optional:
+      enabled:
+        type: "//bool"
+      exclude:
+        type: "//arr"
+        contents: "//str"
+  ClassVariable:
+    type: "//rec"
+    optional:
+      enabled:
+        type: "//bool"
+      exclude:
+        type: "//arr"
+        contents: "//str"
+  ControlParameter:
+    type: "//rec"
+    optional:
+      enabled:
+        type: "//bool"
+      exclude:
+        type: "//arr"
+        contents: "//str"
+  DataClump:
+    type: "//rec"
+    optional:
+      enabled:
+        type: "//bool"
+      exclude:
+        type: "//arr"
+        contents: "//str"
+      max_copies:
+        type: "//int"
+      min_clump_size:
+        type: "//int"
+  DuplicateMethodCall:
+    type: "//rec"
+    optional:
+      enabled:
+        type: "//bool"
+      exclude:
+        type: "//arr"
+        contents: "//str"
+      max_calls:
+        type: "//int"
+      allow_calls:
+        type: "//arr"
+        contents: "//str"
+  FeatureEnvy:
+    type: "//rec"
+    optional:
+      enabled:
+        type: "//bool"
+      exclude:
+        type: "//arr"
+        contents: "//str"
+  InstanceVariableAssumption:
+    type: "//rec"
+    optional:
+      enabled:
+        type: "//bool"
+      exclude:
+        type: "//arr"
+        contents: "//str"
+  IrresponsibleModule:
+    type: "//rec"
+    optional:
+      enabled:
+        type: "//bool"
+      exclude:
+        type: "//arr"
+        contents: "//str"
+  LongParameterList:
+    type: "//rec"
+    optional:
+      enabled:
+        type: "//bool"
+      exclude:
+        type: "//arr"
+        contents: "//str"
+      max_params:
+        type: "//int"
+      overrides:
+        # TODO, shouldn't be "any" obviously
+        type: "//any"
+  LongYieldList:
+    type: "//rec"
+    optional:
+      enabled:
+        type: "//bool"
+      exclude:
+        type: "//arr"
+        contents: "//str"
+      max_params:
+        type: "//int"
+  ManualDispatch:
+    type: "//rec"
+    optional:
+      enabled:
+        type: "//bool"
+      exclude:
+        type: "//arr"
+        contents: "//str"
+  MissingSafeMethod:
+    type: "//rec"
+    optional:
+      enabled:
+        type: "//bool"
+      exclude:
+        type: "//arr"
+        contents: "//str"
+  ModuleInitialize:
+    type: "//rec"
+    optional:
+      enabled:
+        type: "//bool"
+      exclude:
+        type: "//arr"
+        contents: "//str"
+  NestedIterators:
+    type: "//rec"
+    optional:
+      enabled:
+        type: "//bool"
+      exclude:
+        type: "//arr"
+        contents: "//str"
+      max_allowed_nesting:
+        type: "//int"
+      ignore_iterators:
+        type: "//arr"
+        contents: "//str"
+  NilCheck:
+    type: "//rec"
+    optional:
+      enabled:
+        type: "//bool"
+      exclude:
+        type: "//arr"
+        contents: "//str"
+  RepeatedConditional:
+    type: "//rec"
+    optional:
+      enabled:
+        type: "//bool"
+      exclude:
+        type: "//arr"
+        contents: "//str"
+      max_ifs:
+        type: "//int"
+  SubclassedFromCoreClass:
+    type: "//rec"
+    optional:
+      enabled:
+        type: "//bool"
+      exclude:
+        type: "//arr"
+        contents: "//str"
+  Syntax:
+    type: "//rec"
+    optional:
+      enabled:
+        type: "//bool"
+      exclude:
+        type: "//arr"
+        contents: "//str"
+  TooManyConstants:
+    type: "//rec"
+    optional:
+      enabled:
+        type: "//bool"
+      exclude:
+        type: "//arr"
+        contents: "//str"
+      max_constants:
+        type: "//int"
+  TooManyInstanceVariables:
+    type: "//rec"
+    optional:
+      enabled:
+        type: "//bool"
+      exclude:
+        type: "//arr"
+        contents: "//str"
+      max_instance_variables:
+        type: "//int"
+  TooManyMethods:
+    type: "//rec"
+    optional:
+      enabled:
+        type: "//bool"
+      exclude:
+        type: "//arr"
+        contents: "//str"
+      max_methods:
+        type: "//int"
+  TooManyStatements:
+    type: "//rec"
+    optional:
+      enabled:
+        type: "//bool"
+      exclude:
+        type: "//arr"
+        contents: "//str"
+      max_statements:
+        type: "//int"
+  UncommunicativeMethodName:
+    type: "//rec"
+    optional:
+      enabled:
+        type: "//bool"
+      exclude:
+        type: "//arr"
+        contents: "//str"
+      reject:
+        # TODO
+        type: "//any"
+      accept:
+        # TODO
+        type: "//any"
+  UncommunicativeModuleName:
+    type: "//rec"
+    optional:
+      enabled:
+        type: "//bool"
+      exclude:
+        type: "//arr"
+        contents: "//str"
+      reject:
+        # TODO
+        type: "//any"
+      accept:
+        # TODO
+        type: "//any"
+  UncommunicativeParameterName:
+    type: "//rec"
+    optional:
+      enabled:
+        type: "//bool"
+      exclude:
+        type: "//arr"
+        contents: "//str"
+      reject:
+        # TODO
+        type: "//any"
+      accept:
+        # TODO
+        type: "//any"
+  UncommunicativeVariableName:
+    type: "//rec"
+    optional:
+      enabled:
+        type: "//bool"
+      exclude:
+        type: "//arr"
+        contents: "//str"
+      reject:
+        # TODO
+        type: "//any"
+      accept:
+        # TODO
+        type: "//any"
+  UnusedParameters:
+    type: "//rec"
+    optional:
+      enabled:
+        type: "//bool"
+      exclude:
+        type: "//arr"
+        contents: "//str"
+  UnusedPrivateMethod:
+    type: "//rec"
+    optional:
+      enabled:
+        type: "//bool"
+      exclude:
+        type: "//arr"
+        contents: "//str"
+  UtilityFunction:
+    type: "//rec"
+    optional:
+      enabled:
+        type: "//bool"
+      exclude:
+        type: "//arr"
+        contents: "//str"
+      public_methods_only:
+        type: "//bool"
+
+  exclude_paths:
+    type: "//arr"
+    contents: "//str"
+

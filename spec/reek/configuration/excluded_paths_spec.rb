@@ -1,4 +1,5 @@
 require_relative '../../spec_helper'
+require_lib 'reek/errors/config_file_exception'
 require_lib 'reek/configuration/excluded_paths'
 
 RSpec.describe Reek::Configuration::ExcludedPaths do
@@ -11,7 +12,7 @@ RSpec.describe Reek::Configuration::ExcludedPaths do
 
       it 'raises an error if one of the given paths is a file' do
         Reek::CLI::Silencer.silently do
-          expect { exclusions.add(paths) }.to raise_error(SystemExit)
+          expect { exclusions.add(paths) }.to raise_error(Reek::Errors::ConfigFileException)
         end
       end
     end
