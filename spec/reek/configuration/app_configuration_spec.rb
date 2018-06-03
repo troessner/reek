@@ -26,19 +26,21 @@ RSpec.describe Reek::Configuration::AppConfiguration do
     end
 
     let(:directory_directives_value) do
-      { 'samples/three_clean_files' =>
-        { 'UtilityFunction' => { 'enabled' => false } } }
+      { described_class::DIRECTORIES_KEY =>
+        { 'samples/three_clean_files' =>
+          { 'UtilityFunction' => { 'enabled' => false } } } }
     end
 
     let(:exclude_paths_value) do
-      ['samples/two_smelly_files',
-       'samples/source_with_non_ruby_files']
+      { described_class::EXCLUDE_PATHS_KEY =>
+        ['samples/two_smelly_files',
+         'samples/source_with_non_ruby_files'] }
     end
 
     let(:combined_value) do
       directory_directives_value.
         merge(default_directive_value).
-        merge('exclude_paths' => exclude_paths_value)
+        merge(exclude_paths_value)
     end
 
     describe '#from_path' do
@@ -82,10 +84,11 @@ RSpec.describe Reek::Configuration::AppConfiguration do
       let(:expected_result) { { Reek::SmellDetectors::Attribute => { enabled: true } } }
 
       let(:directory_directives) do
-        {
-          'samples/two_smelly_files' => baz_config,
-          'samples/three_clean_files' => bang_config
-        }
+        { described_class::DIRECTORIES_KEY =>
+          {
+            'samples/two_smelly_files' => baz_config,
+            'samples/three_clean_files' => bang_config
+          } }
       end
 
       it 'returns the corresponding directive' do
@@ -100,7 +103,8 @@ RSpec.describe Reek::Configuration::AppConfiguration do
 
       let(:configuration_as_hash) do
         {
-          directory => { TooManyStatements: { max_statements: 8 } },
+          described_class::DIRECTORIES_KEY =>
+            { directory => { TooManyStatements: { max_statements: 8 } } },
           :IrresponsibleModule => { enabled: false },
           :TooManyStatements => { max_statements: 15 }
         }
@@ -122,7 +126,8 @@ RSpec.describe Reek::Configuration::AppConfiguration do
       let(:configuration_as_hash) do
         {
           :IrresponsibleModule => { enabled: false },
-          'spec/samples/two_smelly_files' => { Attribute: { enabled: false } }
+          described_class::DIRECTORIES_KEY =>
+            { 'spec/samples/two_smelly_files' => { Attribute: { enabled: false } } }
         }
       end
 

@@ -36,7 +36,7 @@ RSpec.describe Reek::Configuration::DirectoryDirectives do
 
       it 'raises an error' do
         Reek::CLI::Silencer.silently do
-          expect { directives.add(file_as_path, {}) }.to raise_error(SystemExit)
+          expect { directives.add(file_as_path => nil) }.to raise_error(SystemExit)
         end
       end
     end

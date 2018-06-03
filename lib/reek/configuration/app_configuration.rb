@@ -16,6 +16,7 @@ module Reek
     class AppConfiguration
       include ConfigurationValidator
       EXCLUDE_PATHS_KEY = 'exclude_paths'.freeze
+      DIRECTORIES_KEY = 'directories'.freeze
 
       # Instantiate a configuration via given path, or the default path.
       #
@@ -71,10 +72,10 @@ module Reek
         configuration_hash.each do |key, value|
           if key == EXCLUDE_PATHS_KEY
             excluded_paths.add value
+          elsif key == DIRECTORIES_KEY
+            directory_directives.add value
           elsif smell_type?(key)
             default_directive.add key, value
-          else
-            directory_directives.add key, value
           end
         end
       end
