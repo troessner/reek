@@ -4,7 +4,7 @@ require 'yaml'
 namespace :configuration do
   desc 'Updates the default configuration file when smell defaults change'
   task :update_default_configuration do
-    DEFAULT_SMELL_CONFIGURATION = 'defaults.reek'.freeze
+    DEFAULT_SMELL_CONFIGURATION = 'defaults.reek.yml'.freeze
     content = Reek::DetectorRepository.smell_types.each_with_object({}) do |klass, hash|
       hash[klass.smell_type] = klass.default_config
     end

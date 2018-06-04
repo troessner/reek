@@ -11,23 +11,14 @@ module Reek
     #
     # There are 3 ways of passing `reek` a configuration file:
     # 1. Using the cli "-c" switch
-    # 2. Having a file ending with .reek either in your current working
+    # 2. Having a file ending with .reek.yml either in your current working
     #    directory or in a parent directory
-    # 3. Having a file ending with .reek in your HOME directory
+    # 3. Having a file ending with .reek.yml in your HOME directory
     #
     # The order in which ConfigurationFileFinder tries to find such a
     # configuration file is exactly like above.
     module ConfigurationFileFinder
-      TOO_MANY_CONFIGURATION_FILES_MESSAGE = <<-MESSAGE.freeze
-
-        Error: Found multiple configuration files %<files>s
-        while scanning directory %<directory>s.
-
-        Reek supports only one configuration file. You have 2 options now:
-        1) Remove all offending files.
-        2) Be specific about which one you want to load via the -c switch.
-
-      MESSAGE
+      DEFAULT_FILE_NAME = '.reek.yml'.freeze
 
       class << self
         #
@@ -90,29 +81,12 @@ module Reek
 
         #
         # Checks a given directory for a configuration file and returns it.
-        # Raises an exception if we find more than one.
         #
         # @return [File|nil]
         #
         # :reek:FeatureEnvy
         def find_in_dir(dir)
-          found = dir.children.select { |item| item.file? && item.to_s.end_with?('.reek') }.sort
-          if found.size > 1
-            escalate_too_many_configuration_files found, dir
-          else
-            found.first
-          end
-        end
-
-        #
-        # Writes a proper warning message to STDERR and then exits the program.
-        #
-        # @return [undefined]
-        #
-        def escalate_too_many_configuration_files(found, directory)
-          offensive_files = found.map { |file| "'#{file.basename}'" }.join(', ')
-          warn format(TOO_MANY_CONFIGURATION_FILES_MESSAGE, files: offensive_files, directory: directory)
-          exit 1
+          dir.children.detect { |item| item.file? && item.to_s.end_with?(DEFAULT_FILE_NAME) }
         end
       end
     end

@@ -24,7 +24,7 @@ Feature: Use reek_of matcher
     """
 
   Scenario: Masking smells with a configuration file
-    Given a configuration file 'full_mask.reek'
+    Given a configuration file '.reek.yml'
     When I run `rspec reek_spec.rb`
     Then stdout should contain:
     """

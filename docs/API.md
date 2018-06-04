@@ -89,7 +89,7 @@ XMLReport
 
 ## Configuration
 
-Given you have the following configuration file called `config.reek` in your root directory:
+Given you have the following configuration file called `.reek.yml` in your root directory:
 
 ```Yaml
 ---
@@ -106,7 +106,7 @@ You can now use either
 Reek::Configuration::AppConfiguration.from_path Pathname.new('config.reek')
 ```
 
-but you can also pass a hash with the contents of the `config.reek` YAML file
+but you can also pass a hash with the contents of the `.reek.yml` YAML file
 to `Reek::Configuration::AppConfiguration.from_hash`.
 
 Given the example above you would load that as follows:
