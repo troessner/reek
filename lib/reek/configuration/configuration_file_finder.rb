@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
 require 'pathname'
+require 'yaml'
+
 require_relative './converter'
+require_relative './schema_validator'
 require_relative '../errors/config_file_error'
 
 module Reek
@@ -57,12 +60,9 @@ module Reek
           begin
             configuration = YAML.load_file(path) || {}
           rescue StandardError => error
-            raise Errors::ConfigFileException, "Invalid configuration file #{path}, error is #{error}"
+            raise Errors::ConfigFileError, "Invalid configuration file #{path}, error is #{error}"
           end
-
-          unless configuration.is_a? Hash
-            raise Errors::ConfigFileException, "Invalid configuration file \"#{path}\" -- Not a hash"
-          end
+          SchemaValidator.validate configuration
           Converter.strings_to_regexes(configuration)
         end
 

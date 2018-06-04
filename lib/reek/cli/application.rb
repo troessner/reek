@@ -43,7 +43,7 @@ module Reek
 
       def configure_app_configuration(config_file)
         Configuration::AppConfiguration.from_path(config_file)
-      rescue Reek::Errors::ConfigFileException => error
+      rescue Errors::ConfigFileError => error
         warn "Error: #{error}"
         exit Status::DEFAULT_ERROR_EXIT_CODE
       end

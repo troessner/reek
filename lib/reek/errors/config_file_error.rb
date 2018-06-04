@@ -5,7 +5,7 @@ require_relative 'base_error'
 module Reek
   module Errors
     # Gets raised when Reek is unable to process the source due to bad config file
-    class ConfigFileException < BaseError
+    class ConfigFileError < BaseError
     end
   end
 end
