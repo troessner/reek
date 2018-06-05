@@ -45,6 +45,12 @@
 * ![](http://ruby-gem-downloads-badge.herokuapp.com/reek?type=total)
 * ![](http://ruby-gem-downloads-badge.herokuapp.com/reek?label=downloads-current-version)
 
+## Reek 5 is out!
+
+Reek 5 is out and with it a bunch of breaking changes. If you're a new user you can just
+continue with the quickstart below. If you're a Reek 4 user and would like to upgrade to 5, don't
+worry, this shouldn't take you more than 10 minutes. Check out our [Upgrade Guide](docs/Reek-4-to-Reek-5-migration.md).
+
 ## Quickstart
 
 Reek is a tool that examines Ruby classes, modules and methods and reports any
@@ -96,8 +102,6 @@ demo.rb -- 2 warnings:
 
 Reek is officially supported for the following CRuby versions:
 
-  - 2.1
-  - 2.2
   - 2.3
   - 2.4
   - 2.5
@@ -253,12 +257,13 @@ For a summary of those CLI options see [Command-Line Options](docs/Command-Line-
 #### Configuration loading
 
 Configuring Reek via a configuration file is by far the most powerful way.
+Reek expects this filename to be `.reek.yml` but you can override this via the CLI `-c` switch (see below).
 
-There are three ways of passing Reek a configuration file:
+There are three ways of passing Reek the configuration file:
 
 1. Using the CLI `-c` switch (see [_Command-line interface_](#command-line-interface) above)
-2. Having a file ending with `.reek` either in your current working directory or in a parent directory (more on that later)
-3. Having a file ending with `.reek` in your home directory
+2. Having the configuration file either in your current working directory or in a parent directory (more on that later)
+3. Having the configuration file in your home directory
 
 The order in which Reek tries to find such a configuration
 file is exactly the above: first it checks if we have given
@@ -276,31 +281,32 @@ of how many `*.reek` files you might have on your filesystem.
 
 We put a lot of effort into making Reek's configuration as self explanatory as possible so the
 best way to understand it is by looking at a simple
-example (e.g. `config.reek` in your project directory):
+example (e.g. `.reek.yml` in your project directory):
 
 ```yaml
 ---
 
 ### Generic smell configuration
 
-# You can disable smells completely
-IrresponsibleModule:
-  enabled: false
-
-# You can use filters to silence Reek warnings.
-# Either because you simply disagree with Reek (we are not the police) or
-# because you want to fix this at a later point in time.
-NestedIterators:
-  exclude:
-    - "MyWorker#self.class_method" # should be refactored
-    - "AnotherWorker#instance_method" # should be refactored as well
-
-# A lot of smells allow fine tuning their configuration. You can look up all available options
-# in the corresponding smell documentation in /docs. In most cases you probably can just go
-# with the defaults as documented in defaults.reek.
-DataClump:
-  max_copies: 3
-  min_clump_size: 3
+detectors:
+  # You can disable smells completely
+  IrresponsibleModule:
+    enabled: false
+  
+  # You can use filters to silence Reek warnings.
+  # Either because you simply disagree with Reek (we are not the police) or
+  # because you want to fix this at a later point in time.
+  NestedIterators:
+    exclude:
+      - "MyWorker#self.class_method" # should be refactored
+      - "AnotherWorker#instance_method" # should be refactored as well
+  
+  # A lot of smells allow fine tuning their configuration. You can look up all available options
+  # in the corresponding smell documentation in /docs. In most cases you probably can just go
+  # with the defaults as documented in defaults.reek.yml.
+  DataClump:
+    max_copies: 3
+    min_clump_size: 3
 
 ### Directory specific configuration
 
@@ -308,12 +314,13 @@ DataClump:
 # E.g. the classic Rails case: controllers smell of NestedIterators (see /docs/Nested-Iterators.md) and
 # helpers smell of UtilityFunction (see docs/Utility-Function.md)
 # Note that we only allow configuration on a directory level, not a file level, so all paths have to point to directories.
-"web_app/app/controllers":
-  NestedIterators:
-    enabled: false
-"web_app/app/helpers":
-  UtilityFunction:
-    enabled: false
+directories:
+  "web_app/app/controllers":
+    NestedIterators:
+      enabled: false
+  "web_app/app/helpers":
+    UtilityFunction:
+      enabled: false
 
 ### Excluding directories
 
@@ -323,6 +330,14 @@ exclude_paths:
   - lib/rake/legacy_tasks
 ```
 
+As you see above, Reek's configuration consists of 3 different sections denoted by 3 different keys:
+
+* detectors
+* directories
+* exclude_paths
+
+Whatever you add to your configuration should be scoped under one of those keys.
+
 If you have a directory directive for which a default directive exists, the more specific
 one (which is the directory directive) will take precedence.
 
@@ -330,15 +345,12 @@ This configuration for instance:
 
 ```yaml
 ---
-IrresponsibleModule:
-  enabled: false
-
-TooManyStatements:
-  max_statements: 5
-
-"app/controllers":
+detectors:
+  IrresponsibleModule:
+    enabled: false
+  
   TooManyStatements:
-    max_statements: 10
+    max_statements: 5
 ```
 
 translates to:
@@ -347,16 +359,53 @@ translates to:
 * TooManyStatements#max_statements is 10 in "app/controllers"
 * TooManyStatements#max_statements is 5 everywhere else
 
-For more details please check out the [Basic Smell Options](docs/Basic-Smell-Options.md)
-which are supported by every smell type. As you can see above, certain smell
-types offer a configuration that goes beyond that of the basic smell options, for instance
+Every smell detector supports our [Basic Smell Options](docs/Basic-Smell-Options.md). As you can see above,
+certain smell types offer a configuration that goes beyond that of the basic smell options, for instance
 [Data Clump](docs/Data-Clump.md).
 All options that go beyond the [Basic Smell Options](docs/Basic-Smell-Options.md)
 are documented in the corresponding smell type /docs page (if you want to get a quick overview over all possible
-configurations you can also check out [the `docs/default.reek` file in this repository](docs/defaults.reek).
+configurations you can also check out [the `defaults.reek.yml` file in this repository](docs/defaults.reek.yml).
 
 Note that you do not need a configuration file at all.
-If you're fine with all the [defaults](docs/defaults.reek) we set you can skip this completely.
+If you're fine with all the [defaults.reek.yml](docs/defaults.reek.yml) we set you can skip this completely.
+
+Don't worry about introducing a mistake in your configuration file that might go unnoticed - Reek uses a
+schema to validate your configuration against on start up and will faily loudly in case you
+misspelled an option or used the wrong data type for a value like this:
+
+```
+Error: We found some problems with your configuration file: [/detectors/DetectorWithTypo] key 'DetectorWithTypo:' is undefined.
+```
+
+Reek takes one configuration file and one configuration file only with `.reek.yml` being the default name.
+
+In case you have to have one or more configuration files in the directory (e.g. you're
+toying around with different, mutually exclusive settings) you need to tell Reek
+explicitly which file to use via `reek -c config.reek`.
+
+### Source code comments
+
+In case you need to suppress a smell warning and you can't or don't want to
+use configuration files for whatever reasons you can also use special
+source code comments like this:
+
+```Ruby
+# This method smells of :reek:NestedIterators
+def smelly_method foo
+  foo.each {|bar| bar.each {|baz| baz.qux}}
+end
+```
+
+You can even pass in smell specific configuration settings:
+
+```Ruby
+# :reek:NestedIterators { max_allowed_nesting: 2 }
+def smelly_method foo
+  foo.each {|bar| bar.each {|baz| baz.qux}}
+end
+```
+
+This is an incredibly powerful feature and further explained under [Smell Suppresion](docs/Smell-Suppression.md).
 
 ### Generating a 'todo' list
 
@@ -403,42 +452,6 @@ reek -c other_configuration.reek --todo lib/
 
 `other_configuration.reek` will simply be ignored (as outlined before, Reek
 is supposed to have one configuration file and one file only).
-
-### Beware of multiple configuration files
-
-Reek takes one configuration file and one configuration file only.
-
-If you have more than one configuration file in the same directory Reek
-will not know what configuration file to use. If this happens Reek will
-print a warning on STDERR and exit with the failure exit status 1.
-
-In case you have to have one or more configuration files in the directory (e.g. you're
-toying around with different, mutually exclusive settings) you need to tell Reek
-explicitly which file to use via `reek -c config.reek`.
-
-### Source code comments
-
-In case you need to suppress a smell warning and you can't or don't want to
-use configuration files for whatever reasons you can also use special
-source code comments like this:
-
-```Ruby
-# This method smells of :reek:NestedIterators
-def smelly_method foo
-  foo.each {|bar| bar.each {|baz| baz.qux}}
-end
-```
-
-You can even pass in smell specific configuration settings:
-
-```Ruby
-# :reek:NestedIterators { max_allowed_nesting: 2 }
-def smelly_method foo
-  foo.each {|bar| bar.each {|baz| baz.qux}}
-end
-```
-
-This is an incredible powerful feature and further explained under [Smell Suppresion](docs/Smell-Suppression.md).
 
 ## Usage
 
@@ -559,23 +572,24 @@ Making Reek "Rails"-friendly is fairly simple since we support directory specifi
 Just add this to your configuration file:
 
 ```Yaml
-"app/controllers":
-  IrresponsibleModule:
-    enabled: false
-  NestedIterators:
-    max_allowed_nesting: 2
-  UnusedPrivateMethod:
-    enabled: false
-  InstanceVariableAssumption:
-    enabled: false
-"app/helpers":
-  IrresponsibleModule:
-    enabled: false
-  UtilityFunction:
-    enabled: false
-"app/mailers":
-  InstanceVariableAssumption:
-    enabled: false
+directories:
+  "app/controllers":
+    IrresponsibleModule:
+      enabled: false
+    NestedIterators:
+      max_allowed_nesting: 2
+    UnusedPrivateMethod:
+      enabled: false
+    InstanceVariableAssumption:
+      enabled: false
+  "app/helpers":
+    IrresponsibleModule:
+      enabled: false
+    UtilityFunction:
+      enabled: false
+  "app/mailers":
+    InstanceVariableAssumption:
+      enabled: false
 ```
 
 Be careful though, Reek does not merge your configuration entries, so if you already have a directory directive for "app/controllers" or "app/helpers" you need to update those directives instead of copying the above YAML sample into your configuration file.

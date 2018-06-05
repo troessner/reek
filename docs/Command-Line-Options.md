@@ -12,6 +12,16 @@ reek -h
 
 for details.
 
+## Telling Reek to use a specific configuration file
+
+In case your configuration file is not in the standard location (that would be your project directory or
+whatever directory you're running Reek from) you can specify a configuration file with the `-c` option
+like this:
+
+```Bash
+reek -c /somewhere/on/your/filesystem/reek_config.yml lib/
+```
+
 ## Telling Reek Which Code to Check
 
 Probably the most standard use case would be to check all Ruby files in the lib directory:

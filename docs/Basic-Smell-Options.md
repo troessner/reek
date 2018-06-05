@@ -9,7 +9,7 @@ Every smell detector in Reek offers at least the following configuration options
 | `enabled` |  Boolean | Determines whether the smell detector is active. Defaults to `true` |
 | `exclude` | an array of strings that will be converted into regular expressions | Ignores any context whose full description matches any element of this array. |
 
-The file `docs/defaults.reek` (shipped with the Reek gem) lists any default
+The file `docs/defaults.reek.yml` (shipped with the Reek gem) lists any default
 exclusions for each smell.
 
 ## Examples
