@@ -20,7 +20,7 @@ tmp
 ataru_setup.rb
 CHANGELOG.md
 CONTRIBUTING.md
-defaults.reek.yml
+defaults.reek
 Dockerfile
 Rakefile
 README.md

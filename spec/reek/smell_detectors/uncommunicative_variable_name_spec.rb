@@ -159,9 +159,9 @@ RSpec.describe Reek::SmellDetectors::UncommunicativeVariableName do
   describe '`accept` patterns' do
     let(:src) { 'def alfa; bravo2 = 42; end' }
 
-    # FIXME: Move the loop out of the it?
-    it 'make smelly names pass via regex / strings given by list / literal' do
-      [[/bravo2/], /bravo2/, ['bravo2'], 'bravo2'].each do |pattern|
+    it 'make smelly names pass' do
+      patterns = [/ravo2/, /bravo2/]
+      patterns.each do |pattern|
         expect(src).to reek_of(:UncommunicativeVariableName).
           and not_reek_of(:UncommunicativeVariableName).with_config('accept' => pattern)
       end
@@ -171,9 +171,9 @@ RSpec.describe Reek::SmellDetectors::UncommunicativeVariableName do
   describe '`reject` patterns' do
     let(:src) { 'def alfa; foobar = 42; end' }
 
-    # FIXME: Move the loop out of the it?
-    it 'reject smelly names via regex / strings given by list / literal' do
-      [[/foobar/], /foobar/, ['foobar'], 'foobar'].each do |pattern|
+    it 'reject smelly names' do
+      patterns = [/fooba/, /oobar/]
+      patterns.each do |pattern|
         expect(src).to not_reek_of(:UncommunicativeVariableName).
           and reek_of(:UncommunicativeVariableName).with_config('reject' => pattern)
       end

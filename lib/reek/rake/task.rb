@@ -33,7 +33,7 @@ module Reek
     #
     # @public
     #
-    # :reek:TooManyInstanceVariables: { max_instance_variables: 6 }
+    # :reek:TooManyInstanceVariables { max_instance_variables: 6 }
     # :reek:Attribute
     class Task < ::Rake::TaskLib
       # Name of Reek task. Defaults to :reek.

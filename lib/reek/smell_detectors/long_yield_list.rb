@@ -24,7 +24,7 @@ module Reek
       #
       # @return [Array<SmellWarning>]
       #
-      # :reek:DuplicateMethodCall: { max_calls: 2 }
+      # :reek:DuplicateMethodCall { max_calls: 2 }
       def sniff
         context.local_nodes(:yield).select do |yield_node|
           yield_node.args.length > max_allowed_params

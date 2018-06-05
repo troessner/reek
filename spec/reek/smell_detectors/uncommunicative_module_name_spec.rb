@@ -39,8 +39,9 @@ RSpec.describe Reek::SmellDetectors::UncommunicativeModuleName do
   describe '`accept` patterns' do
     let(:source) { 'class Alfa1; end' }
 
-    it 'makes smelly names pass via regex / strings given by list / literal' do
-      [[/lfa/], /lfa/, ['lfa'], 'lfa'].each do |pattern|
+    it 'make smelly names pass ' do
+      patterns = [/lfa1/, /Alfa1/]
+      patterns.each do |pattern|
         expect(source).not_to reek_of(:UncommunicativeModuleName).with_config('accept' => pattern)
       end
     end
@@ -49,8 +50,9 @@ RSpec.describe Reek::SmellDetectors::UncommunicativeModuleName do
   describe '`reject` patterns' do
     let(:source) { 'class Alfa; end' }
 
-    it 'rejects smelly names via regex / strings given by list / literal' do
-      [[/Alfa/], /Alfa/, ['Alfa'], 'Alfa'].each do |pattern|
+    it 'reject smelly names' do
+      patterns = [/lfa/, /Alf/]
+      patterns.each do |pattern|
         expect(source).to reek_of(:UncommunicativeModuleName).with_config('reject' => pattern)
       end
     end

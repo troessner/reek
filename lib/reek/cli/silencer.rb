@@ -8,7 +8,7 @@ module Reek
     module Silencer
       module_function
 
-      # :reek:TooManyStatements: { max_statements: 7 }
+      # :reek:TooManyStatements { max_statements: 7 }
       def silently
         old_verbose = $VERBOSE
         $VERBOSE = false

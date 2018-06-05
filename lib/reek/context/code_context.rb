@@ -14,8 +14,8 @@ module Reek
     # code element. CodeContexts form a tree in the same way the code does,
     # with each context holding a reference to a unique outer context.
     #
-    # :reek:TooManyMethods: { max_methods: 19 }
-    # :reek:TooManyInstanceVariables: { max_instance_variables: 8 }
+    # :reek:TooManyMethods { max_methods: 19 }
+    # :reek:TooManyInstanceVariables { max_instance_variables: 8 }
     class CodeContext
       include Enumerable
       extend Forwardable
@@ -110,7 +110,7 @@ module Reek
         self
       end
 
-      # :reek:TooManyStatements: { max_statements: 6 }
+      # :reek:TooManyStatements { max_statements: 6 }
       # :reek:FeatureEnvy
       def record_call_to(exp)
         receiver = exp.receiver

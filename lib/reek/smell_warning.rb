@@ -9,7 +9,7 @@ module Reek
   #
   # @public
   #
-  # :reek:TooManyInstanceVariables: { max_instance_variables: 6 }
+  # :reek:TooManyInstanceVariables { max_instance_variables: 6 }
   class SmellWarning
     include Comparable
     extend Forwardable
@@ -22,7 +22,7 @@ module Reek
     #   objects yourself. This is why the initializer is not part of the
     #   public API.
     #
-    # :reek:LongParameterList: { max_params: 6 }
+    # :reek:LongParameterList { max_params: 6 }
     def initialize(smell_detector, context: '', lines:, message:,
                    source:, parameters: {})
       @smell_detector = smell_detector

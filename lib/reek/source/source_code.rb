@@ -58,7 +58,7 @@ module Reek
       # @param source [File|IO|String] - the given source
       #
       # @return an instance of SourceCode
-      # :reek:DuplicateMethodCall: { max_calls: 2 }
+      # :reek:DuplicateMethodCall { max_calls: 2 }
       def self.from(source)
         case source
         when File     then new(code: source.read,           origin: source.path)

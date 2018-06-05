@@ -101,7 +101,7 @@ module Reek
         assignment_nodes.each { |asgn| accumulator[asgn.children.first].push(asgn.line) }
       end
 
-      # :reek:TooManyStatements: { max_statements: 6 }
+      # :reek:TooManyStatements { max_statements: 6 }
       def find_block_argument_variable_names(accumulator)
         arg_search_exp = case expression.type
                          when :class, :module
