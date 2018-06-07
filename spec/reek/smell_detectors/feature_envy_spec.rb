@@ -130,7 +130,7 @@ RSpec.describe Reek::SmellDetectors::FeatureEnvy do
         delta += bravo.foxtrot
         delta *= 1.15
       end
-      EOS
+    EOS
 
     expect(src).
       to reek_of(:FeatureEnvy, name: 'delta').
@@ -145,7 +145,7 @@ RSpec.describe Reek::SmellDetectors::FeatureEnvy do
         delta += bravo.echo
         delta += bravo.foxtrot
       end
-      EOS
+    EOS
 
     expect(src).
       to reek_of(:FeatureEnvy, name: 'delta').
