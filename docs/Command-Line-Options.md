@@ -91,10 +91,10 @@ mess.rb -- 2 warnings:
   [2]:x has the name 'x' (UncommunicativeMethodName)
 ```
 
-### Enable the ultra-verbose mode
+### Enable the verbose mode
 
-_reek_ has a ultra-verbose mode which you might find helpful as a beginner. "ultra-verbose" just means that behind each warning a helpful link will be displayed which leads directly to the corresponding _reek_ wiki page.
-This mode can be enabled via the "-U" or "--ultra-verbose" flag.
+_reek_ has a verbose mode which you might find helpful as a beginner. "verbose" just means that behind each warning a helpful link will be displayed which leads directly to the corresponding _reek_ documentation page.
+This mode can be enabled via the "-U" or "--documentation" flag.
 
 So for instance, if your test file would smell of _ClassVariable_, this is what the _reek_ output would look like:
 
@@ -103,7 +103,7 @@ reek -U test.rb
 ```
 ```
 test.rb -- 1 warning:
-  [2]:Dummy declares the class variable @@class_variable (ClassVariable) [https://github.com/troessner/reek/wiki/Class-Variable]
+  [2]:Dummy declares the class variable @@class_variable (ClassVariable) [https://github.com/troessner/reek/blob/master/docs/Class-Variable.md]
 ```
 
 Note the link at the end.

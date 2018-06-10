@@ -3,9 +3,7 @@
 
 #
 # Reek examines Ruby source code for smells.
-# Visit https://wiki.github.com/troessner/reek for docs etc.
-#
-# Author: Kevin Rutherford
+# Visit https://github.com/troessner/reek for docs etc.
 #
 
 require_relative '../lib/reek'

@@ -6,10 +6,10 @@ module Reek
   module Report
     module Formatter
       #
-      # Formatter that adds a link to the wiki to the basic message from
+      # Formatter that adds a link to the docs to the basic message from
       # SimpleWarningFormatter.
       #
-      class WikiLinkWarningFormatter < SimpleWarningFormatter
+      class DocumentationLinkWarningFormatter < SimpleWarningFormatter
         BASE_URL_FOR_HELP_LINK = 'https://github.com/troessner/reek/blob/master/docs/'.freeze
 
         def format(warning)
@@ -17,7 +17,7 @@ module Reek
         end
 
         def format_hash(warning)
-          super.merge('wiki_link' => explanatory_link(warning))
+          super.merge('documentation_link' => explanatory_link(warning))
         end
 
         private

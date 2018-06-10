@@ -5,7 +5,7 @@ require_relative 'formatter/heading_formatter'
 require_relative 'formatter/location_formatter'
 require_relative 'formatter/progress_formatter'
 require_relative 'formatter/simple_warning_formatter'
-require_relative 'formatter/wiki_link_warning_formatter'
+require_relative 'formatter/documentation_link_warning_formatter'
 
 module Reek
   module Report

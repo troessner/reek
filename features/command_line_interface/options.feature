@@ -37,7 +37,7 @@ Feature: Reek can be controlled using command-line options
       reek -s lib
       cat my_class.rb | reek
 
-      See https://wiki.github.com/troessner/reek for detailed help.
+      See https://github.com/troessner/reek for detailed help.
 
       Configuration:
           -c, --config FILE                Read configuration options from FILE
@@ -60,7 +60,7 @@ Feature: Reek can be controlled using command-line options
       Text format options:
               --[no-]color                 Use colors for the output (default: true)
           -V, --[no-]empty-headings        Show headings for smell-free source files (default: false)
-          -U, --[no-]wiki-links            Show link to related wiki page for each smell (default: true)
+          -U, --[no-]documentation         Show link to related documentation page for each smell (default: true)
           -n, --[no-]line-numbers          Show line numbers in the output (default: true)
           -s, --single-line                Show location in editor-compatible single-line-per-smell format
           -P, --[no-]progress              Show progress of each source as it is examined (default: true)
