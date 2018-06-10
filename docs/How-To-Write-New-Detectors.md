@@ -62,7 +62,7 @@ end
 
 For your detector to be properly loaded you need to require it in `lib/reek/smell_detectors.rb` as well.
 
-### defaults.reek.yml
+### defaults.reek
 
 After you ran
 
@@ -70,7 +70,7 @@ After you ran
 bundle exec rake
 ```
 
-for the first time with your shiny new detector in place the `defaults.reek.yml`
+for the first time with your shiny new detector in place the `defaults.reek`
 file should have been updated automatically. Make sure you don't forget to check
 in those changes as well.
 
