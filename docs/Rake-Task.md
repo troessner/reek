@@ -33,7 +33,7 @@ An more sophisticated rake task that would make use of all available configurati
 ```Ruby
 Reek::Rake::Task.new do |t|
   t.name          = 'custom_rake' # Whatever name you want. Defaults to "reek".
-  t.config_file   = 'config/.reek.yml' # Defaults to nothing.
+  t.config_file   = 'config/config.reek' # Defaults to nothing.
   t.source_files  = 'vendor/**/*.rb' # Glob pattern to match source files. Defaults to lib/**/*.rb
   t.reek_opts     = '-U'  # Defaults to ''. You can pass all the options here in that are shown by "reek -h"
   t.fail_on_error = false # Defaults to true
