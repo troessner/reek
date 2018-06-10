@@ -4,6 +4,7 @@ require 'optparse'
 require 'rainbow'
 require_relative '../version'
 require_relative 'status'
+require_relative '../documentation_link'
 
 module Reek
   module CLI
@@ -105,7 +106,7 @@ module Reek
         parser.on('--smell SMELL',
                   'Only look for a specific smell.',
                   'Call it like this: reek --smell PrimaDonnaMethod source.rb',
-                  'Check out https://github.com/troessner/reek/blob/master/docs/Code-Smells.md '\
+                  "Check out #{DocumentationLink.build('Code Smells')} "\
                   'for a list of smells') do |smell|
           smells_to_detect << smell
         end

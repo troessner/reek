@@ -11,7 +11,7 @@ Feature: Exclude paths directives
         def alfa(bravo); end
       end
       """
-    When I run `reek .`
+    When I run reek .
     Then the exit status indicates smells
     Given a file named "config.reek" with:
       """
@@ -19,7 +19,7 @@ Feature: Exclude paths directives
       exclude_paths:
         - bad_files_live_here
       """
-    When I run `reek -c config.reek .`
+    When I run reek -c config.reek .
     Then it succeeds
     And it reports nothing
   Scenario: Using a file name within an excluded directory
@@ -36,8 +36,8 @@ Feature: Exclude paths directives
       exclude_paths:
         - bad_files_live_here
       """
-    When I run `reek -c config.reek bad_files_live_here/smelly.rb`
+    When I run reek -c config.reek bad_files_live_here/smelly.rb
     Then the exit status indicates smells
-    When I run `reek -c config.reek --force-exclusion bad_files_live_here/smelly.rb`
+    When I run reek -c config.reek --force-exclusion bad_files_live_here/smelly.rb
     Then it succeeds
     And it reports nothing

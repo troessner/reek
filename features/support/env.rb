@@ -13,11 +13,11 @@ end
 #
 class ReekWorld
   def reek(args)
-    run_simple("reek --no-color #{args}", false)
+    run_simple("reek --no-color --no-wiki-links #{args}", false)
   end
 
   def reek_with_pipe(stdin, args)
-    run "reek --no-color #{args}"
+    run "reek --no-color --no-wiki-links #{args}"
     type(stdin)
     close_input
   end

@@ -25,7 +25,6 @@ Feature: Report smells using simple YAML layout
         smell_type: UncommunicativeMethodName
         source: smelly.rb
         name: x
-        wiki_link: https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md
       - context: Smelly#x
         lines:
         - 5
@@ -33,7 +32,6 @@ Feature: Report smells using simple YAML layout
         smell_type: UncommunicativeVariableName
         source: smelly.rb
         name: y
-        wiki_link: https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md
       """
 
   Scenario: Indicate smells and print them as yaml when using STDIN
@@ -48,5 +46,4 @@ Feature: Report smells using simple YAML layout
         lines:
         - 1
         message: has no descriptive comment
-        wiki_link: https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md
       """

@@ -71,7 +71,7 @@ RSpec.describe Reek::Report::JSONReport do
               "smell_type":     "UncommunicativeParameterName",
               "source":         "string",
               "name":           "a",
-              "wiki_link":      "https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Parameter-Name.md"
+              "wiki_link":      "https://github.com/troessner/reek/blob/v#{Reek::Version::STRING}/docs/Uncommunicative-Parameter-Name.md"
             },
             {
               "context":        "simple",
@@ -79,7 +79,7 @@ RSpec.describe Reek::Report::JSONReport do
               "message":        "doesn't depend on instance state (maybe move it to another class?)",
               "smell_type":     "UtilityFunction",
               "source":         "string",
-              "wiki_link":      "https://github.com/troessner/reek/blob/master/docs/Utility-Function.md"
+              "wiki_link":      "https://github.com/troessner/reek/blob/v#{Reek::Version::STRING}/docs/Utility-Function.md"
             }
           ]
         EOS

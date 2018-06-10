@@ -30,12 +30,12 @@ Feature: `accept` configuration setting
         def m3(a3); a3; end
       end
       """
-    When I run `reek -c config.reek smelly.rb`
+    When I run reek -c config.reek smelly.rb
     Then it reports:
     """
     smelly.rb -- 2 warnings:
-      [8]:UncommunicativeMethodName: C1#m3 has the name 'm3' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
-      [8]:UncommunicativeParameterName: C1#m3 has the parameter name 'a3' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Parameter-Name.md]
+      [8]:UncommunicativeMethodName: C1#m3 has the name 'm3'
+      [8]:UncommunicativeParameterName: C1#m3 has the parameter name 'a3'
     """
 
   Scenario: Accept regexes as list and as single item
@@ -61,10 +61,10 @@ Feature: `accept` configuration setting
         def m2(a2); a2; end
       end
       """
-    When I run `reek -c config.reek smelly.rb`
+    When I run reek -c config.reek smelly.rb
     Then it reports:
     """
     smelly.rb -- 2 warnings:
-      [6]:UncommunicativeMethodName: Classy1#m2 has the name 'm2' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
-      [6]:UncommunicativeParameterName: Classy1#m2 has the parameter name 'a2' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Parameter-Name.md]
+      [6]:UncommunicativeMethodName: Classy1#m2 has the name 'm2'
+      [6]:UncommunicativeParameterName: Classy1#m2 has the parameter name 'a2'
     """

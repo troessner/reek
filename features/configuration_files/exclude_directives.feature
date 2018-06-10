@@ -25,10 +25,10 @@ Feature: Exclude directives
         def foobar; end   # Should not report UnusedPrivateMethod
       end
       """
-    When I run `reek -c config.reek smelly.rb`
+    When I run reek -c config.reek smelly.rb
     Then it reports:
     """
     smelly.rb -- 2 warnings:
-      [1]:IrresponsibleModule: Smelly has no descriptive comment [https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md]
-      [3]:UnusedParameters: Smelly#foo has unused parameter 'arg' [https://github.com/troessner/reek/blob/master/docs/Unused-Parameters.md]
+      [1]:IrresponsibleModule: Smelly has no descriptive comment
+      [3]:UnusedParameters: Smelly#foo has unused parameter 'arg'
     """

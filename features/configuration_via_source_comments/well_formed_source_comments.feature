@@ -48,7 +48,7 @@ Feature: Well formed source comments are handled properly
     And it reports:
       """
       enable_detector_explicitly.rb -- 1 warning:
-        [3]:TooManyInstanceVariables: Alfa has at least 5 instance variables [https://github.com/troessner/reek/blob/master/docs/Too-Many-Instance-Variables.md]
+        [3]:TooManyInstanceVariables: Alfa has at least 5 instance variables
       """
 
   Scenario: Configure smell detector with the basic exclude option as string
@@ -112,5 +112,5 @@ Feature: Well formed source comments are handled properly
     And it reports:
       """
       configure_detector_specific_option.rb -- 1 warning:
-        [3]:TooManyInstanceVariables: Alfa has at least 3 instance variables [https://github.com/troessner/reek/blob/master/docs/Too-Many-Instance-Variables.md]
+        [3]:TooManyInstanceVariables: Alfa has at least 3 instance variables
       """
