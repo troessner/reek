@@ -67,14 +67,14 @@ RSpec.describe Reek::Report::YAMLReport do
             smell_type:         "UncommunicativeParameterName"
             source:             "string"
             name:               "a"
-            documentation_link: "https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Parameter-Name.md"
+            documentation_link: "https://github.com/troessner/reek/blob/v#{Reek::Version::STRING}/docs/Uncommunicative-Parameter-Name.md"
           - context:        "simple"
             lines:
             - 1
             message:            "doesn't depend on instance state (maybe move it to another class?)"
             smell_type:         "UtilityFunction"
             source:             "string"
-            documentation_link: "https://github.com/troessner/reek/blob/master/docs/Utility-Function.md"
+            documentation_link: "https://github.com/troessner/reek/blob/v#{Reek::Version::STRING}/docs/Utility-Function.md"
         EOS
 
         expect(result).to eq expected

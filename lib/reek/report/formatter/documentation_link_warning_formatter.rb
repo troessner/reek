@@ -10,25 +10,12 @@ module Reek
       # SimpleWarningFormatter.
       #
       class DocumentationLinkWarningFormatter < SimpleWarningFormatter
-        BASE_URL_FOR_HELP_LINK = 'https://github.com/troessner/reek/blob/master/docs/'.freeze
-
         def format(warning)
-          "#{super} [#{explanatory_link(warning)}]"
+          "#{super} [#{warning.explanatory_link}]"
         end
 
         def format_hash(warning)
-          super.merge('documentation_link' => explanatory_link(warning))
-        end
-
-        private
-
-        def explanatory_link(warning)
-          "#{BASE_URL_FOR_HELP_LINK}#{class_name_to_param(warning.smell_type)}.md"
-        end
-
-        # :reek:UtilityFunction
-        def class_name_to_param(name)
-          name.split(/(?=[A-Z])/).join('-')
+          super.merge('documentation_link' => warning.explanatory_link)
         end
       end
     end

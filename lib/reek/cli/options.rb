@@ -5,6 +5,7 @@ require 'rainbow'
 require_relative '../version'
 require_relative 'status'
 require_relative '../detector_repository'
+require_relative '../documentation_link'
 
 module Reek
   module CLI
@@ -106,7 +107,7 @@ module Reek
         parser.on('--smell SMELL',
                   'Only look for a specific smell.',
                   'Call it like this: reek --smell MissingSafeMethod source.rb',
-                  'Check out https://github.com/troessner/reek/blob/master/docs/Code-Smells.md '\
+                  "Check out #{DocumentationLink.build('Code Smells')} "\
                   'for a list of smells') do |smell|
           smells_to_detect << smell
         end
@@ -217,7 +218,7 @@ module Reek
         parser.on_tail('-l', '--list', 'List all available smell detectors') do
           puts "All available smell detectors:\n\n"
           puts DetectorRepository.available_detector_names
-          puts "\nCheck out https://github.com/troessner/reek/blob/master/docs/Code-Smells.md "\
+          puts "\nCheck out #{DocumentationLink.build('Code Smells')} "\
                   'for a details on each detector'
           exit
         end

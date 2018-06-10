@@ -18,8 +18,8 @@ Feature: Reek can be driven through its Task
     And it reports:
       """
       smelly.rb -- 2 warnings:
-        [4]:UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
-        [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
+        [4]:UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/v4.8.1/docs/Uncommunicative-Method-Name.md]
+        [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/v4.8.1/docs/Uncommunicative-Variable-Name.md]
       """
 
   Scenario: source_files using a FileList instead of a String
@@ -38,8 +38,8 @@ Feature: Reek can be driven through its Task
     And it reports:
       """
       smelly.rb -- 2 warnings:
-        [4]:UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
-        [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
+        [4]:UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/v4.8.1/docs/Uncommunicative-Method-Name.md]
+        [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/v4.8.1/docs/Uncommunicative-Variable-Name.md]
       """
 
   Scenario: name changes the task name
@@ -58,8 +58,8 @@ Feature: Reek can be driven through its Task
     And it reports:
       """
       smelly.rb -- 2 warnings:
-        [4]:UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
-        [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
+        [4]:UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/v4.8.1/docs/Uncommunicative-Method-Name.md]
+        [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/v4.8.1/docs/Uncommunicative-Variable-Name.md]
       """
 
   Scenario: verbose prints the reek command
@@ -95,8 +95,8 @@ Feature: Reek can be driven through its Task
     And it reports:
       """
       smelly.rb -- 2 warnings:
-        [4]:UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
-        [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
+        [4]:UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/v4.8.1/docs/Uncommunicative-Method-Name.md]
+        [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/v4.8.1/docs/Uncommunicative-Variable-Name.md]
       """
 
   Scenario: can be configured with config_file
@@ -133,6 +133,6 @@ Feature: Reek can be driven through its Task
     And it reports:
       """
       smelly.rb -- 2 warnings:
-        [4]:UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
-        [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
+        [4]:UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/v4.8.1/docs/Uncommunicative-Method-Name.md]
+        [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/v4.8.1/docs/Uncommunicative-Variable-Name.md]
       """

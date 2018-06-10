@@ -11,5 +11,5 @@ Feature: Smell selection
     And it reports:
       """
       smelly.rb -- 1 warning:
-        UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
+        UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/v4.8.1/docs/Uncommunicative-Variable-Name.md]
       """

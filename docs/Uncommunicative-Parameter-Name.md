@@ -48,5 +48,5 @@ Reek would report:
 
 ```
 smelly.rb -- 1 warning:
-  [3]:UncommunicativeParameterName: omg has the parameter name 'foobar' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Parameter-Name.md]
+  [3]:UncommunicativeParameterName: omg has the parameter name 'foobar'
 ```

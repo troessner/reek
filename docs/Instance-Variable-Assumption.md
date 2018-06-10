@@ -61,7 +61,7 @@ end
 would report:
 
 ```Bash
-  [1]:InstanceVariableAssumption: Dummy assumes too much for instance variable @ivar [https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md]
+  [1]:InstanceVariableAssumption: Dummy assumes too much for instance variable @ivar
 ```
 
 Note that this example would trigger this smell warning as well:

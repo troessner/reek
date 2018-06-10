@@ -30,7 +30,7 @@ Feature: Masking smells using config files
     And it reports:
       """
       smelly.rb -- 1 warning:
-        [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
+        [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/v4.8.1/docs/Uncommunicative-Variable-Name.md]
       """
 
   Scenario: provide extra masking inline in comments
@@ -48,8 +48,8 @@ Feature: Masking smells using config files
     And it reports:
     """
     smelly.rb -- 2 warnings:
-      [4]:UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
-      [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
+      [4]:UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/v4.8.1/docs/Uncommunicative-Method-Name.md]
+      [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/v4.8.1/docs/Uncommunicative-Variable-Name.md]
     """
 
   Scenario: Disable UtilityFunction for non-public methods
@@ -60,6 +60,6 @@ Feature: Masking smells using config files
     And it reports:
       """
       smelly_with_modifiers.rb -- 1 warning:
-        [7]:UtilityFunction: Klass#public_method doesn't depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Utility-Function.md]
+        [7]:UtilityFunction: Klass#public_method doesn't depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/v4.8.1/docs/Utility-Function.md]
       """
     But it does not report private or protected methods

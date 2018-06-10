@@ -34,8 +34,8 @@ Feature: `accept` configuration setting
     Then it reports:
     """
     smelly.rb -- 2 warnings:
-      [8]:UncommunicativeMethodName: C1#m3 has the name 'm3' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
-      [8]:UncommunicativeParameterName: C1#m3 has the parameter name 'a3' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Parameter-Name.md]
+      [8]:UncommunicativeMethodName: C1#m3 has the name 'm3' [https://github.com/troessner/reek/blob/v4.8.1/docs/Uncommunicative-Method-Name.md]
+      [8]:UncommunicativeParameterName: C1#m3 has the parameter name 'a3' [https://github.com/troessner/reek/blob/v4.8.1/docs/Uncommunicative-Parameter-Name.md]
     """
 
   Scenario: Accept regexes as list and as single item
@@ -65,6 +65,6 @@ Feature: `accept` configuration setting
     Then it reports:
     """
     smelly.rb -- 2 warnings:
-      [6]:UncommunicativeMethodName: Classy1#m2 has the name 'm2' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
-      [6]:UncommunicativeParameterName: Classy1#m2 has the parameter name 'a2' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Parameter-Name.md]
+      [6]:UncommunicativeMethodName: Classy1#m2 has the name 'm2' [https://github.com/troessner/reek/blob/v4.8.1/docs/Uncommunicative-Method-Name.md]
+      [6]:UncommunicativeParameterName: Classy1#m2 has the parameter name 'a2' [https://github.com/troessner/reek/blob/v4.8.1/docs/Uncommunicative-Parameter-Name.md]
     """

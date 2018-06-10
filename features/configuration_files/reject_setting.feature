@@ -34,11 +34,11 @@ Feature: `reject` configuration setting
     Then it reports:
     """
     smelly.rb -- 5 warnings:
-      [4]:UncommunicativeMethodName: Dummy#awesome_helper has the name 'awesome_helper' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
-      [6]:UncommunicativeMethodName: Dummy#little_helper has the name 'little_helper' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
-      [2]:UncommunicativeModuleName: Dummy has the name 'Dummy' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Module-Name.md]
-      [4]:UncommunicativeParameterName: Dummy#awesome_helper has the parameter name 'solid_argument' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Parameter-Name.md]
-      [6]:UncommunicativeParameterName: Dummy#little_helper has the parameter name 'nifty_argument' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Parameter-Name.md]
+      [4]:UncommunicativeMethodName: Dummy#awesome_helper has the name 'awesome_helper' [https://github.com/troessner/reek/blob/v4.8.1/docs/Uncommunicative-Method-Name.md]
+      [6]:UncommunicativeMethodName: Dummy#little_helper has the name 'little_helper' [https://github.com/troessner/reek/blob/v4.8.1/docs/Uncommunicative-Method-Name.md]
+      [2]:UncommunicativeModuleName: Dummy has the name 'Dummy' [https://github.com/troessner/reek/blob/v4.8.1/docs/Uncommunicative-Module-Name.md]
+      [4]:UncommunicativeParameterName: Dummy#awesome_helper has the parameter name 'solid_argument' [https://github.com/troessner/reek/blob/v4.8.1/docs/Uncommunicative-Parameter-Name.md]
+      [6]:UncommunicativeParameterName: Dummy#little_helper has the parameter name 'nifty_argument' [https://github.com/troessner/reek/blob/v4.8.1/docs/Uncommunicative-Parameter-Name.md]
     """
 
   Scenario: reject regexes as list and as single item
@@ -70,9 +70,9 @@ Feature: `reject` configuration setting
     Then it reports:
     """
     smelly.rb -- 5 warnings:
-      [4]:UncommunicativeMethodName: Dummy#awesome_helper has the name 'awesome_helper' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
-      [6]:UncommunicativeMethodName: Dummy#little_helper has the name 'little_helper' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
-      [2]:UncommunicativeModuleName: Dummy has the name 'Dummy' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Module-Name.md]
-      [4]:UncommunicativeParameterName: Dummy#awesome_helper has the parameter name 'solid_argument' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Parameter-Name.md]
-      [6]:UncommunicativeParameterName: Dummy#little_helper has the parameter name 'nifty_argument' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Parameter-Name.md]
+      [4]:UncommunicativeMethodName: Dummy#awesome_helper has the name 'awesome_helper' [https://github.com/troessner/reek/blob/v4.8.1/docs/Uncommunicative-Method-Name.md]
+      [6]:UncommunicativeMethodName: Dummy#little_helper has the name 'little_helper' [https://github.com/troessner/reek/blob/v4.8.1/docs/Uncommunicative-Method-Name.md]
+      [2]:UncommunicativeModuleName: Dummy has the name 'Dummy' [https://github.com/troessner/reek/blob/v4.8.1/docs/Uncommunicative-Module-Name.md]
+      [4]:UncommunicativeParameterName: Dummy#awesome_helper has the parameter name 'solid_argument' [https://github.com/troessner/reek/blob/v4.8.1/docs/Uncommunicative-Parameter-Name.md]
+      [6]:UncommunicativeParameterName: Dummy#little_helper has the parameter name 'nifty_argument' [https://github.com/troessner/reek/blob/v4.8.1/docs/Uncommunicative-Parameter-Name.md]
     """

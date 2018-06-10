@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'forwardable'
+require_relative 'documentation_link'
 
 module Reek
   #
@@ -63,6 +64,10 @@ module Reek
 
     def smell_class
       smell_detector.class
+    end
+
+    def explanatory_link
+      DocumentationLink.build(smell_type)
     end
 
     protected
