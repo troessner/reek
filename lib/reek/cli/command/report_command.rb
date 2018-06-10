@@ -53,7 +53,7 @@ module Reek
         end
 
         def warning_formatter_class
-          Report.warning_formatter_class(options.show_links ? :wiki_links : :simple)
+          Report.warning_formatter_class(options.show_links ? :documentation_links : :simple)
         end
 
         def location_formatter

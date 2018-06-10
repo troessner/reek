@@ -14,7 +14,7 @@ Reek::Rake::Task.new do |t|
 end
 ```
 
-Now the command `reek` will run Reek on your source code (and in this case, it fails if it finds any smells). For more detailed information about Reek's integration with Rake, see [Rake Task](Rake-Task.md) in this wiki.
+Now the command `reek` will run Reek on your source code (and in this case, it fails if it finds any smells). For more detailed information about Reek's integration with Rake, see [Rake Task](Rake-Task.md).
 
 ## reek/spec
 

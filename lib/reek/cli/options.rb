@@ -92,7 +92,7 @@ module Reek
           #{program_name} -s lib
           cat my_class.rb | #{program_name}
 
-          See https://wiki.github.com/troessner/reek for detailed help.
+          See https://github.com/troessner/reek for detailed help.
 
         BANNER
       end
@@ -151,8 +151,8 @@ module Reek
                   'Show headings for smell-free source files (default: false)') do |show_empty|
           self.show_empty = show_empty
         end
-        parser.on('-U', '--[no-]wiki-links',
-                  'Show link to related wiki page for each smell (default: true)') do |show_links|
+        parser.on('-U', '--[no-]documentation',
+                  'Show link to related documentation page for each smell (default: true)') do |show_links|
           self.show_links = show_links
         end
       end

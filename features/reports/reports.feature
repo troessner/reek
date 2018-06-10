@@ -175,7 +175,7 @@ Feature: Correctly formatted reports
       | smelly/ |
       | smelly  |
 
-  Scenario Outline: -U or --wiki-links adds helpful links to smell warnings
+  Scenario Outline: -U or --documentation adds helpful links to smell warnings
     Given the smelly file 'smelly.rb'
     When I run reek <option> smelly.rb
     Then the exit status indicates smells
@@ -187,13 +187,13 @@ Feature: Correctly formatted reports
       """
 
     Examples:
-      | option        |
-      | -U            |
-      | --wiki-links  |
+      | option           |
+      | -U               |
+      | --documentation  |
 
-  Scenario: --no-wiki-links drops links from smell warnings
+  Scenario: --no-documentation drops links from smell warnings
     Given the smelly file 'smelly.rb'
-    When I run reek --no-wiki-links smelly.rb
+    When I run reek --no-documentation smelly.rb
     Then the exit status indicates smells
     And it reports:
       """
@@ -202,7 +202,7 @@ Feature: Correctly formatted reports
         [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y'
       """
 
-  Scenario Outline: --wiki-links is independent of --line-numbers
+  Scenario Outline: --documentation is independent of --line-numbers
     Given the smelly file 'smelly.rb'
     When I run reek <option> smelly.rb
     Then the exit status indicates smells
@@ -216,4 +216,4 @@ Feature: Correctly formatted reports
     Examples:
       | option                             |
       | --no-line-numbers -U               |
-      | --no-line-numbers --wiki-links  |
+      | --no-line-numbers --documentation  |

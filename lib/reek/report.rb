@@ -37,7 +37,7 @@ module Reek
     }.freeze
 
     WARNING_FORMATTER_CLASSES = {
-      wiki_links: Formatter::WikiLinkWarningFormatter,
+      documentation_links: Formatter::DocumentationLinkWarningFormatter,
       simple: Formatter::SimpleWarningFormatter
     }.freeze
 
