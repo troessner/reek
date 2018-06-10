@@ -215,9 +215,9 @@ module Reek
           exit
         end
         parser.on_tail('-l', '--list', 'List all available smell detectors') do
-          puts 'All available smell detectors:\n'
+          puts "All available smell detectors:\n\n"
           puts DetectorRepository.available_detector_names
-          puts '\nCheck out https://github.com/troessner/reek/blob/master/docs/Code-Smells.md '\
+          puts "\nCheck out https://github.com/troessner/reek/blob/master/docs/Code-Smells.md "\
                   'for a details on each detector'
           exit
         end
