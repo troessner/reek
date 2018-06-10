@@ -18,18 +18,26 @@ module Reek
       EXCLUDE_PATHS_KEY = 'exclude_paths'.freeze
       DIRECTORIES_KEY = 'directories'.freeze
 
-      # Instantiate a configuration via given path, or the default path.
+      # Instantiate a configuration via the given path.
       #
-      # @param path [Pathname] the path to the config file, or nil to use the
-      # default path.
+      # @param path [Pathname] the path to the config file.
       #
       # @return [AppConfiguration]
       #
       # @public
-      def self.from_path(path = nil)
-        allocate.tap do |instance|
-          instance.instance_eval { find_and_load(path: path) }
-        end
+      def self.from_path(path)
+        values = ConfigurationFileFinder.find_and_load(path: path)
+        new(values: values)
+      end
+
+      # Instantiate a configuration via the default path.
+      #
+      # @return [AppConfiguration]
+      #
+      # @public
+      def self.from_default_path
+        values = ConfigurationFileFinder.find_and_load(path: nil)
+        new(values: values)
       end
 
       # Instantiate a configuration by passing everything in.
@@ -41,16 +49,12 @@ module Reek
       # @return [AppConfiguration]
       #
       # @public
-      def self.from_hash(hash = {})
-        allocate.tap do |instance|
-          instance.instance_eval do
-            load_values hash
-          end
-        end
+      def self.from_hash(hash)
+        new(values: hash)
       end
 
       def self.default
-        new
+        new(values: {})
       end
 
       # Returns the directive for a given directory.
@@ -68,8 +72,8 @@ module Reek
         excluded_paths.map(&:expand_path).include?(path.expand_path)
       end
 
-      def load_values(configuration_hash)
-        configuration_hash.each do |key, value|
+      def load_values(values)
+        values.each do |key, value|
           if key == EXCLUDE_PATHS_KEY
             excluded_paths.add value
           elsif key == DIRECTORIES_KEY
@@ -78,6 +82,10 @@ module Reek
             default_directive.add key, value
           end
         end
+      end
+
+      def initialize(values: {})
+        load_values(values)
       end
 
       private
@@ -94,12 +102,6 @@ module Reek
 
       def excluded_paths
         @excluded_paths ||= [].extend(ExcludedPaths)
-      end
-
-      def find_and_load(path: nil)
-        configuration_hash = ConfigurationFileFinder.find_and_load(path: path)
-
-        load_values(configuration_hash)
       end
     end
   end
