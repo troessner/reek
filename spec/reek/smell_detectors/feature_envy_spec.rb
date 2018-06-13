@@ -247,4 +247,49 @@ RSpec.describe Reek::SmellDetectors::FeatureEnvy do
 
     expect(src).not_to reek_of(:FeatureEnvy)
   end
+
+  it 'does not report on class methods defined by opening the metaclass' do
+    src = <<-EOS
+      class Alfa
+        class << self
+          def bravo(charlie)
+            delta = new(charlie)
+            delta.echo
+            delta.echo
+          end
+        end
+      end
+    EOS
+
+    expect(src).not_to reek_of(:FeatureEnvy)
+  end
+
+  it 'does not report on class methods defined with an explicit receiver' do
+    src = <<-EOS
+      class Alfa
+        def self.bravo(charlie)
+          delta = new(charlie)
+          delta.echo
+          delta.echo
+        end
+      end
+    EOS
+
+    expect(src).not_to reek_of(:FeatureEnvy)
+  end
+
+  it 'does not report module functions' do
+    src = <<-EOF
+      module Alfa
+        module_function
+        def bravo(charlie)
+          echo = delta(charlie)
+          echo.foxtrot
+          echo.foxtrot
+        end
+      end
+    EOF
+
+    expect(src).not_to reek_of(:FeatureEnvy)
+  end
 end

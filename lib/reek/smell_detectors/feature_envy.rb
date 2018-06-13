@@ -43,6 +43,7 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       def sniff
+        return [] if context.singleton_method? || context.module_function?
         return [] unless context.references_self?
         envious_receivers.map do |name, lines|
           smell_warning(
