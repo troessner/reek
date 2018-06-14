@@ -10,6 +10,6 @@ Feature: The Reek CLI maintains backwards compatibility
     And it reports:
     """
     smelly.rb -- 2 warnings:
-      [4]:UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/v4.8.1/docs/Uncommunicative-Method-Name.md]
-      [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/v4.8.1/docs/Uncommunicative-Variable-Name.md]
+      [4]:UncommunicativeMethodName: Smelly#x has the name 'x'
+      [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y'
     """

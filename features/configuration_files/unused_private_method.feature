@@ -27,11 +27,11 @@ Feature: Unused Private Method detector
         end
       end
       """
-    When I run `reek -c config.reek sample.rb`
+    When I run reek -c config.reek sample.rb
     Then it reports:
     """
     sample.rb -- 1 warning:
-      [4]:UnusedPrivateMethod: Outer::Smelly has the unused private instance method 'foobar' [https://github.com/troessner/reek/blob/v4.8.1/docs/Unused-Private-Method.md]
+      [4]:UnusedPrivateMethod: Outer::Smelly has the unused private instance method 'foobar'
     """
 
   Scenario: Use regexes for excluding contexts
@@ -58,9 +58,9 @@ Feature: Unused Private Method detector
         end
       end
       """
-    When I run `reek -c config.reek sample.rb`
+    When I run reek -c config.reek sample.rb
     Then it reports:
     """
     sample.rb -- 1 warning:
-      [4]:UnusedPrivateMethod: Outer::Smelly has the unused private instance method 'foobar' [https://github.com/troessner/reek/blob/v4.8.1/docs/Unused-Private-Method.md]
+      [4]:UnusedPrivateMethod: Outer::Smelly has the unused private instance method 'foobar'
     """

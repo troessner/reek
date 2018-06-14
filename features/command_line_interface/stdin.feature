@@ -27,9 +27,9 @@ Feature: Reek reads from $stdin when no files are given
     And it reports:
       """
       STDIN -- 3 warnings:
-        [1]:IrresponsibleModule: Turn has no descriptive comment [https://github.com/troessner/reek/blob/v4.8.1/docs/Irresponsible-Module.md]
-        [1]:UncommunicativeMethodName: Turn#y has the name 'y' [https://github.com/troessner/reek/blob/v4.8.1/docs/Uncommunicative-Method-Name.md]
-        [1]:UncommunicativeVariableName: Turn has the variable name '@x' [https://github.com/troessner/reek/blob/v4.8.1/docs/Uncommunicative-Variable-Name.md]
+        [1]:IrresponsibleModule: Turn has no descriptive comment
+        [1]:UncommunicativeMethodName: Turn#y has the name 'y'
+        [1]:UncommunicativeVariableName: Turn has the variable name '@x'
       """
 
   Scenario: syntax error causes the source to be ignored
@@ -38,6 +38,6 @@ Feature: Reek reads from $stdin when no files are given
     And it reports:
       """
       STDIN -- 2 warnings:
-        [2]:Syntax: This file has unexpected token $end [https://github.com/troessner/reek/blob/v4.8.1/docs/Syntax.md]
-        [1]:Syntax: This file has unexpected token tEQL [https://github.com/troessner/reek/blob/v4.8.1/docs/Syntax.md]
+        [2]:Syntax: This file has unexpected token $end
+        [1]:Syntax: This file has unexpected token tEQL
       """
