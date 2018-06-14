@@ -12,7 +12,7 @@ module Reek
     #
     class JSONReport < BaseReport
       def show(out = $stdout)
-        out.print ::JSON.generate smells.map { |smell| warning_formatter.format_hash(smell) }
+        out.print ::JSON.generate smells.map(&:yaml_hash)
       end
     end
   end

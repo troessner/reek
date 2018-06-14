@@ -12,7 +12,7 @@ module Reek
     #
     class YAMLReport < BaseReport
       def show(out = $stdout)
-        out.print smells.map { |smell| warning_formatter.format_hash(smell) }.to_yaml
+        out.print smells.map(&:yaml_hash).to_yaml
       end
     end
   end

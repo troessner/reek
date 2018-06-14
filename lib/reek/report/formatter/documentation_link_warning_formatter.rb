@@ -13,10 +13,6 @@ module Reek
         def format(warning)
           "#{super} [#{warning.explanatory_link}]"
         end
-
-        def format_hash(warning)
-          super.merge('documentation_link' => warning.explanatory_link)
-        end
       end
     end
   end

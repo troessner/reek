@@ -17,11 +17,6 @@ module Reek
         end
 
         # :reek:UtilityFunction
-        def format_hash(warning)
-          warning.yaml_hash
-        end
-
-        # :reek:UtilityFunction
         def format_code_climate_hash(warning)
           CodeClimateFormatter.new(warning).render
         end

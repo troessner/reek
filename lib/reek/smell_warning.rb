@@ -56,7 +56,9 @@ module Reek
       base_hash.merge(stringified_params)
     end
 
-    alias yaml_hash to_hash
+    def yaml_hash
+      to_hash.merge('documentation_link' => explanatory_link)
+    end
 
     def base_message
       "#{smell_type}: #{context} #{message}"
@@ -80,11 +82,11 @@ module Reek
 
     def base_hash
       {
-        'context'        => context,
-        'lines'          => lines,
-        'message'        => message,
-        'smell_type'     => smell_type,
-        'source'         => source
+        'context'    => context,
+        'lines'      => lines,
+        'message'    => message,
+        'smell_type' => smell_type,
+        'source'     => source
       }
     end
   end
