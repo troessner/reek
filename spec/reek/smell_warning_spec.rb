@@ -135,6 +135,10 @@ RSpec.describe Reek::SmellWarning do
       expect(yaml['source']).to eq source
     end
 
+    it 'includes the documentation link' do
+      expect(yaml['documentation_link']).to eq Reek::DocumentationLink.build('FeatureEnvy')
+    end
+
     it 'includes the parameters' do
       parameters.each do |key, value|
         expect(yaml[key]).to eq value

@@ -34,58 +34,26 @@ RSpec.describe Reek::Report::JSONReport do
       expected = JSON.parse <<-EOS
         [
           {
-            "context":    "simple",
-            "lines":      [1],
-            "message":    "has the parameter name 'a'",
-            "smell_type": "UncommunicativeParameterName",
-            "source":     "string",
-            "name":       "a"
+            "context":            "simple",
+            "lines":              [1],
+            "message":            "has the parameter name 'a'",
+            "smell_type":         "UncommunicativeParameterName",
+            "source":             "string",
+            "name":               "a",
+            "documentation_link": "https://github.com/troessner/reek/blob/v#{Reek::Version::STRING}/docs/Uncommunicative-Parameter-Name.md"
           },
           {
-            "context":    "simple",
-            "lines":      [1],
-            "message":    "doesn't depend on instance state (maybe move it to another class?)",
-            "smell_type": "UtilityFunction",
-            "source":     "string"
+            "context":            "simple",
+            "lines":              [1],
+            "message":            "doesn't depend on instance state (maybe move it to another class?)",
+            "smell_type":         "UtilityFunction",
+            "source":             "string",
+            "documentation_link": "https://github.com/troessner/reek/blob/v#{Reek::Version::STRING}/docs/Utility-Function.md"
           }
         ]
       EOS
 
       expect(result).to eq expected
-    end
-
-    context 'with link formatter' do
-      let(:options) { { warning_formatter: Reek::Report::Formatter::DocumentationLinkWarningFormatter.new } }
-
-      it 'prints documentation links' do
-        out = StringIO.new
-        instance.show(out)
-        out.rewind
-        result = JSON.parse(out.read)
-        expected = JSON.parse <<-EOS
-          [
-            {
-              "context":            "simple",
-              "lines":              [1],
-              "message":            "has the parameter name 'a'",
-              "smell_type":         "UncommunicativeParameterName",
-              "source":             "string",
-              "name":               "a",
-              "documentation_link": "https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Parameter-Name.md"
-            },
-            {
-              "context":            "simple",
-              "lines":              [1],
-              "message":            "doesn't depend on instance state (maybe move it to another class?)",
-              "smell_type":         "UtilityFunction",
-              "source":             "string",
-              "documentation_link": "https://github.com/troessner/reek/blob/master/docs/Utility-Function.md"
-            }
-          ]
-        EOS
-
-        expect(result).to eq expected
-      end
     end
   end
 end

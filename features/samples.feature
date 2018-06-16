@@ -12,294 +12,294 @@ Feature: Basic smell detection
     And it reports:
     """
     inline.rb -- 51 warnings:
-      BooleanParameter: Inline::C#parse_signature has boolean parameter 'raw' [https://github.com/troessner/reek/blob/master/docs/Boolean-Parameter.md]
-      ClassVariable: Inline declares the class variable '@@directory' [https://github.com/troessner/reek/blob/master/docs/Class-Variable.md]
-      ClassVariable: Inline declares the class variable '@@rootdir' [https://github.com/troessner/reek/blob/master/docs/Class-Variable.md]
-      ClassVariable: Inline::C declares the class variable '@@type_map' [https://github.com/troessner/reek/blob/master/docs/Class-Variable.md]
-      ControlParameter: Inline::C#parse_signature is controlled by argument 'raw' [https://github.com/troessner/reek/blob/master/docs/Control-Parameter.md]
-      DataClump: Inline::C takes parameters ['options', 'src'] to 5 methods [https://github.com/troessner/reek/blob/master/docs/Data-Clump.md]
-      DuplicateMethodCall: Inline#self.rootdir calls 'env.nil?' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: Inline::C#build calls '$? != 0' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: Inline::C#build calls 'Inline.directory' 5 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: Inline::C#build calls 'io.puts "#endif"' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: Inline::C#build calls 'io.puts "#ifdef __cplusplus"' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: Inline::C#build calls 'io.puts' 6 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: Inline::C#build calls 'warn "Output:\n#{result}"' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: Inline::C#crap_for_windoze calls 'Config::CONFIG['libdir']' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: Inline::C#generate calls 'result.sub!(/\A\n/, '')' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: Inline::C#generate calls 'signature['args']' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: Inline::C#generate calls 'signature['args'].map' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: Inline::C#initialize calls 'stack.empty?' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: Module#inline calls 'Inline.const_get(lang)' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: Module#inline calls 'options[:testing]' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      InstanceVariableAssumption: Inline::C assumes too much for instance variable '@module_name' [https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md]
-      InstanceVariableAssumption: Inline::C assumes too much for instance variable '@so_name' [https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md]
-      InstanceVariableAssumption: Inline::C assumes too much for instance variable '@types' [https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md]
-      IrresponsibleModule: CompilationError has no descriptive comment [https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md]
-      IrresponsibleModule: Dir has no descriptive comment [https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md]
-      IrresponsibleModule: File has no descriptive comment [https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md]
-      IrresponsibleModule: Module has no descriptive comment [https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md]
-      NestedIterators: Inline::C#build contains iterators nested 2 deep [https://github.com/troessner/reek/blob/master/docs/Nested-Iterators.md]
-      NilCheck: Inline#self.rootdir performs a nil-check [https://github.com/troessner/reek/blob/master/docs/Nil-Check.md]
-      RepeatedConditional: Inline::C tests '$DEBUG' at least 7 times [https://github.com/troessner/reek/blob/master/docs/Repeated-Conditional.md]
-      RepeatedConditional: Inline::C tests '$TESTING' at least 4 times [https://github.com/troessner/reek/blob/master/docs/Repeated-Conditional.md]
-      RepeatedConditional: Inline::C tests '@@type_map.has_key? type' at least 3 times [https://github.com/troessner/reek/blob/master/docs/Repeated-Conditional.md]
-      TooManyConstants: Inline has 6 constants [https://github.com/troessner/reek/blob/master/docs/Too-Many-Constants.md]
-      TooManyInstanceVariables: Inline::C has at least 13 instance variables [https://github.com/troessner/reek/blob/master/docs/Too-Many-Instance-Variables.md]
-      TooManyMethods: Inline::C has at least 25 methods [https://github.com/troessner/reek/blob/master/docs/Too-Many-Methods.md]
-      TooManyStatements: File#self.write_with_backup has approx 6 statements [https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md]
-      TooManyStatements: Inline#self.rootdir has approx 8 statements [https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md]
-      TooManyStatements: Inline::C#build has approx 63 statements [https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md]
-      TooManyStatements: Inline::C#generate has approx 35 statements [https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md]
-      TooManyStatements: Inline::C#module_name has approx 7 statements [https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md]
-      TooManyStatements: Inline::C#parse_signature has approx 16 statements [https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md]
-      TooManyStatements: Module#inline has approx 12 statements [https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md]
-      UncommunicativeMethodName: Inline::C#c has the name 'c' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
-      UncommunicativeModuleName: Inline::C has the name 'C' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Module-Name.md]
-      UncommunicativeVariableName: Inline::C#build has the variable name 'n' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: Inline::C#build has the variable name 't' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: Inline::C#module_name has the variable name 'm' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: Inline::C#module_name has the variable name 'md5' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: Inline::C#module_name has the variable name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: Inline::C#parse_signature has the variable name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UtilityFunction: Inline::C#strip_comments doesn't depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Utility-Function.md]
+      BooleanParameter: Inline::C#parse_signature has boolean parameter 'raw'
+      ClassVariable: Inline declares the class variable '@@directory'
+      ClassVariable: Inline declares the class variable '@@rootdir'
+      ClassVariable: Inline::C declares the class variable '@@type_map'
+      ControlParameter: Inline::C#parse_signature is controlled by argument 'raw'
+      DataClump: Inline::C takes parameters ['options', 'src'] to 5 methods
+      DuplicateMethodCall: Inline#self.rootdir calls 'env.nil?' 2 times
+      DuplicateMethodCall: Inline::C#build calls '$? != 0' 2 times
+      DuplicateMethodCall: Inline::C#build calls 'Inline.directory' 5 times
+      DuplicateMethodCall: Inline::C#build calls 'io.puts "#endif"' 2 times
+      DuplicateMethodCall: Inline::C#build calls 'io.puts "#ifdef __cplusplus"' 2 times
+      DuplicateMethodCall: Inline::C#build calls 'io.puts' 6 times
+      DuplicateMethodCall: Inline::C#build calls 'warn "Output:\n#{result}"' 2 times
+      DuplicateMethodCall: Inline::C#crap_for_windoze calls 'Config::CONFIG['libdir']' 2 times
+      DuplicateMethodCall: Inline::C#generate calls 'result.sub!(/\A\n/, '')' 2 times
+      DuplicateMethodCall: Inline::C#generate calls 'signature['args']' 2 times
+      DuplicateMethodCall: Inline::C#generate calls 'signature['args'].map' 2 times
+      DuplicateMethodCall: Inline::C#initialize calls 'stack.empty?' 2 times
+      DuplicateMethodCall: Module#inline calls 'Inline.const_get(lang)' 2 times
+      DuplicateMethodCall: Module#inline calls 'options[:testing]' 2 times
+      InstanceVariableAssumption: Inline::C assumes too much for instance variable '@module_name'
+      InstanceVariableAssumption: Inline::C assumes too much for instance variable '@so_name'
+      InstanceVariableAssumption: Inline::C assumes too much for instance variable '@types'
+      IrresponsibleModule: CompilationError has no descriptive comment
+      IrresponsibleModule: Dir has no descriptive comment
+      IrresponsibleModule: File has no descriptive comment
+      IrresponsibleModule: Module has no descriptive comment
+      NestedIterators: Inline::C#build contains iterators nested 2 deep
+      NilCheck: Inline#self.rootdir performs a nil-check
+      RepeatedConditional: Inline::C tests '$DEBUG' at least 7 times
+      RepeatedConditional: Inline::C tests '$TESTING' at least 4 times
+      RepeatedConditional: Inline::C tests '@@type_map.has_key? type' at least 3 times
+      TooManyConstants: Inline has 6 constants
+      TooManyInstanceVariables: Inline::C has at least 13 instance variables
+      TooManyMethods: Inline::C has at least 25 methods
+      TooManyStatements: File#self.write_with_backup has approx 6 statements
+      TooManyStatements: Inline#self.rootdir has approx 8 statements
+      TooManyStatements: Inline::C#build has approx 63 statements
+      TooManyStatements: Inline::C#generate has approx 35 statements
+      TooManyStatements: Inline::C#module_name has approx 7 statements
+      TooManyStatements: Inline::C#parse_signature has approx 16 statements
+      TooManyStatements: Module#inline has approx 12 statements
+      UncommunicativeMethodName: Inline::C#c has the name 'c'
+      UncommunicativeModuleName: Inline::C has the name 'C'
+      UncommunicativeVariableName: Inline::C#build has the variable name 'n'
+      UncommunicativeVariableName: Inline::C#build has the variable name 't'
+      UncommunicativeVariableName: Inline::C#module_name has the variable name 'm'
+      UncommunicativeVariableName: Inline::C#module_name has the variable name 'md5'
+      UncommunicativeVariableName: Inline::C#module_name has the variable name 'x'
+      UncommunicativeVariableName: Inline::C#parse_signature has the variable name 'x'
+      UtilityFunction: Inline::C#strip_comments doesn't depend on instance state (maybe move it to another class?)
     optparse.rb -- 126 warnings:
-      Attribute: OptionParser#banner is a writable attribute [https://github.com/troessner/reek/blob/master/docs/Attribute.md]
-      Attribute: OptionParser#default_argv is a writable attribute [https://github.com/troessner/reek/blob/master/docs/Attribute.md]
-      Attribute: OptionParser#program_name is a writable attribute [https://github.com/troessner/reek/blob/master/docs/Attribute.md]
-      Attribute: OptionParser#release is a writable attribute [https://github.com/troessner/reek/blob/master/docs/Attribute.md]
-      Attribute: OptionParser#summary_indent is a writable attribute [https://github.com/troessner/reek/blob/master/docs/Attribute.md]
-      Attribute: OptionParser#summary_width is a writable attribute [https://github.com/troessner/reek/blob/master/docs/Attribute.md]
-      Attribute: OptionParser#version is a writable attribute [https://github.com/troessner/reek/blob/master/docs/Attribute.md]
-      Attribute: OptionParser::ParseError#reason is a writable attribute [https://github.com/troessner/reek/blob/master/docs/Attribute.md]
-      BooleanParameter: OptionParser#complete has boolean parameter 'icase' [https://github.com/troessner/reek/blob/master/docs/Boolean-Parameter.md]
-      BooleanParameter: OptionParser::Completion#complete has boolean parameter 'icase' [https://github.com/troessner/reek/blob/master/docs/Boolean-Parameter.md]
-      BooleanParameter: OptionParser::List#complete has boolean parameter 'icase' [https://github.com/troessner/reek/blob/master/docs/Boolean-Parameter.md]
-      ControlParameter: OptionParser#summarize is controlled by argument 'blk' [https://github.com/troessner/reek/blob/master/docs/Control-Parameter.md]
-      ControlParameter: OptionParser::Arguable#options= is controlled by argument 'opt' [https://github.com/troessner/reek/blob/master/docs/Control-Parameter.md]
-      ControlParameter: OptionParser::ParseError#set_option is controlled by argument 'eq' [https://github.com/troessner/reek/blob/master/docs/Control-Parameter.md]
-      DuplicateMethodCall: OptionParser#getopts calls 'result[opt] = false' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: OptionParser#make_switch calls 'default_style.guess(arg = a)' 4 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: OptionParser#make_switch calls 'long << (o = q.downcase)' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: OptionParser#make_switch calls 'notwice(NilClass, klass, 'type')' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: OptionParser#make_switch calls 'notwice(a ? Object : TrueClass, klass, 'type')' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: OptionParser#make_switch calls 'pattern.method(:convert)' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: OptionParser#make_switch calls 'pattern.method(:convert).to_proc' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: OptionParser#make_switch calls 'pattern.respond_to?(:convert)' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: OptionParser#make_switch calls 'q.downcase' 3 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: OptionParser#make_switch calls 'sdesc << "-#{q}"' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: OptionParser#make_switch calls 'search(:atype, FalseClass)' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: OptionParser#make_switch calls 'search(:atype, o)' 6 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: OptionParser#order calls 'argv[0]' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: OptionParser#parse calls 'argv[0]' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: OptionParser#parse_in_order calls '$!.set_option(arg, true)' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: OptionParser#parse_in_order calls 'cb.call(val)' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: OptionParser#parse_in_order calls 'raise $!.set_option(arg, true)' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: OptionParser#parse_in_order calls 'raise(*exc)' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: OptionParser#parse_in_order calls 'setter.call(sw.switch_name, val)' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: OptionParser#parse_in_order calls 'sw.block' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: OptionParser#parse_in_order calls 'sw.switch_name' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: OptionParser#permute calls 'argv[0]' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: OptionParser::Completion#complete calls 'candidates.size' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: OptionParser::Completion#complete calls 'k.id2name' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: OptionParser::Switch#parse_arg calls 's.length' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: OptionParser::Switch#summarize calls 'indent + l' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: OptionParser::Switch#summarize calls 'left.collect {|s| s.length}' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: OptionParser::Switch#summarize calls 'left.collect {|s| s.length}.max' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: OptionParser::Switch#summarize calls 'left.collect {|s| s.length}.max.to_i' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: OptionParser::Switch#summarize calls 'left.collect' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: OptionParser::Switch#summarize calls 'left.shift' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: OptionParser::Switch#summarize calls 'left[-1]' 3 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: OptionParser::Switch#summarize calls 's.length' 3 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      FeatureEnvy: OptionParser#order refers to 'argv' more than self (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md]
-      FeatureEnvy: OptionParser#parse refers to 'argv' more than self (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md]
-      FeatureEnvy: OptionParser#permute refers to 'argv' more than self (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md]
-      FeatureEnvy: OptionParser::Completion#complete refers to 'candidates' more than self (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md]
-      FeatureEnvy: OptionParser::List#accept refers to 'pat' more than self (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md]
-      FeatureEnvy: OptionParser::List#add_banner refers to 'opt' more than self (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md]
-      FeatureEnvy: OptionParser::List#summarize refers to 'opt' more than self (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md]
-      InstanceVariableAssumption: OptionParser assumes too much for instance variable '@release' [https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md]
-      InstanceVariableAssumption: OptionParser assumes too much for instance variable '@version' [https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md]
-      LongParameterList: OptionParser#complete has 4 parameters [https://github.com/troessner/reek/blob/master/docs/Long-Parameter-List.md]
-      LongParameterList: OptionParser#summarize has 4 parameters [https://github.com/troessner/reek/blob/master/docs/Long-Parameter-List.md]
-      LongParameterList: OptionParser::List#complete has 4 parameters [https://github.com/troessner/reek/blob/master/docs/Long-Parameter-List.md]
-      LongParameterList: OptionParser::List#update has 5 parameters [https://github.com/troessner/reek/blob/master/docs/Long-Parameter-List.md]
-      LongParameterList: OptionParser::Switch#initialize has 7 parameters [https://github.com/troessner/reek/blob/master/docs/Long-Parameter-List.md]
-      LongParameterList: OptionParser::Switch#summarize has 5 parameters [https://github.com/troessner/reek/blob/master/docs/Long-Parameter-List.md]
-      ManualDispatch: OptionParser#make_switch manually dispatches method call [https://github.com/troessner/reek/blob/master/docs/Manual-Dispatch.md]
-      ManualDispatch: OptionParser::List#accept manually dispatches method call [https://github.com/troessner/reek/blob/master/docs/Manual-Dispatch.md]
-      ManualDispatch: OptionParser::List#add_banner manually dispatches method call [https://github.com/troessner/reek/blob/master/docs/Manual-Dispatch.md]
-      ManualDispatch: OptionParser::List#summarize manually dispatches method call [https://github.com/troessner/reek/blob/master/docs/Manual-Dispatch.md]
-      ModuleInitialize: OptionParser::Arguable has initialize method [https://github.com/troessner/reek/blob/master/docs/Module-Initialize.md]
-      NestedIterators: OptionParser#make_switch contains iterators nested 2 deep [https://github.com/troessner/reek/blob/master/docs/Nested-Iterators.md]
-      NilCheck: OptionParser#make_switch performs a nil-check [https://github.com/troessner/reek/blob/master/docs/Nil-Check.md]
-      NilCheck: OptionParser#self.inc performs a nil-check [https://github.com/troessner/reek/blob/master/docs/Nil-Check.md]
-      RepeatedConditional: OptionParser tests 'a' at least 7 times [https://github.com/troessner/reek/blob/master/docs/Repeated-Conditional.md]
-      RepeatedConditional: OptionParser tests 'argv.size == 1 and Array === argv[0]' at least 3 times [https://github.com/troessner/reek/blob/master/docs/Repeated-Conditional.md]
-      RepeatedConditional: OptionParser tests 'default_pattern' at least 7 times [https://github.com/troessner/reek/blob/master/docs/Repeated-Conditional.md]
-      RepeatedConditional: OptionParser tests 'not_style' at least 3 times [https://github.com/troessner/reek/blob/master/docs/Repeated-Conditional.md]
-      RepeatedConditional: OptionParser tests 's' at least 7 times [https://github.com/troessner/reek/blob/master/docs/Repeated-Conditional.md]
-      SubclassedFromCoreClass: OptionParser::CompletingHash inherits from core class 'Hash' [https://github.com/troessner/reek/blob/master/docs/Subclassed-From-Core-Class.md]
-      SubclassedFromCoreClass: OptionParser::OptionMap inherits from core class 'Hash' [https://github.com/troessner/reek/blob/master/docs/Subclassed-From-Core-Class.md]
-      TooManyConstants: OptionParser has 16 constants [https://github.com/troessner/reek/blob/master/docs/Too-Many-Constants.md]
-      TooManyInstanceVariables: OptionParser has at least 6 instance variables [https://github.com/troessner/reek/blob/master/docs/Too-Many-Instance-Variables.md]
-      TooManyInstanceVariables: OptionParser::Switch has at least 7 instance variables [https://github.com/troessner/reek/blob/master/docs/Too-Many-Instance-Variables.md]
-      TooManyMethods: OptionParser has at least 42 methods [https://github.com/troessner/reek/blob/master/docs/Too-Many-Methods.md]
-      TooManyStatements: OptionParser#complete has approx 6 statements [https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md]
-      TooManyStatements: OptionParser#getopts has approx 18 statements [https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md]
-      TooManyStatements: OptionParser#load has approx 6 statements [https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md]
-      TooManyStatements: OptionParser#make_switch has approx 72 statements [https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md]
-      TooManyStatements: OptionParser#parse_in_order has approx 35 statements [https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md]
-      TooManyStatements: OptionParser#permute! has approx 6 statements [https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md]
-      TooManyStatements: OptionParser::Arguable#options has approx 6 statements [https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md]
-      TooManyStatements: OptionParser::Completion#complete has approx 23 statements [https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md]
-      TooManyStatements: OptionParser::List#update has approx 10 statements [https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md]
-      TooManyStatements: OptionParser::Switch#parse_arg has approx 11 statements [https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md]
-      TooManyStatements: OptionParser::Switch#self.guess has approx 6 statements [https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md]
-      TooManyStatements: OptionParser::Switch#summarize has approx 28 statements [https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md]
-      TooManyStatements: OptionParser::Switch::PlacedArgument#parse has approx 6 statements [https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md]
-      UncommunicativeParameterName: OptionParser::List#accept has the parameter name 't' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Parameter-Name.md]
-      UncommunicativeParameterName: OptionParser::List#reject has the parameter name 't' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Parameter-Name.md]
-      UncommunicativeParameterName: OptionParser::Switch#self.incompatible_argument_styles has the parameter name 't' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Parameter-Name.md]
-      UncommunicativeVariableName: OptionParser has the variable name 'f' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: OptionParser has the variable name 'k' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: OptionParser has the variable name 'o' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: OptionParser has the variable name 's' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: OptionParser has the variable name 'v' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: OptionParser#load has the variable name 's' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: OptionParser#make_switch has the variable name 'a' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: OptionParser#make_switch has the variable name 'c' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: OptionParser#make_switch has the variable name 'n' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: OptionParser#make_switch has the variable name 'o' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: OptionParser#make_switch has the variable name 'q' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: OptionParser#make_switch has the variable name 's' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: OptionParser#make_switch has the variable name 'v' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: OptionParser#search has the variable name 'k' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: OptionParser#summarize has the variable name 'l' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: OptionParser#ver has the variable name 'v' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: OptionParser::Completion#complete has the variable name 'k' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: OptionParser::Completion#complete has the variable name 'v' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: OptionParser::List#update has the variable name 'o' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: OptionParser::Switch#add_banner has the variable name 's' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: OptionParser::Switch#parse_arg has the variable name 'm' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: OptionParser::Switch#parse_arg has the variable name 's' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: OptionParser::Switch#self.guess has the variable name 't' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: OptionParser::Switch#summarize has the variable name 'l' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: OptionParser::Switch#summarize has the variable name 'r' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: OptionParser::Switch#summarize has the variable name 's' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UnusedParameters: OptionParser::Completion#convert has unused parameter 'opt' [https://github.com/troessner/reek/blob/master/docs/Unused-Parameters.md]
-      UnusedParameters: OptionParser::Switch::NoArgument#parse has unused parameter 'argv' [https://github.com/troessner/reek/blob/master/docs/Unused-Parameters.md]
-      UnusedParameters: OptionParser::Switch::OptionalArgument#parse has unused parameter 'argv' [https://github.com/troessner/reek/blob/master/docs/Unused-Parameters.md]
+      Attribute: OptionParser#banner is a writable attribute
+      Attribute: OptionParser#default_argv is a writable attribute
+      Attribute: OptionParser#program_name is a writable attribute
+      Attribute: OptionParser#release is a writable attribute
+      Attribute: OptionParser#summary_indent is a writable attribute
+      Attribute: OptionParser#summary_width is a writable attribute
+      Attribute: OptionParser#version is a writable attribute
+      Attribute: OptionParser::ParseError#reason is a writable attribute
+      BooleanParameter: OptionParser#complete has boolean parameter 'icase'
+      BooleanParameter: OptionParser::Completion#complete has boolean parameter 'icase'
+      BooleanParameter: OptionParser::List#complete has boolean parameter 'icase'
+      ControlParameter: OptionParser#summarize is controlled by argument 'blk'
+      ControlParameter: OptionParser::Arguable#options= is controlled by argument 'opt'
+      ControlParameter: OptionParser::ParseError#set_option is controlled by argument 'eq'
+      DuplicateMethodCall: OptionParser#getopts calls 'result[opt] = false' 2 times
+      DuplicateMethodCall: OptionParser#make_switch calls 'default_style.guess(arg = a)' 4 times
+      DuplicateMethodCall: OptionParser#make_switch calls 'long << (o = q.downcase)' 2 times
+      DuplicateMethodCall: OptionParser#make_switch calls 'notwice(NilClass, klass, 'type')' 2 times
+      DuplicateMethodCall: OptionParser#make_switch calls 'notwice(a ? Object : TrueClass, klass, 'type')' 2 times
+      DuplicateMethodCall: OptionParser#make_switch calls 'pattern.method(:convert)' 2 times
+      DuplicateMethodCall: OptionParser#make_switch calls 'pattern.method(:convert).to_proc' 2 times
+      DuplicateMethodCall: OptionParser#make_switch calls 'pattern.respond_to?(:convert)' 2 times
+      DuplicateMethodCall: OptionParser#make_switch calls 'q.downcase' 3 times
+      DuplicateMethodCall: OptionParser#make_switch calls 'sdesc << "-#{q}"' 2 times
+      DuplicateMethodCall: OptionParser#make_switch calls 'search(:atype, FalseClass)' 2 times
+      DuplicateMethodCall: OptionParser#make_switch calls 'search(:atype, o)' 6 times
+      DuplicateMethodCall: OptionParser#order calls 'argv[0]' 2 times
+      DuplicateMethodCall: OptionParser#parse calls 'argv[0]' 2 times
+      DuplicateMethodCall: OptionParser#parse_in_order calls '$!.set_option(arg, true)' 2 times
+      DuplicateMethodCall: OptionParser#parse_in_order calls 'cb.call(val)' 2 times
+      DuplicateMethodCall: OptionParser#parse_in_order calls 'raise $!.set_option(arg, true)' 2 times
+      DuplicateMethodCall: OptionParser#parse_in_order calls 'raise(*exc)' 2 times
+      DuplicateMethodCall: OptionParser#parse_in_order calls 'setter.call(sw.switch_name, val)' 2 times
+      DuplicateMethodCall: OptionParser#parse_in_order calls 'sw.block' 2 times
+      DuplicateMethodCall: OptionParser#parse_in_order calls 'sw.switch_name' 2 times
+      DuplicateMethodCall: OptionParser#permute calls 'argv[0]' 2 times
+      DuplicateMethodCall: OptionParser::Completion#complete calls 'candidates.size' 2 times
+      DuplicateMethodCall: OptionParser::Completion#complete calls 'k.id2name' 2 times
+      DuplicateMethodCall: OptionParser::Switch#parse_arg calls 's.length' 2 times
+      DuplicateMethodCall: OptionParser::Switch#summarize calls 'indent + l' 2 times
+      DuplicateMethodCall: OptionParser::Switch#summarize calls 'left.collect {|s| s.length}' 2 times
+      DuplicateMethodCall: OptionParser::Switch#summarize calls 'left.collect {|s| s.length}.max' 2 times
+      DuplicateMethodCall: OptionParser::Switch#summarize calls 'left.collect {|s| s.length}.max.to_i' 2 times
+      DuplicateMethodCall: OptionParser::Switch#summarize calls 'left.collect' 2 times
+      DuplicateMethodCall: OptionParser::Switch#summarize calls 'left.shift' 2 times
+      DuplicateMethodCall: OptionParser::Switch#summarize calls 'left[-1]' 3 times
+      DuplicateMethodCall: OptionParser::Switch#summarize calls 's.length' 3 times
+      FeatureEnvy: OptionParser#order refers to 'argv' more than self (maybe move it to another class?)
+      FeatureEnvy: OptionParser#parse refers to 'argv' more than self (maybe move it to another class?)
+      FeatureEnvy: OptionParser#permute refers to 'argv' more than self (maybe move it to another class?)
+      FeatureEnvy: OptionParser::Completion#complete refers to 'candidates' more than self (maybe move it to another class?)
+      FeatureEnvy: OptionParser::List#accept refers to 'pat' more than self (maybe move it to another class?)
+      FeatureEnvy: OptionParser::List#add_banner refers to 'opt' more than self (maybe move it to another class?)
+      FeatureEnvy: OptionParser::List#summarize refers to 'opt' more than self (maybe move it to another class?)
+      InstanceVariableAssumption: OptionParser assumes too much for instance variable '@release'
+      InstanceVariableAssumption: OptionParser assumes too much for instance variable '@version'
+      LongParameterList: OptionParser#complete has 4 parameters
+      LongParameterList: OptionParser#summarize has 4 parameters
+      LongParameterList: OptionParser::List#complete has 4 parameters
+      LongParameterList: OptionParser::List#update has 5 parameters
+      LongParameterList: OptionParser::Switch#initialize has 7 parameters
+      LongParameterList: OptionParser::Switch#summarize has 5 parameters
+      ManualDispatch: OptionParser#make_switch manually dispatches method call
+      ManualDispatch: OptionParser::List#accept manually dispatches method call
+      ManualDispatch: OptionParser::List#add_banner manually dispatches method call
+      ManualDispatch: OptionParser::List#summarize manually dispatches method call
+      ModuleInitialize: OptionParser::Arguable has initialize method
+      NestedIterators: OptionParser#make_switch contains iterators nested 2 deep
+      NilCheck: OptionParser#make_switch performs a nil-check
+      NilCheck: OptionParser#self.inc performs a nil-check
+      RepeatedConditional: OptionParser tests 'a' at least 7 times
+      RepeatedConditional: OptionParser tests 'argv.size == 1 and Array === argv[0]' at least 3 times
+      RepeatedConditional: OptionParser tests 'default_pattern' at least 7 times
+      RepeatedConditional: OptionParser tests 'not_style' at least 3 times
+      RepeatedConditional: OptionParser tests 's' at least 7 times
+      SubclassedFromCoreClass: OptionParser::CompletingHash inherits from core class 'Hash'
+      SubclassedFromCoreClass: OptionParser::OptionMap inherits from core class 'Hash'
+      TooManyConstants: OptionParser has 16 constants
+      TooManyInstanceVariables: OptionParser has at least 6 instance variables
+      TooManyInstanceVariables: OptionParser::Switch has at least 7 instance variables
+      TooManyMethods: OptionParser has at least 42 methods
+      TooManyStatements: OptionParser#complete has approx 6 statements
+      TooManyStatements: OptionParser#getopts has approx 18 statements
+      TooManyStatements: OptionParser#load has approx 6 statements
+      TooManyStatements: OptionParser#make_switch has approx 72 statements
+      TooManyStatements: OptionParser#parse_in_order has approx 35 statements
+      TooManyStatements: OptionParser#permute! has approx 6 statements
+      TooManyStatements: OptionParser::Arguable#options has approx 6 statements
+      TooManyStatements: OptionParser::Completion#complete has approx 23 statements
+      TooManyStatements: OptionParser::List#update has approx 10 statements
+      TooManyStatements: OptionParser::Switch#parse_arg has approx 11 statements
+      TooManyStatements: OptionParser::Switch#self.guess has approx 6 statements
+      TooManyStatements: OptionParser::Switch#summarize has approx 28 statements
+      TooManyStatements: OptionParser::Switch::PlacedArgument#parse has approx 6 statements
+      UncommunicativeParameterName: OptionParser::List#accept has the parameter name 't'
+      UncommunicativeParameterName: OptionParser::List#reject has the parameter name 't'
+      UncommunicativeParameterName: OptionParser::Switch#self.incompatible_argument_styles has the parameter name 't'
+      UncommunicativeVariableName: OptionParser has the variable name 'f'
+      UncommunicativeVariableName: OptionParser has the variable name 'k'
+      UncommunicativeVariableName: OptionParser has the variable name 'o'
+      UncommunicativeVariableName: OptionParser has the variable name 's'
+      UncommunicativeVariableName: OptionParser has the variable name 'v'
+      UncommunicativeVariableName: OptionParser#load has the variable name 's'
+      UncommunicativeVariableName: OptionParser#make_switch has the variable name 'a'
+      UncommunicativeVariableName: OptionParser#make_switch has the variable name 'c'
+      UncommunicativeVariableName: OptionParser#make_switch has the variable name 'n'
+      UncommunicativeVariableName: OptionParser#make_switch has the variable name 'o'
+      UncommunicativeVariableName: OptionParser#make_switch has the variable name 'q'
+      UncommunicativeVariableName: OptionParser#make_switch has the variable name 's'
+      UncommunicativeVariableName: OptionParser#make_switch has the variable name 'v'
+      UncommunicativeVariableName: OptionParser#search has the variable name 'k'
+      UncommunicativeVariableName: OptionParser#summarize has the variable name 'l'
+      UncommunicativeVariableName: OptionParser#ver has the variable name 'v'
+      UncommunicativeVariableName: OptionParser::Completion#complete has the variable name 'k'
+      UncommunicativeVariableName: OptionParser::Completion#complete has the variable name 'v'
+      UncommunicativeVariableName: OptionParser::List#update has the variable name 'o'
+      UncommunicativeVariableName: OptionParser::Switch#add_banner has the variable name 's'
+      UncommunicativeVariableName: OptionParser::Switch#parse_arg has the variable name 'm'
+      UncommunicativeVariableName: OptionParser::Switch#parse_arg has the variable name 's'
+      UncommunicativeVariableName: OptionParser::Switch#self.guess has the variable name 't'
+      UncommunicativeVariableName: OptionParser::Switch#summarize has the variable name 'l'
+      UncommunicativeVariableName: OptionParser::Switch#summarize has the variable name 'r'
+      UncommunicativeVariableName: OptionParser::Switch#summarize has the variable name 's'
+      UnusedParameters: OptionParser::Completion#convert has unused parameter 'opt'
+      UnusedParameters: OptionParser::Switch::NoArgument#parse has unused parameter 'argv'
+      UnusedParameters: OptionParser::Switch::OptionalArgument#parse has unused parameter 'argv'
     redcloth.rb -- 110 warnings:
-      Attribute: RedCloth#filter_html is a writable attribute [https://github.com/troessner/reek/blob/master/docs/Attribute.md]
-      Attribute: RedCloth#filter_styles is a writable attribute [https://github.com/troessner/reek/blob/master/docs/Attribute.md]
-      Attribute: RedCloth#hard_breaks is a writable attribute [https://github.com/troessner/reek/blob/master/docs/Attribute.md]
-      Attribute: RedCloth#lite_mode is a writable attribute [https://github.com/troessner/reek/blob/master/docs/Attribute.md]
-      Attribute: RedCloth#no_span_caps is a writable attribute [https://github.com/troessner/reek/blob/master/docs/Attribute.md]
-      Attribute: RedCloth#rules is a writable attribute [https://github.com/troessner/reek/blob/master/docs/Attribute.md]
-      BooleanParameter: RedCloth#blocks has boolean parameter 'deep_code' [https://github.com/troessner/reek/blob/master/docs/Boolean-Parameter.md]
-      ControlParameter: RedCloth#blocks is controlled by argument 'deep_code' [https://github.com/troessner/reek/blob/master/docs/Control-Parameter.md]
-      ControlParameter: RedCloth#htmlesc is controlled by argument 'mode' [https://github.com/troessner/reek/blob/master/docs/Control-Parameter.md]
-      ControlParameter: RedCloth#lT is controlled by argument 'text' [https://github.com/troessner/reek/blob/master/docs/Control-Parameter.md]
-      ControlParameter: RedCloth#pba is controlled by argument 'element' [https://github.com/troessner/reek/blob/master/docs/Control-Parameter.md]
-      DataClump: RedCloth takes parameters ['atts', 'cite', 'content', 'tag'] to 3 methods [https://github.com/troessner/reek/blob/master/docs/Data-Clump.md]
-      DuplicateMethodCall: RedCloth#block_textile_lists calls 'depth.last' 5 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: RedCloth#block_textile_lists calls 'depth.last.length' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: RedCloth#block_textile_lists calls 'depth[i]' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: RedCloth#block_textile_lists calls 'line_id - 1' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: RedCloth#block_textile_lists calls 'lines[line_id - 1]' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: RedCloth#block_textile_lists calls 'tl.length' 3 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: RedCloth#clean_html calls 'tags[tag]' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: RedCloth#pba calls '$1.length' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: RedCloth#rip_offtags calls '@pre_list.last << line' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: RedCloth#rip_offtags calls '@pre_list.last' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: RedCloth#rip_offtags calls 'codepre - used_offtags.length > 0' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: RedCloth#rip_offtags calls 'codepre - used_offtags.length' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: RedCloth#rip_offtags calls 'codepre.zero?' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: RedCloth#rip_offtags calls 'htmlesc( line, :NoQuotes )' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: RedCloth#rip_offtags calls 'used_offtags.length' 2 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      DuplicateMethodCall: RedCloth#rip_offtags calls 'used_offtags['notextile']' 3 times [https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md]
-      FeatureEnvy: RedCloth#block_markdown_atx refers to 'text' more than self (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md]
-      FeatureEnvy: RedCloth#block_markdown_setext refers to 'text' more than self (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md]
-      FeatureEnvy: RedCloth#block_textile_lists refers to 'depth' more than self (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md]
-      FeatureEnvy: RedCloth#blocks refers to 'blk' more than self (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md]
-      FeatureEnvy: RedCloth#clean_white_space refers to 'text' more than self (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md]
-      FeatureEnvy: RedCloth#pba refers to 'text' more than self (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md]
-      InstanceVariableAssumption: RedCloth assumes too much for instance variable '@lite_mode' [https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md]
-      InstanceVariableAssumption: RedCloth assumes too much for instance variable '@pre_list' [https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md]
-      InstanceVariableAssumption: RedCloth assumes too much for instance variable '@rules' [https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md]
-      InstanceVariableAssumption: RedCloth assumes too much for instance variable '@shelf' [https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md]
-      InstanceVariableAssumption: RedCloth assumes too much for instance variable '@urlrefs' [https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md]
-      LongParameterList: RedCloth#textile_bq has 4 parameters [https://github.com/troessner/reek/blob/master/docs/Long-Parameter-List.md]
-      LongParameterList: RedCloth#textile_fn_ has 5 parameters [https://github.com/troessner/reek/blob/master/docs/Long-Parameter-List.md]
-      LongParameterList: RedCloth#textile_p has 4 parameters [https://github.com/troessner/reek/blob/master/docs/Long-Parameter-List.md]
-      ManualDispatch: RedCloth#block_textile_prefix manually dispatches method call [https://github.com/troessner/reek/blob/master/docs/Manual-Dispatch.md]
-      NestedIterators: RedCloth#block_textile_lists contains iterators nested 3 deep [https://github.com/troessner/reek/blob/master/docs/Nested-Iterators.md]
-      NestedIterators: RedCloth#block_textile_table contains iterators nested 2 deep [https://github.com/troessner/reek/blob/master/docs/Nested-Iterators.md]
-      NestedIterators: RedCloth#block_textile_table contains iterators nested 3 deep [https://github.com/troessner/reek/blob/master/docs/Nested-Iterators.md]
-      NestedIterators: RedCloth#blocks contains iterators nested 2 deep [https://github.com/troessner/reek/blob/master/docs/Nested-Iterators.md]
-      NestedIterators: RedCloth#clean_html contains iterators nested 2 deep [https://github.com/troessner/reek/blob/master/docs/Nested-Iterators.md]
-      NestedIterators: RedCloth#inline contains iterators nested 2 deep [https://github.com/troessner/reek/blob/master/docs/Nested-Iterators.md]
-      NestedIterators: RedCloth#inline_textile_span contains iterators nested 2 deep [https://github.com/troessner/reek/blob/master/docs/Nested-Iterators.md]
-      RepeatedConditional: RedCloth tests 'atts' at least 6 times [https://github.com/troessner/reek/blob/master/docs/Repeated-Conditional.md]
-      RepeatedConditional: RedCloth tests 'codepre.zero?' at least 3 times [https://github.com/troessner/reek/blob/master/docs/Repeated-Conditional.md]
-      RepeatedConditional: RedCloth tests 'href' at least 3 times [https://github.com/troessner/reek/blob/master/docs/Repeated-Conditional.md]
-      RepeatedConditional: RedCloth tests 'title' at least 4 times [https://github.com/troessner/reek/blob/master/docs/Repeated-Conditional.md]
-      SubclassedFromCoreClass: RedCloth inherits from core class 'String' [https://github.com/troessner/reek/blob/master/docs/Subclassed-From-Core-Class.md]
-      TooManyConstants: RedCloth has 45 constants [https://github.com/troessner/reek/blob/master/docs/Too-Many-Constants.md]
-      TooManyMethods: RedCloth has at least 44 methods [https://github.com/troessner/reek/blob/master/docs/Too-Many-Methods.md]
-      TooManyStatements: RedCloth#block_markdown_bq has approx 6 statements [https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md]
-      TooManyStatements: RedCloth#block_textile_lists has approx 21 statements [https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md]
-      TooManyStatements: RedCloth#block_textile_table has approx 19 statements [https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md]
-      TooManyStatements: RedCloth#blocks has approx 19 statements [https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md]
-      TooManyStatements: RedCloth#clean_html has approx 15 statements [https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md]
-      TooManyStatements: RedCloth#clean_white_space has approx 7 statements [https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md]
-      TooManyStatements: RedCloth#glyphs_textile has approx 10 statements [https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md]
-      TooManyStatements: RedCloth#inline_markdown_link has approx 6 statements [https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md]
-      TooManyStatements: RedCloth#inline_markdown_reflink has approx 8 statements [https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md]
-      TooManyStatements: RedCloth#inline_textile_image has approx 17 statements [https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md]
-      TooManyStatements: RedCloth#inline_textile_link has approx 9 statements [https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md]
-      TooManyStatements: RedCloth#inline_textile_span has approx 9 statements [https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md]
-      TooManyStatements: RedCloth#pba has approx 21 statements [https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md]
-      TooManyStatements: RedCloth#rip_offtags has approx 18 statements [https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md]
-      TooManyStatements: RedCloth#to_html has approx 26 statements [https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md]
-      UncommunicativeMethodName: RedCloth#lT has the name 'lT' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
-      UncommunicativeParameterName: RedCloth#textile_popup_help has the parameter name 'windowH' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Parameter-Name.md]
-      UncommunicativeParameterName: RedCloth#textile_popup_help has the parameter name 'windowW' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Parameter-Name.md]
-      UncommunicativeVariableName: RedCloth has the variable name 'a' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: RedCloth has the variable name 'b' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: RedCloth#block_textile_lists has the variable name 'i' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: RedCloth#block_textile_lists has the variable name 'v' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: RedCloth#block_textile_table has the variable name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: RedCloth#clean_html has the variable name 'q' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: RedCloth#clean_html has the variable name 'q2' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: RedCloth#initialize has the variable name 'r' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: RedCloth#inline_markdown_link has the variable name 'm' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: RedCloth#inline_markdown_reflink has the variable name 'm' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: RedCloth#inline_textile_code has the variable name 'm' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: RedCloth#inline_textile_image has the variable name 'href_a1' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: RedCloth#inline_textile_image has the variable name 'href_a2' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: RedCloth#inline_textile_image has the variable name 'm' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: RedCloth#inline_textile_link has the variable name 'm' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: RedCloth#inline_textile_span has the variable name 'm' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: RedCloth#refs_markdown has the variable name 'm' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: RedCloth#refs_textile has the variable name 'm' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: RedCloth#retrieve has the variable name 'i' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UncommunicativeVariableName: RedCloth#retrieve has the variable name 'r' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
-      UnusedParameters: RedCloth#block_markdown_lists has unused parameter 'text' [https://github.com/troessner/reek/blob/master/docs/Unused-Parameters.md]
-      UnusedParameters: RedCloth#textile_bq has unused parameter 'tag' [https://github.com/troessner/reek/blob/master/docs/Unused-Parameters.md]
-      UnusedParameters: RedCloth#textile_fn_ has unused parameter 'cite' [https://github.com/troessner/reek/blob/master/docs/Unused-Parameters.md]
-      UnusedParameters: RedCloth#textile_fn_ has unused parameter 'tag' [https://github.com/troessner/reek/blob/master/docs/Unused-Parameters.md]
-      UnusedParameters: RedCloth#textile_p has unused parameter 'cite' [https://github.com/troessner/reek/blob/master/docs/Unused-Parameters.md]
-      UtilityFunction: RedCloth#block_markdown_rule doesn't depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Utility-Function.md]
-      UtilityFunction: RedCloth#clean_html doesn't depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Utility-Function.md]
-      UtilityFunction: RedCloth#flush_left doesn't depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Utility-Function.md]
-      UtilityFunction: RedCloth#footnote_ref doesn't depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Utility-Function.md]
-      UtilityFunction: RedCloth#h_align doesn't depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Utility-Function.md]
-      UtilityFunction: RedCloth#htmlesc doesn't depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Utility-Function.md]
-      UtilityFunction: RedCloth#incoming_entities doesn't depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Utility-Function.md]
-      UtilityFunction: RedCloth#lT doesn't depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Utility-Function.md]
-      UtilityFunction: RedCloth#no_textile doesn't depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Utility-Function.md]
-      UtilityFunction: RedCloth#v_align doesn't depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/master/docs/Utility-Function.md]
+      Attribute: RedCloth#filter_html is a writable attribute
+      Attribute: RedCloth#filter_styles is a writable attribute
+      Attribute: RedCloth#hard_breaks is a writable attribute
+      Attribute: RedCloth#lite_mode is a writable attribute
+      Attribute: RedCloth#no_span_caps is a writable attribute
+      Attribute: RedCloth#rules is a writable attribute
+      BooleanParameter: RedCloth#blocks has boolean parameter 'deep_code'
+      ControlParameter: RedCloth#blocks is controlled by argument 'deep_code'
+      ControlParameter: RedCloth#htmlesc is controlled by argument 'mode'
+      ControlParameter: RedCloth#lT is controlled by argument 'text'
+      ControlParameter: RedCloth#pba is controlled by argument 'element'
+      DataClump: RedCloth takes parameters ['atts', 'cite', 'content', 'tag'] to 3 methods
+      DuplicateMethodCall: RedCloth#block_textile_lists calls 'depth.last' 5 times
+      DuplicateMethodCall: RedCloth#block_textile_lists calls 'depth.last.length' 2 times
+      DuplicateMethodCall: RedCloth#block_textile_lists calls 'depth[i]' 2 times
+      DuplicateMethodCall: RedCloth#block_textile_lists calls 'line_id - 1' 2 times
+      DuplicateMethodCall: RedCloth#block_textile_lists calls 'lines[line_id - 1]' 2 times
+      DuplicateMethodCall: RedCloth#block_textile_lists calls 'tl.length' 3 times
+      DuplicateMethodCall: RedCloth#clean_html calls 'tags[tag]' 2 times
+      DuplicateMethodCall: RedCloth#pba calls '$1.length' 2 times
+      DuplicateMethodCall: RedCloth#rip_offtags calls '@pre_list.last << line' 2 times
+      DuplicateMethodCall: RedCloth#rip_offtags calls '@pre_list.last' 2 times
+      DuplicateMethodCall: RedCloth#rip_offtags calls 'codepre - used_offtags.length > 0' 2 times
+      DuplicateMethodCall: RedCloth#rip_offtags calls 'codepre - used_offtags.length' 2 times
+      DuplicateMethodCall: RedCloth#rip_offtags calls 'codepre.zero?' 2 times
+      DuplicateMethodCall: RedCloth#rip_offtags calls 'htmlesc( line, :NoQuotes )' 2 times
+      DuplicateMethodCall: RedCloth#rip_offtags calls 'used_offtags.length' 2 times
+      DuplicateMethodCall: RedCloth#rip_offtags calls 'used_offtags['notextile']' 3 times
+      FeatureEnvy: RedCloth#block_markdown_atx refers to 'text' more than self (maybe move it to another class?)
+      FeatureEnvy: RedCloth#block_markdown_setext refers to 'text' more than self (maybe move it to another class?)
+      FeatureEnvy: RedCloth#block_textile_lists refers to 'depth' more than self (maybe move it to another class?)
+      FeatureEnvy: RedCloth#blocks refers to 'blk' more than self (maybe move it to another class?)
+      FeatureEnvy: RedCloth#clean_white_space refers to 'text' more than self (maybe move it to another class?)
+      FeatureEnvy: RedCloth#pba refers to 'text' more than self (maybe move it to another class?)
+      InstanceVariableAssumption: RedCloth assumes too much for instance variable '@lite_mode'
+      InstanceVariableAssumption: RedCloth assumes too much for instance variable '@pre_list'
+      InstanceVariableAssumption: RedCloth assumes too much for instance variable '@rules'
+      InstanceVariableAssumption: RedCloth assumes too much for instance variable '@shelf'
+      InstanceVariableAssumption: RedCloth assumes too much for instance variable '@urlrefs'
+      LongParameterList: RedCloth#textile_bq has 4 parameters
+      LongParameterList: RedCloth#textile_fn_ has 5 parameters
+      LongParameterList: RedCloth#textile_p has 4 parameters
+      ManualDispatch: RedCloth#block_textile_prefix manually dispatches method call
+      NestedIterators: RedCloth#block_textile_lists contains iterators nested 3 deep
+      NestedIterators: RedCloth#block_textile_table contains iterators nested 2 deep
+      NestedIterators: RedCloth#block_textile_table contains iterators nested 3 deep
+      NestedIterators: RedCloth#blocks contains iterators nested 2 deep
+      NestedIterators: RedCloth#clean_html contains iterators nested 2 deep
+      NestedIterators: RedCloth#inline contains iterators nested 2 deep
+      NestedIterators: RedCloth#inline_textile_span contains iterators nested 2 deep
+      RepeatedConditional: RedCloth tests 'atts' at least 6 times
+      RepeatedConditional: RedCloth tests 'codepre.zero?' at least 3 times
+      RepeatedConditional: RedCloth tests 'href' at least 3 times
+      RepeatedConditional: RedCloth tests 'title' at least 4 times
+      SubclassedFromCoreClass: RedCloth inherits from core class 'String'
+      TooManyConstants: RedCloth has 45 constants
+      TooManyMethods: RedCloth has at least 44 methods
+      TooManyStatements: RedCloth#block_markdown_bq has approx 6 statements
+      TooManyStatements: RedCloth#block_textile_lists has approx 21 statements
+      TooManyStatements: RedCloth#block_textile_table has approx 19 statements
+      TooManyStatements: RedCloth#blocks has approx 19 statements
+      TooManyStatements: RedCloth#clean_html has approx 15 statements
+      TooManyStatements: RedCloth#clean_white_space has approx 7 statements
+      TooManyStatements: RedCloth#glyphs_textile has approx 10 statements
+      TooManyStatements: RedCloth#inline_markdown_link has approx 6 statements
+      TooManyStatements: RedCloth#inline_markdown_reflink has approx 8 statements
+      TooManyStatements: RedCloth#inline_textile_image has approx 17 statements
+      TooManyStatements: RedCloth#inline_textile_link has approx 9 statements
+      TooManyStatements: RedCloth#inline_textile_span has approx 9 statements
+      TooManyStatements: RedCloth#pba has approx 21 statements
+      TooManyStatements: RedCloth#rip_offtags has approx 18 statements
+      TooManyStatements: RedCloth#to_html has approx 26 statements
+      UncommunicativeMethodName: RedCloth#lT has the name 'lT'
+      UncommunicativeParameterName: RedCloth#textile_popup_help has the parameter name 'windowH'
+      UncommunicativeParameterName: RedCloth#textile_popup_help has the parameter name 'windowW'
+      UncommunicativeVariableName: RedCloth has the variable name 'a'
+      UncommunicativeVariableName: RedCloth has the variable name 'b'
+      UncommunicativeVariableName: RedCloth#block_textile_lists has the variable name 'i'
+      UncommunicativeVariableName: RedCloth#block_textile_lists has the variable name 'v'
+      UncommunicativeVariableName: RedCloth#block_textile_table has the variable name 'x'
+      UncommunicativeVariableName: RedCloth#clean_html has the variable name 'q'
+      UncommunicativeVariableName: RedCloth#clean_html has the variable name 'q2'
+      UncommunicativeVariableName: RedCloth#initialize has the variable name 'r'
+      UncommunicativeVariableName: RedCloth#inline_markdown_link has the variable name 'm'
+      UncommunicativeVariableName: RedCloth#inline_markdown_reflink has the variable name 'm'
+      UncommunicativeVariableName: RedCloth#inline_textile_code has the variable name 'm'
+      UncommunicativeVariableName: RedCloth#inline_textile_image has the variable name 'href_a1'
+      UncommunicativeVariableName: RedCloth#inline_textile_image has the variable name 'href_a2'
+      UncommunicativeVariableName: RedCloth#inline_textile_image has the variable name 'm'
+      UncommunicativeVariableName: RedCloth#inline_textile_link has the variable name 'm'
+      UncommunicativeVariableName: RedCloth#inline_textile_span has the variable name 'm'
+      UncommunicativeVariableName: RedCloth#refs_markdown has the variable name 'm'
+      UncommunicativeVariableName: RedCloth#refs_textile has the variable name 'm'
+      UncommunicativeVariableName: RedCloth#retrieve has the variable name 'i'
+      UncommunicativeVariableName: RedCloth#retrieve has the variable name 'r'
+      UnusedParameters: RedCloth#block_markdown_lists has unused parameter 'text'
+      UnusedParameters: RedCloth#textile_bq has unused parameter 'tag'
+      UnusedParameters: RedCloth#textile_fn_ has unused parameter 'cite'
+      UnusedParameters: RedCloth#textile_fn_ has unused parameter 'tag'
+      UnusedParameters: RedCloth#textile_p has unused parameter 'cite'
+      UtilityFunction: RedCloth#block_markdown_rule doesn't depend on instance state (maybe move it to another class?)
+      UtilityFunction: RedCloth#clean_html doesn't depend on instance state (maybe move it to another class?)
+      UtilityFunction: RedCloth#flush_left doesn't depend on instance state (maybe move it to another class?)
+      UtilityFunction: RedCloth#footnote_ref doesn't depend on instance state (maybe move it to another class?)
+      UtilityFunction: RedCloth#h_align doesn't depend on instance state (maybe move it to another class?)
+      UtilityFunction: RedCloth#htmlesc doesn't depend on instance state (maybe move it to another class?)
+      UtilityFunction: RedCloth#incoming_entities doesn't depend on instance state (maybe move it to another class?)
+      UtilityFunction: RedCloth#lT doesn't depend on instance state (maybe move it to another class?)
+      UtilityFunction: RedCloth#no_textile doesn't depend on instance state (maybe move it to another class?)
+      UtilityFunction: RedCloth#v_align doesn't depend on instance state (maybe move it to another class?)
     287 total warnings
     """

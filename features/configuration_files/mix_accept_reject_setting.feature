@@ -22,12 +22,12 @@ Feature: Mix `accept` and `reject` configuration settings
       def foobar; end # Should be reported
       def awesome_helper; end # Should be reported
       """
-    When I run `reek -c config.reek smelly.rb`
+    When I run reek -c config.reek smelly.rb
     Then it reports:
     """
     smelly.rb -- 2 warnings:
-      [4]:UncommunicativeMethodName: awesome_helper has the name 'awesome_helper' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
-      [3]:UncommunicativeMethodName: foobar has the name 'foobar' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
+      [4]:UncommunicativeMethodName: awesome_helper has the name 'awesome_helper'
+      [3]:UncommunicativeMethodName: foobar has the name 'foobar'
     """
 
   Scenario: UncommunicativeModuleName
@@ -49,11 +49,11 @@ Feature: Mix `accept` and `reject` configuration settings
       class M; end # Should not be reported
       class BaseHelper; end # Should be reported
       """
-    When I run `reek -c config.reek smelly.rb`
+    When I run reek -c config.reek smelly.rb
     Then it reports:
     """
     smelly.rb -- 1 warning:
-      [3]:UncommunicativeModuleName: BaseHelper has the name 'BaseHelper' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Module-Name.md]
+      [3]:UncommunicativeModuleName: BaseHelper has the name 'BaseHelper'
     """
 
   Scenario: UncommunicativeParameterName
@@ -73,9 +73,9 @@ Feature: Mix `accept` and `reject` configuration settings
       def omg(arg1); arg1; end # Should not be reported
       def omg(foobar); foobar; end # Should be reported
       """
-    When I run `reek -c config.reek smelly.rb`
+    When I run reek -c config.reek smelly.rb
     Then it reports:
     """
     smelly.rb -- 1 warning:
-      [3]:UncommunicativeParameterName: omg has the parameter name 'foobar' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Parameter-Name.md]
+      [3]:UncommunicativeParameterName: omg has the parameter name 'foobar'
     """

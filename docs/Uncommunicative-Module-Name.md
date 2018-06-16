@@ -46,5 +46,5 @@ Reek would report:
 
 ```
 smelly.rb -- 1 warning:
-  [3]:UncommunicativeModuleName: BaseHelper has the name 'BaseHelper' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Module-Name.md]
+  [3]:UncommunicativeModuleName: BaseHelper has the name 'BaseHelper'
 ```

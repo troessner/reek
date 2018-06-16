@@ -50,6 +50,6 @@ Reek would report:
 
 ```
 smelly.rb -- 2 warnings:
-  [4]:UncommunicativeMethodName: awesome_helper has the name 'awesome_helper' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
-  [3]:UncommunicativeMethodName: foobar has the name 'foobar' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
+  [4]:UncommunicativeMethodName: awesome_helper has the name 'awesome_helper'
+  [3]:UncommunicativeMethodName: foobar has the name 'foobar'
 ```

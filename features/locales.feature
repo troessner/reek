@@ -9,7 +9,7 @@ Feature: Handling different locales
     """
     puts 'こんにちは世界'
     """
-    When I run `reek -V konnichiwa.rb`
+    When I run reek -V konnichiwa.rb
     Then it succeeds
     And it reports no errors
     And it reports:
@@ -23,7 +23,7 @@ Feature: Handling different locales
     """
     puts 'こんにちは世界'
     """
-    When I run `reek -V konnichiwa.rb`
+    When I run reek -V konnichiwa.rb
     Then it succeeds
     And it reports no errors
     And it reports:

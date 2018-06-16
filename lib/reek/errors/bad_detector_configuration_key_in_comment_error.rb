@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'base_error'
+require_relative '../documentation_link'
 
 module Reek
   module Errors
@@ -17,8 +18,8 @@ module Reek
         %<comment>s
 
         Please see the Reek docs for:
-          * how to configure Reek via source code comments: https://github.com/troessner/reek/blob/master/docs/Smell-Suppression.md
-          * what basic options are available: https://github.com/troessner/reek/blob/master/docs/Basic-Smell-Options.md
+          * how to configure Reek via source code comments: #{DocumentationLink.build('Smell Suppression')}
+          * what basic options are available: #{DocumentationLink.build('Basic Smell Options')}
           * what custom options are available by checking the detector specific documentation in /docs
         Update the offensive comment (or remove it if no longer applicable) and re-run Reek.
 

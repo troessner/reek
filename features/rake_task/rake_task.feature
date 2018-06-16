@@ -10,7 +10,7 @@ Feature: Reek can be driven through its Task
 
       Reek::Rake::Task.new do |t|
         t.source_files = 'smelly.rb'
-        t.reek_opts = '--no-color'
+        t.reek_opts = '--no-color --no-documentation'
       end
       """
     When I run `rake reek`
@@ -18,8 +18,8 @@ Feature: Reek can be driven through its Task
     And it reports:
       """
       smelly.rb -- 2 warnings:
-        [4]:UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
-        [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
+        [4]:UncommunicativeMethodName: Smelly#x has the name 'x'
+        [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y'
       """
 
   Scenario: source_files using a FileList instead of a String
@@ -30,7 +30,7 @@ Feature: Reek can be driven through its Task
 
       Reek::Rake::Task.new do |t|
         t.source_files = FileList['smelly.*']
-        t.reek_opts = '--no-color'
+        t.reek_opts = '--no-color --no-documentation'
       end
       """
     When I run `rake reek`
@@ -38,8 +38,8 @@ Feature: Reek can be driven through its Task
     And it reports:
       """
       smelly.rb -- 2 warnings:
-        [4]:UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
-        [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
+        [4]:UncommunicativeMethodName: Smelly#x has the name 'x'
+        [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y'
       """
 
   Scenario: name changes the task name
@@ -50,7 +50,7 @@ Feature: Reek can be driven through its Task
 
       Reek::Rake::Task.new('silky') do |t|
         t.source_files = 'smelly.rb'
-        t.reek_opts = '--no-color'
+        t.reek_opts = '--no-color --no-documentation'
       end
       """
     When I run `rake silky`
@@ -58,8 +58,8 @@ Feature: Reek can be driven through its Task
     And it reports:
       """
       smelly.rb -- 2 warnings:
-        [4]:UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
-        [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
+        [4]:UncommunicativeMethodName: Smelly#x has the name 'x'
+        [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y'
       """
 
   Scenario: verbose prints the reek command
@@ -86,7 +86,7 @@ Feature: Reek can be driven through its Task
       Reek::Rake::Task.new do |t|
         t.fail_on_error = false
         t.source_files = 'smelly.rb'
-        t.reek_opts = '--no-color'
+        t.reek_opts = '--no-color --no-documentation'
       end
       """
     When I run `rake reek`
@@ -95,8 +95,8 @@ Feature: Reek can be driven through its Task
     And it reports:
       """
       smelly.rb -- 2 warnings:
-        [4]:UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
-        [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
+        [4]:UncommunicativeMethodName: Smelly#x has the name 'x'
+        [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y'
       """
 
   Scenario: can be configured with config_file
@@ -124,7 +124,7 @@ Feature: Reek can be driven through its Task
 
       Reek::Rake::Task.new do |t|
         t.source_files = 'clean.rb'
-        t.reek_opts = '--no-color'
+        t.reek_opts = '--no-color --no-documentation'
       end
       """
     When I set the environment variable "REEK_SRC" to "smelly.rb"
@@ -133,6 +133,6 @@ Feature: Reek can be driven through its Task
     And it reports:
       """
       smelly.rb -- 2 warnings:
-        [4]:UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Method-Name.md]
-        [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md]
+        [4]:UncommunicativeMethodName: Smelly#x has the name 'x'
+        [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y'
       """
