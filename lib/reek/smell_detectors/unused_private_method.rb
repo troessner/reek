@@ -38,7 +38,6 @@ module Reek
         hits.map do |hit|
           name = hit.name
           smell_warning(
-            context: context,
             lines: [hit.line],
             message: "has the unused private instance method '#{name}'",
             parameters: { name: name.to_s })

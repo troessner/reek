@@ -28,7 +28,6 @@ module Reek
         class_variables_in_context.map do |variable, occurences|
           lines = occurences.map(&:line)
           smell_warning(
-            context: context,
             lines: lines,
             message: "declares the class variable '#{variable}'",
             parameters: { name: variable.to_s })

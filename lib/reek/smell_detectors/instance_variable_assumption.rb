@@ -37,7 +37,6 @@ module Reek
         message = "assumes too much for instance variable '#{assumption}'"
 
         smell_warning(
-          context: context,
           lines: [source_line],
           message: message,
           parameters: { assumption: assumption.to_s })

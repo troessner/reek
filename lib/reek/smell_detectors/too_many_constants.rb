@@ -50,7 +50,6 @@ module Reek
 
       def build_smell_warning(count)
         [smell_warning(
-          context: context,
           lines: [source_line],
           message: "has #{count} constants",
           parameters: { count: count })]

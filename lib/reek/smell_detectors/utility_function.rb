@@ -63,7 +63,6 @@ module Reek
         return [] if ignore_method?
 
         [smell_warning(
-          context: context,
           lines: [source_line],
           message: "doesn't depend on instance state (maybe move it to another class?)")]
       end

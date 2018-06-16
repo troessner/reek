@@ -52,7 +52,6 @@ module Reek
         end.map do |method_sexp|
           name = method_sexp.name
           smell_warning(
-            context: context,
             lines: [method_sexp.line],
             message: "has missing safe method '#{name}'",
             parameters: { name: name.to_s })

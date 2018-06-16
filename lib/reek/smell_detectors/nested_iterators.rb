@@ -45,7 +45,6 @@ module Reek
         find_violations.group_by(&:depth).map do |depth, group|
           lines = group.map(&:line)
           smell_warning(
-            context: context,
             lines: lines,
             message: "contains iterators nested #{depth} deep",
             parameters: { depth: depth })

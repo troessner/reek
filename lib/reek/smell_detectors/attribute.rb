@@ -28,7 +28,6 @@ module Reek
       def sniff
         attributes_in_context.map do |_attribute, line|
           smell_warning(
-            context: context,
             lines: [line],
             message: 'is a writable attribute')
         end

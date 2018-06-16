@@ -78,12 +78,9 @@ module Reek
         ctx.config_for(self.class)
       end
 
-      # :reek:FeatureEnvy
-      def smell_warning(options = {})
-        context = options.fetch(:context)
-        exp = context.exp
+      def smell_warning(**options)
         SmellWarning.new(self,
-                         source: exp.source,
+                         source: expression.source,
                          context: context.full_name,
                          lines: options.fetch(:lines),
                          message: options.fetch(:message),

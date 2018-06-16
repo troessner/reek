@@ -24,7 +24,6 @@ module Reek
         context.defined_instance_methods.each do |node|
           if node.name == :initialize
             return smell_warning(
-              context: context,
               lines:   [source_line],
               message: 'has initialize method')
           end

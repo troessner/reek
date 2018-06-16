@@ -36,7 +36,6 @@ module Reek
         count = expression.arg_names.length
         return [] if count <= max_allowed_params
         [smell_warning(
-          context: context,
           lines: [source_line],
           message: "has #{count} parameters",
           parameters: { count: count })]

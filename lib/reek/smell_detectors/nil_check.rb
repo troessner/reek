@@ -13,7 +13,6 @@ module Reek
         lines = detect_nodes.map(&:line)
         if lines.any?
           [smell_warning(
-            context: context,
             lines: lines,
             message: 'performs a nil-check')]
         else

@@ -47,7 +47,6 @@ module Reek
           call = found_call.call
           occurs = found_call.occurs
           smell_warning(
-            context: context,
             lines: found_call.lines,
             message: "calls '#{call}' #{occurs} times",
             parameters: { name: call, count: occurs })

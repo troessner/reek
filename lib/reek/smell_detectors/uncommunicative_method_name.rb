@@ -41,7 +41,6 @@ module Reek
         return [] if acceptable_name?(name)
 
         [smell_warning(
-          context: context,
           lines: [source_line],
           message: "has the name '#{name}'",
           parameters: { name: name })]

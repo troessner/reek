@@ -22,7 +22,6 @@ module Reek
       def sniff
         return [] if descriptive_context? || context.namespace_module?
         [smell_warning(
-          context: context,
           lines: [source_line],
           message: 'has no descriptive comment')]
       end

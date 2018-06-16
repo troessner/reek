@@ -53,7 +53,6 @@ module Reek
                                       fully_qualified_name: fully_qualified_name)
 
         [smell_warning(
-          context: context,
           lines: [source_line],
           message: "has the name '#{module_name}'",
           parameters: { name: module_name })]

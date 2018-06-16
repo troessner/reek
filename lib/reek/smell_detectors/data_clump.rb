@@ -54,7 +54,6 @@ module Reek
         MethodGroup.new(context, min_clump_size, max_copies).clumps.map do |clump, methods|
           methods_length = methods.length
           smell_warning(
-            context: context,
             lines: methods.map(&:line),
             message: "takes parameters #{DataClump.print_clump(clump)} " \
                      "to #{methods_length} methods",

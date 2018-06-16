@@ -38,7 +38,6 @@ module Reek
         count = variables.uniq.size
         return [] if count <= max_allowed_ivars
         [smell_warning(
-          context: context,
           lines: [source_line],
           message: "has at least #{count} instance variables",
           parameters: { count: count })]
