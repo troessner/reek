@@ -12,7 +12,7 @@ Feature: Unused Private Method detector
       UnusedPrivateMethod:
         enabled: true
         exclude:
-          - "Outer::Awesome#foobar"
+          - Outer::Awesome#foobar
       """
     And a file named "sample.rb" with:
       """
@@ -43,7 +43,7 @@ Feature: Unused Private Method detector
       UnusedPrivateMethod:
         enabled: true
         exclude:
-          - !ruby/regexp /(.*)wesome#foo(.*)/
+          - wesome#foo
       """
     And a file named "sample.rb" with:
       """

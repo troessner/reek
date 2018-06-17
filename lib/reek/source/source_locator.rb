@@ -33,8 +33,8 @@ module Reek
 
       attr_reader :configuration, :paths, :options
 
-      # :reek:TooManyStatements: { max_statements: 7 }
-      # :reek:NestedIterators: { max_allowed_nesting: 2 }
+      # :reek:TooManyStatements { max_statements: 7 }
+      # :reek:NestedIterators { max_allowed_nesting: 2 }
       def source_paths
         paths.each_with_object([]) do |given_path, relevant_paths|
           unless given_path.exist?

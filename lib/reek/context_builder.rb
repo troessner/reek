@@ -20,8 +20,8 @@ module Reek
   # counting. Ideally `ContextBuilder` would only build up the context tree and leave the
   # statement and reference counting to the contexts.
   #
-  # :reek:TooManyMethods: { max_methods: 31 }
-  # :reek:UnusedPrivateMethod: { exclude: [ !ruby/regexp /process_/ ] }
+  # :reek:TooManyMethods { max_methods: 31 }
+  # :reek:UnusedPrivateMethod { exclude: [ !ruby/regexp /process_/ ] }
   # :reek:DataClump
   class ContextBuilder
     attr_reader :context_tree

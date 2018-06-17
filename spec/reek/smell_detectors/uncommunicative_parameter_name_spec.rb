@@ -107,8 +107,9 @@ RSpec.describe Reek::SmellDetectors::UncommunicativeParameterName do
   describe '`accept` patterns' do
     let(:source) { 'def alfa(bar2); charlie(bar2); end' }
 
-    it 'make smelly names pass via regex / strings given by list / literal' do
-      [[/bar2/], /bar2/, ['bar2'], 'bar2'].each do |pattern|
+    it 'make smelly names pass' do
+      patterns = [/bar2/, /ar2/]
+      patterns.each do |pattern|
         expect(source).not_to reek_of(:UncommunicativeParameterName).with_config('accept' => pattern)
       end
     end
@@ -117,8 +118,9 @@ RSpec.describe Reek::SmellDetectors::UncommunicativeParameterName do
   describe '`reject` patterns' do
     let(:source) { 'def alfa(bravo); charlie(bravo); end' }
 
-    it 'reject smelly names via regex / strings given by list / literal' do
-      [[/bravo/], /bravo/, ['bravo'], 'bravo'].each do |pattern|
+    it 'reject smelly names' do
+      patterns = [/brav/, /ravo/]
+      patterns.each do |pattern|
         expect(source).to reek_of(:UncommunicativeParameterName).with_config('reject' => pattern)
       end
     end

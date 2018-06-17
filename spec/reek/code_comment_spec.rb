@@ -161,13 +161,6 @@ RSpec.describe Reek::CodeComment::CodeCommentValidator do
           build(:code_comment, comment: comment)
         end.not_to raise_error
       end
-
-      it 'does not raise on regexps' do
-        expect do
-          comment = '# :reek:UncommunicativeMethodName { exclude: !ruby/regexp /alfa/ }'
-          build(:code_comment, comment: comment)
-        end.not_to raise_error
-      end
     end
 
     context 'when unknown custom options are specified' do

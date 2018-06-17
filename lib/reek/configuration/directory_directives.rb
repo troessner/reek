@@ -32,7 +32,7 @@ module Reek
       #
       # @return [self]
       #
-      # :reek:NestedIterators: { max_allowed_nesting: 2 }
+      # :reek:NestedIterators { max_allowed_nesting: 3 }
       # :reek:TooManyStatements { max_statements: 6 }
       def add(directory_config)
         directory_config.each do |path, detector_config|
@@ -48,7 +48,7 @@ module Reek
 
       private
 
-      # :reek:DuplicateMethodCall: { max_calls: 2 }
+      # :reek:DuplicateMethodCall { max_calls: 2 }
       # :reek:FeatureEnvy
       def best_match_for(source_base_dir)
         keys.
@@ -58,7 +58,7 @@ module Reek
 
       def error_message_for_invalid_smell_type(klass)
         "You are trying to configure smell type #{klass} but we can't find one with that name.\n" \
-          "Please make sure you spelled it right. (See 'defaults.reek.yml' in the Reek\n" \
+          "Please make sure you spelled it right. (See 'defaults.reek' in the Reek\n" \
           'repository for a list of all available smell types.)'
       end
     end

@@ -41,18 +41,18 @@ RSpec.describe Reek::SmellDetectors::UncommunicativeMethodName do
   describe '`accept` patterns' do
     let(:source) { 'def x; end' }
 
-    it 'make smelly names pass via regex / strings given by list / literal' do
-      [[/x/], /x/, ['x'], 'x'].each do |pattern|
-        expect(source).not_to reek_of(:UncommunicativeMethodName).with_config('accept' => pattern)
-      end
+    it 'make smelly names pass' do
+      pattern = /x/
+      expect(source).not_to reek_of(:UncommunicativeMethodName).with_config('accept' => pattern)
     end
   end
 
   describe '`reject` patterns' do
     let(:source) { 'def alfa; end' }
 
-    it 'reject smelly names via regex / strings given by list / literal' do
-      [[/alfa/], /alfa/, ['alfa'], 'alfa'].each do |pattern|
+    it 'reject smelly names' do
+      patterns = [/alf/, /lfa/]
+      patterns.each do |pattern|
         expect(source).to reek_of(:UncommunicativeMethodName).with_config('reject' => pattern)
       end
     end

@@ -117,8 +117,8 @@ module Reek
 
         attr_reader :allow_calls, :max_allowed_calls
 
-        # :reek:TooManyStatements: { max_statements: 6 }
-        # :reek:DuplicateMethodCall: { max_calls: 2 }
+        # :reek:TooManyStatements { max_statements: 6 }
+        # :reek:DuplicateMethodCall { max_calls: 2 }
         def collect_calls(result)
           context.local_nodes(:send, [:mlhs]) do |call_node|
             next if call_node.object_creation_call?

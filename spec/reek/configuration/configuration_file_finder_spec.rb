@@ -97,6 +97,43 @@ RSpec.describe Reek::Configuration::ConfigurationFileFinder do
       configuration = described_class.load_from_file(CONFIG_PATH.join('full_mask.reek'))
       expect(configuration).to eq(sample_configuration_loaded)
     end
+
+    context 'with exclude, accept and reject settings' do
+      let(:configuration) { described_class.load_from_file(CONFIG_PATH.join('accepts_rejects_and_excludes.reek.yml')) }
+      let(:expected) do
+        {
+          'UnusedPrivateMethod' => { 'exclude' => [/exclude regexp/] },
+          'UncommunicativeMethodName' => { 'reject' => ['reject name'],
+                                           'accept' => ['accept name'] },
+          'UncommunicativeModuleName' => { 'reject' => ['reject name 1', 'reject name 2'],
+                                           'accept' => ['accept name 1', 'accept name 2'] },
+          'UncommunicativeParameterName' => { 'reject' => ['reject name', /reject regexp/],
+                                              'accept' => ['accept name', /accept regexp/] },
+          'UncommunicativeVariableName' => { 'reject' => [/^reject regexp$/],
+                                             'accept' => [/accept(.*)regexp/] }
+        }
+      end
+
+      it 'converts marked strings to regexes' do
+        expect(configuration['UnusedPrivateMethod']).to eq(expected['UnusedPrivateMethod'])
+      end
+
+      it 'leaves regular single strings untouched' do
+        expect(configuration['UncommunicativeMethodName']).to eq(expected['UncommunicativeMethodName'])
+      end
+
+      it 'leaves regular multiple strings untouched' do
+        expect(configuration['UncommunicativeModuleName']).to eq(expected['UncommunicativeModuleName'])
+      end
+
+      it 'allows mixing of regular strings and marked strings' do
+        expect(configuration['UncommunicativeParameterName']).to eq(expected['UncommunicativeParameterName'])
+      end
+
+      it 'converts more complex marked strings correctly to regexes' do
+        expect(configuration['UncommunicativeVariableName']).to eq(expected['UncommunicativeVariableName'])
+      end
+    end
   end
 
   private

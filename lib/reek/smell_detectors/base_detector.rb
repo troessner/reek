@@ -15,8 +15,8 @@ module Reek
     #   - {file:README.md}
     # for details.
     #
-    # :reek:UnusedPrivateMethod: { exclude: [ smell_warning ] }
-    # :reek:TooManyMethods: { max_methods: 18 }
+    # :reek:UnusedPrivateMethod { exclude: [ smell_warning ] }
+    # :reek:TooManyMethods { max_methods: 18 }
     class BaseDetector
       attr_reader :config
       # The name of the config field that lists the names of code contexts

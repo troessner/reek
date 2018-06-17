@@ -9,10 +9,10 @@ Feature: Mix `accept` and `reject` configuration settings
       ---
       UncommunicativeMethodName:
         accept:
-          - !ruby/regexp /x/
+          - x
           - meth1
         reject:
-          - !ruby/regexp /helper/
+          - helper
           - foobar
       """
     And a file named "smelly.rb" with:
@@ -38,10 +38,10 @@ Feature: Mix `accept` and `reject` configuration settings
         enabled: false
       UncommunicativeModuleName:
         accept:
-          - !ruby/regexp /lassy/
+          - lassy
           - M
         reject:
-          - !ruby/regexp /Helper/
+          - Helper
       """
     And a file named "smelly.rb" with:
       """
@@ -62,10 +62,10 @@ Feature: Mix `accept` and `reject` configuration settings
       ---
       UncommunicativeParameterName:
         accept:
-          - !ruby/regexp /x/
+          - x
           - arg1
         reject:
-          - !ruby/regexp /foobar/
+          - foobar
       """
     And a file named "smelly.rb" with:
       """

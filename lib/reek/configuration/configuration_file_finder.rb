@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 require 'pathname'
+require_relative './converter'
+require_relative '../errors/config_file_error'
 
 module Reek
   module Configuration
-    # Raised when config file is not properly readable.
-    class ConfigFileException < StandardError; end
     #
     # ConfigurationFileFinder is responsible for finding Reek's configuration.
     #
@@ -21,6 +21,7 @@ module Reek
       DEFAULT_FILE_NAME = '.reek.yml'.freeze
 
       class << self
+        include ConfigurationValidator
         #
         # Finds and loads a configuration file from a given path.
         #
@@ -50,19 +51,19 @@ module Reek
         # @param path [String]
         # @return [Hash]
         #
-        # :reek:TooManyStatements: { max_statements: 6 }
+        # :reek:TooManyStatements { max_statements: 6 }
         def load_from_file(path)
           return {} unless path
           begin
             configuration = YAML.load_file(path) || {}
           rescue StandardError => error
-            raise ConfigFileException, "Invalid configuration file #{path}, error is #{error}"
+            raise Errors::ConfigFileException, "Invalid configuration file #{path}, error is #{error}"
           end
 
           unless configuration.is_a? Hash
-            raise ConfigFileException, "Invalid configuration file \"#{path}\" -- Not a hash"
+            raise Errors::ConfigFileException, "Invalid configuration file \"#{path}\" -- Not a hash"
           end
-          configuration
+          Converter.strings_to_regexes(configuration)
         end
 
         private

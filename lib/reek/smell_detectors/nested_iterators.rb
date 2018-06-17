@@ -93,7 +93,7 @@ module Reek
       #
       # @return [Array<Iterator>]
       #
-      # :reek:TooManyStatements: { max_statements: 6 }
+      # :reek:TooManyStatements { max_statements: 6 }
       def scout(exp:, depth:)
         return [] unless exp
         # Find all non-nested blocks in this expression

@@ -37,7 +37,7 @@ RSpec.describe Reek::SmellDetectors::TooManyInstanceVariables do
 
   it 'has a configurable maximum' do
     src = <<-EOS
-      # :reek:TooManyInstanceVariables: { max_instance_variables: 3 }
+      # :reek:TooManyInstanceVariables { max_instance_variables: 3 }
       class Alfa
         def bravo
           @charlie = @delta = @echo = 1

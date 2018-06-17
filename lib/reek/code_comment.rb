@@ -78,7 +78,7 @@ module Reek
     # This class validates [1], [2] and [3] at the moment but will also validate
     # [4] in the future.
     #
-    # :reek:TooManyInstanceVariables: { max_instance_variables: 7 }
+    # :reek:TooManyInstanceVariables { max_instance_variables: 7 }
     class CodeCommentValidator
       #
       # @param detector_name [String] - the detector class that was parsed out of the original

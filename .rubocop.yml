@@ -69,6 +69,7 @@ Metrics/MethodLength:
 Metrics/AbcSize:
   Exclude:
     - 'lib/reek/cli/options.rb'
+    - 'lib/reek/configuration/converter.rb'
 
 # Be rather lenient with line length
 Metrics/LineLength:

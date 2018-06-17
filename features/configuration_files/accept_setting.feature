@@ -3,7 +3,7 @@ Feature: `accept` configuration setting
   As a user
   I want to be able to accept specific patterns and names to exclude them from reporting
 
-  Scenario: Accept names as list and as single item
+  Scenario: Accept names
     Given a file named "config.reek" with:
       """
       ---
@@ -16,7 +16,11 @@ Feature: `accept` configuration setting
           - a1
           - a2
       UncommunicativeModuleName:
-        accept: C1
+        accept:
+          - C1
+      UncommunicativeVariableName:
+        accept:
+          - var1
       """
     And a file named "smelly.rb" with:
       """
@@ -28,28 +32,36 @@ Feature: `accept` configuration setting
         def m2(a2); a2; end
         # Should report UncommunicativeMethodName and UncommunicativeParameterName
         def m3(a3); a3; end
+        var1 = 2 #  Should not report UncommunicativeVariableName
+        myvar1 = 2 # Should not report UncommunicativeVariableName
+        var2 = 2 #  Should report UncommunicativeVariableName
       end
       """
     When I run reek -c config.reek smelly.rb
     Then it reports:
     """
-    smelly.rb -- 2 warnings:
+    smelly.rb -- 3 warnings:
       [8]:UncommunicativeMethodName: C1#m3 has the name 'm3'
       [8]:UncommunicativeParameterName: C1#m3 has the parameter name 'a3'
+      [11]:UncommunicativeVariableName: C1 has the variable name 'var2'
     """
 
-  Scenario: Accept regexes as list and as single item
+  Scenario: Accept regexes
     Given a file named "config.reek" with:
       """
       ---
       UncommunicativeMethodName:
         accept:
-          - !ruby/regexp /oobar/
+          - /oobar/
       UncommunicativeParameterName:
         accept:
-          - !ruby/regexp /ola/
+          - /ola/
       UncommunicativeModuleName:
-        accept: !ruby/regexp /lassy/
+        accept:
+          - /lassy/
+      UncommunicativeVariableName:
+        accept:
+          - /^var1/
       """
     And a file named "smelly.rb" with:
       """
@@ -59,12 +71,15 @@ Feature: `accept` configuration setting
         def foobar1(hola1); hola1; end
         # Should report UncommunicativeMethodName and UncommunicativeParameterName
         def m2(a2); a2; end
+        var1 = 2 #  Should not report UncommunicativeVariableName
+        myvar1 = 2 # Should report UncommunicativeVariableName
       end
       """
     When I run reek -c config.reek smelly.rb
     Then it reports:
     """
-    smelly.rb -- 2 warnings:
+    smelly.rb -- 3 warnings:
       [6]:UncommunicativeMethodName: Classy1#m2 has the name 'm2'
       [6]:UncommunicativeParameterName: Classy1#m2 has the parameter name 'a2'
+      [8]:UncommunicativeVariableName: Classy1 has the variable name 'myvar1'
     """

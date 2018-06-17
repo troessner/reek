@@ -33,7 +33,7 @@ RSpec.describe Reek::SmellDetectors::TooManyConstants do
 
   it 'does not report when increasing default' do
     src = <<-EOS
-      # :reek:TooManyConstants: { max_constants: 3 }
+      # :reek:TooManyConstants { max_constants: 3 }
       class Alfa
         Bravo = Charlie = Delta = 1
       end
@@ -44,7 +44,7 @@ RSpec.describe Reek::SmellDetectors::TooManyConstants do
 
   it 'does not report when disabled' do
     src = <<-EOS
-      # :reek:TooManyConstants: { enabled: false }
+      # :reek:TooManyConstants { enabled: false }
       class Alfa
         Bravo = Charlie = Delta = 1
       end
@@ -96,7 +96,7 @@ RSpec.describe Reek::SmellDetectors::TooManyConstants do
   it 'does not report outer module when inner module suppressed' do
     src = <<-EOS
       module Alfa
-        # ignore :reek:TooManyConstants:
+        # ignore :reek:TooManyConstants
         module Bravo
           Charlie = Delta = Echo = 1
         end
