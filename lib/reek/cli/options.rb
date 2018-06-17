@@ -28,6 +28,7 @@ module Reek
                     :show_empty,
                     :show_links,
                     :sorting,
+                    :stdin_filename,
                     :success_exit_code,
                     :failure_exit_code,
                     :generate_todo_list,
@@ -98,7 +99,7 @@ module Reek
         BANNER
       end
 
-      # :reek:TooManyStatements { max_statements: 6 }
+      # :reek:TooManyStatements { max_statements: 7 }
       def set_configuration_options
         parser.separator 'Configuration:'
         parser.on('-c', '--config FILE', 'Read configuration options from FILE') do |file|
@@ -110,6 +111,11 @@ module Reek
                   "Check out #{DocumentationLink.build('Code Smells')} "\
                   'for a list of smells') do |smell|
           smells_to_detect << smell
+        end
+        parser.on('--stdin-filename FILE',
+                  'When passing code in via pipe, assume this filename when '\
+                  'checking file or directory rules in the config.') do |file|
+          self.stdin_filename = Pathname.new(file)
         end
       end
 
