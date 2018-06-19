@@ -5,6 +5,9 @@ require_relative '../../spec_helper'
 
 RSpec.describe Reek::Configuration::ConfigurationFileFinder do
   describe '.find' do
+    let(:regular_configuration_dir) { CONFIGURATION_DIR.join('regular_configuration') }
+    let(:regular_configuration_file) { regular_configuration_dir.join('.reek.yml') }
+
     it 'returns any explicitely passed path' do
       path = Pathname.new 'foo/bar'
       found = described_class.find(path: path)
@@ -13,29 +16,28 @@ RSpec.describe Reek::Configuration::ConfigurationFileFinder do
 
     it 'prefers an explicitely passed path over a file in current dir' do
       path = Pathname.new 'foo/bar'
-      found = described_class.find(path: path, current: SAMPLES_PATH)
+      found = described_class.find(path: path, current: regular_configuration_dir)
       expect(found).to eq(path)
     end
 
     it 'returns the file in current dir if path is not set' do
-      found = described_class.find(current: SAMPLES_PATH)
-      expect(found).to eq(SAMPLES_PATH.join('.reek.yml'))
+      found = described_class.find(current: regular_configuration_dir)
+      expect(found).to eq(regular_configuration_file)
     end
 
     it 'returns the file in a parent dir if none in current dir' do
-      Dir.mktmpdir(nil, SAMPLES_PATH) do |tempdir|
-        found = described_class.find(current: Pathname.new(tempdir))
-        expect(found).to eq(SAMPLES_PATH.join('.reek.yml'))
-      end
+      empty_sub_directory = CONFIGURATION_DIR.join('regular_configuration').join('empty_sub_directory')
+      found = described_class.find(current: empty_sub_directory)
+      expect(found).to eq(regular_configuration_file)
     end
 
     it 'skips files ending in .reek.yml in current dir' do
-      Dir.mktmpdir(nil, SAMPLES_PATH) do |tempdir|
+      Dir.mktmpdir(nil, regular_configuration_dir) do |tempdir|
         current = Pathname.new(tempdir)
         bad_config = current.join('ignoreme.reek.yml')
         FileUtils.touch bad_config
         found = described_class.find(current: Pathname.new(tempdir))
-        expect(found).to eq(SAMPLES_PATH.join('.reek.yml'))
+        expect(found).to eq(regular_configuration_file)
       end
     end
 
@@ -43,16 +45,15 @@ RSpec.describe Reek::Configuration::ConfigurationFileFinder do
       skip_if_a_config_in_tempdir
 
       Dir.mktmpdir do |tempdir|
-        found = described_class.find(current: Pathname.new(tempdir), home: SAMPLES_PATH)
-        expect(found).to eq(SAMPLES_PATH.join('.reek.yml'))
+        found = described_class.find(current: Pathname.new(tempdir), home: regular_configuration_dir)
+        expect(found).to eq(regular_configuration_file)
       end
     end
 
     it 'prefers the file in :current over one in :home' do
-      found = described_class.find(current: SAMPLES_PATH, home: CONFIG_PATH)
-      file_in_current = SAMPLES_PATH.join('.reek.yml')
-
-      expect(found).to eq(file_in_current)
+      home_dir = CONFIGURATION_DIR.join('home')
+      found = described_class.find(current: regular_configuration_dir, home: home_dir)
+      expect(found).to eq(regular_configuration_file)
     end
 
     it 'returns nil when there are no files to find' do
@@ -73,7 +74,7 @@ RSpec.describe Reek::Configuration::ConfigurationFileFinder do
 
       Dir.mktmpdir do |tempdir|
         current = Pathname.new(tempdir)
-        home = SAMPLES_PATH.join('no_config_file')
+        home = SAMPLES_DIR.join('no_config_file')
 
         found = described_class.find(current: current, home: home)
 
@@ -102,12 +103,15 @@ RSpec.describe Reek::Configuration::ConfigurationFileFinder do
     end
 
     it 'loads the configuration from given file' do
-      configuration = described_class.load_from_file(CONFIG_PATH.join('full_mask.reek'))
+      configuration = described_class.load_from_file(CONFIGURATION_DIR.join('full_mask.reek'))
       expect(configuration).to eq(sample_configuration_loaded)
     end
 
     context 'with exclude, accept and reject settings' do
-      let(:configuration) { described_class.load_from_file(CONFIG_PATH.join('accepts_rejects_and_excludes.reek.yml')) }
+      let(:configuration) do
+        described_class.load_from_file(CONFIGURATION_DIR.join('accepts_rejects_and_excludes.reek.yml'))
+      end
+
       let(:expected) do
         {
           'UnusedPrivateMethod' => { 'exclude' => [/exclude regexp/] },

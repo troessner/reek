@@ -16,7 +16,7 @@ RSpec.describe Reek::Report::XMLReport do
   context 'with a source with violations' do
     it 'prints non-empty checkstyle XML' do
       xml_report.add_examiner Reek::Examiner.new(SMELLY_FILE)
-      xml = SAMPLES_PATH.join('checkstyle.xml').read
+      xml = SAMPLES_DIR.join('checkstyle.xml').read
       xml = xml.gsub(SMELLY_FILE.to_s, SMELLY_FILE.expand_path.to_s)
       expect { xml_report.show }.to output(xml).to_stdout
     end

@@ -1,7 +1,7 @@
 require_relative '../../samples/paths'
 
 Given(/^the smelly file '(.+)'$/) do |filename|
-  write_file(filename, SAMPLES_PATH.join(filename).read)
+  write_file(filename, SAMPLES_DIR.join('smelly_source').join(filename).read)
 end
 
 Given(/^the clean file 'clean.rb'$/) do
@@ -28,13 +28,13 @@ Given(/^a directory called 'smelly' containing two smelly files$/) do
 end
 
 Given(/^the smelly file '(.+)' in a subdirectory$/) do |filename|
-  contents = SAMPLES_PATH.join(filename).read
+  contents = SAMPLES_DIR.join('smelly_source').join(filename).read
 
   write_file("subdir/#{filename}", contents)
 end
 
 Given(/^a configuration file '(.+)'$/) do |filename|
-  write_file(filename, CONFIG_PATH.join(filename).read)
+  write_file(filename, CONFIGURATION_DIR.join(filename).read)
 end
 
 When(/^I run "reek (.*?)" in a subdirectory$/) do |args|
@@ -44,7 +44,7 @@ When(/^I run "reek (.*?)" in a subdirectory$/) do |args|
 end
 
 Given(/^a configuration file '(.+)' in a subdirectory$/) do |filename|
-  contents = CONFIG_PATH.join(filename).read
+  contents = CONFIGURATION_DIR.join(filename).read
 
   write_file("subdir/#{filename}", contents)
 end

@@ -40,7 +40,7 @@ RSpec.describe Reek::Spec::ShouldReek do
     end
 
     context 'with masking' do
-      let(:path) { CONFIG_PATH.join('full_mask.reek') }
+      let(:path) { CONFIGURATION_DIR.join('full_mask.reek') }
       let(:configuration) { test_configuration_for(path) }
       let(:matcher) { described_class.new(configuration: configuration) }
 

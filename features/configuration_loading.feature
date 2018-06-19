@@ -30,7 +30,14 @@ Feature: Offer different ways how to load configuration
 
   Scenario: Configuration file in working directory
     Given the smelly file 'smelly.rb'
-    And a configuration file '.reek.yml'
+    And a file named ".reek.yml" with:
+      """
+      ---
+      UncommunicativeMethodName:
+        enabled: false
+      UncommunicativeVariableName:
+        enabled: false
+      """
     When I run reek smelly.rb
     Then it reports no errors
     And it succeeds

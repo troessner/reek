@@ -1,6 +1,6 @@
 <?xml version='1.0'?>
 <checkstyle>
-  <file name='samples/smelly.rb'>
+  <file name='samples/smelly_source/smelly.rb'>
     <error column='0' line='4' message='has the name &apos;x&apos;' severity='warning' source='UncommunicativeMethodName'/>
     <error column='0' line='5' message='has the variable name &apos;y&apos;' severity='warning' source='UncommunicativeVariableName'/>
   </file>
