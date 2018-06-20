@@ -53,7 +53,6 @@ module Reek
         #
         # :reek:TooManyStatements { max_statements: 6 }
         def load_from_file(path)
-          return {} unless path
           begin
             configuration = YAML.load_file(path) || {}
           rescue StandardError => error
