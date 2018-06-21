@@ -42,7 +42,55 @@ The approach you take will depend on balancing other factors in your code.
 
 ## Current support in Reek
 
-Reek's Duplicate Method Call detector checks for repeated identical method calls within any one method definition. This is intended to complement the checks performed by tools such as [Flay](http://ruby.sadi.st/Flay.html) and [Simian](http://www.redhillconsulting.com.au/products/simian/).
+Reek's Duplicate Method Call detector checks for repeated identical method calls within
+any one method definition. This is intended to complement the checks performed by tools
+such as [Flay](http://ruby.sadi.st/Flay.html) and [Simian](http://www.redhillconsulting.com.au/products/simian/).
+
+## Edge cases
+
+Be aware that there are some edge cases like this code:
+
+```Ruby
+class Foo
+  def bar(switch)
+    case switch
+    when :a
+      ->(arg) { arg.call_me(:maybe); do_something }
+    when :b
+      ->(arg) { arg.call_me(:maybe); do_something_else }
+    when :c
+      ->(arg) { arg.call_me(:maybe); do_something_different }
+    end
+  end
+end
+```
+
+Reek cannot reliably detect that each call's receiver is a different arg and will report:
+
+```
+[5, 7, 9]:DuplicateMethodCall: Foo#bar calls 'arg.call_me(:maybe)' 3 times
+```
+  
+If you're running into this problem you can disable this smell detector for this method either via
+configuration:
+
+```Yaml
+---
+DuplicateMethodCall:
+  exclude:
+    - 'Foo#bar'
+```
+
+or via source code comment:
+
+```Ruby
+class Foo
+  # :reek:DuplicateMethodCall
+  def bar(switch)
+    # ....
+  end
+end
+```
 
 ## Configuration
 
