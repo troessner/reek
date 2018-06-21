@@ -96,8 +96,7 @@ demo.rb -- 2 warnings:
 
 Reek is officially supported for the following CRuby versions:
 
-  - 2.1
-  - 2.2
+  - 2.2 (EOL)
   - 2.3
   - 2.4
   - 2.5
@@ -253,12 +252,13 @@ For a summary of those CLI options see [Command-Line Options](docs/Command-Line-
 #### Configuration loading
 
 Configuring Reek via a configuration file is by far the most powerful way.
+Reek expects this filename to be `.reek.yml` but you can override this via the CLI `-c` switch (see below).
 
-There are three ways of passing Reek a configuration file:
+There are three ways of passing Reek the configuration file:
 
 1. Using the CLI `-c` switch (see [_Command-line interface_](#command-line-interface) above)
-2. Having a file ending with `.reek` either in your current working directory or in a parent directory (more on that later)
-3. Having a file ending with `.reek` in your home directory
+2. Having the configuration file either in your current working directory or in a parent directory (more on that later)
+3. Having the configuration file in your home directory
 
 The order in which Reek tries to find such a configuration
 file is exactly the above: first it checks if we have given
@@ -276,7 +276,7 @@ of how many `*.reek` files you might have on your filesystem.
 
 We put a lot of effort into making Reek's configuration as self explanatory as possible so the
 best way to understand it is by looking at a simple
-example (e.g. `config.reek` in your project directory):
+example (e.g. `.reek.yml` in your project directory):
 
 ```yaml
 ---
@@ -297,7 +297,7 @@ NestedIterators:
 
 # A lot of smells allow fine tuning their configuration. You can look up all available options
 # in the corresponding smell documentation in /docs. In most cases you probably can just go
-# with the defaults as documented in defaults.reek.
+# with the defaults as documented in defaults.reek.yml.
 DataClump:
   max_copies: 3
   min_clump_size: 3
@@ -308,12 +308,21 @@ DataClump:
 # E.g. the classic Rails case: controllers smell of NestedIterators (see /docs/Nested-Iterators.md) and
 # helpers smell of UtilityFunction (see docs/Utility-Function.md)
 # Note that we only allow configuration on a directory level, not a file level, so all paths have to point to directories.
-"web_app/app/controllers":
-  NestedIterators:
-    enabled: false
-"web_app/app/helpers":
-  UtilityFunction:
-    enabled: false
+directories:
+  "web_app/app/controllers":
+    NestedIterators:
+      enabled: false
+  "web_app/app/helpers":
+    UtilityFunction:
+      enabled: false
+# In case you're still running Reek 4 you have to omit the "directories" key and place the directory directives on top
+# level like this:
+# "web_app/app/controllers":
+#   NestedIterators:
+#     enabled: false
+# "web_app/app/helpers":
+#   UtilityFunction:
+#     enabled: false
 
 ### Excluding directories
 
@@ -336,9 +345,11 @@ IrresponsibleModule:
 TooManyStatements:
   max_statements: 5
 
-"app/controllers":
-  TooManyStatements:
-    max_statements: 10
+# In case you're still running Reek 4 you have to omit the "directories" key, see the example config above.
+directories:
+  "app/controllers":
+    TooManyStatements:
+      max_statements: 10
 ```
 
 translates to:
@@ -353,10 +364,10 @@ types offer a configuration that goes beyond that of the basic smell options, fo
 [Data Clump](docs/Data-Clump.md).
 All options that go beyond the [Basic Smell Options](docs/Basic-Smell-Options.md)
 are documented in the corresponding smell type /docs page (if you want to get a quick overview over all possible
-configurations you can also check out [the `default.reek` file in this repository](defaults.reek).
+configurations you can also check out [the `defaults.reek.yml` file in this repository](defaults.reek.yml).
 
 Note that you do not need a configuration file at all.
-If you're fine with all the [defaults](defaults.reek) we set you can skip this completely.
+If you're fine with all the [defaults](defaults.reek.yml) we set you can skip this completely.
 
 ### Generating a 'todo' list
 
@@ -406,11 +417,7 @@ is supposed to have one configuration file and one file only).
 
 ### Beware of multiple configuration files
 
-Reek takes one configuration file and one configuration file only.
-
-If you have more than one configuration file in the same directory Reek
-will not know what configuration file to use. If this happens Reek will
-print a warning on STDERR and exit with the failure exit status 1.
+Reek takes one configuration file and one configuration file only with `.reek.yml` being the default name.
 
 In case you have to have one or more configuration files in the directory (e.g. you're
 toying around with different, mutually exclusive settings) you need to tell Reek

@@ -89,7 +89,7 @@ XMLReport
 
 ## Configuration
 
-Given you have the following configuration file called `config.reek` in your root directory:
+Given you have the following configuration file called `.reek.yml` in your root directory:
 
 ```Yaml
 ---
@@ -106,7 +106,7 @@ You can now use either
 Reek::Configuration::AppConfiguration.from_path Pathname.new('config.reek')
 ```
 
-but you can also pass a hash with the contents of the `config.reek` YAML file
+but you can also pass a hash with the contents of the `.reek.yml` YAML file
 to `Reek::Configuration::AppConfiguration.from_hash`.
 
 Given the example above you would load that as follows:
@@ -138,13 +138,6 @@ This would now only report `UncommunicativeParameterName` but not
 string -- 2 warnings:
   Dirty#call_me has the parameter name 'a' (UncommunicativeParameterName)
   Dirty#call_me has the parameter name 'b' (UncommunicativeParameterName)
-```
-
-Instead of the smell detector names you can also use the full detector class in
-your configuration hash, for example:
-
-```ruby
-config_hash = { Reek::SmellDetectors::IrresponsibleModule => { 'enabled' => false } }
 ```
 
 Of course, directory specific configuration and excluded paths are supported as

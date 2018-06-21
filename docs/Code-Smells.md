@@ -21,9 +21,9 @@ Reek currently includes checks for the following smells:
 * Low Cohesion, including
   * [Feature Envy](Feature-Envy.md)
   * [Utility Function](Utility-Function.md)
+* [Missing Safe Method](Missing-Safe-Method.md), formerly known as Prima Donna Method
 * [Module Initialize](Module-Initialize.md)
 * [Nested Iterators](Nested-Iterators.md)
-* [Prima-Donna-Method](Prima-Donna-Method.md)
 * [Simulated Polymorphism](Simulated-Polymorphism.md), including
   * [Manual Dispatch](Manual-Dispatch.md)
   * [Nil Check](Nil-Check.md)
