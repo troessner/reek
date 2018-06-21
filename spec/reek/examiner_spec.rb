@@ -195,6 +195,33 @@ RSpec.describe Reek::Examiner do
     end
   end
 
+  context 'with a source that triggers a syntax error' do
+    let(:examiner) { described_class.new(source) }
+    let(:source) do
+      <<-SRC.strip_heredoc
+      1 2 3
+      SRC
+    end
+
+    it 'does not raise an error during initialization' do
+      expect { examiner }.not_to raise_error
+    end
+
+    it 'raises an encoding error when asked for smells' do
+      expect { examiner.smells }.to raise_error Reek::Errors::SyntaxError
+    end
+
+    it 'explains the origin of the error' do
+      message = "Source 'string' cannot be processed by Reek due to a syntax error in the source file."
+      expect { examiner.smells }.to raise_error.with_message(/#{message}/)
+    end
+
+    it 'shows the original exception class' do
+      expect { examiner.smells }.
+        to raise_error { |it| expect(it.long_message).to match(/Parser::SyntaxError/) }
+    end
+  end
+
   context 'with a source that triggers an encoding error' do
     let(:examiner) { described_class.new(source) }
     let(:source) do

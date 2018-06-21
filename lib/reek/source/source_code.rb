@@ -15,21 +15,6 @@ module Reek
     # A +SourceCode+ object represents a chunk of Ruby source code.
     #
     class SourceCode
-      # Consume and store parser diagnostics
-      class DiagnosticsConsumer
-        def initialize
-          @diagnostics = []
-        end
-
-        def call(item)
-          @diagnostics << item
-        end
-
-        def result
-          @diagnostics
-        end
-      end
-
       IO_IDENTIFIER     = 'STDIN'.freeze
       STRING_IDENTIFIER = 'string'.freeze
 
@@ -63,20 +48,15 @@ module Reek
         end
       end
 
-      def diagnostics
-        parse_result.last
-      end
-
       def syntax_tree
-        parse_result.first
+        @syntax_tree ||= parse
       end
 
       def self.default_parser
         Parser::Ruby25.new(AST::Builder.new).tap do |parser|
           diagnostics = parser.diagnostics
-          diagnostics.all_errors_are_fatal = false
-          diagnostics.ignore_warnings      = false
-          diagnostics.consumer = DiagnosticsConsumer.new
+          diagnostics.all_errors_are_fatal = true
+          diagnostics.ignore_warnings      = true
         end
       end
 
@@ -91,10 +71,6 @@ module Reek
       end
 
       private
-
-      def parse_result
-        @parse_result ||= parse
-      end
 
       def code
         @code ||=
@@ -111,9 +87,6 @@ module Reek
       # This AST is then traversed by a TreeDresser which adorns the nodes in the AST
       # with our SexpExtensions.
       # Finally this AST is returned where each node is an anonymous subclass of Reek::AST::Node
-      #
-      # Important to note is that Reek will not fail on unparseable files but rather register a
-      # parse error to @diagnostics and then just continue.
       #
       # Given this @code:
       #
@@ -136,8 +109,7 @@ module Reek
       # where each node is possibly adorned with our SexpExtensions (see ast/ast_node_class_map
       # and ast/sexp_extensions for details).
       #
-      # @return [Anonymous subclass of Reek::AST::Node, Array] the AST presentation
-      #         for the given code, List of diagnostics messages
+      # @return Reek::AST::Node the AST presentation for the given code
       def parse
         buffer = Parser::Source::Buffer.new(origin, 1)
         buffer.source = code
@@ -145,7 +117,7 @@ module Reek
 
         # See https://whitequark.github.io/parser/Parser/Source/Comment/Associator.html
         comment_map = Parser::Source::Comment.associate(ast, comments)
-        [TreeDresser.new.dress(ast, comment_map), parser.diagnostics.consumer.result]
+        TreeDresser.new.dress(ast, comment_map) || AST::Node.new(:empty)
       end
     end
   end

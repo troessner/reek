@@ -4,6 +4,7 @@ require_relative 'context_builder'
 require_relative 'detector_repository'
 require_relative 'errors/incomprehensible_source_error'
 require_relative 'errors/encoding_error'
+require_relative 'errors/syntax_error'
 require_relative 'source/source_code'
 
 module Reek
@@ -90,7 +91,7 @@ module Reek
     #
     def run
       wrap_exceptions do
-        examine_tree || report_syntax_errors
+        examine_tree
       end
     rescue StandardError => exception
       raise unless @error_handler.handle exception
@@ -104,6 +105,8 @@ module Reek
       raise
     rescue EncodingError
       raise Errors::EncodingError, origin: origin
+    rescue Parser::SyntaxError
+      raise Errors::SyntaxError, origin: origin
     rescue StandardError
       raise Errors::IncomprehensibleSourceError, origin: origin
     end
@@ -113,14 +116,9 @@ module Reek
     end
 
     def examine_tree
-      return unless syntax_tree
       ContextBuilder.new(syntax_tree).context_tree.flat_map do |element|
         detector_repository.examine(element)
       end
-    end
-
-    def report_syntax_errors
-      SmellDetectors::Syntax.smells_from_source(source)
     end
   end
 end

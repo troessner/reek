@@ -860,7 +860,3 @@ SubclassedFromCoreClass:
     you are gonna have a bad time.
 
     Source: http://words.steveklabnik.com/beware-subclassing-ruby-core-classes
-Syntax:
-  remediation_points: 250_000
-  content: |
-    Check syntax errors.
