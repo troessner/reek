@@ -353,10 +353,10 @@ types offer a configuration that goes beyond that of the basic smell options, fo
 [Data Clump](docs/Data-Clump.md).
 All options that go beyond the [Basic Smell Options](docs/Basic-Smell-Options.md)
 are documented in the corresponding smell type /docs page (if you want to get a quick overview over all possible
-configurations you can also check out [the `default.reek` file in this repository](defaults.reek).
+configurations you can also check out [the `docs/default.reek` file in this repository](docs/defaults.reek).
 
 Note that you do not need a configuration file at all.
-If you're fine with all the [defaults](defaults.reek) we set you can skip this completely.
+If you're fine with all the [defaults](docs/defaults.reek) we set you can skip this completely.
 
 ### Generating a 'todo' list
 
