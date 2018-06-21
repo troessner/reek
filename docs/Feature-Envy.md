@@ -40,6 +40,50 @@ belongs to the Item class, not the Warehouse.
 
 _Feature Envy_ reports any method that refers to self less often than it refers to (ie. send messages to) some other object.
 
+## Edge cases
+
+Be aware that there are some edge cases like this code:
+
+```Ruby
+class Foo
+  def initialize
+    @map = {
+      a: ->(arg) { arg.css('table') },
+      b: ->(arg) { arg.css('div') },
+      c: ->(arg) { arg.css('span') }
+    }
+  end
+end
+```
+
+Reek cannot reliably detect that each call's receiver is a different arg and will report:
+
+```
+  [4, 5, 6]:FeatureEnvy: Foo#initialize refers to 'arg' more than self (maybe move it to another class?)
+```
+  
+If you're running into this problem you can disable this smell detector for this method either via
+configuration:
+
+```Yaml
+---
+FeatureEnvy:
+  exclude:
+    - 'Foo#bar'
+```
+
+or via source code comment:
+
+```Ruby
+class Foo
+  # :reek:FeatureEnvy
+  def initialize
+    @map = {
+    # ....
+  end
+end
+```
+
 ## Differences to _Utility Function_
 
 _Feature Envy_ is only triggered if there are some references to self and _[Utility Function](Utility-Function.md)_ is triggered if there are no references to self.
