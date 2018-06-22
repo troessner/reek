@@ -1,4 +1,5 @@
 require_relative '../../spec_helper'
+require_lib 'reek/errors/config_file_error'
 require_lib 'reek/configuration/directory_directives'
 
 RSpec.describe Reek::Configuration::DirectoryDirectives do
@@ -36,7 +37,7 @@ RSpec.describe Reek::Configuration::DirectoryDirectives do
 
       it 'raises an error' do
         Reek::CLI::Silencer.silently do
-          expect { directives.add(file_as_path => nil) }.to raise_error(SystemExit)
+          expect { directives.add(file_as_path => nil) }.to raise_error(Reek::Errors::ConfigFileError)
         end
       end
     end

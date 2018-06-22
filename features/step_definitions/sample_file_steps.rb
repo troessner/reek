@@ -37,6 +37,11 @@ Given(/^a configuration file '(.+)'$/) do |filename|
   write_file(filename, CONFIG_PATH.join(filename).read)
 end
 
+Given(/^our default configuration file '(.+)'$/) do |filename|
+  default_configuration = File.read SAMPLES_PATH.join('..').join('docs').join('defaults.reek')
+  write_file(filename, default_configuration)
+end
+
 When(/^I run "reek (.*?)" in a subdirectory$/) do |args|
   cd 'subdir'
 

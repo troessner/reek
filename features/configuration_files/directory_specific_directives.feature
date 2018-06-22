@@ -223,7 +223,7 @@ Feature: Directory directives
     Then the exit status indicates an error
     And stderr reports:
     """
-    Configuration error: `dummy_directory/dummy.rb` is supposed to be a directory but is a file
+    Error: Configuration error: `dummy_directory/dummy.rb` is supposed to be a directory but is a file
 
     """
 
