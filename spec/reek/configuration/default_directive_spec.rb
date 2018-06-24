@@ -6,7 +6,7 @@ RSpec.describe Reek::Configuration::DefaultDirective do
     let(:directives) { {}.extend(described_class) }
 
     it 'adds a smell configuration' do
-      directives.add :UncommunicativeVariableName, enabled: false
+      directives.add(UncommunicativeVariableName: { enabled: false })
       expect(directives).to eq(Reek::SmellDetectors::UncommunicativeVariableName => { enabled: false })
     end
   end

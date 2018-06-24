@@ -2,6 +2,7 @@ require 'fileutils'
 require 'pathname'
 require 'tmpdir'
 require_relative '../../spec_helper'
+require_lib 'reek/configuration/app_configuration'
 
 RSpec.describe Reek::Configuration::ConfigurationFileFinder do
   describe '.find' do
@@ -97,8 +98,10 @@ RSpec.describe Reek::Configuration::ConfigurationFileFinder do
   describe '.load_from_file' do
     let(:sample_configuration_loaded) do
       {
-        'UncommunicativeVariableName' => { 'enabled' => false },
-        'UncommunicativeMethodName'   => { 'enabled' => false }
+        Reek::Configuration::AppConfiguration::DETECTORS_KEY => {
+          'UncommunicativeVariableName' => { 'enabled' => false },
+          'UncommunicativeMethodName'   => { 'enabled' => false }
+        }
       }
     end
 
@@ -109,7 +112,8 @@ RSpec.describe Reek::Configuration::ConfigurationFileFinder do
 
     context 'with exclude, accept and reject settings' do
       let(:configuration) do
-        described_class.load_from_file(CONFIGURATION_DIR.join('accepts_rejects_and_excludes.reek.yml'))
+        described_class.load_from_file(CONFIGURATION_DIR.join('accepts_rejects_and_excludes.reek.yml')).
+          fetch(Reek::Configuration::AppConfiguration::DETECTORS_KEY)
       end
 
       let(:expected) do

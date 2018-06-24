@@ -27,10 +27,11 @@ Feature: Use reek_of matcher
     Given a file named ".reek.yml" with:
       """
       ---
-      UncommunicativeMethodName:
-        enabled: false
-      UncommunicativeVariableName:
-        enabled: false
+      detectors:
+        UncommunicativeMethodName:
+          enabled: false
+        UncommunicativeVariableName:
+          enabled: false
       """
     When I run `rspec reek_spec.rb`
     Then stdout should contain:

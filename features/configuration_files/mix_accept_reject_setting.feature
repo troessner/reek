@@ -7,13 +7,14 @@ Feature: Mix `accept` and `reject` configuration settings
     Given a file named "config.reek" with:
       """
       ---
-      UncommunicativeMethodName:
-        accept:
-          - x
-          - meth1
-        reject:
-          - helper
-          - foobar
+      detectors:
+        UncommunicativeMethodName:
+          accept:
+            - x
+            - meth1
+          reject:
+            - helper
+            - foobar
       """
     And a file named "smelly.rb" with:
       """
@@ -34,14 +35,15 @@ Feature: Mix `accept` and `reject` configuration settings
     Given a file named "config.reek" with:
       """
       ---
-      IrresponsibleModule:
-        enabled: false
-      UncommunicativeModuleName:
-        accept:
-          - lassy
-          - M
-        reject:
-          - Helper
+      detectors:
+        IrresponsibleModule:
+          enabled: false
+        UncommunicativeModuleName:
+          accept:
+            - lassy
+            - M
+          reject:
+            - Helper
       """
     And a file named "smelly.rb" with:
       """
@@ -60,12 +62,13 @@ Feature: Mix `accept` and `reject` configuration settings
     Given a file named "config.reek" with:
       """
       ---
-      UncommunicativeParameterName:
-        accept:
-          - x
-          - arg1
-        reject:
-          - foobar
+      detectors:
+        UncommunicativeParameterName:
+          accept:
+            - x
+            - arg1
+          reject:
+            - foobar
       """
     And a file named "smelly.rb" with:
       """

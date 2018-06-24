@@ -142,10 +142,11 @@ Feature: Directory directives
             enabled: true
           NestedIterators:
             enabled: false
-      IrresponsibleModule:
-        enabled: false
-      NestedIterators:
-        enabled: true
+      detectors:
+        IrresponsibleModule:
+          enabled: false
+        NestedIterators:
+          enabled: true
       """
     And a file named "web_app/app/controllers/users_controller.rb" with:
       """

@@ -17,6 +17,7 @@ module Reek
       include ConfigurationValidator
       EXCLUDE_PATHS_KEY = 'exclude_paths'.freeze
       DIRECTORIES_KEY = 'directories'.freeze
+      DETECTORS_KEY = 'detectors'.freeze
 
       # Instantiate a configuration via the given path.
       #
@@ -78,8 +79,8 @@ module Reek
             excluded_paths.add value
           elsif key == DIRECTORIES_KEY
             directory_directives.add value
-          elsif smell_type?(key)
-            default_directive.add key, value
+          elsif key == DETECTORS_KEY
+            default_directive.add value
           end
         end
       end

@@ -7,20 +7,21 @@ Feature: `accept` configuration setting
     Given a file named "config.reek" with:
       """
       ---
-      UncommunicativeMethodName:
-        accept:
-          - m1
-          - m2
-      UncommunicativeParameterName:
-        accept:
-          - a1
-          - a2
-      UncommunicativeModuleName:
-        accept:
-          - C1
-      UncommunicativeVariableName:
-        accept:
-          - var1
+      detectors:
+        UncommunicativeMethodName:
+          accept:
+            - m1
+            - m2
+        UncommunicativeParameterName:
+          accept:
+            - a1
+            - a2
+        UncommunicativeModuleName:
+          accept:
+            - C1
+        UncommunicativeVariableName:
+          accept:
+            - var1
       """
     And a file named "smelly.rb" with:
       """
@@ -50,18 +51,19 @@ Feature: `accept` configuration setting
     Given a file named "config.reek" with:
       """
       ---
-      UncommunicativeMethodName:
-        accept:
-          - /oobar/
-      UncommunicativeParameterName:
-        accept:
-          - /ola/
-      UncommunicativeModuleName:
-        accept:
-          - /lassy/
-      UncommunicativeVariableName:
-        accept:
-          - /^var1/
+      detectors:
+        UncommunicativeMethodName:
+          accept:
+            - /oobar/
+        UncommunicativeParameterName:
+          accept:
+            - /ola/
+        UncommunicativeModuleName:
+          accept:
+            - /lassy/
+        UncommunicativeVariableName:
+          accept:
+            - /^var1/
       """
     And a file named "smelly.rb" with:
       """

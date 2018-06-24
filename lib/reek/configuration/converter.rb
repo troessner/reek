@@ -12,25 +12,29 @@ module Reek
         include ConfigurationValidator
 
         # @param configuration [Hash] e.g.
-        # {
-        #   "UnusedPrivateMethod" => {"exclude"=>["/exclude regexp/"]},
-        #   "UncommunicativeMethodName"=>{"reject"=>["reject name"], "accept"=>["accept name"]
-        # }
+        #
+        #   detectors => {
+        #     "UnusedPrivateMethod" => {"exclude"=>["/exclude regexp/"]},
+        #     "UncommunicativeMethodName"=>{"reject"=>["reject name"], "accept"=>["accept name"]
+        #   }
         # @return [Hash]
         #
         # @quality :reek:NestedIterators { max_allowed_nesting: 3 }
         # @quality :reek:DuplicateMethodCall { max_calls: 3 }
-        # @quality :reek:TooManyStatements { max_statements: 7 }
+        # @quality :reek:TooManyStatements { max_statements: 10 }
         def strings_to_regexes(configuration)
-          configuration.keys.
+          return configuration unless configuration[AppConfiguration::DETECTORS_KEY]
+          detector_configuration = configuration[AppConfiguration::DETECTORS_KEY]
+          detector_configuration.keys.
             select { |key| smell_type?(key) }.
             each do |detector|
-              (configuration[detector].keys & REGEXABLE_ATTRIBUTES).each do |attribute|
-                configuration[detector][attribute] = configuration[detector][attribute].map do |item|
+              (detector_configuration[detector].keys & REGEXABLE_ATTRIBUTES).each do |attribute|
+                detector_configuration[detector][attribute] = detector_configuration[detector][attribute].map do |item|
                   marked_as_regex?(item) ? Regexp.new(item[1..-2]) : item
                 end
               end
             end
+          configuration[AppConfiguration::DETECTORS_KEY] = detector_configuration
           configuration
         end
 
