@@ -11,9 +11,9 @@ module Reek
     #
     # There are 3 ways of passing `reek` a configuration file:
     # 1. Using the cli "-c" switch
-    # 2. Having a file ending with .reek.yml either in your current working
+    # 2. Having a file .reek.yml either in your current working
     #    directory or in a parent directory
-    # 3. Having a file ending with .reek.yml in your HOME directory
+    # 3. Having a file .reek.yml in your HOME directory
     #
     # The order in which ConfigurationFileFinder tries to find such a
     # configuration file is exactly like above.
@@ -87,7 +87,7 @@ module Reek
         #
         # :reek:FeatureEnvy
         def find_in_dir(dir)
-          dir.children.detect { |item| item.file? && item.to_s.end_with?(DEFAULT_FILE_NAME) }
+          dir.children.detect { |item| item.file? && item.basename.to_s == DEFAULT_FILE_NAME }
         end
       end
     end
