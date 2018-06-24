@@ -200,10 +200,7 @@ Feature: Directory directives
     Then the exit status indicates an error
     And stderr reports:
     """
-    You are trying to configure smell type IteratorsNested but we can't find one with that name.
-    Please make sure you spelled it right. (See 'docs/defaults.reek' in the Reek
-    repository for a list of all available smell types.)
-
+    Error: We found some problems with your configuration file: [/directories/dummy_directory/IteratorsNested] key 'IteratorsNested:' is undefined.
     """
 
   Scenario: Abort on file as directory directive

@@ -21,7 +21,6 @@ module Reek
       # @return [self]
       def add(detectors_configuration)
         detectors_configuration.each do |name, configuration|
-          next unless smell_type?(name)
           detector = key_to_smell_detector(name)
           self[detector] = (self[detector] || {}).merge configuration
         end

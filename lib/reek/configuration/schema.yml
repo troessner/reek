@@ -1,0 +1,210 @@
+---
+type: map
+mapping:
+  "detectors":
+    type: map
+    mapping: &all_detectors
+      Attribute:
+        type: map
+        mapping: &detector_base
+          "enabled":
+            type: bool
+          "exclude":
+            type: seq
+            sequence:
+              - type: str
+      BooleanParameter:
+        type: map
+        mapping:
+          <<: *detector_base
+      ClassVariable:
+        type: map
+        mapping:
+          <<: *detector_base
+      ControlParameter:
+        type: map
+        mapping:
+          <<: *detector_base
+      DataClump:
+        type: map
+        mapping:
+          <<: *detector_base
+          max_copies:
+            type: number
+          min_clump_size:
+            type: number
+      DuplicateMethodCall:
+        type: map
+        mapping:
+          <<: *detector_base
+          max_calls:
+            type: number
+          allow_calls:
+            type: seq
+            sequence:
+              - type: str
+      FeatureEnvy:
+        type: map
+        mapping:
+          <<: *detector_base
+      InstanceVariableAssumption:
+        type: map
+        mapping:
+          <<: *detector_base
+      IrresponsibleModule:
+        type: map
+        mapping:
+          <<: *detector_base
+      LongParameterList:
+        type: map
+        mapping:
+          <<: *detector_base
+          max_params:
+            type: number
+          overrides:
+            type: map
+            mapping:
+              initialize:
+                type: map
+                mapping:
+                  max_params:
+                    type: number
+      LongYieldList:
+        type: map
+        mapping:
+          <<: *detector_base
+          max_params:
+            type: number
+      ManualDispatch:
+        type: map
+        mapping:
+          <<: *detector_base
+      MissingSafeMethod:
+        type: map
+        mapping:
+          <<: *detector_base
+      ModuleInitialize:
+        type: map
+        mapping:
+          <<: *detector_base
+      NestedIterators:
+        type: map
+        mapping:
+          <<: *detector_base
+          max_allowed_nesting:
+            type: number
+          ignore_iterators:
+            type: seq
+            sequence:
+              - type: str
+      NilCheck:
+        type: map
+        mapping:
+          <<: *detector_base
+      RepeatedConditional:
+        type: map
+        mapping:
+          <<: *detector_base
+          max_ifs:
+            type: number
+      SubclassedFromCoreClass:
+        type: map
+        mapping:
+          <<: *detector_base
+      Syntax:
+        type: map
+        mapping:
+          <<: *detector_base
+      TooManyConstants:
+        type: map
+        mapping:
+          <<: *detector_base
+          max_constants:
+            type: number
+      TooManyInstanceVariables:
+        type: map
+        mapping:
+          <<: *detector_base
+          max_instance_variables:
+            type: number
+      TooManyMethods:
+        type: map
+        mapping:
+          <<: *detector_base
+          max_methods:
+            type: number
+      TooManyStatements:
+        type: map
+        mapping:
+          <<: *detector_base
+          max_statements:
+            type: number
+      UncommunicativeMethodName:
+        type: map
+        mapping:
+          <<: *detector_base
+          reject: &reject_settings
+            type: seq
+            sequence:
+              - type: str
+          accept: &accept_settings
+            type: seq
+            sequence:
+              - type: str
+      UncommunicativeModuleName:
+        type: map
+        mapping:
+          <<: *detector_base
+          reject: *reject_settings
+          accept: *accept_settings
+      UncommunicativeParameterName:
+        type: map
+        mapping:
+          <<: *detector_base
+          reject: *reject_settings
+          accept: *accept_settings
+      UncommunicativeVariableName:
+        type: map
+        mapping:
+          <<: *detector_base
+          reject: *reject_settings
+          accept: *accept_settings
+      UnusedParameters:
+        type: map
+        mapping:
+          <<: *detector_base
+      UnusedPrivateMethod:
+        type: map
+        mapping:
+          <<: *detector_base
+      UtilityFunction:
+        type: map
+        mapping:
+          <<: *detector_base
+          public_methods_only:
+            type: bool
+
+  "directories":
+    type: map
+    mapping:
+      # For any given key that is not matched somewhere else we'll apply the schema below.
+      # So this will just slurp in every directory we throw at it and then validate everything under
+      # it against all detectors - for instance:
+      #
+      #  directories:
+      #    "web_app/app/controllers":
+      #      NestedIterators:
+      #        enabled: false
+      #    "web_app/app/helpers":
+      #      UtilityFunction:
+      #        enabled: false
+      #
+      # For details check out: http://www.kuwata-lab.com/kwalify/ruby/users-guide.02.html#tips-default
+      =:
+        type: map
+        mapping: *all_detectors
+        
+  "exclude_paths":
+    type: seq
+    sequence:
+      - type: str
