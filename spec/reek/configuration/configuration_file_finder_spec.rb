@@ -29,6 +29,16 @@ RSpec.describe Reek::Configuration::ConfigurationFileFinder do
       end
     end
 
+    it 'skips files ending in .reek.yml in current dir' do
+      Dir.mktmpdir(nil, SAMPLES_PATH) do |tempdir|
+        current = Pathname.new(tempdir)
+        bad_config = current.join('ignoreme.reek.yml')
+        FileUtils.touch bad_config
+        found = described_class.find(current: Pathname.new(tempdir))
+        expect(found).to eq(SAMPLES_PATH.join('.reek.yml'))
+      end
+    end
+
     it 'returns the file in home if traversing from the current dir fails' do
       skip_if_a_config_in_tempdir
 
