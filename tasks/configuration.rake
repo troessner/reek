@@ -13,5 +13,3 @@ namespace :configuration do
     File.open(DEFAULT_SMELL_CONFIGURATION, 'w') { |file| YAML.dump(content, file) }
   end
 end
-
-task 'test:spec' => 'configuration:update_default_configuration'

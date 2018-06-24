@@ -3,6 +3,19 @@ require 'rake/clean'
 
 Dir['tasks/**/*.rake'].each { |t| load t }
 
-task local_test_run: [:test, :rubocop, 'test:quality']
-task ci: [:test, :rubocop, 'test:quality', :ataru]
-task default: :local_test_run
+task :ci do
+  [
+    'test:spec',
+    'configuration:update_default_configuration',
+    'test:features',
+    :rubocop,
+    'test:quality',
+    :ataru
+  ].each do |name|
+    puts "\n=== Running #{name}...\n"
+    Rake::Task[name].invoke
+    puts "\n=== Running #{name} -> Done\n"
+  end
+end
+
+task default: :ci
