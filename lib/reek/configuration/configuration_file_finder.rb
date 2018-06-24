@@ -61,7 +61,7 @@ module Reek
           end
 
           unless configuration.is_a? Hash
-            raise Errors::ConfigFileException, "Invalid configuration file \"#{path}\" -- Not a hash"
+            raise Errors::ConfigFileError, "Invalid configuration file \"#{path}\" -- Not a hash"
           end
           Converter.strings_to_regexes(configuration)
         end
