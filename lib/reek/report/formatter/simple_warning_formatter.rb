@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative '../code_climate/code_climate_formatter'
+
 module Reek
   module Report
     module Formatter
@@ -19,6 +21,10 @@ module Reek
         # @quality :reek:UtilityFunction
         def format_code_climate_hash(warning)
           CodeClimateFormatter.new(warning).render
+        end
+
+        def format_list(warnings)
+          warnings.map { |warning| "  #{format(warning)}" }.join("\n")
         end
 
         private

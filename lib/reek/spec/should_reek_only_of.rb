@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative '../examiner'
-require_relative '../report/formatter'
+require_relative '../report/formatter/simple_warning_formatter'
 require_relative 'should_reek_of'
 require_relative 'smell_matcher'
 
@@ -24,7 +24,7 @@ module Reek
       end
 
       def failure_message
-        rpt = Report::Formatter.format_list(warnings)
+        rpt = Report::Formatter::SimpleWarningFormatter.new.format_list(warnings)
         "Expected #{examiner.origin} to reek only of #{smell_type}, but got:\n#{rpt}"
       end
 

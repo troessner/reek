@@ -9,12 +9,6 @@ module Reek
       #
       # @abstract Override {#show_header?} to implement a heading formatter.
       class HeadingFormatterBase
-        attr_reader :report_formatter
-
-        def initialize(report_formatter)
-          @report_formatter = report_formatter
-        end
-
         # @quality :reek:UtilityFunction
         def show_header?(_examiner)
           raise NotImplementedError
@@ -22,10 +16,20 @@ module Reek
 
         def header(examiner)
           if show_header?(examiner)
-            report_formatter.header examiner
+            formatted_header examiner
           else
             ''
           end
+        end
+
+        private
+
+        def formatted_header(examiner)
+          count = examiner.smells_count
+          result = Rainbow("#{examiner.origin} -- ").cyan +
+            Rainbow("#{count} warning").yellow
+          result += Rainbow('s').yellow unless count == 1
+          result
         end
       end
 

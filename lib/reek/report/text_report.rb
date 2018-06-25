@@ -49,8 +49,7 @@ module Reek
       def summarize_single_examiner(examiner)
         result = heading_formatter.header(examiner)
         if examiner.smelly?
-          formatted_list = report_formatter.format_list(examiner.smells,
-                                                        formatter: warning_formatter)
+          formatted_list = warning_formatter.format_list(examiner.smells)
           result += ":\n#{formatted_list}"
         end
         result

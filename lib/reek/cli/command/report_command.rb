@@ -38,7 +38,6 @@ module Reek
           @reporter ||=
             report_class.new(
               warning_formatter: warning_formatter,
-              report_formatter: Report::Formatter,
               sort_by_issue_count: sort_by_issue_count,
               heading_formatter: heading_formatter,
               progress_formatter: progress_formatter.new(sources.length))

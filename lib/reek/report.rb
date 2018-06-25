@@ -6,7 +6,12 @@ require_relative 'report/json_report'
 require_relative 'report/text_report'
 require_relative 'report/xml_report'
 require_relative 'report/yaml_report'
-require_relative 'report/formatter'
+
+require_relative 'report/formatter/heading_formatter'
+require_relative 'report/formatter/location_formatter'
+require_relative 'report/formatter/progress_formatter'
+require_relative 'report/formatter/simple_warning_formatter'
+require_relative 'report/formatter/documentation_link_warning_formatter'
 
 module Reek
   # Reek reporting functionality.
