@@ -9,7 +9,7 @@ module Reek
           children.first
         end
 
-        # :reek:FeatureEnvy
+        # @quality :reek:FeatureEnvy
         def body_nodes(type, ignoring = [])
           children[1..-1].compact.flat_map do |child|
             if ignoring.include? child.type

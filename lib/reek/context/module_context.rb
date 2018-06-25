@@ -73,7 +73,7 @@ module Reek
       #
       # @return true if the module is a namespace module
       #
-      # :reek:FeatureEnvy
+      # @quality :reek:FeatureEnvy
       def namespace_module?
         return false if exp.type == :casgn
         children = exp.direct_children

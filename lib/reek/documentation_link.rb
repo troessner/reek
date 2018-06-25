@@ -12,7 +12,7 @@ module Reek
     # 'FeatureEnvy' or a general subject like 'Rake Task'.
     #
     # @param subject [String]
-    # @return [String] - the full URL for the relevant documentation
+    # @return [String] the full URL for the relevant documentation
     def build(subject)
       Kernel.format(HELP_LINK_TEMPLATE, version: Version::STRING, item: name_to_param(subject))
     end

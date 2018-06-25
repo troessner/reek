@@ -20,9 +20,9 @@ module Reek
   # counting. Ideally `ContextBuilder` would only build up the context tree and leave the
   # statement and reference counting to the contexts.
   #
-  # :reek:TooManyMethods { max_methods: 31 }
-  # :reek:UnusedPrivateMethod { exclude: [ !ruby/regexp /process_/ ] }
-  # :reek:DataClump
+  # @quality :reek:TooManyMethods { max_methods: 31 }
+  # @quality :reek:UnusedPrivateMethod { exclude: [ !ruby/regexp /process_/ ] }
+  # @quality :reek:DataClump
   class ContextBuilder
     attr_reader :context_tree
 
@@ -470,7 +470,7 @@ module Reek
       self.class.private_method_defined?(name)
     end
 
-    # :reek:ControlParameter
+    # @quality :reek:ControlParameter
     def increase_statement_count_by(sexp)
       current_context.statement_counter.increase_by sexp
     end
@@ -482,8 +482,8 @@ module Reek
     # Stores a reference to the current context, creates a nested new one,
     # yields to the given block and then restores the previous context.
     #
-    # @param klass [Context::*Context] - context class
-    # @param args - arguments for the class initializer
+    # @param klass [Context::*Context] context class
+    # @param args arguments for the class initializer
     # @yield block
     #
     def inside_new_context(klass, *args)
@@ -497,10 +497,10 @@ module Reek
     # Appends a new child context to the current context but does not change
     # the current context.
     #
-    # @param klass [Context::*Context] - context class
-    # @param args - arguments for the class initializer
+    # @param klass [Context::*Context] context class
+    # @param args arguments for the class initializer
     #
-    # @return [Context::*Context] - the context that was appended
+    # @return [Context::*Context] the context that was appended
     #
     def append_new_context(klass, *args)
       klass.new(*args).tap do |new_context|

@@ -39,7 +39,7 @@ module Reek
         #
         # @return [File|nil]
         #
-        # :reek:ControlParameter
+        # @quality :reek:ControlParameter
         def find(path: nil, current: Pathname.pwd, home: Pathname.new(Dir.home))
           path || find_by_dir(current) || find_in_dir(home)
         end
@@ -51,7 +51,7 @@ module Reek
         # @param path [String]
         # @return [Hash]
         #
-        # :reek:TooManyStatements { max_statements: 6 }
+        # @quality :reek:TooManyStatements { max_statements: 6 }
         def load_from_file(path)
           return {} unless path
           begin
@@ -85,7 +85,7 @@ module Reek
         #
         # @return [File|nil]
         #
-        # :reek:FeatureEnvy
+        # @quality :reek:FeatureEnvy
         def find_in_dir(dir)
           dir.children.detect { |item| item.file? && item.basename.to_s == DEFAULT_FILE_NAME }
         end

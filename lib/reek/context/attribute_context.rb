@@ -7,7 +7,7 @@ module Reek
     #
     # A context wrapper for attribute definitions found in a syntax tree.
     #
-    # :reek:Attribute
+    # @quality :reek:Attribute
     class AttributeContext < CodeContext
       attr_accessor :visibility
 

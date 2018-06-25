@@ -16,14 +16,14 @@ module Reek
     #
     # @public
     #
-    # :reek:TooManyInstanceVariables { max_instance_variables: 7 }
+    # @quality :reek:TooManyInstanceVariables { max_instance_variables: 7 }
     class BaseReport
       NO_WARNINGS_COLOR = :green
       WARNINGS_COLOR = :red
 
       # @public
       #
-      # :reek:BooleanParameter
+      # @quality :reek:BooleanParameter
       def initialize(heading_formatter: Formatter::QuietHeadingFormatter,
                      report_formatter: Formatter,
                      sort_by_issue_count: false,

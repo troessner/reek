@@ -93,7 +93,7 @@ module Reek
       #
       # @return [Array<Iterator>]
       #
-      # :reek:TooManyStatements { max_statements: 6 }
+      # @quality :reek:TooManyStatements { max_statements: 6 }
       def scout(exp:, depth:)
         return [] unless exp
         # Find all non-nested blocks in this expression
@@ -125,7 +125,7 @@ module Reek
         @max_allowed_nesting ||= value(MAX_ALLOWED_NESTING_KEY, context)
       end
 
-      # :reek:FeatureEnvy
+      # @quality :reek:FeatureEnvy
       def ignored_iterator?(exp)
         ignore_iterators.any? { |pattern| /#{pattern}/ =~ exp.call.name } ||
           exp.without_block_arguments?

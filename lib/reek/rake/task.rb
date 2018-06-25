@@ -33,8 +33,8 @@ module Reek
     #
     # @public
     #
-    # :reek:TooManyInstanceVariables { max_instance_variables: 6 }
-    # :reek:Attribute
+    # @quality :reek:TooManyInstanceVariables { max_instance_variables: 6 }
+    # @quality :reek:Attribute
     class Task < ::Rake::TaskLib
       # Name of Reek task. Defaults to :reek.
       # @public
@@ -114,7 +114,7 @@ module Reek
           reject(&:empty?)
       end
 
-      # :reek:UtilityFunction
+      # @quality :reek:UtilityFunction
       def sys_call_failed?
         !$CHILD_STATUS.success?
       end

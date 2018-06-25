@@ -18,9 +18,9 @@ module Reek
         # }
         # @return [Hash]
         #
-        # :reek:NestedIterators { max_allowed_nesting: 3 }
-        # :reek:DuplicateMethodCall { max_calls: 3 }
-        # :reek:TooManyStatements { max_statements: 7 }
+        # @quality :reek:NestedIterators { max_allowed_nesting: 3 }
+        # @quality :reek:DuplicateMethodCall { max_calls: 3 }
+        # @quality :reek:TooManyStatements { max_statements: 7 }
         def strings_to_regexes(configuration)
           configuration.keys.
             select { |key| smell_type?(key) }.
@@ -38,14 +38,14 @@ module Reek
         #   {"enabled"=>true, "exclude"=>[], "reject"=>[/^[a-z]$/, /[0-9]$/, /[A-Z]/], "accept"=>[]}
         # @return [Hash]
         #
-        # :reek:NestedIterators { max_allowed_nesting: 2 }
-        def regexes_to_strings(configuration_for_detector)
-          (configuration_for_detector.keys & REGEXABLE_ATTRIBUTES).each do |attribute|
-            configuration_for_detector[attribute] = configuration_for_detector[attribute].map do |item|
+        # @quality :reek:NestedIterators { max_allowed_nesting: 2 }
+        def regexes_to_strings(configuration)
+          (configuration.keys & REGEXABLE_ATTRIBUTES).each do |attribute|
+            configuration[attribute] = configuration[attribute].map do |item|
               item.is_a?(Regexp) ? item.inspect : item
             end
           end
-          configuration_for_detector
+          configuration
         end
 
         def marked_as_regex?(string)

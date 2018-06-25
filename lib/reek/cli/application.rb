@@ -69,7 +69,7 @@ module Reek
         options.argv
       end
 
-      # :reek:UtilityFunction
+      # @quality :reek:UtilityFunction
       def input_was_piped?
         !$stdin.tty?
       end

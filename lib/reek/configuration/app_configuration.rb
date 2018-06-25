@@ -59,7 +59,7 @@ module Reek
 
       # Returns the directive for a given directory.
       #
-      # @param source_via [String] - the source of the code inspected
+      # @param source_via [String] the source of the code inspected
       #
       # @return [Hash] the directory directive for the source with the default directive
       #                reverse-merged into it.

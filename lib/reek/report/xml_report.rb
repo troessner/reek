@@ -34,8 +34,8 @@ module Reek
         end
       end
 
-      # :reek:FeatureEnvy
-      # :reek:NestedIterators { max_allowed_nesting: 2 }
+      # @quality :reek:FeatureEnvy
+      # @quality :reek:NestedIterators { max_allowed_nesting: 2 }
       def file(name, smells)
         REXML::Element.new('file').tap do |file|
           file.add_attribute 'name', File.realpath(name)
@@ -47,7 +47,7 @@ module Reek
         end
       end
 
-      # :reek:UtilityFunction
+      # @quality :reek:UtilityFunction
       def error(smell, line)
         REXML::Element.new('error').tap do |error|
           error.add_attributes 'column' => 0,

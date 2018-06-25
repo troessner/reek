@@ -16,7 +16,7 @@ module Reek
           "#{location_formatter.format(warning)}#{warning.base_message}"
         end
 
-        # :reek:UtilityFunction
+        # @quality :reek:UtilityFunction
         def format_code_climate_hash(warning)
           CodeClimateFormatter.new(warning).render
         end
