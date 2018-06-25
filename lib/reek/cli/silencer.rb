@@ -8,17 +8,20 @@ module Reek
     module Silencer
       module_function
 
-      # :reek:TooManyStatements { max_statements: 7 }
+      # :reek:TooManyStatements { max_statements: 9 }
       def silently
         old_verbose = $VERBOSE
+        old_stderr = $stderr
+        old_stdout = $stdout
+
         $VERBOSE = false
         $stderr = StringIO.new
         $stdout = StringIO.new
         yield
       ensure
         $VERBOSE = old_verbose
-        $stderr = STDERR
-        $stdout = STDOUT
+        $stderr = old_stderr
+        $stdout = old_stdout
       end
     end
   end

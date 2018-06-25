@@ -1,7 +1,4 @@
-require_lib 'reek/cli/silencer'
-Reek::CLI::Silencer.silently do
-  require 'parser/ruby22'
-end
+require 'parser/ruby25'
 
 require_relative '../spec_helper'
 require_lib 'reek/tree_dresser'
@@ -10,7 +7,7 @@ RSpec.describe Reek::TreeDresser do
   describe '#dress' do
     let(:dresser) { described_class.new }
     let(:sexp) do
-      Parser::Ruby22.parse('class Klazz; def meth(argument); argument.call_me; end; end')
+      Parser::Ruby25.parse('class Klazz; def meth(argument); argument.call_me; end; end')
     end
     let(:dressed_ast) { dresser.dress(sexp, {}) }
 
