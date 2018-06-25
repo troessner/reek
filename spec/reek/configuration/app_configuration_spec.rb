@@ -8,8 +8,8 @@ require_lib 'reek/configuration/excluded_paths'
 RSpec.describe Reek::Configuration::AppConfiguration do
   describe 'factory methods' do
     let(:expected_excluded_paths) do
-      [SAMPLES_PATH.join('two_smelly_files'),
-       SAMPLES_PATH.join('source_with_non_ruby_files')]
+      [SAMPLES_DIR.join('two_smelly_files'),
+       SAMPLES_DIR.join('source_with_non_ruby_files')]
     end
 
     let(:expected_default_directive) do
@@ -17,7 +17,7 @@ RSpec.describe Reek::Configuration::AppConfiguration do
     end
 
     let(:expected_directory_directives) do
-      { SAMPLES_PATH.join('three_clean_files') =>
+      { SAMPLES_DIR.join('three_clean_files') =>
         { Reek::SmellDetectors::UtilityFunction => { 'enabled' => false } } }
     end
 
@@ -44,7 +44,7 @@ RSpec.describe Reek::Configuration::AppConfiguration do
     end
 
     describe '#from_path' do
-      let(:full_configuration_path) { CONFIG_PATH.join('full_configuration.reek') }
+      let(:full_configuration_path) { CONFIGURATION_DIR.join('full_configuration.reek') }
 
       it 'properly loads configuration and processes it' do
         config = described_class.from_path full_configuration_path

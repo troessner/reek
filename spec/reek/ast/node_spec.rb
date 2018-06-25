@@ -164,7 +164,7 @@ RSpec.describe Reek::AST::Node do
 
   describe '#line' do
     context 'with source from a file' do
-      let(:file) { SAMPLES_PATH.join('smelly.rb') }
+      let(:file) { SMELLY_FILE }
       let(:ast) { Reek::Source::SourceCode.from(file).syntax_tree }
 
       it 'returns the right line number' do
@@ -173,7 +173,7 @@ RSpec.describe Reek::AST::Node do
     end
 
     context 'with source from a string' do
-      let(:source) { File.read(SAMPLES_PATH.join('smelly.rb')) }
+      let(:source) { File.read(SMELLY_FILE) }
       let(:ast) { Reek::Source::SourceCode.from(source).syntax_tree }
 
       it 'returns the right line number' do
@@ -184,16 +184,16 @@ RSpec.describe Reek::AST::Node do
 
   describe '#source' do
     context 'with source from a file' do
-      let(:file) { SAMPLES_PATH.join('smelly.rb') }
+      let(:file) { SMELLY_FILE }
       let(:ast) { Reek::Source::SourceCode.from(file).syntax_tree }
 
       it 'returns the file name' do
-        expect(ast.source).to eq(SAMPLES_PATH.join('smelly.rb').to_s)
+        expect(ast.source).to eq(SMELLY_FILE.to_s)
       end
     end
 
     context 'with source from a string' do
-      let(:source) { File.read(SAMPLES_PATH.join('smelly.rb')) }
+      let(:source) { File.read SMELLY_FILE }
       let(:ast) { Reek::Source::SourceCode.from(source).syntax_tree }
 
       it 'returns "string"' do
