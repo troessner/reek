@@ -46,7 +46,7 @@ module Reek
       @origin              = origin || @source.origin
       @smell_types         = detector_repository_class.eligible_smell_types(filter_by_smells)
       @detector_repository = detector_repository_class.new(smell_types: @smell_types,
-                                                           configuration: configuration.directive_for(description))
+                                                           configuration: configuration.directive_for(@origin))
       @error_handler       = error_handler
     end
 
@@ -54,12 +54,6 @@ module Reek
     #
     # @public
     attr_reader :origin
-
-    # @return [String] description of the source being analysed
-    #
-    # @public
-    # @deprecated Use origin
-    alias description origin
 
     #
     # @return [Array<SmellWarning>] the smells found in the source

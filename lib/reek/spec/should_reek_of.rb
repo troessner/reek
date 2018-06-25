@@ -93,7 +93,7 @@ module Reek
       end
 
       def origin
-        examiner.description
+        examiner.origin
       end
     end
   end

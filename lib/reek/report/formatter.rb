@@ -23,7 +23,7 @@ module Reek
 
       def header(examiner)
         count = examiner.smells_count
-        result = Rainbow("#{examiner.description} -- ").cyan +
+        result = Rainbow("#{examiner.origin} -- ").cyan +
           Rainbow("#{count} warning").yellow
         result += Rainbow('s').yellow unless count == 1
         result

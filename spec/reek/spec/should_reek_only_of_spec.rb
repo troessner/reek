@@ -21,7 +21,7 @@ RSpec.describe Reek::Spec::ShouldReekOnlyOf do
     context 'when a match was expected' do
       let(:source) { 'the_path/to_a/source_file.rb' }
 
-      before { allow(examiner).to receive(:description).and_return(source) }
+      before { allow(examiner).to receive(:origin).and_return(source) }
 
       it 'reports the source' do
         expect(matcher.failure_message).to match(source)
@@ -91,7 +91,7 @@ RSpec.describe Reek::Spec::ShouldReekOnlyOf do
 
     it 'reports the source when no match was expected' do
       source = 'the_path/to_a/source_file.rb'
-      allow(examiner).to receive(:description).and_return(source)
+      allow(examiner).to receive(:origin).and_return(source)
       expect(matcher.failure_message_when_negated).to match(source)
     end
   end
