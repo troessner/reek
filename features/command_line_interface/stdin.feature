@@ -67,6 +67,7 @@ Feature: Reek reads from $stdin when no files are given
       end
       """
     Then it succeeds
+    And it reports nothing
 
 
 

@@ -59,13 +59,13 @@ module Reek
       #
       # @return an instance of SourceCode
       # :reek:DuplicateMethodCall { max_calls: 2 }
-      # :reek:ControlParameter
-      def self.from(source, filename: nil)
+      def self.from(source)
         case source
+        when self     then source
         when File     then new(code: source.read,           origin: source.path)
-        when IO       then new(code: source.readlines.join, origin: filename || IO_IDENTIFIER)
+        when IO       then new(code: source.readlines.join, origin: IO_IDENTIFIER)
         when Pathname then new(code: source.read,           origin: source.to_s)
-        when String   then new(code: source,                origin: filename || STRING_IDENTIFIER)
+        when String   then new(code: source,                origin: STRING_IDENTIFIER)
         end
       end
 
