@@ -25,11 +25,11 @@ module Reek
 
       def failure_message
         rpt = Report::Formatter.format_list(warnings)
-        "Expected #{examiner.description} to reek only of #{smell_type}, but got:\n#{rpt}"
+        "Expected #{examiner.origin} to reek only of #{smell_type}, but got:\n#{rpt}"
       end
 
       def failure_message_when_negated
-        "Expected #{examiner.description} not to reek only of #{smell_type}, but it did"
+        "Expected #{examiner.origin} not to reek only of #{smell_type}, but it did"
       end
 
       private
