@@ -61,6 +61,7 @@ module Reek
       # :reek:DuplicateMethodCall { max_calls: 2 }
       def self.from(source)
         case source
+        when self     then source
         when File     then new(code: source.read,           origin: source.path)
         when IO       then new(code: source.readlines.join, origin: IO_IDENTIFIER)
         when Pathname then new(code: source.read,           origin: source.to_s)

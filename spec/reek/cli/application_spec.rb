@@ -44,6 +44,18 @@ RSpec.describe Reek::CLI::Application do
                configuration: Reek::Configuration::AppConfiguration,
                options: Reek::CLI::Options)
       end
+
+      context 'when a stdin filename is provided' do
+        let(:app) { described_class.new ['--stdin-filename', 'foo.rb'] }
+
+        it 'assumes that filename' do
+          app.execute
+          expect(Reek::CLI::Command::ReportCommand).to have_received(:new).
+            with(sources: [$stdin],
+                 configuration: Reek::Configuration::AppConfiguration,
+                 options: Reek::CLI::Options)
+        end
+      end
     end
 
     context 'when no source files given and no input was piped' do

@@ -41,3 +41,33 @@ Feature: Reek reads from $stdin when no files are given
         [2]:Syntax: This file has unexpected token $end
         [1]:Syntax: This file has unexpected token tEQL
       """
+
+  Scenario: providing a filename to use for the config to match against
+    Given a file named "web_app/config.reek" with:
+      """
+      ---
+      directories:
+        "web_app/app/controllers":
+          IrresponsibleModule:
+            enabled: false
+          NestedIterators:
+            enabled: false
+          InstanceVariableAssumption:
+            enabled: false
+      """
+    When I pass a stdin to reek --config web_app/config.reek --stdin-filename web_app/app/controllers/users_controller with:
+      """
+      class UsersController < ApplicationController
+        def show
+          respond_with do |format|
+            format.json { |json| @user.to_custom_json }
+            format.xml { |xml| @user.to_fancy_xml }
+          end
+        end
+      end
+      """
+    Then it succeeds
+    And it reports nothing
+
+
+

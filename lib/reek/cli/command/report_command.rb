@@ -23,7 +23,8 @@ module Reek
 
         def populate_reporter_with_smells
           sources.each do |source|
-            reporter.add_examiner Examiner.new(source,
+            reporter.add_examiner Examiner.new(Source::SourceCode.from(source),
+                                               origin: options.stdin_filename,
                                                filter_by_smells: smell_names,
                                                configuration: configuration,
                                                error_handler: LoggingErrorHandler.new)

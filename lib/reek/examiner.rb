@@ -11,6 +11,7 @@ module Reek
   # Applies all available smell detectors to a source.
   #
   # @public
+  # :reek:TooManyInstanceVariables { max_instance_variables: 5 }
   class Examiner
     # Handles no errors
     class NullHandler
@@ -33,12 +34,16 @@ module Reek
     #   The configuration for this Examiner.
     #
     # @public
+    # :reek:ControlParameter
+    # :reek:LongParameterList { max_params: 6 }
     def initialize(source,
+                   origin: nil,
                    filter_by_smells: [],
                    configuration: Configuration::AppConfiguration.default,
                    detector_repository_class: DetectorRepository,
                    error_handler: NullHandler.new)
       @source              = Source::SourceCode.from(source)
+      @origin              = origin || @source.origin
       @smell_types         = detector_repository_class.eligible_smell_types(filter_by_smells)
       @detector_repository = detector_repository_class.new(smell_types: @smell_types,
                                                            configuration: configuration.directive_for(description))
@@ -48,17 +53,13 @@ module Reek
     # @return [String] origin of the source being analysed
     #
     # @public
-    def origin
-      @origin ||= source.origin
-    end
+    attr_reader :origin
 
     # @return [String] description of the source being analysed
     #
     # @public
     # @deprecated Use origin
-    def description
-      origin
-    end
+    alias description origin
 
     #
     # @return [Array<SmellWarning>] the smells found in the source
