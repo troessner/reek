@@ -146,6 +146,12 @@ RSpec.describe Reek::Configuration::ConfigurationFileFinder do
         expect(configuration['UncommunicativeVariableName']).to eq(expected['UncommunicativeVariableName'])
       end
     end
+
+    it 'returns blank hash when no file is found' do
+      config = described_class.load_from_file(nil)
+
+      expect(config).to eq({})
+    end
   end
 
   private
