@@ -22,10 +22,10 @@ module Reek
       # @public
       #
       # @quality :reek:BooleanParameter
-      def initialize(heading_formatter: Formatter::QuietHeadingFormatter,
+      def initialize(heading_formatter: QuietHeadingFormatter,
                      sort_by_issue_count: false,
-                     warning_formatter: Formatter::SimpleWarningFormatter.new,
-                     progress_formatter: Formatter::ProgressFormatter::Quiet.new(0))
+                     warning_formatter: SimpleWarningFormatter.new,
+                     progress_formatter: ProgressFormatter::Quiet.new(0))
         @examiners           = []
         @heading_formatter   = heading_formatter.new
         @progress_formatter  = progress_formatter

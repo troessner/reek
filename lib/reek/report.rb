@@ -7,11 +7,11 @@ require_relative 'report/text_report'
 require_relative 'report/xml_report'
 require_relative 'report/yaml_report'
 
-require_relative 'report/formatter/heading_formatter'
-require_relative 'report/formatter/location_formatter'
-require_relative 'report/formatter/progress_formatter'
-require_relative 'report/formatter/simple_warning_formatter'
-require_relative 'report/formatter/documentation_link_warning_formatter'
+require_relative 'report/heading_formatter'
+require_relative 'report/location_formatter'
+require_relative 'report/progress_formatter'
+require_relative 'report/simple_warning_formatter'
+require_relative 'report/documentation_link_warning_formatter'
 
 module Reek
   # Reek reporting functionality.
@@ -26,24 +26,24 @@ module Reek
     }.freeze
 
     LOCATION_FORMATTERS = {
-      single_line: Formatter::SingleLineLocationFormatter,
-      plain: Formatter::BlankLocationFormatter,
-      numbers: Formatter::DefaultLocationFormatter
+      single_line: SingleLineLocationFormatter,
+      plain: BlankLocationFormatter,
+      numbers: DefaultLocationFormatter
     }.freeze
 
     HEADING_FORMATTERS = {
-      verbose: Formatter::VerboseHeadingFormatter,
-      quiet: Formatter::QuietHeadingFormatter
+      verbose: VerboseHeadingFormatter,
+      quiet: QuietHeadingFormatter
     }.freeze
 
     PROGRESS_FORMATTERS = {
-      dots: Formatter::ProgressFormatter::Dots,
-      quiet: Formatter::ProgressFormatter::Quiet
+      dots: ProgressFormatter::Dots,
+      quiet: ProgressFormatter::Quiet
     }.freeze
 
     WARNING_FORMATTER_CLASSES = {
-      documentation_links: Formatter::DocumentationLinkWarningFormatter,
-      simple: Formatter::SimpleWarningFormatter
+      documentation_links: DocumentationLinkWarningFormatter,
+      simple: SimpleWarningFormatter
     }.freeze
 
     # Map report format symbol to a report class.

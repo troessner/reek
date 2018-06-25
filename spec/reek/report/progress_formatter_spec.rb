@@ -1,7 +1,7 @@
-require_relative '../../../spec_helper'
-require_lib 'reek/report/formatter/progress_formatter'
+require_relative '../../spec_helper'
+require_lib 'reek/report/progress_formatter'
 
-RSpec.describe Reek::Report::Formatter::ProgressFormatter::Dots do
+RSpec.describe Reek::Report::ProgressFormatter::Dots do
   let(:sources_count) { 23 }
   let(:formatter) { described_class.new(sources_count) }
 
@@ -37,7 +37,7 @@ RSpec.describe Reek::Report::Formatter::ProgressFormatter::Dots do
   end
 end
 
-RSpec.describe Reek::Report::Formatter::ProgressFormatter::Quiet do
+RSpec.describe Reek::Report::ProgressFormatter::Quiet do
   let(:sources_count) { 23 }
   let(:formatter) { described_class.new(sources_count) }
 
