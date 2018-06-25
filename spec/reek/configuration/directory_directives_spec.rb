@@ -36,9 +36,7 @@ RSpec.describe Reek::Configuration::DirectoryDirectives do
       let(:file_as_path) { SAMPLES_DIR.join('smelly_source').join('inline.rb') }
 
       it 'raises an error' do
-        Reek::CLI::Silencer.silently do
-          expect { directives.add(file_as_path => nil) }.to raise_error(Reek::Errors::ConfigFileError)
-        end
+        expect { directives.add(file_as_path => nil) }.to raise_error(Reek::Errors::ConfigFileError)
       end
     end
   end

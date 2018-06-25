@@ -2,9 +2,7 @@
 
 require_relative '../cli/silencer'
 
-Reek::CLI::Silencer.silently do
-  require 'parser'
-end
+require 'parser'
 
 module Reek
   module AST

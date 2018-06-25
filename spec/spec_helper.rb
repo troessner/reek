@@ -8,11 +8,9 @@ require_relative '../lib/reek/configuration/app_configuration'
 
 require_relative '../samples/paths'
 
-Reek::CLI::Silencer.silently do
-  begin
-    require 'pry-byebug'
-  rescue LoadError # rubocop:disable Lint/HandleExceptions
-  end
+begin
+  require 'pry-byebug'
+rescue LoadError # rubocop:disable Lint/HandleExceptions
 end
 
 require 'factory_bot'

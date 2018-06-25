@@ -18,7 +18,7 @@ RSpec.describe Reek::CLI::Silencer do
       end.to output("there!\n").to_stdout
     end
 
-    it 'blocks output on $stderr after the block' do
+    it 'restores output on $stderr after the block' do
       expect do
         described_class.silently { warn 'Hi!' }
         warn 'there!'
