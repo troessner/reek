@@ -115,7 +115,7 @@ module Reek
         parser.on('--stdin-filename FILE',
                   'When passing code in via pipe, assume this filename when '\
                   'checking file or directory rules in the config.') do |file|
-          self.stdin_filename = Pathname.new(file)
+          self.stdin_filename = file
         end
       end
 

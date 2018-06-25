@@ -89,7 +89,7 @@ module Reek
       end
 
       def source_from_pipe
-        [$stdin]
+        [Source::SourceCode.from($stdin, origin: options.stdin_filename)]
       end
 
       def disable_progress_output_unless_verbose

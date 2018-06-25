@@ -37,10 +37,11 @@ RSpec.describe Reek::CLI::Application do
         allow_any_instance_of(IO).to receive(:tty?).and_return(false)
       end
 
-      it 'uses source form pipe' do
+      it 'uses source from pipe' do
+        expected_sources = a_collection_containing_exactly(have_attributes(origin: 'STDIN'))
         app.execute
         expect(Reek::CLI::Command::ReportCommand).to have_received(:new).
-          with(sources: [$stdin],
+          with(sources: expected_sources,
                configuration: Reek::Configuration::AppConfiguration,
                options: Reek::CLI::Options)
       end
@@ -49,9 +50,10 @@ RSpec.describe Reek::CLI::Application do
         let(:app) { described_class.new ['--stdin-filename', 'foo.rb'] }
 
         it 'assumes that filename' do
+          expected_sources = a_collection_containing_exactly(have_attributes(origin: 'foo.rb'))
           app.execute
           expect(Reek::CLI::Command::ReportCommand).to have_received(:new).
-            with(sources: [$stdin],
+            with(sources: expected_sources,
                  configuration: Reek::Configuration::AppConfiguration,
                  options: Reek::CLI::Options)
         end

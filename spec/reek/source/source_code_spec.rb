@@ -6,34 +6,34 @@ RSpec.describe Reek::Source::SourceCode do
   describe '#syntax_tree' do
     it 'associates comments with the AST' do
       source = "# this is\n# a comment\ndef foo; end"
-      source_code = described_class.new(code: source, origin: '(string)')
+      source_code = described_class.new(source: source, origin: '(string)')
       result = source_code.syntax_tree
       expect(result.leading_comment).to eq "# this is\n# a comment"
     end
 
     it 'cleanly processes empty source' do
-      source_code = described_class.new(code: '', origin: '(string)')
+      source_code = described_class.new(source: '', origin: '(string)')
       result = source_code.syntax_tree
       expect(result).to be_nil
     end
 
     it 'cleanly processes empty source with comments' do
       source = "# this is\n# a comment\n"
-      source_code = described_class.new(code: source, origin: '(string)')
+      source_code = described_class.new(source: source, origin: '(string)')
       result = source_code.syntax_tree
       expect(result).to be_nil
     end
 
     it 'does not crash with sequences incompatible with UTF-8' do
       source = '"\xFF"'
-      source_code = described_class.new(code: source, origin: '(string)')
+      source_code = described_class.new(source: source, origin: '(string)')
       result = source_code.syntax_tree
       expect(result.children.first).to eq "\xFF"
     end
 
     it 'returns a :lambda node for lambda expressions' do
       source = '->() { }'
-      source_code = described_class.new(code: source, origin: '(string)')
+      source_code = described_class.new(source: source, origin: '(string)')
       result = source_code.syntax_tree
       expect(result.children.first.type).to eq :lambda
     end
@@ -41,7 +41,7 @@ RSpec.describe Reek::Source::SourceCode do
 
   context 'when the parser fails' do
     let(:source_name) { 'Test source' }
-    let(:src) { described_class.new(code: code, origin: source_name, **options) }
+    let(:src) { described_class.new(source: code, origin: source_name, **options) }
 
     context 'with a Parser::SyntaxError' do
       let(:code) { '== Invalid Syntax ==' }

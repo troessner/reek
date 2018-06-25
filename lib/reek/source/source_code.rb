@@ -12,7 +12,7 @@ Reek::AST::Builder.emit_lambda = true
 module Reek
   module Source
     #
-    # A +Source+ object represents a chunk of Ruby source code.
+    # A +SourceCode+ object represents a chunk of Ruby source code.
     #
     class SourceCode
       # Consume and store parser diagnostics
@@ -33,37 +33,33 @@ module Reek
       IO_IDENTIFIER     = 'STDIN'.freeze
       STRING_IDENTIFIER = 'string'.freeze
 
-      attr_reader :origin
-
       # Initializer.
       #
-      # code   - Ruby code as String
-      # origin - 'STDIN', 'string' or a filepath as String
-      # parser - the parser to use for generating AST's out of the given code
-      def initialize(code:, origin:, parser: self.class.default_parser)
+      # @param source [File|Pathname|IO|String] Ruby source code
+      # @param origin [String] Origin of the source code. Will be determined
+      #   automatically if left blank.
+      # @param parser the parser to use for generating AST's out of the given code
+      def initialize(source:, origin: nil, parser: self.class.default_parser)
         @origin = origin
         @parser = parser
-        code.force_encoding(Encoding::UTF_8)
-        @code = code
+        @source = source
       end
 
       # Initializes an instance of SourceCode given a source.
-      # This source can come via 4 different ways:
+      # This source can come via several different ways:
       # - from Files or Pathnames a la `reek lib/reek/`
       # - from IO (STDIN) a la `echo "class Foo; end" | reek`
       # - from String via our rspec matchers a la `expect("class Foo; end").to reek`
+      # - from an existing SourceCode object. This is passed through unchanged
       #
-      # @param source [File|IO|String] - the given source
+      # @param source [SourceCode|File|Pathname|IO|String] the given source
+      # @param origin [String|nil]
       #
       # @return an instance of SourceCode
-      # :reek:DuplicateMethodCall { max_calls: 2 }
-      def self.from(source)
+      def self.from(source, origin: nil)
         case source
-        when self     then source
-        when File     then new(code: source.read,           origin: source.path)
-        when IO       then new(code: source.readlines.join, origin: IO_IDENTIFIER)
-        when Pathname then new(code: source.read,           origin: source.to_s)
-        when String   then new(code: source,                origin: STRING_IDENTIFIER)
+        when self then source
+        else new(source: source, origin: origin)
         end
       end
 
@@ -84,14 +80,32 @@ module Reek
         end
       end
 
+      def origin
+        @origin ||=
+          case source
+          when File     then source.path
+          when IO       then IO_IDENTIFIER
+          when Pathname then source.to_s
+          when String   then STRING_IDENTIFIER
+          end
+      end
+
       private
 
       def parse_result
         @parse_result ||= parse
       end
 
-      attr_reader :code
-      attr_reader :parser
+      def code
+        @code ||=
+          case source
+          when File, Pathname then source.read
+          when IO             then source.readlines.join
+          when String         then source
+          end.force_encoding(Encoding::UTF_8)
+      end
+
+      attr_reader :parser, :source
 
       # Parses the given code into an AST and associates the source code comments with it.
       # This AST is then traversed by a TreeDresser which adorns the nodes in the AST
