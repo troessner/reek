@@ -4,8 +4,6 @@ require 'json'
 require 'pathname'
 require 'rainbow'
 
-require_relative 'formatter'
-
 module Reek
   # @public
   module Report
@@ -24,14 +22,12 @@ module Reek
       # @public
       #
       # @quality :reek:BooleanParameter
-      def initialize(heading_formatter: Formatter::QuietHeadingFormatter,
-                     report_formatter: Formatter,
+      def initialize(heading_formatter: QuietHeadingFormatter,
                      sort_by_issue_count: false,
-                     warning_formatter: Formatter::SimpleWarningFormatter.new,
-                     progress_formatter: Formatter::ProgressFormatter::Quiet.new(0))
+                     warning_formatter: SimpleWarningFormatter.new,
+                     progress_formatter: ProgressFormatter::Quiet.new(0))
         @examiners           = []
-        @heading_formatter   = heading_formatter.new(report_formatter)
-        @report_formatter    = report_formatter
+        @heading_formatter   = heading_formatter.new
         @progress_formatter  = progress_formatter
         @sort_by_issue_count = sort_by_issue_count
         @total_smell_count   = 0
@@ -71,7 +67,7 @@ module Reek
 
       private
 
-      attr_reader :examiners, :heading_formatter, :report_formatter,
+      attr_reader :examiners, :heading_formatter,
                   :sort_by_issue_count, :warning_formatter, :progress_formatter
     end
   end

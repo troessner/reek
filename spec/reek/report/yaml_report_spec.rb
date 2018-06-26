@@ -1,7 +1,6 @@
 require_relative '../../spec_helper'
 require_lib 'reek/examiner'
 require_lib 'reek/report/yaml_report'
-require_lib 'reek/report/formatter'
 
 require 'yaml'
 require 'stringio'
