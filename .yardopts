@@ -1,4 +1,4 @@
---no-private
+--private
 --readme README.md
 --load ./docs/yard_plugin.rb
 -

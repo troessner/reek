@@ -15,8 +15,8 @@ module Reek
     #   - {file:README.md}
     # for details.
     #
-    # :reek:UnusedPrivateMethod { exclude: [ smell_warning ] }
-    # :reek:TooManyMethods { max_methods: 18 }
+    # @quality :reek:UnusedPrivateMethod { exclude: [ smell_warning ] }
+    # @quality :reek:TooManyMethods { max_methods: 18 }
     class BaseDetector
       attr_reader :config
       # The name of the config field that lists the names of code contexts
@@ -96,7 +96,7 @@ module Reek
           [:def, :defs]
         end
 
-        # :reek:UtilityFunction
+        # @quality :reek:UtilityFunction
         def default_config
           {
             SmellConfiguration::ENABLED_KEY => true,
@@ -135,14 +135,14 @@ module Reek
         # Note that we assume a valid name - exceptions are not handled here.
         #
         # @param detector_name [String] the detector in question, e.g. 'DuplicateMethodCall'
-        # @return [SmellDetector] - this will return the class, not an instance
+        # @return [SmellDetector] this will return the class, not an instance
         #
         def to_detector(detector_name)
           SmellDetectors.const_get detector_name
         end
 
         #
-        # @return [Set<Symbol>] - all configuration keys that are available for this detector
+        # @return [Set<Symbol>] all configuration keys that are available for this detector
         #
         def configuration_keys
           Set.new(default_config.keys.map(&:to_sym))

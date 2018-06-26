@@ -32,8 +32,8 @@ module Reek
       #
       # @return [self]
       #
-      # :reek:NestedIterators { max_allowed_nesting: 3 }
-      # :reek:TooManyStatements { max_statements: 6 }
+      # @quality :reek:NestedIterators { max_allowed_nesting: 3 }
+      # @quality :reek:TooManyStatements { max_statements: 6 }
       def add(directory_config)
         directory_config.each do |path, detector_config|
           with_valid_directory(path) do |directory|
@@ -48,8 +48,8 @@ module Reek
 
       private
 
-      # :reek:DuplicateMethodCall { max_calls: 2 }
-      # :reek:FeatureEnvy
+      # @quality :reek:DuplicateMethodCall { max_calls: 2 }
+      # @quality :reek:FeatureEnvy
       def best_match_for(source_base_dir)
         keys.
           select { |pathname| source_base_dir.to_s.match(/#{Regexp.escape(pathname.to_s)}/) }.

@@ -13,4 +13,5 @@ end
 
 YARD::Templates::Template.extra_includes << LocalLinkHelper
 YARD::Tags::Library.define_tag('Guaranteed public API', :public)
+YARD::Tags::Library.define_tag('Code quality configuration', :quality)
 YARD::Templates::Engine.register_template_path File.join(File.dirname(__FILE__), 'templates')

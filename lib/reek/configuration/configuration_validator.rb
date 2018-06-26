@@ -10,14 +10,14 @@ module Reek
     module ConfigurationValidator
       private
 
-      # :reek:UtilityFunction
+      # @quality :reek:UtilityFunction
       def smell_type?(key)
         Reek::SmellDetectors.const_defined? key
       rescue NameError
         false
       end
 
-      # :reek:UtilityFunction
+      # @quality :reek:UtilityFunction
       def key_to_smell_detector(key)
         Reek::SmellDetectors.const_get key
       end

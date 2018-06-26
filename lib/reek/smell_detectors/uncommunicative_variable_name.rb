@@ -101,7 +101,7 @@ module Reek
         assignment_nodes.each { |asgn| accumulator[asgn.children.first].push(asgn.line) }
       end
 
-      # :reek:TooManyStatements { max_statements: 6 }
+      # @quality :reek:TooManyStatements { max_statements: 6 }
       def find_block_argument_variable_names(accumulator)
         arg_search_exp = case expression.type
                          when :class, :module
@@ -129,7 +129,7 @@ module Reek
         end
       end
 
-      # :reek:UtilityFunction
+      # @quality :reek:UtilityFunction
       def record_variable_name(exp, symbol, accumulator)
         varname = symbol.to_s.sub(/^\*/, '')
         return if varname == ''

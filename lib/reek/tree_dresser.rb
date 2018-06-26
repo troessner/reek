@@ -31,14 +31,14 @@ module Reek
     # time the nodes will contain type-dependent mixins, e.g. this:
     #   (const nil :Klazz)
     #  will be of type Reek::AST::Node with  Reek::AST::SexpExtensions::ConstNode mixed in.
-    # @param sexp [Parser::AST::Node] - the given sexp
-    # @param comment_map [Hash] - see the documentation for SourceCode#syntax_tree
-    # @param parent [Parser::AST::Node] - the parent sexp
+    #
+    # @param sexp [Parser::AST::Node] the given sexp
+    # @param comment_map [Hash] see the documentation for SourceCode#syntax_tree
     #
     # @return an instance of Reek::AST::Node with type-dependent sexp extensions mixed in.
     #
-    # :reek:FeatureEnvy
-    # :reek:TooManyStatements { max_statements: 6 }
+    # @quality :reek:FeatureEnvy
+    # @quality :reek:TooManyStatements { max_statements: 6 }
     def dress(sexp, comment_map)
       return sexp unless sexp.is_a? ::Parser::AST::Node
       type = sexp.type

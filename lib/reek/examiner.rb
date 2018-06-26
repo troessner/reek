@@ -11,7 +11,7 @@ module Reek
   # Applies all available smell detectors to a source.
   #
   # @public
-  # :reek:TooManyInstanceVariables { max_instance_variables: 5 }
+  # @quality :reek:TooManyInstanceVariables { max_instance_variables: 5 }
   class Examiner
     # Handles no errors
     class NullHandler
@@ -97,7 +97,7 @@ module Reek
       []
     end
 
-    # :reek:TooManyStatements { max_statements: 6 }
+    # @quality :reek:TooManyStatements { max_statements: 6 }
     def wrap_exceptions
       yield
     rescue Errors::BaseError

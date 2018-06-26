@@ -100,7 +100,7 @@ module Reek
       end.uniq
     end
 
-    # :reek:UtilityFunction
+    # @quality :reek:UtilityFunction
     def common_argument_names_for(methods)
       methods.map(&:arg_names).inject(:&)
     end

@@ -84,7 +84,7 @@ module Reek
     #
     # @public
     #
-    # :reek:UtilityFunction
+    # @quality :reek:UtilityFunction
     def reek_of(smell_type,
                 smell_details = {},
                 configuration = Configuration::AppConfiguration.default)
@@ -103,7 +103,7 @@ module Reek
     #
     # @public
     #
-    # :reek:UtilityFunction
+    # @quality :reek:UtilityFunction
     def reek_only_of(smell_type, configuration = Configuration::AppConfiguration.default)
       ShouldReekOnlyOf.new(smell_type, configuration)
     end
@@ -113,7 +113,7 @@ module Reek
     #
     # @public
     #
-    # :reek:UtilityFunction
+    # @quality :reek:UtilityFunction
     def reek(configuration = Configuration::AppConfiguration.from_default_path)
       ShouldReek.new(configuration: configuration)
     end

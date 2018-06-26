@@ -28,9 +28,9 @@ module Reek
     attr_reader :config
 
     #
-    # @param comment [String] - the original comment as found in the source code
-    # @param line [Integer] - start of the expression the comment belongs to
-    # @param source [String] - Path to source file or "string"
+    # @param comment [String] the original comment as found in the source code
+    # @param line [Integer] start of the expression the comment belongs to
+    # @param source [String] Path to source file or "string"
     #
     def initialize(comment:, line: nil, source: nil)
       @original_comment  = comment
@@ -78,15 +78,15 @@ module Reek
     # This class validates [1], [2] and [3] at the moment but will also validate
     # [4] in the future.
     #
-    # :reek:TooManyInstanceVariables { max_instance_variables: 7 }
+    # @quality :reek:TooManyInstanceVariables { max_instance_variables: 7 }
     class CodeCommentValidator
       #
-      # @param detector_name [String] - the detector class that was parsed out of the original
+      # @param detector_name [String] the detector class that was parsed out of the original
       #   comment, e.g. "DuplicateMethodCall" or "UnknownSmellDetector"
-      # @param original_comment [String] - the original comment as found in the source code
-      # @param line [Integer] - start of the expression the comment belongs to
-      # @param source [String] - path to source file or "string"
-      # @param options [String] - the configuration options as String for the detector that were
+      # @param original_comment [String] the original comment as found in the source code
+      # @param line [Integer] start of the expression the comment belongs to
+      # @param source [String] path to source file or "string"
+      # @param options [String] the configuration options as String for the detector that were
       #   extracted from the original comment
       def initialize(detector_name:, original_comment:, line:, source:, options: {})
         @detector_name    = detector_name
@@ -149,24 +149,24 @@ module Reek
                                                                  line: line
       end
 
-      # @return [Boolean] - all keys in code comment are applicable to the detector in question
+      # @return [Boolean] all keys in code comment are applicable to the detector in question
       def given_keys_legit?
         given_configuration_keys.subset? valid_detector_keys
       end
 
-      # @return [Set] - the configuration keys that are found in the code comment
+      # @return [Set] the configuration keys that are found in the code comment
       def given_configuration_keys
         parsed_options.keys.map(&:to_sym).to_set
       end
 
-      # @return [String] - all keys from the code comment that look bad
+      # @return [String] all keys from the code comment that look bad
       def configuration_keys_difference
         given_configuration_keys.difference(valid_detector_keys).
           to_a.map { |key| "'#{key}'" }.
           join(', ')
       end
 
-      # @return [Set] - all keys that are legit for the given detector
+      # @return [Set] all keys that are legit for the given detector
       def valid_detector_keys
         detector_class.configuration_keys
       end

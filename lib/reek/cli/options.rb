@@ -14,9 +14,9 @@ module Reek
     #
     # See {file:docs/Command-Line-Options.md} for details.
     #
-    # :reek:TooManyInstanceVariables { max_instance_variables: 12 }
-    # :reek:TooManyMethods { max_methods: 18 }
-    # :reek:Attribute { enabled: false }
+    # @quality :reek:TooManyInstanceVariables { max_instance_variables: 12 }
+    # @quality :reek:TooManyMethods { max_methods: 18 }
+    # @quality :reek:Attribute { enabled: false }
     #
     class Options
       attr_reader :argv, :parser, :smells_to_detect
@@ -67,12 +67,12 @@ module Reek
       # processing by a machine, but will be viewed by a human. This means
       # features like coloring can be safely enabled by default.
       #
-      # :reek:UtilityFunction
+      # @quality :reek:UtilityFunction
       def tty_output?
         $stdout.tty?
       end
 
-      # :reek:TooManyStatements { max_statements: 7 }
+      # @quality :reek:TooManyStatements { max_statements: 7 }
       def set_up_parser
         set_banner
         set_configuration_options
@@ -99,7 +99,7 @@ module Reek
         BANNER
       end
 
-      # :reek:TooManyStatements { max_statements: 7 }
+      # @quality :reek:TooManyStatements { max_statements: 7 }
       def set_configuration_options
         parser.separator 'Configuration:'
         parser.on('-c', '--config FILE', 'Read configuration options from FILE') do |file|
@@ -136,7 +136,7 @@ module Reek
         end
       end
 
-      # :reek:TooManyStatements { max_statements: 7 }
+      # @quality :reek:TooManyStatements { max_statements: 7 }
       def set_report_formatting_options
         parser.separator "\nText format options:"
         set_up_color_option
@@ -199,7 +199,7 @@ module Reek
         end
       end
 
-      # :reek:DuplicateMethodCall { max_calls: 2 }
+      # @quality :reek:DuplicateMethodCall { max_calls: 2 }
       def set_exit_codes
         parser.separator "\nExit codes:"
         parser.on('--success-exit-code CODE',
@@ -214,7 +214,7 @@ module Reek
         end
       end
 
-      # :reek:TooManyStatements { max_statements: 12 }
+      # @quality :reek:TooManyStatements { max_statements: 12 }
       def set_utility_options
         parser.separator "\nUtility options:"
         parser.on_tail('-h', '--help', 'Show this message') do

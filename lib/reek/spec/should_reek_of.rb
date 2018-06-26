@@ -82,7 +82,7 @@ module Reek
           "#{smell_type} with smell details #{smell_details}, but it did"
       end
 
-      # :reek:FeatureEnvy
+      # @quality :reek:FeatureEnvy
       def all_relevant_smell_details_formatted
         matching_smell_types.each_with_object([]).with_index do |(smell, accumulator), index|
           accumulator << "#{index + 1}.)\n"

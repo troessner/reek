@@ -70,8 +70,8 @@ module Reek
         each_node(target_type).any?
       end
 
-      # :reek:DuplicateMethodCall { max_calls: 2 } is ok for lines.first
-      # :reek:FeatureEnvy
+      # @quality :reek:DuplicateMethodCall { max_calls: 2 } is ok for lines.first
+      # @quality :reek:FeatureEnvy
       def format_to_ruby
         if location
           lines = location.expression.source.split("\n").map(&:strip)

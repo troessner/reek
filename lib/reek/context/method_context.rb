@@ -7,7 +7,7 @@ module Reek
     #
     # A context wrapper for any method definition found in a syntax tree.
     #
-    # :reek:Attribute
+    # @quality :reek:Attribute
     class MethodContext < CodeContext
       attr_accessor :visibility
       attr_reader :refs
@@ -35,7 +35,7 @@ module Reek
         local_nodes([:lvar, :lvasgn]).find { |node| node.var_name == param.name }
       end
 
-      # :reek:FeatureEnvy
+      # @quality :reek:FeatureEnvy
       def unused_params
         exp.arguments.reject do |param|
           param.anonymous_splat? ||
