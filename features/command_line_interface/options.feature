@@ -106,7 +106,6 @@ Feature: Reek can be controlled using command-line options
       NilCheck
       RepeatedConditional
       SubclassedFromCoreClass
-      Syntax
       TooManyConstants
       TooManyInstanceVariables
       TooManyMethods

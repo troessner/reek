@@ -34,13 +34,8 @@ Feature: Reek reads from $stdin when no files are given
 
   Scenario: syntax error causes the source to be ignored
     When I pass "= invalid syntax =" to reek
-    Then the exit status indicates smells
-    And it reports:
-      """
-      STDIN -- 2 warnings:
-        [2]:Syntax: This file has unexpected token $end
-        [1]:Syntax: This file has unexpected token tEQL
-      """
+    Then it succeeds
+    And it reports the error "Parser::SyntaxError: unexpected token tEQL"
 
   Scenario: providing a filename to use for the config to match against
     Given a file named "web_app/config.reek" with:
@@ -68,6 +63,3 @@ Feature: Reek reads from $stdin when no files are given
       """
     Then it succeeds
     And it reports nothing
-
-
-

@@ -14,14 +14,14 @@ RSpec.describe Reek::Source::SourceCode do
     it 'cleanly processes empty source' do
       source_code = described_class.new(source: '', origin: '(string)')
       result = source_code.syntax_tree
-      expect(result).to be_nil
+      expect(result.type).to eq :empty
     end
 
     it 'cleanly processes empty source with comments' do
       source = "# this is\n# a comment\n"
       source_code = described_class.new(source: source, origin: '(string)')
       result = source_code.syntax_tree
-      expect(result).to be_nil
+      expect(result.type).to eq :empty
     end
 
     it 'does not crash with sequences incompatible with UTF-8' do
@@ -37,31 +37,25 @@ RSpec.describe Reek::Source::SourceCode do
       result = source_code.syntax_tree
       expect(result.children.first.type).to eq :lambda
     end
-  end
 
-  context 'when the parser fails' do
-    let(:source_name) { 'Test source' }
-    let(:src) { described_class.new(source: code, origin: source_name, **options) }
-
-    context 'with a Parser::SyntaxError' do
+    context 'when the parser fails with a Parser::SyntaxError' do
+      let(:src) { described_class.new(source: code) }
       let(:code) { '== Invalid Syntax ==' }
-      let(:options) { {} }
 
-      it 'adds a diagnostic' do
-        expect(src.diagnostics.size).to eq 2
+      it 'raises the error' do
+        expect { src.syntax_tree }.to raise_error Parser::SyntaxError
       end
     end
 
-    context 'with a generic error' do
+    context 'when the parser fails with a generic error' do
       let(:code) { '' }
+      let(:parser) { instance_double('Parser::Ruby25') }
+      let(:src) { described_class.new(source: code, parser: parser) }
       let(:error_class) { RuntimeError }
       let(:error_message) { 'An error' }
-      let(:options) do
-        parser = instance_double('Parser::Ruby25')
+
+      before do
         allow(parser).to receive(:parse_with_comments).and_raise(error_class, error_message)
-        {
-          parser: parser
-        }
       end
 
       it 'raises the error' do
