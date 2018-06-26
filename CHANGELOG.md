@@ -1,5 +1,10 @@
 # Change log
 
+## 4.8.2 (2018-06-26)
+
+* (mvz) Only report FeatureEnvy for instance methods
+* (mvz) Generate versioned documentation links
+
 ## 4.8.1 (2018-04-12)
 
 * (mvz) Loosen dependency on rainbow
