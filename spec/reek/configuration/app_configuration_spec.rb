@@ -22,7 +22,8 @@ RSpec.describe Reek::Configuration::AppConfiguration do
     end
 
     let(:default_directive_value) do
-      { 'IrresponsibleModule' => { 'enabled' => false } }
+      { described_class::DETECTORS_KEY =>
+        { 'IrresponsibleModule' => { 'enabled' => false } } }
     end
 
     let(:directory_directives_value) do
@@ -105,8 +106,10 @@ RSpec.describe Reek::Configuration::AppConfiguration do
         {
           described_class::DIRECTORIES_KEY =>
             { directory => { TooManyStatements: { max_statements: 8 } } },
-          :IrresponsibleModule => { enabled: false },
-          :TooManyStatements => { max_statements: 15 }
+          described_class::DETECTORS_KEY => {
+            IrresponsibleModule: { enabled: false },
+            TooManyStatements: { max_statements: 15 }
+          }
         }
       end
 
@@ -125,7 +128,9 @@ RSpec.describe Reek::Configuration::AppConfiguration do
 
       let(:configuration_as_hash) do
         {
-          :IrresponsibleModule => { enabled: false },
+          described_class::DETECTORS_KEY => {
+            IrresponsibleModule: { enabled: false }
+          },
           described_class::DIRECTORIES_KEY =>
             { 'spec/samples/two_smelly_files' => { Attribute: { enabled: false } } }
         }

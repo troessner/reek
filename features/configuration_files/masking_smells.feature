@@ -77,8 +77,9 @@ Feature: Masking smells using config files
     And a file named "non_public_modifiers_mask.reek.yml" with:
       """
       ---
-      UtilityFunction:
-        public_methods_only: true
+      detectors:
+        UtilityFunction:
+          public_methods_only: true
       """
     When I run reek -c non_public_modifiers_mask.reek.yml smelly_with_modifiers.rb
     Then the exit status indicates smells

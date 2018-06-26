@@ -1,5 +1,6 @@
 ---
-UncommunicativeMethodName:
-  enabled: false
-UncommunicativeVariableName:
-  enabled: false
+detectors:
+  UncommunicativeMethodName:
+    enabled: false
+  UncommunicativeVariableName:
+    enabled: false

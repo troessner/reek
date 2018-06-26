@@ -7,12 +7,13 @@ Feature: Unused Private Method detector
     Given a file named "config.reek" with:
       """
       ---
-      IrresponsibleModule:
-        enabled: false
-      UnusedPrivateMethod:
-        enabled: true
-        exclude:
-          - Outer::Awesome#foobar
+      detectors:
+        IrresponsibleModule:
+          enabled: false
+        UnusedPrivateMethod:
+          enabled: true
+          exclude:
+            - Outer::Awesome#foobar
       """
     And a file named "sample.rb" with:
       """
@@ -38,12 +39,13 @@ Feature: Unused Private Method detector
     Given a file named "config.reek" with:
       """
       ---
-      IrresponsibleModule:
-        enabled: false
-      UnusedPrivateMethod:
-        enabled: true
-        exclude:
-          - wesome#foo
+      detectors:
+        IrresponsibleModule:
+          enabled: false
+        UnusedPrivateMethod:
+          enabled: true
+          exclude:
+            - wesome#foo
       """
     And a file named "sample.rb" with:
       """

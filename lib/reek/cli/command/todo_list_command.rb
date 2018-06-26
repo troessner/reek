@@ -2,6 +2,7 @@
 
 require_relative 'base_command'
 require_relative '../../examiner'
+require_relative '../../configuration/app_configuration'
 
 module Reek
   module CLI
@@ -18,7 +19,8 @@ module Reek
             puts "\n'.todo.reek' not generated because "\
                     'there were no smells found!'
           else
-            File.write FILE_NAME, groups.to_yaml
+            File.write FILE_NAME,
+                       { Configuration::AppConfiguration::DETECTORS_KEY => groups }.to_yaml
             puts "\n'.todo.reek' generated! You can now use "\
                     'this as a starting point for your configuration.'
           end

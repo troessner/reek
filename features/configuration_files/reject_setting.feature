@@ -7,20 +7,21 @@ Feature: `reject` configuration setting
     Given a file named "config.reek" with:
       """
       ---
-      UncommunicativeMethodName:
-        reject:
-          - awesome_helper
-          - little_helper
-      UncommunicativeParameterName:
-        reject:
-          - solid_argument
-          - nifty_argument
-      UncommunicativeModuleName:
-        reject:
-          - Dummy
-      UncommunicativeVariableName:
-        reject:
-          - fine_name
+      detectors:
+        UncommunicativeMethodName:
+          reject:
+            - awesome_helper
+            - little_helper
+        UncommunicativeParameterName:
+          reject:
+            - solid_argument
+            - nifty_argument
+        UncommunicativeModuleName:
+          reject:
+            - Dummy
+        UncommunicativeVariableName:
+          reject:
+            - fine_name
       """
     And a file named "smelly.rb" with:
       """
@@ -52,18 +53,19 @@ Feature: `reject` configuration setting
     Given a file named "config.reek" with:
       """
       ---
-      UncommunicativeMethodName:
-        accept:
-          - /oobar/
-      UncommunicativeParameterName:
-        accept:
-          - /ola/
-      UncommunicativeModuleName:
-        accept:
-          - /lassy/
-      UncommunicativeVariableName:
-        reject:
-          - /^fine_name/
+      detectors:
+        UncommunicativeMethodName:
+          accept:
+            - /oobar/
+        UncommunicativeParameterName:
+          accept:
+            - /ola/
+        UncommunicativeModuleName:
+          accept:
+            - /lassy/
+        UncommunicativeVariableName:
+          reject:
+            - /^fine_name/
       """
     And a file named "smelly.rb" with:
       """

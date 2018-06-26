@@ -7,13 +7,14 @@ Feature: Exclude directives
     Given a file named "config.reek" with:
       """
       ---
-      UncommunicativeMethodName:
-        exclude:
-          - "Smelly#x"
-      UnusedPrivateMethod:
-        enabled: true
-        exclude:
-          - "Smelly#foobar"
+      detectors:
+        UncommunicativeMethodName:
+          exclude:
+            - "Smelly#x"
+        UnusedPrivateMethod:
+          enabled: true
+          exclude:
+            - "Smelly#foobar"
       """
     And a file named "smelly.rb" with:
       """

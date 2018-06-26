@@ -1,3 +1,4 @@
 ---
-UncommunicativeMethodName:
-  enabled: false
+detectors:
+  UncommunicativeMethodName:
+    enabled: false

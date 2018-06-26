@@ -29,13 +29,14 @@ Feature: Auto-generate a todo file
     And the file ".todo.reek" should contain:
       """
       ---
-      UncommunicativeMethodName:
-        exclude:
-        - Smelly#x
-      UncommunicativeVariableName:
-        exclude:
-        - Smelly#x
-        """
+      detectors:
+        UncommunicativeMethodName:
+          exclude:
+          - Smelly#x
+        UncommunicativeVariableName:
+          exclude:
+          - Smelly#x
+      """
     When I run reek -c .todo.reek smelly.rb
     Then it succeeds
 
@@ -54,10 +55,11 @@ Feature: Auto-generate a todo file
     And a file named ".todo.reek" with:
       """
       ---
-      # smelly.rb reeks of UncommunicativeMethodName and UncommunicativeVariableName
-      # so the configuration below will partially mask this
-      UncommunicativeMethodName:
-        enabled: false
+      detectors:
+        # smelly.rb reeks of UncommunicativeMethodName and UncommunicativeVariableName
+        # so the configuration below will partially mask this
+        UncommunicativeMethodName:
+          enabled: false
       """
     When I run reek -c .todo.reek smelly.rb
     Then it reports:
@@ -77,8 +79,9 @@ Feature: Auto-generate a todo file
       ---
       # smelly.rb reeks of UncommunicativeMethodName and UncommunicativeVariableName
       # so the configuration below will partially mask this
-      UncommunicativeMethodName:
-        enabled: false
+      detectors:
+        UncommunicativeMethodName:
+          enabled: false
       """
     When I run reek -c config.reek smelly.rb
     Then it reports:

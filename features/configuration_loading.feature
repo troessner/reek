@@ -33,10 +33,11 @@ Feature: Offer different ways how to load configuration
     And a file named ".reek.yml" with:
       """
       ---
-      UncommunicativeMethodName:
-        enabled: false
-      UncommunicativeVariableName:
-        enabled: false
+      detectors:
+        UncommunicativeMethodName:
+          enabled: false
+        UncommunicativeVariableName:
+          enabled: false
       """
     When I run reek smelly.rb
     Then it reports no errors
@@ -47,8 +48,9 @@ Feature: Offer different ways how to load configuration
     And a file named "config.reek" with:
       """
       ---
-      UncommunicativeMethodName:
-        enabled: false
+      detectors:
+        UncommunicativeMethodName:
+          enabled: false
       """
     And a file named ".reek.yml" with:
       """
@@ -69,14 +71,16 @@ Feature: Offer different ways how to load configuration
     And a file named "config.reek" with:
       """
       ---
-      UncommunicativeMethodName:
-        enabled: false
+      detectors:
+        UncommunicativeMethodName:
+          enabled: false
       """
     And a file named ".reek.yml" with:
       """
       ---
-      UncommunicativeVariableName:
-        enabled: false
+      detectors:
+        UncommunicativeVariableName:
+          enabled: false
       """
     When I run reek smelly.rb
     Then the exit status indicates smells

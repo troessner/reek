@@ -1,6 +1,7 @@
 require_relative '../../../spec_helper'
 require_lib 'reek/cli/command/todo_list_command'
 require_lib 'reek/cli/options'
+require_lib 'reek/configuration/app_configuration'
 
 RSpec.describe Reek::CLI::Command::TodoListCommand do
   let(:nil_check) { build :smell_detector, smell_type: :NilCheck }
@@ -37,8 +38,9 @@ RSpec.describe Reek::CLI::Command::TodoListCommand do
       it 'writes a todo file with exclusions for each smell' do
         Reek::CLI::Silencer.silently { command.execute }
         expected_yaml = {
-          'UncommunicativeMethodName' => { 'exclude' => ['Smelly#x'] },
-          'UncommunicativeVariableName' => { 'exclude' => ['Smelly#x'] }
+          Reek::Configuration::AppConfiguration::DETECTORS_KEY =>
+          { 'UncommunicativeMethodName' => { 'exclude' => ['Smelly#x'] },
+            'UncommunicativeVariableName' => { 'exclude' => ['Smelly#x'] } }
         }.to_yaml
         expect(File).to have_received(:write).with(described_class::FILE_NAME, expected_yaml)
       end

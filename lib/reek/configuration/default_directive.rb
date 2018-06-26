@@ -10,9 +10,22 @@ module Reek
     module DefaultDirective
       include ConfigurationValidator
 
-      def add(key, config)
-        detector = key_to_smell_detector(key)
-        self[detector] = (self[detector] || {}).merge config
+      # Adds the configuration for detectors as default directive.
+      #
+      # @param detectors_configuration [Hash] the configuration e.g.:
+      #   {
+      #    :IrresponsibleModule => {:enabled=>false},
+      #    :Attribute => {:enabled=>true}
+      #   }
+      #
+      # @return [self]
+      def add(detectors_configuration)
+        detectors_configuration.each do |name, configuration|
+          next unless smell_type?(name)
+          detector = key_to_smell_detector(name)
+          self[detector] = (self[detector] || {}).merge configuration
+        end
+        self
       end
     end
   end
