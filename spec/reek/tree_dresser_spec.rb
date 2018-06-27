@@ -1,6 +1,5 @@
-require 'parser/ruby25'
-
 require_relative '../spec_helper'
+Reek::CLI::Silencer.without_warnings { require 'parser/ruby25' }
 require_lib 'reek/tree_dresser'
 
 RSpec.describe Reek::TreeDresser do

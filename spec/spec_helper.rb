@@ -9,7 +9,7 @@ require_relative '../lib/reek/configuration/app_configuration'
 require_relative '../samples/paths'
 
 begin
-  require 'pry-byebug'
+  Reek::CLI::Silencer.without_warnings { require 'pry-byebug' }
 rescue LoadError # rubocop:disable Lint/HandleExceptions
 end
 

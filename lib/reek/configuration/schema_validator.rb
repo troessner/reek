@@ -2,7 +2,7 @@
 
 require 'yaml'
 require_relative '../cli/silencer'
-Reek::CLI::Silencer.silently { require 'kwalify' }
+Reek::CLI::Silencer.without_warnings { require 'kwalify' }
 require_relative '../errors/config_file_error'
 
 module Reek
@@ -15,14 +15,14 @@ module Reek
 
       def initialize(configuration)
         @configuration = configuration
-        @validator = CLI::Silencer.silently do
+        @validator = CLI::Silencer.without_warnings do
           schema_file = Kwalify::Yaml.load_file(SCHEMA_FILE_PATH)
           Kwalify::Validator.new(schema_file)
         end
       end
 
       def validate
-        errors = CLI::Silencer.silently { @validator.validate @configuration }
+        errors = CLI::Silencer.without_warnings { @validator.validate @configuration }
         return if !errors || errors.empty?
         raise Errors::ConfigFileError, error_message(errors)
       end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative '../cli/silencer'
-require 'parser/ruby25'
+Reek::CLI::Silencer.without_warnings { require 'parser/ruby25' }
 require_relative '../tree_dresser'
 require_relative '../ast/node'
 require_relative '../ast/builder'
