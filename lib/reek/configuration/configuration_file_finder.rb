@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'pathname'
-require_relative './converter'
+require_relative './configuration_converter'
 require_relative './schema_validator'
 require_relative '../errors/config_file_error'
 
@@ -63,7 +63,7 @@ module Reek
           end
 
           SchemaValidator.new(configuration).validate
-          Converter.strings_to_regexes(configuration)
+          ConfigurationConverter.new(configuration).convert
         end
 
         private

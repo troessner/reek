@@ -69,7 +69,7 @@ Metrics/MethodLength:
 Metrics/AbcSize:
   Exclude:
     - 'lib/reek/cli/options.rb'
-    - 'lib/reek/configuration/converter.rb'
+    - 'lib/reek/configuration/configuration_converter.rb'
 
 # Be rather lenient with line length
 Metrics/LineLength:
@@ -127,6 +127,7 @@ RSpec/NestedGroups:
     - 'spec/reek/report/code_climate/code_climate_fingerprint_spec.rb'
     - 'spec/reek/cli/application_spec.rb'
     - 'spec/reek/configuration/schema_validator_spec.rb'
+    - 'spec/reek/configuration/configuration_file_finder_spec.rb'
 
 # rubocop-rspec expects a CodeClimate namespace to go with the code_climate directory.
 RSpec/FilePath:
