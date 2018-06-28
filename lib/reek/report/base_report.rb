@@ -54,7 +54,7 @@ module Reek
       end
 
       def smells?
-        total_smell_count > 0
+        total_smell_count.positive?
       end
 
       def smells

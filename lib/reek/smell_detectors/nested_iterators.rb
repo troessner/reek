@@ -20,12 +20,12 @@ module Reek
 
       # The name of the config field that sets the maximum depth
       # of nested iterators to be permitted within any single method.
-      MAX_ALLOWED_NESTING_KEY = 'max_allowed_nesting'.freeze
+      MAX_ALLOWED_NESTING_KEY = 'max_allowed_nesting'
       DEFAULT_MAX_ALLOWED_NESTING = 1
 
       # The name of the config field that sets the names of any
       # methods for which nesting should not be considered
-      IGNORE_ITERATORS_KEY = 'ignore_iterators'.freeze
+      IGNORE_ITERATORS_KEY = 'ignore_iterators'
       DEFAULT_IGNORE_ITERATORS = ['tap'].freeze
 
       def self.default_config

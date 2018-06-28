@@ -21,13 +21,13 @@ module Reek
     class DuplicateMethodCall < BaseDetector
       # The name of the config field that sets the maximum number of
       # identical calls to be permitted within any single method.
-      MAX_ALLOWED_CALLS_KEY = 'max_calls'.freeze
+      MAX_ALLOWED_CALLS_KEY = 'max_calls'
       DEFAULT_MAX_CALLS = 1
 
       # The name of the config field that sets the names of any
       # methods for which identical calls should be to be permitted
       # within any single method.
-      ALLOW_CALLS_KEY = 'allow_calls'.freeze
+      ALLOW_CALLS_KEY = 'allow_calls'
       DEFAULT_ALLOW_CALLS = [].freeze
 
       def self.default_config

@@ -15,9 +15,9 @@ module Reek
     # @public
     class AppConfiguration
       include ConfigurationValidator
-      EXCLUDE_PATHS_KEY = 'exclude_paths'.freeze
-      DIRECTORIES_KEY = 'directories'.freeze
-      DETECTORS_KEY = 'detectors'.freeze
+      EXCLUDE_PATHS_KEY = 'exclude_paths'
+      DIRECTORIES_KEY = 'directories'
+      DETECTORS_KEY = 'detectors'
 
       # Instantiate a configuration via the given path.
       #

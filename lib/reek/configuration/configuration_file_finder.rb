@@ -19,7 +19,7 @@ module Reek
     # The order in which ConfigurationFileFinder tries to find such a
     # configuration file is exactly like above.
     module ConfigurationFileFinder
-      DEFAULT_FILE_NAME = '.reek.yml'.freeze
+      DEFAULT_FILE_NAME = '.reek.yml'
 
       class << self
         include ConfigurationValidator

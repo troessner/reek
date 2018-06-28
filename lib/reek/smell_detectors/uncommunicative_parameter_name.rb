@@ -21,10 +21,10 @@ module Reek
     #
     # See {file:docs/Uncommunicative-Parameter-Name.md} for details.
     class UncommunicativeParameterName < BaseDetector
-      REJECT_KEY = 'reject'.freeze
+      REJECT_KEY = 'reject'
       DEFAULT_REJECT_PATTERNS = [/^.$/, /[0-9]$/, /[A-Z]/, /^_/].freeze
 
-      ACCEPT_KEY = 'accept'.freeze
+      ACCEPT_KEY = 'accept'
       DEFAULT_ACCEPT_PATTERNS = [].freeze
 
       def self.default_config

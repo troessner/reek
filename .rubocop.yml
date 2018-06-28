@@ -6,7 +6,7 @@ AllCops:
     - 'samples/**/*'
     - 'tmp/**/*'
     - 'vendor/**/*'
-  TargetRubyVersion: 2.2
+  TargetRubyVersion: 2.3
 
 # Place . on the previous line
 Layout/DotPosition:
@@ -59,6 +59,11 @@ Metrics/ClassLength:
   Exclude:
     - lib/reek/context_builder.rb
     - lib/reek/cli/options.rb
+
+Style/SafeNavigation:
+  Exclude:
+    - lib/reek/ast/node.rb
+    - lib/reek/ast/sexp_extensions/module.rb
 
 # FIXME: Lower the method length by fixing the biggest offenders
 Metrics/MethodLength:

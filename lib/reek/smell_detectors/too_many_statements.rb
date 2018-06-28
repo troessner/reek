@@ -13,7 +13,7 @@ module Reek
     class TooManyStatements < BaseDetector
       # The name of the config field that sets the maximum number of
       # statements permitted in any method.
-      MAX_ALLOWED_STATEMENTS_KEY = 'max_statements'.freeze
+      MAX_ALLOWED_STATEMENTS_KEY = 'max_statements'
       DEFAULT_MAX_STATEMENTS = 5
 
       def self.default_config

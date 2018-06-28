@@ -7,11 +7,11 @@ module Reek
   class SmellConfiguration
     # The name of the config field that specifies whether a smell is
     # enabled. Set to +true+ or +false+.
-    ENABLED_KEY = 'enabled'.freeze
+    ENABLED_KEY = 'enabled'
 
     # The name of the config field that sets scope-specific overrides
     # for other values in the current smell detector's configuration.
-    OVERRIDES_KEY = 'overrides'.freeze
+    OVERRIDES_KEY = 'overrides'
 
     def initialize(hash)
       @options = hash

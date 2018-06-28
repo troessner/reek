@@ -12,7 +12,7 @@ module Reek
       # file that can serve as a todo list.
       #
       class TodoListCommand < BaseCommand
-        FILE_NAME = '.todo.reek'.freeze
+        FILE_NAME = '.todo.reek'
 
         def execute
           if smells.empty?

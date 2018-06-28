@@ -6,9 +6,9 @@ module Reek
   module Errors
     # Gets raised when Reek is unable to process the source due to an EncodingError
     class EncodingError < BaseError
-      TEMPLATE = "Source '%<source>s' cannot be processed by Reek due to an encoding error in the source file.".freeze
+      TEMPLATE = "Source '%<source>s' cannot be processed by Reek due to an encoding error in the source file."
 
-      LONG_TEMPLATE = <<-MESSAGE.freeze
+      LONG_TEMPLATE = <<-MESSAGE
         !!!
         %<message>s
 

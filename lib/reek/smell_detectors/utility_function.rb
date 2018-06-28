@@ -38,7 +38,7 @@ module Reek
     #
     # See {file:docs/Utility-Function.md} for details.
     class UtilityFunction < BaseDetector
-      PUBLIC_METHODS_ONLY_KEY     = 'public_methods_only'.freeze
+      PUBLIC_METHODS_ONLY_KEY     = 'public_methods_only'
       PUBLIC_METHODS_ONLY_DEFAULT = false
 
       def self.default_config

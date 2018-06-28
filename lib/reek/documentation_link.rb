@@ -3,7 +3,7 @@
 module Reek
   # Generate versioned links to our documentation
   module DocumentationLink
-    HELP_LINK_TEMPLATE = 'https://github.com/troessner/reek/blob/v%<version>s/docs/%<item>s.md'.freeze
+    HELP_LINK_TEMPLATE = 'https://github.com/troessner/reek/blob/v%<version>s/docs/%<item>s.md'
 
     module_function
 

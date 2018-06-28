@@ -15,8 +15,8 @@ module Reek
     # A +SourceCode+ object represents a chunk of Ruby source code.
     #
     class SourceCode
-      IO_IDENTIFIER     = 'STDIN'.freeze
-      STRING_IDENTIFIER = 'string'.freeze
+      IO_IDENTIFIER     = 'STDIN'
+      STRING_IDENTIFIER = 'string'
 
       # Initializer.
       #

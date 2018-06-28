@@ -22,7 +22,7 @@ module Reek
       # The name of the config field that lists the names of code contexts
       # that should not be checked. Add this field to the config for each
       # smell that should ignore this code element.
-      EXCLUDE_KEY = 'exclude'.freeze
+      EXCLUDE_KEY = 'exclude'
 
       # The default value for the +EXCLUDE_KEY+ if it isn't specified
       # in any configuration file.

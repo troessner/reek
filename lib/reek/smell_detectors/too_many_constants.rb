@@ -15,7 +15,7 @@ module Reek
     class TooManyConstants < BaseDetector
       # The name of the config field that sets the maximum number
       # of constants permitted in a class.
-      MAX_ALLOWED_CONSTANTS_KEY = 'max_constants'.freeze
+      MAX_ALLOWED_CONSTANTS_KEY = 'max_constants'
       DEFAULT_MAX_CONSTANTS = 5
       IGNORED_NODES = [:module, :class].freeze
 

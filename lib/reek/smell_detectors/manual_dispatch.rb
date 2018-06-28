@@ -12,7 +12,7 @@ module Reek
     #
     # See {file:docs/Manual-Dispatch.md} for details.
     class ManualDispatch < BaseDetector
-      MESSAGE = 'manually dispatches method call'.freeze
+      MESSAGE = 'manually dispatches method call'
 
       #
       # Checks for +respond_to?+ usage within the given method
