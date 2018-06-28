@@ -7,7 +7,10 @@ Feature: Masking smells using config files
     Given the smelly file 'smelly.rb'
     And a configuration file 'corrupt.reek'
     When I run reek -c corrupt.reek smelly.rb
-    Then it reports the error 'Error: Invalid configuration file "corrupt.reek" -- Not a hash'
+    And stderr reports:
+    """
+    Error: We found some problems with your configuration file: [/] 'Not a valid configuration file': not a mapping.
+    """
     And the exit status indicates an error
     And it reports nothing
 

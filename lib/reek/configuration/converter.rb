@@ -26,7 +26,6 @@ module Reek
           return configuration unless configuration[AppConfiguration::DETECTORS_KEY]
           detector_configuration = configuration[AppConfiguration::DETECTORS_KEY]
           detector_configuration.keys.
-            select { |key| smell_type?(key) }.
             each do |detector|
               (detector_configuration[detector].keys & REGEXABLE_ATTRIBUTES).each do |attribute|
                 detector_configuration[detector][attribute] = detector_configuration[detector][attribute].map do |item|
