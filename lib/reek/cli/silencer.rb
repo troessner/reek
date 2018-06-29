@@ -23,6 +23,14 @@ module Reek
         $stderr = old_stderr
         $stdout = old_stdout
       end
+
+      def without_warnings
+        old_verbose = $VERBOSE
+        $VERBOSE = false
+        yield
+      ensure
+        $VERBOSE = old_verbose
+      end
     end
   end
 end
