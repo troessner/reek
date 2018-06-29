@@ -23,7 +23,7 @@ Reek currently includes checks for the following smells:
   * [Utility Function](Utility-Function.md)
 * [Module Initialize](Module-Initialize.md)
 * [Nested Iterators](Nested-Iterators.md)
-* [Prima-Donna-Method](Prima-Donna-Method.md)
+* [Missing Safe Method](Missing-Safe-Method.md), formerly known as Prima Donna Method
 * [Simulated Polymorphism](Simulated-Polymorphism.md), including
   * [Manual Dispatch](Manual-Dispatch.md)
   * [Nil Check](Nil-Check.md)

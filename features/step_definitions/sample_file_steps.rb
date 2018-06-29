@@ -38,7 +38,7 @@ Given(/^a configuration file '(.+)'$/) do |filename|
 end
 
 Given(/^our default configuration file$/) do
-  default_configuration = File.read SAMPLES_DIR.join('..').join('docs').join('defaults.reek')
+  default_configuration = File.read SAMPLES_DIR.join('..').join('docs').join('defaults.reek.yml')
   write_file('defaults.reek', default_configuration)
 end
 

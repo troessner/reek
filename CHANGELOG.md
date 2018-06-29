@@ -1,5 +1,38 @@
 # Change log
 
+## 5.0.0 (2018-06-18)
+
+*Breaking changes:* 
+
+* (David Fisher) Change PrimaDonnaMethod to MissingSafeMethod
+* (mvz) Always include documentation in JSON and YAML
+* (mvz) Remove Syntax smell detector
+* (mvz) Remove deprecated Examiner#description (in favor of Examiner#origin)
+* (mvz) Allow only detector names in configuration hash
+* (mvz) Do not accept a class as parameter for reek_of
+* (mvz) Allow only .reek.yml instead of any file name ending in .reek
+* (troessner) Validate our configuration by using a schema
+* (troessner) Scope detectors in the configuration under `detectors`
+* (troessner) Move directory directives under a special key
+* (troessner) Use strings not regexes in our configuration file
+* (troessner) Replace `wiki-links` flag with `documentation` flag
+* (troessner) Add yml extension to Reeks configuration file
+* (troessner) Drop legacy code comment separator
+* (troessner) Drop Ruby 2.2 support
+* (troessner) Drop Ruby 2.1 support
+
+*Non breaking changes:*
+
+* (Paul Sadauskas) Add support for --stdin-filename
+* (mvz) Generate versioned documentation links
+* (mvz) Bugfix: Only report FeatureEnvy for instance methods
+* (troessner) List all smells
+
+## 4.8.2 (2018-06-26)
+
+* (mvz) Only report FeatureEnvy for instance methods
+* (mvz) Generate versioned documentation links
+
 ## 4.8.1 (2018-04-12)
 
 * (mvz) Loosen dependency on rainbow
