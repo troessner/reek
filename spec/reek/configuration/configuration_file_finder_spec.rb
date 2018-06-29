@@ -111,43 +111,96 @@ RSpec.describe Reek::Configuration::ConfigurationFileFinder do
     end
 
     context 'with exclude, accept and reject settings' do
-      let(:configuration) do
-        described_class.load_from_file(CONFIGURATION_DIR.join('accepts_rejects_and_excludes.reek.yml')).
-          fetch(Reek::Configuration::AppConfiguration::DETECTORS_KEY)
+      context 'when configuring top level detectors' do
+        let(:configuration) do
+          described_class.
+            load_from_file(CONFIGURATION_DIR.join('accepts_rejects_and_excludes_for_detectors.reek.yml')).
+            fetch(Reek::Configuration::AppConfiguration::DETECTORS_KEY)
+        end
+
+        let(:expected) do
+          {
+            'UnusedPrivateMethod' => { 'exclude' => [/exclude regexp/] },
+            'UncommunicativeMethodName' => { 'reject' => ['reject name'],
+                                             'accept' => ['accept name'] },
+            'UncommunicativeModuleName' => { 'reject' => ['reject name 1', 'reject name 2'],
+                                             'accept' => ['accept name 1', 'accept name 2'] },
+            'UncommunicativeParameterName' => { 'reject' => ['reject name', /reject regexp/],
+                                                'accept' => ['accept name', /accept regexp/] },
+            'UncommunicativeVariableName' => { 'reject' => [/^reject regexp$/],
+                                               'accept' => [/accept(.*)regexp/] }
+          }
+        end
+
+        it 'converts marked strings to regexes' do
+          expect(configuration['UnusedPrivateMethod']).to eq(expected['UnusedPrivateMethod'])
+        end
+
+        it 'leaves regular single strings untouched' do
+          expect(configuration['UncommunicativeMethodName']).to eq(expected['UncommunicativeMethodName'])
+        end
+
+        it 'leaves regular multiple strings untouched' do
+          expect(configuration['UncommunicativeModuleName']).to eq(expected['UncommunicativeModuleName'])
+        end
+
+        it 'allows mixing of regular strings and marked strings' do
+          expect(configuration['UncommunicativeParameterName']).to eq(expected['UncommunicativeParameterName'])
+        end
+
+        it 'converts more complex marked strings correctly to regexes' do
+          expect(configuration['UncommunicativeVariableName']).to eq(expected['UncommunicativeVariableName'])
+        end
       end
 
-      let(:expected) do
-        {
-          'UnusedPrivateMethod' => { 'exclude' => [/exclude regexp/] },
-          'UncommunicativeMethodName' => { 'reject' => ['reject name'],
-                                           'accept' => ['accept name'] },
-          'UncommunicativeModuleName' => { 'reject' => ['reject name 1', 'reject name 2'],
-                                           'accept' => ['accept name 1', 'accept name 2'] },
-          'UncommunicativeParameterName' => { 'reject' => ['reject name', /reject regexp/],
-                                              'accept' => ['accept name', /accept regexp/] },
-          'UncommunicativeVariableName' => { 'reject' => [/^reject regexp$/],
-                                             'accept' => [/accept(.*)regexp/] }
-        }
-      end
+      context 'when configuring directory directives' do
+        let(:directory_name) { 'app/controllers' }
+        let(:configuration) do
+          described_class.
+            load_from_file(CONFIGURATION_DIR.join('accepts_rejects_and_excludes_for_directory_directives.reek.yml')).
+            fetch(Reek::Configuration::AppConfiguration::DIRECTORIES_KEY)
+        end
 
-      it 'converts marked strings to regexes' do
-        expect(configuration['UnusedPrivateMethod']).to eq(expected['UnusedPrivateMethod'])
-      end
+        let(:expected) do
+          {
+            directory_name => {
+              'UnusedPrivateMethod' => { 'exclude' => [/exclude regexp/] },
+              'UncommunicativeMethodName' => { 'reject' => ['reject name'],
+                                               'accept' => ['accept name'] },
+              'UncommunicativeModuleName' => { 'reject' => ['reject name 1', 'reject name 2'],
+                                               'accept' => ['accept name 1', 'accept name 2'] },
+              'UncommunicativeParameterName' => { 'reject' => ['reject name', /reject regexp/],
+                                                  'accept' => ['accept name', /accept regexp/] },
+              'UncommunicativeVariableName' => { 'reject' => [/^reject regexp$/],
+                                                 'accept' => [/accept(.*)regexp/] }
+            }
+          }
+        end
 
-      it 'leaves regular single strings untouched' do
-        expect(configuration['UncommunicativeMethodName']).to eq(expected['UncommunicativeMethodName'])
-      end
+        it 'converts marked strings to regexes' do
+          expect(configuration[directory_name]['UnusedPrivateMethod']).
+            to eq(expected[directory_name]['UnusedPrivateMethod'])
+        end
 
-      it 'leaves regular multiple strings untouched' do
-        expect(configuration['UncommunicativeModuleName']).to eq(expected['UncommunicativeModuleName'])
-      end
+        it 'leaves regular single strings untouched' do
+          expect(configuration[directory_name]['UncommunicativeMethodName']).
+            to eq(expected[directory_name]['UncommunicativeMethodName'])
+        end
 
-      it 'allows mixing of regular strings and marked strings' do
-        expect(configuration['UncommunicativeParameterName']).to eq(expected['UncommunicativeParameterName'])
-      end
+        it 'leaves regular multiple strings untouched' do
+          expect(configuration[directory_name]['UncommunicativeModuleName']).
+            to eq(expected[directory_name]['UncommunicativeModuleName'])
+        end
 
-      it 'converts more complex marked strings correctly to regexes' do
-        expect(configuration['UncommunicativeVariableName']).to eq(expected['UncommunicativeVariableName'])
+        it 'allows mixing of regular strings and marked strings' do
+          expect(configuration[directory_name]['UncommunicativeParameterName']).
+            to eq(expected[directory_name]['UncommunicativeParameterName'])
+        end
+
+        it 'converts more complex marked strings correctly to regexes' do
+          expect(configuration[directory_name]['UncommunicativeVariableName']).
+            to eq(expected[directory_name]['UncommunicativeVariableName'])
+        end
       end
     end
 
