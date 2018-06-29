@@ -57,7 +57,7 @@ module Reek
         end
 
         def depends_on_instance?
-          ReferenceCollector.new(self).num_refs_to_self > 0
+          ReferenceCollector.new(self).num_refs_to_self.positive?
         end
       end
 

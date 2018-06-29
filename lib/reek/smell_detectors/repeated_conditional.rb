@@ -28,7 +28,7 @@ module Reek
     class RepeatedConditional < BaseDetector
       # The name of the config field that sets the maximum number of
       # identical conditionals permitted within any single class.
-      MAX_IDENTICAL_IFS_KEY = 'max_ifs'.freeze
+      MAX_IDENTICAL_IFS_KEY = 'max_ifs'
       DEFAULT_MAX_IFS = 2
 
       BLOCK_GIVEN_CONDITION = ::Parser::AST::Node.new(:send, [nil, :block_given?])

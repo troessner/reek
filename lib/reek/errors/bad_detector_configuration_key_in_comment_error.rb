@@ -8,7 +8,7 @@ module Reek
     # Gets raised when trying to configure a detector with an option
     # which is unknown to it.
     class BadDetectorConfigurationKeyInCommentError < BaseError
-      UNKNOWN_SMELL_DETECTOR_MESSAGE = <<-MESSAGE.freeze
+      UNKNOWN_SMELL_DETECTOR_MESSAGE = <<-MESSAGE
 
         Error: You are trying to configure the smell detector '%<detector>s'
         in one of your source code comments with the unknown option %<option>s.

@@ -22,7 +22,7 @@ module Reek
                           )?
                          /x
     SANITIZE_REGEX                 = /(#|\n|\s)+/ # Matches '#', newlines and > 1 whitespaces.
-    DISABLE_DETECTOR_CONFIGURATION = '{ enabled: false }'.freeze
+    DISABLE_DETECTOR_CONFIGURATION = '{ enabled: false }'
     MINIMUM_CONTENT_LENGTH         = 2
 
     attr_reader :config

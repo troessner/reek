@@ -15,7 +15,7 @@ module Reek
     class TooManyInstanceVariables < BaseDetector
       # The name of the config field that sets the maximum number of instance
       # variables permitted in a class.
-      MAX_ALLOWED_IVARS_KEY = 'max_instance_variables'.freeze
+      MAX_ALLOWED_IVARS_KEY = 'max_instance_variables'
       DEFAULT_MAX_IVARS = 4
 
       def self.contexts

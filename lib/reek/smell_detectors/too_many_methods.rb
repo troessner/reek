@@ -17,7 +17,7 @@ module Reek
     class TooManyMethods < BaseDetector
       # The name of the config field that sets the maximum number of methods
       # permitted in a class.
-      MAX_ALLOWED_METHODS_KEY = 'max_methods'.freeze
+      MAX_ALLOWED_METHODS_KEY = 'max_methods'
       DEFAULT_MAX_METHODS = 15
 
       def self.contexts

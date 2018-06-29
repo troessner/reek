@@ -21,13 +21,13 @@ module Reek
     class UncommunicativeModuleName < BaseDetector
       # The name of the config field that lists the regexps of
       # smelly names to be reported.
-      REJECT_KEY = 'reject'.freeze
+      REJECT_KEY = 'reject'
       DEFAULT_REJECT_PATTERNS = [/^.$/, /[0-9]$/].freeze
 
       # The name of the config field that lists the specific names that are
       # to be treated as exceptions; these names will not be reported as
       # uncommunicative.
-      ACCEPT_KEY = 'accept'.freeze
+      ACCEPT_KEY = 'accept'
       DEFAULT_ACCEPT_PATTERNS = [].freeze
 
       def self.default_config
