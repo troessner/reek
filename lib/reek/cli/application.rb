@@ -3,6 +3,7 @@
 require_relative 'options'
 require_relative 'status'
 require_relative '../configuration/app_configuration'
+require_relative '../configuration/configuration_file_finder'
 require_relative '../source/source_locator'
 require_relative 'command/report_command'
 require_relative 'command/todo_list_command'
@@ -27,6 +28,7 @@ module Reek
       end
 
       def execute
+        show_configuration_path
         command.execute
       end
 
@@ -46,6 +48,29 @@ module Reek
       rescue Errors::ConfigFileError => error
         warn "Error: #{error}"
         exit Status::DEFAULT_ERROR_EXIT_CODE
+      end
+
+      def show_configuration_path
+        return unless options.show_configuration_path
+
+        path = Configuration::ConfigurationFileFinder.find(path: options.config_file)
+        if path
+          puts "Using '#{path_relative_to_working_directory(path)}' as configuration file."
+        else
+          puts 'Not using any configuration file.'
+        end
+      end
+
+      # Returns the path that is relative to the current working directory given an absolute path.
+      # E.g. if the given absolute path is "/foo/bar/baz/.reek.yml" and your working directory is
+      # "/foo/bar" this method would return "baz/.reek.yml"
+      #
+      # @param path [String] Absolute path
+      # @return [Pathname], e.g. 'config/.reek.yml'
+      #
+      # :reek:UtilityFunction
+      def path_relative_to_working_directory(path)
+        Pathname(path).realpath.relative_path_from(Pathname.pwd)
       end
 
       def command_class

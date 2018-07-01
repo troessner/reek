@@ -4,8 +4,8 @@ Given(/^the smelly file '(.+)'$/) do |filename|
   write_file(filename, SAMPLES_DIR.join('smelly_source').join(filename).read)
 end
 
-Given(/^the clean file 'clean.rb'$/) do
-  write_file('clean.rb', CLEAN_FILE.read)
+Given(/^the clean file "(.*)"$/) do |filename|
+  write_file(filename, CLEAN_FILE.read)
 end
 
 Given(/^a directory called 'clean' containing two clean files$/) do
@@ -48,12 +48,10 @@ When(/^I run "reek (.*?)" in a subdirectory$/) do |args|
   reek(args)
 end
 
-Given(/^a configuration file '(.+)' in a subdirectory$/) do |filename|
-  contents = CONFIGURATION_DIR.join(filename).read
-
-  write_file("subdir/#{filename}", contents)
-end
-
 Then(/^it does not report private or protected methods$/) do
   # Pseudo step for feature clarity.
+end
+
+Given('with a configuration file that is further up in the directory tree') do
+  # Pseudo step for feature clarity. We have an empty .reek.yml in our root directory already.
 end

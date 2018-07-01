@@ -117,7 +117,7 @@ Feature: Reek can be driven through its Task
 
   Scenario: REEK_SRC overrides the files to check
     Given the smelly file 'smelly.rb'
-    And the clean file 'clean.rb'
+    And the clean file "clean.rb"
     And a file "Rakefile" with:
       """
       require 'reek/rake/task'

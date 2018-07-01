@@ -14,7 +14,7 @@ module Reek
     #
     # See {file:docs/Command-Line-Options.md} for details.
     #
-    # @quality :reek:TooManyInstanceVariables { max_instance_variables: 12 }
+    # @quality :reek:TooManyInstanceVariables { max_instance_variables: 13 }
     # @quality :reek:TooManyMethods { max_methods: 18 }
     # @quality :reek:Attribute { enabled: false }
     #
@@ -32,21 +32,23 @@ module Reek
                     :success_exit_code,
                     :failure_exit_code,
                     :generate_todo_list,
-                    :force_exclusion
+                    :force_exclusion,
+                    :show_configuration_path
 
       def initialize(argv = [])
-        @argv               = argv
-        @parser             = OptionParser.new
-        @report_format      = :text
-        @location_format    = :numbers
-        @progress_format    = tty_output? ? :dots : :quiet
-        @show_links         = true
-        @smells_to_detect   = []
-        @colored            = tty_output?
-        @success_exit_code  = Status::DEFAULT_SUCCESS_EXIT_CODE
-        @failure_exit_code  = Status::DEFAULT_FAILURE_EXIT_CODE
-        @generate_todo_list = false
-        @force_exclusion    = false
+        @argv                    = argv
+        @parser                  = OptionParser.new
+        @report_format           = :text
+        @location_format         = :numbers
+        @progress_format         = tty_output? ? :dots : :quiet
+        @show_links              = true
+        @smells_to_detect        = []
+        @colored                 = tty_output?
+        @success_exit_code       = Status::DEFAULT_SUCCESS_EXIT_CODE
+        @failure_exit_code       = Status::DEFAULT_FAILURE_EXIT_CODE
+        @generate_todo_list      = false
+        @force_exclusion         = false
+        @show_configuration_path = false
 
         set_up_parser
       end
@@ -153,6 +155,7 @@ module Reek
         end
       end
 
+      # @quality :reek:TooManyStatements { max_statements: 6 }
       def set_up_verbosity_options
         parser.on('-V', '--[no-]empty-headings',
                   'Show headings for smell-free source files (default: false)') do |show_empty|
@@ -161,6 +164,10 @@ module Reek
         parser.on('-U', '--[no-]documentation',
                   'Show link to related documentation page for each smell (default: true)') do |show_links|
           self.show_links = show_links
+        end
+        parser.on(nil, '--[no-]show-configuration-path',
+                  'Show which configuration file Reek is using (default: false)') do |show_configuration_path|
+          self.show_configuration_path = show_configuration_path
         end
       end
 

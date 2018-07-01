@@ -20,7 +20,7 @@ Feature: Reek can be controlled using command-line options
     Then the exit status is 23
 
   Scenario: return given status code when using --success-exit-code
-    Given the clean file 'clean.rb'
+    Given the clean file "clean.rb"
     When I run reek clean.rb --success-exit-code 42
     Then the exit status is 42
 
@@ -62,6 +62,8 @@ Feature: Reek can be controlled using command-line options
               --[no-]color                 Use colors for the output (default: true)
           -V, --[no-]empty-headings        Show headings for smell-free source files (default: false)
           -U, --[no-]documentation         Show link to related documentation page for each smell (default: true)
+              --[no-]show-configuration-path
+                                           Show which configuration file Reek is using (default: false)
           -n, --[no-]line-numbers          Show line numbers in the output (default: true)
           -s, --single-line                Show location in editor-compatible single-line-per-smell format
           -P, --[no-]progress              Show progress of each source as it is examined (default: true)
