@@ -110,6 +110,14 @@ RSpec.describe Reek::Configuration::ConfigurationFileFinder do
       expect(configuration).to eq(sample_configuration_loaded)
     end
 
+    it 'raises an error if it can not find the given file' do
+      Dir.mktmpdir do |tempdir|
+        path = Pathname.new(tempdir).join('does_not_exist.reek')
+        expect { described_class.load_from_file(path) }.
+          to raise_error(Reek::Errors::ConfigFileError, /Invalid configuration file/)
+      end
+    end
+
     context 'with exclude, accept and reject settings' do
       let(:configuration) do
         described_class.load_from_file(CONFIGURATION_DIR.join('accepts_rejects_and_excludes.reek.yml')).
