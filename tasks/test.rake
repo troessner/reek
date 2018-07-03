@@ -3,6 +3,7 @@ require 'rspec/core/rake_task'
 
 namespace 'test' do
   RSpec::Core::RakeTask.new('spec') do |t|
+    # TODO: Add spec/performance once its stable.
     t.pattern = 'spec/reek/**/*_spec.rb'
     t.ruby_opts = ['-rbundler/setup -rsimplecov -Ilib -w']
   end

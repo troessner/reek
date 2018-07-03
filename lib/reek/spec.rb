@@ -120,11 +120,13 @@ module Reek
   end
 end
 
-if Object.const_defined?(:Spec)
-  Spec::Runner.configure do |config|
-    config.include(Reek::Spec)
-  end
-end
+# Necessary for RubyProf to run
+#
+# if Object.const_defined?(:Spec)
+#   Spec::Runner.configure do |config|
+#     config.include(Reek::Spec)
+#   end
+# end
 
 if Object.const_defined?(:RSpec)
   RSpec.configure do |config|

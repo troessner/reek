@@ -1,6 +1,7 @@
 require 'pathname'
 require 'timeout'
 require 'active_support/core_ext/string/strip'
+require 'rspec-benchmark'
 require_relative '../lib/reek'
 require_relative '../lib/reek/spec'
 require_relative '../lib/reek/ast/ast_node_class_map'
@@ -76,6 +77,7 @@ RSpec.configure do |config|
   config.run_all_when_everything_filtered = true
   config.include FactoryBot::Syntax::Methods
   config.include Helpers
+  config.include RSpec::Benchmark::Matchers
 
   config.disable_monkey_patching!
 
