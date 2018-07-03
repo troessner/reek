@@ -1,5 +1,11 @@
 # Change log
 
+## Unreleased
+
+## 5.0.1 (2018-07-03)
+
+* (troessner) Fix uninitialized constant error
+
 ## 5.0.0 (2018-06-18)
 
 *Breaking changes:* 
