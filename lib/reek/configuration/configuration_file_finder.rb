@@ -59,7 +59,7 @@ module Reek
           begin
             configuration = YAML.load_file(path) || {}
           rescue StandardError => error
-            raise Errors::ConfigFileException, "Invalid configuration file #{path}, error is #{error}"
+            raise Errors::ConfigFileError, "Invalid configuration file #{path}, error is #{error}"
           end
 
           SchemaValidator.new(configuration).validate
