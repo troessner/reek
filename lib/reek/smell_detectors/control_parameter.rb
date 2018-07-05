@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require_relative 'base_detector'
+require_relative 'control_parameter_helpers/candidate'
+require_relative 'control_parameter_helpers/control_parameter_finder'
 
 module Reek
   module SmellDetectors
@@ -61,125 +63,30 @@ module Reek
 
       private
 
+      #
+      # @return [Array<ControlParameterHelpers::Candidate>]
+      #
       def control_parameters
         potential_parameters.
-          map { |param| FoundControlParameter.new(param, find_matches(param)) }.
+          map { |parameter| ControlParameterHelpers::Candidate.new(parameter, find_matches(parameter)) }.
           select(&:smells?)
       end
 
+      #
+      # @return [Array<String>] e.g. [:bravo, :charlie]
+      #
       def potential_parameters
         expression.parameter_names
       end
 
-      def find_matches(param)
-        ControlParameterFinder.new(expression, param).find_matches
-      end
-
       #
-      # Collects information about a single control parameter.
+      # @param parameter [Symbol] the name of the parameter
+      # @return TODO: What?
       #
-      class FoundControlParameter
-        def initialize(param, occurences)
-          @param = param
-          @occurences = occurences
-        end
-
-        def smells?
-          occurences.any?
-        end
-
-        def lines
-          occurences.map(&:line)
-        end
-
-        def name
-          param.to_s
-        end
-
-        private
-
-        attr_reader :occurences, :param
+      def find_matches(parameter)
+        # TODO: Document how `expression` changes during the recursion
+        ControlParameterHelpers::ControlParameterFinder.new(expression, parameter).find_matches
       end
-
-      private_constant :FoundControlParameter
-
-      # Finds cases of ControlParameter in a particular node for a particular parameter
-      class ControlParameterFinder
-        CONDITIONAL_NODE_TYPES = [:if, :case, :and, :or].freeze
-
-        def initialize(node, param)
-          @node = node
-          @param = param
-        end
-
-        def find_matches
-          return [] if legitimite_uses?
-          nested_finders.flat_map(&:find_matches) + uses_of_param_in_condition
-        end
-
-        def legitimite_uses?
-          return true if uses_param_in_body?
-          return true if uses_param_in_call_in_condition?
-          return true if nested_finders.any?(&:legitimite_uses?)
-          false
-        end
-
-        private
-
-        attr_reader :node, :param
-
-        def conditional_nodes
-          node.body_nodes(CONDITIONAL_NODE_TYPES)
-        end
-
-        def nested_finders
-          @nested_finders ||= conditional_nodes.flat_map do |node|
-            self.class.new(node, param)
-          end
-        end
-
-        def uses_param_in_call_in_condition?
-          return unless condition
-          condition.each_node(:send) do |inner|
-            next unless regular_call_involving_param? inner
-            return true
-          end
-          false
-        end
-
-        def uses_of_param_in_condition
-          return [] unless condition
-          condition.each_node(:lvar).select { |inner| inner.var_name == param }
-        end
-
-        def condition
-          return nil unless CONDITIONAL_NODE_TYPES.include? node.type
-          node.condition
-        end
-
-        def regular_call_involving_param?(call_node)
-          call_involving_param?(call_node) && !comparison_call?(call_node)
-        end
-
-        def comparison_call?(call_node)
-          comparison_method_names.include? call_node.name
-        end
-
-        def comparison_method_names
-          [:==, :!=, :=~]
-        end
-
-        def call_involving_param?(call_node)
-          call_node.each_node(:lvar).any? { |it| it.var_name == param }
-        end
-
-        def uses_param_in_body?
-          nodes = node.body_nodes([:lvar], CONDITIONAL_NODE_TYPES)
-          nodes.any? { |lvar_node| lvar_node.var_name == param }
-        end
-      end
-
-      private_constant :ControlParameterFinder
     end
   end
 end
