@@ -15,7 +15,7 @@ module Reek
             if ignoring.include? child.type
               []
             else
-              child.each_node(type, ignoring).to_a
+              child.each_node(type, ignoring | type).to_a
             end
           end
         end
