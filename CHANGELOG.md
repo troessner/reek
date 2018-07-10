@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## 5.0.2 (2018-07-10)
+
+* (mvz) Parser 2.5.1.1 seems broken. Disallow it.
+* (mvz) Improve control parameter recursion performance.
+
 ## 5.0.1 (2018-07-03)
 
 * (troessner) Fix uninitialized constant error
