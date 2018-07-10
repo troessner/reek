@@ -6,6 +6,7 @@ Dir['tasks/**/*.rake'].each { |t| load t }
 task :ci do
   [
     'test:spec',
+    'test:performance',
     'configuration:update_default_configuration',
     'test:features',
     :rubocop,

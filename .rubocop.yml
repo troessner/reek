@@ -102,6 +102,7 @@ RSpec/AnyInstance:
 RSpec/DescribeClass:
   Exclude:
     - 'spec/quality/reek_source_spec.rb'
+    - 'spec/performance/reek/smell_detectors/runtime_speed_spec.rb'
 
 # Our examples are large because we have source literals in them
 RSpec/ExampleLength:
