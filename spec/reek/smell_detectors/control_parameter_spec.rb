@@ -30,6 +30,23 @@ RSpec.describe Reek::SmellDetectors::ControlParameter do
       and reek_of(:ControlParameter, lines: [3], argument: 'charlie')
   end
 
+  it 'does count multiple occurences of the same parameter' do
+    src = <<-EOS
+      def alfa(bravo, charlie)
+        if bravo
+          delta if charlie
+        end
+        if charlie
+          delta if bravo
+        end
+      end
+    EOS
+
+    expect(src).
+      to reek_of(:ControlParameter, lines: [2, 6], argument: 'bravo').
+      and reek_of(:ControlParameter, lines: [3, 5], argument: 'charlie')
+  end
+
   context 'when a parameter is not used to determine code path' do
     it 'does not report a ternary check on an ivar' do
       src = 'def alfa(bravo) @charlie ? bravo : false end'
