@@ -5,6 +5,26 @@ module Reek
     module SexpExtensions
       # Utility methods for :if nodes.
       module IfNode
+        #
+        # @return [Reek::AST::Node] the condition that is associated with a conditional node.
+        #   For instance, this code
+        #
+        #     if charlie(bravo) then delta end
+        #
+        #   would be parsed into this AST:
+        #
+        #     s(:if,
+        #       s(:send, nil, :charlie,
+        #         s(:lvar, :bravo)),
+        #       s(:send, nil, :delta), nil)
+        #
+        #   so in this case we would return this
+        #
+        #     s(:send, nil, :charlie,
+        #       s(:lvar, :bravo))
+        #
+        #   as condition.
+        #
         def condition
           children.first
         end
