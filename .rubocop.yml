@@ -1,3 +1,5 @@
+inherit_from: .rubocop_todo.yml
+
 require:
   - rubocop-rspec
 
@@ -45,36 +47,10 @@ Lint/InterpolationCheck:
 Lint/BooleanSymbol:
   Enabled: false
 
-Lint/HandleExceptions:
-  Exclude:
-    - 'spec/reek/configuration/configuration_file_finder_spec.rb'
-
 # Spec blocks can be any size
 Metrics/BlockLength:
   Exclude:
     - 'spec/**/*'
-
-# FIXME: Make the class shorter
-Metrics/ClassLength:
-  Exclude:
-    - lib/reek/context_builder.rb
-    - lib/reek/cli/options.rb
-
-Style/SafeNavigation:
-  Exclude:
-    - lib/reek/ast/node.rb
-    - lib/reek/ast/sexp_extensions/module.rb
-
-# FIXME: Lower the method length by fixing the biggest offenders
-Metrics/MethodLength:
-  Max: 15
-  Exclude:
-    - 'lib/reek/cli/options.rb'
-
-Metrics/AbcSize:
-  Exclude:
-    - 'lib/reek/cli/options.rb'
-    - 'lib/reek/configuration/configuration_converter.rb'
 
 # Be rather lenient with line length
 Metrics/LineLength:
@@ -84,21 +60,12 @@ Metrics/LineLength:
 Metrics/ParameterLists:
   CountKeywordArgs: false
 
-Naming/AccessorMethodName:
-  Exclude:
-    - 'lib/reek/context/visibility_tracker.rb'
-
 # EOS is a fine name to use in our specs
 Naming/HeredocDelimiterNaming:
   Exclude:
     - 'spec/**/*'
 
-# FIXME: Update specs to avoid offenses
-RSpec/AnyInstance:
-  Exclude:
-    - 'spec/reek/cli/application_spec.rb'
-
-# This file does not test a class
+# These files do not test classes or modules
 RSpec/DescribeClass:
   Exclude:
     - 'spec/quality/reek_source_spec.rb'
@@ -107,33 +74,6 @@ RSpec/DescribeClass:
 # Our examples are large because we have source literals in them
 RSpec/ExampleLength:
   Enabled: false
-
-# FIXME: Split up files to avoid offenses
-RSpec/MultipleDescribes:
-  Exclude:
-    - 'spec/reek/ast/sexp_extensions_spec.rb'
-    - 'spec/reek/code_comment_spec.rb'
-    - 'spec/reek/report/location_formatter_spec.rb'
-    - 'spec/reek/report/progress_formatter_spec.rb'
-
-# FIXME: Update specs to avoid offenses
-RSpec/MultipleExpectations:
-  Exclude:
-    - 'spec/reek/cli/application_spec.rb'
-    - 'spec/reek/code_comment_spec.rb'
-    - 'spec/reek/configuration/app_configuration_spec.rb'
-    - 'spec/reek/context/module_context_spec.rb'
-    - 'spec/reek/context_builder_spec.rb'
-    - 'spec/reek/examiner_spec.rb'
-    - 'spec/reek/spec/should_reek_of_spec.rb'
-
-# FIXME: Update specs to avoid offenses
-RSpec/NestedGroups:
-  Exclude:
-    - 'spec/reek/report/code_climate/code_climate_fingerprint_spec.rb'
-    - 'spec/reek/cli/application_spec.rb'
-    - 'spec/reek/configuration/schema_validator_spec.rb'
-    - 'spec/reek/configuration/configuration_file_finder_spec.rb'
 
 # rubocop-rspec expects a CodeClimate namespace to go with the code_climate directory.
 RSpec/FilePath:
@@ -146,12 +86,6 @@ RSpec/FilePath:
 # Allow and/or for control flow only
 Style/AndOr:
   EnforcedStyle: conditionals
-
-Style/Documentation:
-  Exclude:
-    - 'lib/reek/ast/sexp_extensions/send.rb'
-    - 'lib/reek/ast/sexp_extensions/super.rb'
-    - 'lib/reek/ast/sexp_extensions/variables.rb'
 
 # Require comment for files in lib and bin
 Style/FrozenStringLiteralComment:

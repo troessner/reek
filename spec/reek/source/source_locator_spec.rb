@@ -29,7 +29,6 @@ RSpec.describe Reek::Source::SourceLocator do
       end
     end
 
-    # rubocop:disable RSpec/NestedGroups
     context 'with excluded paths' do
       let(:configuration) do
         test_configuration_for(CONFIGURATION_DIR.join('with_excluded_paths.reek'))
@@ -118,7 +117,6 @@ RSpec.describe Reek::Source::SourceLocator do
         end
       end
     end
-    # rubocop:enable RSpec/NestedGroups
 
     context 'with non-Ruby paths' do
       let(:path) { SAMPLES_DIR.join('source_with_non_ruby_files') }
