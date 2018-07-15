@@ -5,17 +5,18 @@ gemspec
 ruby RUBY_VERSION
 
 group :development do
-  gem 'activesupport', '>= 4.2'
-  gem 'aruba',         '~> 0.14.0'
-  gem 'ataru',         '~> 0.2.0'
-  gem 'cucumber',      '~> 3.0'
-  gem 'factory_bot',   '~> 4.0'
-  gem 'rake',          '~> 12.0'
-  gem 'rspec',         '~> 3.0'
-  gem 'rubocop',       '~> 0.57.1'
-  gem 'rubocop-rspec', '~> 1.20'
-  gem 'simplecov',     '~> 0.16.1'
-  gem 'yard',          '~> 0.9.5'
+  gem 'activesupport',   '>= 4.2'
+  gem 'aruba',           '~> 0.14.0'
+  gem 'ataru',           '~> 0.2.0'
+  gem 'cucumber',        '~> 3.0'
+  gem 'factory_bot',     '~> 4.0'
+  gem 'rake',            '~> 12.0'
+  gem 'rspec',           '~> 3.0'
+  gem 'rspec-benchmark', '~> 0.3.0'
+  gem 'rubocop',         '~> 0.57.1'
+  gem 'rubocop-rspec',   '~> 1.20'
+  gem 'simplecov',       '~> 0.16.1'
+  gem 'yard',            '~> 0.9.5'
 
   platforms :mri do
     gem 'redcarpet', '~> 3.4.0'

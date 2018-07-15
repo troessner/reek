@@ -7,6 +7,10 @@ namespace 'test' do
     t.ruby_opts = ['-rbundler/setup -rsimplecov -Ilib -w']
   end
 
+  RSpec::Core::RakeTask.new('performance') do |t|
+    t.pattern = 'spec/performance/**/*_spec.rb'
+  end
+
   desc 'Tests code quality'
   RSpec::Core::RakeTask.new('quality') do |t|
     t.pattern = 'spec/quality/**/*_spec.rb'
