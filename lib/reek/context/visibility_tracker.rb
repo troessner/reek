@@ -49,12 +49,12 @@ module Reek
         track_visibility children: children, visibility: visibility, names: names
       end
 
-      # Sets the visibility of a child CodeContext to the tracked visibility.
+      # Sets the visibility of a CodeContext to the tracked visibility.
       #
-      # @param child [CodeContext]
+      # @param context [CodeContext]
       #
-      def set_child_visibility(child)
-        child.apply_current_visibility tracked_visibility
+      def apply_visibility(context)
+        context.apply_current_visibility tracked_visibility
       end
 
       private

@@ -26,7 +26,7 @@ module Reek
       #
       # @param child [CodeContext] the child context to register
       def append_child_context(child)
-        visibility_tracker.set_child_visibility(child)
+        visibility_tracker.apply_visibility(child)
         super
       end
 
@@ -44,9 +44,9 @@ module Reek
       end
 
       def defined_instance_methods(visibility: :any)
-        instance_method_children.select do |context|
-          visibility == :any || context.visibility == visibility
-        end
+        return instance_method_children if visibility == :any
+
+        instance_method_children.select { |child| child.visibility == visibility }
       end
 
       def instance_method_calls
