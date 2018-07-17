@@ -25,15 +25,15 @@ RSpec.describe Reek::AST::SexpExtensions::DefNode do
   context 'with 1 parameter' do
     let(:node) do
       sexp(:def, :hello,
-           sexp(:args, sexp(:arg, :param)))
+           sexp(:args, sexp(:arg, :parameter)))
     end
 
     it 'has 1 arg name' do
-      expect(node.arg_names).to eq [:param]
+      expect(node.arg_names).to eq [:parameter]
     end
 
     it 'has 1 parameter name' do
-      expect(node.parameter_names).to eq [:param]
+      expect(node.parameter_names).to eq [:parameter]
     end
 
     it 'includes outer scope in its full name' do
@@ -49,16 +49,16 @@ RSpec.describe Reek::AST::SexpExtensions::DefNode do
     let(:node) do
       sexp(:def, :hello,
            sexp(:args,
-                sexp(:arg, :param),
+                sexp(:arg, :parameter),
                 sexp(:blockarg, :blk)))
     end
 
     it 'has 1 arg name' do
-      expect(node.arg_names).to eq [:param]
+      expect(node.arg_names).to eq [:parameter]
     end
 
     it 'has 2 parameter names' do
-      expect(node.parameter_names).to eq [:param, :blk]
+      expect(node.parameter_names).to eq [:parameter, :blk]
     end
 
     it 'includes outer scope in its full name' do
@@ -74,15 +74,15 @@ RSpec.describe Reek::AST::SexpExtensions::DefNode do
     let(:node) do
       sexp(:def, :hello,
            sexp(:args,
-                sexp(:optarg, :param, sexp(:array))))
+                sexp(:optarg, :parameter, sexp(:array))))
     end
 
     it 'has 1 arg name' do
-      expect(node.arg_names).to eq [:param]
+      expect(node.arg_names).to eq [:parameter]
     end
 
     it 'has 1 parameter name' do
-      expect(node.parameter_names).to eq [:param]
+      expect(node.parameter_names).to eq [:parameter]
     end
 
     it 'includes outer scope in its full name' do
@@ -168,15 +168,15 @@ RSpec.describe Reek::AST::SexpExtensions::DefsNode do
   context 'with 1 parameter' do
     let(:node) do
       sexp(:defs, sexp(:lvar, :obj), :hello,
-           sexp(:args, sexp(:arg, :param)))
+           sexp(:args, sexp(:arg, :parameter)))
     end
 
     it 'has 1 arg name' do
-      expect(node.arg_names).to eq [:param]
+      expect(node.arg_names).to eq [:parameter]
     end
 
     it 'has 1 parameter name' do
-      expect(node.parameter_names).to eq [:param]
+      expect(node.parameter_names).to eq [:parameter]
     end
 
     it 'includes outer scope in its full name' do
@@ -192,16 +192,16 @@ RSpec.describe Reek::AST::SexpExtensions::DefsNode do
     let(:node) do
       sexp(:defs, sexp(:lvar, :obj), :hello,
            sexp(:args,
-                sexp(:arg, :param),
+                sexp(:arg, :parameter),
                 sexp(:blockarg, :blk)))
     end
 
     it 'has 1 arg name' do
-      expect(node.arg_names).to eq [:param]
+      expect(node.arg_names).to eq [:parameter]
     end
 
     it 'has 2 parameter names' do
-      expect(node.parameter_names).to eq [:param, :blk]
+      expect(node.parameter_names).to eq [:parameter, :blk]
     end
 
     it 'includes outer scope in its full name' do
@@ -217,15 +217,15 @@ RSpec.describe Reek::AST::SexpExtensions::DefsNode do
     let(:node) do
       sexp(:defs, sexp(:lvar, :obj), :hello,
            sexp(:args,
-                sexp(:optarg, :param, sexp(:array))))
+                sexp(:optarg, :parameter, sexp(:array))))
     end
 
     it 'has 1 arg name' do
-      expect(node.arg_names).to eq [:param]
+      expect(node.arg_names).to eq [:parameter]
     end
 
     it 'has 1 parameter name' do
-      expect(node.parameter_names).to eq [:param]
+      expect(node.parameter_names).to eq [:parameter]
     end
 
     it 'includes outer scope in its full name' do
@@ -355,10 +355,10 @@ RSpec.describe Reek::AST::SexpExtensions::BlockNode do
   end
 
   context 'with 1 parameter' do
-    let(:node) { sexp(:block, sexp(:send, nil, :map), sexp(:args, :param), nil) }
+    let(:node) { sexp(:block, sexp(:send, nil, :map), sexp(:args, :parameter), nil) }
 
     it 'has 1 parameter name' do
-      expect(node.parameter_names).to eq [:param]
+      expect(node.parameter_names).to eq [:parameter]
     end
   end
 

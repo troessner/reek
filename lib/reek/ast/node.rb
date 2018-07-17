@@ -102,6 +102,9 @@ module Reek
         loc.expression.source_buffer.name
       end
 
+      # Method will be overridden by the code in the IfNode, CaseNode, and LogicOperatorBase sexp extensions.
+      def condition; end
+
       protected
 
       # See ".each_node" for documentation.
