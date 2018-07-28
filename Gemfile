@@ -10,6 +10,7 @@ group :development do
   gem 'ataru',           '~> 0.2.0'
   gem 'cucumber',        '~> 3.0'
   gem 'factory_bot',     '~> 4.0'
+  gem 'kramdown',        '~> 1.17'
   gem 'rake',            '~> 12.0'
   gem 'rspec',           '~> 3.0'
   gem 'rspec-benchmark', '~> 0.3.0'
