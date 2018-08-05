@@ -10,8 +10,7 @@ task :ci do
     'configuration:update_default_configuration',
     'test:features',
     :rubocop,
-    'test:quality',
-    :ataru
+    'test:quality'
   ].each do |name|
     puts "\n=== Running #{name}...\n"
     Rake::Task[name].invoke
