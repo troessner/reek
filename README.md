@@ -521,15 +521,6 @@ require 'pry'
 binding.pry
 ```
 
-If you do this, you need to also run the specs with `DEBUG=1` set, e.g.:
-
-```
-DEBUG=1 bundle exec rspec spec/your/file_spec.rb:23
-```
-
-This is necessary because normally all specs run with a timeout of 5 seconds,
-which isn't much if you're busy using Pry.
-
 Have a look at our [Developer API](docs/API.md) for more inspiration.
 
 From then on you should check out:
