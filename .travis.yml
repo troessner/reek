@@ -12,13 +12,13 @@ rvm:
   - 2.3
   - 2.4
   - 2.5
-  - jruby-9.1.15.0
+  - jruby-9.1.17.0
+  - jruby-9.2.0.0
   - jruby-head
   - ruby-head
   - rubinius-3
 matrix:
   allow_failures:
-    - rvm: jruby-9.1.15.0
     - rvm: jruby-head
     - rvm: ruby-head
     - rvm: rubinius-3
