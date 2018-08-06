@@ -492,16 +492,6 @@ bundle exec rake
 
 This will run the tests (RSpec and Cucumber), RuboCop and Reek itself.
 
-You can also run:
-
-```
-bundle exec rake ci
-```
-
-This will run everything the default task runs and also
-[Ataru](https://github.com/CodePadawans/ataru). This is the task that we run on
-Travis as well and that determines if your pull request is green or red.
-
 Another useful Rake task is the `console` task. This will throw you right into an environment where you can play around with Reeks modules and classes:
 
 ```
