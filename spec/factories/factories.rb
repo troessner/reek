@@ -7,7 +7,7 @@ FactoryBot.define do
   factory :smell_detector, class: Reek::SmellDetectors::BaseDetector do
     skip_create
     transient do
-      smell_type 'FeatureEnvy'
+      smell_type { 'FeatureEnvy' }
     end
 
     initialize_with do
@@ -18,11 +18,12 @@ FactoryBot.define do
   factory :smell_warning, class: Reek::SmellWarning do
     skip_create
     smell_detector
-    context 'self'
-    source 'dummy_file'
-    lines [42]
-    message 'smell warning message'
-    parameters({})
+    context { 'self' }
+
+    source { 'dummy_file' }
+    lines { [42] }
+    message { 'smell warning message' }
+    parameters { {} }
 
     initialize_with do
       new(smell_detector,
@@ -35,9 +36,9 @@ FactoryBot.define do
   end
 
   factory :code_comment, class: Reek::CodeComment do
-    comment ''
-    line 1
-    source 'string'
+    comment { '' }
+    line { 1 }
+    source { 'string' }
     initialize_with do
       new comment: comment,
           line: line,
