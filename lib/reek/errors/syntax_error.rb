@@ -15,6 +15,10 @@ module Reek
         This is a problem that is outside of Reek's scope and should be fixed by you, the
         user, in order for Reek being able to continue.
 
+        Things you can try:
+        - Check the syntax of the problematic file
+        - If the file is not in fact a Ruby file, exclude it in your .reek.yml file
+
         Exception message:
 
         %<exception>s
