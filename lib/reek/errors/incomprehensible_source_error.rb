@@ -17,8 +17,8 @@ module Reek
         It would be great if you could report this back to the Reek team by opening a
         corresponding issue at https://github.com/troessner/reek/issues.
 
-        Please make sure to include the source in question, the Reek version and the
-        original exception below.
+        Please make sure to include the source in question, the Reek version,
+        and this entire error message, including the original exception below.
 
         Exception message:
 
