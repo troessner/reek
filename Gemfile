@@ -14,7 +14,7 @@ group :development do
   gem 'rspec',           '~> 3.0'
   gem 'rspec-benchmark', '~> 0.3.0'
   gem 'rubocop',         '~> 0.58.0'
-  gem 'rubocop-rspec',   '~> 1.28.0'
+  gem 'rubocop-rspec',   '~> 1.29.0'
   gem 'simplecov',       '~> 0.16.1'
   gem 'yard',            '~> 0.9.5'
 
