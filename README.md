@@ -413,45 +413,28 @@ Integrating tools like Reek into an existing larger codebase can be daunting whe
 possibly hundreds or thousands of smell warnings first.
 Sure you could manually disable smell warnings like shown above but depending on the size of your
 codebase this might not be an option.
-Fortunately Reek provides a 'todo' flag which you can use to generate a configuration that will
-suppress all smell warnings for the current codebase:
+In order to make this easier for you Reek provides a `--todo` flag which you can use to generate a
+configuration that will suppress all smell warnings for the current codebase:
 
 ```Bash
 reek --todo lib/
 ```
 
-This will create the file '.todo.reek' in your current working directory.
+This will create Reek's default configuration file '.reek.yml' in your current working directory. 
+If you are already using a '.reek.yml' Reek will just append to it. If you are using a non-default configuration
+file you have to specify this on the command line so Reek knows about it when generating the todo configuration
+like this:
+ 
+ ```Bash
+ reek --todo -c .config.reek lib/
+ ```
 
-You can then use this as your configuration - since your working directory
-probably is your project root in most cases you don't have to tell Reek
-explicitly to use '.todo.reek' because Reek will automatically pick it up
-and use it as configuration file. See [Configuration Loading](#configuration-loading) above.
-
-If for whatever reasons you decide to put '.todo.reek' somewhere else where
-Reek won't pick it up automatically you need to tell Reek explicitly to do so
-via:
-
-```Bash
-reek -c whatever/.todo.reek lib/
-```
+In this case Reek will append to '.config.reek'.
 
 It's important to understand that the number one use case of the `--todo` flag
 is to be run once at the beginning of the introduction of Reek to ease the transition.
 If you find yourself re-running Reek with the `--todo` flag in order to silence new warnings
 you're defeating the purpose of both the `--todo` flag and of Reek itself.
-
-As a consequence, running Reek with the `--todo` flag again will overwrite '.todo.reek' without
-asking (should not be a problem since this file is supposed to be versioned) and
-without taking **any** other configuration file you might have into account.
-
-This means that when you run
-
-```Bash
-reek -c other_configuration.reek --todo lib/
-```
-
-`other_configuration.reek` will simply be ignored (as outlined before, Reek
-is supposed to have one configuration file and one file only).
 
 ## Usage
 
