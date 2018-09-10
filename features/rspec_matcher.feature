@@ -7,6 +7,7 @@ Feature: Use reek_of matcher
     Given the smelly file 'smelly.rb'
     And a file "reek_spec.rb" with:
     """
+    require 'reek'
     require 'reek/spec'
 
     describe 'smelly.rb' do

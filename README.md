@@ -430,29 +430,28 @@ suppress all smell warnings for the current codebase:
 reek --todo lib/
 ```
 
-This will create the file '.todo.reek' in your current working directory.
+This will create the file '.reek.yml' in your current working directory.
 
 You can then use this as your configuration - since your working directory
 probably is your project root in most cases you don't have to tell Reek
-explicitly to use '.todo.reek' because Reek will automatically pick it up
+explicitly to use '.reek.yml' because Reek will automatically pick it up
 and use it as configuration file. See [Configuration Loading](#configuration-loading) above.
 
-If for whatever reasons you decide to put '.todo.reek' somewhere else where
+If for whatever reasons you decide to put '.reek.yml' somewhere else where
 Reek won't pick it up automatically you need to tell Reek explicitly to do so
 via:
 
 ```Bash
-reek -c whatever/.todo.reek lib/
+reek -c whatever/.reek.yml lib/
 ```
 
 It's important to understand that the number one use case of the `--todo` flag
 is to be run once at the beginning of the introduction of Reek to ease the transition.
-If you find yourself re-running Reek with the `--todo` flag in order to silence new warnings
+If you find yourself wanting to re-run Reek with the `--todo` flag in order to silence a lot of new warnings
 you're defeating the purpose of both the `--todo` flag and of Reek itself.
 
-As a consequence, running Reek with the `--todo` flag again will overwrite '.todo.reek' without
-asking (should not be a problem since this file is supposed to be versioned) and
-without taking **any** other configuration file you might have into account.
+As a consequence, running Reek with the `--todo` flag again will not overwrite an existing '.reek.yml'
+and instead abort execution. It also will not take **any** other configuration file you might have into account.
 
 This means that when you run
 
@@ -460,8 +459,10 @@ This means that when you run
 reek -c other_configuration.reek --todo lib/
 ```
 
-`other_configuration.reek` will simply be ignored (as outlined before, Reek
-is supposed to have one configuration file and one file only).
+`other_configuration.reek` will simply be ignored.
+
+Of course you can always just delete the existing .reek.yml file and then run Reek with the `--todo` flag
+but keep in mind that this is not the intended use case of this feature.
 
 ## Usage
 

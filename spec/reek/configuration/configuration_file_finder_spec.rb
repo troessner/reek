@@ -98,7 +98,7 @@ RSpec.describe Reek::Configuration::ConfigurationFileFinder do
   describe '.load_from_file' do
     let(:sample_configuration_loaded) do
       {
-        Reek::Configuration::AppConfiguration::DETECTORS_KEY => {
+        Reek::DETECTORS_KEY => {
           'UncommunicativeVariableName' => { 'enabled' => false },
           'UncommunicativeMethodName'   => { 'enabled' => false }
         }
@@ -123,7 +123,7 @@ RSpec.describe Reek::Configuration::ConfigurationFileFinder do
         let(:configuration) do
           described_class.
             load_from_file(CONFIGURATION_DIR.join('accepts_rejects_and_excludes_for_detectors.reek.yml')).
-            fetch(Reek::Configuration::AppConfiguration::DETECTORS_KEY)
+            fetch(Reek::DETECTORS_KEY)
         end
 
         let(:expected) do
@@ -166,7 +166,7 @@ RSpec.describe Reek::Configuration::ConfigurationFileFinder do
         let(:configuration) do
           described_class.
             load_from_file(CONFIGURATION_DIR.join('accepts_rejects_and_excludes_for_directory_directives.reek.yml')).
-            fetch(Reek::Configuration::AppConfiguration::DIRECTORIES_KEY)
+            fetch(Reek::DIRECTORIES_KEY)
         end
 
         let(:expected) do
