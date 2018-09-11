@@ -9,10 +9,23 @@ require_relative '../lib/reek/configuration/app_configuration'
 
 require_relative '../samples/paths'
 
+# :nocov:
 begin
-  Reek::CLI::Silencer.without_warnings { require 'pry-byebug' }
+  Reek::CLI::Silencer.without_warnings do
+    require 'pry-byebug'
+
+    Pry.commands.alias_command 'c', 'continue'
+    Pry.commands.alias_command 's', 'step'
+    Pry.commands.alias_command 'n', 'next'
+    Pry.commands.alias_command 'f', 'finish'
+
+    Pry::Commands.command /^$/, "repeat last command" do
+      _pry_.run_command Pry.history.to_a.last
+    end
+  end
 rescue LoadError # rubocop:disable Lint/HandleExceptions
 end
+# :nocov:
 
 require 'factory_bot'
 FactoryBot.find_definitions
