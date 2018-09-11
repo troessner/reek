@@ -17,6 +17,7 @@ Reek currently includes checks for the following smells:
   * [Too Many Constants](Too-Many-Constants.md)
   * [Too Many Instance Variables](Too-Many-Instance-Variables.md)
   * [Too Many Methods](Too-Many-Methods.md)
+* [Law of Demeter](Law-Of-Demeter.md)
 * [Long Parameter List](Long-Parameter-List.md), and its special case [Long Yield List](Long-Yield-List.md)
 * Low Cohesion, including
   * [Feature Envy](Feature-Envy.md)
