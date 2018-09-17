@@ -521,6 +521,7 @@ module Reek
 
     def register_attributes(exp)
       return unless exp.attribute_writer?
+
       klass = current_context.attribute_context_class
       exp.args.each do |arg|
         append_new_context(klass, arg, exp)

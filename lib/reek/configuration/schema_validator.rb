@@ -24,6 +24,7 @@ module Reek
       def validate
         errors = CLI::Silencer.without_warnings { @validator.validate @configuration }
         return if !errors || errors.empty?
+
         raise Errors::ConfigFileError, error_message(errors)
       end
 

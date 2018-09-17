@@ -122,6 +122,7 @@ module Reek
       def look_for_recurse(target_types, ignoring, &blk)
         yield self if target_types.include? type
         return if ignoring.include? type
+
         each_sexp do |elem|
           elem.look_for_recurse(target_types, ignoring, &blk)
         end

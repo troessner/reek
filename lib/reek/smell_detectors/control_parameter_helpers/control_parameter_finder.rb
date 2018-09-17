@@ -27,6 +27,7 @@ module Reek
         #
         def find_matches
           return [] if legitimate_uses?
+
           nested_finders.flat_map(&:find_matches) + uses_of_param_in_condition
         end
 
@@ -37,6 +38,7 @@ module Reek
           return true if CallInConditionFinder.new(node, parameter).uses_param_in_call_in_condition?
           return true if parameter_used_in_body?
           return true if nested_finders.any?(&:legitimate_uses?)
+
           false
         end
 
@@ -76,6 +78,7 @@ module Reek
         def uses_of_param_in_condition
           condition = node.condition
           return [] unless condition
+
           condition.each_node(:lvar).select { |inner| inner.var_name == parameter }
         end
 

@@ -1,6 +1,7 @@
 def init
   super
   return unless show_api_marker_section?
+
   if sections.first
     sections.first.place(:api_marker).before(:private)
   else
@@ -10,6 +11,7 @@ end
 
 def api_marker
   return if object.type == :root
+
   erb(:private) unless ['public', 'private'].include? api_text
 end
 
@@ -23,6 +25,7 @@ end
 
 def show_api_marker_section?
   return false if object.type == :root
+
   case api_text
   when 'public'
     false

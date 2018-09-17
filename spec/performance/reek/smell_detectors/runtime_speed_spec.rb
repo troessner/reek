@@ -8,6 +8,7 @@ RSpec.describe 'Runtime speed' do
     expect do
       source_directory.each_entry do |entry|
         next if %w(. ..).include?(entry.to_s)
+
         examiner = Reek::Examiner.new entry.to_path
         examiner.smells.size
       end

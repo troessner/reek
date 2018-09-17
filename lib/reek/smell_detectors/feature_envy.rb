@@ -45,6 +45,7 @@ module Reek
       def sniff
         return [] if context.singleton_method? || context.module_function?
         return [] unless context.references_self?
+
         envious_receivers.map do |name, lines|
           smell_warning(
             lines: lines,
@@ -61,6 +62,7 @@ module Reek
 
       def envious_receivers
         return {} if refs.self_is_max?
+
         refs.most_popular
       end
     end

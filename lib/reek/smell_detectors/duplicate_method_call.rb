@@ -123,6 +123,7 @@ module Reek
           context.local_nodes(:send, [:mlhs]) do |call_node|
             next if call_node.object_creation_call?
             next if simple_method_call? call_node
+
             result[call_node].record(call_node)
           end
           context.local_nodes(:block) do |call_node|

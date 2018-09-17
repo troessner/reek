@@ -26,6 +26,7 @@ module Reek
     #         e.g. [Reek::SmellDetectors::Attribute].
     def self.eligible_smell_types(filter_by_smells = [])
       return smell_types if filter_by_smells.empty?
+
       smell_types.select do |klass|
         filter_by_smells.include? klass.smell_type
       end

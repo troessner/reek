@@ -46,6 +46,7 @@ module Reek
         def uses_param_in_call_in_condition?
           condition = node.condition
           return false unless condition
+
           condition.each_node(:send) do |inner|
             return true if regular_call_involving_param?(inner)
           end

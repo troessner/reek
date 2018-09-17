@@ -77,6 +77,7 @@ module Reek
         collector = proc do |node|
           next unless (condition = node.condition)
           next if condition == BLOCK_GIVEN_CONDITION
+
           result[condition].push(condition.line)
         end
         [:if, :case].each { |stmt| context.local_nodes(stmt, &collector) }

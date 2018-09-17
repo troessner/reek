@@ -37,6 +37,7 @@ module Reek
         variables = context.local_nodes(:ivasgn, [:or_asgn]).map(&:name)
         count = variables.uniq.size
         return [] if count <= max_allowed_ivars
+
         [smell_warning(
           lines: [source_line],
           message: "has at least #{count} instance variables",

@@ -39,6 +39,7 @@ module Reek
         # TODO: Only checks instance methods!
         actual = context.node_instance_methods.length
         return [] if actual <= max_allowed_methods
+
         [smell_warning(
           lines: [source_line],
           message: "has at least #{actual} methods",

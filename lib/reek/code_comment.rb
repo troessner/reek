@@ -122,6 +122,7 @@ module Reek
 
       def escalate_bad_detector
         return if SmellDetectors::BaseDetector.valid_detector?(detector_name)
+
         raise Errors::BadDetectorInCommentError, detector_name: detector_name,
                                                  original_comment: original_comment,
                                                  source: source,
@@ -142,6 +143,7 @@ module Reek
         @detector_class = SmellDetectors::BaseDetector.to_detector(detector_name)
 
         return if given_keys_legit?
+
         raise Errors::BadDetectorConfigurationKeyInCommentError, detector_name: detector_name,
                                                                  offensive_keys: configuration_keys_difference,
                                                                  original_comment: original_comment,

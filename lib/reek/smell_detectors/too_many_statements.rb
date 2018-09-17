@@ -30,6 +30,7 @@ module Reek
       def sniff
         count = context.number_of_statements
         return [] if count <= max_allowed_statements
+
         [smell_warning(
           lines: [source_line],
           message: "has approx #{count} statements",

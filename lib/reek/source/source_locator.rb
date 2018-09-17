@@ -56,6 +56,7 @@ module Reek
         if options.force_exclusion?
           path.ascend do |ascendant|
             break true if path_excluded?(ascendant)
+
             false
           end
         else

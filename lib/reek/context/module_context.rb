@@ -76,6 +76,7 @@ module Reek
       # @quality :reek:FeatureEnvy
       def namespace_module?
         return false if exp.type == :casgn
+
         children = exp.direct_children
         children.any? && children.all? { |child| [:casgn, :class, :module].include? child.type }
       end
