@@ -22,6 +22,7 @@ module Reek
       #
       def track_visibility(children:, visibility:, names:)
         return unless VISIBILITY_MODIFIERS.include? visibility
+
         if names.any?
           children.each do |child|
             child.visibility = visibility if names.include?(child.name)
@@ -44,8 +45,10 @@ module Reek
       #
       def track_singleton_visibility(children:, visibility:, names:)
         return if names.empty?
+
         visibility = VISIBILITY_MAP[visibility]
         return unless visibility
+
         track_visibility children: children, visibility: visibility, names: names
       end
 

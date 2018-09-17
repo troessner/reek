@@ -35,6 +35,7 @@ module Reek
       def sniff
         count = expression.arg_names.length
         return [] if count <= max_allowed_params
+
         [smell_warning(
           lines: [source_line],
           message: "has #{count} parameters",

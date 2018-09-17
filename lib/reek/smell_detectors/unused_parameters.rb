@@ -16,6 +16,7 @@ module Reek
       #
       def sniff
         return [] if context.uses_super_with_implicit_arguments?
+
         context.unused_params.map do |param|
           name = param.name.to_s
           smell_warning(

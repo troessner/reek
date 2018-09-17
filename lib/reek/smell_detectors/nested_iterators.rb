@@ -96,6 +96,7 @@ module Reek
       # @quality :reek:TooManyStatements { max_statements: 6 }
       def scout(exp:, depth:)
         return [] unless exp
+
         # Find all non-nested blocks in this expression
         exp.each_node([:block], [:block]).flat_map do |iterator|
           new_depth = increment_depth(iterator, depth)

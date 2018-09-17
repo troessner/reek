@@ -64,6 +64,7 @@ module Reek
         return false unless method_sexp.ends_with_bang?
         return false if ignore_method? method_sexp
         return false if version_without_bang_exists? method_sexp
+
         true
       end
 

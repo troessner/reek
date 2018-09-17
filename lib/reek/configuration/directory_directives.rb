@@ -17,6 +17,7 @@ module Reek
       # @return [Hash | nil] the configuration for the source or nil
       def directive_for(source_via)
         return unless source_via
+
         source_base_dir = Pathname.new(source_via).dirname
         hit = best_match_for source_base_dir
         self[hit]

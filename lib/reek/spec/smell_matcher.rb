@@ -39,6 +39,7 @@ module Reek
         parameter_keys = other_attributes.keys - COMPARABLE_ATTRIBUTES
         extra_keys = parameter_keys - smell_warning.parameters.keys
         return if extra_keys.empty?
+
         raise ArgumentError, "The attribute '#{extra_keys.first}' is not available for comparison"
       end
 

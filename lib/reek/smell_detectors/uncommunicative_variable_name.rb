@@ -111,6 +111,7 @@ module Reek
                          end
 
         return unless arg_search_exp
+
         args_nodes = arg_search_exp.each_node(:args, [:class, :module, :defs, :def])
 
         args_nodes.each do |args_node|
@@ -133,6 +134,7 @@ module Reek
       def record_variable_name(exp, symbol, accumulator)
         varname = symbol.to_s.sub(/^\*/, '')
         return if varname == ''
+
         var = varname.to_sym
         accumulator[var].push(exp.line)
       end

@@ -20,6 +20,7 @@ module Reek
         self.examiner = examiner
         self.warnings = examiner.smells
         return false if warnings.empty?
+
         warnings.all? { |warning| SmellMatcher.new(warning).matches?(smell_type) }
       end
 

@@ -43,6 +43,7 @@ module Reek
 
       def display_total_smell_count
         return unless examiners.size > 1
+
         print total_smell_count_message
       end
 

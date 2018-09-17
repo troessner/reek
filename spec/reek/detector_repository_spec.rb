@@ -7,8 +7,8 @@ RSpec.describe Reek::DetectorRepository do
     let(:smell_types) { described_class.smell_types }
 
     it 'includes existing smell_types' do
-      expect(smell_types).to include(Reek::SmellDetectors::IrresponsibleModule).
-        and include(Reek::SmellDetectors::TooManyStatements)
+      expect(smell_types).to include(Reek::SmellDetectors::IrresponsibleModule,
+                                     Reek::SmellDetectors::TooManyStatements)
     end
 
     it 'excludes the smell detector base class' do

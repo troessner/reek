@@ -95,6 +95,7 @@ module Reek
       end
     rescue StandardError => exception
       raise unless @error_handler.handle exception
+
       []
     end
 

@@ -41,6 +41,7 @@ module Reek
     # @quality :reek:TooManyStatements { max_statements: 6 }
     def dress(sexp, comment_map)
       return sexp unless sexp.is_a? ::Parser::AST::Node
+
       type = sexp.type
       children = sexp.children.map { |child| dress(child, comment_map) }
       comments = comment_map[sexp]
