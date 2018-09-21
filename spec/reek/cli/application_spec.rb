@@ -136,4 +136,33 @@ RSpec.describe Reek::CLI::Application do
       end
     end
   end
+
+  describe 'show configuration path' do
+    let(:app) { described_class.new ['--show-configuration-path', '.'] }
+
+    around do |example|
+      Dir.mktmpdir('/tmp') do |tmp|
+        Dir.chdir(tmp) do
+          example.run
+        end
+      end
+    end
+
+    context 'when not using any configuration file' do
+      it 'prints that we are not using any configuration file' do
+        expect do
+          app.execute
+        end.to output("Not using any configuration file.\n").to_stdout
+      end
+    end
+
+    context 'with a default configuration file' do
+      it 'prints that we are using the default configuration file' do
+        FileUtils.touch '.reek.yml'
+        expect do
+          app.execute
+        end.to output("Using '.reek.yml' as configuration file.\n").to_stdout
+      end
+    end
+  end
 end

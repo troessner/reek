@@ -41,7 +41,7 @@ Feature: Auto-generate a todo file
     Then it succeeds
 
   Scenario: Reacts appropiately when there are no smells
-    Given the clean file 'clean.rb'
+    Given the clean file "clean.rb"
     When I run reek --todo clean.rb
     Then a file named ".todo.reek" should not exist
     And it reports:

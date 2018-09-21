@@ -5,7 +5,7 @@ Feature: Validate schema
 
   Scenario: Our generated default configuration
     Given our default configuration file
-    And the clean file 'clean.rb'
+    And the clean file "clean.rb"
     When I run reek -c defaults.reek clean.rb
     Then it succeeds
     And it reports nothing
@@ -37,7 +37,7 @@ Feature: Validate schema
       - lib/legacy
       - lib/rake/legacy_tasks
     """
-    And the clean file 'clean.rb'
+    And the clean file "clean.rb"
     When I run reek -c config.reek clean.rb
     Then it succeeds
     And it reports nothing
@@ -50,7 +50,7 @@ Feature: Validate schema
       DoesNotExist:
         enabled: true
     """
-    And the clean file 'clean.rb'
+    And the clean file "clean.rb"
     When I run reek -c config.reek clean.rb
     Then the exit status indicates an error
     And stderr reports:

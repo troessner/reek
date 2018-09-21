@@ -125,3 +125,7 @@ Style/SymbolArray:
 # Allow small arrays of words with quotes
 Style/WordArray:
   MinSize: 4
+
+Metrics/ClassLength:
+  Exclude:
+    - 'lib/reek/cli/options.rb'

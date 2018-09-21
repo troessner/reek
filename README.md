@@ -407,6 +407,16 @@ end
 
 This is an incredibly powerful feature and further explained under [Smell Suppresion](docs/Smell-Suppression.md).
 
+#### Debugging trouble with the configuration
+
+With Reeks dynamic mechanism of finding a configuration file you might run into a situation where you are not
+100% sure what configuration file Reek is using. E.g. you have a project specific configuration file in your
+project root and also another Reek configuration in your HOME directory that you use for all your other projects
+and for whatever reasons Reek seems to be using another configuration file than the one you assumed it would.
+
+In this case you can pass the flag `--show-configuration-path` to Reek which will cause Reek to output the path
+to the configuration file it is using.
+
 ### Generating a 'todo' list
 
 Integrating tools like Reek into an existing larger codebase can be daunting when you have to fix
