@@ -22,18 +22,18 @@ RSpec.describe Reek::Configuration::AppConfiguration do
     end
 
     let(:default_directive_value) do
-      { described_class::DETECTORS_KEY =>
+      { Reek::DETECTORS_KEY =>
         { 'IrresponsibleModule' => { 'enabled' => false } } }
     end
 
     let(:directory_directives_value) do
-      { described_class::DIRECTORIES_KEY =>
+      { Reek::DIRECTORIES_KEY =>
         { 'samples/three_clean_files' =>
           { 'UtilityFunction' => { 'enabled' => false } } } }
     end
 
     let(:exclude_paths_value) do
-      { described_class::EXCLUDE_PATHS_KEY =>
+      { Reek::EXCLUDE_PATHS_KEY =>
         ['samples/two_smelly_files',
          'samples/source_with_non_ruby_files'] }
     end
@@ -85,7 +85,7 @@ RSpec.describe Reek::Configuration::AppConfiguration do
       let(:expected_result) { { Reek::SmellDetectors::Attribute => { enabled: true } } }
 
       let(:directory_directives) do
-        { described_class::DIRECTORIES_KEY =>
+        { Reek::DIRECTORIES_KEY =>
           {
             'samples/two_smelly_files' => baz_config,
             'samples/three_clean_files' => bang_config
@@ -104,9 +104,9 @@ RSpec.describe Reek::Configuration::AppConfiguration do
 
       let(:configuration_as_hash) do
         {
-          described_class::DIRECTORIES_KEY =>
+          Reek::DIRECTORIES_KEY =>
             { directory => { TooManyStatements: { max_statements: 8 } } },
-          described_class::DETECTORS_KEY => {
+          Reek::DETECTORS_KEY => {
             IrresponsibleModule: { enabled: false },
             TooManyStatements: { max_statements: 15 }
           }
@@ -128,10 +128,10 @@ RSpec.describe Reek::Configuration::AppConfiguration do
 
       let(:configuration_as_hash) do
         {
-          described_class::DETECTORS_KEY => {
+          Reek::DETECTORS_KEY => {
             IrresponsibleModule: { enabled: false }
           },
-          described_class::DIRECTORIES_KEY =>
+          Reek::DIRECTORIES_KEY =>
             { 'spec/samples/two_smelly_files' => { Attribute: { enabled: false } } }
         }
       end

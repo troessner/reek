@@ -9,7 +9,7 @@ RSpec.describe Reek::Configuration::SchemaValidator do
     context 'when configuration is valid' do
       let(:configuration) do
         {
-          Reek::Configuration::AppConfiguration::DETECTORS_KEY => {
+          Reek::DETECTORS_KEY => {
             'UncommunicativeVariableName' => { 'enabled' => false },
             'UncommunicativeMethodName'   => { 'enabled' => false }
           }
@@ -24,7 +24,7 @@ RSpec.describe Reek::Configuration::SchemaValidator do
     context 'when detector is invalid' do
       let(:configuration) do
         {
-          Reek::Configuration::AppConfiguration::DETECTORS_KEY => {
+          Reek::DETECTORS_KEY => {
             'DoesNotExist' => { 'enabled' => false }
           }
         }
@@ -39,7 +39,7 @@ RSpec.describe Reek::Configuration::SchemaValidator do
     context 'when `enabled` has a non-boolean value' do
       let(:configuration) do
         {
-          Reek::Configuration::AppConfiguration::DETECTORS_KEY => {
+          Reek::DETECTORS_KEY => {
             'FeatureEnvy' => { 'enabled' => 'foo' }
           }
         }
@@ -54,7 +54,7 @@ RSpec.describe Reek::Configuration::SchemaValidator do
     context 'when detector has an unknown option' do
       let(:configuration) do
         {
-          Reek::Configuration::AppConfiguration::DETECTORS_KEY => {
+          Reek::DETECTORS_KEY => {
             'DataClump' => { 'does_not_exist' => 42 }
           }
         }
@@ -71,7 +71,7 @@ RSpec.describe Reek::Configuration::SchemaValidator do
         context 'when a scalar' do
           let(:configuration) do
             {
-              Reek::Configuration::AppConfiguration::DETECTORS_KEY => {
+              Reek::DETECTORS_KEY => {
                 'UncommunicativeMethodName' => { attribute => 42 }
               }
             }
@@ -86,7 +86,7 @@ RSpec.describe Reek::Configuration::SchemaValidator do
         context 'when types are mixed' do
           let(:configuration) do
             {
-              Reek::Configuration::AppConfiguration::DETECTORS_KEY => {
+              Reek::DETECTORS_KEY => {
                 'UncommunicativeMethodName' => { attribute => [42, 'foo'] }
               }
             }
@@ -103,7 +103,7 @@ RSpec.describe Reek::Configuration::SchemaValidator do
     context 'when `exclude_paths` is a scalar' do
       let(:configuration) do
         {
-          Reek::Configuration::AppConfiguration::EXCLUDE_PATHS_KEY => 42
+          Reek::EXCLUDE_PATHS_KEY => 42
         }
       end
 
@@ -116,7 +116,7 @@ RSpec.describe Reek::Configuration::SchemaValidator do
     context 'when `exclude_paths` mixes types' do
       let(:configuration) do
         {
-          Reek::Configuration::AppConfiguration::EXCLUDE_PATHS_KEY => [42, 'foo']
+          Reek::EXCLUDE_PATHS_KEY => [42, 'foo']
         }
       end
 
@@ -130,7 +130,7 @@ RSpec.describe Reek::Configuration::SchemaValidator do
       context 'when bad detector' do
         let(:configuration) do
           {
-            Reek::Configuration::AppConfiguration::DIRECTORIES_KEY => {
+            Reek::DIRECTORIES_KEY => {
               'web_app/app/helpers' => {
                 'Bar' => { 'enabled' => false }
               }
@@ -147,7 +147,7 @@ RSpec.describe Reek::Configuration::SchemaValidator do
       context 'when unknown attribute' do
         let(:configuration) do
           {
-            Reek::Configuration::AppConfiguration::DIRECTORIES_KEY => {
+            Reek::DIRECTORIES_KEY => {
               'web_app/app/controllers' => {
                 'NestedIterators' => { 'foo' => false }
               }

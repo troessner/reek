@@ -20,7 +20,7 @@ module Reek
                      configuration = Configuration::AppConfiguration.default)
         @smell_type = smell_type.to_s
         @smell_details = smell_details
-        configuration.load_values(Configuration::AppConfiguration::DETECTORS_KEY =>
+        configuration.load_values(DETECTORS_KEY =>
                                     { smell_type => { SmellConfiguration::ENABLED_KEY => true } })
         @configuration = configuration
       end
@@ -36,7 +36,7 @@ module Reek
 
       def with_config(config_hash)
         new_configuration = Configuration::AppConfiguration.default
-        new_configuration.load_values(Configuration::AppConfiguration::DETECTORS_KEY =>
+        new_configuration.load_values(DETECTORS_KEY =>
                                         { smell_type => config_hash })
         self.class.new(smell_type, smell_details, new_configuration)
       end

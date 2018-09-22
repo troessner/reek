@@ -71,9 +71,9 @@ module Reek
       # @quality :reek:NestedIterators { max_allowed_nesting: 3 }
       # @quality :reek:TooManyStatements { max_statements: 6 }
       def strings_to_regexes_for_detectors
-        return unless configuration[AppConfiguration::DETECTORS_KEY]
+        return unless configuration[DETECTORS_KEY]
 
-        configuration[AppConfiguration::DETECTORS_KEY].tap do |detectors|
+        configuration[DETECTORS_KEY].tap do |detectors|
           detectors.keys.each do |detector|
             convertible_attributes(detectors[detector]).each do |attribute|
               detectors[detector][attribute] = detectors[detector][attribute].map do |item|
@@ -91,9 +91,9 @@ module Reek
       # @quality :reek:NestedIterators { max_allowed_nesting: 4 }
       # @quality :reek:TooManyStatements { max_statements: 7 }
       def strings_to_regexes_for_directories
-        return unless configuration[AppConfiguration::DIRECTORIES_KEY]
+        return unless configuration[DIRECTORIES_KEY]
 
-        configuration[AppConfiguration::DIRECTORIES_KEY].tap do |directories|
+        configuration[DIRECTORIES_KEY].tap do |directories|
           directories.keys.each do |directory|
             directories[directory].each do |detector, configuration|
               convertible_attributes(configuration).each do |attribute|
