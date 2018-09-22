@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## 5.1.0 (2018-09-22)
+
+* (troessner) Simplify todo list feature.
+* (troessner) Show configuration path.
+
 ## 5.0.2 (2018-07-10)
 
 * (mvz) Parser 2.5.1.1 seems broken. Disallow it.
