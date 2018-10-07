@@ -129,6 +129,35 @@ An instance variable must:
 
 If not, _Instance Variable Assumption_ will be reported.
 
+## Using Instance Variable Assumption in a Rails context
+
+In ActiveRecord it seems common to use callbacks like `after_initialize` to initialize instance variables as
+outlined [here](https://stackoverflow.com/questions/41165520/overriding-applicationrecord-initialize-bad-idea)
+or [here](http://blog.dalethatcher.com/2008/03/rails-dont-override-initialize-on.html)
+instead of overriding the `initialize` method.
+If an instance variable is initialized in such a callback Reek will report it correspondingly.
+
+This would smell for instance:
+
+```Ruby
+class Sample < ApplicationRecord
+   after_initialize do
+    @my_var = false
+  end
+end
+```
+
+Since Reek cannot reliably detect that is used in a Rails context we recommend to disable this detector
+for "app/models" like this:
+
+```Yaml
+directories:
+  # Your other configuration....
+  "app/models":
+    InstanceVariableAssumption:
+      enabled: false
+```
+
 ## Configuration
 
 _Instance Variable Assumption_ supports the [Basic Smell Options](Basic-Smell-Options.md).
