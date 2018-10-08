@@ -92,17 +92,18 @@ RSpec.describe Reek::Source::SourceLocator do
         end
       end
 
-      context 'when path is a directory' do
+      context 'when path is a directory or a file' do
         let(:path) { SAMPLES_DIR.join('source_with_exclude_paths') }
 
         let(:expected_paths) do
-          [path.join('nested/uncommunicative_parameter_name.rb')]
+          [path.join('nested/uncommunicative_variable_name.rb')]
         end
 
         let(:paths_that_are_expected_to_be_ignored) do
           [
             path.join('ignore_me/uncommunicative_method_name.rb'),
-            path.join('nested/ignore_me_as_well/irresponsible_module.rb')
+            path.join('nested/ignore_me_as_well/irresponsible_module.rb'),
+            path.join('nested/uncommunicative_parameter_name.rb')
           ]
         end
 
@@ -111,7 +112,7 @@ RSpec.describe Reek::Source::SourceLocator do
           expect(sources).not_to include(*paths_that_are_expected_to_be_ignored)
         end
 
-        it 'scans directories that are not excluded' do
+        it 'scans directories and files that are not excluded' do
           sources = described_class.new([path], configuration: configuration).sources
           expect(sources).to eq expected_paths
         end

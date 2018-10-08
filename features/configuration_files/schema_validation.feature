@@ -35,8 +35,8 @@ Feature: Validate schema
 
     exclude_paths:
       - lib/legacy
-      - lib/rake/legacy_tasks
     """
+    And a directory named "lib/legacy"
     And the clean file "clean.rb"
     When I run reek -c config.reek clean.rb
     Then it succeeds

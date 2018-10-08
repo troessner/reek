@@ -89,6 +89,14 @@ class Alfa
 end
 ```
 
+We also aim to make our specs as self-reliant as possible. They should not rely on external sample
+or configuration files since that makes it very hard to reason about them and introduces a tight coupling
+which makes refactoring more difficult.
+Unfortunately our current specs are a bit misleading in this regard since they are often doing the
+opposite, relying on external sample and configuration files (indicated by using
+some of the constants defined in `samples/paths.rb`).
+Our goal is to reverse this development.
+
 ### Cucumber Features
 
 Reek uses [Cucumber](https://cucumber.io/) with

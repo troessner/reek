@@ -4,6 +4,12 @@ Given(/^the smelly file '(.+)'$/) do |filename|
   write_file(filename, SAMPLES_DIR.join('smelly_source').join(filename).read)
 end
 
+Given(/^the smelly file "(.+)" in the directory "(.+)"$/) do |filename, directory|
+  FileUtils.mkdir_p directory
+  write_file Pathname(directory).join(filename).to_s,
+             SAMPLES_DIR.join('smelly_source').join(filename).read
+end
+
 Given(/^the clean file "(.*)"$/) do |filename|
   write_file(filename, CLEAN_FILE.read)
 end

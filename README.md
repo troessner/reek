@@ -324,10 +324,11 @@ directories:
 
 ### Excluding directories
 
-# Directories below will not be scanned at all
+# Directories and files below will not be scanned at all
 exclude_paths:
   - lib/legacy
   - lib/rake/legacy_tasks
+  - lib/smelly.rb  
 ```
 
 As you see above, Reek's configuration consists of 3 different sections denoted by 3 different keys:
