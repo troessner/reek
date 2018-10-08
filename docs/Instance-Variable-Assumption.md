@@ -141,7 +141,7 @@ This would smell for instance:
 
 ```Ruby
 class Sample < ApplicationRecord
-   after_initialize do
+  after_initialize do
     @my_var = false
   end
 end
