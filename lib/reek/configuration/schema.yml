@@ -203,8 +203,13 @@ mapping:
       =:
         type: map
         mapping: *all_detectors
-        
+
   "exclude_paths":
+    type: seq
+    sequence:
+      - type: str
+
+  "include":
     type: seq
     sequence:
       - type: str

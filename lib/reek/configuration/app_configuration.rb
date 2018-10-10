@@ -78,6 +78,8 @@ module Reek
             directory_directives.add value
           elsif key == DETECTORS_KEY
             default_directive.add value
+          elsif key == INCLUDE_KEY
+            # TODO: Magic happens here.
           end
         end
       end

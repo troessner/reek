@@ -12,4 +12,5 @@ module Reek
   DETECTORS_KEY = 'detectors'
   EXCLUDE_PATHS_KEY = 'exclude_paths'
   DIRECTORIES_KEY = 'directories'
+  INCLUDE_KEY = 'include'
 end

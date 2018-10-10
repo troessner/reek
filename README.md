@@ -383,6 +383,10 @@ In case you have to have one or more configuration files in the directory (e.g. 
 toying around with different, mutually exclusive settings) you need to tell Reek
 explicitly which file to use via `reek -c config.reek`.
 
+### Including other configuration files
+
+TODO
+
 ### Source code comments
 
 In case you need to suppress a smell warning and you can't or don't want to
