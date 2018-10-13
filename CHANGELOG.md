@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 5.2.0 (2018-10-13)
+
+* (troessner) Enable exclusion of single files.
+
 ## 5.1.0 (2018-09-22)
 
 * (troessner) Simplify todo list feature.
