@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative './configuration_validator'
+require_relative '../errors/config_file_error'
 
 module Reek
   module Configuration
@@ -10,11 +11,10 @@ module Reek
     module ExcludedPaths
       include ConfigurationValidator
 
-      # @quality :reek:NestedIterators { max_allowed_nesting: 2 }
+      # @param paths [String]
+      # @return [undefined]
       def add(paths)
-        paths.each do |path|
-          with_valid_directory(path) { |directory| self << directory }
-        end
+        paths.each { |path| self << Pathname(path) }
       end
     end
   end

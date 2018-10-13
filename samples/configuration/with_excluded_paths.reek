@@ -2,3 +2,4 @@
 exclude_paths:
   - samples/source_with_exclude_paths/ignore_me/
   - samples/source_with_exclude_paths/nested/ignore_me_as_well
+  - samples/source_with_exclude_paths/nested/uncommunicative_parameter_name.rb

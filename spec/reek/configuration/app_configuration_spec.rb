@@ -7,9 +7,24 @@ require_lib 'reek/configuration/excluded_paths'
 
 RSpec.describe Reek::Configuration::AppConfiguration do
   describe 'factory methods' do
+    around do |example|
+      Dir.mktmpdir('/tmp') do |tmp|
+        Dir.chdir(tmp) do
+          example.run
+        end
+      end
+    end
+
+    let(:expected_exclude_file_names) do
+      %w(exclude_me.rb exclude_me_too.rb)
+    end
+
+    let(:expected_exclude_directories) do
+      %w(directory_with_trailing_slash/ directory_without_trailing_slash)
+    end
+
     let(:expected_excluded_paths) do
-      [SAMPLES_DIR.join('two_smelly_files'),
-       SAMPLES_DIR.join('source_with_non_ruby_files')]
+      (expected_exclude_file_names + expected_exclude_directories).map { |path| Pathname(path) }
     end
 
     let(:expected_default_directive) do
@@ -17,38 +32,40 @@ RSpec.describe Reek::Configuration::AppConfiguration do
     end
 
     let(:expected_directory_directives) do
-      { SAMPLES_DIR.join('three_clean_files') =>
+      { Pathname('directory_with_some_ruby_files') =>
         { Reek::SmellDetectors::UtilityFunction => { 'enabled' => false } } }
     end
 
-    let(:default_directive_value) do
-      { Reek::DETECTORS_KEY =>
-        { 'IrresponsibleModule' => { 'enabled' => false } } }
-    end
-
-    let(:directory_directives_value) do
-      { Reek::DIRECTORIES_KEY =>
-        { 'samples/three_clean_files' =>
-          { 'UtilityFunction' => { 'enabled' => false } } } }
-    end
-
-    let(:exclude_paths_value) do
-      { Reek::EXCLUDE_PATHS_KEY =>
-        ['samples/two_smelly_files',
-         'samples/source_with_non_ruby_files'] }
-    end
-
-    let(:combined_value) do
-      directory_directives_value.
-        merge(default_directive_value).
-        merge(exclude_paths_value)
-    end
-
     describe '#from_path' do
-      let(:full_configuration_path) { CONFIGURATION_DIR.join('full_configuration.reek') }
+      let(:configuration_path) { 'config.reek' }
+      let(:configuration) do
+        <<-EOF.strip_heredoc
+        ---
+        detectors:
+          IrresponsibleModule:
+            enabled: false
+
+        directories:
+          "directory_with_some_ruby_files":
+            UtilityFunction:
+              enabled: false
+
+        exclude_paths:
+          - "exclude_me.rb"
+          - "exclude_me_too.rb"
+          - "directory_with_trailing_slash/"
+          - "directory_without_trailing_slash"
+        EOF
+      end
+
+      before do
+        File.write configuration_path, configuration
+        FileUtils.touch expected_exclude_file_names
+        FileUtils.mkdir expected_exclude_directories
+      end
 
       it 'properly loads configuration and processes it' do
-        config = described_class.from_path full_configuration_path
+        config = described_class.from_path configuration_path
 
         expect(config.send(:excluded_paths)).to eq(expected_excluded_paths)
         expect(config.send(:default_directive)).to eq(expected_default_directive)
@@ -57,6 +74,32 @@ RSpec.describe Reek::Configuration::AppConfiguration do
     end
 
     describe '#from_hash' do
+      before do
+        FileUtils.touch expected_exclude_file_names
+        FileUtils.mkdir expected_exclude_directories
+      end
+
+      let(:default_directive_value) do
+        { Reek::DETECTORS_KEY =>
+            { 'IrresponsibleModule' => { 'enabled' => false } } }
+      end
+
+      let(:directory_directives_value) do
+        { Reek::DIRECTORIES_KEY =>
+            { 'directory_with_some_ruby_files' =>
+                { 'UtilityFunction' => { 'enabled' => false } } } }
+      end
+
+      let(:exclude_paths_value) do
+        { Reek::EXCLUDE_PATHS_KEY => (expected_exclude_file_names + expected_exclude_directories) }
+      end
+
+      let(:combined_value) do
+        directory_directives_value.
+          merge(default_directive_value).
+          merge(exclude_paths_value)
+      end
+
       it 'sets the configuration a unified simple data structure' do
         config = described_class.from_hash(combined_value)
 
@@ -79,7 +122,7 @@ RSpec.describe Reek::Configuration::AppConfiguration do
 
   describe '#directive_for' do
     context 'with multiple directory directives and no default directive present' do
-      let(:source_via) { 'samples/three_clean_files/dummy.rb' }
+      let(:source_via) { 'samples/some_files/dummy1.rb' }
       let(:baz_config)  { { IrresponsibleModule: { enabled: false } } }
       let(:bang_config) { { Attribute: { enabled: true } } }
       let(:expected_result) { { Reek::SmellDetectors::Attribute => { enabled: true } } }
@@ -87,8 +130,8 @@ RSpec.describe Reek::Configuration::AppConfiguration do
       let(:directory_directives) do
         { Reek::DIRECTORIES_KEY =>
           {
-            'samples/two_smelly_files' => baz_config,
-            'samples/three_clean_files' => bang_config
+            'samples/some_files' => bang_config,
+            'samples/other_files' => baz_config
           } }
       end
 
@@ -124,7 +167,7 @@ RSpec.describe Reek::Configuration::AppConfiguration do
     end
 
     context 'with a path not covered by a directory directive but a default directive present' do
-      let(:source_via) { 'spec/samples/three_clean_files/dummy.rb' }
+      let(:source_via) { 'samples/some_files/dummy.rb' }
 
       let(:configuration_as_hash) do
         {
@@ -132,7 +175,7 @@ RSpec.describe Reek::Configuration::AppConfiguration do
             IrresponsibleModule: { enabled: false }
           },
           Reek::DIRECTORIES_KEY =>
-            { 'spec/samples/two_smelly_files' => { Attribute: { enabled: false } } }
+            { 'samples/other_files' => { Attribute: { enabled: false } } }
         }
       end
 
