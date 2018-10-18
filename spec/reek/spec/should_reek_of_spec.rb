@@ -103,14 +103,14 @@ RSpec.describe Reek::Spec::ShouldReekOf do
 
       it 'sets the proper error message' do
         matcher.matches?(smelly_code)
-        expected = <<-EOS.strip_heredoc
+        expected = <<~TEXT
           Expected string to reek of DuplicateMethodCall (which it did) with smell details {:name=>"foo", :count=>15}, which it didn't.
           The number of smell details I had to compare with the given one was 2 and here they are:
           1.)
           {"context"=>"double_thing", "lines"=>[1, 1], "message"=>"calls '@other.thing' 2 times", "source"=>"string", "name"=>"@other.thing", "count"=>2}
           2.)
           {"context"=>"double_thing", "lines"=>[1, 1], "message"=>"calls '@other.thing.foo' 2 times", "source"=>"string", "name"=>"@other.thing.foo", "count"=>2}
-        EOS
+        TEXT
 
         expect(matcher.failure_message).to eq(expected)
       end

@@ -39,23 +39,21 @@ RSpec.describe Reek::Configuration::AppConfiguration do
     describe '#from_path' do
       let(:configuration_path) { 'config.reek' }
       let(:configuration) do
-        <<-EOF.strip_heredoc
-        ---
-        detectors:
-          IrresponsibleModule:
-            enabled: false
-
-        directories:
-          "directory_with_some_ruby_files":
-            UtilityFunction:
+        <<~YAML
+          ---
+          detectors:
+            IrresponsibleModule:
               enabled: false
-
-        exclude_paths:
-          - "exclude_me.rb"
-          - "exclude_me_too.rb"
-          - "directory_with_trailing_slash/"
-          - "directory_without_trailing_slash"
-        EOF
+          directories:
+            "directory_with_some_ruby_files":
+              UtilityFunction:
+                enabled: false
+          exclude_paths:
+            - "exclude_me.rb"
+            - "exclude_me_too.rb"
+            - "directory_with_trailing_slash/"
+            - "directory_without_trailing_slash"
+        YAML
       end
 
       before do

@@ -30,7 +30,7 @@ RSpec.describe Reek::Report::YAMLReport do
       instance.show(out)
       out.rewind
       result = YAML.safe_load(out.read)
-      expected = YAML.safe_load <<-EOS.strip_heredoc
+      expected = YAML.safe_load <<~YAML
         ---
         - context:        "simple"
           lines:
@@ -47,7 +47,7 @@ RSpec.describe Reek::Report::YAMLReport do
           smell_type:         "UtilityFunction"
           source:             "string"
           documentation_link: "https://github.com/troessner/reek/blob/v#{Reek::Version::STRING}/docs/Utility-Function.md"
-      EOS
+      YAML
 
       expect(result).to eq expected
     end
