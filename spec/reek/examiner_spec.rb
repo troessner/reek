@@ -198,9 +198,9 @@ RSpec.describe Reek::Examiner do
   context 'with a source that triggers a syntax error' do
     let(:examiner) { described_class.new(source) }
     let(:source) do
-      <<-SRC.strip_heredoc
-      1 2 3
-      SRC
+      <<~RUBY
+        1 2 3
+      RUBY
     end
 
     it 'does not raise an error during initialization' do
@@ -225,10 +225,10 @@ RSpec.describe Reek::Examiner do
   context 'with a source that triggers an encoding error' do
     let(:examiner) { described_class.new(source) }
     let(:source) do
-      <<-SRC.strip_heredoc
-      # encoding: US-ASCII
-      puts 'こんにちは世界'
-      SRC
+      <<~RUBY
+        # encoding: US-ASCII
+        puts 'こんにちは世界'
+      RUBY
     end
 
     it 'does not raise an error during initialization' do
