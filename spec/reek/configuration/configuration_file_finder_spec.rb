@@ -128,15 +128,15 @@ RSpec.describe Reek::Configuration::ConfigurationFileFinder do
 
         let(:expected) do
           {
-            'UnusedPrivateMethod' => { 'exclude' => [/exclude regexp/] },
-            'UncommunicativeMethodName' => { 'reject' => ['reject name'],
-                                             'accept' => ['accept name'] },
-            'UncommunicativeModuleName' => { 'reject' => ['reject name 1', 'reject name 2'],
-                                             'accept' => ['accept name 1', 'accept name 2'] },
+            'UnusedPrivateMethod'          => { 'exclude' => [/exclude regexp/] },
+            'UncommunicativeMethodName'    => { 'reject' => ['reject name'],
+                                                'accept' => ['accept name'] },
+            'UncommunicativeModuleName'    => { 'reject' => ['reject name 1', 'reject name 2'],
+                                                'accept' => ['accept name 1', 'accept name 2'] },
             'UncommunicativeParameterName' => { 'reject' => ['reject name', /reject regexp/],
                                                 'accept' => ['accept name', /accept regexp/] },
-            'UncommunicativeVariableName' => { 'reject' => [/^reject regexp$/],
-                                               'accept' => [/accept(.*)regexp/] }
+            'UncommunicativeVariableName'  => { 'reject' => [/^reject regexp$/],
+                                                'accept' => [/accept(.*)regexp/] }
           }
         end
 
@@ -172,15 +172,15 @@ RSpec.describe Reek::Configuration::ConfigurationFileFinder do
         let(:expected) do
           {
             directory_name => {
-              'UnusedPrivateMethod' => { 'exclude' => [/exclude regexp/] },
-              'UncommunicativeMethodName' => { 'reject' => ['reject name'],
-                                               'accept' => ['accept name'] },
-              'UncommunicativeModuleName' => { 'reject' => ['reject name 1', 'reject name 2'],
-                                               'accept' => ['accept name 1', 'accept name 2'] },
+              'UnusedPrivateMethod'          => { 'exclude' => [/exclude regexp/] },
+              'UncommunicativeMethodName'    => { 'reject' => ['reject name'],
+                                                  'accept' => ['accept name'] },
+              'UncommunicativeModuleName'    => { 'reject' => ['reject name 1', 'reject name 2'],
+                                                  'accept' => ['accept name 1', 'accept name 2'] },
               'UncommunicativeParameterName' => { 'reject' => ['reject name', /reject regexp/],
                                                   'accept' => ['accept name', /accept regexp/] },
-              'UncommunicativeVariableName' => { 'reject' => [/^reject regexp$/],
-                                                 'accept' => [/accept(.*)regexp/] }
+              'UncommunicativeVariableName'  => { 'reject' => [/^reject regexp$/],
+                                                  'accept' => [/accept(.*)regexp/] }
             }
           }
         end

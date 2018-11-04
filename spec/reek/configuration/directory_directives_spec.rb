@@ -44,9 +44,9 @@ RSpec.describe Reek::Configuration::DirectoryDirectives do
   describe '#best_match_for' do
     let(:directives) do
       {
-        Pathname.new('foo/bar/baz')  => {},
-        Pathname.new('foo/bar')      => {},
-        Pathname.new('bar/boo')      => {}
+        Pathname.new('foo/bar/baz') => {},
+        Pathname.new('foo/bar')     => {},
+        Pathname.new('bar/boo')     => {}
       }.extend(described_class)
     end
 

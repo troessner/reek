@@ -6,8 +6,8 @@ RSpec.describe Reek::Configuration::RakeTaskConverter do
     let(:configuration_for_smell_detector) do
       {
         'exclude' => [/Klass#foobar$/, /^Klass#omg$/],
-        'reject' => [/^[a-z]$/, /[0-9]$/, /[A-Z]/],
-        'accept' => [/^_$/]
+        'reject'  => [/^[a-z]$/, /[0-9]$/, /[A-Z]/],
+        'accept'  => [/^_$/]
       }
     end
 
