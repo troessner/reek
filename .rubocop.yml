@@ -10,6 +10,12 @@ AllCops:
     - 'vendor/**/*'
   TargetRubyVersion: 2.3
 
+# Tables are nice
+Layout/AlignHash:
+  EnforcedColonStyle: table
+  EnforcedHashRocketStyle: table
+  EnforcedLastArgumentHashStyle: ignore_implicit
+
 # Place . on the previous line
 Layout/DotPosition:
   EnforcedStyle: trailing

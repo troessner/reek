@@ -59,7 +59,7 @@ module Reek
                      "to #{methods_length} methods",
             parameters: {
               parameters: clump.map(&:to_s),
-              count: methods_length
+              count:      methods_length
             })
         end
       end

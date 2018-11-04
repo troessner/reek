@@ -79,13 +79,13 @@ RSpec.describe Reek::Configuration::AppConfiguration do
 
       let(:default_directive_value) do
         { Reek::DETECTORS_KEY =>
-            { 'IrresponsibleModule' => { 'enabled' => false } } }
+          { 'IrresponsibleModule' => { 'enabled' => false } } }
       end
 
       let(:directory_directives_value) do
         { Reek::DIRECTORIES_KEY =>
-            { 'directory_with_some_ruby_files' =>
-                { 'UtilityFunction' => { 'enabled' => false } } } }
+          { 'directory_with_some_ruby_files' =>
+            { 'UtilityFunction' => { 'enabled' => false } } } }
       end
 
       let(:exclude_paths_value) do
@@ -126,11 +126,13 @@ RSpec.describe Reek::Configuration::AppConfiguration do
       let(:expected_result) { { Reek::SmellDetectors::Attribute => { enabled: true } } }
 
       let(:directory_directives) do
-        { Reek::DIRECTORIES_KEY =>
+        {
+          Reek::DIRECTORIES_KEY =>
           {
-            'samples/some_files' => bang_config,
+            'samples/some_files'  => bang_config,
             'samples/other_files' => baz_config
-          } }
+          }
+        }
       end
 
       it 'returns the corresponding directive' do
@@ -146,10 +148,10 @@ RSpec.describe Reek::Configuration::AppConfiguration do
       let(:configuration_as_hash) do
         {
           Reek::DIRECTORIES_KEY =>
-            { directory => { TooManyStatements: { max_statements: 8 } } },
-          Reek::DETECTORS_KEY => {
+                                   { directory => { TooManyStatements: { max_statements: 8 } } },
+          Reek::DETECTORS_KEY   => {
             IrresponsibleModule: { enabled: false },
-            TooManyStatements: { max_statements: 15 }
+            TooManyStatements:   { max_statements: 15 }
           }
         }
       end
@@ -169,11 +171,11 @@ RSpec.describe Reek::Configuration::AppConfiguration do
 
       let(:configuration_as_hash) do
         {
-          Reek::DETECTORS_KEY => {
+          Reek::DETECTORS_KEY   => {
             IrresponsibleModule: { enabled: false }
           },
           Reek::DIRECTORIES_KEY =>
-            { 'samples/other_files' => { Attribute: { enabled: false } } }
+                                   { 'samples/other_files' => { Attribute: { enabled: false } } }
         }
       end
 

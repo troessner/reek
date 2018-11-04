@@ -100,7 +100,7 @@ module Reek
         def default_config
           {
             SmellConfiguration::ENABLED_KEY => true,
-            EXCLUDE_KEY => DEFAULT_EXCLUDE_SET.dup
+            EXCLUDE_KEY                     => DEFAULT_EXCLUDE_SET.dup
           }
         end
 

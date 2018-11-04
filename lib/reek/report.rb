@@ -17,33 +17,33 @@ module Reek
   # Reek reporting functionality.
   module Report
     REPORT_CLASSES = {
-      yaml: YAMLReport,
-      json: JSONReport,
-      html: HTMLReport,
-      xml: XMLReport,
-      text: TextReport,
+      yaml:         YAMLReport,
+      json:         JSONReport,
+      html:         HTMLReport,
+      xml:          XMLReport,
+      text:         TextReport,
       code_climate: CodeClimateReport
     }.freeze
 
     LOCATION_FORMATTERS = {
       single_line: SingleLineLocationFormatter,
-      plain: BlankLocationFormatter,
-      numbers: DefaultLocationFormatter
+      plain:       BlankLocationFormatter,
+      numbers:     DefaultLocationFormatter
     }.freeze
 
     HEADING_FORMATTERS = {
       verbose: VerboseHeadingFormatter,
-      quiet: QuietHeadingFormatter
+      quiet:   QuietHeadingFormatter
     }.freeze
 
     PROGRESS_FORMATTERS = {
-      dots: ProgressFormatter::Dots,
+      dots:  ProgressFormatter::Dots,
       quiet: ProgressFormatter::Quiet
     }.freeze
 
     WARNING_FORMATTER_CLASSES = {
       documentation_links: DocumentationLinkWarningFormatter,
-      simple: SimpleWarningFormatter
+      simple:              SimpleWarningFormatter
     }.freeze
 
     # Map report format symbol to a report class.
