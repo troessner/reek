@@ -32,8 +32,9 @@ RSpec.describe Reek::Configuration::AppConfiguration do
     end
 
     let(:expected_directory_directives) do
-      { Pathname('directory_with_some_ruby_files') =>
-        { Reek::SmellDetectors::UtilityFunction => { 'enabled' => false } } }
+      { Pathname('directory_with_some_ruby_files') => {
+        Reek::SmellDetectors::UtilityFunction => { 'enabled' => false }
+      } }
     end
 
     describe '#from_path' do
@@ -78,14 +79,17 @@ RSpec.describe Reek::Configuration::AppConfiguration do
       end
 
       let(:default_directive_value) do
-        { Reek::DETECTORS_KEY =>
-          { 'IrresponsibleModule' => { 'enabled' => false } } }
+        { Reek::DETECTORS_KEY => {
+          'IrresponsibleModule' => { 'enabled' => false }
+        } }
       end
 
       let(:directory_directives_value) do
-        { Reek::DIRECTORIES_KEY =>
-          { 'directory_with_some_ruby_files' =>
-            { 'UtilityFunction' => { 'enabled' => false } } } }
+        { Reek::DIRECTORIES_KEY => {
+          'directory_with_some_ruby_files' => {
+            'UtilityFunction' => { 'enabled' => false }
+          }
+        } }
       end
 
       let(:exclude_paths_value) do
@@ -127,8 +131,7 @@ RSpec.describe Reek::Configuration::AppConfiguration do
 
       let(:directory_directives) do
         {
-          Reek::DIRECTORIES_KEY =>
-          {
+          Reek::DIRECTORIES_KEY => {
             'samples/some_files'  => bang_config,
             'samples/other_files' => baz_config
           }
@@ -147,8 +150,9 @@ RSpec.describe Reek::Configuration::AppConfiguration do
 
       let(:configuration_as_hash) do
         {
-          Reek::DIRECTORIES_KEY =>
-                                   { directory => { TooManyStatements: { max_statements: 8 } } },
+          Reek::DIRECTORIES_KEY => {
+            directory => { TooManyStatements: { max_statements: 8 } }
+          },
           Reek::DETECTORS_KEY   => {
             IrresponsibleModule: { enabled: false },
             TooManyStatements:   { max_statements: 15 }
@@ -174,8 +178,9 @@ RSpec.describe Reek::Configuration::AppConfiguration do
           Reek::DETECTORS_KEY   => {
             IrresponsibleModule: { enabled: false }
           },
-          Reek::DIRECTORIES_KEY =>
-                                   { 'samples/other_files' => { Attribute: { enabled: false } } }
+          Reek::DIRECTORIES_KEY => {
+            'samples/other_files' => { Attribute: { enabled: false } }
+          }
         }
       end
 
