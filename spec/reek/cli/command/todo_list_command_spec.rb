@@ -42,7 +42,7 @@ RSpec.describe Reek::CLI::Command::TodoListCommand do
 
   describe '#execute on smelly source' do
     around do |example|
-      Dir.mktmpdir('/tmp') do |tmp|
+      Dir.mktmpdir do |tmp|
         Dir.chdir(tmp) do
           File.write SMELLY_FILE.basename, smelly_file
           example.run

@@ -8,7 +8,7 @@ require_lib 'reek/configuration/excluded_paths'
 RSpec.describe Reek::Configuration::AppConfiguration do
   describe 'factory methods' do
     around do |example|
-      Dir.mktmpdir('/tmp') do |tmp|
+      Dir.mktmpdir do |tmp|
         Dir.chdir(tmp) do
           example.run
         end
