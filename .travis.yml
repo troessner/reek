@@ -3,6 +3,10 @@ dist: trusty
 cache: bundler
 language: ruby
 bundler_args: --without debugging
+before_script:
+  # Avoid Java announcing _JAVA_OPTIONS environment variable
+  # See https://github.com/travis-ci/travis-ci/issues/8408
+  - unset _JAVA_OPTIONS
 script: bundle exec rake ci
 rvm:
   - 2.3
