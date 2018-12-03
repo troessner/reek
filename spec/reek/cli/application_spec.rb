@@ -141,7 +141,7 @@ RSpec.describe Reek::CLI::Application do
     let(:app) { described_class.new ['--show-configuration-path', '.'] }
 
     around do |example|
-      Dir.mktmpdir('/tmp') do |tmp|
+      Dir.mktmpdir do |tmp|
         Dir.chdir(tmp) do
           example.run
         end

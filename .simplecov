@@ -9,6 +9,8 @@ end
 
 SimpleCov.at_exit do
   SimpleCov.result.format!
-  SimpleCov.minimum_coverage 98.88
-  SimpleCov.minimum_coverage_by_file 81.4
+  unless RUBY_ENGINE == 'jruby'
+    SimpleCov.minimum_coverage 98.88
+    SimpleCov.minimum_coverage_by_file 81.4
+  end
 end

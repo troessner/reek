@@ -10,7 +10,7 @@ module Reek
       when Errors::BaseError
         warn exception.long_message
       else
-        warn exception
+        warn exception.message
       end
       true
     end

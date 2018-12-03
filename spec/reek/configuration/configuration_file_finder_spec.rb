@@ -33,12 +33,14 @@ RSpec.describe Reek::Configuration::ConfigurationFileFinder do
     end
 
     it 'skips files ending in .reek.yml in current dir' do
-      Dir.mktmpdir(nil, regular_configuration_dir) do |tempdir|
+      skip_if_a_config_in_tempdir
+
+      Dir.mktmpdir do |tempdir|
         current = Pathname.new(tempdir)
         bad_config = current.join('ignoreme.reek.yml')
         FileUtils.touch bad_config
-        found = described_class.find(current: Pathname.new(tempdir))
-        expect(found).to eq(regular_configuration_file)
+        found = described_class.find(current: current)
+        expect(found).to be_nil
       end
     end
 
