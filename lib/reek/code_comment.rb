@@ -45,7 +45,7 @@ module Reek
                                  source:           source,
                                  options:          options).validate
         @config.merge! detector_name => YAML.safe_load(options || DISABLE_DETECTOR_CONFIGURATION,
-                                                       [Regexp])
+                                                       permitted_classes: [Regexp])
       end
     end
 
@@ -131,7 +131,7 @@ module Reek
 
       def escalate_bad_detector_configuration
         @parsed_options = YAML.safe_load(options || CodeComment::DISABLE_DETECTOR_CONFIGURATION,
-                                         [Regexp])
+                                         permitted_classes: [Regexp])
       rescue Psych::SyntaxError
         raise Errors::GarbageDetectorConfigurationInCommentError, detector_name: detector_name,
                                                                   original_comment: original_comment,
