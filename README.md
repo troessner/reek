@@ -100,13 +100,9 @@ demo.rb -- 2 warnings:
 
 ## Supported Ruby versions
 
-Reek is officially supported for the following CRuby versions:
-
-  - 2.3
-  - 2.4
-  - 2.5
-
-Other Ruby implementations (like Rubinius or JRuby) are not officially supported but should work as well.
+Reek is officially supported for CRuby 2.3 to 2.6 and for JRuby 9.1 and 9.2.
+Other Ruby implementations (like Rubinius) are not officially supported but
+should work as well.
 
 ## Fixing Smell Warnings
 
