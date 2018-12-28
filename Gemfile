@@ -5,7 +5,6 @@ gemspec
 ruby RUBY_VERSION
 
 group :development do
-  gem 'activesupport',   '>= 4.2'
   gem 'aruba',           '~> 0.14.0'
   gem 'cucumber',        '~> 3.0'
   gem 'factory_bot',     '~> 4.0'
