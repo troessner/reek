@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## 5.3.0 (2018-12-28)
+
+* (mvz) Add support for Ruby 2.6.
+* (mvz) Add support for JRuby 9.1 and 9.2
+
 ## 5.2.0 (2018-10-13)
 
 * (troessner) Enable exclusion of single files.
