@@ -8,10 +8,6 @@ module Reek
         def args
           children
         end
-
-        def arg_names
-          args.map { |arg| arg[1] }
-        end
       end
     end
   end
