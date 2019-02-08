@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 5.3.1 (2019-02-08)
+
+* (Al Snow) Upgrade parser dependency
+
 ## 5.3.0 (2018-12-28)
 
 * (mvz) Add support for Ruby 2.6.
