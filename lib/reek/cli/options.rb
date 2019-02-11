@@ -231,7 +231,7 @@ module Reek
         parser.on_tail('-l', '--list', 'List all available smell detectors') do
           puts "All available smell detectors:\n\n"
           puts DetectorRepository.available_detector_names
-          puts "\nCheck out #{DocumentationLink.build('Code Smells')} "\
+          puts "\nCheck out #{DocumentationLink.build('Code Smells')[:html]} "\
                   'for a details on each detector'
           exit
         end
