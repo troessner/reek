@@ -110,7 +110,7 @@ module Reek
         parser.on('--smell SMELL',
                   'Only look for a specific smell.',
                   'Call it like this: reek --smell MissingSafeMethod source.rb',
-                  "Check out #{DocumentationLink.build('Code Smells')} "\
+                  "Check out #{DocumentationLink.build('Code Smells')[:html]} "\
                   'for a list of smells') do |smell|
           smells_to_detect << smell
         end
