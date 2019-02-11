@@ -29,8 +29,8 @@ RSpec.describe Reek::Report::YAMLReport do
       out = StringIO.new
       instance.show(out)
       out.rewind
-      result = YAML.safe_load(out.read)
-      expected = YAML.safe_load <<~YAML
+      result = YAML.safe_load(out.read, permitted_classes: [Symbol])
+      expected = <<~YAML
         ---
         - context:        "simple"
           lines:
@@ -39,15 +39,21 @@ RSpec.describe Reek::Report::YAMLReport do
           smell_type:         "UncommunicativeParameterName"
           source:             "string"
           name:               "a"
-          documentation_link: "https://github.com/troessner/reek/blob/v#{Reek::Version::STRING}/docs/Uncommunicative-Parameter-Name.md"
+          documentation_link:
+           :html: "https://github.com/troessner/reek/blob/v#{Reek::Version::STRING}/docs/Uncommunicative-Parameter-Name.md"
+           :markdown: "https://raw.githubusercontent.com/troessner/reek/v#{Reek::Version::STRING}/docs/Uncommunicative-Parameter-Name.md"
         - context:        "simple"
           lines:
           - 1
           message:            "doesn't depend on instance state (maybe move it to another class?)"
           smell_type:         "UtilityFunction"
           source:             "string"
-          documentation_link: "https://github.com/troessner/reek/blob/v#{Reek::Version::STRING}/docs/Utility-Function.md"
+          documentation_link:
+           :html: "https://github.com/troessner/reek/blob/v#{Reek::Version::STRING}/docs/Utility-Function.md"
+           :markdown: "https://raw.githubusercontent.com/troessner/reek/v#{Reek::Version::STRING}/docs/Utility-Function.md"
+
       YAML
+      expected = YAML.safe_load(expected, permitted_classes: [Symbol])
 
       expect(result).to eq expected
     end

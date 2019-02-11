@@ -39,7 +39,10 @@ RSpec.describe Reek::Report::JSONReport do
             "smell_type":         "UncommunicativeParameterName",
             "source":             "string",
             "name":               "a",
-            "documentation_link": "https://github.com/troessner/reek/blob/v#{Reek::Version::STRING}/docs/Uncommunicative-Parameter-Name.md"
+            "documentation_link": {
+              "html": "https://github.com/troessner/reek/blob/v#{Reek::Version::STRING}/docs/Uncommunicative-Parameter-Name.md",
+              "markdown": "https://raw.githubusercontent.com/troessner/reek/v#{Reek::Version::STRING}/docs/Uncommunicative-Parameter-Name.md"
+            }
           },
           {
             "context":            "simple",
@@ -47,7 +50,10 @@ RSpec.describe Reek::Report::JSONReport do
             "message":            "doesn't depend on instance state (maybe move it to another class?)",
             "smell_type":         "UtilityFunction",
             "source":             "string",
-            "documentation_link": "https://github.com/troessner/reek/blob/v#{Reek::Version::STRING}/docs/Utility-Function.md"
+            "documentation_link": {
+              "html": "https://github.com/troessner/reek/blob/v#{Reek::Version::STRING}/docs/Utility-Function.md",
+              "markdown": "https://raw.githubusercontent.com/troessner/reek/v#{Reek::Version::STRING}/docs/Utility-Function.md"
+            }
           }
         ]
       EOS
