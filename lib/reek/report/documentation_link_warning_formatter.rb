@@ -10,7 +10,7 @@ module Reek
     #
     class DocumentationLinkWarningFormatter < SimpleWarningFormatter
       def format(warning)
-        "#{super} [#{warning.explanatory_link}]"
+        "#{super} [#{warning.explanatory_link[:html]}]"
       end
     end
   end

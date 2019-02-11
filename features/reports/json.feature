@@ -24,7 +24,10 @@ Feature: Report smells using simple JSON layout
               "context": "Smelly#x",
               "lines": [ 4 ],
               "message": "has the name 'x'",
-              "documentation_link": "https://github.com/troessner/reek/blob/v5.3.1/docs/Uncommunicative-Method-Name.md",
+              "documentation_link": {
+                "html": "https://github.com/troessner/reek/blob/v5.3.1/docs/Uncommunicative-Method-Name.md",
+                "markdown": "https://raw.githubusercontent.com/troessner/reek/v5.3.1/docs/Uncommunicative-Method-Name.md"
+              },
               "name": "x"
           },
           {
@@ -33,7 +36,10 @@ Feature: Report smells using simple JSON layout
               "context": "Smelly#x",
               "lines": [ 5 ],
               "message": "has the variable name 'y'",
-              "documentation_link": "https://github.com/troessner/reek/blob/v5.3.1/docs/Uncommunicative-Variable-Name.md",
+              "documentation_link": {
+                "html": "https://github.com/troessner/reek/blob/v5.3.1/docs/Uncommunicative-Variable-Name.md",
+                "markdown": "https://raw.githubusercontent.com/troessner/reek/v5.3.1/docs/Uncommunicative-Variable-Name.md"
+              },
               "name": "y"
           }
       ]
@@ -53,7 +59,10 @@ Feature: Report smells using simple JSON layout
                   1
               ],
               "message": "has no descriptive comment",
-              "documentation_link": "https://github.com/troessner/reek/blob/v5.3.1/docs/Irresponsible-Module.md"
+              "documentation_link": {
+                "html": "https://github.com/troessner/reek/blob/v5.3.1/docs/Irresponsible-Module.md",
+                "markdown": "https://raw.githubusercontent.com/troessner/reek/v5.3.1/docs/Irresponsible-Module.md"
+              }        
           }
       ]
       """
