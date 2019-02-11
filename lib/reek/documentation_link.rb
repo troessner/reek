@@ -17,7 +17,7 @@ module Reek
     # and the full URL for markdown documentation
     def build(subject)
       item = name_to_param(subject)
-      { html: Kernel.format(HELP_LINK_TEMPLATE, version: Version::STRING, item: item),
+      { html:     Kernel.format(HELP_LINK_TEMPLATE, version: Version::STRING, item: item),
         markdown: Kernel.format(RAW_HELP_LINK_TEMPLATE, version: Version::STRING, item: item) }
     end
 
