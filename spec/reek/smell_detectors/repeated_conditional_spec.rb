@@ -3,7 +3,7 @@ require_lib 'reek/smell_detectors/repeated_conditional'
 
 RSpec.describe Reek::SmellDetectors::RepeatedConditional do
   it 'reports the right values' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         attr_accessor :bravo
 
@@ -19,7 +19,7 @@ RSpec.describe Reek::SmellDetectors::RepeatedConditional do
           puts "Repeat 3!" if bravo
         end
       end
-    EOS
+    RUBY
 
     expect(src).to reek_of(:RepeatedConditional,
                            lines:   [5, 9, 13],
@@ -31,7 +31,7 @@ RSpec.describe Reek::SmellDetectors::RepeatedConditional do
   end
 
   it 'does count all occurences' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         attr_accessor :bravo
 
@@ -48,7 +48,7 @@ RSpec.describe Reek::SmellDetectors::RepeatedConditional do
           puts "Repeat 3!" if bravo
         end
       end
-    EOS
+    RUBY
 
     expect(src).to reek_of(:RepeatedConditional,
                            lines: [5, 6, 10, 14],
@@ -56,7 +56,7 @@ RSpec.describe Reek::SmellDetectors::RepeatedConditional do
   end
 
   it 'does not report two repeated conditionals' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         attr_accessor :bravo
 
@@ -68,13 +68,13 @@ RSpec.describe Reek::SmellDetectors::RepeatedConditional do
           puts "Repeat 2!" if bravo
         end
       end
-    EOS
+    RUBY
 
     expect(src).not_to reek_of(:RepeatedConditional)
   end
 
   it 'reports repeated conditionals regardless of `if` or `case` statements' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         attr_accessor :bravo
 
@@ -93,7 +93,7 @@ RSpec.describe Reek::SmellDetectors::RepeatedConditional do
           puts "Repeat 3!" if bravo
         end
       end
-    EOS
+    RUBY
 
     expect(src).to reek_of(:RepeatedConditional)
   end

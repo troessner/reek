@@ -24,10 +24,6 @@ Layout/DotPosition:
 Layout/EmptyLineBetweenDefs:
   AllowAdjacentOneLineDefs: true
 
-# Use active_support's strip_heredoc to indent heredocs
-Layout/IndentHeredoc:
-  EnforcedStyle: active_support
-
 # Always put the closing brace on the last line
 Layout/MultilineMethodCallBraceLayout:
   EnforcedStyle: same_line
@@ -65,11 +61,6 @@ Metrics/LineLength:
 # Keyword arguments make long parameter lists readable
 Metrics/ParameterLists:
   CountKeywordArgs: false
-
-# EOS is a fine name to use in our specs
-Naming/HeredocDelimiterNaming:
-  Exclude:
-    - 'spec/**/*'
 
 # These files do not test classes or modules
 RSpec/DescribeClass:

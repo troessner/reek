@@ -3,13 +3,13 @@ require_lib 'reek/smell_detectors/feature_envy'
 
 RSpec.describe Reek::SmellDetectors::FeatureEnvy do
   it 'reports the right values' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         def bravo(charlie)
           (charlie.delta - charlie.echo) * foxtrot
         end
       end
-    EOS
+    RUBY
 
     expect(src).to reek_of(:FeatureEnvy,
                            lines:   [3, 3],
@@ -20,7 +20,7 @@ RSpec.describe Reek::SmellDetectors::FeatureEnvy do
   end
 
   it 'does count all occurences' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         def bravo(charlie)
           (charlie.delta - charlie.echo) * foxtrot
@@ -30,7 +30,7 @@ RSpec.describe Reek::SmellDetectors::FeatureEnvy do
           (hotel.india + hotel.juliett) * kilo
         end
       end
-    EOS
+    RUBY
 
     expect(src).
       to reek_of(:FeatureEnvy, lines: [3, 3], name: 'charlie').
@@ -108,7 +108,7 @@ RSpec.describe Reek::SmellDetectors::FeatureEnvy do
   end
 
   it 'ignores multiple ivars' do
-    src = <<-EOS
+    src = <<-RUBY
       def func
         @alfa.charlie
         @alfa.delta
@@ -116,13 +116,13 @@ RSpec.describe Reek::SmellDetectors::FeatureEnvy do
         @bravo.echo
         @bravo.foxtrot
       end
-    EOS
+    RUBY
 
     expect(src).not_to reek_of(:FeatureEnvy)
   end
 
   it 'report highest affinity' do
-    src = <<-EOS
+    src = <<-RUBY
       def alfa
         bravo = @charlie
         delta = 0
@@ -130,7 +130,7 @@ RSpec.describe Reek::SmellDetectors::FeatureEnvy do
         delta += bravo.foxtrot
         delta *= 1.15
       end
-    EOS
+    RUBY
 
     expect(src).
       to reek_of(:FeatureEnvy, name: 'delta').
@@ -138,14 +138,14 @@ RSpec.describe Reek::SmellDetectors::FeatureEnvy do
   end
 
   it 'reports multiple affinities' do
-    src = <<-EOS
+    src = <<-RUBY
       def alfa
         bravo = @charlie
         delta = 0
         delta += bravo.echo
         delta += bravo.foxtrot
       end
-    EOS
+    RUBY
 
     expect(src).
       to reek_of(:FeatureEnvy, name: 'delta').
@@ -153,75 +153,75 @@ RSpec.describe Reek::SmellDetectors::FeatureEnvy do
   end
 
   it 'is not fooled by duplication' do
-    src = <<-EOS
+    src = <<-RUBY
       def alfa(bravo)
         @charlie.delta(bravo.echo)
         @foxtrot.delta(bravo.echo)
       end
-    EOS
+    RUBY
 
     expect(src).to reek_only_of(:DuplicateMethodCall, name: 'bravo.echo')
   end
 
   it 'counts local calls' do
-    src = <<-EOS
+    src = <<-RUBY
       def alfa(bravo)
         charlie.delta(bravo.echo)
         foxtrot.delta(bravo.echo)
       end
-    EOS
+    RUBY
 
     expect(src).to reek_only_of(:DuplicateMethodCall, name: 'bravo.echo')
   end
 
   it 'reports many calls to lvar' do
-    src = <<-EOS
+    src = <<-RUBY
       def alfa
         bravo = @charlie
         bravo.delta + bravo.echo
       end
-    EOS
+    RUBY
 
     expect(src).to reek_only_of(:FeatureEnvy)
   end
 
   it 'counts =~ as a call' do
-    src = <<-EOS
+    src = <<-RUBY
       def alfa(bravo)
         charlie(bravo.delta)
         bravo =~ /charlie/
       end
-    EOS
+    RUBY
 
     expect(src).to reek_of :FeatureEnvy
   end
 
   it 'counts += as a call' do
-    src = <<-EOS
+    src = <<-RUBY
       def alfa(bravo)
         charlie(bravo.delta)
         bravo += 1
       end
-    EOS
+    RUBY
 
     expect(src).to reek_of :FeatureEnvy
   end
 
   it 'counts ivar assignment as call to self' do
-    src = <<-EOS
+    src = <<-RUBY
       def foo
         bravo = charlie(1, 2)
 
         @delta = bravo.echo
         @foxtrot = bravo.golf
       end
-    EOS
+    RUBY
 
     expect(src).not_to reek_of :FeatureEnvy
   end
 
   it 'counts self references correctly' do
-    src = <<-EOS
+    src = <<-RUBY
       def alfa(bravo)
         bravo.keys.each do |charlie|
           self[charlie] += 3
@@ -229,13 +229,13 @@ RSpec.describe Reek::SmellDetectors::FeatureEnvy do
         end
         self
       end
-    EOS
+    RUBY
 
     expect(src).not_to reek_of(:FeatureEnvy)
   end
 
   it 'interprets << correctly' do
-    src = <<-EOS
+    src = <<-RUBY
       def alfa(bravo)
         if @charlie
           bravo.delta(self)
@@ -243,13 +243,13 @@ RSpec.describe Reek::SmellDetectors::FeatureEnvy do
           bravo << self
         end
       end
-    EOS
+    RUBY
 
     expect(src).not_to reek_of(:FeatureEnvy)
   end
 
   it 'does not report on class methods defined by opening the metaclass' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         class << self
           def bravo(charlie)
@@ -259,13 +259,13 @@ RSpec.describe Reek::SmellDetectors::FeatureEnvy do
           end
         end
       end
-    EOS
+    RUBY
 
     expect(src).not_to reek_of(:FeatureEnvy)
   end
 
   it 'does not report on class methods defined with an explicit receiver' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         def self.bravo(charlie)
           delta = new(charlie)
@@ -273,13 +273,13 @@ RSpec.describe Reek::SmellDetectors::FeatureEnvy do
           delta.echo
         end
       end
-    EOS
+    RUBY
 
     expect(src).not_to reek_of(:FeatureEnvy)
   end
 
   it 'does not report module functions' do
-    src = <<-EOF
+    src = <<-RUBY
       module Alfa
         module_function
         def bravo(charlie)
@@ -288,7 +288,7 @@ RSpec.describe Reek::SmellDetectors::FeatureEnvy do
           echo.foxtrot
         end
       end
-    EOF
+    RUBY
 
     expect(src).not_to reek_of(:FeatureEnvy)
   end

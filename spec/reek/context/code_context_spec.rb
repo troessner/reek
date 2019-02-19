@@ -120,13 +120,13 @@ RSpec.describe Reek::Context::CodeContext do
 
   describe '#config_for' do
     let(:src) do
-      <<-EOS
+      <<-RUBY
         # :reek:DuplicateMethodCall { allow_calls: [ puts ] }')
         def repeated_greeting
           puts 'Hello!'
           puts 'Hello!'
         end
-      EOS
+      RUBY
     end
     let(:expression) { Reek::Source::SourceCode.from(src).syntax_tree }
     let(:outer) { nil }

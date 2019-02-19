@@ -23,13 +23,13 @@ Code says more than a thousand words:
 ```ruby
 require 'reek'
 
-source = <<-EOS
+source = <<-RUBY
   class Dirty
     def m(a,b,c)
       puts a,b
     end
   end
-EOS
+RUBY
 
 reporter = Reek::Report::TextReport.new
 examiner = Reek::Examiner.new source
@@ -117,13 +117,13 @@ require 'reek'
 config_hash = { 'IrresponsibleModule' => { 'enabled' => false } }
 configuration = Reek::Configuration::AppConfiguration.from_hash config_hash
 
-source = <<-EOS
+source = <<-RUBY
   class Dirty
     def call_me(a,b)
       puts a,b
     end
   end
-EOS
+RUBY
 
 reporter = Reek::Report::TextReport.new
 examiner = Reek::Examiner.new(source, configuration: configuration); nil

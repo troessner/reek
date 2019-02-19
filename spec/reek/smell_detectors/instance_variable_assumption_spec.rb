@@ -4,13 +4,13 @@ require_lib 'reek/smell_detectors/instance_variable_assumption'
 
 RSpec.describe Reek::SmellDetectors::InstanceVariableAssumption do
   it 'reports the right values' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         def bravo
           @charlie
         end
       end
-    EOS
+    RUBY
 
     expect(src).to reek_of(:InstanceVariableAssumption,
                            lines:      [1],
@@ -21,7 +21,7 @@ RSpec.describe Reek::SmellDetectors::InstanceVariableAssumption do
   end
 
   it 'does count all occurences' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         def bravo
           @charlie
@@ -32,7 +32,7 @@ RSpec.describe Reek::SmellDetectors::InstanceVariableAssumption do
         end
       end
 
-    EOS
+    RUBY
 
     expect(src).
       to reek_of(:InstanceVariableAssumption, lines: [1], assumption: '@charlie').
@@ -40,28 +40,28 @@ RSpec.describe Reek::SmellDetectors::InstanceVariableAssumption do
   end
 
   it 'does not report an empty class' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
       end
-    EOS
+    RUBY
 
     expect(src).not_to reek_of(:InstanceVariableAssumption)
   end
 
   it 'does not report when lazy initializing' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         def bravo
           @charlie ||= 1
         end
       end
-    EOS
+    RUBY
 
     expect(src).not_to reek_of(:InstanceVariableAssumption)
   end
 
   it 'reports variable even if others are initialized' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         def initialize
           @bravo = 1
@@ -71,13 +71,13 @@ RSpec.describe Reek::SmellDetectors::InstanceVariableAssumption do
           [@bravo, @delta]
         end
       end
-    EOS
+    RUBY
 
     expect(src).to reek_of(:InstanceVariableAssumption, assumption: '@delta')
   end
 
   it 'reports inner class even if outer class initializes the variable' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         def initialize
           @bravo = 1
@@ -89,7 +89,7 @@ RSpec.describe Reek::SmellDetectors::InstanceVariableAssumption do
           end
         end
       end
-    EOS
+    RUBY
 
     expect(src).to reek_of(:InstanceVariableAssumption, context: 'Alfa::Charlie')
   end

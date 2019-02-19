@@ -68,7 +68,7 @@ RSpec.describe Reek::AST::Node do
     end
 
     it 'finds 3 ifs in a class' do
-      src = <<-EOS
+      src = <<-RUBY
         class Scrunch
           def first
             return @field == :sym ? 0 : 3;
@@ -82,7 +82,7 @@ RSpec.describe Reek::AST::Node do
             raise 'flu!' unless @field == :sym
           end
         end
-      EOS
+      RUBY
       ast = Reek::Source::SourceCode.from(src).syntax_tree
       expect(ast.each_node(:if).to_a.length).to eq(3)
     end

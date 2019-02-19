@@ -3,12 +3,12 @@ require_lib 'reek/smell_detectors/missing_safe_method'
 
 RSpec.describe Reek::SmellDetectors::MissingSafeMethod do
   it 'reports the right values' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         def bravo!
         end
       end
-    EOS
+    RUBY
 
     expect(src).to reek_of(:MissingSafeMethod,
                            lines:   [2],
@@ -19,7 +19,7 @@ RSpec.describe Reek::SmellDetectors::MissingSafeMethod do
   end
 
   it 'does count all occurences' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         def bravo!
         end
@@ -27,7 +27,7 @@ RSpec.describe Reek::SmellDetectors::MissingSafeMethod do
         def charlie!
         end
       end
-    EOS
+    RUBY
 
     expect(src).
       to reek_of(:MissingSafeMethod, lines: [2], name: 'bravo!').
@@ -35,7 +35,7 @@ RSpec.describe Reek::SmellDetectors::MissingSafeMethod do
   end
 
   it 'reports nothing when method and bang counterpart exist' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         def bravo
         end
@@ -43,19 +43,19 @@ RSpec.describe Reek::SmellDetectors::MissingSafeMethod do
         def bravo!
         end
       end
-    EOS
+    RUBY
 
     expect(src).not_to reek_of(:MissingSafeMethod)
   end
 
   it 'does not report methods we excluded via comment' do
-    source = <<-EOF
+    source = <<-RUBY
       # :reek:MissingSafeMethod: { exclude: [ bravo! ] }
       class Alfa
         def bravo!
         end
       end
-    EOF
+    RUBY
 
     expect(source).not_to reek_of(:MissingSafeMethod)
   end

@@ -3,11 +3,11 @@ require_lib 'reek/smell_detectors/uncommunicative_parameter_name'
 
 RSpec.describe Reek::SmellDetectors::UncommunicativeParameterName do
   it 'reports the right values' do
-    src = <<-EOS
+    src = <<-RUBY
       def alfa(x)
         x
       end
-    EOS
+    RUBY
 
     expect(src).to reek_of(:UncommunicativeParameterName,
                            lines:   [1],
@@ -18,11 +18,11 @@ RSpec.describe Reek::SmellDetectors::UncommunicativeParameterName do
   end
 
   it 'does count all occurences' do
-    src = <<-EOS
+    src = <<-RUBY
       def alfa(x, y)
         [x, y]
       end
-    EOS
+    RUBY
 
     expect(src).
       to reek_of(:UncommunicativeParameterName, lines: [1], name: 'x').

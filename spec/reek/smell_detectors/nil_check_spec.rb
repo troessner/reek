@@ -3,11 +3,11 @@ require_lib 'reek/smell_detectors/nil_check'
 
 RSpec.describe Reek::SmellDetectors::NilCheck do
   it 'reports the right values' do
-    src = <<-EOS
+    src = <<-RUBY
       def alfa(bravo)
         bravo.nil?
       end
-    EOS
+    RUBY
 
     expect(src).to reek_of(:NilCheck,
                            lines:   [2],
@@ -17,12 +17,12 @@ RSpec.describe Reek::SmellDetectors::NilCheck do
   end
 
   it 'does count all occurences' do
-    src = <<-EOS
+    src = <<-RUBY
       def alfa(bravo, charlie)
         bravo.nil?
         charlie.nil?
       end
-    EOS
+    RUBY
 
     expect(src).to reek_of(:NilCheck,
                            lines:   [2, 3],
@@ -35,65 +35,65 @@ RSpec.describe Reek::SmellDetectors::NilCheck do
   end
 
   it 'reports when scope uses == nil' do
-    src = <<-EOS
+    src = <<-RUBY
       def alfa(bravo)
         bravo == nil
       end
-    EOS
+    RUBY
 
     expect(src).to reek_of(:NilCheck)
   end
 
   it 'reports when scope uses === nil' do
-    src = <<-EOS
+    src = <<-RUBY
       def alfa(bravo)
         bravo === nil
       end
-    EOS
+    RUBY
 
     expect(src).to reek_of(:NilCheck)
   end
 
   it 'reports when scope uses nil ==' do
-    src = <<-EOS
+    src = <<-RUBY
       def alfa(bravo)
         nil == bravo
       end
-    EOS
+    RUBY
 
     expect(src).to reek_of(:NilCheck)
   end
 
   it 'reports when scope uses a case-clause checking nil' do
-    src = <<-EOS
+    src = <<-RUBY
       def alfa(bravo)
         case bravo
         when nil then puts "Nil"
         end
       end
-    EOS
+    RUBY
 
     expect(src).to reek_of(:NilCheck)
   end
 
   it 'reports when scope uses &.' do
-    src = <<-EOS
+    src = <<-RUBY
       def alfa(bravo)
         bravo&.charlie
       end
-    EOS
+    RUBY
 
     expect(src).to reek_of(:NilCheck)
   end
 
   it 'reports all lines when scope uses multiple nilchecks' do
-    src = <<-EOS
+    src = <<-RUBY
       def alfa(bravo)
         bravo.nil?
         @charlie === nil
         delta&.echo
       end
-    EOS
+    RUBY
 
     expect(src).to reek_of(:NilCheck, lines: [2, 3, 4])
   end

@@ -3,10 +3,10 @@ require_lib 'reek/smell_detectors/unused_parameters'
 
 RSpec.describe Reek::SmellDetectors::UnusedParameters do
   it 'reports the right values' do
-    src = <<-EOS
+    src = <<-RUBY
       def alfa(bravo)
       end
-    EOS
+    RUBY
 
     expect(src).to reek_of(:UnusedParameters,
                            lines:   [1],
@@ -17,10 +17,10 @@ RSpec.describe Reek::SmellDetectors::UnusedParameters do
   end
 
   it 'does count all occurences' do
-    src = <<-EOS
+    src = <<-RUBY
       def alfa(bravo, charlie)
       end
-    EOS
+    RUBY
 
     expect(src).
       to reek_of(:UnusedParameters, lines: [1], name: 'bravo').

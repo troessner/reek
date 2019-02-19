@@ -3,11 +3,11 @@ require_lib 'reek/smell_detectors/control_parameter'
 
 RSpec.describe Reek::SmellDetectors::ControlParameter do
   it 'reports the right values' do
-    src = <<-EOS
+    src = <<-RUBY
       def alfa(bravo)
         bravo ? true : false
       end
-    EOS
+    RUBY
 
     expect(src).to reek_of(:ControlParameter,
                            lines:    [2],
@@ -18,12 +18,12 @@ RSpec.describe Reek::SmellDetectors::ControlParameter do
   end
 
   it 'does count all occurences' do
-    src = <<-EOS
+    src = <<-RUBY
       def alfa(bravo, charlie)
         bravo ? true : false
         charlie ? true : false
       end
-    EOS
+    RUBY
 
     expect(src).
       to reek_of(:ControlParameter, lines: [2], argument: 'bravo').
@@ -31,7 +31,7 @@ RSpec.describe Reek::SmellDetectors::ControlParameter do
   end
 
   it 'does count multiple occurences of the same parameter' do
-    src = <<-EOS
+    src = <<-RUBY
       def alfa(bravo, charlie)
         if bravo
           delta if charlie
@@ -40,7 +40,7 @@ RSpec.describe Reek::SmellDetectors::ControlParameter do
           delta if bravo
         end
       end
-    EOS
+    RUBY
 
     expect(src).
       to reek_of(:ControlParameter, lines: [2, 6], argument: 'bravo').
@@ -136,46 +136,46 @@ RSpec.describe Reek::SmellDetectors::ControlParameter do
     end
 
     it 'reports on case statement' do
-      src = <<-EOS
+      src = <<-RUBY
         def alfa(bravo)
           case bravo
           when nil then nil
           else false
           end
         end
-      EOS
+      RUBY
 
       expect(src).to reek_of(:ControlParameter)
     end
 
     it 'reports on nested if statements that are both using control parameters' do
-      src = <<-EOS
+      src = <<-RUBY
         def nested(bravo)
           if bravo
             charlie
             charlie if bravo
           end
         end
-      EOS
+      RUBY
 
       expect(src).to reek_of(:ControlParameter)
     end
 
     it 'reports on nested suffix if statements where the inner if is a control parameter' do
-      src = <<-EOS
+      src = <<-RUBY
         def nested(bravo)
           if true
             charlie
             charlie if bravo
           end
         end
-      EOS
+      RUBY
 
       expect(src).to reek_of(:ControlParameter)
     end
 
     it 'reports on nested full if statements where the inner if is a control parameter' do
-      src = <<-EOS
+      src = <<-RUBY
         def alfa(bravo)
           if true
             charlie
@@ -185,13 +185,13 @@ RSpec.describe Reek::SmellDetectors::ControlParameter do
             end
           end
         end
-      EOS
+      RUBY
 
       expect(src).to reek_of(:ControlParameter)
     end
 
     it 'reports on elsif statements' do
-      src = <<-EOS
+      src = <<-RUBY
         def alfa(bravo)
           if true
             charlie
@@ -199,7 +199,7 @@ RSpec.describe Reek::SmellDetectors::ControlParameter do
             delta
           end
         end
-      EOS
+      RUBY
 
       expect(src).to reek_of(:ControlParameter)
     end
@@ -282,7 +282,7 @@ RSpec.describe Reek::SmellDetectors::ControlParameter do
     end
 
     it 'does not report when used in body of control flow operator' do
-      src = <<-EOS
+      src = <<-RUBY
         def alfa(bravo)
           case bravo
           when :charlie
@@ -292,7 +292,7 @@ RSpec.describe Reek::SmellDetectors::ControlParameter do
           end
           echo or foxtrot(bravo)
         end
-      EOS
+      RUBY
 
       expect(src).not_to reek_of(:ControlParameter)
     end

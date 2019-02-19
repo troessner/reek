@@ -3,9 +3,9 @@ require_lib 'reek/smell_detectors/uncommunicative_method_name'
 
 RSpec.describe Reek::SmellDetectors::UncommunicativeMethodName do
   it 'reports the right values' do
-    src = <<-EOS
+    src = <<-RUBY
       def m; end
-    EOS
+    RUBY
 
     expect(src).to reek_of(:UncommunicativeMethodName,
                            lines:   [1],

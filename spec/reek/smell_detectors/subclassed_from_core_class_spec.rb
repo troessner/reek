@@ -3,10 +3,10 @@ require_lib 'reek/smell_detectors/subclassed_from_core_class'
 
 RSpec.describe Reek::SmellDetectors::SubclassedFromCoreClass do
   it 'reports the right values' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa < Hash
       end
-    EOS
+    RUBY
 
     expect(src).to reek_of(:SubclassedFromCoreClass,
                            lines:    [1],
@@ -17,40 +17,40 @@ RSpec.describe Reek::SmellDetectors::SubclassedFromCoreClass do
   end
 
   it 'reports when inheriting from a core class inside a module' do
-    src = <<-EOS
+    src = <<-RUBY
       module Alfa
         class Bravo < Hash
         end
       end
-    EOS
+    RUBY
 
     expect(src).to reek_of(:SubclassedFromCoreClass, context: 'Alfa::Bravo')
   end
 
   it 'does not report when not inheriting from a core class' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
       end
-    EOS
+    RUBY
 
     expect(src).not_to reek_of(:SubclassedFromCoreClass)
   end
 
   it 'does not report on coincidental core class names in other namespaces' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa < Bravo::Array
       end
-    EOS
+    RUBY
 
     expect(src).not_to reek_of(:SubclassedFromCoreClass)
   end
 
   it 'reports if inner class inherit from a core class' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         Bravo = Class.new(Array)
       end
-    EOS
+    RUBY
 
     expect(src).to reek_of(:SubclassedFromCoreClass, context: 'Alfa::Bravo')
   end
