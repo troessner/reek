@@ -24,10 +24,6 @@ Layout/DotPosition:
 Layout/EmptyLineBetweenDefs:
   AllowAdjacentOneLineDefs: true
 
-# Use active_support's strip_heredoc to indent heredocs
-Layout/IndentHeredoc:
-  EnforcedStyle: active_support
-
 # Always put the closing brace on the last line
 Layout/MultilineMethodCallBraceLayout:
   EnforcedStyle: same_line
