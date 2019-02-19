@@ -3,11 +3,11 @@ require_lib 'reek/smell_detectors/utility_function'
 
 RSpec.describe Reek::SmellDetectors::UtilityFunction do
   it 'reports the right values' do
-    src = <<-EOS
+    src = <<-RUBY
       def alfa(bravo)
         bravo.charlie.delta
       end
-    EOS
+    RUBY
 
     expect(src).to reek_of(:UtilityFunction,
                            lines:   [1],
@@ -48,7 +48,7 @@ RSpec.describe Reek::SmellDetectors::UtilityFunction do
   end
 
   it 'recognises a deep call' do
-    src = <<-EOS
+    src = <<-RUBY
         class Alfa
           def bravo(charlie)
             charlie.each { |delta| foxtrot(delta) }
@@ -58,7 +58,7 @@ RSpec.describe Reek::SmellDetectors::UtilityFunction do
             @india << golf
           end
         end
-    EOS
+    RUBY
 
     expect(src).not_to reek_of(:UtilityFunction)
   end
@@ -113,49 +113,49 @@ RSpec.describe Reek::SmellDetectors::UtilityFunction do
 
     context 'when defined by using `module_function`' do
       it 'does not report UtilityFunction also when using multiple arguments' do
-        src = <<-EOS
+        src = <<-RUBY
           class Alfa
             def bravo(charlie) charlie.to_s; end
             def delta(echo) echo.to_s; end
             module_function :bravo, :delta
           end
-        EOS
+        RUBY
 
         expect(src).not_to reek_of(:UtilityFunction)
       end
 
       it 'does not report module functions defined by earlier modifier' do
-        src = <<-EOF
+        src = <<-RUBY
           module Alfa
             module_function
             def bravo(charlie) charlie.to_s; end
           end
-        EOF
+        RUBY
 
         expect(src).not_to reek_of(:UtilityFunction)
       end
 
       it 'reports functions preceded by canceled modifier' do
-        src = <<-EOF
+        src = <<-RUBY
           module Alfa
             module_function
             public
             def bravo(charlie) charlie.to_s; end
           end
-        EOF
+        RUBY
 
         expect(src).to reek_of(:UtilityFunction, context: 'Alfa#bravo')
       end
 
       it 'does not report when module_function is called in separate scope' do
-        src = <<-EOF
+        src = <<-RUBY
           class Alfa
             def bravo(charlie) charlie.to_s; end
             begin
               module_function :bravo
             end
           end
-        EOF
+        RUBY
         expect(src).not_to reek_of(:UtilityFunction)
       end
     end
@@ -163,27 +163,27 @@ RSpec.describe Reek::SmellDetectors::UtilityFunction do
 
   describe 'method visibility' do
     it 'reports private methods' do
-      src = <<-EOS
+      src = <<-RUBY
         class Alfa
           private
           def bravo(charlie)
             charlie.delta.echo
           end
         end
-      EOS
+      RUBY
 
       expect(src).to reek_of(:UtilityFunction, context: 'Alfa#bravo')
     end
 
     it 'reports protected methods' do
-      src = <<-EOS
+      src = <<-RUBY
         class Alfa
           protected
           def bravo(charlie)
             charlie.delta.echo
           end
         end
-      EOS
+      RUBY
 
       expect(src).to reek_of(:UtilityFunction, context: 'Alfa#bravo')
     end
@@ -196,13 +196,13 @@ RSpec.describe Reek::SmellDetectors::UtilityFunction do
 
     context 'when examining public methods' do
       it 'still reports UtilityFunction' do
-        src = <<-EOS
+        src = <<-RUBY
           class Alfa
             def bravo(charlie)
               charlie.delta.echo
             end
           end
-        EOS
+        RUBY
 
         expect(src).to reek_of(:UtilityFunction, context: 'Alfa#bravo').with_config(config)
       end
@@ -210,26 +210,26 @@ RSpec.describe Reek::SmellDetectors::UtilityFunction do
 
     context 'when examining private methods' do
       it 'does not report UtilityFunction' do
-        src = <<-EOS
+        src = <<-RUBY
           class Alfa
             private
             def bravo(charlie)
               charlie.delta.echo
             end
           end
-        EOS
+        RUBY
 
         expect(src).not_to reek_of(:UtilityFunction).with_config(config)
       end
 
       it 'does not report UtilityFunction when private is used as a def modifier' do
-        src = <<-EOS
+        src = <<-RUBY
           class Alfa
             private def bravo(charlie)
               charlie.delta.echo
             end
           end
-        EOS
+        RUBY
 
         expect(src).not_to reek_of(:UtilityFunction).with_config(config)
       end
@@ -237,26 +237,26 @@ RSpec.describe Reek::SmellDetectors::UtilityFunction do
 
     context 'when examining protected methods' do
       it 'does not report UtilityFunction' do
-        src = <<-EOS
+        src = <<-RUBY
           class Alfa
             protected
             def bravo(charlie)
               charlie.delta.echo
             end
           end
-        EOS
+        RUBY
 
         expect(src).not_to reek_of(:UtilityFunction).with_config(config)
       end
 
       it 'does not report UtilityFunction when protected is used as a def modifier' do
-        src = <<-EOS
+        src = <<-RUBY
           class Alfa
             protected def bravo(charlie)
               charlie.delta.echo
             end
           end
-        EOS
+        RUBY
 
         expect(src).not_to reek_of(:UtilityFunction).with_config(config)
       end
@@ -265,27 +265,27 @@ RSpec.describe Reek::SmellDetectors::UtilityFunction do
 
   describe 'disabling with a comment' do
     it 'disables the method following the comment' do
-      src = <<-EOS
+      src = <<-RUBY
         class Alfa
           # :reek:UtilityFunction
           def bravo(charlie)
             charlie.delta.echo
           end
         end
-      EOS
+      RUBY
 
       expect(src).not_to reek_of(:UtilityFunction)
     end
 
     it 'disables a method when it has a visibility modifier' do
-      src = <<-EOS
+      src = <<-RUBY
         class Alfa
           # :reek:UtilityFunction
           private def bravo(charlie)
             charlie.delta.echo
           end
         end
-      EOS
+      RUBY
 
       expect(src).not_to reek_of(:UtilityFunction)
     end

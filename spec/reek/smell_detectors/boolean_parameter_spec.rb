@@ -3,10 +3,10 @@ require_lib 'reek/smell_detectors/boolean_parameter'
 
 RSpec.describe Reek::SmellDetectors::BooleanParameter do
   it 'reports the right values' do
-    src = <<-EOS
+    src = <<-RUBY
       def alfa(bravo = true)
       end
-    EOS
+    RUBY
 
     expect(src).to reek_of(:BooleanParameter,
                            lines: [1],
@@ -17,10 +17,10 @@ RSpec.describe Reek::SmellDetectors::BooleanParameter do
   end
 
   it 'does count all occurences' do
-    src = <<-EOS
+    src = <<-RUBY
       def alfa(bravo = true, charlie = true)
       end
-    EOS
+    RUBY
 
     expect(src).
       to reek_of(:BooleanParameter, lines: [1], context: 'alfa', parameter: 'bravo').

@@ -91,11 +91,11 @@ Here's what it looks like for `UncommunicativeVariableName`:
 
 ```Ruby
 it 'reports the right values' do
-  src = <<-EOS
+  src = <<-RUBY
     def alfa
       bravo = 5
     end
-  EOS
+  RUBY
 
   expect(src).to reek_of(:UncommunicativeVariableName,
                          lines:   [2],
@@ -106,12 +106,12 @@ it 'reports the right values' do
 end
 
 it 'does count all occurences' do
-  src = <<-EOS
+  src = <<-RUBY
     def alfa
       bravo = 3
       charlie = 7
     end
-  EOS
+  RUBY
 
   expect(src).to reek_of(:UncommunicativeVariableName,
                          lines: [2],

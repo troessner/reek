@@ -7,13 +7,13 @@ RSpec.describe Reek::SmellDetectors::TooManyInstanceVariables do
   end
 
   it 'reports the right values' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         def bravo
           @charlie = @delta = @echo = 1
         end
       end
-    EOS
+    RUBY
 
     expect(src).to reek_of(:TooManyInstanceVariables,
                            lines:   [1],
@@ -24,58 +24,58 @@ RSpec.describe Reek::SmellDetectors::TooManyInstanceVariables do
   end
 
   it 'does not report for non-excessive ivars' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         def bravo
           @charlie = @delta = 1
         end
       end
-    EOS
+    RUBY
 
     expect(src).not_to reek_of(:TooManyInstanceVariables).with_config(config)
   end
 
   it 'has a configurable maximum' do
-    src = <<-EOS
+    src = <<-RUBY
       # :reek:TooManyInstanceVariables { max_instance_variables: 3 }
       class Alfa
         def bravo
           @charlie = @delta = @echo = 1
         end
       end
-    EOS
+    RUBY
 
     expect(src).not_to reek_of(:TooManyInstanceVariables).with_config(config)
   end
 
   it 'counts each ivar only once' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         def bravo
           @charlie = @delta = 1
           @charlie = @delta = 1
         end
       end
-    EOS
+    RUBY
 
     expect(src).not_to reek_of(:TooManyInstanceVariables).with_config(config)
   end
 
   it 'does not report memoized bravo' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         def bravo
           @charlie = @delta = 1
           @echo ||= 1
         end
       end
-    EOS
+    RUBY
 
     expect(src).not_to reek_of(:TooManyInstanceVariables).with_config(config)
   end
 
   it 'does not count ivars across inner classes' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         class Bravo
           def charlie
@@ -89,13 +89,13 @@ RSpec.describe Reek::SmellDetectors::TooManyInstanceVariables do
           end
         end
       end
-    EOS
+    RUBY
 
     expect(src).not_to reek_of(:TooManyInstanceVariables).with_config(config)
   end
 
   it 'does not count ivars across inner modules and classes' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         class Bravo
           def charlie
@@ -109,13 +109,13 @@ RSpec.describe Reek::SmellDetectors::TooManyInstanceVariables do
           end
         end
       end
-    EOS
+    RUBY
 
     expect(src).not_to reek_of(:TooManyInstanceVariables).with_config(config)
   end
 
   it 'reports excessive ivars across different methods' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         def bravo
           @charlie = @delta = 1
@@ -125,7 +125,7 @@ RSpec.describe Reek::SmellDetectors::TooManyInstanceVariables do
           @hotel = 1
         end
       end
-    EOS
+    RUBY
 
     expect(src).to reek_of(:TooManyInstanceVariables).with_config(config)
   end

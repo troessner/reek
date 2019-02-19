@@ -30,7 +30,7 @@ RSpec.describe Reek::Report::JSONReport do
       instance.show(out)
       out.rewind
       result = JSON.parse(out.read)
-      expected = JSON.parse <<-EOS
+      expected = JSON.parse <<-RUBY
         [
           {
             "context":            "simple",
@@ -50,7 +50,7 @@ RSpec.describe Reek::Report::JSONReport do
             "documentation_link": "https://github.com/troessner/reek/blob/v#{Reek::Version::STRING}/docs/Utility-Function.md"
           }
         ]
-      EOS
+      RUBY
 
       expect(result).to eq expected
     end

@@ -3,11 +3,11 @@ require_lib 'reek/smell_detectors/uncommunicative_variable_name'
 
 RSpec.describe Reek::SmellDetectors::UncommunicativeVariableName do
   it 'reports the right values' do
-    src = <<-EOS
+    src = <<-RUBY
       def alfa
         x = 5
       end
-    EOS
+    RUBY
 
     expect(src).to reek_of(:UncommunicativeVariableName,
                            lines:   [2],
@@ -18,12 +18,12 @@ RSpec.describe Reek::SmellDetectors::UncommunicativeVariableName do
   end
 
   it 'does count all occurences' do
-    src = <<-EOS
+    src = <<-RUBY
       def alfa
         x = 3
         y = 7
       end
-    EOS
+    RUBY
 
     expect(src).to reek_of(:UncommunicativeVariableName, lines: [2], name: 'x').
       and reek_of(:UncommunicativeVariableName, lines: [3], name: 'y')
@@ -80,64 +80,64 @@ RSpec.describe Reek::SmellDetectors::UncommunicativeVariableName do
 
   context 'when examining block parameters' do
     it 'reports all relevant block parameters' do
-      src = <<-EOS
+      src = <<-RUBY
         def alfa
           @bravo.map { |x, y| x + y }
         end
-      EOS
+      RUBY
 
       expect(src).to reek_of(:UncommunicativeVariableName, name: 'x').
         and reek_of(:UncommunicativeVariableName, name: 'y')
     end
 
     it 'reports block parameters used outside of methods' do
-      src = <<-EOS
+      src = <<-RUBY
         class Alfa
           @bravo.map { |x| x * 2 }
         end
-      EOS
+      RUBY
 
       expect(src).to reek_of(:UncommunicativeVariableName, name: 'x')
     end
 
     it 'reports splatted block parameters correctly' do
-      src = <<-EOS
+      src = <<-RUBY
         def alfa
           @bravo.map { |*y| y << 1 }
         end
-      EOS
+      RUBY
 
       expect(src).to reek_of(:UncommunicativeVariableName, name: 'y')
     end
 
     it 'reports nested block parameters' do
-      src = <<-EOS
+      src = <<-RUBY
         def alfa
           @bravo.map { |(x, y)| x + y }
         end
-      EOS
+      RUBY
 
       expect(src).to reek_of(:UncommunicativeVariableName, name: 'x').
         and reek_of(:UncommunicativeVariableName, name: 'y')
     end
 
     it 'reports splatted nested block parameters' do
-      src = <<-EOS
+      src = <<-RUBY
         def def alfa
           @bravo.map { |(x, *y)| x + y }
         end
-      EOS
+      RUBY
 
       expect(src).to reek_of(:UncommunicativeVariableName, name: 'x').
         and reek_of(:UncommunicativeVariableName, name: 'y')
     end
 
     it 'reports deeply nested block parameters' do
-      src = <<-EOS
+      src = <<-RUBY
         def alfa
           @bravo.map { |(x, (y, z))| x + y + z }
         end
-      EOS
+      RUBY
 
       expect(src).to reek_of(:UncommunicativeVariableName, name: 'x').
         and reek_of(:UncommunicativeVariableName, name: 'y').
@@ -145,11 +145,11 @@ RSpec.describe Reek::SmellDetectors::UncommunicativeVariableName do
     end
 
     it 'reports shadowed block parameters' do
-      src = <<-EOS
+      src = <<-RUBY
         def alfa
           @bravo.map { |x; y| y = x * 2 }
         end
-      EOS
+      RUBY
 
       expect(src).to reek_of(:UncommunicativeVariableName, name: 'x').
         and reek_of(:UncommunicativeVariableName, name: 'y')

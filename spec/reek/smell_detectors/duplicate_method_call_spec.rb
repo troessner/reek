@@ -3,14 +3,14 @@ require_lib 'reek/smell_detectors/duplicate_method_call'
 
 RSpec.describe Reek::SmellDetectors::DuplicateMethodCall do
   it 'reports the right values' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         def bravo(charlie)
           charlie.delta
           charlie.delta
         end
       end
-    EOS
+    RUBY
 
     expect(src).to reek_of(:DuplicateMethodCall,
                            lines:   [3, 4],
@@ -22,7 +22,7 @@ RSpec.describe Reek::SmellDetectors::DuplicateMethodCall do
   end
 
   it 'does count all occurences' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         def bravo(charlie)
           charlie.delta
@@ -34,7 +34,7 @@ RSpec.describe Reek::SmellDetectors::DuplicateMethodCall do
           foxtrot.golf
         end
       end
-    EOS
+    RUBY
 
     expect(src).
       to reek_of(:DuplicateMethodCall, lines: [3, 4], name: 'charlie.delta', count: 2).
@@ -67,12 +67,12 @@ RSpec.describe Reek::SmellDetectors::DuplicateMethodCall do
 
   context 'with repeated simple method calls' do
     it 'reports no smell' do
-      src = <<-EOS
+      src = <<-RUBY
         def alfa
           bravo
           bravo
         end
-      EOS
+      RUBY
 
       expect(src).not_to reek_of(:DuplicateMethodCall)
     end
@@ -80,23 +80,23 @@ RSpec.describe Reek::SmellDetectors::DuplicateMethodCall do
 
   context 'with repeated simple method calls with blocks' do
     it 'reports a smell if the blocks are identical' do
-      src = <<-EOS
+      src = <<-RUBY
         def alfa
           bravo { charlie }
           bravo { charlie }
         end
-      EOS
+      RUBY
 
       expect(src).to reek_of(:DuplicateMethodCall)
     end
 
     it 'reports no smell if the blocks are different' do
-      src = <<-EOS
+      src = <<-RUBY
         def alfa
           bravo { charlie }
           bravo { delta }
         end
-      EOS
+      RUBY
 
       expect(src).not_to reek_of(:DuplicateMethodCall)
     end
@@ -104,23 +104,23 @@ RSpec.describe Reek::SmellDetectors::DuplicateMethodCall do
 
   context 'with repeated method calls with receivers with blocks' do
     it 'reports a smell if the blocks are identical' do
-      src = <<-EOS
+      src = <<-RUBY
         def alfa
           bravo.charlie { delta }
           bravo.charlie { delta }
         end
-      EOS
+      RUBY
 
       expect(src).to reek_of(:DuplicateMethodCall)
     end
 
     it 'reports a smell if the blocks are different' do
-      src = <<-EOS
+      src = <<-RUBY
         def alfa
           bravo.charlie { delta }
           bravo.charlie { echo }
         end
-      EOS
+      RUBY
 
       expect(src).to reek_of(:DuplicateMethodCall)
     end
@@ -128,23 +128,23 @@ RSpec.describe Reek::SmellDetectors::DuplicateMethodCall do
 
   context 'with repeated attribute assignment' do
     it 'reports repeated assignment' do
-      src = <<-EOS
+      src = <<-RUBY
         def alfa(bravo)
           @charlie[bravo] = true
           @charlie[bravo] = true
         end
-      EOS
+      RUBY
 
       expect(src).to reek_of(:DuplicateMethodCall)
     end
 
     it 'does not report multi-assignments' do
-      src = <<-EOS
+      src = <<-RUBY
         def alfa
           bravo, charlie = delta, echo
           charlie, bravo = delta, echo
         end
-      EOS
+      RUBY
 
       expect(src).not_to reek_of(:DuplicateMethodCall)
     end
@@ -178,11 +178,11 @@ RSpec.describe Reek::SmellDetectors::DuplicateMethodCall do
     end
 
     it 'reports quadruple calls' do
-      src = <<-EOS
+      src = <<-RUBY
         def alfa
           bravo.charlie + bravo.charlie + bravo.charlie + bravo.charlie
         end
-      EOS
+      RUBY
 
       expect(src).to reek_of(:DuplicateMethodCall,
                              count: 4).with_config(config)

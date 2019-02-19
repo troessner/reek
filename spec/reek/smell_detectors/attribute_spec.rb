@@ -3,11 +3,11 @@ require_lib 'reek/smell_detectors/attribute'
 
 RSpec.describe Reek::SmellDetectors::Attribute do
   it 'reports the right values' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         attr_writer :bravo
       end
-    EOS
+    RUBY
 
     expect(src).to reek_of(:Attribute,
                            lines: [2],
@@ -16,12 +16,12 @@ RSpec.describe Reek::SmellDetectors::Attribute do
   end
 
   it 'does count all occurences' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         attr_writer :bravo
         attr_writer :charlie
       end
-    EOS
+    RUBY
 
     expect(src).
       to reek_of(:Attribute, lines: [2], context: 'Alfa#bravo').
@@ -29,79 +29,79 @@ RSpec.describe Reek::SmellDetectors::Attribute do
   end
 
   it 'records nothing with no attributes' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
       end
-    EOS
+    RUBY
 
     expect(src).not_to reek_of(:Attribute)
   end
 
   context 'with attributes' do
     it 'records nothing for attribute readers' do
-      src = <<-EOS
+      src = <<-RUBY
         class Alfa
           attr :bravo
           attr_reader :charlie
         end
-      EOS
+      RUBY
 
       expect(src).not_to reek_of(:Attribute)
     end
 
     it 'records writer attribute' do
-      src = <<-EOS
+      src = <<-RUBY
         class Alfa
           attr_writer :bravo
         end
-      EOS
+      RUBY
 
       expect(src).to reek_of(:Attribute, context: 'Alfa#bravo')
     end
 
     it 'does not record writer attribute if suppressed with a preceding code comment' do
-      src = <<-EOS
+      src = <<-RUBY
         class Alfa
           # :reek:Attribute
           attr_writer :bravo
         end
-      EOS
+      RUBY
 
       expect(src).not_to reek_of(:Attribute)
     end
 
     it 'records attr_writer attribute in a module' do
-      src = <<-EOS
+      src = <<-RUBY
         module Mod
           attr_writer :bravo
         end
-      EOS
+      RUBY
 
       expect(src).to reek_of(:Attribute)
     end
 
     it 'records accessor attribute' do
-      src = <<-EOS
+      src = <<-RUBY
         class Alfa
           attr_accessor :bravo
         end
-      EOS
+      RUBY
 
       expect(src).to reek_of(:Attribute)
     end
 
     it 'records attr defining a writer' do
-      src = <<-EOS
+      src = <<-RUBY
         class Alfa
           attr :bravo, true
         end
-      EOS
+      RUBY
 
       expect(src).to reek_of(:Attribute)
     end
 
     it "doesn't record protected attributes" do
-      src = <<-EOS
+      src = <<-RUBY
         class Alfa
           protected
           attr_writer :alfa
@@ -110,13 +110,13 @@ RSpec.describe Reek::SmellDetectors::Attribute do
           attr :delta, true
           attr_reader :echo
         end
-      EOS
+      RUBY
 
       expect(src).not_to reek_of(:Attribute)
     end
 
     it "doesn't record private attributes" do
-      src = <<-EOS
+      src = <<-RUBY
         class Alfa
           private
           attr_writer :alfa
@@ -125,37 +125,37 @@ RSpec.describe Reek::SmellDetectors::Attribute do
           attr :delta, true
           attr_reader :echo
         end
-      EOS
+      RUBY
 
       expect(src).not_to reek_of(:Attribute)
     end
 
     it 'records attr_writer defined in public section' do
-      src = <<-EOS
+      src = <<-RUBY
         class Alfa
           private
           public
           attr_writer :bravo
         end
-      EOS
+      RUBY
 
       expect(src).to reek_of(:Attribute)
     end
 
     it 'records attr_writer after switching visbility to public' do
-      src = <<-EOS
+      src = <<-RUBY
         class Alfa
           private
           attr_writer :bravo
           public :bravo
         end
-      EOS
+      RUBY
 
       expect(src).to reek_of(:Attribute)
     end
 
     it 'resets visibility in new contexts' do
-      src = <<-EOS
+      src = <<-RUBY
         class Alfa
           private
           attr_writer :bravo
@@ -164,32 +164,32 @@ RSpec.describe Reek::SmellDetectors::Attribute do
         class Charlie
           attr_writer :delta
         end
-      EOS
+      RUBY
 
       expect(src).to reek_of(:Attribute, context: 'Charlie#delta')
     end
 
     it 'records attr_writer defining a class attribute' do
-      src = <<-EOS
+      src = <<-RUBY
         class Alfa
           class << self
             attr_writer :bravo
           end
         end
-      EOS
+      RUBY
 
       expect(src).to reek_of(:Attribute)
     end
 
     it 'does not record private class attributes' do
-      src = <<-EOS
+      src = <<-RUBY
         class Alfa
           class << self
             private
             attr_writer :bravo
           end
         end
-      EOS
+      RUBY
 
       expect(src).not_to reek_of(:Attribute)
     end

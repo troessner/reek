@@ -7,11 +7,11 @@ RSpec.describe Reek::SmellDetectors::TooManyConstants do
   end
 
   it 'reports the right values' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         Bravo = Charlie = Delta = 1
       end
-    EOS
+    RUBY
 
     expect(src).to reek_of(:TooManyConstants,
                            lines:   [1],
@@ -22,61 +22,61 @@ RSpec.describe Reek::SmellDetectors::TooManyConstants do
   end
 
   it 'does not report for non-excessive constants' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         Bravo = Charlie = 1
       end
-    EOS
+    RUBY
 
     expect(src).not_to reek_of(:TooManyConstants).with_config(config)
   end
 
   it 'does not report when increasing default' do
-    src = <<-EOS
+    src = <<-RUBY
       # :reek:TooManyConstants { max_constants: 3 }
       class Alfa
         Bravo = Charlie = Delta = 1
       end
-    EOS
+    RUBY
 
     expect(src).not_to reek_of(:TooManyConstants).with_config(config)
   end
 
   it 'does not report when disabled' do
-    src = <<-EOS
+    src = <<-RUBY
       # :reek:TooManyConstants { enabled: false }
       class Alfa
         Bravo = Charlie = Delta = 1
       end
-    EOS
+    RUBY
 
     expect(src).not_to reek_of(:TooManyConstants).with_config(config)
   end
 
   it 'does not account class definition' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         Bravo = Charlie = 1
         Delta = Class.new(StandardError)
       end
-    EOS
+    RUBY
 
     expect(src).not_to reek_of(:TooManyConstants).with_config(config)
   end
 
   it 'does not account struct definition' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         Bravo = Charlie = 1
         Delta = Struct.new
       end
-    EOS
+    RUBY
 
     expect(src).not_to reek_of(:TooManyConstants).with_config(config)
   end
 
   it 'counts each constant only once' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         Bravo = Charlie = 1
       end
@@ -88,26 +88,26 @@ RSpec.describe Reek::SmellDetectors::TooManyConstants do
       class Golf
         Hotel = India = 1
       end
-    EOS
+    RUBY
 
     expect(src).not_to reek_of(:TooManyConstants).with_config(config)
   end
 
   it 'does not report outer module when inner module suppressed' do
-    src = <<-EOS
+    src = <<-RUBY
       module Alfa
         # ignore :reek:TooManyConstants
         module Bravo
           Charlie = Delta = Echo = 1
         end
       end
-    EOS
+    RUBY
 
     expect(src).not_to reek_of(:TooManyConstants).with_config(config)
   end
 
   it 'counts each constant only once for each namespace' do
-    src = <<-EOS
+    src = <<-RUBY
       module Alfa
         Bravo = Charlie = 1
 
@@ -115,29 +115,29 @@ RSpec.describe Reek::SmellDetectors::TooManyConstants do
           Echo = 1
         end
       end
-    EOS
+    RUBY
 
     expect(src).not_to reek_of(:TooManyConstants).with_config(config)
   end
 
   it 'reports for excessive constants inside a module' do
-    src = <<-EOS
+    src = <<-RUBY
       module Alfa
         Bravo = Charlie = Delta = 1
       end
-    EOS
+    RUBY
 
     expect(src).to reek_of(:TooManyConstants, context: 'Alfa').with_config(config)
   end
 
   it 'reports the full class name' do
-    src = <<-EOS
+    src = <<-RUBY
       module Alfa
         class Bravo
           Charlie = Delta = Echo = 1
         end
       end
-    EOS
+    RUBY
 
     expect(src).to reek_of(:TooManyConstants, context: 'Alfa::Bravo').with_config(config)
   end

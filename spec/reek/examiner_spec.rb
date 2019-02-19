@@ -92,10 +92,10 @@ RSpec.describe Reek::Examiner do
 
     context 'when source only contains comments' do
       let(:source) do
-        <<-EOS
+        <<-RUBY
             # Just a comment
             # And another
-        EOS
+        RUBY
       end
       let(:examiner) do
         described_class.new(source)
@@ -255,10 +255,10 @@ RSpec.describe Reek::Examiner do
 
     context 'with an unknown smell detector' do
       let(:source) do
-        <<-EOS
+        <<-RUBY
           # :reek:DoesNotExist
           def alfa; end
-        EOS
+        RUBY
       end
 
       it 'raises a bad detector name error' do
@@ -281,10 +281,10 @@ RSpec.describe Reek::Examiner do
 
     context 'with garbage in detector config' do
       let(:source) do
-        <<-EOS
+        <<-RUBY
           # :reek:UncommunicativeMethodName { thats: a: bad: config }
           def alfa; end
-        EOS
+        RUBY
       end
 
       it 'raises a garbarge configuration error' do

@@ -3,13 +3,13 @@ require_lib 'reek/smell_detectors/long_yield_list'
 
 RSpec.describe Reek::SmellDetectors::LongYieldList do
   it 'reports the right values' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         def bravo(charlie, delta, echo, foxtrot)
           yield charlie, delta, echo, foxtrot
         end
       end
-    EOS
+    RUBY
 
     expect(src).to reek_of(:LongYieldList,
                            lines:   [3],
@@ -20,7 +20,7 @@ RSpec.describe Reek::SmellDetectors::LongYieldList do
   end
 
   it 'does count all occurences' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         def bravo(charlie, delta, echo, foxtrot)
           yield charlie, delta, echo, foxtrot
@@ -30,7 +30,7 @@ RSpec.describe Reek::SmellDetectors::LongYieldList do
           yield hotel, india, juliett, kilo
         end
       end
-    EOS
+    RUBY
 
     expect(src).
       to reek_of(:LongYieldList, lines: [3], context: 'Alfa#bravo').
@@ -38,11 +38,11 @@ RSpec.describe Reek::SmellDetectors::LongYieldList do
   end
 
   it 'does not report yield with 3 parameters' do
-    src = <<-EOS
+    src = <<-RUBY
       def alfa(bravo, charlie, delta)
         yield bravo, charlie, delta
       end
-    EOS
+    RUBY
 
     expect(src).not_to reek_of(:LongYieldList)
   end

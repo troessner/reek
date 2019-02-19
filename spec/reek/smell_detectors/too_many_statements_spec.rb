@@ -7,7 +7,7 @@ RSpec.describe Reek::SmellDetectors::TooManyStatements do
   end
 
   it 'reports the right values' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         def bravo
           charlie = 1
@@ -15,7 +15,7 @@ RSpec.describe Reek::SmellDetectors::TooManyStatements do
           echo    = 3
         end
       end
-    EOS
+    RUBY
 
     expect(src).to reek_of(:TooManyStatements,
                            lines:   [2],
@@ -26,7 +26,7 @@ RSpec.describe Reek::SmellDetectors::TooManyStatements do
   end
 
   it 'does count all occurences' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         def bravo
           charlie = 1
@@ -40,7 +40,7 @@ RSpec.describe Reek::SmellDetectors::TooManyStatements do
           india = 3
         end
       end
-    EOS
+    RUBY
 
     expect(src).
       to reek_of(:TooManyStatements, lines: [2], context: 'Alfa#bravo').with_config(config).
@@ -48,20 +48,20 @@ RSpec.describe Reek::SmellDetectors::TooManyStatements do
   end
 
   it 'does not report short methods' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         def bravo
           charlie = 1
           delta   = 2
         end
       end
-    EOS
+    RUBY
 
     expect(src).not_to reek_of(:TooManyStatements).with_config(config)
   end
 
   it 'does not report initialize' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         def initialize
           charlie = 1
@@ -69,13 +69,13 @@ RSpec.describe Reek::SmellDetectors::TooManyStatements do
           echo    = 3
         end
       end
-    EOS
+    RUBY
 
     expect(src).not_to reek_of(:TooManyStatements).with_config(config)
   end
 
   it 'reports long inner block' do
-    src = <<-EOS
+    src = <<-RUBY
       def long
         self.each do |x|
           charlie = 1
@@ -83,7 +83,7 @@ RSpec.describe Reek::SmellDetectors::TooManyStatements do
           echo    = 3
         end
       end
-    EOS
+    RUBY
 
     expect(src).to reek_of(:TooManyStatements).with_config(config)
   end

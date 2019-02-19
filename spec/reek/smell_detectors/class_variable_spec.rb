@@ -3,11 +3,11 @@ require_lib 'reek/smell_detectors/class_variable'
 
 RSpec.describe Reek::SmellDetectors::ClassVariable do
   it 'reports the right values' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         @@bravo = 5
       end
-    EOS
+    RUBY
 
     expect(src).to reek_of(:ClassVariable,
                            lines:   [2],
@@ -18,12 +18,12 @@ RSpec.describe Reek::SmellDetectors::ClassVariable do
   end
 
   it 'does count all class variables' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         @@bravo = 42
         @@charlie = 99
       end
-    EOS
+    RUBY
 
     expect(src).
       to reek_of(:ClassVariable, name: '@@bravo').
@@ -31,32 +31,32 @@ RSpec.describe Reek::SmellDetectors::ClassVariable do
   end
 
   it 'does not report class instance variables' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         @bravo = 42
       end
-    EOS
+    RUBY
 
     expect(src).not_to reek_of(:ClassVariable)
   end
 
   context 'with no class variables' do
     it 'records nothing in the class' do
-      src = <<-EOS
+      src = <<-RUBY
         class Alfa
           def bravo; end
         end
-      EOS
+      RUBY
 
       expect(src).not_to reek_of(:ClassVariable)
     end
 
     it 'records nothing in the module' do
-      src = <<-EOS
+      src = <<-RUBY
         module Alfa
           def bravo; end
         end
-      EOS
+      RUBY
 
       expect(src).not_to reek_of(:ClassVariable)
     end
@@ -65,31 +65,31 @@ RSpec.describe Reek::SmellDetectors::ClassVariable do
   ['class', 'module'].each do |scope|
     context "when examining a #{scope}" do
       it 'reports a class variable set in a method' do
-        src = <<-EOS
+        src = <<-RUBY
           #{scope} Alfa
             def bravo
               @@charlie = {}
             end
           end
-        EOS
+        RUBY
 
         expect(src).to reek_of(:ClassVariable, name: '@@charlie')
       end
 
       it 'reports a class variable used in a method' do
-        src = <<-EOS
+        src = <<-RUBY
           #{scope} Alfa
             def bravo
               puts @@charlie
             end
           end
-        EOS
+        RUBY
 
         expect(src).to reek_of(:ClassVariable, name: '@@charlie')
       end
 
       it "reports a class variable set in the #{scope} body and used in a method" do
-        src = <<-EOS
+        src = <<-RUBY
           #{scope} Alfa
             @@bravo = 42
 
@@ -97,7 +97,7 @@ RSpec.describe Reek::SmellDetectors::ClassVariable do
               puts @@bravo
             end
           end
-        EOS
+        RUBY
 
         expect(src).to reek_of(:ClassVariable, name: '@@bravo')
       end

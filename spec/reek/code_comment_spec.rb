@@ -58,10 +58,10 @@ RSpec.describe Reek::CodeComment do
     end
 
     it 'parses multiple hashed options' do
-      comment = <<-EOF
+      comment = <<-RUBY
         # :reek:DuplicateMethodCall { enabled: false }
         # :reek:NestedIterators { enabled: true }
-      EOF
+      RUBY
       config = build(:code_comment, comment: comment).config
 
       expect(config).to include('DuplicateMethodCall', 'NestedIterators')
@@ -72,9 +72,9 @@ RSpec.describe Reek::CodeComment do
     end
 
     it 'parses multiple hashed options on the same line' do
-      comment = <<-EOF
+      comment = <<-RUBY
         #:reek:DuplicateMethodCall { enabled: false } and :reek:NestedIterators { enabled: true }
-      EOF
+      RUBY
       config = build(:code_comment, comment: comment).config
 
       expect(config).to include('DuplicateMethodCall', 'NestedIterators')
@@ -111,12 +111,12 @@ RSpec.describe Reek::CodeComment do
     end
 
     it 'removes the configuration options from the comment' do
-      original_comment = <<-EOF
+      original_comment = <<-RUBY
         # Actual
         # :reek:DuplicateMethodCall { enabled: false }
         # :reek:NestedIterators { enabled: true }
         # comment
-      EOF
+      RUBY
       comment = build(:code_comment, comment: original_comment)
 
       expect(comment.send(:sanitized_comment)).to eq('Actual comment')

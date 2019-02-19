@@ -7,14 +7,14 @@ RSpec.describe Reek::SmellDetectors::TooManyMethods do
   end
 
   it 'reports the right values' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         def bravo; end
         def charlie; end
         def delta; end
         def echo; end
       end
-    EOS
+    RUBY
 
     expect(src).to reek_of(:TooManyMethods,
                            lines:   [1],
@@ -25,19 +25,19 @@ RSpec.describe Reek::SmellDetectors::TooManyMethods do
   end
 
   it 'does not report if we stay below max_methods' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         def bravo; end
         def charlie; end
         def delta; end
       end
-    EOS
+    RUBY
 
     expect(src).not_to reek_of(:TooManyMethods).with_config(config)
   end
 
   it 'stops at a nested module' do
-    src = <<-EOS
+    src = <<-RUBY
       class Alfa
         def bravo; end
         def charlie; end
@@ -47,7 +47,7 @@ RSpec.describe Reek::SmellDetectors::TooManyMethods do
           def echo; end
         end
       end
-    EOS
+    RUBY
 
     expect(src).not_to reek_of(:TooManyMethods).with_config(config)
   end

@@ -3,10 +3,10 @@ require_lib 'reek/smell_detectors/uncommunicative_module_name'
 
 RSpec.describe Reek::SmellDetectors::UncommunicativeModuleName do
   it 'reports the right values' do
-    src = <<-EOS
+    src = <<-RUBY
       class K
       end
-    EOS
+    RUBY
 
     expect(src).to reek_of(:UncommunicativeModuleName,
                            lines:   [1],

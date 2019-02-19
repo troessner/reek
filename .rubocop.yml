@@ -62,11 +62,6 @@ Metrics/LineLength:
 Metrics/ParameterLists:
   CountKeywordArgs: false
 
-# EOS is a fine name to use in our specs
-Naming/HeredocDelimiterNaming:
-  Exclude:
-    - 'spec/**/*'
-
 # These files do not test classes or modules
 RSpec/DescribeClass:
   Exclude:

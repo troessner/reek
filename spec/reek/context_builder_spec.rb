@@ -98,7 +98,7 @@ RSpec.describe Reek::ContextBuilder do
       end
 
       it 'counts 3 statements in an else' do
-        code = <<-EOS
+        code = <<-RUBY
           def one()
             if val == 4
               callee(); callee(); callee()
@@ -106,7 +106,7 @@ RSpec.describe Reek::ContextBuilder do
               callee(); callee(); callee()
             end
           end
-        EOS
+        RUBY
 
         expect(number_of_statements_for(code)).to eq(6)
       end
@@ -157,7 +157,7 @@ RSpec.describe Reek::ContextBuilder do
       end
 
       it 'counts 3 statements in a rescue' do
-        code = <<-EOS
+        code = <<-RUBY
           def one()
             begin
               callee(); callee(); callee()
@@ -165,31 +165,31 @@ RSpec.describe Reek::ContextBuilder do
               callee(); callee(); callee()
             end
           end
-        EOS
+        RUBY
         expect(number_of_statements_for(code)).to eq(6)
       end
 
       it 'counts 3 statements in a when' do
-        code = <<-EOS
+        code = <<-RUBY
           def one()
             case fred
             when "hi" then callee(); callee()
             when "lo" then callee()
             end
           end
-        EOS
+        RUBY
         expect(number_of_statements_for(code)).to eq(3)
       end
 
       it 'counts 3 statements in a case else' do
-        code = <<-EOS
+        code = <<-RUBY
           def one()
             case fred
             when "hi" then callee(); callee(); callee()
             else           callee(); callee(); callee()
             end
           end
-        EOS
+        RUBY
         expect(number_of_statements_for(code)).to eq(6)
       end
 
@@ -221,7 +221,7 @@ RSpec.describe Reek::ContextBuilder do
     end
 
     it 'marks instance methods when using a def modifier' do
-      code = <<-EOS
+      code = <<-RUBY
         class Foo
           private def bar
           end
@@ -229,7 +229,7 @@ RSpec.describe Reek::ContextBuilder do
           def baz
           end
         end
-      EOS
+      RUBY
 
       root = context_tree_for(code)
       module_context = root.children.first
@@ -241,7 +241,7 @@ RSpec.describe Reek::ContextBuilder do
     end
 
     it 'does not mark class methods with instance visibility' do
-      code = <<-EOS
+      code = <<-RUBY
         class Foo
           private
           def bar
@@ -249,7 +249,7 @@ RSpec.describe Reek::ContextBuilder do
           def self.baz
           end
         end
-      EOS
+      RUBY
 
       root = context_tree_for(code)
       module_context = root.children.first
@@ -259,7 +259,7 @@ RSpec.describe Reek::ContextBuilder do
     end
 
     it 'only marks existing instance methods using later instance method modifiers' do
-      code = <<-EOS
+      code = <<-RUBY
         class Foo
           def bar
           end
@@ -277,7 +277,7 @@ RSpec.describe Reek::ContextBuilder do
 
           private :bar, :baz
         end
-      EOS
+      RUBY
 
       root = context_tree_for(code)
       module_context = root.children.first
@@ -289,7 +289,7 @@ RSpec.describe Reek::ContextBuilder do
     end
 
     it 'only marks existing instance attributes using later instance method modifiers' do
-      code = <<-EOS
+      code = <<-RUBY
         class Foo
           attr_writer :bar
 
@@ -299,7 +299,7 @@ RSpec.describe Reek::ContextBuilder do
 
           private :bar
         end
-      EOS
+      RUBY
 
       root = context_tree_for(code)
       module_context = root.children.first
@@ -309,14 +309,14 @@ RSpec.describe Reek::ContextBuilder do
     end
 
     it 'marks class method visibility using private_class_method' do
-      code = <<-EOS
+      code = <<-RUBY
         class Foo
           def self.baz
           end
 
           private_class_method :baz
         end
-      EOS
+      RUBY
 
       root = context_tree_for(code)
       module_context = root.children.first
@@ -325,7 +325,7 @@ RSpec.describe Reek::ContextBuilder do
     end
 
     it 'marks class method visibility using public_class_method' do
-      code = <<-EOS
+      code = <<-RUBY
         class Foo
           class << self
             private
@@ -336,7 +336,7 @@ RSpec.describe Reek::ContextBuilder do
 
           public_class_method :baz
         end
-      EOS
+      RUBY
 
       root = context_tree_for(code)
       module_context = root.children.first
@@ -345,7 +345,7 @@ RSpec.describe Reek::ContextBuilder do
     end
 
     it 'correctly skips nested modules' do
-      code = <<-EOS
+      code = <<-RUBY
         class Foo
           class Bar
             def baz
@@ -361,7 +361,7 @@ RSpec.describe Reek::ContextBuilder do
           private :baz
           private_class_method :bar
         end
-      EOS
+      RUBY
 
       root = context_tree_for(code)
       foo_context = root.children.first
@@ -373,7 +373,7 @@ RSpec.describe Reek::ContextBuilder do
 
   describe '#context_tree' do
     it 'creates the proper context for all kinds of singleton methods' do
-      src = <<-EOS
+      src = <<-RUBY
         class Car
           def self.start; end
 
@@ -381,7 +381,7 @@ RSpec.describe Reek::ContextBuilder do
             def drive; end
           end
         end
-      EOS
+      RUBY
 
       syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
       context_tree = described_class.new(syntax_tree).context_tree
@@ -395,7 +395,7 @@ RSpec.describe Reek::ContextBuilder do
     end
 
     it 'returns something sensible for nested metaclasses' do
-      src = <<-EOS
+      src = <<-RUBY
         class Foo
           class << self
             class << self
@@ -403,7 +403,7 @@ RSpec.describe Reek::ContextBuilder do
             end
           end
         end
-      EOS
+      RUBY
 
       syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
       context_tree = described_class.new(syntax_tree).context_tree
@@ -416,14 +416,14 @@ RSpec.describe Reek::ContextBuilder do
     end
 
     it 'returns something sensible for nested method definitions' do
-      src = <<-EOS
+      src = <<-RUBY
         class Foo
           def foo
             def bar
             end
           end
         end
-      EOS
+      RUBY
 
       syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
       context_tree = described_class.new(syntax_tree).context_tree
@@ -437,14 +437,14 @@ RSpec.describe Reek::ContextBuilder do
     end
 
     it 'returns something sensible for method definitions nested in singleton methods' do
-      src = <<-EOS
+      src = <<-RUBY
         class Foo
           def self.foo
             def bar
             end
           end
         end
-      EOS
+      RUBY
 
       syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
       context_tree = described_class.new(syntax_tree).context_tree
