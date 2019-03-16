@@ -3,7 +3,74 @@
 ## Introduction
 
 Duplication occurs when two fragments of code look nearly identical, or when two fragments of code have nearly identical effects at some conceptual level.
-Reek implements a check for _Duplicate Method Call_.
+
+Let's look at an example that is quite common in the Rails world:
+
+```Ruby
+def not_production?
+  Rails.env.development? || Rails.env.test?
+end  
+```
+
+While this duplicate usage of `Rails.env` might seem innocuous there are 2 problems with it:
+
+1.) Efficiency
+
+```Ruby
+Rails.env.development? || Rails.env.test?
+```
+
+is not as efficient as it could be. If the call to `env` is not memoized your basically paying twice in terms of computation for something that you should only pay once.
+
+Here
+
+```Ruby
+Rails.env.development? || Rails.env.test?
+```
+
+you have 4 method calls while here:
+
+```Ruby
+env = Rails.env
+env.development? || env.test?
+```
+
+you have one assignment (which is very cheap in terms of computation) and 3 method calls.
+The difference might not be much here but just imagine you're writing a high performance app or you doing some expensive database calls in each method call.
+
+It doesn't really matter though if the efficiency difference is significant. This is a matter of principle - we believe that being efficient is one of the vital traits of good software.
+
+2.) Maintainability
+
+The second point is a bit more subtle. This
+
+```Ruby
+env = Rails.env
+env.development? || env.test?
+```
+
+is a lot more intention revealing than 
+
+```Ruby
+Rails.env.development? || Rails.env.test?
+```
+
+Here
+
+```Ruby
+env = Rails.env
+env.development? || env.test?
+```
+
+I'm very clear on what I do: I get the environment and then I run some checks on it.
+
+Here
+
+```Ruby
+Rails.env.development? || Rails.env.test?
+```
+
+I'm not very clear on what I do and it requires quite more mental effort: Ok, so I'm talking to Rails, getting the environment and then running a check on it ...or .....oh, I get the same Rails constant again, get the same environment and run another check on it.
 
 ## Example
 
