@@ -1,8 +1,10 @@
-# Reek Driven Development
+# Reek-Driven Development
 
-## rake
+One way to drive quality into your code from the very beginning of a project is to run Reek as a part of your testing process.
 
-One way to drive quality into your code from the very beginning of a project is to run Reek as a part of your testing process. For example, you could do that by adding a [Rake Task](Rake-Task.md) to your rakefile, which will make it easy to run Reek on all your source files whenever you need to.
+## Rake: `Reek::Rake::Task`
+
+You can add a [Rake Task] to your Rakefile, which will run Reek on all your source files.
 
 ```Ruby
 require 'reek/rake/task'
@@ -14,13 +16,21 @@ Reek::Rake::Task.new do |t|
 end
 ```
 
-Now the command `reek` will run Reek on your source code (and in this case, it fails if it finds any smells). For more detailed information about Reek's integration with Rake, see [Rake Task](Rake-Task.md).
+Now, `rake reek` will run Reek on your source code. And, in this case, it fails if it finds any smells.
 
-## reek/spec
+For more detailed information about Reek's integration with Rake, see [Rake Task].
 
-But there's another way; a much more effective "Reek-driven" approach: add Reek expectations directly into your Rspec specs. Here's an example taken directly from Reek's own source code:
+[Rake Task]: Rake-Task.md
+
+## RSpec: `reek/spec`
+
+You can add Reek expectations directly into your RSpec specs.
+
+This example is from Reek's own source code:
 
 ```Ruby
+require 'reek/spec'
+
 it 'contains no code smells' do
   Pathname.glob('lib/**/*.rb').each do |file|
     expect(file).not_to reek
@@ -28,12 +38,9 @@ it 'contains no code smells' do
 end
 ```
 
-By requiring [`reek/spec`](../lib/reek/spec.rb) you gain access to the `reek` matcher, which returns true if and only if Reek finds smells in your code. And if the test fails, the matcher produces an error message that includes details of all the smells it found.
+By requiring [`reek/spec`] you gain access to the `reek` matcher.
 
-## assert
+The `reek` matcher returns true if and only if Reek finds smells in your code. If the test fails, the matcher produces an error message that includes details of all the smells it found.
 
-If you're not yet into BDD with Rspec, you can still gain the benefits of Reek-driven development using assertions:
+[`reek/spec`]: ../lib/reek/spec.rb
 
-```Ruby
-assert !Dir['lib/**/*.rb'].to_source.smelly?
-```
