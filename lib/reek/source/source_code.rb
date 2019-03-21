@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative '../cli/silencer'
-Reek::CLI::Silencer.without_warnings { require 'parser/ruby25' }
+Reek::CLI::Silencer.without_warnings { require 'parser/ruby26' }
 require_relative '../tree_dresser'
 require_relative '../ast/node'
 require_relative '../ast/builder'
@@ -53,7 +53,7 @@ module Reek
       end
 
       def self.default_parser
-        Parser::Ruby25.new(AST::Builder.new).tap do |parser|
+        Parser::Ruby26.new(AST::Builder.new).tap do |parser|
           diagnostics = parser.diagnostics
           diagnostics.all_errors_are_fatal = true
           diagnostics.ignore_warnings      = true
