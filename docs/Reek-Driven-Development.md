@@ -28,7 +28,7 @@ it 'contains no code smells' do
 end
 ```
 
-By requiring "reek/spec":http://reek.rubyforge.org/rdoc/classes/Reek/Spec.html you gain access to the `reek` matcher, which returns true if and only if Reek finds smells in your code. And if the test fails, the matcher produces an error message that includes details of all the smells it found.
+By requiring [`reek/spec`](../lib/reek/spec.rb) you gain access to the `reek` matcher, which returns true if and only if Reek finds smells in your code. And if the test fails, the matcher produces an error message that includes details of all the smells it found.
 
 ## assert
 
