@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 5.3.2 (2019-03-22)
+
+* (troessner) Use Parser26.
+
 ## 5.3.1 (2019-02-08)
 
 * (Al Snow) Upgrade parser dependency
