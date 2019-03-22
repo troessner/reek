@@ -175,8 +175,8 @@ reek_of('DuplicateMethodCall')
 * `wiki-links` flag has been renamed to `documentation` flag
 * Reek assumes the default configuration file to be named ".reek.yml" and will ignore all other files. You can
 still use any name you want though by passing in a name via the `-c` flag
-* We have dropped the legacy code comment separator ":" at the end of a detector name. If you wanted to configure
-a smell detector via comment before this release you had to use g like this:
+* We have dropped the legacy code comment separator ":" at the end of a detector name. Before this release,
+to configure a smell detector via comment, you had to end with a colon after the detector name, like this:
 
 ```
 # :reek:UnusedPrivateMethod: { exclude: [ bravo ] }
