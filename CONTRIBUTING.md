@@ -190,3 +190,20 @@ We are following [semantic versioning](http://semver.org/).
 If you're working on a change that is breaking backwards-compatibility
 just go ahead with your pull request like normal. We'll discuss this then in
 the pull request and help you to point your pull request to the right branch.
+
+### Releasing Reek
+
+In this example we assume the current version is 5.3.1 and you want to update to 5.3.2.
+
+* Create a branch with a name like "prepare-v.5.3.2"
+* Update the version in `lib/reek/version.rb`
+* List all relevant changes in `CHANGELOG.md`
+* Update the version number in our cucumber features, otherwise the build will fail. You can do this quite easily via
+  ```Bash
+  find features/ -type f -exec sed -i '' 's/v5.3.1/v5.3.2/g' {} +
+  ```
+* Push the branch, create a pull request, have it reviewed and merged
+* Pull the latest master and then do a
+  ```Bash
+  bundle exec rake release
+  ```
