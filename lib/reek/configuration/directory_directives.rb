@@ -53,8 +53,34 @@ module Reek
       # @quality :reek:FeatureEnvy
       def best_match_for(source_base_dir)
         keys.
-          select { |pathname| source_base_dir.to_s.match(/#{pathname.to_s}/) }.
+          select { |pathname| source_base_dir.to_s.match(glob_to_regexp(pathname.to_s)) }.
           max_by { |pathname| pathname.to_s.length }
+      end
+
+      # Transform a glob pattern to a regexp.
+      #
+      # It changes:
+      # - /** to .*,
+      # - ** to .*,
+      # - * to [^\/]*.
+      #
+      # @quality :reek:FeatureEnvy
+      # @quality :reek:UtilityFunction
+      def glob_to_regexp(glob)
+        is_glob_pattern = glob.include?('*')
+
+        regexp = if is_glob_pattern
+                   glob.
+                     gsub(%r{/\*\*$}, '<<to_eol_wildcards>>').
+                     gsub('**', '<<to_wildcards>>').
+                     gsub('*', '[^/]*').
+                     gsub('<<to_eol_wildcards>>', '.*').
+                     gsub('<<to_wildcards>>', '.*')
+                 else
+                   glob + '.*'
+                 end
+
+        Regexp.new("^#{regexp}$", Regexp::IGNORECASE)
       end
 
       def error_message_for_invalid_smell_type(klass)
