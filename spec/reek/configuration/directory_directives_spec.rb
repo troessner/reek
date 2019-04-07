@@ -44,11 +44,12 @@ RSpec.describe Reek::Configuration::DirectoryDirectives do
   describe '#best_match_for' do
     let(:directives) do
       {
-        Pathname.new('foo/bar/baz')    => {},
-        Pathname.new('foo/bar')        => {},
-        Pathname.new('bar/boo')        => {},
-        Pathname.new('bar/**/test/**') => {},
-        Pathname.new('bar/**/spec/*')  => {}
+        Pathname.new('foo/bar/baz')     => {},
+        Pathname.new('foo/bar')         => {},
+        Pathname.new('bar/boo')         => {},
+        Pathname.new('bar/**/test/**')  => {},
+        Pathname.new('bar/**/spec/*')   => {},
+        Pathname.new('bar/**/.spec/*')  => {}
       }.extend(described_class)
     end
 
@@ -80,6 +81,18 @@ RSpec.describe Reek::Configuration::DirectoryDirectives do
       source_base_dir = 'bar/something/spec/direct'
       hit = directives.send :best_match_for, source_base_dir
       expect(hit.to_s).to eq('bar/**/spec/*')
+    end
+
+    it 'returns the corresponding directory when source_base_dir contains a . character' do
+      source_base_dir = 'bar/something/.spec/direct'
+      hit = directives.send :best_match_for, source_base_dir
+      expect(hit.to_s).to eq('bar/**/.spec/*')
+    end
+
+    it 'does not match an arbitrary directory when source_base_dir contains a character that could match the .' do
+      source_base_dir = 'bar/something/aspec/direct'
+      hit = directives.send :best_match_for, source_base_dir
+      expect(hit.to_s).to eq('')
     end
 
     it 'returns nil when source_base_dir is a not direct leaf of the Dir.glob one-folder pattern' do

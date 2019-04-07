@@ -74,6 +74,7 @@ module Reek
                      gsub(%r{/\*\*$}, '<<to_eol_wildcards>>').
                      gsub('**', '<<to_wildcards>>').
                      gsub('*', '[^/]*').
+                     gsub('.', '\.').
                      gsub('<<to_eol_wildcards>>', '.*').
                      gsub('<<to_wildcards>>', '.*')
                  else
