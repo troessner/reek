@@ -93,8 +93,8 @@ module Reek
       wrap_exceptions do
         examine_tree
       end
-    rescue StandardError => exception
-      raise unless @error_handler.handle exception
+    rescue StandardError => error
+      raise unless @error_handler.handle error
 
       []
     end
