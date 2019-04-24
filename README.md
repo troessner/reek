@@ -309,12 +309,18 @@ detectors:
 # You can configure smells on a per-directory base.
 # E.g. the classic Rails case: controllers smell of NestedIterators (see /docs/Nested-Iterators.md) and
 # helpers smell of UtilityFunction (see docs/Utility-Function.md)
-# Note that we only allow configuration on a directory level, not a file level, so all paths have to point to directories.
+#
+# Note that we only allow configuration on a directory level, not a file level,
+# so all paths have to point to directories.
+# A Dir.glob pattern can be used.
 directories:
   "web_app/app/controllers":
     NestedIterators:
       enabled: false
-  "web_app/app/helpers":
+  "web_app/app/helpers**:
+    UtilityFunction:
+      enabled: false
+  "web_app/lib/**/test/**":
     UtilityFunction:
       enabled: false
 
