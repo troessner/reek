@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 5.4.0 (2019-04-24)
+
+* (Philippe Bernery) Enable regex for directory directives.
+
 ## 5.3.2 (2019-03-22)
 
 * (troessner) Use Parser26.
