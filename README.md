@@ -317,7 +317,7 @@ directories:
   "web_app/app/controllers":
     NestedIterators:
       enabled: false
-  "web_app/app/helpers**:
+  "web_app/app/helpers**":
     UtilityFunction:
       enabled: false
   "web_app/lib/**/test/**":
