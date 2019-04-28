@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 require_relative '../cli/silencer'
-Reek::CLI::Silencer.without_warnings { require 'parser/ruby26' }
+# Silence Parser's warnings about Ruby micro version differences
+Reek::CLI::Silencer.silently { require 'parser/current' }
 require_relative '../tree_dresser'
 require_relative '../ast/node'
 require_relative '../ast/builder'
@@ -53,7 +54,7 @@ module Reek
       end
 
       def self.default_parser
-        Parser::Ruby26.new(AST::Builder.new).tap do |parser|
+        Parser::CurrentRuby.new(AST::Builder.new).tap do |parser|
           diagnostics = parser.diagnostics
           diagnostics.all_errors_are_fatal = true
           diagnostics.ignore_warnings      = true
