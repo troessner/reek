@@ -13,14 +13,14 @@ group :development do
   gem 'rake',                '~> 12.0'
   gem 'rspec',               '~> 3.0'
   gem 'rspec-benchmark',     '~> 0.5.0'
-  gem 'rubocop',             '~> 0.73.0'
+  gem 'rubocop',             '~> 0.74.0'
   gem 'rubocop-performance', '~> 1.4.0'
-  gem 'rubocop-rspec',       '~> 1.34.0'
+  gem 'rubocop-rspec',       '~> 1.35.0'
   gem 'simplecov',           '~> 0.17.0'
   gem 'yard',                '~> 0.9.5'
 
   platforms :mri do
-    gem 'redcarpet', '~> 3.4.0'
+    gem 'redcarpet', '~> 3.4'
   end
 end
 
