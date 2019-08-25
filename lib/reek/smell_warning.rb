@@ -15,22 +15,21 @@ module Reek
     extend Forwardable
 
     # @public
-    attr_reader :context, :lines, :message, :parameters, :smell_detector, :source
-    def_delegators :smell_detector, :smell_type
+    attr_reader :context, :lines, :message, :parameters, :smell_type, :source
 
     # @note When using Reek's public API, you should not create SmellWarning
     #   objects yourself. This is why the initializer is not part of the
     #   public API.
     #
     # @quality :reek:LongParameterList { max_params: 6 }
-    def initialize(smell_detector, context: '', lines:, message:,
+    def initialize(smell_type, context: '', lines:, message:,
                    source:, parameters: {})
-      @smell_detector = smell_detector
-      @source         = source
-      @context        = context.to_s
-      @lines          = lines
-      @message        = message
-      @parameters     = parameters
+      @smell_type = smell_type
+      @source     = source
+      @context    = context.to_s
+      @lines      = lines
+      @message    = message
+      @parameters = parameters
 
       freeze
     end

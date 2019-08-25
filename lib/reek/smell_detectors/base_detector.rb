@@ -79,7 +79,7 @@ module Reek
       end
 
       def smell_warning(**options)
-        SmellWarning.new(self,
+        SmellWarning.new(smell_type,
                          source: expression.source,
                          context: context.full_name,
                          lines: options.fetch(:lines),
