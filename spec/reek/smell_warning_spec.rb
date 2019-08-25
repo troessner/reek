@@ -87,13 +87,6 @@ RSpec.describe Reek::SmellWarning do
     end
   end
 
-  describe '#smell_class' do
-    it "returns the dectector's class" do
-      warning = build(:smell_warning, smell_detector: duplication_detector)
-      expect(warning.smell_class).to eq duplication_detector.class
-    end
-  end
-
   describe '#yaml_hash' do
     let(:context_name) { 'Module::Class#method/block' }
     let(:lines) { [24, 513] }
