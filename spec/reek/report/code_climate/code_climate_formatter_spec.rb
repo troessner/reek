@@ -5,11 +5,11 @@ RSpec.describe Reek::Report::CodeClimateFormatter do
   describe '#render' do
     let(:warning) do
       build(:smell_warning,
-            smell_detector: Reek::SmellDetectors::UtilityFunction.new,
-            context:        'context foo',
-            message:        'message bar',
-            lines:          [1, 2],
-            source:         'a/ruby/source/file.rb')
+            smell_type: 'UtilityFunction',
+            context:    'context foo',
+            message:    'message bar',
+            lines:      [1, 2],
+            source:     'a/ruby/source/file.rb')
     end
     let(:rendered) { described_class.new(warning).render }
     let(:json) { JSON.parse rendered.chop }
