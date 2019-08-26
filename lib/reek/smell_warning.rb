@@ -17,6 +17,15 @@ module Reek
     # @public
     attr_reader :context, :lines, :message, :parameters, :smell_type, :source
 
+    # @param smell_type [String] type of detected smell; corresponds to
+    #   detector#smell_type
+    # @param context [String] name of the context in which the smell occured
+    # @param lines [Array<Integer>] list of lines on which the smell occured
+    # @param message [String] text describing the smell in more detail
+    # @param source [String] name of the source (e.g., the file name) in which
+    #   the smell occured
+    # @param parameters [Hash] smell-specific parameters
+    #
     # @note When using Reek's public API, you should not create SmellWarning
     #   objects yourself. This is why the initializer is not part of the
     #   public API.
