@@ -5,15 +5,13 @@ require_lib 'reek/smell_detectors/duplicate_method_call'
 RSpec.describe Reek::SmellDetectors::BaseDetector do
   describe '.todo_configuration_for' do
     it 'returns exclusion configuration for the given smells' do
-      detector = described_class.new
-      smell = create(:smell_warning, smell_detector: detector, context: 'Foo#bar')
+      smell = create(:smell_warning, smell_type: 'Foo', context: 'Foo#bar')
       result = described_class.todo_configuration_for([smell])
       expect(result).to eq('BaseDetector' => { 'exclude' => ['Foo#bar'] })
     end
 
     it 'merges identical contexts' do
-      detector = described_class.new
-      smell = create(:smell_warning, smell_detector: detector, context: 'Foo#bar')
+      smell = create(:smell_warning, smell_type: 'Foo', context: 'Foo#bar')
       result = described_class.todo_configuration_for([smell, smell])
       expect(result).to eq('BaseDetector' => { 'exclude' => ['Foo#bar'] })
     end
@@ -22,8 +20,7 @@ RSpec.describe Reek::SmellDetectors::BaseDetector do
       let(:subclass) { Reek::SmellDetectors::TooManyStatements }
 
       it 'includes default exclusions' do
-        detector = subclass.new
-        smell = create(:smell_warning, smell_detector: detector, context: 'Foo#bar')
+        smell = create(:smell_warning, smell_type: 'TooManyStatements', context: 'Foo#bar')
         result = subclass.todo_configuration_for([smell])
 
         aggregate_failures do

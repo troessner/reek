@@ -40,11 +40,16 @@ module Reek
         def groups
           @groups ||=
             begin
-              todos = smells.group_by(&:smell_class).map do |smell_class, smells_for_class|
+              todos = DetectorRepository.smell_types.map do |smell_class|
+                smells_for_class = grouped_smells[smell_class.smell_type] or next
                 smell_class.todo_configuration_for(smells_for_class)
               end
-              todos.inject(&:merge)
+              todos.compact.inject(&:merge)
             end
+        end
+
+        def grouped_smells
+          @grouped_smells ||= smells.group_by(&:smell_type)
         end
 
         # :reek:FeatureEnvy

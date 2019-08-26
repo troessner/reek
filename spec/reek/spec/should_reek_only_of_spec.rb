@@ -40,19 +40,16 @@ RSpec.describe Reek::Spec::ShouldReekOnlyOf do
   end
 
   context 'with 1 non-matching smell' do
-    let(:control_couple_detector) { build(:smell_detector, smell_type: 'ControlParameter') }
-    let(:smells) { [build(:smell_warning, smell_detector: control_couple_detector)] }
+    let(:smells) { [build(:smell_warning, smell_type: 'ControlParameter')] }
 
     it_behaves_like 'no match'
   end
 
   context 'with 2 non-matching smells' do
-    let(:control_couple_detector) { build(:smell_detector, smell_type: 'ControlParameter') }
-    let(:feature_envy_detector) { build(:smell_detector, smell_type: 'FeatureEnvy') }
     let(:smells) do
       [
-        build(:smell_warning, smell_detector: control_couple_detector),
-        build(:smell_warning, smell_detector: feature_envy_detector)
+        build(:smell_warning, smell_type: 'ControlParameter'),
+        build(:smell_warning, smell_type: 'FeatureEnvy')
       ]
     end
 
@@ -60,12 +57,10 @@ RSpec.describe Reek::Spec::ShouldReekOnlyOf do
   end
 
   context 'with 1 non-matching and 1 matching smell' do
-    let(:control_couple_detector) { build(:smell_detector, smell_type: 'ControlParameter') }
     let(:smells) do
-      detector = build(:smell_detector, smell_type: expected_smell_type.to_s)
       [
-        build(:smell_warning, smell_detector: control_couple_detector),
-        build(:smell_warning, smell_detector: detector,
+        build(:smell_warning, smell_type: 'ControlParameter'),
+        build(:smell_warning, smell_type: expected_smell_type.to_s,
                               message: "message mentioning #{expected_context_name}")
       ]
     end
@@ -75,9 +70,7 @@ RSpec.describe Reek::Spec::ShouldReekOnlyOf do
 
   context 'with 1 matching smell' do
     let(:smells) do
-      detector = build(:smell_detector, smell_type: expected_smell_type.to_s)
-
-      [build(:smell_warning, smell_detector: detector,
+      [build(:smell_warning, smell_type: expected_smell_type.to_s,
                              message: "message mentioning #{expected_context_name}")]
     end
 

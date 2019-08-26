@@ -4,29 +4,18 @@ require_relative '../../lib/reek/smell_warning'
 require_relative '../../lib/reek/cli/options'
 
 FactoryBot.define do
-  factory :smell_detector, class: Reek::SmellDetectors::BaseDetector do
-    skip_create
-    transient do
-      smell_type { 'FeatureEnvy' }
-    end
-
-    initialize_with do
-      ::Reek::SmellDetectors.const_get(smell_type).new
-    end
-  end
-
   factory :smell_warning, class: Reek::SmellWarning do
     skip_create
-    smell_detector
-    context { 'self' }
 
+    smell_type { 'FeatureEnvy' }
     source { 'dummy_file' }
     lines { [42] }
     message { 'smell warning message' }
     parameters { {} }
+    context { 'self' }
 
     initialize_with do
-      new(smell_detector,
+      new(smell_type,
           source: source,
           context: context,
           lines: lines,

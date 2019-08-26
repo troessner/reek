@@ -2,9 +2,8 @@ require_relative '../../spec_helper'
 require_lib 'reek/spec/smell_matcher'
 
 RSpec.describe Reek::Spec::SmellMatcher do
-  let(:detector) { build(:smell_detector, smell_type: 'UncommunicativeVariableName') }
   let(:smell_warning) do
-    build(:smell_warning, smell_detector: detector,
+    build(:smell_warning, smell_type: 'UncommunicativeVariableName',
                           message: "has the variable name '@s'",
                           parameters: { test: 'something' })
   end
