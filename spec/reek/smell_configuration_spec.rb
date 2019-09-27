@@ -18,10 +18,12 @@ RSpec.describe Reek::SmellConfiguration do
     it { expect(smell_config.merge('enabled' => true)).to eq(base_config) }
     it { expect(smell_config.merge('exclude' => [])).to eq(base_config) }
     it { expect(smell_config.merge('accept' => ['_'])).to eq(base_config) }
+
     it do
       updated = smell_config.merge('reject' => [/^.$/, /[0-9]$/, /[A-Z]/])
       expect(updated).to eq(base_config)
     end
+
     it do
       updated = smell_config.merge('accept' => ['_'], 'enabled' => true)
       expect(updated).to eq(base_config)
