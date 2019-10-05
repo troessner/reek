@@ -6,6 +6,7 @@ RSpec.shared_examples_for 'no smells found' do
   it 'is not smelly' do
     expect(examiner).not_to be_smelly
   end
+
   it 'finds no smells' do
     expect(examiner.smells.length).to eq(0)
   end

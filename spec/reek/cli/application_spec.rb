@@ -9,7 +9,7 @@ RSpec.describe Reek::CLI::Application do
           described_class.new ['--foo']
         end
       end
-      expect(call).to raise_error(SystemExit) do |error|
+      expect(&call).to raise_error(SystemExit) do |error|
         expect(error.status).to eq Reek::CLI::Status::DEFAULT_ERROR_EXIT_CODE
       end
     end
