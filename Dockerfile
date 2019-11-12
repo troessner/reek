@@ -3,7 +3,7 @@
 # Build and run via:
 #   docker build -t codeclimate/codeclimate-reek . && docker run codeclimate/codeclimate-reek
 
-FROM ruby:2.3.3-alpine
+FROM ruby:2.6.0-alpine
 
 MAINTAINER The Reek core team
 
