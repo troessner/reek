@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## 5.4.1 (2019-11-12)
+
+* (Filipe Esperandio) Bump base image to a more recent ruby version
+* (Fernando Contreras) Add quotes inside directory configuration
+
 ## 5.4.0 (2019-04-24)
 
 * (Philippe Bernery) Enable regex for directory directives.
