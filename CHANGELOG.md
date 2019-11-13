@@ -1,11 +1,15 @@
 # Change log
 
-## Unreleased
+## 5.5.0 (2019-11-13)
+
+* (mvz) Use the Parser class matching current ruby for parsing, instead of
+  always picking version 2.6.
 
 ## 5.4.1 (2019-11-12)
 
-* (Filipe Esperandio) Bump base image to a more recent ruby version
-* (Fernando Contreras) Add quotes inside directory configuration
+* (Filipe Esperandio) Bump base Docker image to a more recent ruby version
+* (Fernando Contreras) Add quotes inside directory configuration example in
+  README
 
 ## 5.4.0 (2019-04-24)
 

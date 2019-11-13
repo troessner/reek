@@ -104,6 +104,10 @@ Reek is officially supported for CRuby 2.3 to 2.6 and for JRuby 9.1 and 9.2.
 Other Ruby implementations (like Rubinius) are not officially supported but
 should work as well.
 
+Note that, on each Ruby version, Reek will use the parser for that version of
+Ruby. So, you should always run Reek using one of your project's target Ruby
+versions.
+
 ## Fixing Smell Warnings
 
 Reek focuses on high-level code smells, so we can't tell you how to fix warnings in
