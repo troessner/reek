@@ -4,7 +4,7 @@ require_relative '../../lib/reek/smell_warning'
 require_relative '../../lib/reek/cli/options'
 
 FactoryBot.define do
-  factory :smell_warning, class: Reek::SmellWarning do
+  factory :smell_warning, class: 'Reek::SmellWarning' do
     skip_create
 
     smell_type { 'FeatureEnvy' }
@@ -24,7 +24,7 @@ FactoryBot.define do
     end
   end
 
-  factory :code_comment, class: Reek::CodeComment do
+  factory :code_comment, class: 'Reek::CodeComment' do
     comment { '' }
     line { 1 }
     source { 'string' }

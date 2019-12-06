@@ -12,7 +12,7 @@ AllCops:
   TargetRubyVersion: 2.3
 
 # Tables are nice
-Layout/AlignHash:
+Layout/HashAlignment:
   EnforcedColonStyle: table
   EnforcedHashRocketStyle: table
   EnforcedLastArgumentHashStyle: ignore_implicit

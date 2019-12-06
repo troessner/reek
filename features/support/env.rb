@@ -5,7 +5,7 @@ require 'active_support/core_ext/string/strip'
 
 begin
   require 'pry-byebug'
-rescue LoadError # rubocop:disable Lint/HandleExceptions
+rescue LoadError # rubocop:disable Lint/SuppressedException
 end
 
 #
