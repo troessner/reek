@@ -11,7 +11,7 @@ require_relative '../samples/paths'
 
 begin
   Reek::CLI::Silencer.without_warnings { require 'pry-byebug' }
-rescue LoadError # rubocop:disable Lint/HandleExceptions
+rescue LoadError # rubocop:disable Lint/SuppressedException
 end
 
 require 'factory_bot'
