@@ -25,6 +25,10 @@ Layout/DotPosition:
 Layout/EmptyLineBetweenDefs:
   AllowAdjacentOneLineDefs: true
 
+# Be rather lenient with line length
+Layout/LineLength:
+  Max: 120
+
 # Always put the closing brace on the last line
 Layout/MultilineMethodCallBraceLayout:
   EnforcedStyle: same_line
@@ -54,10 +58,6 @@ Lint/BooleanSymbol:
 Metrics/BlockLength:
   Exclude:
     - 'spec/**/*'
-
-# Be rather lenient with line length
-Metrics/LineLength:
-  Max: 120
 
 # Keyword arguments make long parameter lists readable
 Metrics/ParameterLists:
