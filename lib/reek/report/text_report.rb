@@ -11,8 +11,8 @@ module Reek
     #
     class TextReport < BaseReport
       # @public
-      def initialize(*args)
-        super(*args)
+      def initialize(**args)
+        super
 
         print progress_formatter.header
       end

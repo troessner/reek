@@ -7,7 +7,7 @@ require 'stringio'
 
 RSpec.describe Reek::Report::JSONReport do
   let(:options) { {} }
-  let(:instance) { described_class.new(options) }
+  let(:instance) { described_class.new(**options) }
   let(:examiner) { Reek::Examiner.new(source) }
 
   before do
