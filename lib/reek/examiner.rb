@@ -105,11 +105,11 @@ module Reek
     rescue Errors::BaseError
       raise
     rescue EncodingError
-      raise Errors::EncodingError, origin: origin
+      raise Errors::EncodingError.new(origin: origin)
     rescue Parser::SyntaxError
-      raise Errors::SyntaxError, origin: origin
+      raise Errors::SyntaxError.new(origin: origin)
     rescue StandardError
-      raise Errors::IncomprehensibleSourceError, origin: origin
+      raise Errors::IncomprehensibleSourceError.new(origin: origin)
     end
 
     def syntax_tree

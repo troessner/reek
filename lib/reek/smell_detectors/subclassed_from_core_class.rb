@@ -43,13 +43,9 @@ module Reek
       end
 
       def build_smell_warning(ancestor_name)
-        smell_attributes = {
-          lines:      [source_line],
-          message:    "inherits from core class '#{ancestor_name}'",
-          parameters: { ancestor: ancestor_name }
-        }
-
-        smell_warning(smell_attributes)
+        smell_warning(lines:      [source_line],
+                      message:    "inherits from core class '#{ancestor_name}'",
+                      parameters: { ancestor: ancestor_name })
       end
     end
   end

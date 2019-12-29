@@ -123,20 +123,20 @@ module Reek
       def escalate_bad_detector
         return if SmellDetectors::BaseDetector.valid_detector?(detector_name)
 
-        raise Errors::BadDetectorInCommentError, detector_name: detector_name,
-                                                 original_comment: original_comment,
-                                                 source: source,
-                                                 line: line
+        raise Errors::BadDetectorInCommentError.new(detector_name: detector_name,
+                                                    original_comment: original_comment,
+                                                    source: source,
+                                                    line: line)
       end
 
       def escalate_bad_detector_configuration
         @parsed_options = YAML.safe_load(options || CodeComment::DISABLE_DETECTOR_CONFIGURATION,
                                          permitted_classes: [Regexp])
       rescue Psych::SyntaxError
-        raise Errors::GarbageDetectorConfigurationInCommentError, detector_name: detector_name,
-                                                                  original_comment: original_comment,
-                                                                  source: source,
-                                                                  line: line
+        raise Errors::GarbageDetectorConfigurationInCommentError.new(detector_name: detector_name,
+                                                                     original_comment: original_comment,
+                                                                     source: source,
+                                                                     line: line)
       end
 
       def escalate_unknown_configuration_key
@@ -144,11 +144,11 @@ module Reek
 
         return if given_keys_legit?
 
-        raise Errors::BadDetectorConfigurationKeyInCommentError, detector_name: detector_name,
-                                                                 offensive_keys: configuration_keys_difference,
-                                                                 original_comment: original_comment,
-                                                                 source: source,
-                                                                 line: line
+        raise Errors::BadDetectorConfigurationKeyInCommentError.new(detector_name: detector_name,
+                                                                    offensive_keys: configuration_keys_difference,
+                                                                    original_comment: original_comment,
+                                                                    source: source,
+                                                                    line: line)
       end
 
       # @return [Boolean] all keys in code comment are applicable to the detector in question

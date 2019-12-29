@@ -6,13 +6,7 @@ require_lib 'reek/report/simple_warning_formatter'
 require 'rainbow'
 
 RSpec.describe Reek::Report::TextReport do
-  let(:report_options) do
-    {
-      warning_formatter: Reek::Report::SimpleWarningFormatter.new,
-      heading_formatter: Reek::Report::QuietHeadingFormatter
-    }
-  end
-  let(:instance) { described_class.new report_options }
+  let(:instance) { described_class.new }
 
   context 'with a single empty source' do
     before do
