@@ -1,5 +1,10 @@
 # Change log
 
+## 5.6.0 (2020-01-20)
+
+* (mvz) Support Ruby 2.7
+* (mvz) Loosen parser dependency to allow version 2.7.x
+
 ## 5.5.0 (2019-11-13)
 
 * (mvz) Use the Parser class matching current ruby for parsing, instead of
