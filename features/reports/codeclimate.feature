@@ -4,7 +4,7 @@ Feature: Report smells using Code Climate format
 
   Scenario: output is empty when there are no smells
     Given a directory called 'clean' containing two clean files
-    When I run reek --format code_climate clean
+    When I run the code climate reek runner
     Then it succeeds
     And it reports this Code Climate output:
     """
@@ -12,7 +12,7 @@ Feature: Report smells using Code Climate format
 
   Scenario: Indicate smells and print them as JSON when using files
     Given the smelly file 'smelly.rb'
-    When I run reek --format code_climate smelly.rb
+    When I run the code climate reek runner
     Then it reports this Code Climate output:
       """
       {
