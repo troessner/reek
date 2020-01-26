@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative '../base_report'
+require_relative 'code_climate_formatter'
 
 module Reek
   module Report
@@ -12,7 +13,7 @@ module Reek
     class CodeClimateReport < BaseReport
       def show(out = $stdout)
         smells.map do |smell|
-          out.print warning_formatter.format_code_climate_hash(smell)
+          out.print CodeClimateFormatter.new(smell).render
         end
       end
     end
