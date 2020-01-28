@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative 'code_climate/code_climate_formatter'
-
 module Reek
   module Report
     #
@@ -15,11 +13,6 @@ module Reek
 
       def format(warning)
         "#{location_formatter.format(warning)}#{warning.base_message}"
-      end
-
-      # @quality :reek:UtilityFunction
-      def format_code_climate_hash(warning)
-        CodeClimateFormatter.new(warning).render
       end
 
       def format_list(warnings)

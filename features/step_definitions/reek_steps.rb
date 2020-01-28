@@ -2,6 +2,10 @@ When /^I run reek (.*)$/ do |args|
   reek(args)
 end
 
+When 'I run the code climate reek runner' do
+  run_command_and_stop 'code_climate_reek'
+end
+
 When /^I pass "([^\"]*)" to reek *(.*)$/ do |stdin, args|
   reek_with_pipe(stdin, args)
 end

@@ -22,6 +22,7 @@ WORKDIR ${app_dir}
 
 RUN gem install rake
 RUN bundle install --without debugging development
+RUN gem install codeclimate-engine-rb
 
 VOLUME ${code_dir}
 WORKDIR ${code_dir}

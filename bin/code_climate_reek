@@ -6,15 +6,16 @@
 
 require_relative '../lib/reek'
 require_relative '../lib/reek/cli/application'
+require_relative '../lib/reek/report/code_climate'
 
 # Map input coming from CodeClimate to Reek.
 class CodeClimateToReek
   # Following the spec (https://github.com/codeclimate/spec/blob/master/SPEC.md)
   # we have to exit with a zero for both failure and success.
   ENGINE_CONFIGURATION = [
-    '-f', 'code_climate',
     '--failure-exit-code', '0',
-    '--success-exit-code', '0'
+    '--success-exit-code', '0',
+    '.'
   ].freeze
 
   attr_reader :configuration_file_path, :include_paths_key, :include_paths_default
@@ -53,6 +54,15 @@ class CodeClimateToReek
     end
   end
 end
+
+# Override for ReportCommand to force the use of CodeClimateReport.
+module ReportClassOverride
+  def report_class
+    Reek::Report::CodeClimateReport
+  end
+end
+
+Reek::CLI::Command::ReportCommand.prepend ReportClassOverride
 
 application = Reek::CLI::Application.new(CodeClimateToReek.new.cli_arguments)
 

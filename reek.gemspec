@@ -19,9 +19,8 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 2.3.0'
   s.summary = 'Code smell detector for Ruby'
 
-  s.add_runtime_dependency 'codeclimate-engine-rb', '~> 0.4.0'
-  s.add_runtime_dependency 'kwalify',               '~> 0.7.0'
-  s.add_runtime_dependency 'parser',                '< 2.8', '>= 2.5.0.0', '!= 2.5.1.1'
-  s.add_runtime_dependency 'psych',                 '~> 3.1.0'
-  s.add_runtime_dependency 'rainbow',               '>= 2.0', '< 4.0'
+  s.add_runtime_dependency 'kwalify', '~> 0.7.0'
+  s.add_runtime_dependency 'parser',  '< 2.8', '>= 2.5.0.0', '!= 2.5.1.1'
+  s.add_runtime_dependency 'psych',   '~> 3.1.0'
+  s.add_runtime_dependency 'rainbow', '>= 2.0', '< 4.0'
 end
