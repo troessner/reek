@@ -9,7 +9,7 @@ AllCops:
     - 'samples/**/*'
     - 'tmp/**/*'
     - 'vendor/**/*'
-  TargetRubyVersion: 2.3
+  TargetRubyVersion: 2.4
 
 # Tables are nice
 Layout/HashAlignment:

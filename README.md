@@ -100,7 +100,7 @@ demo.rb -- 2 warnings:
 
 ## Supported Ruby versions
 
-Reek is officially supported for CRuby 2.3 to 2.6 and for JRuby 9.1 and 9.2.
+Reek is officially supported for CRuby 2.4 to 2.7 and for JRuby 9.2.
 Other Ruby implementations (like Rubinius) are not officially supported but
 should work as well.
 
