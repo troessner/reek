@@ -15,7 +15,7 @@ module Reek
     # See {file:docs/Command-Line-Options.md} for details.
     #
     # @quality :reek:TooManyInstanceVariables { max_instance_variables: 13 }
-    # @quality :reek:TooManyMethods { max_methods: 18 }
+    # @quality :reek:TooManyMethods { max_methods: 32 }
     # @quality :reek:Attribute { enabled: false }
     #
     class Options
