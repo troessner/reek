@@ -1,4 +1,5 @@
 pkg
+spec/examples.txt
 spec/output
 tmp
 doc
