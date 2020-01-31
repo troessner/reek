@@ -76,6 +76,20 @@ RSpec.describe Reek::SmellDetectors::DataClump do
                              parameters: ['echo', 'foxtrot'])
     end
 
+    it 'reports arguments in alphabetical order even if they are never used that way' do
+      src = <<-RUBY
+        #{scope} Alfa
+          def bravo  (foxtrot, echo); end
+          def charlie(foxtrot, echo); end
+          def delta  (foxtrot, echo); end
+        end
+      RUBY
+
+      expect(src).to reek_of(:DataClump,
+                             count: 3,
+                             parameters: ['echo', 'foxtrot'])
+    end
+
     it 'reports parameter sets that are > 2' do
       src = <<-RUBY
         #{scope} Alfa

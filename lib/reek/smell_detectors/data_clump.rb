@@ -80,9 +80,7 @@ module Reek
       end
 
       def candidate_methods
-        @candidate_methods ||= context.node_instance_methods.map do |defn_node|
-          CandidateMethod.new(defn_node)
-        end
+        @candidate_methods ||= context.node_instance_methods
       end
 
       def candidate_clumps
@@ -95,7 +93,7 @@ module Reek
 
       # @quality :reek:UtilityFunction
       def common_argument_names_for(methods)
-        methods.map(&:arg_names).inject(:&)
+        methods.map(&:arg_names).inject(:&).compact.sort
       end
 
       def methods_containing_clump(clump)
@@ -108,26 +106,5 @@ module Reek
         end
       end
     end
-  end
-
-  # A method definition and a copy of its parameters
-  # @private
-  class CandidateMethod
-    extend Forwardable
-
-    def_delegators :defn, :line, :name
-
-    def initialize(defn_node)
-      @defn = defn_node
-    end
-
-    def arg_names
-      # TODO: Is all this sorting still needed?
-      @arg_names ||= defn.arg_names.compact.sort
-    end
-
-    private
-
-    attr_reader :defn
   end
 end
