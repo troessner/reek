@@ -51,7 +51,7 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       def sniff
-        MethodGroup.new(context, min_clump_size, max_copies).clumps.map do |clump, methods|
+        clumps.map do |clump, methods|
           methods_length = methods.length
           smell_warning(
             lines: methods.map(&:line),
@@ -72,52 +72,42 @@ module Reek
       private
 
       def max_copies
-        value(MAX_COPIES_KEY, context)
+        @max_copies ||= value(MAX_COPIES_KEY, context)
       end
 
       def min_clump_size
-        value(MIN_CLUMP_SIZE_KEY, context)
+        @min_clump_size ||= value(MIN_CLUMP_SIZE_KEY, context)
+      end
+
+      def candidate_methods
+        @candidate_methods ||= context.node_instance_methods.map do |defn_node|
+          CandidateMethod.new(defn_node)
+        end
+      end
+
+      def candidate_clumps
+        candidate_methods.each_cons(max_copies + 1).map do |methods|
+          common_argument_names_for(methods)
+        end.select do |clump|
+          clump.length >= min_clump_size
+        end.uniq
+      end
+
+      # @quality :reek:UtilityFunction
+      def common_argument_names_for(methods)
+        methods.map(&:arg_names).inject(:&)
+      end
+
+      def methods_containing_clump(clump)
+        candidate_methods.select { |method| clump & method.arg_names == clump }
+      end
+
+      def clumps
+        candidate_clumps.map do |clump|
+          [clump, methods_containing_clump(clump)]
+        end
       end
     end
-  end
-
-  # Represents a group of methods
-  # @private
-  class MethodGroup
-    def initialize(ctx, min_clump_size, max_copies)
-      @min_clump_size = min_clump_size
-      @max_copies = max_copies
-      @candidate_methods = ctx.node_instance_methods.map do |defn_node|
-        CandidateMethod.new(defn_node)
-      end
-    end
-
-    def candidate_clumps
-      candidate_methods.each_cons(max_copies + 1).map do |methods|
-        common_argument_names_for(methods)
-      end.select do |clump|
-        clump.length >= min_clump_size
-      end.uniq
-    end
-
-    # @quality :reek:UtilityFunction
-    def common_argument_names_for(methods)
-      methods.map(&:arg_names).inject(:&)
-    end
-
-    def methods_containing_clump(clump)
-      candidate_methods.select { |method| clump & method.arg_names == clump }
-    end
-
-    def clumps
-      candidate_clumps.map do |clump|
-        [clump, methods_containing_clump(clump)]
-      end
-    end
-
-    private
-
-    attr_reader :candidate_methods, :max_copies, :min_clump_size
   end
 
   # A method definition and a copy of its parameters
