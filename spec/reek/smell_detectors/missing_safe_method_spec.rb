@@ -50,13 +50,19 @@ RSpec.describe Reek::SmellDetectors::MissingSafeMethod do
 
   it 'does not report methods we excluded via comment' do
     source = <<-RUBY
-      # :reek:MissingSafeMethod: { exclude: [ bravo! ] }
+      # :reek:MissingSafeMethod { exclude: [ bravo! ] }
       class Alfa
         def bravo!
+        end
+
+        def charlie!
         end
       end
     RUBY
 
-    expect(source).not_to reek_of(:MissingSafeMethod)
+    aggregate_failures do
+      expect(source).not_to reek_of(:MissingSafeMethod, name: 'bravo!')
+      expect(source).to reek_of(:MissingSafeMethod, name: 'charlie!')
+    end
   end
 end

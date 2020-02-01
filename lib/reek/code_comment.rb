@@ -6,6 +6,7 @@ require_relative 'smell_detectors/base_detector'
 require_relative 'errors/bad_detector_in_comment_error'
 require_relative 'errors/bad_detector_configuration_key_in_comment_error'
 require_relative 'errors/garbage_detector_configuration_in_comment_error'
+require_relative 'errors/legacy_comment_separator_error'
 
 module Reek
   #
@@ -14,12 +15,10 @@ module Reek
   #
   class CodeComment
     CONFIGURATION_REGEX = /
-                          :reek: # prefix
-                          (\w+)  # smell detector e.g.: UncommunicativeVariableName
-                          (
-                            \s*
-                            (\{.*?\}) # optional details in hash style e.g.: { max_methods: 30 }
-                          )?
+                          :reek:     # prefix
+                          (\w+)      # smell detector e.g.: UncommunicativeVariableName
+                          (:?\s*)    # separator
+                          (\{.*?\})? # details in hash style e.g.: { max_methods: 30 }
                          /x.freeze
     SANITIZE_REGEX                 = /(#|\n|\s)+/.freeze # Matches '#', newlines and > 1 whitespaces.
     DISABLE_DETECTOR_CONFIGURATION = '{ enabled: false }'
@@ -38,11 +37,12 @@ module Reek
       @source            = source
       @config            = Hash.new { |hash, key| hash[key] = {} }
 
-      @original_comment.scan(CONFIGURATION_REGEX) do |detector_name, _option_string, options|
+      @original_comment.scan(CONFIGURATION_REGEX) do |detector_name, separator, options|
         CodeCommentValidator.new(detector_name:    detector_name,
                                  original_comment: original_comment,
                                  line:             line,
                                  source:           source,
+                                 separator:        separator,
                                  options:          options).validate
         @config.merge! detector_name => YAML.safe_load(options || DISABLE_DETECTOR_CONFIGURATION,
                                                        permitted_classes: [Regexp])
@@ -88,11 +88,12 @@ module Reek
       # @param source [String] path to source file or "string"
       # @param options [String] the configuration options as String for the detector that were
       #   extracted from the original comment
-      def initialize(detector_name:, original_comment:, line:, source:, options: {})
+      def initialize(detector_name:, original_comment:, line:, source:, separator:, options:)
         @detector_name    = detector_name
         @original_comment = original_comment
         @line             = line
         @source           = source
+        @separator        = separator
         @options          = options
         @detector_class   = nil # We only know this one after our first initial checks
         @parsed_options   = nil # We only know this one after our first initial checks
@@ -100,11 +101,13 @@ module Reek
 
       #
       # Method can raise the following errors:
+      #   * Errors::LegacyCommentSeparatorError
       #   * Errors::BadDetectorInCommentError
       #   * Errors::GarbageDetectorConfigurationInCommentError
       #   * Errors::BadDetectorConfigurationKeyInCommentError
       # @return [undefined]
       def validate
+        escalate_legacy_format
         escalate_bad_detector
         escalate_bad_detector_configuration
         escalate_unknown_configuration_key
@@ -116,9 +119,18 @@ module Reek
                   :original_comment,
                   :line,
                   :source,
+                  :separator,
                   :options,
                   :detector_class,
                   :parsed_options
+
+      def escalate_legacy_format
+        return unless legacy_format?
+
+        raise Errors::LegacyCommentSeparatorError.new(original_comment: original_comment,
+                                                      source: source,
+                                                      line: line)
+      end
 
       def escalate_bad_detector
         return if SmellDetectors::BaseDetector.valid_detector?(detector_name)
@@ -149,6 +161,11 @@ module Reek
                                                                     original_comment: original_comment,
                                                                     source: source,
                                                                     line: line)
+      end
+
+      # @return [Boolean] comment uses legacy three-colon format
+      def legacy_format?
+        separator.start_with? ':'
       end
 
       # @return [Boolean] all keys in code comment are applicable to the detector in question

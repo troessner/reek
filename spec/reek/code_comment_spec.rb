@@ -38,48 +38,35 @@ RSpec.describe Reek::CodeComment do
 
   describe 'good comment config' do
     it 'parses hashed options' do
-      comment = '# :reek:DuplicateMethodCall { enabled: false }'
+      comment = '# :reek:DuplicateMethodCall { max_calls: 3 }'
       config = build(:code_comment,
                      comment: comment).config
 
       expect(config).to include('DuplicateMethodCall')
-      expect(config['DuplicateMethodCall']).to include('enabled')
-      expect(config['DuplicateMethodCall']['enabled']).to be_falsey
-    end
-
-    it "supports hashed options with the legacy separator ':' after the smell detector" do
-      comment = '# :reek:DuplicateMethodCall: { enabled: false }'
-      config = build(:code_comment,
-                     comment: comment).config
-
-      expect(config).to include('DuplicateMethodCall')
-      expect(config['DuplicateMethodCall']).to include('enabled')
-      expect(config['DuplicateMethodCall']['enabled']).to be_falsey
+      expect(config['DuplicateMethodCall']).to have_key 'max_calls'
+      expect(config['DuplicateMethodCall']['max_calls']).to eq 3
     end
 
     it 'parses multiple hashed options' do
       comment = <<-RUBY
-        # :reek:DuplicateMethodCall { enabled: false }
+        # :reek:DuplicateMethodCall { max_calls: 3 }
         # :reek:NestedIterators { enabled: true }
       RUBY
       config = build(:code_comment, comment: comment).config
 
       expect(config).to include('DuplicateMethodCall', 'NestedIterators')
-      expect(config['DuplicateMethodCall']).to include('enabled')
-      expect(config['DuplicateMethodCall']['enabled']).to be_falsey
-      expect(config['NestedIterators']).to include('enabled')
+      expect(config['DuplicateMethodCall']['max_calls']).to eq 3
       expect(config['NestedIterators']['enabled']).to be_truthy
     end
 
     it 'parses multiple hashed options on the same line' do
       comment = <<-RUBY
-        #:reek:DuplicateMethodCall { enabled: false } and :reek:NestedIterators { enabled: true }
+        #:reek:DuplicateMethodCall { max_calls: 3 } and :reek:NestedIterators { enabled: true }
       RUBY
       config = build(:code_comment, comment: comment).config
 
       expect(config).to include('DuplicateMethodCall', 'NestedIterators')
-      expect(config['DuplicateMethodCall']).to include('enabled')
-      expect(config['DuplicateMethodCall']['enabled']).to be_falsey
+      expect(config['DuplicateMethodCall']['max_calls']).to eq 3
       expect(config['NestedIterators']).to include('enabled')
       expect(config['NestedIterators']['enabled']).to be_truthy
     end
@@ -104,6 +91,13 @@ RSpec.describe Reek::CodeComment do
       expect(config['DuplicateMethodCall']['enabled']).to be_falsey
     end
 
+    it 'does not disable the smell if options are specifed' do
+      comment = '# :reek:DuplicateMethodCall { max_calls: 3 }'
+      config = build(:code_comment, comment: comment).config
+
+      expect(config['DuplicateMethodCall']).not_to include('enabled')
+    end
+
     it 'ignores smells after a space' do
       config = build(:code_comment,
                      comment: '# :reek: DuplicateMethodCall').config
@@ -113,7 +107,7 @@ RSpec.describe Reek::CodeComment do
     it 'removes the configuration options from the comment' do
       original_comment = <<-RUBY
         # Actual
-        # :reek:DuplicateMethodCall { enabled: false }
+        # :reek:DuplicateMethodCall { max_calls: 3 }
         # :reek:NestedIterators { enabled: true }
         # comment
       RUBY
@@ -140,6 +134,14 @@ RSpec.describe Reek::CodeComment::CodeCommentValidator do
         comment = '# :reek:UncommunicativeMethodName { thats: a: bad: config }'
         build(:code_comment, comment: comment)
       end.to raise_error(Reek::Errors::GarbageDetectorConfigurationInCommentError)
+    end
+  end
+
+  context 'when the legacy comment format was used' do
+    it 'raises LegacyCommentSeparatorError' do
+      comment = '# :reek:DuplicateMethodCall:'
+      expect { build(:code_comment, comment: comment) }.
+        to raise_error Reek::Errors::LegacyCommentSeparatorError
     end
   end
 
