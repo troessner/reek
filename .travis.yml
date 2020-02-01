@@ -8,21 +8,19 @@ before_script:
   - unset _JAVA_OPTIONS
 script: bundle exec rake ci
 rvm:
-  - 2.3
   - 2.4
   - 2.5
   - 2.6
   - 2.7
-  - jruby-9.1.17.0
-  - jruby-9.2.6.0
+  - jruby-9.2
   - jruby-head
   - ruby-head
-  - rubinius-3
+  - rubinius-4
 matrix:
   allow_failures:
     - rvm: jruby-head
     - rvm: ruby-head
-    - rvm: rubinius-3
+    - rvm: rubinius-4
   fast_finish: true
 notifications:
   email:
