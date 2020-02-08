@@ -38,11 +38,11 @@ module Reek
       @config            = Hash.new { |hash, key| hash[key] = {} }
 
       @original_comment.scan(CONFIGURATION_REGEX) do |detector_name, separator, options|
+        escalate_legacy_separator separator
         CodeCommentValidator.new(detector_name:    detector_name,
                                  original_comment: original_comment,
                                  line:             line,
                                  source:           source,
-                                 separator:        separator,
                                  options:          options).validate
         @config.merge! detector_name => YAML.safe_load(options || DISABLE_DETECTOR_CONFIGURATION,
                                                        permitted_classes: [Regexp])
@@ -62,6 +62,14 @@ module Reek
         gsub(CONFIGURATION_REGEX, '').
         gsub(SANITIZE_REGEX, ' ').
         strip
+    end
+
+    def escalate_legacy_separator(separator)
+      return unless separator.start_with? ':'
+
+      raise Errors::LegacyCommentSeparatorError.new(original_comment: original_comment,
+                                                    source: source,
+                                                    line: line)
     end
 
     #
@@ -88,12 +96,11 @@ module Reek
       # @param source [String] path to source file or "string"
       # @param options [String] the configuration options as String for the detector that were
       #   extracted from the original comment
-      def initialize(detector_name:, original_comment:, line:, source:, separator:, options:)
+      def initialize(detector_name:, original_comment:, line:, source:, options:)
         @detector_name    = detector_name
         @original_comment = original_comment
         @line             = line
         @source           = source
-        @separator        = separator
         @options          = options
       end
 
@@ -105,7 +112,6 @@ module Reek
       #   * Errors::BadDetectorConfigurationKeyInCommentError
       # @return [undefined]
       def validate
-        escalate_legacy_format
         escalate_unknown_configuration_key
       end
 
@@ -117,14 +123,6 @@ module Reek
                   :source,
                   :separator,
                   :options
-
-      def escalate_legacy_format
-        return unless legacy_format?
-
-        raise Errors::LegacyCommentSeparatorError.new(original_comment: original_comment,
-                                                      source: source,
-                                                      line: line)
-      end
 
       def parsed_options
         @parsed_options ||= YAML.safe_load(options || CodeComment::DISABLE_DETECTOR_CONFIGURATION,
