@@ -95,8 +95,6 @@ module Reek
         @source           = source
         @separator        = separator
         @options          = options
-        @detector_class   = nil # We only know this one after our first initial checks
-        @parsed_options   = nil # We only know this one after our first initial checks
       end
 
       #
@@ -108,8 +106,6 @@ module Reek
       # @return [undefined]
       def validate
         escalate_legacy_format
-        escalate_bad_detector
-        escalate_bad_detector_configuration
         escalate_unknown_configuration_key
       end
 
@@ -120,9 +116,7 @@ module Reek
                   :line,
                   :source,
                   :separator,
-                  :options,
-                  :detector_class,
-                  :parsed_options
+                  :options
 
       def escalate_legacy_format
         return unless legacy_format?
@@ -132,18 +126,9 @@ module Reek
                                                       line: line)
       end
 
-      def escalate_bad_detector
-        return if SmellDetectors::BaseDetector.valid_detector?(detector_name)
-
-        raise Errors::BadDetectorInCommentError.new(detector_name: detector_name,
-                                                    original_comment: original_comment,
-                                                    source: source,
-                                                    line: line)
-      end
-
-      def escalate_bad_detector_configuration
-        @parsed_options = YAML.safe_load(options || CodeComment::DISABLE_DETECTOR_CONFIGURATION,
-                                         permitted_classes: [Regexp])
+      def parsed_options
+        @parsed_options ||= YAML.safe_load(options || CodeComment::DISABLE_DETECTOR_CONFIGURATION,
+                                           permitted_classes: [Regexp])
       rescue Psych::SyntaxError
         raise Errors::GarbageDetectorConfigurationInCommentError.new(detector_name: detector_name,
                                                                      original_comment: original_comment,
@@ -152,8 +137,6 @@ module Reek
       end
 
       def escalate_unknown_configuration_key
-        @detector_class = SmellDetectors::BaseDetector.to_detector(detector_name)
-
         return if given_keys_legit?
 
         raise Errors::BadDetectorConfigurationKeyInCommentError.new(detector_name: detector_name,
@@ -161,6 +144,15 @@ module Reek
                                                                     original_comment: original_comment,
                                                                     source: source,
                                                                     line: line)
+      end
+
+      def detector_class
+        @detector_class ||= SmellDetectors::BaseDetector.to_detector(detector_name)
+      rescue NameError
+        raise Errors::BadDetectorInCommentError.new(detector_name: detector_name,
+                                                    original_comment: original_comment,
+                                                    source: source,
+                                                    line: line)
       end
 
       # @return [Boolean] comment uses legacy three-colon format
