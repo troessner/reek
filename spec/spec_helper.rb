@@ -78,6 +78,7 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   config.include Helpers
   config.include RSpec::Benchmark::Matchers
+  config.example_status_persistence_file_path = 'spec/examples.txt'
 
   config.disable_monkey_patching!
 
