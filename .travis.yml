@@ -1,12 +1,14 @@
-dist: trusty
-cache: bundler
 language: ruby
+
+dist: xenial
+
+cache:
+  bundler: true
+
 bundler_args: --without debugging
-before_script:
-  # Avoid Java announcing _JAVA_OPTIONS environment variable
-  # See https://github.com/travis-ci/travis-ci/issues/8408
-  - unset _JAVA_OPTIONS
+
 script: bundle exec rake ci
+
 rvm:
   - 2.4
   - 2.5
@@ -15,19 +17,20 @@ rvm:
   - jruby-9.2
   - jruby-head
   - ruby-head
-  - rubinius-4
+
 matrix:
   allow_failures:
     - rvm: jruby-head
     - rvm: ruby-head
-    - rvm: rubinius-4
   fast_finish: true
+
 notifications:
   email:
     - timo.roessner@googlemail.com
     - matijs@matijs.net
     - chastell@chastell.net
   irc: irc.freenode.org#reek
+
 branches:
   only:
     - master
