@@ -5,6 +5,7 @@ SimpleCov.start do
   add_filter 'spec/'
   add_filter 'samples/'
   coverage_dir 'tmp/coverage'
+  enable_coverage :branch
 end
 
 SimpleCov.at_exit do
