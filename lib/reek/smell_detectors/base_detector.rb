@@ -122,15 +122,6 @@ module Reek
         end
 
         #
-        # @param detector [String] the detector in question, e.g. 'DuplicateMethodCall'
-        # @return [Boolean]
-        #
-        def valid_detector?(detector)
-          descendants.map { |descendant| descendant.to_s.split('::').last }.
-            include?(detector)
-        end
-
-        #
         # Transform a detector name to the corresponding constant.
         # Note that we assume a valid name - exceptions are not handled here.
         #
