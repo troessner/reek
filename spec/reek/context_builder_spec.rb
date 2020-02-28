@@ -3,42 +3,126 @@ require_lib 'reek/context_builder'
 
 RSpec.describe Reek::ContextBuilder do
   describe '#context_tree' do
-    let(:walker) do
-      code = 'class Car; def drive; end; end'
-      described_class.new(syntax_tree(code))
-    end
-    let(:context_tree) { walker.context_tree }
-    let(:module_context) { context_tree.children.first }
-    let(:method_context) { module_context.children.first }
+    context 'with some simple example code' do
+      let(:walker) do
+        code = 'class Car; def drive; end; end'
+        described_class.new(syntax_tree(code))
+      end
+      let(:context_tree) { walker.context_tree }
+      let(:module_context) { context_tree.children.first }
+      let(:method_context) { module_context.children.first }
 
-    it 'starts with a root node' do
-      expect(context_tree.type).to eq(:root)
-      expect(context_tree).to be_a(Reek::Context::RootContext)
-    end
+      describe 'the starting node' do
+        it 'is a root node' do
+          expect(context_tree.type).to eq(:root)
+          expect(context_tree).to be_a(Reek::Context::RootContext)
+        end
 
-    it 'has one child' do
-      expect(context_tree.children.size).to eq(1)
-    end
-
-    describe 'the root node' do
-      it 'has one module_context' do
-        expect(module_context).to be_a(Reek::Context::ModuleContext)
+        it 'has one module_context child' do
+          aggregate_failures do
+            expect(context_tree.children.count).to eq 1
+            expect(module_context).to be_a(Reek::Context::ModuleContext)
+          end
+        end
       end
 
-      it 'holds a reference to the parent context' do
-        expect(module_context.parent).to eq(context_tree)
+      describe 'the module node' do
+        it 'has one method_context child' do
+          aggregate_failures do
+            expect(method_context).to be_a(Reek::Context::MethodContext)
+            expect(module_context.children.size).to eq(1)
+          end
+        end
+
+        it 'holds a reference to the parent context' do
+          expect(method_context.parent).to eq(module_context)
+        end
       end
     end
 
-    describe 'the module node' do
-      it 'has one method_context' do
-        expect(method_context).to be_a(Reek::Context::MethodContext)
-        expect(module_context.children.size).to eq(1)
-      end
+    it 'creates the proper context for all kinds of singleton methods' do
+      src = <<-RUBY
+        class Car
+          def self.start; end
 
-      it 'holds a reference to the parent context' do
-        expect(method_context.parent).to eq(module_context)
-      end
+          class << self
+            def drive; end
+          end
+        end
+      RUBY
+
+      syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
+      context_tree = described_class.new(syntax_tree).context_tree
+
+      class_node = context_tree.children.first
+      start_method = class_node.children.first
+      drive_method = class_node.children.last
+
+      expect(start_method).to be_instance_of Reek::Context::SingletonMethodContext
+      expect(drive_method).to be_instance_of Reek::Context::SingletonMethodContext
+    end
+
+    it 'returns something sensible for nested metaclasses' do
+      src = <<-RUBY
+        class Foo
+          class << self
+            class << self
+              def bar; end
+            end
+          end
+        end
+      RUBY
+
+      syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
+      context_tree = described_class.new(syntax_tree).context_tree
+
+      class_context = context_tree.children.first
+      method_context = class_context.children.first
+
+      expect(method_context).to be_instance_of Reek::Context::SingletonMethodContext
+      expect(method_context.parent).to eq class_context
+    end
+
+    it 'returns something sensible for nested method definitions' do
+      src = <<-RUBY
+        class Foo
+          def foo
+            def bar
+            end
+          end
+        end
+      RUBY
+
+      syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
+      context_tree = described_class.new(syntax_tree).context_tree
+
+      class_context = context_tree.children.first
+      foo_context = class_context.children.first
+
+      bar_context = foo_context.children.first
+      expect(bar_context).to be_instance_of Reek::Context::MethodContext
+      expect(bar_context.parent).to eq foo_context
+    end
+
+    it 'returns something sensible for method definitions nested in singleton methods' do
+      src = <<-RUBY
+        class Foo
+          def self.foo
+            def bar
+            end
+          end
+        end
+      RUBY
+
+      syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
+      context_tree = described_class.new(syntax_tree).context_tree
+
+      class_context = context_tree.children.first
+      foo_context = class_context.children.first
+
+      bar_context = foo_context.children.first
+      expect(bar_context).to be_instance_of Reek::Context::SingletonMethodContext
+      expect(bar_context.parent).to eq foo_context
     end
   end
 
@@ -368,93 +452,6 @@ RSpec.describe Reek::ContextBuilder do
       bar_context = foo_context.children.first
       nested_baz_context = bar_context.children.first
       expect(nested_baz_context.visibility).to eq :public
-    end
-  end
-
-  describe '#context_tree' do
-    it 'creates the proper context for all kinds of singleton methods' do
-      src = <<-RUBY
-        class Car
-          def self.start; end
-
-          class << self
-            def drive; end
-          end
-        end
-      RUBY
-
-      syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
-      context_tree = described_class.new(syntax_tree).context_tree
-
-      class_node = context_tree.children.first
-      start_method = class_node.children.first
-      drive_method = class_node.children.last
-
-      expect(start_method).to be_instance_of Reek::Context::SingletonMethodContext
-      expect(drive_method).to be_instance_of Reek::Context::SingletonMethodContext
-    end
-
-    it 'returns something sensible for nested metaclasses' do
-      src = <<-RUBY
-        class Foo
-          class << self
-            class << self
-              def bar; end
-            end
-          end
-        end
-      RUBY
-
-      syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
-      context_tree = described_class.new(syntax_tree).context_tree
-
-      class_context = context_tree.children.first
-      method_context = class_context.children.first
-
-      expect(method_context).to be_instance_of Reek::Context::SingletonMethodContext
-      expect(method_context.parent).to eq class_context
-    end
-
-    it 'returns something sensible for nested method definitions' do
-      src = <<-RUBY
-        class Foo
-          def foo
-            def bar
-            end
-          end
-        end
-      RUBY
-
-      syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
-      context_tree = described_class.new(syntax_tree).context_tree
-
-      class_context = context_tree.children.first
-      foo_context = class_context.children.first
-
-      bar_context = foo_context.children.first
-      expect(bar_context).to be_instance_of Reek::Context::MethodContext
-      expect(bar_context.parent).to eq foo_context
-    end
-
-    it 'returns something sensible for method definitions nested in singleton methods' do
-      src = <<-RUBY
-        class Foo
-          def self.foo
-            def bar
-            end
-          end
-        end
-      RUBY
-
-      syntax_tree = Reek::Source::SourceCode.from(src).syntax_tree
-      context_tree = described_class.new(syntax_tree).context_tree
-
-      class_context = context_tree.children.first
-      foo_context = class_context.children.first
-
-      bar_context = foo_context.children.first
-      expect(bar_context).to be_instance_of Reek::Context::SingletonMethodContext
-      expect(bar_context.parent).to eq foo_context
     end
   end
 end

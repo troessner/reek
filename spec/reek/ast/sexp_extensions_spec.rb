@@ -443,73 +443,55 @@ end
 
 RSpec.describe Reek::AST::SexpExtensions::CasgnNode do
   describe '#defines_module?' do
-    context 'with single assignment' do
-      it 'does not define a module' do
-        exp = sexp(:casgn, nil, :Foo)
-        expect(exp).not_to be_defines_module
-      end
+    it 'is false for single assignment' do
+      exp = sexp(:casgn, nil, :Foo)
+      expect(exp).not_to be_defines_module
     end
 
-    context 'with implicit receiver to new' do
-      it 'does not define a module' do
-        exp = sexp(:casgn, nil, :Foo, sexp(:send, nil, :new))
-        expect(exp).not_to be_defines_module
-      end
+    it 'is false for implicit receiver to new' do
+      exp = sexp(:casgn, nil, :Foo, sexp(:send, nil, :new))
+      expect(exp).not_to be_defines_module
     end
 
-    context 'with implicit receiver to new' do
-      it 'does not define a module' do
-        exp = Reek::Source::SourceCode.from('Foo = Class.new(Bar)').syntax_tree
-
-        expect(exp).to be_defines_module
-      end
+    it 'is true for explicit receiver to new' do
+      exp = Reek::Source::SourceCode.from('Foo = Class.new(Bar)').syntax_tree
+      expect(exp).to be_defines_module
     end
 
-    context 'when assigning a lambda to a constant' do
-      it 'does not define a module' do
-        exp = Reek::Source::SourceCode.from('C = ->{}').syntax_tree
-
-        expect(exp).not_to be_defines_module
-      end
+    it 'is false for assigning a lambda to a constant' do
+      exp = Reek::Source::SourceCode.from('C = ->{}').syntax_tree
+      expect(exp).not_to be_defines_module
     end
 
-    context 'when assigning a string to a constant' do
-      it 'does not define a module' do
-        exp = Reek::Source::SourceCode.from('C = "hello"').syntax_tree
-
-        expect(exp).not_to be_defines_module
-      end
+    it 'is false for assigning a string to a constant' do
+      exp = Reek::Source::SourceCode.from('C = "hello"').syntax_tree
+      expect(exp).not_to be_defines_module
     end
   end
 
   describe '#superclass' do
     it 'returns the superclass from the class definition' do
       exp = Reek::Source::SourceCode.from('Foo = Class.new(Bar)').syntax_tree
-
       expect(exp.superclass).to eq sexp(:const, nil, :Bar)
     end
 
     it 'returns nil in case of no class definition' do
       exp = Reek::Source::SourceCode.from('Foo = 23').syntax_tree
-
       expect(exp.superclass).to be_nil
     end
 
     it 'returns nil in case of no superclass' do
       exp = Reek::Source::SourceCode.from('Foo = Class.new').syntax_tree
-
       expect(exp.superclass).to be_nil
     end
 
     it 'returns nothing for a class definition using Struct.new' do
       exp = Reek::Source::SourceCode.from('Foo = Struct.new("Bar")').syntax_tree
-
       expect(exp.superclass).to be_nil
     end
 
     it 'returns nothing for a constant assigned with a bare method call' do
       exp = Reek::Source::SourceCode.from('Foo = foo("Bar")').syntax_tree
-
       expect(exp.superclass).to be_nil
     end
   end
