@@ -24,8 +24,7 @@ module Reek
 
       def detect_nodes
         finders = [NodeFinder.new(context, :send, NilCallNodeDetector),
-                   NodeFinder.new(context, :when, NilWhenNodeDetector),
-                   NodeFinder.new(context, :csend, SafeNavigationNodeDetector)]
+                   NodeFinder.new(context, :when, NilWhenNodeDetector)]
         finders.flat_map(&:smelly_nodes)
       end
 
@@ -86,16 +85,6 @@ module Reek
 
         def detect(node)
           node.condition_list.any? { |it| it.type == :nil }
-        end
-      end
-
-      # Detect safe navigation. Returns true for all nodes, since all :csend
-      # nodes are considered smelly.
-      module SafeNavigationNodeDetector
-        module_function
-
-        def detect(_node)
-          true
         end
       end
     end
