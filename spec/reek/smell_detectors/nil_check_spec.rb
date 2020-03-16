@@ -76,14 +76,14 @@ RSpec.describe Reek::SmellDetectors::NilCheck do
     expect(src).to reek_of(:NilCheck)
   end
 
-  it 'reports when scope uses &.' do
+  it 'does not report when scope uses &.' do
     src = <<-RUBY
       def alfa(bravo)
         bravo&.charlie
       end
     RUBY
 
-    expect(src).to reek_of(:NilCheck)
+    expect(src).not_to reek_of(:NilCheck)
   end
 
   it 'reports all lines when scope uses multiple nilchecks' do
@@ -95,6 +95,6 @@ RSpec.describe Reek::SmellDetectors::NilCheck do
       end
     RUBY
 
-    expect(src).to reek_of(:NilCheck, lines: [2, 3, 4])
+    expect(src).to reek_of(:NilCheck, lines: [2, 3])
   end
 end
