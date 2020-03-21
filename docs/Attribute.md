@@ -29,7 +29,7 @@ test.rb -- 1 warning:
 
 ## Support in Reek
 
-This detector it raises a warning for every public `attr_writer`,
+This detector raises a warning for every public `attr_writer`,
 `attr_accessor`, and `attr` with the writable flag set to `true`.
 
 Reek does not raise warnings for read-only attributes.
