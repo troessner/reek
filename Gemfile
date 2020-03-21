@@ -26,8 +26,5 @@ group :development do
 end
 
 group :debugging do
-  gem 'pry'
-  platforms :mri do
-    gem 'pry-byebug'
-  end
+  gem 'pry', '~> 0.13.0'
 end
