@@ -62,5 +62,18 @@ RSpec.describe Reek::Source::SourceCode do
         expect { src.syntax_tree }.to raise_error error_class, error_message
       end
     end
+
+    if RUBY_VERSION >= '2.7'
+      context 'with ruby 2.7 syntax' do
+        context 'with forward_args (`...`)' do
+          let(:source_code) { described_class.new(source: 'def alpha(...) bravo(...); end') }
+
+          it 'returns a :forward_args node' do
+            result = source_code.syntax_tree
+            expect(result.children[1].type).to eq(:forward_args)
+          end
+        end
+      end
+    end
   end
 end

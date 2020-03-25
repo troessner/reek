@@ -93,6 +93,17 @@ module Reek
       module ShadowargNode
         include ArgNodeBase
       end
+
+      # Utility methods for :forward_args nodes.
+      # rubocop:disable Naming/ClassAndModuleCamelCase
+      module Forward_ArgsNode
+        include ArgNodeBase
+
+        def anonymous_splat?
+          true
+        end
+      end
+      # rubocop:enable Naming/ClassAndModuleCamelCase
     end
   end
 end
