@@ -1,5 +1,13 @@
 # Change log
 
+## 6.0.0 (2020-03-30)
+
+* (mvz) Make codeclimate-engine-rb a development dependency
+* (mvz) Drop support for Ruby 2.3
+* (mvz) Raise error when legacy code comment format is used
+* (mvz) Stop reporting NilCheck for safe navigation
+* (likeath) Properly handle "Forward all" syntax
+
 ## 5.6.0 (2020-01-20)
 
 * (mvz) Support Ruby 2.7
