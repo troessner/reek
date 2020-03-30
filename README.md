@@ -45,12 +45,6 @@
 * ![](http://ruby-gem-downloads-badge.herokuapp.com/reek?type=total)
 * ![](http://ruby-gem-downloads-badge.herokuapp.com/reek?label=downloads-current-version)
 
-## Reek 5 is out!
-
-Reek 5 is out and with it a bunch of breaking changes. If you're a new user you can just
-continue with the quickstart below. If you're a Reek 4 user and would like to upgrade to 5, don't
-worry, this shouldn't take you more than 10 minutes. Check out our [Upgrade Guide](docs/Reek-4-to-Reek-5-migration.md).
-
 ## Quickstart
 
 Reek is a tool that examines Ruby classes, modules and methods and reports any
