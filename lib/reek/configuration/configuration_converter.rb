@@ -74,7 +74,7 @@ module Reek
         return unless configuration[DETECTORS_KEY]
 
         configuration[DETECTORS_KEY].tap do |detectors|
-          detectors.keys.each do |detector|
+          detectors.each_key do |detector|
             convertible_attributes(detectors[detector]).each do |attribute|
               detectors[detector][attribute] = detectors[detector][attribute].map do |item|
                 to_regex item
@@ -94,7 +94,7 @@ module Reek
         return unless configuration[DIRECTORIES_KEY]
 
         configuration[DIRECTORIES_KEY].tap do |directories|
-          directories.keys.each do |directory|
+          directories.each_key do |directory|
             directories[directory].each do |detector, configuration|
               convertible_attributes(configuration).each do |attribute|
                 directories[directory][detector][attribute] = directories[directory][detector][attribute].map do |item|
