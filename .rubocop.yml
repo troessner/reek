@@ -54,6 +54,20 @@ Lint/InterpolationCheck:
 Lint/BooleanSymbol:
   Enabled: false
 
+# Enable new cops in version 0.81
+Lint/RaiseException:
+  Enabled: true
+Lint/StructNewOverride:
+  Enabled: true
+
+# Enable new cops in version 0.80
+Style/HashEachMethods:
+  Enabled: true
+Style/HashTransformKeys:
+  Enabled: true
+Style/HashTransformValues:
+  Enabled: true
+
 # Spec blocks can be any size
 Metrics/BlockLength:
   Exclude:
