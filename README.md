@@ -286,7 +286,7 @@ detectors:
   # You can disable smells completely
   IrresponsibleModule:
     enabled: false
-  
+
   # You can use filters to silence Reek warnings.
   # Either because you simply disagree with Reek (we are not the police) or
   # because you want to fix this at a later point in time.
@@ -294,7 +294,7 @@ detectors:
     exclude:
       - "MyWorker#self.class_method" # should be refactored
       - "AnotherWorker#instance_method" # should be refactored as well
-  
+
   # A lot of smells allow fine tuning their configuration. You can look up all available options
   # in the corresponding smell documentation in /docs. In most cases you probably can just go
   # with the defaults as documented in defaults.reek.yml.
@@ -349,9 +349,14 @@ This configuration for instance:
 detectors:
   IrresponsibleModule:
     enabled: false
-  
+
   TooManyStatements:
     max_statements: 5
+
+directories:
+  "app/controllers":
+    TooManyStatements:
+      max_statements: 10
 ```
 
 translates to:
