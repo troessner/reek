@@ -54,6 +54,12 @@ Lint/InterpolationCheck:
 Lint/BooleanSymbol:
   Enabled: false
 
+# Enable new cops in version 0.82
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+Style/ExponentialNotation:
+  Enabled: true
+
 # Enable new cops in version 0.81
 Lint/RaiseException:
   Enabled: true
