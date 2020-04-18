@@ -5,7 +5,6 @@ gemspec
 ruby RUBY_VERSION
 
 group :development do
-  gem 'activesupport',         '~> 6.0'
   gem 'aruba',                 '~> 1.0'
   gem 'codeclimate-engine-rb', '~> 0.4.0'
   gem 'cucumber',              '~> 3.0'

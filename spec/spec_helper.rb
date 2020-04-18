@@ -1,6 +1,5 @@
 require 'pathname'
 require 'timeout'
-require 'active_support/core_ext/string/strip'
 require 'rspec-benchmark'
 require_relative '../lib/reek'
 require_relative '../lib/reek/spec'
