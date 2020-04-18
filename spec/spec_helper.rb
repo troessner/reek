@@ -84,6 +84,10 @@ module Helpers
                            source: source,
                            parameters: parameters)
   end
+
+  def build_code_comment(comment: '', line: 1, source: 'string')
+    Reek::CodeComment.new(comment: comment, line: line, source: source)
+  end
 end
 
 RSpec.configure do |config|
