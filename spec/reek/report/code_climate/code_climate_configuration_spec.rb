@@ -1,3 +1,4 @@
+require 'active_support/inflector'
 require_relative '../../../spec_helper'
 require_lib 'reek/report/code_climate/code_climate_configuration'
 

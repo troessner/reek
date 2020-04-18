@@ -14,9 +14,6 @@ begin
 rescue LoadError # rubocop:disable Lint/SuppressedException
 end
 
-require 'factory_bot'
-FactoryBot.find_definitions
-
 # Simple helpers for our specs.
 module Helpers
   def test_configuration_for(config)
@@ -93,7 +90,6 @@ end
 RSpec.configure do |config|
   config.filter_run :focus
   config.run_all_when_everything_filtered = true
-  config.include FactoryBot::Syntax::Methods
   config.include Helpers
   config.include RSpec::Benchmark::Matchers
   config.example_status_persistence_file_path = 'spec/examples.txt'
