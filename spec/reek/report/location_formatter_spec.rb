@@ -2,7 +2,7 @@ require_relative '../../spec_helper'
 require_lib 'reek/report/location_formatter'
 
 RSpec.describe Reek::Report::BlankLocationFormatter do
-  let(:warning) { build(:smell_warning, lines: [11, 9, 250, 100]) }
+  let(:warning) { build_smell_warning(lines: [11, 9, 250, 100]) }
 
   describe '.format' do
     it 'returns a blank String regardless of the warning' do
@@ -12,7 +12,7 @@ RSpec.describe Reek::Report::BlankLocationFormatter do
 end
 
 RSpec.describe Reek::Report::DefaultLocationFormatter do
-  let(:warning) { build(:smell_warning, lines: [11, 9, 250, 100]) }
+  let(:warning) { build_smell_warning(lines: [11, 9, 250, 100]) }
 
   describe '.format' do
     it 'returns a prefix with sorted line numbers' do
@@ -22,7 +22,7 @@ RSpec.describe Reek::Report::DefaultLocationFormatter do
 end
 
 RSpec.describe Reek::Report::SingleLineLocationFormatter do
-  let(:warning) { build(:smell_warning, lines: [11, 9, 250, 100]) }
+  let(:warning) { build_smell_warning(lines: [11, 9, 250, 100]) }
 
   describe '.format' do
     it 'returns the first line where the smell was found' do

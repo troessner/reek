@@ -3,7 +3,7 @@ require_lib 'reek/spec/smell_matcher'
 
 RSpec.describe Reek::Spec::SmellMatcher do
   let(:smell_warning) do
-    build(:smell_warning, smell_type: 'UncommunicativeVariableName',
+    build_smell_warning(smell_type: 'UncommunicativeVariableName',
                           message: "has the variable name '@s'",
                           parameters: { test: 'something' })
   end

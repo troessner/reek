@@ -8,12 +8,12 @@ RSpec.describe Reek::Report::CodeClimateFingerprint do
     context 'when fingerprinting a warning with no parameters' do
       let(:expected_fingerprint) { 'e68badd29db51c92363a7c6a2438d722' }
       let(:warning) do
-        build(:smell_warning,
-              smell_type: 'UtilityFunction',
-              context:    'alfa',
-              message:    "doesn't depend on instance state (maybe move it to another class?)",
-              lines:      lines,
-              source:     'a/ruby/source/file.rb')
+        Reek::SmellWarning.new(
+          'UtilityFunction',
+          context:    'alfa',
+          message:    "doesn't depend on instance state (maybe move it to another class?)",
+          lines:      lines,
+          source:     'a/ruby/source/file.rb')
       end
 
       context 'with code at a specific location' do
@@ -35,12 +35,12 @@ RSpec.describe Reek::Report::CodeClimateFingerprint do
 
     context 'when the fingerprint should not be computed' do
       let(:warning) do
-        build(:smell_warning,
-              smell_type: 'ManualDispatch',
-              context:    'Alfa#bravo',
-              message:    'manually dispatches method call',
-              lines:      [4],
-              source:     'a/ruby/source/file.rb')
+        Reek::SmellWarning.new(
+          'ManualDispatch',
+          context:    'Alfa#bravo',
+          message:    'manually dispatches method call',
+          lines:      [4],
+          source:     'a/ruby/source/file.rb')
       end
 
       it 'returns nil' do
@@ -50,13 +50,13 @@ RSpec.describe Reek::Report::CodeClimateFingerprint do
 
     context 'when the smell warning has only identifying parameters' do
       let(:warning) do
-        build(:smell_warning,
-              smell_type: 'ClassVariable',
-              context:    'Alfa',
-              message:    "declares the class variable '@@#{name}'",
-              lines:      [4],
-              parameters: { name: "@@#{name}" },
-              source:     'a/ruby/source/file.rb')
+        Reek::SmellWarning.new(
+          'ClassVariable',
+          context:    'Alfa',
+          message:    "declares the class variable '@@#{name}'",
+          lines:      [4],
+          parameters: { name: "@@#{name}" },
+          source:     'a/ruby/source/file.rb')
       end
 
       context 'when the name is one thing' do
@@ -80,13 +80,13 @@ RSpec.describe Reek::Report::CodeClimateFingerprint do
 
     context 'when the smell warning has identifying and non-identifying parameters' do
       let(:warning) do
-        build(:smell_warning,
-              smell_type: 'DuplicateMethodCall',
-              context:    "Alfa##{name}",
-              message:    "calls '#{name}' #{count} times",
-              lines:      lines,
-              parameters: { name: "@@#{name}", count: count },
-              source:     'a/ruby/source/file.rb')
+        Reek::SmellWarning.new(
+          'DuplicateMethodCall',
+          context:    "Alfa##{name}",
+          message:    "calls '#{name}' #{count} times",
+          lines:      lines,
+          parameters: { name: "@@#{name}", count: count },
+          source:     'a/ruby/source/file.rb')
       end
 
       context 'when the parameters are provided' do

@@ -70,6 +70,20 @@ module Helpers
     @klass_map ||= Reek::AST::ASTNodeClassMap.new
     @klass_map.klass_for(type).new(type, children)
   end
+
+  def build_smell_warning(smell_type: 'FeatureEnvy',
+                          context: 'self',
+                          lines: [42],
+                          message: 'smell warning message',
+                          source: 'dummy_file',
+                          parameters: {})
+    Reek::SmellWarning.new(smell_type,
+                           context: context,
+                           lines: lines,
+                           message: message,
+                           source: source,
+                           parameters: parameters)
+  end
 end
 
 RSpec.configure do |config|
