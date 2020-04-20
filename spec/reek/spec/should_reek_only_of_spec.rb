@@ -40,7 +40,7 @@ RSpec.describe Reek::Spec::ShouldReekOnlyOf do
   end
 
   context 'with 1 non-matching smell' do
-    let(:smells) { [build(:smell_warning, smell_type: 'ControlParameter')] }
+    let(:smells) { [build_smell_warning(smell_type: 'ControlParameter')] }
 
     it_behaves_like 'no match'
   end
@@ -48,8 +48,8 @@ RSpec.describe Reek::Spec::ShouldReekOnlyOf do
   context 'with 2 non-matching smells' do
     let(:smells) do
       [
-        build(:smell_warning, smell_type: 'ControlParameter'),
-        build(:smell_warning, smell_type: 'FeatureEnvy')
+        build_smell_warning(smell_type: 'ControlParameter'),
+        build_smell_warning(smell_type: 'FeatureEnvy')
       ]
     end
 
@@ -59,8 +59,8 @@ RSpec.describe Reek::Spec::ShouldReekOnlyOf do
   context 'with 1 non-matching and 1 matching smell' do
     let(:smells) do
       [
-        build(:smell_warning, smell_type: 'ControlParameter'),
-        build(:smell_warning, smell_type: expected_smell_type.to_s,
+        build_smell_warning(smell_type: 'ControlParameter'),
+        build_smell_warning(smell_type: expected_smell_type.to_s,
                               message: "message mentioning #{expected_context_name}")
       ]
     end
@@ -70,7 +70,7 @@ RSpec.describe Reek::Spec::ShouldReekOnlyOf do
 
   context 'with 1 matching smell' do
     let(:smells) do
-      [build(:smell_warning, smell_type: expected_smell_type.to_s,
+      [build_smell_warning(smell_type: expected_smell_type.to_s,
                              message: "message mentioning #{expected_context_name}")]
     end
 

@@ -3,9 +3,7 @@ require_lib 'reek/report/code_climate/code_climate_configuration'
 
 RSpec.describe Reek::Report::CodeClimateConfiguration do
   yml = described_class.load
-  smell_types = Reek::SmellDetectors::BaseDetector.descendants.map do |descendant|
-    descendant.name.demodulize
-  end
+  smell_types = Reek::SmellDetectors::BaseDetector.descendants.map(&:smell_type)
 
   smell_types.each do |name|
     config = yml.fetch(name)

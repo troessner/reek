@@ -43,8 +43,9 @@ module Reek
         raise ArgumentError, "The attribute '#{extra_keys.first}' is not available for comparison"
       end
 
+      # :reek:FeatureEnvy
       def common_parameters_equal?(other_parameters)
-        smell_warning.parameters.slice(*other_parameters.keys) == other_parameters
+        smell_warning.parameters.values_at(*other_parameters.keys) == other_parameters.values
       end
 
       def common_attributes_equal?(attributes)

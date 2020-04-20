@@ -24,23 +24,23 @@ RSpec.describe Reek::SmellWarning do
     end
 
     context 'when smells differ only by detector' do
-      let(:first) { build(:smell_warning, smell_type: 'DuplicateMethodCall') }
-      let(:second) { build(:smell_warning, smell_type: 'FeatureEnvy') }
+      let(:first) { build_smell_warning(smell_type: 'DuplicateMethodCall') }
+      let(:second) { build_smell_warning(smell_type: 'FeatureEnvy') }
 
       it_behaves_like 'first sorts ahead of second'
     end
 
     context 'when smells differ only by lines' do
-      let(:first) { build(:smell_warning, smell_type: 'FeatureEnvy', lines: [2]) }
-      let(:second) { build(:smell_warning, smell_type: 'FeatureEnvy', lines: [3]) }
+      let(:first) { build_smell_warning(smell_type: 'FeatureEnvy', lines: [2]) }
+      let(:second) { build_smell_warning(smell_type: 'FeatureEnvy', lines: [3]) }
 
       it_behaves_like 'first sorts ahead of second'
     end
 
     context 'when smells differ only by context' do
-      let(:first) { build(:smell_warning, smell_type: 'DuplicateMethodCall', context: 'first') }
+      let(:first) { build_smell_warning(smell_type: 'DuplicateMethodCall', context: 'first') }
       let(:second) do
-        build(:smell_warning, smell_type: 'DuplicateMethodCall', context: 'second')
+        build_smell_warning(smell_type: 'DuplicateMethodCall', context: 'second')
       end
 
       it_behaves_like 'first sorts ahead of second'
@@ -48,11 +48,11 @@ RSpec.describe Reek::SmellWarning do
 
     context 'when smells differ only by message' do
       let(:first) do
-        build(:smell_warning, smell_type: 'DuplicateMethodCall',
+        build_smell_warning(smell_type: 'DuplicateMethodCall',
                               context: 'ctx', message: 'first message')
       end
       let(:second) do
-        build(:smell_warning, smell_type: 'DuplicateMethodCall',
+        build_smell_warning(smell_type: 'DuplicateMethodCall',
                               context: 'ctx', message: 'second message')
       end
 
@@ -61,10 +61,10 @@ RSpec.describe Reek::SmellWarning do
 
     context 'when smells differ by name and message' do
       let(:first) do
-        build(:smell_warning, smell_type: 'FeatureEnvy', message: 'second message')
+        build_smell_warning(smell_type: 'FeatureEnvy', message: 'second message')
       end
       let(:second) do
-        build(:smell_warning, smell_type: 'UtilityFunction', message: 'first message')
+        build_smell_warning(smell_type: 'UtilityFunction', message: 'first message')
       end
 
       it_behaves_like 'first sorts ahead of second'
@@ -72,13 +72,13 @@ RSpec.describe Reek::SmellWarning do
 
     context 'when smells differ everywhere' do
       let(:first) do
-        build(:smell_warning, smell_type: 'DuplicateMethodCall',
+        build_smell_warning(smell_type: 'DuplicateMethodCall',
                               context: 'Dirty#a',
                               message: 'calls @s.title twice')
       end
 
       let(:second) do
-        build(:smell_warning, smell_type: 'UncommunicativeVariableName',
+        build_smell_warning(smell_type: 'UncommunicativeVariableName',
                               context: 'Dirty',
                               message: "has the variable name '@s'")
       end

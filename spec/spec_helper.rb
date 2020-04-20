@@ -1,6 +1,5 @@
 require 'pathname'
 require 'timeout'
-require 'active_support/core_ext/string/strip'
 require 'rspec-benchmark'
 require_relative '../lib/reek'
 require_relative '../lib/reek/spec'
@@ -13,9 +12,6 @@ begin
   Reek::CLI::Silencer.without_warnings { require 'pry-byebug' }
 rescue LoadError # rubocop:disable Lint/SuppressedException
 end
-
-require 'factory_bot'
-FactoryBot.find_definitions
 
 # Simple helpers for our specs.
 module Helpers
@@ -70,12 +66,29 @@ module Helpers
     @klass_map ||= Reek::AST::ASTNodeClassMap.new
     @klass_map.klass_for(type).new(type, children)
   end
+
+  def build_smell_warning(smell_type: 'FeatureEnvy',
+                          context: 'self',
+                          lines: [42],
+                          message: 'smell warning message',
+                          source: 'dummy_file',
+                          parameters: {})
+    Reek::SmellWarning.new(smell_type,
+                           context: context,
+                           lines: lines,
+                           message: message,
+                           source: source,
+                           parameters: parameters)
+  end
+
+  def build_code_comment(comment: '', line: 1, source: 'string')
+    Reek::CodeComment.new(comment: comment, line: line, source: source)
+  end
 end
 
 RSpec.configure do |config|
   config.filter_run :focus
   config.run_all_when_everything_filtered = true
-  config.include FactoryBot::Syntax::Methods
   config.include Helpers
   config.include RSpec::Benchmark::Matchers
   config.example_status_persistence_file_path = 'spec/examples.txt'

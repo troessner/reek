@@ -8,7 +8,6 @@ group :development do
   gem 'aruba',                 '~> 1.0'
   gem 'codeclimate-engine-rb', '~> 0.4.0'
   gem 'cucumber',              '~> 3.0'
-  gem 'factory_bot',           '~> 5.0', '!= 5.1.0'
   gem 'kramdown',              '~> 2.1'
   gem 'kramdown-parser-gfm',   '~> 1.0'
   gem 'rake',                  '~> 13.0'
