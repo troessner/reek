@@ -612,6 +612,7 @@ Be careful though, Reek does not merge your configuration entries, so if you alr
   Reek
 * [ruby-critic](https://github.com/whitesmith/rubycritic) - gem that wraps around static analysis gems such as Reek, [flay](https://github.com/seattlerb/flay) and [flog](https://github.com/seattlerb/flog)
 * [pronto-reek](https://github.com/mmozuras/pronto-reek) - Reek integration for [pronto](https://github.com/mmozuras/pronto)
+* [action-reek](https://github.com/reviewdog/action-reek) - GitHub Action to run reek with [reviewdog](https://github.com/reviewdog/reviewdog) 🐶
 
 ### Misc
 
