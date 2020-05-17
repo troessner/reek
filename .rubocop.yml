@@ -54,26 +54,6 @@ Lint/InterpolationCheck:
 Lint/BooleanSymbol:
   Enabled: false
 
-# Enable new cops in version 0.82
-Layout/SpaceAroundMethodCallOperator:
-  Enabled: true
-Style/ExponentialNotation:
-  Enabled: true
-
-# Enable new cops in version 0.81
-Lint/RaiseException:
-  Enabled: true
-Lint/StructNewOverride:
-  Enabled: true
-
-# Enable new cops in version 0.80
-Style/HashEachMethods:
-  Enabled: true
-Style/HashTransformKeys:
-  Enabled: true
-Style/HashTransformValues:
-  Enabled: true
-
 # Spec blocks can be any size
 Metrics/BlockLength:
   Exclude:
@@ -150,3 +130,23 @@ Style/WordArray:
 Metrics/ClassLength:
   Exclude:
     - 'lib/reek/cli/options.rb'
+
+# Activate new cops from RuboCop 0.80 - 0.83
+Lint/RaiseException:
+  Enabled: true
+Lint/StructNewOverride:
+  Enabled: true
+Layout/EmptyLinesAroundAttributeAccessor:
+  Enabled: true
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+Style/ExponentialNotation:
+  Enabled: true
+Style/HashEachMethods:
+  Enabled: true
+Style/HashTransformKeys:
+  Enabled: true
+Style/HashTransformValues:
+  Enabled: true
+Style/SlicingWithRange:
+  Enabled: true
