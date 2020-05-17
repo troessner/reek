@@ -19,6 +19,7 @@ module Reek
     # @quality :reek:TooManyMethods { max_methods: 18 }
     class BaseDetector
       attr_reader :config
+
       # The name of the config field that lists the names of code contexts
       # that should not be checked. Add this field to the config for each
       # smell that should ignore this code element.
