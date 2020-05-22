@@ -53,8 +53,14 @@ module Reek
       # @quality :reek:FeatureEnvy
       def best_match_for(source_base_dir)
         keys.
-          select { |pathname| source_base_dir.to_s.match(glob_to_regexp(pathname.to_s)) }.
+          select do |pathname|
+            match?(source_base_dir, pathname) || match?(source_base_dir, pathname.expand_path)
+          end.
           max_by { |pathname| pathname.to_s.length }
+      end
+
+      def match?(source_base_dir, pathname)
+        source_base_dir.to_s.match(glob_to_regexp(pathname.to_s))
       end
 
       # Transform a glob pattern to a regexp.
