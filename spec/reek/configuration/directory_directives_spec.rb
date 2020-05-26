@@ -89,6 +89,12 @@ RSpec.describe Reek::Configuration::DirectoryDirectives do
       expect(hit.to_s).to eq('bar/**/.spec/*')
     end
 
+    it 'returns the corresponding directory when source_base_dir is an absolute_path' do
+      source_base_dir = Pathname.new('foo/bar').expand_path
+      hit = directives.send :best_match_for, source_base_dir
+      expect(hit.to_s).to eq('foo/bar')
+    end
+
     it 'does not match an arbitrary directory when source_base_dir contains a character that could match the .' do
       source_base_dir = 'bar/something/aspec/direct'
       hit = directives.send :best_match_for, source_base_dir
