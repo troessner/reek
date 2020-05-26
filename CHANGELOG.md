@@ -1,5 +1,9 @@
 # Change log
 
+## 6.0.1 (2020-05-26)
+
+* (Maxim Pertsov) Handle absolute paths for directories correctly
+
 ## 6.0.0 (2020-03-30)
 
 * (mvz) Make codeclimate-engine-rb a development dependency
