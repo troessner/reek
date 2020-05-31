@@ -131,7 +131,9 @@ Metrics/ClassLength:
   Exclude:
     - 'lib/reek/cli/options.rb'
 
-# Activate new cops from RuboCop 0.80 - 0.83
+# Activate new cops from RuboCop 0.80 - 0.84
+Lint/DeprecatedOpenSSLConstant:
+  Enabled: true
 Lint/RaiseException:
   Enabled: true
 Lint/StructNewOverride:
