@@ -19,6 +19,14 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 2.4.0'
   s.summary = 'Code smell detector for Ruby'
 
+  s.metadata = {
+    'homepage_uri'      => 'https://github.com/troessner/reek',
+    'source_code_uri'   => 'https://github.com/troessner/reek',
+    'bug_tracker_uri'   => 'https://github.com/troessner/reek/issues',
+    'changelog_uri'     => 'https://github.com/troessner/reek/CHANGELOG.md',
+    'documentation_uri' => 'https://www.rubydoc.info/gems/reek'
+  }
+
   s.add_runtime_dependency 'kwalify', '~> 0.7.0'
   s.add_runtime_dependency 'parser',  '< 2.8', '>= 2.5.0.0', '!= 2.5.1.1'
   s.add_runtime_dependency 'psych',   '~> 3.1.0'

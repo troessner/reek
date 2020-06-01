@@ -57,6 +57,7 @@ Lint/BooleanSymbol:
 # Spec blocks can be any size
 Metrics/BlockLength:
   Exclude:
+    - '**/*.gemspec'
     - 'spec/**/*'
 
 # Keyword arguments make long parameter lists readable
