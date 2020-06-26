@@ -87,7 +87,7 @@ module Reek
 
       def set_banner
         program_name = parser.program_name
-        parser.banner = <<-BANNER.gsub(/^[ ]+/, '')
+        parser.banner = <<-BANNER.gsub(/^ +/, '')
           Usage: #{program_name} [options] [files]
 
           Examples:

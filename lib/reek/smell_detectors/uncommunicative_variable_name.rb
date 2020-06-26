@@ -74,7 +74,7 @@ module Reek
       end
 
       def uncommunicative_variable_name?(name)
-        sanitized_name = name.to_s.gsub(/^[@\*\&]*/, '')
+        sanitized_name = name.to_s.gsub(/^[@*&]*/, '')
         !acceptable_name?(sanitized_name)
       end
 
