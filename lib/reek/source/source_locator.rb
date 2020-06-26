@@ -33,23 +33,26 @@ module Reek
 
       attr_reader :configuration, :paths, :options
 
-      # @quality :reek:TooManyStatements { max_statements: 7 }
-      # @quality :reek:NestedIterators { max_allowed_nesting: 2 }
       def source_paths
         paths.each_with_object([]) do |given_path, relevant_paths|
-          unless given_path.exist?
+          if given_path.exist?
+            relevant_paths.concat source_files_from_path(given_path)
+          else
             print_no_such_file_error(given_path)
-            next
-          end
-
-          given_path.find do |path|
-            if path.directory?
-              ignore_path?(path) ? Find.prune : next
-            elsif ruby_file?(path)
-              relevant_paths << path unless ignore_file?(path)
-            end
           end
         end
+      end
+
+      def source_files_from_path(given_path)
+        relevant_paths = []
+        given_path.find do |path|
+          if path.directory?
+            Find.prune if ignore_path?(path)
+          elsif ruby_file?(path)
+            relevant_paths << path unless ignore_file?(path)
+          end
+        end
+        relevant_paths
       end
 
       def ignore_file?(path)
