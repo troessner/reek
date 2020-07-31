@@ -38,7 +38,7 @@ Note that both smells are reported, _Boolean Parameter_ and _Control Parameter_.
 
 ## Getting rid of the smell
 
-This is highly dependant on your exact architecture, but looking at the example above what you could do is:
+This is highly dependent on your exact architecture, but looking at the example above what you could do is:
 
 * Move everything in the `if` branch into a separate method
 * Move everything in the `else` branch into a separate method
