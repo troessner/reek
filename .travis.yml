@@ -34,3 +34,7 @@ notifications:
 branches:
   only:
     - master
+
+env:
+  global:
+    - JRUBY_OPTS="--dev"
