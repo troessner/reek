@@ -84,7 +84,7 @@ module Reek
                      gsub('<<to_eol_wildcards>>', '.*').
                      gsub('<<to_wildcards>>', '.*')
                  else
-                   glob + '.*'
+                   "#{glob}.*"
                  end
 
         Regexp.new("^#{regexp}$", Regexp::IGNORECASE)
