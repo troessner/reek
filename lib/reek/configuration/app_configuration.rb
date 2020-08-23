@@ -72,11 +72,12 @@ module Reek
 
       def load_values(values)
         values.each do |key, value|
-          if key == EXCLUDE_PATHS_KEY
+          case key
+          when EXCLUDE_PATHS_KEY
             excluded_paths.add value
-          elsif key == DIRECTORIES_KEY
+          when DIRECTORIES_KEY
             directory_directives.add value
-          elsif key == DETECTORS_KEY
+          when DETECTORS_KEY
             default_directive.add value
           end
         end
