@@ -4,6 +4,7 @@ require 'kramdown'
 RSpec.describe 'Documentation' do
   root = File.expand_path('../..', __dir__)
   files = Dir.glob(File.join(root, '*.md')) + Dir.glob(File.join(root, 'docs', '*.md'))
+  code_types = [:codeblock, :codespan]
 
   files.each do |file|
     describe "from #{file}" do
@@ -13,7 +14,7 @@ RSpec.describe 'Documentation' do
 
       blocks.each do |block|
         # Only consider code blocks with language 'ruby'.
-        next unless [:codeblock, :codespan].include?(block.type)
+        next unless code_types.include?(block.type)
         next unless block.attr['class'] == 'language-ruby'
 
         it "has a valid sample at #{block.options[:location] + 1}" do

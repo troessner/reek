@@ -31,8 +31,7 @@ module Reek
     #   public API.
     #
     # @quality :reek:LongParameterList { max_params: 6 }
-    def initialize(smell_type, context: '', lines:, message:,
-                   source:, parameters: {})
+    def initialize(smell_type, lines:, message:, source:, context: '', parameters: {})
       @smell_type = smell_type
       @source     = source
       @context    = context.to_s
