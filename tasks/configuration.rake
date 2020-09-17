@@ -5,8 +5,6 @@ require_relative '../lib/reek/configuration/app_configuration'
 
 require 'yaml'
 
-Reek::DEFAULT_SMELL_CONFIGURATION = 'docs/defaults.reek.yml'.freeze
-
 namespace :configuration do
   desc 'Updates the default configuration file when smell defaults change'
   task :update_default_configuration do
