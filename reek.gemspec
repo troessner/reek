@@ -12,7 +12,10 @@ Gem::Specification.new do |s|
   s.license = 'MIT'
   s.email = ['timo.roessner@googlemail.com']
   s.extra_rdoc_files = ['CHANGELOG.md', 'License.txt']
-  s.files = `git ls-files -z`.split("\0")
+  s.files = Dir.chdir(File.expand_path('..', __FILE__)) do
+    `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features|samples|docs|tasks)/}) }
+  end
+
   s.executables = s.files.grep(%r{^bin/}).map { |path| File.basename(path) }
   s.homepage = 'https://github.com/troessner/reek'
   s.rdoc_options = %w(--main README.md -x assets/|bin/|config/|features/|spec/|tasks/)
