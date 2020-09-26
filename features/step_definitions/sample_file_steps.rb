@@ -44,8 +44,8 @@ Given(/^a configuration file '(.+)'$/) do |filename|
 end
 
 Given(/^our default configuration file$/) do
-  default_configuration = File.read SAMPLES_DIR.join('..').join('docs').join('defaults.reek.yml')
-  write_file('defaults.reek', default_configuration)
+  default_configuration = File.read Reek::DEFAULT_SMELL_CONFIGURATION
+  write_file('defaults.reek.yml', default_configuration)
 end
 
 When(/^I run "reek (.*?)" in a subdirectory$/) do |args|

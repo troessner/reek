@@ -373,7 +373,7 @@ are documented in the corresponding smell type /docs page (if you want to get a 
 configurations you can also check out [the `defaults.reek.yml` file in this repository](docs/defaults.reek.yml).
 
 Note that you do not need a configuration file at all.
-If you're fine with all the [defaults.reek.yml](docs/defaults.reek.yml) we set you can skip this completely.
+If you're fine with all the [defaults](docs/defaults.reek.yml) we set you can skip this completely.
 
 Don't worry about introducing a mistake in your configuration file that might go unnoticed - Reek uses a
 schema to validate your configuration against on start up and will faily loudly in case you

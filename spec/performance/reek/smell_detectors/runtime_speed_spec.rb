@@ -6,10 +6,8 @@ RSpec.describe 'Runtime speed' do
 
   it 'runs on our smelly sources in less than 5 seconds' do
     expect do
-      source_directory.each_entry do |entry|
-        next if %w(. ..).include?(entry.to_s)
-
-        examiner = Reek::Examiner.new entry.to_path
+      Dir[source_directory.join('**/*.rb')].each do |entry|
+        examiner = Reek::Examiner.new Pathname.new(entry)
         examiner.smells.size
       end
     end.to perform_under(5).sec

@@ -6,7 +6,7 @@ Feature: Validate schema
   Scenario: Our generated default configuration
     Given our default configuration file
     And the clean file "clean.rb"
-    When I run reek -c defaults.reek clean.rb
+    When I run reek -c defaults.reek.yml clean.rb
     Then it succeeds
     And it reports nothing
 

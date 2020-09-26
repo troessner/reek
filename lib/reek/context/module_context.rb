@@ -66,6 +66,8 @@ module Reek
         CodeComment.new(comment: exp.leading_comment).descriptive?
       end
 
+      CONSTANT_SEXP_TYPES = [:casgn, :class, :module].freeze
+
       # A namespace module is a module (or class) that is only there for namespacing
       # purposes, and thus contains only nested constants, modules or classes.
       #
@@ -78,7 +80,7 @@ module Reek
         return false if exp.type == :casgn
 
         children = exp.direct_children
-        children.any? && children.all? { |child| [:casgn, :class, :module].include? child.type }
+        children.any? && children.all? { |child| CONSTANT_SEXP_TYPES.include? child.type }
       end
 
       def track_visibility(visibility, names)

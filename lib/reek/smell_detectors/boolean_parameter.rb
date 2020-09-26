@@ -14,6 +14,8 @@ module Reek
     #
     # See {file:docs/Boolean-Parameter.md} for details.
     class BooleanParameter < BaseDetector
+      BOOLEAN_VALUES = [:true, :false].freeze
+
       #
       # Checks whether the given method has any Boolean parameters.
       #
@@ -21,7 +23,7 @@ module Reek
       #
       def sniff
         context.default_assignments.select do |_parameter, value|
-          [:true, :false].include?(value.type)
+          BOOLEAN_VALUES.include?(value.type)
         end.map do |parameter, _value|
           smell_warning(
             lines: [source_line],
