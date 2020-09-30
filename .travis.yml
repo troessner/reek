@@ -10,26 +10,13 @@ bundler_args: --without debugging
 script: bundle exec rake ci
 
 rvm:
-  - 2.4
-  - 2.5
-  - 2.6
-  - 2.7
-  - jruby-9.2
-  - jruby-head
-  - ruby-head
+  - truffleruby-head
 
 matrix:
   allow_failures:
     - rvm: jruby-head
     - rvm: ruby-head
   fast_finish: true
-
-notifications:
-  email:
-    - timo.roessner@googlemail.com
-    - matijs@matijs.net
-    - chastell@chastell.net
-  irc: irc.freenode.org#reek
 
 branches:
   only:
