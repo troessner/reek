@@ -1,5 +1,12 @@
 # Change log
 
+## 6.0.2 (2020-10-17)
+
+* (mvz) Loosen dependency on psych. This should resolve installation problems on
+  mingw32
+* (Cesario Uy) Fix typo in docs for "Boolean Parameter" smell
+* (mvz) Set link metadata in gemspec
+
 ## 6.0.1 (2020-05-26)
 
 * (Maxim Pertsov) Handle absolute paths for directories correctly
