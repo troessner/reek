@@ -24,7 +24,7 @@ Feature: Report smells using simple JSON layout
               "context": "Smelly#x",
               "lines": [ 4 ],
               "message": "has the name 'x'",
-              "documentation_link": "https://github.com/troessner/reek/blob/v6.0.1/docs/Uncommunicative-Method-Name.md",
+              "documentation_link": "https://github.com/troessner/reek/blob/v6.0.2/docs/Uncommunicative-Method-Name.md",
               "name": "x"
           },
           {
@@ -33,7 +33,7 @@ Feature: Report smells using simple JSON layout
               "context": "Smelly#x",
               "lines": [ 5 ],
               "message": "has the variable name 'y'",
-              "documentation_link": "https://github.com/troessner/reek/blob/v6.0.1/docs/Uncommunicative-Variable-Name.md",
+              "documentation_link": "https://github.com/troessner/reek/blob/v6.0.2/docs/Uncommunicative-Variable-Name.md",
               "name": "y"
           }
       ]
@@ -53,7 +53,7 @@ Feature: Report smells using simple JSON layout
                   1
               ],
               "message": "has no descriptive comment",
-              "documentation_link": "https://github.com/troessner/reek/blob/v6.0.1/docs/Irresponsible-Module.md"
+              "documentation_link": "https://github.com/troessner/reek/blob/v6.0.2/docs/Irresponsible-Module.md"
           }
       ]
       """
