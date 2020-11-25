@@ -5,8 +5,15 @@ require_lib 'reek/configuration/excluded_paths'
 RSpec.describe Reek::Configuration::ExcludedPaths do
   describe '#add' do
     let(:exclusions) { [].extend(described_class) }
-    let(:paths) { ['smelly/sources'] }
-    let(:expected_exclude_paths) { [Pathname('smelly/sources')] }
+    let(:paths) {
+      %w[samples/directory_does_not_exist/
+         samples/source_with_non_ruby_files/
+         samples/**/ignore_me*] }
+
+    let(:expected_exclude_paths) {
+      [Pathname('samples/source_with_non_ruby_files/'),
+       Pathname('samples/source_with_exclude_paths/ignore_me'),
+       Pathname('samples/source_with_exclude_paths/nested/ignore_me_as_well')] }
 
     it 'adds the given paths as Pathname' do
       exclusions.add(paths)
