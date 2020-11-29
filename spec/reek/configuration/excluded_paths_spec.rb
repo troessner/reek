@@ -17,7 +17,7 @@ RSpec.describe Reek::Configuration::ExcludedPaths do
 
     it 'adds the given paths as Pathname' do
       exclusions.add(paths)
-      expect(exclusions).to eq expected_exclude_paths
+      expect(exclusions).to match_array expected_exclude_paths
     end
   end
 end
