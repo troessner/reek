@@ -14,8 +14,8 @@ module Reek
       # @param paths [String]
       # @return [undefined]
       def add(paths)
-        paths.flat_map { |path| Dir[path] }
-             .each     { |path| self << Pathname(path) }
+        paths.flat_map { |path| Dir[path] }.
+          each { |path| self << Pathname(path) }
       end
     end
   end
