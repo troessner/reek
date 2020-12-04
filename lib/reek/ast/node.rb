@@ -60,7 +60,7 @@ module Reek
       #
       # Returns an array with all matching nodes.
       def each_node(target_types, ignoring = [], &blk)
-        return enum_for(:each_node, target_types, ignoring) unless block_given?
+        return enum_for(:each_node, target_types, ignoring) unless blk
 
         look_for(Array(target_types), ignoring, &blk)
       end
