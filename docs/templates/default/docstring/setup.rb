@@ -27,9 +27,7 @@ def show_api_marker_section?
   return false if object.type == :root
 
   case api_text
-  when 'public'
-    false
-  when 'private'
+  when 'public', 'private'
     false
   else
     true
