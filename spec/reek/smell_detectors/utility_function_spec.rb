@@ -161,6 +161,22 @@ RSpec.describe Reek::SmellDetectors::UtilityFunction do
     end
   end
 
+  context 'when examining refinements' do
+    it 'reports on the refined class' do
+      src = <<-RUBY
+        module Alfa
+          refine Bravo do
+            def bravo(charlie)
+              charlie.delta.echo
+            end
+          end
+        end
+      RUBY
+
+      expect(src).to reek_of(:UtilityFunction, context: 'Bravo#bravo')
+    end
+  end
+
   describe 'method visibility' do
     it 'reports private methods' do
       src = <<-RUBY
