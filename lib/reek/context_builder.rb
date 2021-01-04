@@ -5,6 +5,7 @@ require_relative 'context/class_context'
 require_relative 'context/ghost_context'
 require_relative 'context/method_context'
 require_relative 'context/module_context'
+require_relative 'context/refinement_context'
 require_relative 'context/root_context'
 require_relative 'context/send_context'
 require_relative 'context/singleton_attribute_context'
@@ -20,7 +21,7 @@ module Reek
   # counting. Ideally `ContextBuilder` would only build up the context tree and leave the
   # statement and reference counting to the contexts.
   #
-  # @quality :reek:TooManyMethods { max_methods: 31 }
+  # @quality :reek:TooManyMethods { max_methods: 32 }
   # @quality :reek:UnusedPrivateMethod { exclude: [ !ruby/regexp /process_/ ] }
   # @quality :reek:DataClump
   class ContextBuilder
@@ -263,9 +264,16 @@ module Reek
     #
     # Counts non-empty blocks as one statement.
     #
+    # A refinement block is handled differently and causes a RefinementContext
+    # to be opened.
+    #
     def process_block(exp, _parent)
       increase_statement_count_by(exp.block)
-      process(exp)
+      if exp.call.name == :refine
+        handle_refinement_block(exp)
+      else
+        process(exp)
+      end
     end
 
     # Handles `begin` and `kwbegin` nodes. `begin` nodes are created implicitly
@@ -505,6 +513,12 @@ module Reek
     def append_new_context(klass, *args)
       klass.new(*args).tap do |new_context|
         new_context.register_with_parent(current_context)
+      end
+    end
+
+    def handle_refinement_block(exp)
+      inside_new_context(Context::RefinementContext, exp) do
+        process(exp)
       end
     end
 
