@@ -42,7 +42,7 @@ This is highly dependent on your exact architecture, but looking at the example 
 
 * Move everything in the `if` branch into a separate method
 * Move everything in the `else` branch into a separate method
-* Get rid of the `hit_the_switch` method alltogether
+* Get rid of the `hit_the_switch` method altogether
 * Make the decision what method to call in the initial caller of `hit_the_switch`
 
 ## Current support in Reek
