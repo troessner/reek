@@ -28,7 +28,7 @@ Gem::Specification.new do |s|
   }
 
   s.add_runtime_dependency 'kwalify', '~> 0.7.0'
-  s.add_runtime_dependency 'parser',  '< 2.8', '>= 2.5.0.0', '!= 2.5.1.1'
+  s.add_runtime_dependency 'parser',  '~> 3.0.0'
   s.add_runtime_dependency 'psych',   '~> 3.1'
   s.add_runtime_dependency 'rainbow', '>= 2.0', '< 4.0'
 end
