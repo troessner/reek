@@ -62,10 +62,8 @@ module Reek
 
             false
           end
-        elsif path_excluded?(path)
-          true
         else
-          false
+          path_excluded?(path)
         end
       end
 
