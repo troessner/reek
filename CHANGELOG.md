@@ -5,7 +5,7 @@
 * (mvz) Require parser 3.0
 * (mvz) In a refinement, assign smells to the refined module or class
 
-## 6.0.3 (2020-10-17)
+## 6.0.2 (2020-10-17)
 
 * (mvz) Loosen dependency on psych. This should resolve installation problems on
   mingw32
