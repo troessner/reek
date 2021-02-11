@@ -47,7 +47,7 @@ module Reek
       #       s(:args), nil))
       #
       def sniff
-        context.node_instance_methods.select do |method_sexp|
+        context.defined_instance_methods.map(&:exp).select do |method_sexp|
           missing_safe_method?(method_sexp)
         end.map do |method_sexp|
           name = method_sexp.name
@@ -69,7 +69,7 @@ module Reek
       end
 
       def version_without_bang_exists?(method_sexp)
-        context.node_instance_methods.find do |sexp_item|
+        context.defined_instance_methods.find do |sexp_item|
           sexp_item.name.to_s == method_sexp.name_without_bang
         end
       end

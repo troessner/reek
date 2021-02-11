@@ -46,7 +46,7 @@ Feature: Basic smell detection
       RepeatedConditional: Inline::C tests '@@type_map.has_key? type' at least 3 times
       TooManyConstants: Inline has 6 constants
       TooManyInstanceVariables: Inline::C has at least 13 instance variables
-      TooManyMethods: Inline::C has at least 25 methods
+      TooManyMethods: Inline::C has at least 30 methods
       TooManyStatements: File#self.write_with_backup has approx 6 statements
       TooManyStatements: Inline#self.rootdir has approx 8 statements
       TooManyStatements: Inline::C#build has approx 63 statements
@@ -144,7 +144,7 @@ Feature: Basic smell detection
       TooManyConstants: OptionParser has 16 constants
       TooManyInstanceVariables: OptionParser has at least 6 instance variables
       TooManyInstanceVariables: OptionParser::Switch has at least 7 instance variables
-      TooManyMethods: OptionParser has at least 42 methods
+      TooManyMethods: OptionParser has at least 49 methods
       TooManyStatements: OptionParser#complete has approx 6 statements
       TooManyStatements: OptionParser#getopts has approx 18 statements
       TooManyStatements: OptionParser#load has approx 6 statements
@@ -247,7 +247,7 @@ Feature: Basic smell detection
       RepeatedConditional: RedCloth tests 'title' at least 4 times
       SubclassedFromCoreClass: RedCloth inherits from core class 'String'
       TooManyConstants: RedCloth has 45 constants
-      TooManyMethods: RedCloth has at least 44 methods
+      TooManyMethods: RedCloth has at least 50 methods
       TooManyStatements: RedCloth#block_markdown_bq has approx 6 statements
       TooManyStatements: RedCloth#block_textile_lists has approx 21 statements
       TooManyStatements: RedCloth#block_textile_table has approx 19 statements

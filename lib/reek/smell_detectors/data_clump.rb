@@ -80,7 +80,7 @@ module Reek
       end
 
       def candidate_methods
-        @candidate_methods ||= context.node_instance_methods
+        @candidate_methods ||= context.defined_instance_methods.map(&:exp)
       end
 
       def candidate_clumps
