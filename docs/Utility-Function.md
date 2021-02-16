@@ -51,6 +51,7 @@ A sample configuration file would look like this:
 
 ```Yaml
 ---
-UtilityFunction:
-  public_methods_only: true
+detectors:
+  UtilityFunction:
+    public_methods_only: true
 ```
