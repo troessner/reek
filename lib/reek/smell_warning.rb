@@ -59,7 +59,7 @@ module Reek
 
     # @public
     def to_hash
-      stringified_params = Hash[parameters.map { |key, val| [key.to_s, val] }]
+      stringified_params = parameters.map { |key, val| [key.to_s, val] }.to_h
       base_hash.merge(stringified_params)
     end
 
