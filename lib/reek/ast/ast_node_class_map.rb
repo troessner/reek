@@ -30,7 +30,7 @@ module Reek
                 SexpExtensions.const_get(const)
               ]
             end
-            Hash[assoc]
+            assoc.to_h
           end
       end
 
