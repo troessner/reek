@@ -27,6 +27,9 @@ version, Ruby platform (MRI, JRuby, etc.), operating system.
 Try to provide a minimal example that reproduces the issue.
 Extra kudos if you can write it as a failing test. :)
 
+Make sure any code examples and output are properly formatted
+using [code blocks](https://github.github.com/gfm/#fenced-code-blocks).
+
 ## Contributing features, bugfixes, documentation
 
 ### Getting started
