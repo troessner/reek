@@ -90,7 +90,7 @@ module Reek
 
       class << self
         def smell_type
-          @smell_type ||= name.split(/::/).last
+          @smell_type ||= name.split('::').last
         end
 
         def contexts
