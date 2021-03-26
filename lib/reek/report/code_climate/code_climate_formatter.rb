@@ -57,9 +57,7 @@ module Reek
       end
 
       def configuration
-        @configuration ||= begin
-          CodeClimateConfiguration.load
-        end
+        @configuration ||= CodeClimateConfiguration.load
       end
     end
   end
