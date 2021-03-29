@@ -57,8 +57,7 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       def sniff
-        return [] if context.singleton_method? || context.module_function?
-        return [] if context.references_self?
+        return [] if context.singleton_method? || static_method_context?
         return [] if num_helper_methods.zero?
         return [] if ignore_method?
 
@@ -68,6 +67,12 @@ module Reek
       end
 
       private
+
+      def static_method_context?
+        context.module_function? ||
+          context.references_self? ||
+          context.class_method_block?
+      end
 
       def num_helper_methods
         context.local_nodes(:send).to_a.length

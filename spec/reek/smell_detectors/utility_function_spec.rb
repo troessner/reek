@@ -177,6 +177,27 @@ RSpec.describe Reek::SmellDetectors::UtilityFunction do
     end
   end
 
+  context 'when examining class_methods block' do
+    it 'reports on the refined class' do
+      src = <<-RUBY
+        module Alpha
+          extend ActiveSupport::Concern
+
+          class_methods do
+            def bravo(arg1, arg2)
+              return 1 if arg1.something?
+              return 2 if arg2.something_else?
+
+              3
+            end
+          end
+        end
+      RUBY
+
+      expect(src).not_to reek_of(:UtilityFunction, context: 'Alpha#bravo')
+    end
+  end
+
   describe 'method visibility' do
     it 'reports private methods' do
       src = <<-RUBY
