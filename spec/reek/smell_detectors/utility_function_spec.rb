@@ -178,7 +178,7 @@ RSpec.describe Reek::SmellDetectors::UtilityFunction do
   end
 
   context 'when examining class_methods block' do
-    it 'reports on the refined class' do
+    it 'does not report methods defined in class_methods block' do
       src = <<-RUBY
         module Alpha
           extend ActiveSupport::Concern
