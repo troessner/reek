@@ -88,10 +88,7 @@ module Reek
       def class_method_block?
         return false unless @parent_exp
 
-        result = @parent_exp.each_node(:send).select do |node|
-          node_args = *node
-          node_args.include?(:class_methods)
-        end
+        result = @parent_exp.each_node(:send).select { |node| node.name == :class_methods }
 
         !result.empty?
       end
