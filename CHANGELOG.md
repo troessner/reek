@@ -1,5 +1,9 @@
 # Change log
 
+## 6.0.4 (2021-04-27)
+
+* (Nicolas Ferrari) Add build-base to Dockerfile
+
 ## 6.0.3 (2021-01-11)
 
 * (mvz) Require parser 3.0
