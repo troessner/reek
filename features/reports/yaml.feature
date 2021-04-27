@@ -25,7 +25,7 @@ Feature: Report smells using simple YAML layout
         smell_type: UncommunicativeMethodName
         source: smelly.rb
         name: x
-        documentation_link: https://github.com/troessner/reek/blob/vt/docs/Uncommunicative-Method-Name.md
+        documentation_link: https://github.com/troessner/reek/blob/v6.0.4/docs/Uncommunicative-Method-Name.md
       - context: Smelly#x
         lines:
         - 5
