@@ -3,6 +3,7 @@
 ## 6.0.4 (2021-04-27)
 
 * (Nicolas Ferrari) Add build-base to Dockerfile
+* (Masataka Pocke Kuwabara and Daniel Santos Dantas) Reduce gem package size
 
 ## 6.0.3 (2021-01-11)
 
