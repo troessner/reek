@@ -11,7 +11,7 @@ ENV code_dir /code
 ENV app_dir /usr/src/app
 ENV user app
 
-RUN apk --update add git
+RUN apk --update add git build-base
 ADD . ${app_dir}
 
 RUN adduser -u 9000 -D ${user}
