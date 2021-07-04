@@ -14,15 +14,14 @@ class CodeClimateToReek
   # we have to exit with a zero for both failure and success.
   ENGINE_CONFIGURATION = [
     '--failure-exit-code', '0',
-    '--success-exit-code', '0',
-    '.'
+    '--success-exit-code', '0'
   ].freeze
 
   attr_reader :configuration_file_path, :include_paths_key, :include_paths_default
 
   def initialize(configuration_file_path: '/config.json',
                  include_paths_key: 'include_paths',
-                 include_paths_default: [])
+                 include_paths_default: ['.'])
     @configuration_file_path = configuration_file_path
     @include_paths_key       = include_paths_key
     @include_paths_default   = include_paths_default
