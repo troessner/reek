@@ -39,13 +39,13 @@ module Reek
 
       @original_comment.scan(CONFIGURATION_REGEX) do |detector_name, separator, options|
         escalate_legacy_separator separator
-        CodeCommentValidator.new(detector_name:    detector_name,
-                                 original_comment: original_comment,
-                                 line:             line,
-                                 source:           source,
-                                 options:          options).validate
-        @config.merge! detector_name => YAML.safe_load(options || DISABLE_DETECTOR_CONFIGURATION,
-                                                       permitted_classes: [Regexp])
+        validator = CodeCommentValidator.new(detector_name:    detector_name,
+                                             original_comment: original_comment,
+                                             line:             line,
+                                             source:           source,
+                                             options:          options)
+        validator.validate
+        @config.merge! detector_name => validator.parsed_options
       end
     end
 
@@ -115,6 +115,21 @@ module Reek
         escalate_unknown_configuration_key
       end
 
+      def parsed_options
+        @parsed_options ||=
+          if Psych::VERSION < '3.1.0'
+            YAML.safe_load(options || CodeComment::DISABLE_DETECTOR_CONFIGURATION, [Regexp])
+          else
+            YAML.safe_load(options || CodeComment::DISABLE_DETECTOR_CONFIGURATION,
+                           permitted_classes: [Regexp])
+          end
+      rescue Psych::SyntaxError
+        raise Errors::GarbageDetectorConfigurationInCommentError.new(detector_name: detector_name,
+                                                                     original_comment: original_comment,
+                                                                     source: source,
+                                                                     line: line)
+      end
+
       private
 
       attr_reader :detector_name,
@@ -123,16 +138,6 @@ module Reek
                   :source,
                   :separator,
                   :options
-
-      def parsed_options
-        @parsed_options ||= YAML.safe_load(options || CodeComment::DISABLE_DETECTOR_CONFIGURATION,
-                                           permitted_classes: [Regexp])
-      rescue Psych::SyntaxError
-        raise Errors::GarbageDetectorConfigurationInCommentError.new(detector_name: detector_name,
-                                                                     original_comment: original_comment,
-                                                                     source: source,
-                                                                     line: line)
-      end
 
       def escalate_unknown_configuration_key
         return if given_keys_legit?
