@@ -116,8 +116,13 @@ module Reek
       end
 
       def parsed_options
-        @parsed_options ||= YAML.safe_load(options || CodeComment::DISABLE_DETECTOR_CONFIGURATION,
-                                           permitted_classes: [Regexp])
+        @parsed_options ||=
+          if Psych::VERSION < '3.1.0'
+            YAML.safe_load(options || CodeComment::DISABLE_DETECTOR_CONFIGURATION, [Regexp])
+          else
+            YAML.safe_load(options || CodeComment::DISABLE_DETECTOR_CONFIGURATION,
+                           permitted_classes: [Regexp])
+          end
       rescue Psych::SyntaxError
         raise Errors::GarbageDetectorConfigurationInCommentError.new(detector_name: detector_name,
                                                                      original_comment: original_comment,
