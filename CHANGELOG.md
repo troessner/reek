@@ -1,5 +1,10 @@
 # Change log
 
+## 6.0.6 (2021-08-12)
+
+* (mvz) Remove explicit dependency on psych. This fixes an issue where
+  installing Reek would unintentionally pull in psych 4.0
+
 ## 6.0.5 (2021-08-01)
 
 * (dependabot) Loosen dependency on psych

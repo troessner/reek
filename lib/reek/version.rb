@@ -3,11 +3,11 @@
 # @public
 module Reek
   #
-  # This module holds the Reek version informations
+  # This module holds the Reek version information
   #
   # @public
   module Version
     # @public
-    STRING = '6.0.5'
+    STRING = '6.0.6'
   end
 end
