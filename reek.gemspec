@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
   s.executables = s.files.grep(%r{^bin/}).map { |path| File.basename(path) }
   s.homepage = 'https://github.com/troessner/reek'
   s.rdoc_options = %w(--main README.md -x assets/|bin/|config/|features/|spec/|tasks/)
-  s.required_ruby_version = '>= 2.4.0'
+  s.required_ruby_version = '>= 2.5.0'
   s.summary = 'Code smell detector for Ruby'
 
   s.metadata = {

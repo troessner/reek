@@ -9,13 +9,11 @@ RSpec.describe Reek::Rake::Task do
     end
 
     it 'is set to ENV["REEK_SRC"]' do
-      begin
         ENV['REEK_SRC'] = '*.rb'
         task = described_class.new
         expect(task.source_files).to eq FileList['*.rb']
-      ensure
-        ENV['REEK_SRC'] = nil
-      end
+    ensure
+      ENV['REEK_SRC'] = nil
     end
   end
 
@@ -28,15 +26,13 @@ RSpec.describe Reek::Rake::Task do
     end
 
     it 'has no effect when ENV["REEK_SRC"] is set' do
-      begin
         ENV['REEK_SRC'] = '*.rb'
         task = described_class.new do |it|
           it.source_files = 'lib/*.rb'
         end
         expect(task.source_files).to eq FileList['*.rb']
-      ensure
-        ENV['REEK_SRC'] = nil
-      end
+    ensure
+      ENV['REEK_SRC'] = nil
     end
   end
 
