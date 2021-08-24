@@ -119,7 +119,7 @@ RSpec.describe Reek::Spec::ShouldReekOf do
 
         expect(matcher.failure_message_when_negated).to\
           match('Expected string not to reek of DuplicateMethodCall with smell '\
-                  'details {:name=>"foo", :count=>15}, but it did')
+                'details {:name=>"foo", :count=>15}, but it did')
       end
     end
   end

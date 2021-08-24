@@ -232,7 +232,7 @@ module Reek
           puts "All available smell detectors:\n\n"
           puts DetectorRepository.available_detector_names
           puts "\nCheck out #{DocumentationLink.build('Code Smells')} "\
-                  'for a details on each detector'
+               'for a details on each detector'
           exit
         end
         parser.on_tail('-v', '--version', 'Show version') do

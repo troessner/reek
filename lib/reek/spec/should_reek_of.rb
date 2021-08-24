@@ -70,18 +70,20 @@ module Reek
 
       def set_failure_messages_for_smell_type
         self.failure_message = "Expected #{origin} to reek of #{smell_type}, "\
-          'but it didn\'t'
+                               'but it didn\'t'
         self.failure_message_when_negated = "Expected #{origin} not to reek "\
-          "of #{smell_type}, but it did"
+                                            "of #{smell_type}, but it did"
       end
 
       def set_failure_messages_for_smell_details
-        self.failure_message = "Expected #{origin} to reek of #{smell_type} "\
+        self.failure_message =
+          "Expected #{origin} to reek of #{smell_type} "\
           "(which it did) with smell details #{smell_details}, which it didn't.\n"\
           "The number of smell details I had to compare with the given one was #{matching_smell_types.count} "\
           "and here they are:\n"\
           "#{all_relevant_smell_details_formatted}"
-        self.failure_message_when_negated = "Expected #{origin} not to reek of "\
+        self.failure_message_when_negated =
+          "Expected #{origin} not to reek of "\
           "#{smell_type} with smell details #{smell_details}, but it did"
       end
 
