@@ -61,7 +61,7 @@ RSpec.describe Reek::Spec::ShouldReekOnlyOf do
       [
         build_smell_warning(smell_type: 'ControlParameter'),
         build_smell_warning(smell_type: expected_smell_type.to_s,
-                              message: "message mentioning #{expected_context_name}")
+                            message: "message mentioning #{expected_context_name}")
       ]
     end
 
@@ -71,7 +71,7 @@ RSpec.describe Reek::Spec::ShouldReekOnlyOf do
   context 'with 1 matching smell' do
     let(:smells) do
       [build_smell_warning(smell_type: expected_smell_type.to_s,
-                             message: "message mentioning #{expected_context_name}")]
+                           message: "message mentioning #{expected_context_name}")]
     end
 
     it 'matches' do

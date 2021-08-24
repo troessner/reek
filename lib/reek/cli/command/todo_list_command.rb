@@ -24,7 +24,7 @@ module Reek
           else
             write_to_file
             puts "\n'#{DEFAULT_CONFIGURATION_FILE_NAME}' generated! "\
-              'You can now use this as a starting point.'
+                 'You can now use this as a starting point.'
           end
           options.success_exit_code
         end

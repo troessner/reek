@@ -4,8 +4,8 @@ require_lib 'reek/spec/smell_matcher'
 RSpec.describe Reek::Spec::SmellMatcher do
   let(:smell_warning) do
     build_smell_warning(smell_type: 'UncommunicativeVariableName',
-                          message: "has the variable name '@s'",
-                          parameters: { test: 'something' })
+                        message: "has the variable name '@s'",
+                        parameters: { test: 'something' })
   end
   let(:matcher) { described_class.new(smell_warning) }
 
