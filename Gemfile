@@ -5,7 +5,7 @@ gemspec
 ruby RUBY_VERSION
 
 group :development do
-  gem 'aruba',                 '~> 1.0'
+  gem 'aruba',                 '~> 2.0'
   gem 'codeclimate-engine-rb', '~> 0.4.0'
   gem 'cucumber',              ['>= 4.0', '< 7.0']
   gem 'kramdown',              '~> 2.1'
