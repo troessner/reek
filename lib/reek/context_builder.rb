@@ -422,7 +422,7 @@ module Reek
     # See `process_rescue` for additional reference.
     #
     def process_resbody(exp, _parent)
-      increase_statement_count_by(exp.children[1..-1].compact)
+      increase_statement_count_by(exp.children[1..].compact)
       process(exp)
     end
 
