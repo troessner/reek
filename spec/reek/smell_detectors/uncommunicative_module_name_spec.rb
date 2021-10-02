@@ -39,7 +39,7 @@ RSpec.describe Reek::SmellDetectors::UncommunicativeModuleName do
   describe '`accept` patterns' do
     let(:source) { 'class Alfa1; end' }
 
-    it 'make smelly names pass ' do
+    it 'make smelly names pass' do
       patterns = [/lfa1/, /Alfa1/]
       patterns.each do |pattern|
         expect(source).not_to reek_of(:UncommunicativeModuleName).with_config('accept' => pattern)
