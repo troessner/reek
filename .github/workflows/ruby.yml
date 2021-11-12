@@ -22,33 +22,33 @@ jobs:
         ruby: [2.5, 2.6, 2.7, jruby-9.2]
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ matrix.ruby }}
-        bundler-cache: true
-    - name: Run specs
-      run: bundle exec rake test:spec
-    - name: Run performance tests
-      run: bundle exec rake test:performance
-    - name: Update default configuration
-      run: bundle exec rake configuration:update_default_configuration
-    - name: Run cucumber features
-      run: bundle exec rake test:features
-    - name: Run code quality specs
-      run: bundle exec rake test:quality
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+      - name: Run specs
+        run: bundle exec rake test:spec
+      - name: Run performance tests
+        run: bundle exec rake test:performance
+      - name: Update default configuration
+        run: bundle exec rake configuration:update_default_configuration
+      - name: Run cucumber features
+        run: bundle exec rake test:features
+      - name: Run code quality specs
+        run: bundle exec rake test:quality
 
   rubocop:
 
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: 2.7
-        bundler-cache: true
-    - name: Run RuboCop
-      run: bundle exec rubocop -P
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7
+          bundler-cache: true
+      - name: Run RuboCop
+        run: bundle exec rubocop -P
