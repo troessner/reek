@@ -23,11 +23,12 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = '>= 2.5.0'
 
   spec.metadata = {
-    'homepage_uri'      => 'https://github.com/troessner/reek',
-    'source_code_uri'   => 'https://github.com/troessner/reek',
-    'bug_tracker_uri'   => 'https://github.com/troessner/reek/issues',
-    'changelog_uri'     => 'https://github.com/troessner/reek/CHANGELOG.md',
-    'documentation_uri' => 'https://www.rubydoc.info/gems/reek'
+    'homepage_uri'          => 'https://github.com/troessner/reek',
+    'source_code_uri'       => 'https://github.com/troessner/reek',
+    'bug_tracker_uri'       => 'https://github.com/troessner/reek/issues',
+    'changelog_uri'         => 'https://github.com/troessner/reek/CHANGELOG.md',
+    'documentation_uri'     => 'https://www.rubydoc.info/gems/reek',
+    'rubygems_mfa_required' => 'true'
   }
 
   spec.add_runtime_dependency 'kwalify', '~> 0.7.0'
