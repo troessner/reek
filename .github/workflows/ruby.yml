@@ -12,6 +12,9 @@ on:
   schedule:
     - cron: '16 4 12 * *'
 
+env:
+  CUCUMBER_PUBLISH_QUIET: true
+  RUBYOPTS: "--disable-did-you-mean"
 jobs:
   test:
 
@@ -19,7 +22,7 @@ jobs:
 
     strategy:
       matrix:
-        ruby: [2.5, 2.6, 2.7, jruby-9.2]
+        ruby: [2.5, 2.6, 2.7, "3.0", "3.1", jruby-9.2, jruby-9.3]
 
     steps:
       - uses: actions/checkout@v2
