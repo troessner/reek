@@ -1,5 +1,9 @@
 inherit_from: .rubocop_todo.yml
 
+inherit_mode:
+  merge:
+    - Exclude
+
 require:
   - rubocop-rspec
   - rubocop-performance
@@ -7,8 +11,6 @@ require:
 AllCops:
   Exclude:
     - 'samples/**/*'
-    - 'tmp/**/*'
-    - 'vendor/**/*'
   NewCops: enable
   TargetRubyVersion: 2.5
 
