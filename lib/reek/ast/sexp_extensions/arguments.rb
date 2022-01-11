@@ -104,6 +104,17 @@ module Reek
         end
       end
       # rubocop:enable Naming/ClassAndModuleCamelCase
+
+      # Utility methods for :forward_arg nodes.
+      # rubocop:disable Naming/ClassAndModuleCamelCase
+      module Forward_ArgNode
+        include ArgNodeBase
+
+        def anonymous_splat?
+          true
+        end
+      end
+      # rubocop:enable Naming/ClassAndModuleCamelCase
     end
   end
 end

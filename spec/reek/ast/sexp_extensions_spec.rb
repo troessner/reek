@@ -94,6 +94,21 @@ RSpec.describe Reek::AST::SexpExtensions::DefNode do
     end
   end
 
+  context 'with argument forwarding' do
+    let(:node) do
+      sexp(:def, :hello,
+           sexp(:forward_args), nil)
+    end
+
+    it 'has 1 nil arg name' do
+      expect(node.arg_names).to eq [nil]
+    end
+
+    it 'has 1 nil parameter name' do
+      expect(node.parameter_names).to eq [nil]
+    end
+  end
+
   context 'with a body with 2 statements' do
     let(:node) do
       sexp(:def, :hello, sexp(:args),
@@ -234,6 +249,39 @@ RSpec.describe Reek::AST::SexpExtensions::DefsNode do
 
     it 'includes no marker in its full name with empty outer scope' do
       expect(node.full_name('')).to eq 'obj.hello'
+    end
+  end
+
+  context 'with argument forwarding' do
+    let(:node) do
+      sexp(:defs, sexp(:send, nil, :obj), :hello,
+           sexp(:forward_args), nil)
+    end
+
+    it 'has 1 arg name' do
+      expect(node.arg_names).to eq [nil]
+    end
+
+    it 'has 1 parameter name' do
+      expect(node.parameter_names).to eq [nil]
+    end
+  end
+
+  context 'with argument forwarding and other arguments' do
+    let(:node) do
+      sexp(:defs,
+           sexp(:send, nil, :obj), :hello,
+           sexp(:args,
+                sexp(:arg, :parameter),
+                sexp(:forward_arg)), nil)
+    end
+
+    it 'has 2 arg names, one nil' do
+      expect(node.arg_names).to eq [:parameter, nil]
+    end
+
+    it 'has 2 parameter names, one nil' do
+      expect(node.parameter_names).to eq [:parameter, nil]
     end
   end
 
