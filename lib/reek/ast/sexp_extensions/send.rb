@@ -16,7 +16,7 @@ module Reek
         end
 
         def args
-          children[2..-1]
+          children[2..]
         end
 
         def participants
