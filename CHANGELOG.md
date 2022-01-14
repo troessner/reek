@@ -1,5 +1,11 @@
 # Change log
 
+## 6.1.0 (2022-01-14)
+
+* (mvz) Drop support for Ruby 2.4 and 2.5
+* (mvz) Support Ruby 3.0 and 3.1
+* (mvz) Support argument forwarding after regular arguments
+
 ## 6.0.6 (2021-08-12)
 
 * (mvz) Remove explicit dependency on psych. This fixes an issue where
