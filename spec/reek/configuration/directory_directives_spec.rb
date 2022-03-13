@@ -22,7 +22,7 @@ RSpec.describe Reek::Configuration::DirectoryDirectives do
 
     context 'when our source is not in a directory for which we have a directive' do
       it 'returns nil' do
-        expect(directives.directive_for('does/not/exist')).to eq(nil)
+        expect(directives.directive_for('does/not/exist')).to be_nil
       end
     end
   end

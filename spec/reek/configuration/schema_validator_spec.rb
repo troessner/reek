@@ -17,7 +17,7 @@ RSpec.describe Reek::Configuration::SchemaValidator do
       end
 
       it 'returns nil' do
-        expect(validator.validate).to eq(nil)
+        expect(validator.validate).to be_nil
       end
     end
 

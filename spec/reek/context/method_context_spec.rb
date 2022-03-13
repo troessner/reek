@@ -12,19 +12,19 @@ RSpec.describe Reek::Context::MethodContext do
     end
 
     it 'recognises itself in a collection of names' do
-      expect(method_context.matches?(['banana', 'mod'])).to eq(true)
+      expect(method_context.matches?(['banana', 'mod'])).to be(true)
     end
 
     it 'does not recognise itself in a collection of names that does not include it' do
-      expect(method_context.matches?(['banana'])).to eq(false)
+      expect(method_context.matches?(['banana'])).to be(false)
     end
 
     it 'recognises itself in a collection of regular expressions' do
-      expect(method_context.matches?([/banana/, /mod/])).to eq(true)
+      expect(method_context.matches?([/banana/, /mod/])).to be(true)
     end
 
     it 'does not recognise itself in a collection of regular expressions that do not match it' do
-      expect(method_context.matches?([/banana/])).to eq(false)
+      expect(method_context.matches?([/banana/])).to be(false)
     end
   end
 

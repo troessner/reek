@@ -30,7 +30,7 @@ RSpec.describe Reek::AST::ObjectRefs do
     end
 
     it 'reports self as the max' do
-      expect(refs.self_is_max?).to eq(true)
+      expect(refs.self_is_max?).to be(true)
     end
   end
 
@@ -56,7 +56,7 @@ RSpec.describe Reek::AST::ObjectRefs do
     end
 
     it 'reports self as the max' do
-      expect(refs.self_is_max?).to eq(true)
+      expect(refs.self_is_max?).to be(true)
     end
   end
 
@@ -77,7 +77,7 @@ RSpec.describe Reek::AST::ObjectRefs do
     end
 
     it 'does not report self as the max' do
-      expect(refs.self_is_max?).to eq(false)
+      expect(refs.self_is_max?).to be(false)
     end
   end
 end

@@ -64,39 +64,39 @@ RSpec.describe Reek::Context::CodeContext do
     end
 
     it 'does not match an empty list' do
-      expect(ctx.matches?([])).to eq(false)
+      expect(ctx.matches?([])).to be(false)
     end
 
     it 'does not match when its own short name is not given' do
-      expect(ctx.matches?(['banana'])).to eq(false)
+      expect(ctx.matches?(['banana'])).to be(false)
     end
 
     it 'does not let pipe-ended Strings make matching ignore the rest' do
-      expect(ctx.matches?(['banana|'])).to eq(false)
+      expect(ctx.matches?(['banana|'])).to be(false)
     end
 
     it 'recognises its own short name' do
-      expect(ctx.matches?([exp_name])).to eq(true)
+      expect(ctx.matches?([exp_name])).to be(true)
     end
 
     it 'recognises its own short name in a list' do
-      expect(ctx.matches?(['banana', exp_name])).to eq(true)
+      expect(ctx.matches?(['banana', exp_name])).to be(true)
     end
 
     it 'recognises its short name as a regex' do
-      expect(ctx.matches?([/#{exp_name}/])).to eq(true)
+      expect(ctx.matches?([/#{exp_name}/])).to be(true)
     end
 
     it 'does not blow up on []-ended Strings' do
-      expect(ctx.matches?(['banana[]', exp_name])).to eq(true)
+      expect(ctx.matches?(['banana[]', exp_name])).to be(true)
     end
 
     it 'recognises its own full name' do
-      expect(ctx.matches?(['banana', full_name])).to eq(true)
+      expect(ctx.matches?(['banana', full_name])).to be(true)
     end
 
     it 'recognises its full name as a regex' do
-      expect(ctx.matches?([/banana/, /#{full_name}/])).to eq(true)
+      expect(ctx.matches?([/banana/, /#{full_name}/])).to be(true)
     end
 
     context 'when there is an outer' do
@@ -109,11 +109,11 @@ RSpec.describe Reek::Context::CodeContext do
       end
 
       it 'recognises its own full name' do
-        expect(ctx.matches?(['banana', full_name])).to eq(true)
+        expect(ctx.matches?(['banana', full_name])).to be(true)
       end
 
       it 'recognises its full name as a regex' do
-        expect(ctx.matches?([/banana/, /#{full_name}/])).to eq(true)
+        expect(ctx.matches?([/banana/, /#{full_name}/])).to be(true)
       end
     end
   end
