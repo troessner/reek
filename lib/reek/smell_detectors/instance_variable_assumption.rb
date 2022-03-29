@@ -30,7 +30,7 @@ module Reek
       private
 
       def method_expressions
-        @method_expressions ||= context.node_instance_methods
+        @method_expressions ||= context.defined_instance_methods.map(&:exp)
       end
 
       def build_smell_warning(assumption)

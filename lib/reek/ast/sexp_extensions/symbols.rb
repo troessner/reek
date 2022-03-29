@@ -9,8 +9,16 @@ module Reek
           children.first
         end
 
+        def ends_with_bang?
+          name[-1] == '!'
+        end
+
         def full_name(outer)
           "#{outer}##{name}"
+        end
+
+        def arg_names
+          []
         end
       end
     end
