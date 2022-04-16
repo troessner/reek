@@ -175,6 +175,24 @@ RSpec.describe Reek::SmellDetectors::UnusedPrivateMethod do
     end
   end
 
+  context 'when a class has used private methods via `Method#to_call`' do
+    it 'reports nothing' do
+      source = <<-RUBY
+        class Alfa
+          def bravo
+            arr.each(&method(:charlie))
+          end
+
+          private
+
+          def charlie; end
+        end
+      RUBY
+
+      expect(source).not_to reek_of(:UnusedPrivateMethod)
+    end
+  end
+
   describe 'preventing methods from being reported' do
     let(:source) do
       <<-RUBY
