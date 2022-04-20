@@ -55,6 +55,10 @@ module Reek
         end
       end
 
+      def instance_method_names_via_to_call
+        instance_method_calls.flat_map(&:method_name_called_to_call).compact
+      end
+
       #
       # @deprecated use `defined_instance_methods` instead
       #

@@ -14,6 +14,12 @@ module Reek
         @name = name
         super exp
       end
+
+      def method_name_called_to_call
+        return unless @name == :method
+
+        local_nodes(:sym).map(&:name)
+      end
     end
   end
 end

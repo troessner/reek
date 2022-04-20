@@ -61,6 +61,7 @@ module Reek
       def unused_private_methods
         defined_private_methods = context.defined_instance_methods(visibility: :private)
         called_method_names     = context.instance_method_calls.map(&:name)
+        called_method_names.concat(context.instance_method_names_via_to_call)
 
         defined_private_methods.reject do |defined_method|
           called_method_names.include?(defined_method.name)
