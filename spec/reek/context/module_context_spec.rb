@@ -28,9 +28,9 @@ RSpec.describe Reek::Context::ModuleContext do
   end
 
   describe '#track_visibility' do
-    let(:main_exp) { instance_double('Reek::AST::Node') }
-    let(:first_def) { instance_double('Reek::AST::SexpExtensions::DefNode', name: :foo) }
-    let(:second_def) { instance_double('Reek::AST::SexpExtensions::DefNode') }
+    let(:main_exp) { instance_double(Reek::AST::Node) }
+    let(:first_def) { instance_double(Reek::AST::SexpExtensions::DefNode, name: :foo) }
+    let(:second_def) { instance_double(Reek::AST::SexpExtensions::DefNode) }
 
     let(:context) { described_class.new(main_exp) }
     let(:first_child) { Reek::Context::MethodContext.new(first_def, main_exp) }

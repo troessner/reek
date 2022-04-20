@@ -5,7 +5,7 @@ RSpec.describe Reek::Context::MethodContext do
   let(:method_context) { described_class.new(exp, nil) }
 
   describe '#matches?' do
-    let(:exp) { instance_double('Reek::AST::SexpExtensions::ModuleNode').as_null_object }
+    let(:exp) { instance_double(Reek::AST::SexpExtensions::ModuleNode).as_null_object }
 
     before do
       allow(exp).to receive(:full_name).at_least(:once).and_return('mod')

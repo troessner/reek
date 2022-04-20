@@ -49,7 +49,7 @@ RSpec.describe Reek::Source::SourceCode do
 
     context 'when the parser fails with a generic error' do
       let(:code) { '' }
-      let(:parser) { instance_double('Parser::Ruby25') }
+      let(:parser) { instance_double(Parser::Ruby25) }
       let(:src) { described_class.new(source: code, parser: parser) }
       let(:error_class) { RuntimeError }
       let(:error_message) { 'An error' }

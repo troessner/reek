@@ -5,7 +5,7 @@ require_lib 'reek/context/module_context'
 RSpec.describe Reek::Context::CodeContext do
   describe '#full_name' do
     let(:ctx)       { described_class.new(exp) }
-    let(:exp)       { instance_double('Reek::AST::SexpExtensions::ModuleNode') }
+    let(:exp)       { instance_double(Reek::AST::SexpExtensions::ModuleNode) }
     let(:exp_name)  { 'random_name' }
     let(:full_name) { "::::::::::::::::::::#{exp_name}" }
 
@@ -20,7 +20,7 @@ RSpec.describe Reek::Context::CodeContext do
 
     context 'when there is an outer' do
       let(:outer_name) { 'another_random sting' }
-      let(:outer)      { described_class.new(instance_double('Reek::AST::Node')) }
+      let(:outer)      { described_class.new(instance_double(Reek::AST::Node)) }
 
       before do
         ctx.register_with_parent outer
@@ -40,7 +40,7 @@ RSpec.describe Reek::Context::CodeContext do
 
   describe '#name' do
     let(:ctx)       { described_class.new(exp) }
-    let(:exp)       { instance_double('Reek::AST::SexpExtensions::ModuleNode') }
+    let(:exp)       { instance_double(Reek::AST::SexpExtensions::ModuleNode) }
     let(:exp_name)  { 'random_name' }
 
     before do
@@ -54,7 +54,7 @@ RSpec.describe Reek::Context::CodeContext do
 
   describe '#matches?' do
     let(:ctx)       { described_class.new(exp) }
-    let(:exp)       { instance_double('Reek::AST::SexpExtensions::ModuleNode') }
+    let(:exp)       { instance_double(Reek::AST::SexpExtensions::ModuleNode) }
     let(:exp_name)  { 'random_name' }
     let(:full_name) { "::::::::::::::::::::#{exp_name}" }
 
@@ -101,7 +101,7 @@ RSpec.describe Reek::Context::CodeContext do
 
     context 'when there is an outer' do
       let(:outer_name) { 'another_random sting' }
-      let(:outer)      { described_class.new(instance_double('Reek::AST::Node')) }
+      let(:outer)      { described_class.new(instance_double(Reek::AST::Node)) }
 
       before do
         ctx.register_with_parent outer
@@ -131,7 +131,7 @@ RSpec.describe Reek::Context::CodeContext do
     let(:expression) { Reek::Source::SourceCode.from(src).syntax_tree }
     let(:outer) { nil }
     let(:context) { described_class.new(expression) }
-    let(:sniffer) { class_double('Reek::SmellDetectors::BaseDetector') }
+    let(:sniffer) { class_double(Reek::SmellDetectors::BaseDetector) }
 
     before do
       context.register_with_parent(outer)
@@ -145,7 +145,7 @@ RSpec.describe Reek::Context::CodeContext do
     end
 
     context 'when there is an outer context' do
-      let(:outer) { described_class.new(instance_double('Reek::AST::Node')) }
+      let(:outer) { described_class.new(instance_double(Reek::AST::Node)) }
 
       before do
         allow(outer).to receive(:config_for).with(sniffer).and_return(
@@ -160,9 +160,9 @@ RSpec.describe Reek::Context::CodeContext do
   end
 
   describe '#register_with_parent' do
-    let(:context) { described_class.new(instance_double('Reek::AST::Node')) }
-    let(:first_child) { described_class.new(instance_double('Reek::AST::Node')) }
-    let(:second_child) { described_class.new(instance_double('Reek::AST::Node')) }
+    let(:context) { described_class.new(instance_double(Reek::AST::Node)) }
+    let(:first_child) { described_class.new(instance_double(Reek::AST::Node)) }
+    let(:second_child) { described_class.new(instance_double(Reek::AST::Node)) }
 
     it "appends the element to the parent context's list of children" do
       first_child.register_with_parent context
@@ -173,9 +173,9 @@ RSpec.describe Reek::Context::CodeContext do
   end
 
   describe '#each' do
-    let(:context) { described_class.new(instance_double('Reek::AST::Node')) }
-    let(:first_child) { described_class.new(instance_double('Reek::AST::Node')) }
-    let(:second_child) { described_class.new(instance_double('Reek::AST::Node')) }
+    let(:context) { described_class.new(instance_double(Reek::AST::Node)) }
+    let(:first_child) { described_class.new(instance_double(Reek::AST::Node)) }
+    let(:second_child) { described_class.new(instance_double(Reek::AST::Node)) }
 
     it 'yields each child' do
       first_child.register_with_parent context
