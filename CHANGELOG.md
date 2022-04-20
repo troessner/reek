@@ -1,5 +1,9 @@
 # Change log
 
+## 6.1.1 (2022-04-20)
+
+* (ydah) UnusedPrivateMethod to be detect use of methods via `Method#to_proc`
+
 ## 6.1.0 (2022-01-14)
 
 * (mvz) Drop support for Ruby 2.4 and 2.5
