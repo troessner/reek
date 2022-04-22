@@ -34,7 +34,7 @@ RSpec.describe Reek::Source::SourceLocator do
         test_configuration_for(CONFIGURATION_DIR.join('with_excluded_paths.reek'))
       end
 
-      let(:options) { instance_double('Reek::CLI::Options', force_exclusion?: false) }
+      let(:options) { instance_double(Reek::CLI::Options, force_exclusion?: false) }
 
       context 'when the path is absolute' do
         let(:path) do

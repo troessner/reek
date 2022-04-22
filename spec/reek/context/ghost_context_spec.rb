@@ -3,7 +3,7 @@ require_lib 'reek/context/code_context'
 require_lib 'reek/context/ghost_context'
 
 RSpec.describe Reek::Context::GhostContext do
-  let(:exp) { instance_double('Reek::AST::Node') }
+  let(:exp) { instance_double(Reek::AST::Node) }
   let(:parent) { Reek::Context::CodeContext.new(exp) }
 
   describe '#register_with_parent' do
