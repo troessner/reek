@@ -69,15 +69,15 @@ module Reek
 
       # @public
       def initialize(name = :reek)
-        @config_file   = ENV['REEK_CFG']
+        @config_file   = ENV.fetch('REEK_CFG', nil)
         @name          = name
-        @reek_opts     = ENV['REEK_OPTS'] || ''
+        @reek_opts     = ENV.fetch('REEK_OPTS', '')
         @fail_on_error = true
         @verbose       = false
 
         yield self if block_given?
 
-        if (reek_src = ENV['REEK_SRC'])
+        if (reek_src = ENV.fetch('REEK_SRC', nil))
           @source_files = FileList[reek_src]
         end
         @source_files ||= FileList['lib/**/*.rb']
