@@ -63,7 +63,7 @@ BooleanParameter:
 
     * Move everything in the `if` branch into a separate method
     * Move everything in the `else` branch into a separate method
-    * Get rid of the `hit_the_switch` method alltogether
+    * Get rid of the `hit_the_switch` method altogether
     * Make the decision what method to call in the initial caller of `hit_the_switch`
 ClassVariable:
   remediation_points: 350_000
@@ -119,7 +119,7 @@ ControlParameter:
     end
     ```
 
-    Fixing those problems is out of the scope of this document but an easy solution could be to remove the "write" method alltogether and to move the calls to "write_quoted" / "write_unquoted" in the initial caller of "write".
+    Fixing those problems is out of the scope of this document but an easy solution could be to remove the "write" method altogether and to move the calls to "write_quoted" / "write_unquoted" in the initial caller of "write".
 DataClump:
   remediation_points: 250_000
   content: |
