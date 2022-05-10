@@ -67,11 +67,11 @@ module Reek
       class FoundCall
         def initialize(call_node)
           @call_node = call_node
-          @occurences = []
+          @occurrences = []
         end
 
         def record(occurence)
-          occurences.push occurence
+          occurrences.push occurence
         end
 
         def call
@@ -79,16 +79,16 @@ module Reek
         end
 
         def occurs
-          occurences.length
+          occurrences.length
         end
 
         def lines
-          occurences.map(&:line)
+          occurrences.map(&:line)
         end
 
         private
 
-        attr_reader :call_node, :occurences
+        attr_reader :call_node, :occurrences
       end
 
       private_constant :FoundCall

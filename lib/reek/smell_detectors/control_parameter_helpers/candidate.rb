@@ -9,20 +9,20 @@ module Reek
       class Candidate
         #
         # @param parameter [Symbol] the parameter name
-        # @param occurences [Array<Reek::AST::Node>] the occurences of the ControlParameter smell
+        # @param occurrences [Array<Reek::AST::Node>] the occurrences of the ControlParameter smell
         #   e.g. [s(:lvar, :bravo), s(:lvar, :bravo)]
         #
-        def initialize(parameter, occurences)
+        def initialize(parameter, occurrences)
           @parameter = parameter
-          @occurences = occurences
+          @occurrences = occurrences
         end
 
         def smells?
-          occurences.any?
+          occurrences.any?
         end
 
         def lines
-          occurences.map(&:line)
+          occurrences.map(&:line)
         end
 
         def name
@@ -31,7 +31,7 @@ module Reek
 
         private
 
-        attr_reader :occurences, :parameter
+        attr_reader :occurrences, :parameter
       end
     end
   end

@@ -20,7 +20,7 @@ RSpec.describe Reek::SmellDetectors::UnusedPrivateMethod do
                            name:    'charlie')
   end
 
-  it 'does count all occurences' do
+  it 'does count all occurrences' do
     src = <<-RUBY
       class Alfa
         private

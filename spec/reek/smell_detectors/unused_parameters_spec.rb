@@ -16,7 +16,7 @@ RSpec.describe Reek::SmellDetectors::UnusedParameters do
                            name:    'bravo')
   end
 
-  it 'does count all occurences' do
+  it 'does count all occurrences' do
     src = <<-RUBY
       def alfa(bravo, charlie)
       end

@@ -17,7 +17,7 @@ RSpec.describe Reek::SmellDetectors::UncommunicativeVariableName do
                            name:    'x')
   end
 
-  it 'does count all occurences' do
+  it 'does count all occurrences' do
     src = <<-RUBY
       def alfa
         x = 3

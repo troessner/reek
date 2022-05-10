@@ -19,7 +19,7 @@ RSpec.describe Reek::SmellDetectors::NestedIterators do
                            depth:   2)
   end
 
-  it 'does count all occurences' do
+  it 'does count all occurrences' do
     src = <<-RUBY
       def alfa
         bravo.each do |charlie|

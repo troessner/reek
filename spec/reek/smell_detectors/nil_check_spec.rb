@@ -16,7 +16,7 @@ RSpec.describe Reek::SmellDetectors::NilCheck do
                            source:  'string')
   end
 
-  it 'does count all occurences' do
+  it 'does count all occurrences' do
     src = <<-RUBY
       def alfa(bravo, charlie)
         bravo.nil?
