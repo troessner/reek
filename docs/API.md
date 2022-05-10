@@ -98,7 +98,7 @@ IrresponsibleModule:
 ```
 
 Reek will load this file automatically by default. If you want to load the
-configuration explicitely, you can use one of the methods below.
+configuration explicitly, you can use one of the methods below.
 
 You can now use either
 

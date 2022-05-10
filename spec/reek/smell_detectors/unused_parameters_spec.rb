@@ -67,12 +67,12 @@ RSpec.describe Reek::SmellDetectors::UnusedParameters do
       expect(src).not_to reek_of(:UnusedParameters)
     end
 
-    it 'reports something when explicitely passing no arguments' do
+    it 'reports something when explicitly passing no arguments' do
       src = 'def alfa(*bravo); super(); end'
       expect(src).to reek_of(:UnusedParameters)
     end
 
-    it 'reports nothing when explicitely passing all arguments' do
+    it 'reports nothing when explicitly passing all arguments' do
       src = 'def alfa(*bravo); super(*bravo); end'
       expect(src).not_to reek_of(:UnusedParameters)
     end

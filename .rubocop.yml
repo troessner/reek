@@ -48,7 +48,7 @@ Layout/MultilineOperationIndentation:
 Lint/AmbiguousBlockAssociation:
   Enabled: false
 
-# Some of our source examples include interpolation explicitely.
+# Some of our source examples include interpolation explicitly.
 Lint/InterpolationCheck:
   Exclude:
     - 'spec/**/*'
