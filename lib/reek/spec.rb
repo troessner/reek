@@ -92,7 +92,7 @@ module Reek
     end
 
     #
-    # See the documentaton for "reek_of".
+    # See the documentation for "reek_of".
     #
     # Notable differences to reek_of:
     #   1.) "reek_of" doesn't mind if there are other smells of a different type.
