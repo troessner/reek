@@ -4,7 +4,7 @@
 
 Before starting to code you should discuss the overall idea for your new smell detector with
 us in a corresponding github issue.
-We all should have a solid understanding of what this detector actually reports, the edgecases
+We all should have a solid understanding of what this detector actually reports, the edge cases
 it covers and the overall rationale behind it.
 
 ### Structure
@@ -105,7 +105,7 @@ it 'reports the right values' do
                          name:    'bravo')
 end
 
-it 'does count all occurences' do
+it 'does count all occurrences' do
   src = <<-RUBY
     def alfa
       bravo = 3
