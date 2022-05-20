@@ -7,7 +7,7 @@ ruby RUBY_VERSION
 group :development do
   gem 'aruba',                 '~> 2.0'
   gem 'codeclimate-engine-rb', '~> 0.4.0'
-  gem 'cucumber',              '>= 4.0', '< 8.0'
+  gem 'cucumber',              '>= 4.0', '< 9.0'
   gem 'kramdown',              '~> 2.1'
   gem 'kramdown-parser-gfm',   '~> 1.0'
   gem 'rake',                  '~> 13.0'
