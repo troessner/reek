@@ -30,7 +30,7 @@ def parse(arg, argv, &error)
 end
 ```
 
-(You might argue that the two assigments within the first @if@ should count as statements, and that perhaps the nested assignment should count as +2.)
+(You might argue that the two assignments within the first @if@ should count as statements, and that perhaps the nested assignment should count as +2.)
 
 ## Configuration
 

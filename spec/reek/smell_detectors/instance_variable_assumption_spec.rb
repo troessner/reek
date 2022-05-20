@@ -20,7 +20,7 @@ RSpec.describe Reek::SmellDetectors::InstanceVariableAssumption do
                            assumption: '@charlie')
   end
 
-  it 'does count all occurences' do
+  it 'does count all occurrences' do
     src = <<-RUBY
       class Alfa
         def bravo

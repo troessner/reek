@@ -119,7 +119,7 @@ With smell_details:
 
 ### reek_only_of
 
-See the documentaton for `reek_of`.
+See the documentation for `reek_of`.
 
 **Notable differences to `reek_of`:**
 

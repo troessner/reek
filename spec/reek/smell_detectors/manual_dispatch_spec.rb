@@ -18,7 +18,7 @@ RSpec.describe Reek::SmellDetectors::ManualDispatch do
                            source:  'string')
   end
 
-  it 'does count all occurences' do
+  it 'does count all occurrences' do
     src = <<-RUBY
       class Alfa
         def bravo(charlie)
@@ -60,7 +60,7 @@ RSpec.describe Reek::SmellDetectors::ManualDispatch do
     expect(src).to reek_of(:ManualDispatch)
   end
 
-  it 'reports occurences in a single method as one smell warning' do
+  it 'reports occurrences in a single method as one smell warning' do
     src = <<-RUBY
       class Alfa
         def bravo(charlie, delta)

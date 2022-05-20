@@ -15,7 +15,7 @@ RSpec.describe Reek::SmellDetectors::IrresponsibleModule do
                            source:  'string')
   end
 
-  it 'does count all occurences' do
+  it 'does count all occurrences' do
     src = <<-RUBY
       class Alfa
         # Method is necessary because we don't count namespace classes.

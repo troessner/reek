@@ -9,13 +9,13 @@ RSpec.describe Reek::Configuration::ConfigurationFileFinder do
     let(:regular_configuration_dir) { CONFIGURATION_DIR.join('regular_configuration') }
     let(:regular_configuration_file) { regular_configuration_dir.join('.reek.yml') }
 
-    it 'returns any explicitely passed path' do
+    it 'returns any explicitly passed path' do
       path = Pathname.new 'foo/bar'
       found = described_class.find(path: path)
       expect(found).to eq(path)
     end
 
-    it 'prefers an explicitely passed path over a file in current dir' do
+    it 'prefers an explicitly passed path over a file in current dir' do
       path = Pathname.new 'foo/bar'
       found = described_class.find(path: path, current: regular_configuration_dir)
       expect(found).to eq(path)

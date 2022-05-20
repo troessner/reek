@@ -19,7 +19,7 @@ RSpec.describe Reek::SmellDetectors::LongYieldList do
                            count:   4)
   end
 
-  it 'does count all occurences' do
+  it 'does count all occurrences' do
     src = <<-RUBY
       class Alfa
         def bravo(charlie, delta, echo, foxtrot)

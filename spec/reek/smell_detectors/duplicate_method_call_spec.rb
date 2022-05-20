@@ -21,7 +21,7 @@ RSpec.describe Reek::SmellDetectors::DuplicateMethodCall do
                            count:   2)
   end
 
-  it 'does count all occurences' do
+  it 'does count all occurrences' do
     src = <<-RUBY
       class Alfa
         def bravo(charlie)

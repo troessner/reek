@@ -17,7 +17,7 @@ RSpec.describe Reek::SmellDetectors::ControlParameter do
                            argument: 'bravo')
   end
 
-  it 'does count all occurences' do
+  it 'does count all occurrences' do
     src = <<-RUBY
       def alfa(bravo, charlie)
         bravo ? true : false
@@ -30,7 +30,7 @@ RSpec.describe Reek::SmellDetectors::ControlParameter do
       and reek_of(:ControlParameter, lines: [3], argument: 'charlie')
   end
 
-  it 'does count multiple occurences of the same parameter' do
+  it 'does count multiple occurrences of the same parameter' do
     src = <<-RUBY
       def alfa(bravo, charlie)
         if bravo

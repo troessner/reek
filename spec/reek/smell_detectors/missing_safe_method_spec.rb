@@ -18,7 +18,7 @@ RSpec.describe Reek::SmellDetectors::MissingSafeMethod do
                            name:    'bravo!')
   end
 
-  it 'does count all occurences' do
+  it 'does count all occurrences' do
     src = <<-RUBY
       class Alfa
         def bravo!

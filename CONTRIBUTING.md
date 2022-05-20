@@ -142,7 +142,7 @@ Once you’re happy with your feature / fix – or want to
 share it as a work-in-progress and request comments – once
 again make sure all of the tests pass. This will also run
 [RuboCop](https://github.com/bbatsov/rubocop) – fix any
-offences RuboCop finds (or discuss them in the pull request):
+offenses RuboCop finds (or discuss them in the pull request):
 
 ```
 bundle exec rake

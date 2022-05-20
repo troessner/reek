@@ -3,7 +3,7 @@ Feature: Show progress
   As a developer
   I want to be able to selectively activate progress reporting
 
-  # Note that --progress is the default on TTYs, but needs to be explicitely
+  # Note that --progress is the default on TTYs, but needs to be explicitly
   # enabled here because output in the cucumber scenarios does not go to a TTY.
   Scenario: shows progress output on mixed files by default
     Given a directory called 'mixed_files' containing some clean and smelly files

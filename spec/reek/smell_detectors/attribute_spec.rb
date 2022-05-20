@@ -15,7 +15,7 @@ RSpec.describe Reek::SmellDetectors::Attribute do
                            message: 'is a writable attribute')
   end
 
-  it 'does count all occurences' do
+  it 'does count all occurrences' do
     src = <<-RUBY
       class Alfa
         attr_writer :bravo

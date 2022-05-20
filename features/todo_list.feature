@@ -37,7 +37,7 @@ Feature: Auto-generate a todo file
     When I run reek smelly.rb
     Then it succeeds
 
-  Scenario: Reacts appropiately when there are no smells
+  Scenario: Reacts appropriately when there are no smells
     Given the clean file "clean.rb"
     When I run reek --todo clean.rb
     Then a file named ".reek.yml" should not exist

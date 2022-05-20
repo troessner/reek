@@ -411,7 +411,7 @@ def smelly_method foo
 end
 ```
 
-This is an incredibly powerful feature and further explained under [Smell Suppresion](docs/Smell-Suppression.md).
+This is an incredibly powerful feature and further explained under [Smell Suppression](docs/Smell-Suppression.md).
 
 #### Debugging trouble with the configuration
 
