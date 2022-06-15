@@ -30,8 +30,8 @@ test.rb -- 1 warning:
 ```
 ## Current Support in Reek
 
-Reek counts all the methods it can find in a class &mdash; instance *and* class
-methods. So given `max_methods` from above is 4, this:
+Reek counts only instance methods it can find in a class.
+So given `max_methods` from above is 4, this:
 
 ```Ruby
 class Smelly
@@ -45,7 +45,7 @@ class Smelly
 end
 ```
 
-would cause Reek to emit the same warning as in the example above.
+would not cause Reek to emit the warning in the example above.
 
 ## Configuration
 
