@@ -30,6 +30,11 @@ RSpec.describe Reek::SmellDetectors::TooManyMethods do
         def bravo; end
         def charlie; end
         def delta; end
+        def self.echo; end
+
+        class << self
+          def foxtrot; end
+        end
       end
     RUBY
 

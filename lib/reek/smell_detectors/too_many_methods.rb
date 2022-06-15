@@ -36,8 +36,7 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       def sniff
-        # TODO: Only checks instance methods!
-        actual = context.node_instance_methods.length
+        actual = context.defined_instance_methods.length
         return [] if actual <= max_allowed_methods
 
         [smell_warning(
