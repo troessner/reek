@@ -30,11 +30,6 @@ RSpec.describe Reek::SmellDetectors::TooManyMethods do
         def bravo; end
         def charlie; end
         def delta; end
-        def self.echo; end
-
-        class << self
-          def foxtrot; end
-        end
       end
     RUBY
 
@@ -50,6 +45,23 @@ RSpec.describe Reek::SmellDetectors::TooManyMethods do
         module Hidden
           def delta; end
           def echo; end
+        end
+      end
+    RUBY
+
+    expect(src).not_to reek_of(:TooManyMethods).with_config(config)
+  end
+
+  it 'does not report if class methods are included' do
+    src = <<-RUBY
+      class Alfa
+        def bravo; end
+        def charlie; end
+        def delta; end
+        def self.echo; end
+
+        class << self
+          def foxtrot; end
         end
       end
     RUBY
