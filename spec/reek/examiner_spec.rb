@@ -273,7 +273,7 @@ RSpec.describe Reek::Examiner do
       end
 
       it 'explains the origin of the error' do
-        details = "The source is 'string' and the comment belongs "\
+        details = "The source is 'string' and the comment belongs " \
                   'to the expression starting in line 2.'
 
         expect { examiner.smells }.to raise_error.with_message(/#{details}/)
@@ -299,7 +299,7 @@ RSpec.describe Reek::Examiner do
       end
 
       it 'explains the origin of the error' do
-        details = "The source is 'string' and the comment belongs "\
+        details = "The source is 'string' and the comment belongs " \
                   'to the expression starting in line 2.'
 
         expect { examiner.smells }.to raise_error.with_message(/#{details}/)
