@@ -80,14 +80,14 @@ RSpec.describe Reek::Spec::ShouldReekOf do
       it 'sets the proper error message' do
         falsey_matcher.matches?(smelly_code)
 
-        expect(falsey_matcher.failure_message).to\
+        expect(falsey_matcher.failure_message).to \
           match('Expected string to reek of FeatureEnvy, but it didn\'t')
       end
 
       it 'sets the proper error message when negated' do
         truthy_matcher.matches?(smelly_code)
 
-        expect(truthy_matcher.failure_message_when_negated).to\
+        expect(truthy_matcher.failure_message_when_negated).to \
           match('Expected string not to reek of UncommunicativeVariableName, but it did')
       end
     end
@@ -117,8 +117,8 @@ RSpec.describe Reek::Spec::ShouldReekOf do
       it 'sets the proper error message when negated' do
         matcher.matches?(smelly_code)
 
-        expect(matcher.failure_message_when_negated).to\
-          match('Expected string not to reek of DuplicateMethodCall with smell '\
+        expect(matcher.failure_message_when_negated).to \
+          match('Expected string not to reek of DuplicateMethodCall with smell ' \
                 'details {:name=>"foo", :count=>15}, but it did')
       end
     end

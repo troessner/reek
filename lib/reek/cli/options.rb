@@ -110,12 +110,12 @@ module Reek
         parser.on('--smell SMELL',
                   'Only look for a specific smell.',
                   'Call it like this: reek --smell MissingSafeMethod source.rb',
-                  "Check out #{DocumentationLink.build('Code Smells')} "\
+                  "Check out #{DocumentationLink.build('Code Smells')} " \
                   'for a list of smells') do |smell|
           smells_to_detect << smell
         end
         parser.on('--stdin-filename FILE',
-                  'When passing code in via pipe, assume this filename when '\
+                  'When passing code in via pipe, assume this filename when ' \
                   'checking file or directory rules in the config.') do |file|
           self.stdin_filename = file
         end
@@ -210,12 +210,12 @@ module Reek
       def set_exit_codes
         parser.separator "\nExit codes:"
         parser.on('--success-exit-code CODE',
-                  'The exit code when no smells are found '\
+                  'The exit code when no smells are found ' \
                   "(default: #{Status::DEFAULT_SUCCESS_EXIT_CODE})") do |option|
           self.success_exit_code = Integer(option)
         end
         parser.on('--failure-exit-code CODE',
-                  'The exit code when smells are found '\
+                  'The exit code when smells are found ' \
                   "(default: #{Status::DEFAULT_FAILURE_EXIT_CODE})") do |option|
           self.failure_exit_code = Integer(option)
         end
@@ -231,7 +231,7 @@ module Reek
         parser.on_tail('-l', '--list', 'List all available smell detectors') do
           puts "All available smell detectors:\n\n"
           puts DetectorRepository.available_detector_names
-          puts "\nCheck out #{DocumentationLink.build('Code Smells')} "\
+          puts "\nCheck out #{DocumentationLink.build('Code Smells')} " \
                'for a details on each detector'
           exit
         end

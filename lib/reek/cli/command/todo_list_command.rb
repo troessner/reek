@@ -23,7 +23,7 @@ module Reek
             puts EXISTING_FILE_MESSAGE
           else
             write_to_file
-            puts "\n'#{DEFAULT_CONFIGURATION_FILE_NAME}' generated! "\
+            puts "\n'#{DEFAULT_CONFIGURATION_FILE_NAME}' generated! " \
                  'You can now use this as a starting point.'
           end
           options.success_exit_code

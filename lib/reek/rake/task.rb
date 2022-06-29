@@ -87,8 +87,8 @@ module Reek
       # @public
       def source_files=(files)
         unless files.is_a?(String) || files.is_a?(FileList)
-          raise ArgumentError, 'File list should be a FileList or a String that can contain'\
-                               " a glob pattern, e.g. '{app,lib,spec}/**/*.rb'"
+          raise ArgumentError, 'File list should be a FileList or a String that can contain ' \
+                               "a glob pattern, e.g. '{app,lib,spec}/**/*.rb'"
         end
         @source_files = FileList[files]
       end
