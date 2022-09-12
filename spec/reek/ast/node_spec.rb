@@ -10,7 +10,9 @@ RSpec.describe Reek::AST::Node do
       end
 
       it 'yields no calls' do
-        ast.each_node(:send, []) { |exp| raise "#{exp} yielded by empty module!" }
+        expect do
+          ast.each_node(:send, []) { |exp| raise "#{exp} yielded by empty module!" }
+        end.not_to raise_error
       end
 
       it 'yields one module' do
@@ -37,7 +39,9 @@ RSpec.describe Reek::AST::Node do
       end
 
       it 'yields no ifs' do
-        ast.each_node(:if) { |exp| raise "#{exp} yielded by empty module!" }
+        expect do
+          ast.each_node(:if) { |exp| raise "#{exp} yielded by empty module!" }
+        end.not_to raise_error
       end
 
       it 'yields one module' do
