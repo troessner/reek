@@ -33,7 +33,9 @@ RSpec.describe 'Documentation' do
           #
           spec_code = code.gsub(/(^.+) # ?=> (.+$)/, 'assert_equal(\2, \1)')
 
-          eval spec_code # rubocop:disable Security/Eval
+          expect do
+            eval spec_code # rubocop:disable Security/Eval
+          end.not_to raise_error
         end
       end
     end
