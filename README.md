@@ -240,7 +240,7 @@ UtilityFunction:
 
 For a basic overview, run
 
-```ruby
+```bash
 reek --help
 ```
 

@@ -143,7 +143,7 @@ string -- 2 warnings:
 Of course, directory specific configuration and excluded paths are supported as
 well:
 
-```
+```ruby
 config_hash = {
   'IrresponsibleModule' => { 'enabled' => false }
   'spec/samples/three_clean_files/' =>
