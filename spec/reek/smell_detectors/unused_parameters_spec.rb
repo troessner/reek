@@ -93,6 +93,17 @@ RSpec.describe Reek::SmellDetectors::UnusedParameters do
       src = 'def alfa(*); end'
       expect(src).not_to reek_of(:UnusedParameters)
     end
+
+    it 'reports nothing for unused anonymous splatted keyword parameter' do
+      src = 'def alfa(**); end'
+      expect(src).not_to reek_of(:UnusedParameters)
+    end
+
+    it 'reports nothing for unused nil keyword parameter' do
+      skip 'Not valid syntax for this Ruby version' unless RUBY_VERSION >= '2.7'
+      src = 'def alfa(**nil); end'
+      expect(src).not_to reek_of(:UnusedParameters)
+    end
   end
 
   context 'with splatted parameters' do

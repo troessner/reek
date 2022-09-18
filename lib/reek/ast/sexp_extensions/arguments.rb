@@ -115,6 +115,15 @@ module Reek
         end
       end
       # rubocop:enable Naming/ClassAndModuleCamelCase
+
+      # Utility methods for :kwnilarg nodes.
+      module KwnilargNode
+        include ArgNodeBase
+
+        def anonymous_splat?
+          true
+        end
+      end
     end
   end
 end
