@@ -1,5 +1,9 @@
 # Change log
 
+## 6.1.2 (2022-11-21)
+
+* (mvz) Add support for keyword nil arguments
+
 ## 6.1.1 (2022-04-20)
 
 * (ydah) UnusedPrivateMethod to be detect use of methods via `Method#to_proc`
