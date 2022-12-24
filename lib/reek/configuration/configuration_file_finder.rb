@@ -88,6 +88,8 @@ module Reek
         # @quality :reek:FeatureEnvy
         def find_in_dir(dir)
           dir.children.detect { |item| item.file? && item.basename.to_s == DEFAULT_FILE_NAME }
+        rescue Errno::EACCES
+          nil
         end
       end
     end
