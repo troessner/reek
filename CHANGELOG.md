@@ -1,5 +1,9 @@
 # Change log
 
+## 6.1.3 (2022-12-29)
+
+* (gonubana) Allow failing safely when trying to recursively find a configuration
+
 ## 6.1.2 (2022-11-21)
 
 * (mvz) Add support for keyword nil arguments
