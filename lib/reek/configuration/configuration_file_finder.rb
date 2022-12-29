@@ -87,7 +87,8 @@ module Reek
         #
         # @quality :reek:FeatureEnvy
         def find_in_dir(dir)
-          dir.children.detect { |item| item.file? && item.basename.to_s == DEFAULT_FILE_NAME }
+          file = dir + DEFAULT_FILE_NAME
+          file if file.file?
         end
       end
     end
