@@ -1,5 +1,9 @@
 # Change log
 
+## 6.1.4 (2023-01-13)
+
+* (mvz) Update parser dependency to the 3.2.x series
+
 ## 6.1.3 (2022-12-29)
 
 * (gonubana) Allow failing safely when trying to recursively find a configuration
