@@ -7,6 +7,7 @@
 require_relative '../lib/reek'
 require_relative '../lib/reek/cli/application'
 require_relative '../lib/reek/report/code_climate'
+Reek::CLI::Silencer.silently { require 'parser/current' }
 
 # Map input coming from CodeClimate to Reek.
 class CodeClimateToReek
@@ -16,6 +17,8 @@ class CodeClimateToReek
     '--failure-exit-code', '0',
     '--success-exit-code', '0'
   ].freeze
+  CUSTOM_CONFIG_KEY = 'config'
+  CUSTOM_CONFIG_TARGET_RUBY_VERSION_KEY = 'target_ruby_version'
 
   attr_reader :configuration_file_path, :include_paths_key, :include_paths_default
 
@@ -29,6 +32,10 @@ class CodeClimateToReek
 
   def cli_arguments
     include_paths + ENGINE_CONFIGURATION
+  end
+
+  def target_ruby_version
+    config.dig(CUSTOM_CONFIG_KEY, CUSTOM_CONFIG_TARGET_RUBY_VERSION_KEY)
   end
 
   private
@@ -45,11 +52,14 @@ class CodeClimateToReek
   #   ]
   # }
   def include_paths
+    config.fetch include_paths_key, include_paths_default
+  end
+
+  def config
     if configuration_file_exists?
-      config = JSON.parse File.read(configuration_file_path)
-      config.fetch include_paths_key, include_paths_default
+      JSON.parse File.read(configuration_file_path)
     else
-      include_paths_default
+      {}
     end
   end
 end
@@ -61,7 +71,46 @@ module ReportClassOverride
   end
 end
 
+# Override Reek::Source::SourceCode to use a parser version specified by the user
+module SourceCodeOverride
+  # override self.default_parser method
+  def default_parser
+    parser_class.new(Reek::AST::Builder.new).tap do |parser|
+      diagnostics = parser.diagnostics
+      diagnostics.all_errors_are_fatal = true
+      diagnostics.ignore_warnings      = true
+    end
+  end
+
+  # config.json file will look like this:
+  # {
+  #   "include_paths":[
+  #     "lib",
+  #     "spec"
+  #   ],
+  #   "config": {
+  #     "target_ruby_version": "3.1.0"
+  #   }
+  # }
+  def parser_class
+    # convert an X.Y.Z version number to an XY two digit number
+    requested_version = CodeClimateToReek.new.target_ruby_version
+    return Parser::CurrentRuby if requested_version.nil?
+
+    version_number = Gem::Version.new(requested_version).segments[0..1].join
+
+    begin
+      Reek::CLI::Silencer.silently { require "parser/ruby#{version_number}" }
+      Module.const_get("Parser::Ruby#{version_number}")
+    rescue LoadError, NameError
+      # use Parser::CurrentRuby when an invalid version number is provided
+      Parser::CurrentRuby
+    end
+  end
+end
+
 Reek::CLI::Command::ReportCommand.prepend ReportClassOverride
+Reek::Source::SourceCode.singleton_class.prepend SourceCodeOverride
 
 application = Reek::CLI::Application.new(CodeClimateToReek.new.cli_arguments)
 
