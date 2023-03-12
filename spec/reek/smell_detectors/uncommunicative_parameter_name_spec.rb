@@ -31,7 +31,7 @@ RSpec.describe Reek::SmellDetectors::UncommunicativeParameterName do
 
   { 'alfa.' => 'with a receiver',
     ''      => 'without a receiver' }.each do |host, description|
-    context "in a method definition #{description}" do
+    describe "in a method definition #{description}" do
       it 'does not report two-letter parameter names' do
         src = "def #{host}bravo(ab); charlie(ab); end"
         expect(src).not_to reek_of(:UncommunicativeParameterName)
