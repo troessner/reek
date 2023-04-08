@@ -35,15 +35,13 @@
 
 ## Overview
 
-* [![Build Status](https://secure.travis-ci.org/troessner/reek.svg?branch=master)](https://travis-ci.org/troessner/reek?branch=master)
+* ![Build Status](https://github.com/troessner/reek/actions/workflows/ruby.yml/badge.svg?branch=master)
 * [![Gem Version](https://badge.fury.io/rb/reek.svg)](https://badge.fury.io/rb/reek)
-* ![](http://img.shields.io/github/tag/troessner/reek.svg)
-* ![](http://img.shields.io/badge/license-MIT-brightgreen.svg)
+* ![Git Tag](http://img.shields.io/github/tag/troessner/reek.svg)
+* ![Licence](http://img.shields.io/badge/license-MIT-brightgreen.svg)
 * [![Inline docs](https://inch-ci.org/github/troessner/reek.png)](https://inch-ci.org/github/troessner/reek)
 * [![Code Climate](https://codeclimate.com/github/troessner/reek/badges/gpa.svg)](https://codeclimate.com/github/troessner/reek)
 * [![codebeat](https://codebeat.co/badges/42fed4ff-3e55-4aed-8ecc-409b4aa539b3)](https://codebeat.co/projects/github-com-troessner-reek)
-* ![](http://ruby-gem-downloads-badge.herokuapp.com/reek?type=total)
-* ![](http://ruby-gem-downloads-badge.herokuapp.com/reek?label=downloads-current-version)
 
 ## Quickstart
 
