@@ -170,7 +170,7 @@ module Reek
 
       # @return [Set] the configuration keys that are found in the code comment
       def given_configuration_keys
-        parsed_options.keys.map(&:to_sym).to_set
+        parsed_options.keys.to_set(&:to_sym)
       end
 
       # @return [String] all keys from the code comment that look bad
