@@ -50,9 +50,9 @@ module Reek
       # @return [Array<Hit>]
       #
       def hits
-        unused_private_methods.map do |defined_method|
+        unused_private_methods.filter_map do |defined_method|
           Hit.new(defined_method) unless ignore_method?(defined_method)
-        end.compact
+        end
       end
 
       #
