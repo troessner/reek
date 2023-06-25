@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 require 'pathname'
-require_relative './configuration_converter'
-require_relative './schema_validator'
+require_relative 'configuration_converter'
+require_relative 'schema_validator'
 require_relative '../errors/config_file_error'
 
 module Reek

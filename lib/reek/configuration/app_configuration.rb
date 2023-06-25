@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 require 'pathname'
-require_relative './configuration_file_finder'
-require_relative './configuration_validator'
-require_relative './default_directive'
-require_relative './directory_directives'
-require_relative './excluded_paths'
+require_relative 'configuration_file_finder'
+require_relative 'configuration_validator'
+require_relative 'default_directive'
+require_relative 'directory_directives'
+require_relative 'excluded_paths'
 
 module Reek
   module Configuration
