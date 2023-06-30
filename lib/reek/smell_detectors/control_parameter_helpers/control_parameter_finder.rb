@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative './call_in_condition_finder'
+require_relative 'call_in_condition_finder'
 require_relative '../../ast/node'
 
 module Reek

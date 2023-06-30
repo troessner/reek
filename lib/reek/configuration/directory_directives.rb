@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative './configuration_validator'
+require_relative 'configuration_validator'
 
 module Reek
   module Configuration
