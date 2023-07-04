@@ -38,7 +38,7 @@ RSpec.describe Reek::SmellDetectors::ModuleInitialize do
     expect(src).not_to reek_of(:ModuleInitialize)
   end
 
-  it 'reports nothing for a method named initialize in a nested struct' do
+  it 'reports nothing for a method named initialize in a nested Struct class' do
     src = <<-RUBY
       module Alfa
         Bravo = Struct.new(:charlie) do
@@ -57,6 +57,18 @@ RSpec.describe Reek::SmellDetectors::ModuleInitialize do
           Class.new do
             def initialize; end
           end
+        end
+      end
+    RUBY
+
+    expect(src).not_to reek_of(:ModuleInitialize)
+  end
+
+  it 'reports nothing for a method named initialize in a nested Data class' do
+    src = <<-RUBY
+      module Alfa
+        Bravo = Data.define(:charlie) do
+          def initialize; end
         end
       end
     RUBY

@@ -368,6 +368,66 @@ RSpec.describe Reek::AST::SexpExtensions::SendNode do
     end
   end
 
+  context 'when it’s ‘define’ with no parameters and no receiver' do
+    let(:bare_new) { sexp(:send, nil, :define) }
+
+    it 'is not considered to be a module creation call' do
+      expect(bare_new).not_to be_module_creation_call
+    end
+
+    it 'is considered to be an object creation call' do
+      expect(bare_new).not_to be_object_creation_call
+    end
+  end
+
+  context 'when it’s ‘new’ with receiver ‘Class‘' do
+    let(:bare_new) { sexp(:send, sexp(:const, nil, :Class), :new) }
+
+    it 'is considered to be a module creation call' do
+      expect(bare_new).to be_module_creation_call
+    end
+
+    it 'is considered to be an object creation call' do
+      expect(bare_new).to be_object_creation_call
+    end
+  end
+
+  context 'when it’s ‘new’ with receiver ‘Struct‘' do
+    let(:bare_new) { sexp(:send, sexp(:const, nil, :Struct), :new) }
+
+    it 'is considered to be a module creation call' do
+      expect(bare_new).to be_module_creation_call
+    end
+
+    it 'is considered to be an object creation call' do
+      expect(bare_new).to be_object_creation_call
+    end
+  end
+
+  context 'when it’s ‘new’ with receiver ‘Data‘' do
+    let(:bare_new) { sexp(:send, sexp(:const, nil, :Data), :new) }
+
+    it 'is not considered to be a module creation call' do
+      expect(bare_new).not_to be_module_creation_call
+    end
+
+    it 'is considered to be an object creation call' do
+      expect(bare_new).to be_object_creation_call
+    end
+  end
+
+  context 'when it’s ‘define’ with receiver ‘Data‘' do
+    let(:bare_new) { sexp(:send, sexp(:const, nil, :Data), :define) }
+
+    it 'is considered to be a module creation call' do
+      expect(bare_new).to be_module_creation_call
+    end
+
+    it 'is not considered to be an object creation call' do
+      expect(bare_new).not_to be_object_creation_call
+    end
+  end
+
   context 'when it’s ‘new’ with a complex receiver' do
     let(:node) { Reek::Source::SourceCode.from('(foo ? bar : baz).new').syntax_tree }
 
