@@ -27,12 +27,6 @@ module Reek
           object_creation_call? && module_creation_receiver?
         end
 
-        def module_creation_receiver?
-          receiver &&
-            receiver.type == :const &&
-            [:Class, :Struct].include?(receiver.simple_name)
-        end
-
         def object_creation_call?
           name == :new
         end
@@ -46,6 +40,14 @@ module Reek
         # attr :foo, true
         def attr_with_writable_flag?
           name == :attr && args.any? && args.last.type == :true
+        end
+
+        private
+
+        def module_creation_receiver?
+          receiver &&
+            receiver.type == :const &&
+            [:Class, :Struct].include?(receiver.simple_name)
         end
       end
 
