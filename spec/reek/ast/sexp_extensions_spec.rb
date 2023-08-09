@@ -363,12 +363,68 @@ RSpec.describe Reek::AST::SexpExtensions::SendNode do
       expect(bare_new).not_to be_module_creation_call
     end
 
-    it 'is not considered to have a module creation receiver' do
-      expect(bare_new).not_to be_module_creation_receiver
+    it 'is considered to be an object creation call' do
+      expect(bare_new).to be_object_creation_call
+    end
+  end
+
+  context 'when it’s ‘define’ with no parameters and no receiver' do
+    let(:bare_new) { sexp(:send, nil, :define) }
+
+    it 'is not considered to be a module creation call' do
+      expect(bare_new).not_to be_module_creation_call
+    end
+
+    it 'is considered to be an object creation call' do
+      expect(bare_new).not_to be_object_creation_call
+    end
+  end
+
+  context 'when it’s ‘new’ with receiver ‘Class‘' do
+    let(:bare_new) { sexp(:send, sexp(:const, nil, :Class), :new) }
+
+    it 'is considered to be a module creation call' do
+      expect(bare_new).to be_module_creation_call
     end
 
     it 'is considered to be an object creation call' do
       expect(bare_new).to be_object_creation_call
+    end
+  end
+
+  context 'when it’s ‘new’ with receiver ‘Struct‘' do
+    let(:bare_new) { sexp(:send, sexp(:const, nil, :Struct), :new) }
+
+    it 'is considered to be a module creation call' do
+      expect(bare_new).to be_module_creation_call
+    end
+
+    it 'is considered to be an object creation call' do
+      expect(bare_new).to be_object_creation_call
+    end
+  end
+
+  context 'when it’s ‘new’ with receiver ‘Data‘' do
+    let(:bare_new) { sexp(:send, sexp(:const, nil, :Data), :new) }
+
+    it 'is not considered to be a module creation call' do
+      expect(bare_new).not_to be_module_creation_call
+    end
+
+    it 'is considered to be an object creation call' do
+      expect(bare_new).to be_object_creation_call
+    end
+  end
+
+  context 'when it’s ‘define’ with receiver ‘Data‘' do
+    let(:bare_new) { sexp(:send, sexp(:const, nil, :Data), :define) }
+
+    it 'is considered to be a module creation call' do
+      expect(bare_new).to be_module_creation_call
+    end
+
+    it 'is not considered to be an object creation call' do
+      expect(bare_new).not_to be_object_creation_call
     end
   end
 
@@ -377,10 +433,6 @@ RSpec.describe Reek::AST::SexpExtensions::SendNode do
 
     it 'is not considered to be a module creation call' do
       expect(node).not_to be_module_creation_call
-    end
-
-    it 'is not considered to have a module creation receiver' do
-      expect(node).not_to be_module_creation_receiver
     end
 
     it 'is considered to be an object creation call' do
