@@ -10,8 +10,7 @@ RSpec.describe Reek::Context::CodeContext do
     let(:full_name) { "::::::::::::::::::::#{exp_name}" }
 
     before do
-      allow(exp).to receive(:name).and_return(exp_name)
-      allow(exp).to receive(:full_name).and_return(full_name)
+      allow(exp).to receive_messages(name: exp_name, full_name: full_name)
     end
 
     it 'creates the correct full name' do
@@ -59,8 +58,7 @@ RSpec.describe Reek::Context::CodeContext do
     let(:full_name) { "::::::::::::::::::::#{exp_name}" }
 
     before do
-      allow(exp).to receive(:name).and_return(exp_name)
-      allow(exp).to receive(:full_name).and_return(full_name)
+      allow(exp).to receive_messages(name: exp_name, full_name: full_name)
     end
 
     it 'does not match an empty list' do
