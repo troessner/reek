@@ -1,7 +1,7 @@
-require_relative '../../../spec_helper'
-require_lib 'reek/report/code_climate/code_climate_configuration'
+require_relative '../../spec_helper'
+require_lib 'reek/code_climate/code_climate_configuration'
 
-RSpec.describe Reek::Report::CodeClimateConfiguration do
+RSpec.describe Reek::CodeClimate::CodeClimateConfiguration do
   yml = described_class.load
   smell_types = Reek::SmellDetectors::BaseDetector.descendants.map(&:smell_type)
 

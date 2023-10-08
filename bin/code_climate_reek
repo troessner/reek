@@ -6,7 +6,7 @@
 
 require_relative '../lib/reek'
 require_relative '../lib/reek/cli/application'
-require_relative '../lib/reek/report/code_climate'
+require_relative '../lib/reek/code_climate'
 Reek::CLI::Silencer.silently { require 'parser/current' }
 
 # Map input coming from CodeClimate to Reek.
@@ -67,7 +67,7 @@ end
 # Override for ReportCommand to force the use of CodeClimateReport.
 module ReportClassOverride
   def report_class
-    Reek::Report::CodeClimateReport
+    Reek::CodeClimate::CodeClimateReport
   end
 end
 

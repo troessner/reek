@@ -4,7 +4,7 @@ require 'codeclimate_engine'
 require_relative 'code_climate_configuration'
 
 module Reek
-  module Report
+  module CodeClimate
     # Generates a hash in the structure specified by the Code Climate engine spec
     class CodeClimateFormatter
       def initialize(warning)
