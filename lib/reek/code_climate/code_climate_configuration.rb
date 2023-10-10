@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Reek
-  module Report
+  module CodeClimate
     # loads the smell type metadata to present in Code Climate
     module CodeClimateConfiguration
       def self.load

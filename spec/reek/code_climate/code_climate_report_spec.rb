@@ -1,11 +1,11 @@
-require_relative '../../../spec_helper'
+require_relative '../../spec_helper'
 require_lib 'reek/examiner'
-require_lib 'reek/report/code_climate'
+require_lib 'reek/code_climate'
 
 require 'json'
 require 'stringio'
 
-RSpec.describe Reek::Report::CodeClimateReport do
+RSpec.describe Reek::CodeClimate::CodeClimateReport do
   let(:options) { {} }
   let(:instance) { described_class.new(**options) }
   let(:examiner) { Reek::Examiner.new(source) }

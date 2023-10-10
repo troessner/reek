@@ -1,7 +1,7 @@
-require_relative '../../../spec_helper'
-require_lib 'reek/report/code_climate/code_climate_formatter'
+require_relative '../../spec_helper'
+require_lib 'reek/code_climate/code_climate_formatter'
 
-RSpec.describe Reek::Report::CodeClimateFormatter do
+RSpec.describe Reek::CodeClimate::CodeClimateFormatter do
   describe '#render' do
     let(:warning) do
       Reek::SmellWarning.new(

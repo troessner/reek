@@ -3,7 +3,7 @@
 require 'digest'
 
 module Reek
-  module Report
+  module CodeClimate
     # Generates a string to uniquely identify a smell
     class CodeClimateFingerprint
       NON_IDENTIFYING_PARAMETERS = [:count, :depth].freeze
