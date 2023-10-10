@@ -20,7 +20,7 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       def sniff
-        assumptions = (variables_from_context - variables_from_initialize).uniq
+        assumptions = (variables_from_context - variables_from_initializers).uniq
 
         assumptions.map do |assumption|
           build_smell_warning(assumption)
@@ -42,14 +42,14 @@ module Reek
           parameters: { assumption: assumption.to_s })
       end
 
+      def variables_from_initializers
+        variables_from_initialize.map do |method|
+          method.each_node(:ivasgn).map(&:name)
+        end.flatten
+      end
+
       def variables_from_initialize
-        initialize_exp = method_expressions.detect do |method|
-          method.name == :initialize
-        end
-
-        return [] unless initialize_exp
-
-        initialize_exp.each_node(:ivasgn).map(&:name)
+        method_expressions.select { |method| method.name == :initialize }
       end
 
       def variables_from_context
