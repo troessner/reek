@@ -15,7 +15,7 @@ RSpec.describe 'Documentation' do
       blocks.each do |block|
         # Only consider code blocks with language 'ruby'.
         next unless code_types.include?(block.type)
-        next unless block.attr['class'] == 'language-ruby'
+        next unless block.attr['class']&.downcase == 'language-ruby'
 
         it "has a valid sample at #{block.options[:location] + 1}" do
           code = block.value.strip
