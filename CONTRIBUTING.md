@@ -62,11 +62,8 @@ demonstrate that your fix was needed.
 
 Reek uses [Rspec](http://rspec.info/) for unit and functional testing.
 
-We're trying to follow [betterspecs](http://betterspecs.org/). We're not using
-RSpec's
-[shared examples](https://www.relishapp.com/rspec/rspec-core/docs/example-groups/shared-examples)
-because we find them rather harming than helpful. You can find an excellent
-cheat sheet on how to write idiomatic Rspec
+We're trying to follow [betterspecs](http://betterspecs.org/).
+You can find an excellent cheat sheet on how to write idiomatic Rspec
 [here](http://www.rubypigeon.com/posts/rspec-core-cheat-sheet).
 
 We do not use the popular "foo" / "bar" naming when it comes to the question
