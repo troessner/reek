@@ -97,4 +97,27 @@ RSpec.describe Reek::SmellDetectors::RepeatedConditional do
 
     expect(src).to reek_of(:RepeatedConditional)
   end
+
+  it 'does not report local repeated conditionals' do
+    src = <<-RUBY
+      class Alfa
+        def bravo
+          charlie = true
+          puts "Repeat 1!" if charlie
+        end
+
+        def delta
+          charlie = false
+          puts "Repeat 2!" if charlie
+        end
+
+        def echo
+          charlie = 123
+          puts "Repeat 3!" if charlie
+        end
+      end
+    RUBY
+
+    expect(src).not_to reek_of(:RepeatedConditional)
+  end
 end

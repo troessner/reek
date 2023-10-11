@@ -73,14 +73,27 @@ module Reek
       #
       # @quality :reek:TooManyStatements { max_statements: 9 }
       def conditional_counts
-        result = Hash.new { |hash, key| hash[key] = [] }
-        collector = proc do |node|
-          next unless (condition = node.condition)
-          next if condition == BLOCK_GIVEN_CONDITION
+        result = {}
+        collector = proc do |method|
+          [:if, :case].map do |stmt|
+            method.each_node(stmt) do |node|
+              next unless (condition = node.condition)
+              next if condition == BLOCK_GIVEN_CONDITION
 
-          result[condition].push(condition.line)
+              if result.dig(condition).nil?
+                result[condition] = {}
+              end
+
+              if result.dig(condition, method.name).nil?
+                result[condition][method.name] = [condition.line]
+              else
+                result[condition][method.name].push(condition.line)
+              end
+            end
+          end
         end
-        [:if, :case].each { |stmt| context.local_nodes(stmt, &collector) }
+        context.local_nodes(:def, &collector)
+
         result
       end
     end
