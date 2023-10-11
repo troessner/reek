@@ -93,4 +93,27 @@ RSpec.describe Reek::SmellDetectors::InstanceVariableAssumption do
 
     expect(src).to reek_of(:InstanceVariableAssumption, context: 'Alfa::Charlie')
   end
+
+  it 'does not report when the initialize is in a nested Struct class' do
+    src = <<-RUBY
+      class Foo
+        Bar = Struct.new(:status) do
+          def initialize(status)
+            super
+            p 'bar created'
+          end
+        end
+
+        def initialize
+          @foo = :foo
+        end
+
+        def foo?
+          @foo == :foo
+        end
+      end
+    RUBY
+
+    expect(src).not_to reek_of(:InstanceVariableAssumption)
+  end
 end
