@@ -6,7 +6,7 @@ Reek follows standard Unix convention for passing arguments.
 
 Check out
 
-```Bash
+```bash
 reek -h
 ```
 
@@ -18,7 +18,7 @@ In case your configuration file is not in the standard location (that would be y
 whatever directory you're running Reek from) you can specify a configuration file with the `-c` option
 like this:
 
-```Bash
+```bash
 reek -c /somewhere/on/your/filesystem/reek_config.yml lib/
 ```
 
@@ -26,32 +26,32 @@ reek -c /somewhere/on/your/filesystem/reek_config.yml lib/
 
 Probably the most standard use case would be to check all Ruby files in the lib directory:
 
-```Bash
+```bash
 reek lib/*.rb
 ```
 
 In general, if any command-line argument is a directory, Reek searches that directory and all sub-directories for Ruby source files. Thus
 
-```Bash
+```bash
 reek lib
 ```
 
 would be equivalent to
 
-```Bash
+```bash
 reek lib/**/*.rb
 ```
 
 Occasionally you may want to quickly check a code snippet without going to the trouble of creating a file to hold it. You can pass the snippet directly to Reek's standard input:
 
-```Bash
+```bash
 echo "def x() true end" | reek
 ```
 
 To just check all Ruby files in the current directory, you can simply run it
 with no parameters:
 
-```Bash
+```bash
 reek
 ```
 
@@ -63,13 +63,13 @@ option and passing in the smell name.
 For example, to only check for [Utility Function](Utility-Function.md), you
 would use:
 
-```Bash
+```bash
 reek --smell UtilityFunction
 ```
 
 You can select several smells by repeating the `--smell` option like so:
 
-```Bash
+```bash
 reek --smell UtilityFunction --smell UncommunicativeMethodName
 ```
 
@@ -79,7 +79,7 @@ reek --smell UtilityFunction --smell UncommunicativeMethodName
 
 By passing in a "-n" flag to the _reek_ command, the output will suppress the line numbers:
 
-```Bash
+```bash
 $ reek -n mess.rb
 ```
 
@@ -91,7 +91,7 @@ mess.rb -- 2 warnings:
 
 Otherwise line numbers will be shown as default at the beginning of each warning in square brackets:
 
-```Bash
+```bash
 $ reek mess.rb
 ```
 
@@ -108,7 +108,7 @@ This mode can be enabled via the "-U" or "--documentation" flag.
 
 So for instance, if your test file would smell of _ClassVariable_, this is what the _reek_ output would look like:
 
-```Bash
+```bash
 reek -U test.rb
 ```
 ```

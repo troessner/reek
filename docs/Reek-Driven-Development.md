@@ -6,7 +6,7 @@ One way to drive quality into your code from the very beginning of a project is 
 
 You can add a [Rake Task] to your Rakefile, which will run Reek on all your source files.
 
-```Ruby
+```ruby
 require 'reek/rake/task'
 
 Reek::Rake::Task.new do |t|
@@ -28,7 +28,7 @@ You can add Reek expectations directly into your RSpec specs.
 
 This example is from Reek's own source code:
 
-```Ruby
+```ruby
 require 'reek/spec'
 
 it 'contains no code smells' do

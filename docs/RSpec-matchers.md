@@ -21,7 +21,7 @@ gem install rspec
 
 And then use it like that in your spec file:
 
-```Ruby
+```ruby
 require 'reek'
 require 'reek/spec'
 require 'rspec'
@@ -99,21 +99,21 @@ So in a nutshell `reek_of` takes the following two arguments:
 
  Without smell_details:
 
-```Ruby
+```ruby
   reek_of(:FeatureEnvy)
   reek_of(:UtilityFunction)
 ```
 
 With smell_details:
 
-```Ruby
+```ruby
   reek_of(:UncommunicativeParameterName, name: 'x2')
   reek_of(:DataClump, count: 3)
 ```
 
 **Examples from a real spec**
 
-```Ruby
+```ruby
   expect(src).to reek_of(:DuplicateMethodCall, name: '@other.thing')
 ```
 

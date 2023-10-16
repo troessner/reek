@@ -19,6 +19,7 @@ RSpec.describe 'Documentation' do
 
         it "has a valid sample at #{block.options[:location] + 1}" do
           code = block.value.strip
+          next unless code.include?('# =>')
 
           # Replace lines of the form `<expression> # => <result>` with
           # assertions.

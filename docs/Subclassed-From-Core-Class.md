@@ -42,7 +42,7 @@ puts "#{s}" # => Hey
 
 Given
 
-```Ruby
+```ruby
 class Ary < Array
 end
 
@@ -68,7 +68,7 @@ class List
   end
 end
 
-l = List.new 
+l = List.new
 l << 1
 l << 2
 puts l.reverse.class  # => List

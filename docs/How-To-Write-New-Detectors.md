@@ -11,7 +11,7 @@ it covers and the overall rationale behind it.
 
 All smell detectors reside in `lib/reek/smell_detectors` and have the following base structure:
 
-```Ruby
+```ruby
 require_relative 'base_detector'
 require_relative 'smell_warning'
 
@@ -89,7 +89,7 @@ All smell detector specs start out with 2 generic examples like below - the seco
 only if it makes sense.
 Here's what it looks like for `UncommunicativeVariableName`:
 
-```Ruby
+```ruby
 it 'reports the right values' do
   src = <<-RUBY
     def alfa

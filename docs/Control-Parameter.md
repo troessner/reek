@@ -8,7 +8,7 @@ _Control Parameter_ is a case of [Control Couple](Control-Couple.md).
 
 A simple example would be the `quoted` parameter in the following method:
 
-```Ruby
+```ruby
 def write(quoted)
   if quoted
     write_quoted @value

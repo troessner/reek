@@ -10,7 +10,7 @@ Attribute:
 
     Given:
 
-    ```Ruby
+    ```ruby
     class Klass
       attr_accessor :dummy
     end
@@ -33,7 +33,7 @@ BooleanParameter:
 
     Given
 
-    ```Ruby
+    ```ruby
     class Dummy
       def hit_the_switch(switch = true)
         if switch
@@ -76,7 +76,7 @@ ClassVariable:
 
     Given
 
-    ```Ruby
+    ```ruby
     class Dummy
       @@class_variable = :whatever
     end
@@ -95,7 +95,7 @@ ClassVariable:
 
     You can use class-instance variable to mitigate the problem (as also suggested in the linked article above):
 
-    ```Ruby
+    ```ruby
     class Dummy
       @class_variable = :whatever
     end
@@ -109,7 +109,7 @@ ControlParameter:
 
     A simple example would be the "quoted" parameter in the following method:
 
-    ```Ruby
+    ```ruby
     def write(quoted)
       if quoted
         write_quoted @value
@@ -131,7 +131,7 @@ DataClump:
 
     Given
 
-    ```Ruby
+    ```ruby
     class Dummy
       def x(y1,y2); end
       def y(y1,y2); end
@@ -160,7 +160,7 @@ DuplicateMethodCall:
 
     Here's a very much simplified and contrived example. The following method will report a warning:
 
-    ```Ruby
+    ```ruby
     def double_thing()
       @other.thing + @other.thing
     end
@@ -168,7 +168,7 @@ DuplicateMethodCall:
 
     One quick approach to silence Reek would be to refactor the code thus:
 
-    ```Ruby
+    ```ruby
     def double_thing()
       thing = @other.thing
       thing + thing
@@ -177,7 +177,7 @@ DuplicateMethodCall:
 
     A slightly different approach would be to replace all calls of `double_thing` by calls to `@other.double_thing`:
 
-    ```Ruby
+    ```ruby
     class Other
       def double_thing()
         thing + thing
@@ -201,7 +201,7 @@ FeatureEnvy:
 
     Running Reek on:
 
-    ```Ruby
+    ```ruby
     class Warehouse
       def sale_price(item)
         (item.price - item.rebate) * @vat
@@ -211,13 +211,13 @@ FeatureEnvy:
 
     would report:
 
-    ```Bash
+    ```bash
     Warehouse#total_price refers to item more than self (FeatureEnvy)
     ```
 
     since this:
 
-    ```Ruby
+    ```ruby
     (item.price - item.rebate)
     ```
 
@@ -229,7 +229,7 @@ InstanceVariableAssumption:
 
     Good:
 
-    ```Ruby
+    ```ruby
     class Foo
       def initialize
         @bar = :foo
@@ -243,7 +243,7 @@ InstanceVariableAssumption:
 
     Good as well:
 
-    ```Ruby
+    ```ruby
     class Foo
       def foo?
         bar == :foo
@@ -257,7 +257,7 @@ InstanceVariableAssumption:
 
     Bad:
 
-    ```Ruby
+    ```ruby
     class Foo
       def go_foo!
         @bar = :foo
@@ -273,7 +273,7 @@ InstanceVariableAssumption:
 
     Running Reek on:
 
-    ```Ruby
+    ```ruby
     class Dummy
       def test
         @ivar
@@ -283,13 +283,13 @@ InstanceVariableAssumption:
 
     would report:
 
-    ```Bash
+    ```bash
       [1]:InstanceVariableAssumption: Dummy assumes too much for instance variable @ivar
     ```
 
     Note that this example would trigger this smell warning as well:
 
-    ```Ruby
+    ```ruby
     class Parent
       def initialize(omg)
         @omg = omg
@@ -305,7 +305,7 @@ InstanceVariableAssumption:
 
     The way to address the smell warning is that you should create an `attr_reader` to use `@omg` in the subclass and not access `@omg` directly like this:
 
-    ```Ruby
+    ```ruby
     class Parent
       attr_reader :omg
 
@@ -325,7 +325,7 @@ InstanceVariableAssumption:
 
     If you don't want to expose those methods as public API just make them private like this:
 
-    ```Ruby
+    ```ruby
     class Parent
       def initialize(omg)
         @omg = omg
@@ -360,7 +360,7 @@ IrresponsibleModule:
 
     Given
 
-    ```Ruby
+    ```ruby
     class Dummy
       # Do things...
     end
@@ -375,7 +375,7 @@ IrresponsibleModule:
 
     Fixing this is simple - just an explaining comment:
 
-    ```Ruby
+    ```ruby
     # The Dummy class is responsible for ...
     class Dummy
       # Do things...
@@ -390,7 +390,7 @@ LongParameterList:
 
     Given
 
-    ```Ruby
+    ```ruby
     class Dummy
       def long_list(foo,bar,baz,fling,flung)
         puts foo,bar,baz,fling,flung
@@ -413,7 +413,7 @@ LongYieldList:
 
     ## Example
 
-    ```Ruby
+    ```ruby
     class Dummy
       def yields_a_lot(foo,bar,baz,fling,flung)
         yield foo,bar,baz,fling,flung
@@ -436,7 +436,7 @@ ManualDispatch:
 
     ## Example
 
-    ```Ruby
+    ```ruby
     class MyManualDispatcher
       attr_reader :foo
 
@@ -467,7 +467,7 @@ ModuleInitialize:
 
     The `Foo` module below contains a method `initialize`. Although class `B` inherits from `A`, the inclusion of `Foo` stops `A#initialize` from being called.
 
-    ```Ruby
+    ```ruby
     class A
       def initialize(a)
         @a = a
@@ -492,7 +492,7 @@ ModuleInitialize:
 
     A simple solution is to rename `Foo#initialize` and call that method by name:
 
-    ```Ruby
+    ```ruby
     module Foo
       def setup_foo_module(foo)
         @foo = foo
@@ -518,7 +518,7 @@ NestedIterators:
 
     Given
 
-    ```Ruby
+    ```ruby
     class Duck
       class << self
         def duck_names
@@ -549,7 +549,7 @@ NilCheck:
 
     Given
 
-    ```Ruby
+    ```ruby
     class Klass
       def nil_checker(argument)
         if argument.nil?
@@ -582,7 +582,7 @@ MissingSafeMethod:
 
     Given
 
-    ```Ruby
+    ```ruby
     class C
       def foo; end
       def foo!; end
@@ -595,7 +595,7 @@ MissingSafeMethod:
     Reek reports this smell only in a class context, not in a module context in order to allow perfectly legit code like this:
 
 
-    ```Ruby
+    ```ruby
     class Parent
       def foo; end
     end
@@ -622,7 +622,7 @@ RepeatedConditional:
 
     Given
 
-    ```Ruby
+    ```ruby
     class RepeatedConditionals
       attr_accessor :switch
 
@@ -664,7 +664,7 @@ TooManyInstanceVariables:
 
     and this code:
 
-    ```Ruby
+    ```ruby
     class TooManyInstanceVariables
       def initialize
         @arg_1 = :dummy
@@ -697,7 +697,7 @@ TooManyConstants:
 
     and this code:
 
-    ```Ruby
+    ```ruby
     class TooManyConstants
       CONST_1 = :dummy
       CONST_2 = :dummy
@@ -728,7 +728,7 @@ TooManyMethods:
 
     and this code:
 
-    ```Ruby
+    ```ruby
     class TooManyMethods
       def one; end
       def two; end
@@ -752,7 +752,7 @@ TooManyStatements:
 
     So the following method would score +6 in Reek's statement-counting algorithm:
 
-    ```Ruby
+    ```ruby
     def parse(arg, argv, &error)
       if !(val = arg) and (argv.empty? or /\A-/ =~ (val = argv[0]))
         return nil, block, nil                                         # +1
@@ -804,7 +804,7 @@ UnusedParameters:
 
     Given:
 
-    ```Ruby
+    ```ruby
     class Klass
       def unused_parameters(x,y,z)
         puts x,y # but not z
@@ -830,7 +830,7 @@ UnusedPrivateMethod:
 
     Given:
 
-    ```Ruby
+    ```ruby
     class Car
       private
       def drive; end

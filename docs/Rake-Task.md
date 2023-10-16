@@ -4,7 +4,7 @@
 
 Reek provides a Rake task that runs Reek on a set of source files. In its most simple form you just include something like that in your Rakefile:
 
-```Ruby
+```ruby
 require 'reek/rake/task'
 
 Reek::Rake::Task.new do |t|
@@ -16,13 +16,13 @@ In its most simple form, that's it.
 
 When you now run:
 
-```Bash
+```bash
 rake -T
 ```
 
 you should see
 
-```Bash
+```bash
 rake reek  # Check for code smells
 ```
 
@@ -30,7 +30,7 @@ rake reek  # Check for code smells
 
 An more sophisticated rake task that would make use of all available configuration options could look like this:
 
-```Ruby
+```ruby
 Reek::Rake::Task.new do |t|
   t.name          = 'custom_rake' # Whatever name you want. Defaults to "reek".
   t.config_file   = 'config/.reek.yml' # Defaults to nothing.
@@ -43,7 +43,7 @@ end
 
 Alternatively, you can create your own [Rake::FileList](http://rake.rubyforge.org/classes/Rake/FileList.html) and use that for `source_files`:
 
-```Ruby
+```ruby
 Reek::Rake::Task.new do |t|
   t.source_files = FileList['lib/**/*.rb'].exclude('lib/templates/**/*.rb')
 end
@@ -59,7 +59,7 @@ You can overwrite the following attributes by environment variables:
 
 An example rake call using environment variables could look like this:
 
-```Bash
+```bash
 REEK_CFG="config/custom.reek" REEK_OPTS="-s" rake reek
 ```
 

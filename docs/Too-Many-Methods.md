@@ -13,7 +13,7 @@ TooManyMethods:
 
 and this code:
 
-```Ruby
+```ruby
 class Smelly
   def one; end
   def two; end
@@ -33,7 +33,7 @@ test.rb -- 1 warning:
 Reek counts all the methods it can find in a class &mdash; instance *and* class
 methods. So given `max_methods` from above is 4, this:
 
-```Ruby
+```ruby
 class Smelly
   class << self
     def one; end

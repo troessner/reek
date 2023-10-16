@@ -15,7 +15,7 @@ links:
 
 Given
 
-```Ruby
+```ruby
 class Dummy
   # Do things...
 end
@@ -30,7 +30,7 @@ test.rb -- 1 warning:
 
 Fixing this is simple - just an explaining comment:
 
-```Ruby
+```ruby
 # The Dummy class is responsible for ...
 class Dummy
   # Do things...

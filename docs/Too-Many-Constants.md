@@ -13,7 +13,7 @@ TooManyConstants:
 
 and this code:
 
-```Ruby
+```ruby
 class Smelly
   CONST_1 = :dummy
   CONST_2 = :dummy

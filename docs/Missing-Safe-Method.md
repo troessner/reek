@@ -27,7 +27,7 @@ Missing Safe Method was formerly known as Prima Donna Method.
 
 Given
 
-```Ruby
+```ruby
 class C
   def foo; end
   def foo!; end
@@ -40,7 +40,7 @@ Reek would report the _Missing Safe Method_ smell for `bar!`, but not for `foo!`
 Reek reports this smell only in a class context, not in a module context in order to allow perfectly legit code like this:
 
 
-```Ruby
+```ruby
 class Parent
   def foo; end
 end
@@ -68,7 +68,7 @@ _Missing Safe Method_ offers the [Basic Smell Options](Basic-Smell-Options.md).
 
 Imagine code like this:
 
-```Ruby
+```ruby
 class Alfa
   def bravo!
   end
@@ -83,7 +83,7 @@ ruby.rb -- 1 warning:
 
 If you want to suppress this warning you can do this via source comment like this:
 
-```Ruby
+```ruby
 # :reek:MissingSafeMethod { exclude: [ bravo! ] }
 class Alfa
   def bravo!

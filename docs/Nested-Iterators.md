@@ -8,7 +8,7 @@ A _Nested Iterator_ occurs when a block contains another block.
 
 Given
 
-```Ruby
+```ruby
 class Duck
   class << self
     def duck_names
@@ -36,7 +36,7 @@ _Nested Iterators_ reports failing methods only once.
 Furthermore iterators without block arguments are not counted, e.g.:
 
 
-```Ruby
+```ruby
 def foo
   before do
     item.each do |part|

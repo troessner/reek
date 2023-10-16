@@ -54,13 +54,13 @@ or [that one](https://troessner.svbtle.com/the-latest-and-greatest-additions-to-
 
 Install it via rubygems:
 
-```Bash
+```bash
 gem install reek
 ```
 
 and run it like this:
 
-```Bash
+```bash
 reek [options] [dir_or_source_file]*
 ```
 
@@ -68,7 +68,7 @@ reek [options] [dir_or_source_file]*
 
 Imagine a source file `demo.rb` containing:
 
-```Ruby
+```ruby
 # Smelly class
 class Smelly
   # This will reek of UncommunicativeMethodName
@@ -109,7 +109,7 @@ language and business logic.
 That said, an example might help you get going. Have a look at this sample of a
 Ruby on Rails model (be aware that this is truncated, not working code):
 
-```Ruby
+```ruby
 class ShoppingCart < ActiveRecord::Base
   has_many :items
 
@@ -138,7 +138,7 @@ would report:
 Fixing this is pretty straightforward. Put the gross price calculation for a single item
 where it belongs, which would be the `Item` class:
 
-```Ruby
+```ruby
 class ShoppingCart < ActiveRecord::Base
   has_many :items
 
@@ -163,7 +163,7 @@ those first when you have a warning that you don't know how to deal with.
 
 There are multiple ways you can have Reek work on sources, the most common one just being
 
-```Bash
+```bash
 reek lib/
 ```
 
@@ -171,25 +171,25 @@ If you don't pass any source arguments to Reek it just takes the current working
 
 So
 
-```Bash
+```bash
 reek
 ```
 
 is the exact same thing as being explicit:
 
-```Bash
+```bash
 reek .
 ```
 
 Additionally you can pipe code to Reek like this:
 
-```Bash
+```bash
 echo "class C; def m; end; end" | reek
 ```
 
 This would print out:
 
-```Bash
+```bash
 $stdin -- 3 warnings:
   [1]:C has no descriptive comment (IrresponsibleModule)
   [1]:C has the name 'C' (UncommunicativeModuleName)
@@ -217,7 +217,7 @@ for up to date details of exactly what Reek will check in your code.
 because it is [kind of controversial](https://github.com/troessner/reek/issues/844) which means
 you have to explicitly activate it in your configuration via
 
-```Yaml
+```yaml
 UnusedPrivateMethod:
   enabled: true
 ```
@@ -226,7 +226,7 @@ UnusedPrivateMethod:
 as well that can turn out to be really unforgiving.
 As a consequence, we made it possible to disable it for non-public methods like this:
 
-```Yaml
+```yaml
 ---
 UtilityFunction:
   public_methods_only: true
@@ -238,7 +238,7 @@ UtilityFunction:
 
 For a basic overview, run
 
-```Ruby
+```ruby
 reek --help
 ```
 
@@ -326,7 +326,7 @@ directories:
 exclude_paths:
   - lib/legacy
   - lib/rake/legacy_tasks
-  - lib/smelly.rb  
+  - lib/smelly.rb
 ```
 
 As you see above, Reek's configuration consists of 3 different sections denoted by 3 different keys:
@@ -393,7 +393,7 @@ In case you need to suppress a smell warning and you can't or don't want to
 use configuration files for whatever reasons you can also use special
 source code comments like this:
 
-```Ruby
+```ruby
 # This method smells of :reek:NestedIterators
 def smelly_method foo
   foo.each {|bar| bar.each {|baz| baz.qux}}
@@ -402,7 +402,7 @@ end
 
 You can even pass in smell specific configuration settings:
 
-```Ruby
+```ruby
 # :reek:NestedIterators { max_allowed_nesting: 2 }
 def smelly_method foo
   foo.each {|bar| bar.each {|baz| baz.qux}}
@@ -430,7 +430,7 @@ codebase this might not be an option.
 Fortunately Reek provides a 'todo' flag which you can use to generate a configuration that will
 suppress all smell warnings for the current codebase:
 
-```Bash
+```bash
 reek --todo lib/
 ```
 
@@ -445,7 +445,7 @@ If for whatever reasons you decide to put '.reek.yml' somewhere else where
 Reek won't pick it up automatically you need to tell Reek explicitly to do so
 via:
 
-```Bash
+```bash
 reek -c whatever/.reek.yml lib/
 ```
 
@@ -459,7 +459,7 @@ and instead abort execution. It also will not take **any** other configuration f
 
 This means that when you run
 
-```Bash
+```bash
 reek -c other_configuration.reek --todo lib/
 ```
 
@@ -472,7 +472,7 @@ but keep in mind that this is not the intended use case of this feature.
 
 Besides the obvious
 
-```Bash
+```bash
 reek [options] [dir_or_source_file]*
 ```
 
@@ -521,7 +521,7 @@ bundle exec rake console
 You can also use Pry while running the tests by adding the following at the
 point where you want to start debugging:
 
-```Ruby
+```ruby
 require 'pry'
 binding.pry
 ```
@@ -567,7 +567,7 @@ Reek supports 5 output formats:
 Making Reek "Rails"-friendly is fairly simple since we support directory specific configurations (`directory directives` in Reek talk).
 Just add this to your configuration file:
 
-```Yaml
+```yaml
 directories:
   "app/controllers":
     IrresponsibleModule:

@@ -91,7 +91,7 @@ XMLReport
 
 Given you have the following configuration file called `.reek.yml` in your root directory:
 
-```Yaml
+```yaml
 ---
 IrresponsibleModule:
   enabled: false
@@ -102,7 +102,7 @@ configuration explicitly, you can use one of the methods below.
 
 You can now use either
 
-```Ruby
+```ruby
 Reek::Configuration::AppConfiguration.from_path Pathname.new('config.reek')
 ```
 
@@ -111,7 +111,7 @@ to `Reek::Configuration::AppConfiguration.from_hash`.
 
 Given the example above you would load that as follows:
 
-```Ruby
+```ruby
 require 'reek'
 
 config_hash = { 'IrresponsibleModule' => { 'enabled' => false } }

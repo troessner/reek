@@ -8,7 +8,7 @@ A _Long Parameter List_ occurs when a method has a lot of parameters.
 
 Given
 
-```Ruby
+```ruby
 class Dummy
   def long_list(foo,bar,baz,fling,flung)
     puts foo,bar,baz,fling,flung

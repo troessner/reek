@@ -26,7 +26,7 @@ Reek's _Uncommunicative Method Name_ detector supports the
 
 An example configuration could look like this:
 
-```Yaml
+```yaml
 ---
 UncommunicativeMethodName:
   accept:
@@ -41,7 +41,7 @@ Reek will convert whatever you give it as a string to the corresponding regex, s
 
 Applying a configuration to a source file like this:
 
-```Ruby
+```ruby
 def x; end # Should not be reported
 def meth1; end # Should not be reported
 def foobar; end # Should be reported
@@ -60,7 +60,7 @@ smelly.rb -- 2 warnings:
 
 Sometimes just strings are not enough for configuration. E.g. consider this code sample:
 
-```Ruby
+```ruby
 class Klass
   def foo; end
   def foobar; end;
@@ -73,7 +73,7 @@ Everything within the forward slashes will be loaded as a regex.
 
 A possible configuration that allows "foobar" but rejects "foo" could look like this:
 
-```Yaml
+```yaml
 ---
 UncommunicativeMethodName:
   reject:

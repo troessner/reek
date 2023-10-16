@@ -14,7 +14,7 @@ it doesn't count the control structure itself.
 
 So the following method would score +6 in Reek's statement-counting algorithm:
 
-```Ruby
+```ruby
 def parse(arg, argv, &error)
   if !(val = arg) and (argv.empty? or /\A-/ =~ (val = argv[0]))
     return nil, block, nil                                         # +1

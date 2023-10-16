@@ -10,7 +10,7 @@ For a detailed explanation, check out [this article](http://4thmouse.com/index.p
 
 Given
 
-```Ruby
+```ruby
 class Dummy
   @@class_variable = :whatever
 end
@@ -29,7 +29,7 @@ test.rb -- 1 warning:
 
 You can use class-instance variable to mitigate the problem (as also suggested in the linked article above):
 
-```Ruby
+```ruby
 class Dummy
   @class_variable = :whatever
 end

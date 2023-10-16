@@ -13,7 +13,7 @@ The _Nil Check_ code smell is a case of [Simulated Polymorphism](Simulated-Polym
 
 Given
 
-```Ruby
+```ruby
 class Klass
   def nil_checker(argument)
     if argument.nil?

@@ -12,7 +12,7 @@ that is not really necessary, thus increasing coupling.
 
 Given
 
-```Ruby
+```ruby
 class Dummy
   def hit_the_switch(switch = true)
     if switch
