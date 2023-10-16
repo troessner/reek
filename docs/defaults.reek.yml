@@ -25,6 +25,7 @@ detectors:
   FeatureEnvy:
     enabled: true
     exclude: []
+    max_calls: 2
   InstanceVariableAssumption:
     enabled: true
     exclude: []

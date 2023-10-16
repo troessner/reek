@@ -61,7 +61,7 @@ Reek cannot reliably detect that each call's receiver is a different arg and wil
 ```
   [4, 5, 6]:FeatureEnvy: Foo#initialize refers to 'arg' more than self (maybe move it to another class?)
 ```
-  
+
 If you're running into this problem you can disable this smell detector for this method either via
 configuration:
 
@@ -91,3 +91,48 @@ _Feature Envy_ is only triggered if there are some references to self and _[Util
 ## Configuration
 
 _Feature Envy_ supports the [Basic Smell Options](Basic-Smell-Options.md).
+
+Option | Value | Effect
+-------|-------|-------
+`max_calls` |  integer | The maximum number of duplicate calls allowed within a method. Defaults to 2.
+
+
+## Example configuration
+
+### Adjusting `max_calls`
+
+Imagine code like this:
+
+```ruby
+class Alfa
+  def bravo(charlie)
+    (charlie.delta - charlie.echo) * foxtrot
+  end
+end
+```
+
+This would report:
+
+>>
+src.rb -- 1 warnings:
+  [3, 3]:FeatureEnvy: Alfa#bravo refers to 'charlie' more than self (maybe move it to another class?)
+
+If you want to allow those double calls here you can disable it in 2 different ways:
+
+1.) Via source code comment:
+
+```ruby
+class Alfa
+  # :reek:FeatureEnvy { max_calls: 3 }
+  def bravo(charlie)
+    (charlie.delta - charlie.echo) * foxtrot
+  end
+end
+```
+
+2.) Via configuration file:
+
+```yaml
+FeatureEnvy:
+  max_calls: 3
+```
