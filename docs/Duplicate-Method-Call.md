@@ -6,7 +6,7 @@ Duplication occurs when two fragments of code look nearly identical, or when two
 
 Let's look at an example that is quite common in the Rails world:
 
-```Ruby
+```ruby
 def not_production?
   Rails.env.development? || Rails.env.test?
 end  
@@ -16,7 +16,7 @@ While this duplicate usage of `Rails.env` might seem innocuous there are 2 probl
 
 1.) Efficiency
 
-```Ruby
+```ruby
 Rails.env.development? || Rails.env.test?
 ```
 
@@ -24,13 +24,13 @@ is not as efficient as it could be. If the call to `env` is not memoized your ba
 
 Here
 
-```Ruby
+```ruby
 Rails.env.development? || Rails.env.test?
 ```
 
 you have 4 method calls while here:
 
-```Ruby
+```ruby
 env = Rails.env
 env.development? || env.test?
 ```
@@ -44,20 +44,20 @@ It doesn't really matter though if the efficiency difference is significant. Thi
 
 The second point is a bit more subtle. This
 
-```Ruby
+```ruby
 env = Rails.env
 env.development? || env.test?
 ```
 
 is a lot more intention revealing than 
 
-```Ruby
+```ruby
 Rails.env.development? || Rails.env.test?
 ```
 
 Here
 
-```Ruby
+```ruby
 env = Rails.env
 env.development? || env.test?
 ```
@@ -66,7 +66,7 @@ I'm very clear on what I do: I get the environment and then I run some checks on
 
 Here
 
-```Ruby
+```ruby
 Rails.env.development? || Rails.env.test?
 ```
 
@@ -76,7 +76,7 @@ I'm not very clear on what I do and it requires quite more mental effort: Ok, so
 
 Here's a very much simplified and contrived example. The following method will report a warning:
 
-```Ruby
+```ruby
 def double_thing
   @other.thing + @other.thing
 end
@@ -84,7 +84,7 @@ end
 
 One quick approach to silence Reek would be to refactor the code thus:
 
-```Ruby
+```ruby
 def double_thing
   thing = @other.thing
   thing + thing
@@ -93,7 +93,7 @@ end
 
 A slightly different approach would be to replace all calls in `double_thing` by calls to `thing`:
 
-```Ruby
+```ruby
 class Other
   def double_thing
     thing + thing
@@ -117,7 +117,7 @@ such as [Flay](http://ruby.sadi.st/Flay.html) and [Simian](http://www.redhillcon
 
 Be aware that there are some edge cases like this code:
 
-```Ruby
+```ruby
 class Foo
   def bar(switch)
     case switch
@@ -141,7 +141,7 @@ Reek cannot reliably detect that each call's receiver is a different arg and wil
 If you're running into this problem you can disable this smell detector for this method either via
 configuration:
 
-```Yaml
+```yaml
 ---
 DuplicateMethodCall:
   exclude:
@@ -150,7 +150,7 @@ DuplicateMethodCall:
 
 or via source code comment:
 
-```Ruby
+```ruby
 class Foo
   # :reek:DuplicateMethodCall
   def bar(switch)
@@ -174,7 +174,7 @@ Option | Value | Effect
 
 Imagine code like this:
 
-```Ruby
+```ruby
 class Alfa
   def bravo
     charlie.delta
@@ -193,7 +193,7 @@ If you want to allow those double calls here you can disable it in 2 different w
 
 1.) Via source code comment:
 
-```Ruby
+```ruby
 class Alfa
   # :reek:DuplicateMethodCall { max_calls: 2 }
   def bravo
@@ -205,7 +205,7 @@ end
 
 2.) Via configuration file:
 
-```Yaml
+```yaml
 DuplicateMethodCall:
   max_calls: 2
 ```
@@ -218,7 +218,7 @@ you'll have to use source code comments.
 
 Imagine code like this:
 
-```Ruby
+```ruby
 class Alfa
   def bravo
     charlie.delta
@@ -240,7 +240,7 @@ So let's say you're ok with the `echo.foxtrot` calls you can stop reporting them
 
 1.) Via source code comment:
 
-```Ruby
+```ruby
 class Alfa
   # :reek:DuplicateMethodCall { allow_calls: ['echo.foxtrot'] }
   def bravo
@@ -254,7 +254,7 @@ end
 
 2.) Via configuration file:
 
-```Yaml
+```yaml
 DuplicateMethodCall:
   allow_calls:
   - 'echo.foxtrot'

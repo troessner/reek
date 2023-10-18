@@ -10,7 +10,7 @@ _Utility Function_ is heavily related to _[Feature Envy](Feature-Envy.md)_, plea
 
 Given
 
-```Ruby
+```ruby
 class UtilityFunction
   def showcase(argument)
     argument.to_s + argument.to_i
@@ -49,7 +49,7 @@ Reek's _Utility Function_ detector supports the [Basic Smell Options](Basic-Smel
 
 A sample configuration file would look like this:
 
-```Yaml
+```yaml
 ---
 detectors:
   UtilityFunction:

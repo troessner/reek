@@ -7,7 +7,7 @@ it gets passed. It is a special case of [Long Parameter List](Long-Parameter-Lis
 
 ## Example
 
-```Ruby
+```ruby
 class Dummy
   def yields_a_lot(foo,bar,baz,fling,flung)
     yield foo,bar,baz,fling,flung

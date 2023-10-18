@@ -13,7 +13,7 @@ TooManyInstanceVariables:
 
 and this code:
 
-```Ruby
+```ruby
 class Smelly
   def initialize
     @arg_1 = :dummy

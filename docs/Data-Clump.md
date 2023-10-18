@@ -12,7 +12,7 @@ The recurrence of the items often means there is duplicate code spread around to
 
 Given
 
-```Ruby
+```ruby
 class Dummy
   def x(y1,y2); end
   def y(y1,y2); end

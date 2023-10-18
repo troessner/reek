@@ -6,7 +6,7 @@ Classes should not assume that instance variables are set or present outside of 
 
 Good:
 
-```Ruby
+```ruby
 class Foo
   def initialize
     @bar = :foo
@@ -20,7 +20,7 @@ end
 
 Good as well:
 
-```Ruby
+```ruby
 class Foo
   def foo?
     bar == :foo
@@ -34,7 +34,7 @@ end
 
 Bad:
 
-```Ruby
+```ruby
 class Foo
   def go_foo!
     @bar = :foo
@@ -50,7 +50,7 @@ end
 
 Running Reek on:
 
-```Ruby
+```ruby
 class Dummy
   def test
     @ivar
@@ -60,13 +60,13 @@ end
 
 would report:
 
-```Bash
+```bash
   [1]:InstanceVariableAssumption: Dummy assumes too much for instance variable @ivar
 ```
 
 Note that this example would trigger this smell warning as well:
 
-```Ruby
+```ruby
 class Parent
   def initialize(omg)
     @omg = omg
@@ -82,7 +82,7 @@ end
 
 The way to address the smell warning is that you should create an `attr_reader` to use `@omg` in the subclass and not access `@omg` directly like this:
 
-```Ruby
+```ruby
 class Parent
   attr_reader :omg
 
@@ -102,7 +102,7 @@ Directly accessing instance variables is considered a smell because it [breaks e
 
 If you don't want to expose those methods as public API just make them private like this:
 
-```Ruby
+```ruby
 class Parent
   def initialize(omg)
     @omg = omg
@@ -139,7 +139,7 @@ If an instance variable is initialized in such a callback Reek will report it co
 
 This would smell for instance:
 
-```Ruby
+```ruby
 class Sample < ApplicationRecord
   after_initialize do
     @my_var = false
@@ -150,7 +150,7 @@ end
 Since Reek cannot reliably detect that is used in a Rails context we recommend to disable this detector
 for "app/models" like this:
 
-```Yaml
+```yaml
 directories:
   # Your other configuration....
   "app/models":

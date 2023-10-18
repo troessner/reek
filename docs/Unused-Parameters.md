@@ -9,7 +9,7 @@ a method can never improve the method and it makes the code confusing to read.
 
 Given:
 
-```Ruby
+```ruby
 class Klass
   def unused_parameters(x,y,z)
     puts x,y # but not z

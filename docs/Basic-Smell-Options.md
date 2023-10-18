@@ -42,7 +42,7 @@ This would not report FeatureEnvy for the instance method `MyModel#do_things`, t
 
 Sometimes just strings are not enough for configuration. E.g. consider this code sample:
 
-```Ruby
+```ruby
 class Klass
   def foo1; end
   def foo1bar; end

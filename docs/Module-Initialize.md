@@ -10,7 +10,7 @@ in a module is usually a bad idea.
 
 The `Foo` module below contains a method `initialize`. Although class `B` inherits from `A`, the inclusion of `Foo` stops `A#initialize` from being called.
 
-```Ruby
+```ruby
 class A
   def initialize(a)
     @a = a
@@ -35,7 +35,7 @@ end
 
 A simple solution is to rename `Foo#initialize` and call that method by name:
 
-```Ruby
+```ruby
 module Foo
   def setup_foo_module(foo)
     @foo = foo

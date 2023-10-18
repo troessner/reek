@@ -40,7 +40,7 @@ detectors:
 
 In Reek 4 you could apply directory specific directives like this:
 
-```Yaml
+```yaml
 ---
 "web_app/app/controllers":
   NestedIterators:
@@ -53,7 +53,7 @@ In Reek 4 you could apply directory specific directives like this:
 which was nice and easy but also quite messy. With Reek 5 you'll have to scope this under a `directories`
 key like this:
 
-```Yaml
+```yaml
 ---
 directories:
   "web_app/app/controllers":
@@ -91,7 +91,7 @@ Support for this has been scrapped with Reek 5 to make the Reek configuration mo
 You can still pass in regexes, you just have to wrap them into a string using a forward slash at the
 beginning and at the end of the string like this:
 
-```Yaml
+```yaml
 ---
 UncommunicativeMethodName:
   accept:
@@ -107,7 +107,7 @@ Everything within the forward slashes will be loaded as a regex.
 
 You cant use a configuration option that is supposed to be a list with a single element like this anymore:
 
-```Yaml
+```yaml
 ---
 UncommunicativeMethodName:
   accept: foobar
@@ -117,7 +117,7 @@ UnusedPrivateMethod:
 
 You'll have to use a proper list here like this:
 
-```Yaml
+```yaml
 ---
 UncommunicativeMethodName:
   accept: 
@@ -158,13 +158,13 @@ Starting with Reek 5, the first way is not working anymore and the latter one is
 
 In the same vein as the change above you also can't use fully qualified detector names like this:
 
-```Ruby
+```ruby
  reek_of(Reek::SmellDetectors::DuplicateMethodCall)
  ```
  
 The only supported way now is either as symbol or string:
  
-```Ruby
+```ruby
 reek_of(:DuplicateMethodCall)
 reek_of('DuplicateMethodCall')
 ```

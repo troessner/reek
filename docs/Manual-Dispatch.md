@@ -4,7 +4,7 @@ Reek reports a _Manual Dispatch_ smell if it finds source code that manually che
 
 ## Example
 
-```Ruby
+```ruby
 class MyManualDispatcher
   attr_reader :foo
 

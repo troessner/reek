@@ -71,7 +71,7 @@ We do not use the popular "foo" / "bar" naming when it comes to the question
 [military alphabet](https://en.wikipedia.org/wiki/NATO_phonetic_alphabet) in
 ascending order which means that we would write this
 
-```Ruby
+```ruby
 class Foo
   def bar(baz)
     baz.quux
@@ -81,7 +81,7 @@ end
 
 rather like this:
 
-```Ruby
+```ruby
 class Alfa
   def bravo(charlie)
     charlie.delta
@@ -199,11 +199,11 @@ In this example we assume the current version is 5.3.1 and you want to update to
 * Update the version in `lib/reek/version.rb`
 * List all relevant changes in `CHANGELOG.md`
 * Update the version number in our cucumber features, otherwise the build will fail. You can do this quite easily via
-  ```Bash
+  ```bash
   find features/ -type f -exec sed -i '' 's/v5.3.1/v5.3.2/g' {} +
   ```
 * Push the branch, create a pull request, have it reviewed and merged
 * Pull the latest master and then do a
-  ```Bash
+  ```bash
   bundle exec rake release
   ```

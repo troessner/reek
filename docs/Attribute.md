@@ -12,7 +12,7 @@ The same holds to a lesser extent for getters, but Reek doesn't flag those.
 
 Given:
 
-```Ruby
+```ruby
 class Klass
   attr_accessor :dummy
 end

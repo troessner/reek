@@ -11,7 +11,7 @@ this.
 
 Given
 
-```Ruby
+```ruby
 class RepeatedConditionals
   attr_accessor :switch
 

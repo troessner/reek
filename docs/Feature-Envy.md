@@ -14,7 +14,7 @@ _Feature Envy_ often arises because it must manipulate other objects (usually it
 
 Running Reek on:
 
-```Ruby
+```ruby
 class Warehouse
   def sale_price(item)
     (item.price - item.rebate) * @vat
@@ -24,13 +24,13 @@ end
 
 would report:
 
-```Bash
+```bash
 Warehouse#sale_price refers to item more than self (FeatureEnvy)
 ```
 
 since this:
 
-```Ruby
+```ruby
 (item.price - item.rebate)
 ```
 
@@ -44,7 +44,7 @@ _Feature Envy_ reports any method that refers to self less often than it refers 
 
 Be aware that there are some edge cases like this code:
 
-```Ruby
+```ruby
 class Foo
   def initialize
     @map = {
@@ -65,7 +65,7 @@ Reek cannot reliably detect that each call's receiver is a different arg and wil
 If you're running into this problem you can disable this smell detector for this method either via
 configuration:
 
-```Yaml
+```yaml
 ---
 FeatureEnvy:
   exclude:
@@ -74,7 +74,7 @@ FeatureEnvy:
 
 or via source code comment:
 
-```Ruby
+```ruby
 class Foo
   # :reek:FeatureEnvy
   def initialize

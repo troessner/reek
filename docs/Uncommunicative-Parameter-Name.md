@@ -26,7 +26,7 @@ Reek's _Uncommunicative Parameter Name_ detector supports the [Basic Smell Optio
 
 An example configuration could look like this:
 
-```Yaml
+```yaml
 ---
 UncommunicativeParameterName:
   accept:
@@ -40,7 +40,7 @@ Reek will convert whatever you give it as a string to the corresponding regex, s
 
 Applying a configuration to a source file like this:
 
-```Ruby
+```ruby
 def omg(x); x; end # Should not be reported
 def omg(arg1); arg1; end # Should not be reported
 def omg(foobar); foobar; end # Should be reported
@@ -57,7 +57,7 @@ smelly.rb -- 1 warning:
 
 Sometimes just strings are not enough for configuration. E.g. consider this code sample:
 
-```Ruby
+```ruby
 class Klass
   def my_method(foo, foobar); end
 end
@@ -69,7 +69,7 @@ Everything within the forward slashes will be loaded as a regex.
 
 A possible configuration that allows "foobar" but rejects "foo" could look like this:
 
-```Yaml
+```yaml
 ---
 UncommunicativeParameterName:
   reject:

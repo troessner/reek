@@ -10,7 +10,7 @@ methods and instance methods only - class methods are ignored.
 
 Given:
 
-```Ruby
+```ruby
 class Car
   private
   def drive; end
@@ -36,7 +36,7 @@ scope for Reek. In this case you can disable this detector via the `exclude`
 configuration option (which is part of the [Basic Smell Options](Basic-Smell-Options.md))
 for instance like this (an example from Reek's own codebase):
 
-```Ruby
+```ruby
 # :reek:UnusedPrivateMethod { exclude: [ process_ ] }
 class ContextBuilder
   def process_begin
@@ -50,7 +50,7 @@ a method scope (like you can see above).
 
 Another simple example would be:
 
-```Ruby
+```ruby
 class Alfa
   private
   def bravo
@@ -66,7 +66,7 @@ ruby.rb -- 1 warning:
 
 If you want to suppress this warning you can do this via source comment like this:
 
-```Ruby
+```ruby
 # :reek:UnusedPrivateMethod: { exclude: bravo }
 class Alfa
   private
@@ -82,7 +82,7 @@ end
 * Method calls via callback like [Rails filters](http://guides.rubyonrails.org/action_controller_overview.html#filters)
   will trigger this as well, e.g.:
 
-```Ruby
+```ruby
   class BankController < ActionController::Base
     before_action :audit
 

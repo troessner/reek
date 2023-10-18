@@ -24,7 +24,7 @@ Reek's _Uncommunicative Module Name_ detector supports the [Basic Smell Options]
 
 An example configuration could look like this:
 
-```Yaml
+```yaml
 ---
 UncommunicativeModuleName:
   accept:
@@ -38,7 +38,7 @@ Reek will convert whatever you give it as a string to the corresponding regex, s
 
 Applying a configuration to a source file like this:
 
-```Ruby
+```ruby
 class Classy1; end # Should not be reported
 class Util; end # Should not be reported
 class BaseHelper; end # Should be reported
@@ -55,7 +55,7 @@ smelly.rb -- 1 warning:
 
 Sometimes just strings are not enough for configuration. E.g. consider this code sample:
 
-```Ruby
+```ruby
 class Klassy
   # ...
 end
@@ -71,7 +71,7 @@ Everything within the forward slashes will be loaded as a regex.
 
 A possible configuration that allows "KlassyModule" but rejects "Klassy" could look like this:
 
-```Yaml
+```yaml
 ---
 UncommunicativeModuleName:
   reject:

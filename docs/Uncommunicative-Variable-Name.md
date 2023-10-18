@@ -26,7 +26,7 @@ Reek's _Uncommunicative Variable Name_ detector supports the
 
 An example configuration could look like this:
 
-```Yaml
+```yaml
 ---
 UncommunicativeVariableName:
   accept:
@@ -41,7 +41,7 @@ Reek will convert whatever you give it as a string to the corresponding regex, s
 
 Applying a configuration to a source file like this:
 
-```Ruby
+```ruby
 def omg
   x = 5 # Should not be reported
   var1 = true # Should not be reported
@@ -62,7 +62,7 @@ smelly.rb -- 2 warnings:
 
 Sometimes just strings are not enough for configuration. E.g. consider this code sample:
 
-```Ruby
+```ruby
 def omg
   foo = 42
   foobar = 4242
@@ -75,7 +75,7 @@ Everything within the forward slashes will be loaded as a regex.
 
 A possible configuration that allows "foobar" but rejects "foo" could look like this:
 
-```Yaml
+```yaml
 ---
 UncommunicativeVariableName:
   reject:
