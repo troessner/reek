@@ -66,6 +66,18 @@ RSpec.describe Reek::SmellDetectors::NestedIterators do
     expect(src).not_to reek_of(:NestedIterators)
   end
 
+  it 'does not report nested iterators for Tempfile#create' do
+    src = <<-RUBY
+      def alfa(bravo)
+        Tempfile.create('bravo', '.') do |charlie|
+          charlie.each { |delta| delta }
+        end
+      end
+    RUBY
+
+    expect(src).not_to reek_of(:NestedIterators)
+  end
+
   it 'does not report method with successive iterators' do
     src = <<-RUBY
       def alfa
