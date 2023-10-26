@@ -1,5 +1,9 @@
 # Change log
 
+## [Unreleased]
+
+* (fbuys) Replace the config schema validator [Kwalify](https://github.com/sunaku/kwalify) with [dry-schema](https://github.com/dry-rb/dry-schema)
+
 ## 6.1.4 (2023-01-13)
 
 * (mvz) Update parser dependency to the 3.2.x series
