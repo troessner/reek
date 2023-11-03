@@ -47,6 +47,8 @@ mapping:
         type: map
         mapping:
           <<: *detector_base
+          max_calls:
+            type: number
       InstanceVariableAssumption:
         type: map
         mapping:
@@ -203,7 +205,7 @@ mapping:
       =:
         type: map
         mapping: *all_detectors
-        
+
   "exclude_paths":
     type: seq
     sequence:

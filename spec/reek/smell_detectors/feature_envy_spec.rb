@@ -292,4 +292,48 @@ RSpec.describe Reek::SmellDetectors::FeatureEnvy do
 
     expect(src).not_to reek_of(:FeatureEnvy)
   end
+
+  it 'does not reports if supressed with a preceding code comment' do
+    src = <<-RUBY
+      class Alfa
+        # :reek:FeatureEnvy
+        def bravo(charlie)
+          (charlie.delta - charlie.echo) * foxtrot
+        end
+      end
+    RUBY
+
+    expect(src).not_to reek_of(:FeatureEnvy)
+  end
+
+  it 'does not reports when increasing max_calls value with a comment' do
+    src = <<-RUBY
+      class Alfa
+        # :reek:FeatureEnvy { max_calls: 3 }
+        def bravo(charlie)
+          (charlie.delta - charlie.echo) * foxtrot
+        end
+      end
+    RUBY
+
+    expect(src).not_to reek_of(:FeatureEnvy)
+  end
+
+  context 'when allowing up to 3 calls' do
+    let(:config) do
+      { Reek::SmellDetectors::FeatureEnvy::MAX_ALLOWED_CALLS_KEY => 3 }
+    end
+
+    it 'does not report double calls' do
+      src = <<-RUBY
+        class Alfa
+          def bravo(charlie)
+            (charlie.delta - charlie.echo) * foxtrot
+          end
+        end
+      RUBY
+
+      expect(src).not_to reek_of(:FeatureEnvy).with_config(config)
+    end
+  end
 end

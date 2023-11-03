@@ -36,6 +36,15 @@ module Reek
     #
     # See {file:docs/Feature-Envy.md} for details.
     class FeatureEnvy < BaseDetector
+      # The name of the config field that sets the maximum number of
+      # identical calls to be permitted within any single method.
+      MAX_ALLOWED_CALLS_KEY = 'max_calls'
+      DEFAULT_MAX_CALLS = 2
+
+      def self.default_config
+        super.merge(MAX_ALLOWED_CALLS_KEY => DEFAULT_MAX_CALLS)
+      end
+
       #
       # Checks whether the given +context+ includes any code fragment that
       # might "belong" on another class.
@@ -46,7 +55,9 @@ module Reek
         return [] if context.singleton_method? || context.module_function?
         return [] unless context.references_self?
 
-        envious_receivers.map do |name, lines|
+        envious_receivers.select do |_key, lines|
+          lines.length >= max_allowed_calls
+        end.map do |name, lines|
           smell_warning(
             lines: lines,
             message: "refers to '#{name}' more than self (maybe move it to another class?)",
@@ -64,6 +75,10 @@ module Reek
         return {} if refs.self_is_max?
 
         refs.most_popular
+      end
+
+      def max_allowed_calls
+        @max_allowed_calls ||= value(MAX_ALLOWED_CALLS_KEY, context)
       end
     end
   end
