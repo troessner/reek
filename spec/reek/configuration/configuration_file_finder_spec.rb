@@ -120,6 +120,12 @@ RSpec.describe Reek::Configuration::ConfigurationFileFinder do
       end
     end
 
+    it 'raises an error for unrecogized configuration data' do
+      path = CONFIGURATION_DIR.join('corrupt.reek')
+      expect { described_class.load_from_file(path) }.
+        to raise_error(Reek::Errors::ConfigFileError, /Invalid configuration file #{path}/)
+    end
+
     context 'with exclude, accept and reject settings' do
       context 'when configuring top level detectors' do
         let(:configuration) do

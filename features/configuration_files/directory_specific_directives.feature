@@ -200,7 +200,8 @@ Feature: Directory directives
     Then the exit status indicates an error
     And stderr reports:
     """
-    Error: We found some problems with your configuration file: [/directories/dummy_directory/IteratorsNested] key 'IteratorsNested:' is undefined.
+    Error: Invalid configuration file config.reek, error is 
+    [/directories/dummy_directory/IteratorsNested/enabled] is not allowed.
     """
 
   Scenario: Abort on file as directory directive

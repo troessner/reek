@@ -21,6 +21,15 @@ RSpec.describe Reek::Configuration::SchemaValidator do
       end
     end
 
+    context 'when configuration is invalid and unparsable' do
+      let(:configuration) { 'Not a valid configuration file' }
+
+      it 'raises an error' do
+        message = 'unrecognized configuration data'
+        expect { validator.validate }.to raise_error(Reek::Errors::ConfigFileError, message)
+      end
+    end
+
     context 'when detector is invalid' do
       let(:configuration) do
         {
@@ -31,7 +40,7 @@ RSpec.describe Reek::Configuration::SchemaValidator do
       end
 
       it 'raises an error' do
-        message = %r{\[/detectors/DoesNotExist\] key 'DoesNotExist:' is undefined}
+        message = %r{\[/detectors/DoesNotExist/enabled\] is not allowed.}
         expect { validator.validate }.to raise_error(Reek::Errors::ConfigFileError, message)
       end
     end
@@ -46,7 +55,7 @@ RSpec.describe Reek::Configuration::SchemaValidator do
       end
 
       it 'raises an error' do
-        message = %r{\[/detectors/FeatureEnvy/enabled\] 'foo': not a boolean}
+        message = %r{\[/detectors/FeatureEnvy/enabled\] must be boolean.}
         expect { validator.validate }.to raise_error(Reek::Errors::ConfigFileError, message)
       end
     end
@@ -61,7 +70,7 @@ RSpec.describe Reek::Configuration::SchemaValidator do
       end
 
       it 'raises an error' do
-        message = %r{\[/detectors/DataClump/does_not_exist\] key 'does_not_exist:' is undefined}
+        message = %r{\[/detectors/DataClump/does_not_exist\] is not allowed.}
         expect { validator.validate }.to raise_error(Reek::Errors::ConfigFileError, message)
       end
     end
@@ -78,7 +87,8 @@ RSpec.describe Reek::Configuration::SchemaValidator do
           end
 
           it 'raises an error' do
-            message = %r{\[/detectors/UncommunicativeMethodName/#{attribute}\] '42': not a sequence}
+            message = %r{\n\[/detectors/UncommunicativeMethodName/#{attribute}\] must be an array.}
+
             expect { validator.validate }.to raise_error(Reek::Errors::ConfigFileError, message)
           end
         end
@@ -93,7 +103,8 @@ RSpec.describe Reek::Configuration::SchemaValidator do
           end
 
           it 'raises an error' do
-            message = %r{\[/detectors/UncommunicativeMethodName/#{attribute}/0\] '42': not a string}
+            message = %r{\n\[/detectors/UncommunicativeMethodName/#{attribute}/0\] must be a string.}
+
             expect { validator.validate }.to raise_error(Reek::Errors::ConfigFileError, message)
           end
         end
@@ -108,7 +119,7 @@ RSpec.describe Reek::Configuration::SchemaValidator do
       end
 
       it 'raises an error' do
-        message = %r{\[/exclude_paths\] '42': not a sequence}
+        message = %r{\[/exclude_paths\] must be an array.}
         expect { validator.validate }.to raise_error(Reek::Errors::ConfigFileError, message)
       end
     end
@@ -121,7 +132,7 @@ RSpec.describe Reek::Configuration::SchemaValidator do
       end
 
       it 'raises an error' do
-        message = %r{\[/exclude_paths/0\] '42': not a string}
+        message = %r{\[/exclude_paths/0\] must be a string.}
         expect { validator.validate }.to raise_error(Reek::Errors::ConfigFileError, message)
       end
     end
@@ -139,7 +150,7 @@ RSpec.describe Reek::Configuration::SchemaValidator do
         end
 
         it 'raises an error' do
-          message = %r{\[/directories/web_app/app/helpers/Bar\] key 'Bar:' is undefined}
+          message = %r{\[/directories/web_app/app/helpers/Bar/enabled\] is not allowed.}
           expect { validator.validate }.to raise_error(Reek::Errors::ConfigFileError, message)
         end
       end
@@ -156,7 +167,7 @@ RSpec.describe Reek::Configuration::SchemaValidator do
         end
 
         it 'raises an error' do
-          message = %r{\[/directories/web_app/app/controllers/NestedIterators/foo\] key 'foo:' is undefined}
+          message = %r{\[/directories/web_app/app/controllers/NestedIterators/foo\] is not allowed.}
           expect { validator.validate }.to raise_error(Reek::Errors::ConfigFileError, message)
         end
       end

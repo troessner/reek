@@ -124,6 +124,18 @@ end
 
 The following examples should then cover the detector specific features.
 
+### Schema validation
+
+We make use of [dry-schema](https://github.com/dry-rb/dry-schema) to validate the
+the reek configuration file (usually named `.reek.yml` in the root of a project).
+The validation will warn reek users of missing or incorrectly defined configuration.
+
+If you add or modify a detector you will need to make sure that you update the 
+[schema](lib/reek/configuration/schema.rb) file. For help with the schema syntax
+you can refer to the [dry-schema documentation](https://dry-rb.org/gems/dry-schema).
+You can also take a look at the existing schema rules for they all look fairly
+similar.
+
 ### Cucumber features
 
 We are trying to write as few Cucumber features as possible.

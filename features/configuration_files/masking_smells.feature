@@ -9,7 +9,7 @@ Feature: Masking smells using config files
     When I run reek -c corrupt.reek smelly.rb
     And stderr reports:
     """
-    Error: We found some problems with your configuration file: [/] 'Not a valid configuration file': not a mapping.
+    Error: Invalid configuration file corrupt.reek, error is unrecognized configuration data
     """
     And the exit status indicates an error
     And it reports nothing

@@ -55,5 +55,6 @@ Feature: Validate schema
     Then the exit status indicates an error
     And stderr reports:
     """
-    Error: We found some problems with your configuration file: [/detectors/DoesNotExist] key 'DoesNotExist:' is undefined.
+    Error: Invalid configuration file config.reek, error is 
+    [/detectors/DoesNotExist/enabled] is not allowed.
     """
