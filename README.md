@@ -35,6 +35,7 @@
 
 ## Overview
 
+* ![Downloads](https://img.shields.io/badge/Downloads-%3E24_million-blue)
 * ![Build Status](https://github.com/troessner/reek/actions/workflows/ruby.yml/badge.svg?branch=master)
 * [![Gem Version](https://badge.fury.io/rb/reek.svg)](https://badge.fury.io/rb/reek)
 * ![Git Tag](http://img.shields.io/github/tag/troessner/reek.svg)
@@ -42,6 +43,7 @@
 * [![Inline docs](https://inch-ci.org/github/troessner/reek.png)](https://inch-ci.org/github/troessner/reek)
 * [![Code Climate](https://codeclimate.com/github/troessner/reek/badges/gpa.svg)](https://codeclimate.com/github/troessner/reek)
 * [![codebeat](https://codebeat.co/badges/42fed4ff-3e55-4aed-8ecc-409b4aa539b3)](https://codebeat.co/projects/github-com-troessner-reek)
+
 
 ## Quickstart
 
