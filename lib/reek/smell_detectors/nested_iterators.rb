@@ -26,7 +26,7 @@ module Reek
       # The name of the config field that sets the names of any
       # methods for which nesting should not be considered
       IGNORE_ITERATORS_KEY = 'ignore_iterators'
-      DEFAULT_IGNORE_ITERATORS = ['tap'].freeze
+      DEFAULT_IGNORE_ITERATORS = ['tap', 'Tempfile.create'].freeze
 
       def self.default_config
         super.merge(
@@ -128,8 +128,9 @@ module Reek
 
       # @quality :reek:FeatureEnvy
       def ignored_iterator?(exp)
-        ignore_iterators.any? { |pattern| /#{pattern}/ =~ exp.call.name } ||
-          exp.without_block_arguments?
+        ignore_iterators.any? do |pattern|
+          /#{pattern}/ =~ exp.call.format_to_ruby
+        end || exp.without_block_arguments?
       end
     end
   end

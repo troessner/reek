@@ -57,6 +57,7 @@ detectors:
     max_allowed_nesting: 1
     ignore_iterators:
     - tap
+    - Tempfile.create
   NilCheck:
     enabled: true
     exclude: []
