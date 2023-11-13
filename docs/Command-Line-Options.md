@@ -73,6 +73,23 @@ You can select several smells by repeating the `--smell` option like so:
 reek --smell UtilityFunction --smell UncommunicativeMethodName
 ```
 
+## Telling Reek Which Smells to Exclude
+
+You can tell Reek to exclude specific smells by using the `--exclude-smell`
+option and passing in the smell name.
+
+For example, to exclude checking for [Utility Function](Utility-Function.md), you would use:
+
+```bash
+reek --exclude-smell UtilityFunction
+```
+
+You can select several smells to exclude by repeating the `--exclude-smell` option like so:
+
+```bash
+reek --exclude-smell UtilityFunction --exclude-smell IrresponsibleModule
+```
+
 ## Output options
 
 ### Output smell's line number

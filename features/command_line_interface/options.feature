@@ -44,6 +44,9 @@ Feature: Reek can be controlled using command-line options
               --smell SMELL                Only look for a specific smell.
                                            Call it like this: reek --smell MissingSafeMethod source.rb
                                            Check out https://github.com/troessner/reek/blob/v6.1.4/docs/Code-Smells.md for a list of smells
+              --exclude-smell SMELL        Exclude a specific smell.
+                                           Call it like this: reek --exclude-smell MissingSafeMethod source.rb
+                                           Check out https://github.com/troessner/reek/blob/v6.1.4/docs/Code-Smells.md for a list of smells
               --stdin-filename FILE        When passing code in via pipe, assume this filename when checking file or directory rules in the config.
 
       Generate a todo list:
