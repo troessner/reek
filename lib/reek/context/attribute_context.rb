@@ -14,7 +14,7 @@ module Reek
       def initialize(exp, send_expression)
         @visibility = :public
         @send_expression = send_expression
-        super exp
+        super(exp)
       end
 
       def full_comment

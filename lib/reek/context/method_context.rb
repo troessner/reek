@@ -15,7 +15,7 @@ module Reek
       def initialize(exp, parent_exp)
         @parent_exp = parent_exp
         @visibility = :public
-        super exp
+        super(exp)
       end
 
       def references_self?

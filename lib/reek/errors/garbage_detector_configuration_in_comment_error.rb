@@ -30,7 +30,7 @@ module Reek
                          source: source,
                          line: line,
                          comment: original_comment)
-        super message
+        super(message)
       end
     end
   end

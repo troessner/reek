@@ -32,7 +32,7 @@ module Reek
       MESSAGE
 
       def initialize(origin:)
-        super format(TEMPLATE, source: origin)
+        super(format(TEMPLATE, source: origin))
       end
 
       def long_message

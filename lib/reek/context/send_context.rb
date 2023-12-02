@@ -12,7 +12,7 @@ module Reek
 
       def initialize(exp, name)
         @name = name
-        super exp
+        super(exp)
       end
 
       def method_name_called_to_call
