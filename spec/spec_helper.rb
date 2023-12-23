@@ -51,7 +51,7 @@ module Helpers
   # Helper methods to generate a configuration for smell types that support
   # `accept` and `reject` settings.
   %w(accept reject).each do |switch|
-    define_method("#{switch}_configuration_for") do |smell_type, pattern:|
+    define_method(:"#{switch}_configuration_for") do |smell_type, pattern:|
       hash = {
         smell_type => {
           switch => pattern
