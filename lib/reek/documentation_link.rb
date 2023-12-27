@@ -17,12 +17,10 @@ module Reek
       Kernel.format(HELP_LINK_TEMPLATE, version: Version::STRING, item: name_to_param(subject))
     end
 
-    # Convert the given subject name to a form that is acceptable in a URL.
+    # Convert the given subject name to a form that is acceptable in a URL, by
+    # dasherizeing it at the start of capitalized words. Spaces are discared.
     def name_to_param(name)
-      # Splits the subject on the start of capitalized words, optionally
-      # preceded by a space. The space is discarded, the start of the word is
-      # not.
-      name.split(/ *(?=[A-Z][a-z])/).join('-')
+      name.split(/([A-Z][a-z][a-z]*)/).map(&:strip).reject(&:empty?).join('-')
     end
   end
 end
