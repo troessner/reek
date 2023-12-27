@@ -6,6 +6,7 @@ ruby RUBY_VERSION
 
 group :development do
   gem 'aruba',                 '~> 2.1'
+  gem 'bigdecimal',            '>= 2.0.0', '< 4.0'
   gem 'codeclimate-engine-rb', '~> 0.4.0'
   gem 'cucumber',              '~> 9.0'
   gem 'kramdown',              '~> 2.1'
