@@ -20,7 +20,7 @@ Gem::Specification.new do |spec|
 
   spec.executables = spec.files.grep(%r{^bin/}).map { |path| File.basename(path) }
   spec.rdoc_options = %w(--main README.md -x assets/|bin/|config/|features/|spec/|tasks/)
-  spec.required_ruby_version = '>= 2.7.0'
+  spec.required_ruby_version = '>= 3.0.0'
 
   spec.metadata = {
     'homepage_uri'          => 'https://github.com/troessner/reek',
