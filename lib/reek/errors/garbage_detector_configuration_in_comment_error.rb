@@ -8,7 +8,7 @@ module Reek
     # Gets raised when trying to use a configuration for a detector
     # that can't be parsed into a hash.
     class GarbageDetectorConfigurationInCommentError < BaseError
-      BAD_DETECTOR_CONFIGURATION_MESSAGE = <<-MESSAGE
+      BAD_DETECTOR_CONFIGURATION_MESSAGE = <<-MESSAGE.freeze
 
         Error: You are trying to configure the smell detector '%<detector>s'.
         Unfortunately we cannot parse the configuration you have given.
