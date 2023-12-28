@@ -15,7 +15,7 @@ module Reek
     # See {file:docs/Command-Line-Options.md} for details.
     #
     # @quality :reek:TooManyInstanceVariables { max_instance_variables: 13 }
-    # @quality :reek:TooManyMethods { max_methods: 18 }
+    # @quality :reek:TooManyMethods { max_methods: 20 }
     # @quality :reek:Attribute { enabled: false }
     #
     class Options
@@ -101,8 +101,8 @@ module Reek
         BANNER
       end
 
-      # @quality :reek:TooManyStatements { max_statements: 7 }
-      def set_configuration_options
+      # @quality :reek:TooManyStatements { max_statements: 10 }
+      def set_configuration_options # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
         parser.separator 'Configuration:'
         parser.on('-c', '--config FILE', 'Read configuration options from FILE') do |file|
           self.config_file = Pathname.new(file)
@@ -110,15 +110,31 @@ module Reek
         parser.on('--smell SMELL',
                   'Only look for a specific smell.',
                   'Call it like this: reek --smell MissingSafeMethod source.rb',
-                  "Check out #{DocumentationLink.build('Code Smells')} " \
+                  "Check out #{code_smell_documentation_link} " \
                   'for a list of smells') do |smell|
           smells_to_detect << smell
+        end
+        parser.on('--exclude-smell SMELL',
+                  'Exclude a specific smell.',
+                  'Call it like this: reek --exclude-smell MissingSafeMethod source.rb',
+                  "Check out #{code_smell_documentation_link} " \
+                  'for a list of smells') do |smell|
+          smells_to_detect.append(*smell_detectors) if smells_to_detect.empty?
+          smells_to_detect.delete(smell)
         end
         parser.on('--stdin-filename FILE',
                   'When passing code in via pipe, assume this filename when ' \
                   'checking file or directory rules in the config.') do |file|
           self.stdin_filename = file
         end
+      end
+
+      def code_smell_documentation_link
+        @code_smell_documentation_link ||= DocumentationLink.build('Code Smells')
+      end
+
+      def smell_detectors
+        @smell_detectors ||= Reek::SmellDetectors.constants.map(&:to_s)
       end
 
       def set_generate_todo_list_options
