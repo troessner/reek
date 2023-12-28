@@ -19,8 +19,8 @@ module Reek
                           (\w+)      # smell detector e.g.: UncommunicativeVariableName
                           (:?\s*)    # separator
                           (\{.*?\})? # details in hash style e.g.: { max_methods: 30 }
-                         /x.freeze
-    SANITIZE_REGEX                 = /(#|\n|\s)+/.freeze # Matches '#', newlines and > 1 whitespaces.
+                         /x
+    SANITIZE_REGEX                 = /(#|\n|\s)+/ # Matches '#', newlines and > 1 whitespaces.
     DISABLE_DETECTOR_CONFIGURATION = '{ enabled: false }'
     MINIMUM_CONTENT_LENGTH         = 2
 

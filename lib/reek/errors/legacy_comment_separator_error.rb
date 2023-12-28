@@ -6,7 +6,7 @@ module Reek
   module Errors
     # Gets raised for old-style comment configuration format.
     class LegacyCommentSeparatorError < BaseError
-      MESSAGE = <<-MESSAGE
+      MESSAGE = <<-MESSAGE.freeze
         Error: You are using the legacy configuration format (including three
         colons) to configure Reek in one your source code comments.
 

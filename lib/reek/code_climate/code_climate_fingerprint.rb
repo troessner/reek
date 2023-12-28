@@ -36,7 +36,7 @@ module Reek
       end
 
       def parameters
-        warning.parameters.reject { |key, _| NON_IDENTIFYING_PARAMETERS.include?(key) }.sort.to_s
+        warning.parameters.except(*NON_IDENTIFYING_PARAMETERS).sort.to_s
       end
 
       def warning_uniquely_identifiable?
