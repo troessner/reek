@@ -1,6 +1,6 @@
 # Change log
 
-## 6.2.0 (2023-12-29)
+## 6.2.0 (2023-12-31)
 
 ### Features and bugfixes
 
