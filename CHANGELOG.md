@@ -1,8 +1,57 @@
 # Change log
 
-## [Unreleased]
+## 6.2.0 (2023-12-31)
 
-* (fbuys) Replace the config schema validator [Kwalify](https://github.com/sunaku/kwalify) with [dry-schema](https://github.com/dry-rb/dry-schema)
+### Features and bugfixes
+
+* Code Climate: add config `target_ruby_version` to support different versions
+  of Ruby syntax ([#1694] by [dantevvp])
+* Treat `Data.define` as a class definition ([#1725] by [mvz])
+* Fix Instance Variable Assumption false positive ([#1737] by [JuanVqz])
+* Add `Tempfile.create` to ignored iterators list ([#1747] by [mateusdeap])
+* Improve configuration schema validation. This also replaces the kwalify
+  dependency with dry-schema ([#1749] by [fbuys])
+
+### Dependencies
+
+* Add missing dependency rexml ([#1703] by [tricknotes])
+* Drop support for Ruby 2.6 and 2.7 ([#1716] and [#1755] by [mvz])
+* Add support for Ruby 3.3 ([#1756] and [#1755] by [mvz])
+
+### Documentation
+
+* Fix the badges in our README ([#1711] by [troessner])
+* Remove non working link in CONTRIBUTING.md ([#1738] by [JuanVqz])
+* Add downloads badge ([#1750] by [troessner])
+
+### Internal
+
+* Rename Code Climate related classes ([#1735] by [mvz])
+* Fix `cucumber_opts` warning ([#1736] by [JuanVqz])
+* Fix editor highlighting for fenced code blocks in documentation ([#1745] by [JuanVqz])
+
+[JuanVqz]: https://github.com/JuanVqz
+[dantevvp]: https://github.com/dantevvp
+[fbuys]: https://github.com/fbuys
+[mateusdeap]: https://github.com/mateusdeap
+[mvz]: https://github.com/mvz
+[tricknotes]: https://github.com/tricknotes
+[troessner]: https://github.com/troessner
+
+[#1694]: https://github.com/troessner/reek/pull/1694
+[#1703]: https://github.com/troessner/reek/pull/1703
+[#1711]: https://github.com/troessner/reek/pull/1711
+[#1725]: https://github.com/troessner/reek/pull/1725
+[#1735]: https://github.com/troessner/reek/pull/1735
+[#1736]: https://github.com/troessner/reek/pull/1736
+[#1737]: https://github.com/troessner/reek/pull/1737
+[#1738]: https://github.com/troessner/reek/pull/1738
+[#1745]: https://github.com/troessner/reek/pull/1745
+[#1749]: https://github.com/troessner/reek/pull/1749
+[#1747]: https://github.com/troessner/reek/pull/1747
+[#1750]: https://github.com/troessner/reek/pull/1750
+[#1756]: https://github.com/troessner/reek/pull/1756
+[#1755]: https://github.com/troessner/reek/pull/1755
 
 ## 6.1.4 (2023-01-13)
 
