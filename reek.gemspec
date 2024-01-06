@@ -32,7 +32,7 @@ Gem::Specification.new do |spec|
   }
 
   spec.add_runtime_dependency 'dry-schema', '~> 1.13.0'
-  spec.add_runtime_dependency 'parser',  '~> 3.2.0'
+  spec.add_runtime_dependency 'parser',  '~> 3.3.0'
   spec.add_runtime_dependency 'rainbow', '>= 2.0', '< 4.0'
   spec.add_runtime_dependency 'rexml',   '~> 3.1'
 end
