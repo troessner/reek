@@ -1,4 +1,11 @@
+
 # Change log
+
+## 6.3.0 (2024-01-28)
+
+### Features and bugfixes
+
+* Update parser dependency to the 3.3.x series([#1761] by [mvz])
 
 ## 6.2.0 (2023-12-31)
 

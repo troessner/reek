@@ -182,8 +182,8 @@ Feature: Correctly formatted reports
     And it reports:
       """
       smelly.rb -- 2 warnings:
-        [4]:UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/v6.2.0/docs/Uncommunicative-Method-Name.md]
-        [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/v6.2.0/docs/Uncommunicative-Variable-Name.md]
+        [4]:UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/v6.3.0/docs/Uncommunicative-Method-Name.md]
+        [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/v6.3.0/docs/Uncommunicative-Variable-Name.md]
       """
 
     Examples:
@@ -209,8 +209,8 @@ Feature: Correctly formatted reports
     And it reports:
       """
       smelly.rb -- 2 warnings:
-        UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/v6.2.0/docs/Uncommunicative-Method-Name.md]
-        UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/v6.2.0/docs/Uncommunicative-Variable-Name.md]
+        UncommunicativeMethodName: Smelly#x has the name 'x' [https://github.com/troessner/reek/blob/v6.3.0/docs/Uncommunicative-Method-Name.md]
+        UncommunicativeVariableName: Smelly#x has the variable name 'y' [https://github.com/troessner/reek/blob/v6.3.0/docs/Uncommunicative-Variable-Name.md]
       """
 
     Examples:
