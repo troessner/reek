@@ -237,7 +237,7 @@ RSpec.describe Reek::SmellDetectors::NestedIterators do
 
   context 'when setting the allowed nesting depth to 3' do
     let(:config) do
-      { Reek::SmellDetectors::NestedIterators::MAX_ALLOWED_NESTING_KEY => 3 }
+      { described_class::MAX_ALLOWED_NESTING_KEY => 3 }
     end
 
     it 'does not report nested iterators 3 levels deep' do
@@ -273,7 +273,7 @@ RSpec.describe Reek::SmellDetectors::NestedIterators do
 
   context 'when ignoring iterators' do
     let(:config) do
-      { Reek::SmellDetectors::NestedIterators::IGNORE_ITERATORS_KEY => ['ignore_me'] }
+      { described_class::IGNORE_ITERATORS_KEY => ['ignore_me'] }
     end
 
     it 'does not report when nesting the ignored iterator inside another' do

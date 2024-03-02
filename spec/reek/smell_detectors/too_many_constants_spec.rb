@@ -3,7 +3,7 @@ require_lib 'reek/smell_detectors/too_many_constants'
 
 RSpec.describe Reek::SmellDetectors::TooManyConstants do
   let(:config) do
-    { Reek::SmellDetectors::TooManyConstants::MAX_ALLOWED_CONSTANTS_KEY => 2 }
+    { described_class::MAX_ALLOWED_CONSTANTS_KEY => 2 }
   end
 
   it 'reports the right values' do

@@ -3,7 +3,7 @@ require_lib 'reek/smell_detectors/too_many_instance_variables'
 
 RSpec.describe Reek::SmellDetectors::TooManyInstanceVariables do
   let(:config) do
-    { Reek::SmellDetectors::TooManyInstanceVariables::MAX_ALLOWED_IVARS_KEY => 2 }
+    { described_class::MAX_ALLOWED_IVARS_KEY => 2 }
   end
 
   it 'reports the right values' do

@@ -207,7 +207,7 @@ RSpec.describe Reek::SmellDetectors::UtilityFunction do
 
   describe 'disabling UtilityFunction via configuration for non-public methods' do
     let(:config) do
-      { Reek::SmellDetectors::UtilityFunction::PUBLIC_METHODS_ONLY_KEY => true }
+      { described_class::PUBLIC_METHODS_ONLY_KEY => true }
     end
 
     context 'when examining public methods' do
