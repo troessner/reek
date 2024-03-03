@@ -3,7 +3,7 @@ require_lib 'reek/smell_detectors/too_many_statements'
 
 RSpec.describe Reek::SmellDetectors::TooManyStatements do
   let(:config) do
-    { Reek::SmellDetectors::TooManyStatements::MAX_ALLOWED_STATEMENTS_KEY => 2 }
+    { described_class::MAX_ALLOWED_STATEMENTS_KEY => 2 }
   end
 
   it 'reports the right values' do

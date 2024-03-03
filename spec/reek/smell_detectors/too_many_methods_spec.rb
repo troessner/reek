@@ -3,7 +3,7 @@ require_lib 'reek/smell_detectors/too_many_methods'
 
 RSpec.describe Reek::SmellDetectors::TooManyMethods do
   let(:config) do
-    { Reek::SmellDetectors::TooManyMethods::MAX_ALLOWED_METHODS_KEY => 3 }
+    { described_class::MAX_ALLOWED_METHODS_KEY => 3 }
   end
 
   it 'reports the right values' do

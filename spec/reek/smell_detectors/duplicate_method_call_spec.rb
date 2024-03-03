@@ -164,7 +164,7 @@ RSpec.describe Reek::SmellDetectors::DuplicateMethodCall do
 
   context 'when allowing up to 3 calls' do
     let(:config) do
-      { Reek::SmellDetectors::DuplicateMethodCall::MAX_ALLOWED_CALLS_KEY => 3 }
+      { described_class::MAX_ALLOWED_CALLS_KEY => 3 }
     end
 
     it 'does not report double calls' do
@@ -191,19 +191,19 @@ RSpec.describe Reek::SmellDetectors::DuplicateMethodCall do
 
   context 'when allowing calls to some methods' do
     it 'does not report calls to some methods' do
-      config = { Reek::SmellDetectors::DuplicateMethodCall::ALLOW_CALLS_KEY => ['@bravo.charlie'] }
+      config = { described_class::ALLOW_CALLS_KEY => ['@bravo.charlie'] }
       src = 'def alfa; @bravo.charlie + @bravo.charlie; end'
       expect(src).not_to reek_of(:DuplicateMethodCall).with_config(config)
     end
 
     it 'reports calls to other methods' do
-      config = { Reek::SmellDetectors::DuplicateMethodCall::ALLOW_CALLS_KEY => ['@delta.charlie'] }
+      config = { described_class::ALLOW_CALLS_KEY => ['@delta.charlie'] }
       src = 'def alfa; @bravo.charlie + @bravo.charlie; end'
       expect(src).to reek_of(:DuplicateMethodCall, name: '@bravo.charlie').with_config(config)
     end
 
     it 'does not report calls to methods specifed with a regular expression' do
-      config = { Reek::SmellDetectors::DuplicateMethodCall::ALLOW_CALLS_KEY => [/charlie/] }
+      config = { described_class::ALLOW_CALLS_KEY => [/charlie/] }
       src = 'def alfa; puts @bravo.charlie; puts @bravo.charlie; end'
       expect(src).not_to reek_of(:DuplicateMethodCall, name: '@bravo.charlie').with_config(config)
     end
