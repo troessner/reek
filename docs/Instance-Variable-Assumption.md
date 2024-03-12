@@ -98,7 +98,7 @@ class Child < Parent
 end
 ```
 
-Directly accessing instance variables is considered a smell because it [breaks encapsulation](http://designisrefactoring.com/2015/03/29/organizing-data-self-encapsulation/) and makes it harder to reason about code.
+Directly accessing instance variables is considered a smell because it [breaks encapsulation](https://www.designisrefactoring.com/2015/03/30/organizing-data-self-encapsulation/) and makes it harder to reason about code.
 
 If you don't want to expose those methods as public API just make them private like this:
 
