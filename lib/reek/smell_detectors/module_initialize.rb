@@ -21,14 +21,16 @@ module Reek
       # @return [Array<SmellWarning>]
       #
       def sniff
-        context.defined_instance_methods.each do |node|
-          if node.name == :initialize
-            return smell_warning(
-              lines:   [source_line],
-              message: 'has initialize method')
-          end
-        end
-        []
+        return [] if does_not_have_initializer_method?
+
+        smell_warning(lines: [source_line], message: 'has initialize method')
+      end
+
+      private
+
+      # :reek:FeatureEnvy
+      def does_not_have_initializer_method?
+        context.exp.direct_children.none? { |child| child.type == :def && child.name == :initialize }
       end
     end
   end
