@@ -18,7 +18,7 @@ RSpec.describe Reek::CodeClimate::CodeClimateReport do
     let(:source) { '' }
 
     it 'prints an empty string' do
-      expect { instance.show }.to output('').to_stdout
+      expect { instance.show }.not_to output.to_stdout
     end
   end
 
