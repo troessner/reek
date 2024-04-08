@@ -175,12 +175,12 @@ RSpec.describe Reek::Context::CodeContext do
     let(:first_child) { described_class.new(instance_double(Reek::AST::Node)) }
     let(:second_child) { described_class.new(instance_double(Reek::AST::Node)) }
 
-    it 'yields each child' do
+    it 'yields each child when given a block' do
       first_child.register_with_parent context
       second_child.register_with_parent context
 
       result = []
-      context.each do |ctx|
+      context.each do |ctx| # rubocop:disable Style/MapIntoArray
         result << ctx
       end
 
