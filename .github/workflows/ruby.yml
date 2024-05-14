@@ -11,6 +11,7 @@ name: CI
     branches: [master]
   schedule:
     - cron: '16 4 12 * *'
+  workflow_dispatch:
 
 env:
   CUCUMBER_PUBLISH_QUIET: true
