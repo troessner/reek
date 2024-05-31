@@ -20,7 +20,7 @@ module Reek
       # @public
       def add_examiner(examiner)
         print progress_formatter.progress examiner
-        super(examiner)
+        super
       end
 
       # @public

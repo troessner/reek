@@ -14,7 +14,7 @@ group :development do
   gem 'rake',                  '~> 13.0'
   gem 'rspec',                 '~> 3.0'
   gem 'rspec-benchmark',       '~> 0.6.0'
-  gem 'rubocop',               '~> 1.63.0'
+  gem 'rubocop',               '~> 1.64.1'
   gem 'rubocop-performance',   '~> 1.21.0'
   gem 'rubocop-rspec',         '~> 2.29.1'
   gem 'rubocop-rspec_rails',   '~> 2.28.2'

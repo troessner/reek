@@ -7,7 +7,7 @@ module LocalLinkHelper
   # {file: } directives.
   def resolve_links(text)
     text = text.gsub(%r{<a href="([^"]*.md)">([^<]*)</a>}, '{file:\1 \2}')
-    super(text)
+    super
   end
 end
 
