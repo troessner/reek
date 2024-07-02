@@ -17,6 +17,7 @@ Gem::Specification.new do |spec|
   spec.files = Dir.chdir(File.expand_path(__dir__)) do
     `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features|samples|docs|tasks)/}) }
   end
+  spec.files << Dir['docs/yard_plugin.rb']
 
   spec.executables = spec.files.grep(%r{^bin/}).map { |path| File.basename(path) }
   spec.rdoc_options = %w(--main README.md -x assets/|bin/|config/|features/|spec/|tasks/)
