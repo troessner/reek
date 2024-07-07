@@ -20,6 +20,7 @@ group :development do
   gem 'yard',                  '~> 0.9.5'
 
   platforms :mri do
+    # Needed for YARD to properly parse GFM code blocks in the documentation
     gem 'redcarpet', '~> 3.4'
   end
 end
