@@ -6,7 +6,6 @@ ruby RUBY_VERSION
 
 group :development do
   gem 'aruba',                 '~> 2.1'
-  gem 'bigdecimal',            '>= 2.0.0', '< 4.0'
   gem 'codeclimate-engine-rb', '~> 0.4.0'
   gem 'cucumber',              '~> 9.0'
   gem 'kramdown',              '~> 2.1'
@@ -17,11 +16,11 @@ group :development do
   gem 'rubocop',               '~> 1.64.1'
   gem 'rubocop-performance',   '~> 1.21.0'
   gem 'rubocop-rspec',         '~> 3.0.2'
-  gem 'rubocop-rspec_rails',   '~> 2.29.0'
-  gem 'simplecov',             '>= 0.18.0', '< 0.23.0'
+  gem 'simplecov',             '~> 0.22.0'
   gem 'yard',                  '~> 0.9.5'
 
   platforms :mri do
+    # Needed for YARD to properly parse GFM code blocks in the documentation
     gem 'redcarpet', '~> 3.4'
   end
 end
