@@ -33,6 +33,7 @@ Gem::Specification.new do |spec|
   }
 
   spec.add_dependency 'dry-schema', '~> 1.13.0'
+  spec.add_dependency 'logger',  '~> 1.6'
   spec.add_dependency 'parser',  '~> 3.3.0'
   spec.add_dependency 'rainbow', '>= 2.0', '< 4.0'
   spec.add_dependency 'rexml',   '~> 3.1'
