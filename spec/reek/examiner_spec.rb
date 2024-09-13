@@ -129,7 +129,8 @@ RSpec.describe Reek::Examiner do
       it 'explains the origin of the error' do
         origin = 'string'
         expect { examiner.smells }.
-          to raise_error.with_message("Source #{origin} cannot be processed by Reek.")
+          to raise_error(Reek::Errors::IncomprehensibleSourceError).
+          with_message("Source #{origin} cannot be processed by Reek.")
       end
 
       it 'explains what to do' do
@@ -214,7 +215,7 @@ RSpec.describe Reek::Examiner do
 
     it 'explains the origin of the error' do
       message = "Source 'string' cannot be processed by Reek due to a syntax error in the source file."
-      expect { examiner.smells }.to raise_error.with_message(/#{message}/)
+      expect { examiner.smells }.to raise_error(Reek::Errors::SyntaxError).with_message(/#{message}/)
     end
 
     it 'shows the original exception class' do
@@ -242,7 +243,7 @@ RSpec.describe Reek::Examiner do
 
     it 'explains the origin of the error' do
       message = "Source 'string' cannot be processed by Reek due to an encoding error in the source file."
-      expect { examiner.smells }.to raise_error.with_message(/#{message}/)
+      expect { examiner.smells }.to raise_error(Reek::Errors::EncodingError).with_message(/#{message}/)
     end
 
     it 'shows the original exception class' do
@@ -269,14 +270,16 @@ RSpec.describe Reek::Examiner do
       it 'explains the reason for the error' do
         message = "You are trying to configure an unknown smell detector 'DoesNotExist'"
 
-        expect { examiner.smells }.to raise_error.with_message(/#{message}/)
+        expect { examiner.smells }.
+          to raise_error(Reek::Errors::BadDetectorInCommentError).with_message(/#{message}/)
       end
 
       it 'explains the origin of the error' do
         details = "The source is 'string' and the comment belongs " \
                   'to the expression starting in line 2.'
 
-        expect { examiner.smells }.to raise_error.with_message(/#{details}/)
+        expect { examiner.smells }.
+          to raise_error(Reek::Errors::BadDetectorInCommentError).with_message(/#{details}/)
       end
     end
 
@@ -295,14 +298,18 @@ RSpec.describe Reek::Examiner do
       it 'explains the reason for the error' do
         message = "Error: You are trying to configure the smell detector 'UncommunicativeMethodName'"
 
-        expect { examiner.smells }.to raise_error.with_message(/#{message}/)
+        expect { examiner.smells }.
+          to raise_error(Reek::Errors::GarbageDetectorConfigurationInCommentError).
+          with_message(/#{message}/)
       end
 
       it 'explains the origin of the error' do
         details = "The source is 'string' and the comment belongs " \
                   'to the expression starting in line 2.'
 
-        expect { examiner.smells }.to raise_error.with_message(/#{details}/)
+        expect { examiner.smells }.
+          to raise_error(Reek::Errors::GarbageDetectorConfigurationInCommentError).
+          with_message(/#{details}/)
       end
     end
   end
