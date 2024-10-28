@@ -556,13 +556,14 @@ e.g., `codeclimate analyze -e duplication`
 
 ## Output formats
 
-Reek supports 5 output formats:
+Reek supports 6 output formats:
 
 * plain text (default)
-* HTML (`--format html`)
-* YAML (`--format yaml`, see also [YAML Reports](docs/YAML-Reports.md))
-* JSON (`--format json`)
-* XML  (`--format xml`)
+* HTML   (`--format html`)
+* YAML   (`--format yaml`, see also [YAML Reports](docs/YAML-Reports.md))
+* JSON   (`--format json`)
+* XML    (`--format xml`)
+* GitHub (`--format github`)
 
 ## Working with Rails
 
