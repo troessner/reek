@@ -56,6 +56,7 @@ Feature: Reek can be controlled using command-line options
                                              yaml
                                              json
                                              xml
+                                             github
 
       Text format options:
               --[no-]color                 Use colors for the output (default: true)

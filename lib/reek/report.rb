@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative 'report/github_report'
 require_relative 'report/html_report'
 require_relative 'report/json_report'
 require_relative 'report/text_report'
@@ -16,11 +17,12 @@ module Reek
   # Reek reporting functionality.
   module Report
     REPORT_CLASSES = {
-      yaml: YAMLReport,
-      json: JSONReport,
-      html: HTMLReport,
-      xml:  XMLReport,
-      text: TextReport
+      yaml:   YAMLReport,
+      json:   JSONReport,
+      html:   HTMLReport,
+      xml:    XMLReport,
+      text:   TextReport,
+      github: GithubReport
     }.freeze
 
     LOCATION_FORMATTERS = {
