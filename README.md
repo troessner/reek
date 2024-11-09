@@ -514,18 +514,15 @@ Another useful Rake task is the `console` task. This will throw you right into a
 ```
 bundle exec rake console
 
-[3] pry(main)> require_relative 'lib/reek/examiner'
-=> true
-[4] pry(main)> Reek::Examiner
+irb(main):001> Reek::Examiner
 => Reek::Examiner
 ```
 
-You can also use Pry while running the tests by adding the following at the
+You can also use IRB while running the tests by adding the following at the
 point where you want to start debugging:
 
 ```ruby
-require 'pry'
-binding.pry
+binding.irb
 ```
 
 Have a look at our [Developer API](docs/API.md) for more inspiration.

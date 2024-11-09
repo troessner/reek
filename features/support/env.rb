@@ -2,11 +2,6 @@ require_relative '../../lib/reek'
 require_relative '../../lib/reek/cli/application'
 require 'aruba/cucumber'
 
-begin
-  require 'pry-byebug'
-rescue LoadError # rubocop:disable Lint/SuppressedException
-end
-
 #
 # Provides runner methods used in the cucumber steps.
 #
