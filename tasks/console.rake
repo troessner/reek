@@ -1,5 +1,6 @@
 desc 'Starts the interactive console'
 task :console do
-  require 'pry'
-  Pry.start
+  require 'irb'
+  ARGV.clear
+  IRB.start
 end

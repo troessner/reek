@@ -8,11 +8,6 @@ require_relative '../lib/reek/configuration/app_configuration'
 
 require_relative '../samples/paths'
 
-begin
-  Reek::CLI::Silencer.without_warnings { require 'pry-byebug' }
-rescue LoadError # rubocop:disable Lint/SuppressedException
-end
-
 # Simple helpers for our specs.
 module Helpers
   def test_configuration_for(config)

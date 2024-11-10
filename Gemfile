@@ -24,7 +24,3 @@ group :development do
     gem 'redcarpet', '~> 3.4'
   end
 end
-
-group :debugging do
-  gem 'pry', '~> 0.14.0'
-end
