@@ -86,4 +86,44 @@ RSpec.describe Reek::SmellDetectors::ModuleInitialize do
 
     expect(src).not_to reek_of(:ModuleInitialize)
   end
+
+  it 'reports nothing for a method named initialize in a class assigned to a let variable' do
+    src = <<-RUBY
+      module Alfa
+        RSpec.describe Bravo do
+          let(:klass) do
+            Class.new do
+              def initialize; end
+            end
+          end
+        end
+      end
+    RUBY
+
+    expect(src).not_to reek_of(:ModuleInitialize)
+  end
+
+  it 'reports nothing for a DSL-based method instantiating a class' do
+    src = <<-RUBY
+      module Alfa
+        bravo Class.new do
+          def initialize; end
+        end
+      end
+    RUBY
+
+    expect(src).not_to reek_of(:ModuleInitialize)
+  end
+
+  it 'reports nothing for a method named initialize in a variable assignment' do
+    src = <<-RUBY
+      module Alfa
+        bravo = Class.new do
+          def initialize; end
+        end
+      end
+    RUBY
+
+    expect(src).not_to reek_of(:ModuleInitialize)
+  end
 end
