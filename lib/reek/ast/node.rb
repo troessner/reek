@@ -9,6 +9,11 @@ module Reek
     # methods to ease the transition from Sexp to AST::Node.
     #
     class Node < ::Parser::AST::Node
+      # Struct representing the rules for the search performed by each_node method.
+      NodeLookupRule = Struct.new(:target_types, :ignoring)
+
+      private_constant :NodeLookupRule
+
       def initialize(type, children = [], options = {})
         @comments = options.fetch(:comments, [])
         super
@@ -62,7 +67,8 @@ module Reek
       def each_node(target_types, ignoring = [], &blk)
         return enum_for(:each_node, target_types, ignoring) unless blk
 
-        look_for(Array(target_types), ignoring, &blk)
+        lookup_rule = NodeLookupRule.new(Array(target_types), ignoring)
+        look_for(lookup_rule, &blk)
       end
 
       def contains_nested_node?(target_type)
@@ -108,23 +114,23 @@ module Reek
       protected
 
       # See ".each_node" for documentation.
-      def look_for(target_types, ignoring, &blk)
-        if target_types.include? type
+      def look_for(lookup_rule, &blk)
+        if lookup_rule.target_types.include?(type)
           yield self
-          return if ignoring.include?(type)
+          return if lookup_rule.ignoring.include?(type)
         end
         each_sexp do |elem|
-          elem.look_for_recurse(target_types, ignoring, &blk)
+          elem.look_for_recurse(lookup_rule, &blk)
         end
       end
 
       # See ".each_node" for documentation.
-      def look_for_recurse(target_types, ignoring, &blk)
-        yield self if target_types.include? type
-        return if ignoring.include? type
+      def look_for_recurse(lookup_rule, &blk)
+        yield self if lookup_rule.target_types.include?(type)
+        return if lookup_rule.ignoring.include?(type)
 
         each_sexp do |elem|
-          elem.look_for_recurse(target_types, ignoring, &blk)
+          elem.look_for_recurse(lookup_rule, &blk)
         end
       end
 
