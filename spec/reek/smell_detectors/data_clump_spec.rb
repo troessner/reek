@@ -38,6 +38,25 @@ RSpec.describe Reek::SmellDetectors::DataClump do
       and reek_of(:DataClump, lines: [6, 7, 8], parameters: ['juliett', 'kilo'])
   end
 
+  it 'detects clumps mixed among other methods' do
+    src = <<-RUBY
+      class Alfa
+        def bravo  (echo, foxtrot); end
+        def charlie(echo, foxtrot); end
+        def dummy(param); end
+        def delta  (echo, foxtrot); end
+      end
+    RUBY
+
+    expect(src).to reek_of(:DataClump,
+                           lines:      [2, 3, 5],
+                           context:    'Alfa',
+                           message:    "takes parameters ['echo', 'foxtrot'] to 3 methods",
+                           source:     'string',
+                           parameters: ['echo', 'foxtrot'],
+                           count:      3)
+  end
+
   %w(class module).each do |scope|
     it "does not report parameter sets < 2 for #{scope}" do
       src = <<-RUBY

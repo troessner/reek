@@ -84,7 +84,7 @@ module Reek
       end
 
       def candidate_clumps
-        candidate_methods.each_cons(max_copies + 1).map do |methods|
+        candidate_methods.combination(max_copies + 1).map do |methods|
           common_argument_names_for(methods)
         end.select do |clump|
           clump.length >= min_clump_size
