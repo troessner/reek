@@ -1,6 +1,12 @@
 
 # Change log
 
+## 6.4.0 (2025-01-12)
+
+### Features and bugfixes
+
+* Fix DataClump smell in Reek::AST::Node class ([#1799] by [le-santos])
+
 ## 6.3.0 (2024-01-28)
 
 ### Features and bugfixes
