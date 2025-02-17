@@ -102,14 +102,26 @@ RSpec.describe Reek::Spec::ShouldReekOf do
 
       it 'sets the proper error message' do
         matcher.matches?(smelly_code)
-        expected = <<~TEXT
-          Expected string to reek of DuplicateMethodCall (which it did) with smell details {:name=>"foo", :count=>15}, which it didn't.
-          The number of smell details I had to compare with the given one was 2 and here they are:
-          1.)
-          {"context"=>"double_thing", "lines"=>[1, 1], "message"=>"calls '@other.thing' 2 times", "source"=>"string", "name"=>"@other.thing", "count"=>2}
-          2.)
-          {"context"=>"double_thing", "lines"=>[1, 1], "message"=>"calls '@other.thing.foo' 2 times", "source"=>"string", "name"=>"@other.thing.foo", "count"=>2}
-        TEXT
+        expected =
+          if RUBY_VERSION >= '3.4'
+            <<~TEXT
+              Expected string to reek of DuplicateMethodCall (which it did) with smell details {name: "foo", count: 15}, which it didn't.
+              The number of smell details I had to compare with the given one was 2 and here they are:
+              1.)
+              {"context" => "double_thing", "lines" => [1, 1], "message" => "calls '@other.thing' 2 times", "source" => "string", "name" => "@other.thing", "count" => 2}
+              2.)
+              {"context" => "double_thing", "lines" => [1, 1], "message" => "calls '@other.thing.foo' 2 times", "source" => "string", "name" => "@other.thing.foo", "count" => 2}
+            TEXT
+          else
+            <<~TEXT
+              Expected string to reek of DuplicateMethodCall (which it did) with smell details {:name=>"foo", :count=>15}, which it didn't.
+              The number of smell details I had to compare with the given one was 2 and here they are:
+              1.)
+              {"context"=>"double_thing", "lines"=>[1, 1], "message"=>"calls '@other.thing' 2 times", "source"=>"string", "name"=>"@other.thing", "count"=>2}
+              2.)
+              {"context"=>"double_thing", "lines"=>[1, 1], "message"=>"calls '@other.thing.foo' 2 times", "source"=>"string", "name"=>"@other.thing.foo", "count"=>2}
+            TEXT
+          end
 
         expect(matcher.failure_message).to eq(expected)
       end
@@ -117,9 +129,14 @@ RSpec.describe Reek::Spec::ShouldReekOf do
       it 'sets the proper error message when negated' do
         matcher.matches?(smelly_code)
 
-        expect(matcher.failure_message_when_negated).to \
-          match('Expected string not to reek of DuplicateMethodCall with smell ' \
-                'details {:name=>"foo", :count=>15}, but it did')
+        expected = if RUBY_VERSION >= '3.4'
+                     'Expected string not to reek of DuplicateMethodCall with smell ' \
+                       'details {name: "foo", count: 15}, but it did'
+                   else
+                     'Expected string not to reek of DuplicateMethodCall with smell ' \
+                       'details {:name=>"foo", :count=>15}, but it did'
+                   end
+        expect(matcher.failure_message_when_negated).to eq expected
       end
     end
   end
