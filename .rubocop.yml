@@ -12,7 +12,7 @@ AllCops:
   Exclude:
     - 'samples/**/*'
   NewCops: enable
-  TargetRubyVersion: 3.0
+  TargetRubyVersion: 3.1
 
 # Tables are nice
 Layout/HashAlignment:

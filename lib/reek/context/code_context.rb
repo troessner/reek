@@ -38,9 +38,9 @@ module Reek
       # @param type [Symbol] the type of the nodes we are looking for, e.g. :defs.
       # @yield block that is executed for every node.
       #
-      def local_nodes(type, ignored = [], &blk)
+      def local_nodes(type, ignored = [], &)
         ignored |= [:class, :module]
-        exp.each_node(type, ignored, &blk)
+        exp.each_node(type, ignored, &)
       end
 
       # Iterate over `self` and child contexts.
