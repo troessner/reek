@@ -100,7 +100,6 @@ RSpec.describe Reek::SmellDetectors::UnusedParameters do
     end
 
     it 'reports nothing for unused nil keyword parameter' do
-      skip 'Not valid syntax for this Ruby version' unless RUBY_VERSION >= '2.7'
       src = 'def alfa(**nil); end'
       expect(src).not_to reek_of(:UnusedParameters)
     end
