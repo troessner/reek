@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../../spec_helper'
 require_lib 'reek/code_climate/code_climate_fingerprint'
 

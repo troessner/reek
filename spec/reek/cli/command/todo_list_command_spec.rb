@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../../../spec_helper'
 require_lib 'reek/cli/command/todo_list_command'
 require_lib 'reek/cli/options'

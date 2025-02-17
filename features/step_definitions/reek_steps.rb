@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 When /^I run reek (.*)$/ do |args|
   reek(args)
 end

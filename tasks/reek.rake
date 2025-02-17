@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../lib/reek/rake/task'
 
 Reek::Rake::Task.new do |t|

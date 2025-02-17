@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../spec_helper'
 Reek::CLI::Silencer.without_warnings { require 'parser/ruby25' }
 require_lib 'reek/tree_dresser'

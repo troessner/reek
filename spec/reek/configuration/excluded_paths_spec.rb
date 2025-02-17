@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../../spec_helper'
 require_lib 'reek/errors/config_file_error'
 require_lib 'reek/configuration/excluded_paths'

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../lib/reek'
 require_relative '../lib/reek/detector_repository'
 require_relative '../lib/reek/configuration/rake_task_converter'

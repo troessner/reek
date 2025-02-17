@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../../spec_helper'
 require 'stringio'
 require_lib 'reek/source/source_code'
@@ -63,16 +65,12 @@ RSpec.describe Reek::Source::SourceCode do
       end
     end
 
-    if RUBY_VERSION >= '2.7'
-      context 'with ruby 2.7 syntax' do
-        context 'with forward_args (`...`)' do
-          let(:source_code) { described_class.new(source: 'def alpha(...) bravo(...); end') }
+    context 'with forward_args (`...`)' do
+      let(:source_code) { described_class.new(source: 'def alpha(...) bravo(...); end') }
 
-          it 'returns a :forward_args node' do
-            result = source_code.syntax_tree
-            expect(result.children[1].type).to eq(:forward_args)
-          end
-        end
+      it 'returns a :forward_args node' do
+        result = source_code.syntax_tree
+        expect(result.children[1].type).to eq(:forward_args)
       end
     end
   end

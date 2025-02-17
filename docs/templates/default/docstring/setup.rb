@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 def init
   super
   return unless show_api_marker_section?

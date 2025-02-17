@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 SimpleCov.start do
   track_files 'lib/**/*.rb'
   add_filter 'lib/reek/version.rb' # version.rb is loaded too early to test
