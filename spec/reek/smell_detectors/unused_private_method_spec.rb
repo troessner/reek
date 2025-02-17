@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../../spec_helper'
 require_lib 'reek/smell_detectors/unused_private_method'
 

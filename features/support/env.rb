@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../../lib/reek'
 require_relative '../../lib/reek/cli/application'
 require 'aruba/cucumber'

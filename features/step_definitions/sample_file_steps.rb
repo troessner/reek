@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../../samples/paths'
 
 Given(/^the smelly file '(.+)'$/) do |filename|

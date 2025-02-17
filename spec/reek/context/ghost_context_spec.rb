@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../../spec_helper'
 require_lib 'reek/context/code_context'
 require_lib 'reek/context/ghost_context'

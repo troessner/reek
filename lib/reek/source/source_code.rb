@@ -75,11 +75,17 @@ module Reek
 
       def code
         @code ||=
-          case source
-          when File, Pathname then source.read
-          when IO             then source.readlines.join
-          when String         then source
-          end.force_encoding(Encoding::UTF_8)
+          begin
+            str =
+              case source
+              when File, Pathname then source.read
+              when IO             then source.readlines.join
+              when String         then source
+              end
+
+            str = str.dup if str.frozen?
+            str.force_encoding(Encoding::UTF_8)
+          end
       end
 
       attr_reader :parser, :source
