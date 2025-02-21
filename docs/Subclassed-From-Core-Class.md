@@ -8,7 +8,7 @@ Inheriting from Core Classes means that you are going to have a bad time debuggi
 
 > What do you think this code should do?
 
-```Ruby
+```ruby
 List = Class.new(Array)
 
 l = List.new
@@ -20,7 +20,7 @@ puts l.reverse.class # => Array
 > If you said “it prints Array” you’d be right.
 > Let’s talk about a more pernicious issue: Strings.
 
-```Ruby
+```ruby
 class MyString < String
   def to_s
     "lol"
@@ -52,7 +52,7 @@ end
 
 Reek would report the _Subclassed From Core Class_ smell for both classes. Instead of subclassing them you want a data structure that uses one of these core classes internally, but isn’t exactly like one. For instance:
 
-```Ruby
+```ruby
 require 'forwardable'
 
 class List
