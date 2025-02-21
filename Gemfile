@@ -4,8 +4,6 @@ source 'https://rubygems.org'
 
 gemspec
 
-ruby RUBY_VERSION
-
 group :development do
   gem 'aruba',                 '~> 2.1'
   gem 'codeclimate-engine-rb', '~> 0.4.0'
