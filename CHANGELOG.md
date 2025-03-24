@@ -1,6 +1,12 @@
 
 # Change log
 
+## 6.5.0 (2025-03-24)
+
+### Features and bugfixes
+
+* Loosen up Gemfile dependencies by [mvz])
+
 ## 6.4.0 (2025-01-12)
 
 ### Features and bugfixes
