@@ -17,4 +17,4 @@ gem 'simplecov',             '~> 0.22.0'
 gem 'yard',                  '~> 0.9.5'
 
 # Needed for YARD to properly parse GFM code blocks in the documentation
-gem 'redcarpet', '~> 3.4', platform: :mri
+gem 'redcarpet', '~> 3.4', platforms: [:mri]
