@@ -4,9 +4,9 @@ source 'https://rubygems.org'
 
 gemspec
 
-gem 'aruba',                 '~> 2.1'
+gem 'aruba',                 '~> 2.3'
 gem 'codeclimate-engine-rb', '~> 0.4.0'
-gem 'cucumber',              '~> 9.0'
+gem 'cucumber',              '~> 10.0'
 gem 'rake',                  '~> 13.0'
 gem 'rspec',                 '~> 3.0'
 gem 'rspec-benchmark',       '~> 0.6.0'
