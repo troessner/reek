@@ -67,6 +67,10 @@ Metrics/BlockLength:
 Metrics/ParameterLists:
   CountKeywordArgs: false
 
+# This cop does not detect predicate methods very well
+Naming/PredicateMethod:
+  Enabled: false
+
 Naming/RescuedExceptionsVariableName:
   PreferredName: error
 
