@@ -64,7 +64,7 @@ module Reek
       # @return [Array<Iterator>]
       #
       def find_violations
-        find_candidates.select { |it| it.depth > max_allowed_nesting }
+        find_candidates.select { _1.depth > max_allowed_nesting }
       end
 
       # Finds the set of independent most deeply nested iterators regardless of

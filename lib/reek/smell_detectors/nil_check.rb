@@ -71,7 +71,7 @@ module Reek
         end
 
         def involves_nil?(call)
-          call.participants.any? { |it| it.type == :nil }
+          call.participants.any? { _1.type == :nil }
         end
 
         def comparison_methods
@@ -84,7 +84,7 @@ module Reek
         module_function
 
         def detect(node)
-          node.condition_list.any? { |it| it.type == :nil }
+          node.condition_list.any? { _1.type == :nil }
         end
       end
     end

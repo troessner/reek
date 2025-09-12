@@ -17,8 +17,6 @@ def api_marker
   erb(:private) unless ['public', 'private'].include? api_text
 end
 
-private
-
 def api_text
   api_text = object.has_tag?(:api) && object.tag(:api).text
   api_text = 'public' if object.has_tag?(:public)

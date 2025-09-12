@@ -138,18 +138,18 @@ RSpec.describe Reek::Examiner do
       it 'explains what to do' do
         explanation = 'It would be great if you could report this back to the Reek team'
         expect { examiner.smells }.
-          to raise_error { |it| expect(it.long_message).to match(/#{explanation}/) }
+          to raise_error { expect(_1.long_message).to match(/#{explanation}/) }
       end
 
       it 'contains the original error message' do
         original = 'Looks like bad source'
         expect { examiner.smells }.
-          to raise_error { |it| expect(it.long_message).to match(/#{original}/) }
+          to raise_error { expect(_1.long_message).to match(/#{original}/) }
       end
 
       it 'shows the original exception class' do
         expect { examiner.smells }.
-          to raise_error { |it| expect(it.long_message).to match(/ArgumentError/) }
+          to raise_error { expect(_1.long_message).to match(/ArgumentError/) }
       end
     end
   end
@@ -222,7 +222,7 @@ RSpec.describe Reek::Examiner do
 
     it 'shows the original exception class' do
       expect { examiner.smells }.
-        to raise_error { |it| expect(it.long_message).to match(/Parser::SyntaxError/) }
+        to raise_error { expect(_1.long_message).to match(/Parser::SyntaxError/) }
     end
   end
 
@@ -250,7 +250,7 @@ RSpec.describe Reek::Examiner do
 
     it 'shows the original exception class' do
       expect { examiner.smells }.
-        to raise_error { |it| expect(it.long_message).to match(/InvalidByteSequenceError/) }
+        to raise_error { expect(_1.long_message).to match(/InvalidByteSequenceError/) }
     end
   end
 

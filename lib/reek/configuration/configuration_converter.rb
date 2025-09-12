@@ -9,6 +9,7 @@ module Reek
     class ConfigurationConverter
       REGEXABLE_ATTRIBUTES = %w(accept reject exclude).freeze
       include ConfigurationValidator
+
       attr_reader :configuration
 
       # @param configuration [Hash] e.g.
