@@ -60,7 +60,7 @@ module Reek
       #
       # @example
       #   node.each_node(:send, [:mlhs]) do |call_node| .... end
-      #   node.each_node(:lvar).any? { |it| it.var_name == 'something' }
+      #   node.each_node(:lvar).any? { _1.var_name == 'something' }
       #   node.each_node([:block]).flat_map do |elem| ... end
       #
       # Returns an array with all matching nodes.

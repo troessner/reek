@@ -75,7 +75,7 @@ module Reek
         # @return [Boolean] if the parameter is used in the given method call
         #
         def call_involving_param?(call_node)
-          call_node.each_node(:lvar).any? { |it| it.var_name == parameter }
+          call_node.each_node(:lvar).any? { _1.var_name == parameter }
         end
 
         #

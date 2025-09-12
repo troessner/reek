@@ -21,16 +21,16 @@ RSpec.describe Reek::Rake::Task do
 
   describe '#source_files=' do
     it 'sets source_files to a FileList when passed a string' do
-      task = described_class.new do |it|
-        it.source_files = '*.rb'
+      task = described_class.new do |tsk|
+        tsk.source_files = '*.rb'
       end
       expect(task.source_files).to eq FileList['*.rb']
     end
 
     it 'has no effect when ENV["REEK_SRC"] is set' do
       ENV['REEK_SRC'] = '*.rb'
-      task = described_class.new do |it|
-        it.source_files = 'lib/*.rb'
+      task = described_class.new do |tsk|
+        tsk.source_files = 'lib/*.rb'
       end
       expect(task.source_files).to eq FileList['*.rb']
     ensure

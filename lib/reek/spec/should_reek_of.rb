@@ -57,7 +57,7 @@ module Reek
       end
 
       def matching_smell_types
-        @matching_smell_types ||= examiner.smells.map { |it| SmellMatcher.new(it) }
+        @matching_smell_types ||= examiner.smells.map { SmellMatcher.new(_1) }
       end
 
       def matching_smell_types?
