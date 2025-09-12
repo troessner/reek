@@ -23,6 +23,7 @@ module Reek
 
       class << self
         include ConfigurationValidator
+
         #
         # Finds and loads a configuration file from a given path.
         #

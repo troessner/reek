@@ -19,6 +19,7 @@ module Reek
     class CodeContext
       include Enumerable
       extend Forwardable
+
       delegate [:name, :type] => :exp
 
       attr_reader :children, :parent, :exp, :statement_counter
