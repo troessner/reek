@@ -179,6 +179,53 @@ RSpec.describe Reek::SmellDetectors::UtilityFunction do
     end
   end
 
+  context 'when examining class_methods block' do
+    it 'does not report methods defined in class_methods block' do
+      src = <<-RUBY
+        module Alpha
+          extend ActiveSupport::Concern
+
+          class_methods do
+            def bravo(arg1, arg2)
+              return 1 if arg1.something?
+              return 2 if arg2.something_else?
+
+              3
+            end
+          end
+        end
+      RUBY
+
+      expect(src).not_to reek_of(:UtilityFunction, context: 'Alpha#bravo')
+    end
+
+    it 'reports methods defined outside the class_methods block' do
+      src = <<-RUBY
+        module Alpha
+          extend ActiveSupport::Concern
+
+          class_methods do
+            def bravo(arg1, arg2)
+              return 1 if arg1.something?
+              return 2 if arg2.something_else?
+
+              3
+            end
+          end
+
+          def charlie(arg1, arg2)
+            return 4 if arg1.something?
+            return 5 if arg2.something_else?
+
+            6
+          end
+        end
+      RUBY
+
+      expect(src).not_to reek_of(:UtilityFunction, context: 'Alpha#charlie')
+    end
+  end
+
   describe 'method visibility' do
     it 'reports private methods' do
       src = <<-RUBY
