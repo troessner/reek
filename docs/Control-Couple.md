@@ -14,7 +14,7 @@ controlling parameter must be reflected on both sides of the call. A _Control
 Couple_ also reveals a loss of simplicity: the called method probably has more
 than one responsibility, because it includes at least two different code paths.
 
-You can find a good write-up regarding this problem [here](https://solnic.codes/2012/04/11/get-rid-of-that-code-smell-control-couple/).
+You can find a good write-up regarding this problem [here](https://solnic.dev/get-rid-of-that-code-smell-control-couple/).
 
 ## Current Support in Reek
 
