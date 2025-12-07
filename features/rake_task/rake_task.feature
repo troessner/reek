@@ -160,3 +160,24 @@ Feature: Reek can be driven through its Task
         [4]:UncommunicativeMethodName: Smelly#x has the name 'x'
         [5]:UncommunicativeVariableName: Smelly#x has the variable name 'y'
       """
+
+  Scenario: REEK_OPTS overrides options to use
+    Given the smelly file 'smelly.rb'
+    And a file "Rakefile" with:
+      """
+      require 'reek/rake/task'
+
+      Reek::Rake::Task.new do |t|
+        t.source_files = 'smelly.rb'
+        t.reek_opts = '--no-color --no-documentation'
+      end
+      """
+    When I set the environment variable "REEK_OPTS" to "--single-line --no-documentation"
+    And I run `rake reek`
+    Then the exit status indicates an error
+    And it reports:
+      """
+      smelly.rb -- 2 warnings:
+        smelly.rb:4: UncommunicativeMethodName: Smelly#x has the name 'x'
+        smelly.rb:5: UncommunicativeVariableName: Smelly#x has the variable name 'y'
+      """
