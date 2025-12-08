@@ -69,14 +69,19 @@ module Reek
 
       # @public
       def initialize(name = :reek)
-        @config_file   = ENV.fetch('REEK_CFG', nil)
         @name          = name
-        @reek_opts     = ENV.fetch('REEK_OPTS', '')
+        @reek_opts     = ''
         @fail_on_error = true
         @verbose       = false
 
         yield self if block_given?
 
+        if (reek_cfg = ENV.fetch('REEK_CFG', nil))
+          @config_file = reek_cfg
+        end
+        if (reek_opts = ENV.fetch('REEK_OPTS', nil))
+          @reek_opts = reek_opts
+        end
         if (reek_src = ENV.fetch('REEK_SRC', nil))
           @source_files = FileList[reek_src]
         end
