@@ -10,9 +10,10 @@ require 'yaml'
 namespace :configuration do
   desc 'Updates the default configuration file when smell defaults change'
   task :update_default_configuration do
-    content = Reek::DetectorRepository.smell_types.each_with_object({}) do |klass, hash|
-      hash[klass.smell_type] = Reek::Configuration::RakeTaskConverter.convert klass.default_config
-    end
+    content =
+      Reek::DetectorRepository.smell_types.to_h do |klass|
+        [klass.smell_type, Reek::Configuration::RakeTaskConverter.convert(klass.default_config)]
+      end
     File.open(Reek::DEFAULT_SMELL_CONFIGURATION, 'w') do |file|
       YAML.dump({ Reek::DETECTORS_KEY => content }, file)
     end
