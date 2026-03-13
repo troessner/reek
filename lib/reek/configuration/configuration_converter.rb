@@ -81,6 +81,8 @@ module Reek
                 to_regex item
               end
             end
+          rescue NoMethodError
+            warn_about_missing_configuration(detector) if detectors[detector].nil?
           end
         end
       end
@@ -102,9 +104,24 @@ module Reek
                   to_regex item
                 end
               end
+            rescue NoMethodError
+              warn_about_missing_configuration(detector) if configuration.nil?
             end
           end
         end
+      end
+
+      def warn_about_missing_configuration(detector)
+        msg = <<~ERROR
+          ###############################
+
+          Please review the configuration file (e.g. .reek.yml in your project directory).
+          It looks like the configuration for #{detector} is missing.
+          You can find the configuration options documentation over here: https://github.com/troessner/reek#configuration-options.
+
+          ###############################
+        ERROR
+        warn msg
       end
     end
   end
