@@ -63,7 +63,7 @@ RSpec.describe Reek::Report::TextReport do
       end
 
       it 'mentions every smell name' do
-        matcher = match(/UncommunicativeParameterName/).and match(/UtilityFunction/)
+        matcher = include('UncommunicativeParameterName').and include('UtilityFunction')
         expect { instance.show }.to output(matcher).to_stdout
       end
 
