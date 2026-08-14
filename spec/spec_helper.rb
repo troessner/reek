@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+SimpleCov.start if defined? SimpleCov
+
 require 'pathname'
 require 'timeout'
 require 'rspec-benchmark'
