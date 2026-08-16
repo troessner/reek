@@ -494,8 +494,8 @@ module Reek
     # @param args arguments for the class initializer
     # @yield block
     #
-    def inside_new_context(klass, *args)
-      new_context = append_new_context(klass, *args)
+    def inside_new_context(klass, *)
+      new_context = append_new_context(klass, *)
 
       orig, self.current_context = current_context, new_context
       yield

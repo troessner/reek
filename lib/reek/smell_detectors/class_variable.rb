@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'set'
 require_relative 'base_detector'
 
 module Reek
