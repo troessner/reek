@@ -67,7 +67,10 @@ module Reek
       end
 
       def path_excluded?(path)
-        excluded_paths.map(&:expand_path).include?(path.expand_path)
+        expanded_path = path.expand_path
+        excluded_paths.map(&:expand_path).any? do |excluded_path|
+          expanded_path == excluded_path || expanded_path.to_s.start_with?("#{excluded_path}/")
+        end
       end
 
       def load_values(values)
