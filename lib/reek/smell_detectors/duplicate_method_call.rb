@@ -93,6 +93,70 @@ module Reek
 
       private_constant :FoundCall
 
+      # Records the block-parameter bindings referenced by each method call.
+      class BindingSignatures
+        EMPTY_SIGNATURE = [].freeze
+
+        def initialize(exp)
+          @signatures = {}.compare_by_identity
+          collect(exp, [])
+        end
+
+        def for(call_node)
+          signatures.fetch(call_node, EMPTY_SIGNATURE)
+        end
+
+        private
+
+        attr_reader :signatures
+
+        # @quality :reek:FeatureEnvy
+        # @quality :reek:TooManyStatements { max_statements: 6 }
+        def collect(node, scopes)
+          return unless node.is_a?(AST::Node)
+
+          node_type = node.type
+          signatures[node] = signature(node, scopes) if node_type == :send
+
+          if node_type == :block
+            collect_block(node, scopes)
+          else
+            node.children.each { |child| collect(child, scopes) }
+          end
+        end
+
+        def collect_block(node, scopes)
+          collect(node.call, scopes)
+          collect(node.args, scopes)
+          collect(node.block, scopes + [scope_for(node)])
+        end
+
+        # @quality :reek:UtilityFunction
+        def scope_for(block_node)
+          scope_id = block_node.object_id
+          block_node.args.components.filter_map do |argument|
+            name = argument.name
+            [name, scope_id] if name
+          end.to_h
+        end
+
+        # @quality :reek:UtilityFunction
+        def signature(call_node, scopes)
+          call_node.each_node(:lvar).filter_map do |variable|
+            binding_for(variable, scopes)
+          end.uniq.sort_by { |name, scope_id| [name.to_s, scope_id] }.freeze
+        end
+
+        # @quality :reek:UtilityFunction
+        def binding_for(variable, scopes)
+          name = variable.var_name
+          scope = scopes.reverse_each.find { |candidate| candidate.key?(name) }
+          [name, scope.fetch(name)] if scope
+        end
+      end
+
+      private_constant :BindingSignatures
+
       # Collects all calls in a given context
       class CallCollector
         attr_reader :context
@@ -104,7 +168,7 @@ module Reek
         end
 
         def calls
-          result = Hash.new { |hash, key| hash[key] = FoundCall.new(key) }
+          result = {}
           collect_calls(result)
           result.values.sort_by(&:call)
         end
@@ -117,17 +181,41 @@ module Reek
 
         attr_reader :allow_calls, :max_allowed_calls
 
-        # @quality :reek:TooManyStatements { max_statements: 6 }
+        # @quality :reek:TooManyStatements { max_statements: 8 }
         # @quality :reek:DuplicateMethodCall { max_calls: 2 }
         def collect_calls(result)
+          binding_signatures = BindingSignatures.new(context.exp)
           context.local_nodes(:send, [:mlhs]) do |call_node|
             next if call_node.object_creation_call?
             next if simple_method_call? call_node
 
-            result[call_node].record(call_node)
+            key = [call_node, binding_signatures.for(call_node), call_role(call_node)]
+            record_call(result, key, call_node)
           end
           context.local_nodes(:block) do |call_node|
-            result[call_node].record(call_node)
+            record_call(result, call_node, call_node)
+          end
+        end
+
+        # @quality :reek:UtilityFunction
+        def record_call(result, key, call_node)
+          found_call = result[key] ||= FoundCall.new(call_node)
+          found_call.record(call_node)
+        end
+
+        def call_role(call_node)
+          if compound_assignment_target_ids.include?(call_node.object_id)
+            :compound_assignment_target
+          else
+            :regular
+          end
+        end
+
+        # @quality :reek:FeatureEnvy
+        def compound_assignment_target_ids
+          @compound_assignment_target_ids ||= context.local_nodes(:op_asgn).filter_map do |node|
+            target = node.children.first
+            target.object_id if target.is_a?(AST::Node) && target.type == :send
           end
         end
 

@@ -63,7 +63,7 @@ Feature: Basic smell detection
       UncommunicativeVariableName: Inline::C#module_name has the variable name 'x'
       UncommunicativeVariableName: Inline::C#parse_signature has the variable name 'x'
       UtilityFunction: Inline::C#strip_comments doesn't depend on instance state (maybe move it to another class?)
-    optparse.rb -- 126 warnings:
+    optparse.rb -- 122 warnings:
       Attribute: OptionParser#banner is a writable attribute
       Attribute: OptionParser#default_argv is a writable attribute
       Attribute: OptionParser#program_name is a writable attribute
@@ -78,7 +78,6 @@ Feature: Basic smell detection
       ControlParameter: OptionParser#summarize is controlled by argument 'blk'
       ControlParameter: OptionParser::Arguable#options= is controlled by argument 'opt'
       ControlParameter: OptionParser::ParseError#set_option is controlled by argument 'eq'
-      DuplicateMethodCall: OptionParser#getopts calls 'result[opt] = false' 2 times
       DuplicateMethodCall: OptionParser#make_switch calls 'default_style.guess(arg = a)' 4 times
       DuplicateMethodCall: OptionParser#make_switch calls 'long << (o = q.downcase)' 2 times
       DuplicateMethodCall: OptionParser#make_switch calls 'notwice(NilClass, klass, 'type')' 2 times
@@ -95,9 +94,7 @@ Feature: Basic smell detection
       DuplicateMethodCall: OptionParser#parse_in_order calls '$!.set_option(arg, true)' 2 times
       DuplicateMethodCall: OptionParser#parse_in_order calls 'cb.call(val)' 2 times
       DuplicateMethodCall: OptionParser#parse_in_order calls 'raise $!.set_option(arg, true)' 2 times
-      DuplicateMethodCall: OptionParser#parse_in_order calls 'raise(*exc)' 2 times
       DuplicateMethodCall: OptionParser#parse_in_order calls 'setter.call(sw.switch_name, val)' 2 times
-      DuplicateMethodCall: OptionParser#parse_in_order calls 'sw.block' 2 times
       DuplicateMethodCall: OptionParser#parse_in_order calls 'sw.switch_name' 2 times
       DuplicateMethodCall: OptionParser#permute calls 'argv[0]' 2 times
       DuplicateMethodCall: OptionParser::Completion#complete calls 'candidates.size' 2 times
@@ -110,7 +107,6 @@ Feature: Basic smell detection
       DuplicateMethodCall: OptionParser::Switch#summarize calls 'left.collect' 2 times
       DuplicateMethodCall: OptionParser::Switch#summarize calls 'left.shift' 2 times
       DuplicateMethodCall: OptionParser::Switch#summarize calls 'left[-1]' 3 times
-      DuplicateMethodCall: OptionParser::Switch#summarize calls 's.length' 3 times
       FeatureEnvy: OptionParser#order refers to 'argv' more than self (maybe move it to another class?)
       FeatureEnvy: OptionParser#parse refers to 'argv' more than self (maybe move it to another class?)
       FeatureEnvy: OptionParser#permute refers to 'argv' more than self (maybe move it to another class?)
@@ -301,5 +297,5 @@ Feature: Basic smell detection
       UtilityFunction: RedCloth#lT doesn't depend on instance state (maybe move it to another class?)
       UtilityFunction: RedCloth#no_textile doesn't depend on instance state (maybe move it to another class?)
       UtilityFunction: RedCloth#v_align doesn't depend on instance state (maybe move it to another class?)
-    287 total warnings
+    283 total warnings
     """
