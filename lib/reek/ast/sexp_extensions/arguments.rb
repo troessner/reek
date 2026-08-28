@@ -95,7 +95,7 @@ module Reek
       end
 
       # Utility methods for :forward_args nodes.
-      # rubocop:disable Naming/ClassAndModuleCamelCase
+      # rubocop:disable-next Naming/ClassAndModuleCamelCase
       module Forward_ArgsNode
         include ArgNodeBase
 
@@ -103,10 +103,9 @@ module Reek
           true
         end
       end
-      # rubocop:enable Naming/ClassAndModuleCamelCase
 
       # Utility methods for :forward_arg nodes.
-      # rubocop:disable Naming/ClassAndModuleCamelCase
+      # rubocop:disable-next Naming/ClassAndModuleCamelCase
       module Forward_ArgNode
         include ArgNodeBase
 
@@ -114,7 +113,6 @@ module Reek
           true
         end
       end
-      # rubocop:enable Naming/ClassAndModuleCamelCase
 
       # Utility methods for :kwnilarg nodes.
       module KwnilargNode

@@ -12,7 +12,7 @@ module Reek
       # your keys and types
       Dry::Schema.load_extensions(:info)
 
-      # rubocop:disable Metrics/BlockLength
+      # rubocop:disable-next Metrics/BlockLength
       ALL_DETECTORS_SCHEMA = Dry::Schema.Params do
         optional(:Attribute).filled(:hash) do
           optional(:enabled).filled(:bool)
@@ -158,7 +158,6 @@ module Reek
           optional(:public_methods_only).filled(:bool)
         end
       end
-      # rubocop:enable Metrics/BlockLength
 
       # @quality :reek:TooManyStatements { max_statements: 7 }
       def self.schema(directories = [])
