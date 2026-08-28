@@ -13,7 +13,7 @@ gem 'rspec-benchmark',       '~> 0.6.0'
 gem 'rubocop',               '~> 1.89.0'
 gem 'rubocop-performance',   '~> 1.26.0'
 gem 'rubocop-rspec',         '~> 3.10.2'
-gem 'simplecov',             '~> 0.22.0'
+gem 'simplecov',             '~> 1.0'
 gem 'yard',                  '~> 0.9.5'
 
 # Needed for YARD to properly parse GFM code blocks in the documentation
