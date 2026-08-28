@@ -4,7 +4,7 @@ require_relative '../../spec_helper'
 require_lib 'reek/cli/silencer'
 
 RSpec.describe Reek::CLI::Silencer do
-  # rubocop:disable RSpec/Output
+  # rubocop:disable-next RSpec/Output
   describe '.silently' do
     it 'blocks output from the block on $stdout' do
       expect { described_class.silently { puts 'Hi!' } }.not_to output.to_stdout
@@ -28,5 +28,4 @@ RSpec.describe Reek::CLI::Silencer do
       end.to output("there!\n").to_stderr
     end
   end
-  # rubocop:enable RSpec/Output
 end

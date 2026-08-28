@@ -10,9 +10,9 @@ gem 'cucumber',              ['>= 10.0', '< 12.0']
 gem 'rake',                  '~> 13.0'
 gem 'rspec',                 '~> 3.0'
 gem 'rspec-benchmark',       '~> 0.6.0'
-gem 'rubocop',               '~> 1.89.0'
-gem 'rubocop-performance',   '~> 1.26.0'
-gem 'rubocop-rspec',         '~> 3.10.2'
+gem 'rubocop',               '~> 1.90'
+gem 'rubocop-performance',   '~> 1.27'
+gem 'rubocop-rspec',         '~> 3.10'
 gem 'simplecov',             '~> 1.0'
 gem 'yard',                  '~> 0.9.5'
 
