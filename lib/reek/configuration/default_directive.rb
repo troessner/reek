@@ -21,8 +21,10 @@ module Reek
       # @return [self]
       def add(detectors_configuration)
         detectors_configuration.each do |name, configuration|
-          detector = key_to_smell_detector(name)
-          self[detector] = (self[detector] || {}).merge configuration
+          if configuration
+            detector = key_to_smell_detector(name)
+            self[detector] = (self[detector] || {}).merge configuration
+          end
         end
         self
       end
