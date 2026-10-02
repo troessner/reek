@@ -8,6 +8,6 @@ module Reek
   # @public
   module Version
     # @public
-    STRING = '6.5.0'
+    STRING = '6.6.0'
   end
 end
