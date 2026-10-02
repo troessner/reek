@@ -1,5 +1,39 @@
-
 # Change log
+
+## 6.6.0 (2026-10-02)
+
+### Bugfixes
+
+* Fix handling of env vars overriding reek task definitions ([#1826] by [mvz])
+
+### Documentation
+
+* Fix `Control Couple` documentation link ([#1823] by [dancristianb])
+* [documentation] Remove reference to codebeat.co ([#1828] by [etagwerker])
+
+### Dependencies
+
+* Require Rainbow 3.x ([#1821] by [mvz])
+* Add Ruby 4.0 to CI ([#1827] by [etagwerker])
+* Support Ruby 3.2 and up ([#1842] by [mvz])
+
+### Internal
+
+* Remove unused documention quality specs ([#1803] by [mvz])
+* Use documented form of platform syntax in Gemfile ([#1810] by [mvz])
+
+[dancristianb]: https://github.com/dancristianb
+[etagwerker]: https://github.com/etagwerker
+
+[#1803]: https://github.com/troessner/reek/pull/1803
+[#1810]: https://github.com/troessner/reek/pull/1810
+[#1821]: https://github.com/troessner/reek/pull/1821
+[#1823]: https://github.com/troessner/reek/pull/1823
+[#1826]: https://github.com/troessner/reek/pull/1826
+[#1827]: https://github.com/troessner/reek/pull/1827
+[#1828]: https://github.com/troessner/reek/pull/1828
+[#1829]: https://github.com/troessner/reek/pull/1829
+[#1842]: https://github.com/troessner/reek/pull/1842
 
 ## 6.5.0 (2025-03-24)
 
