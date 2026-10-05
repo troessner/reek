@@ -8,7 +8,8 @@ module Reek
       class << self
         REGEXABLE_ATTRIBUTES = %w(accept reject exclude).freeze
 
-        # Converts marked strings like "/foobar/" into regexes.
+        # Converts marked strings like "/foobar/" into regexes and drops options
+        # that do not have a default value, since those have nothing to write out.
         #
         # @param configuration [Hash] e.g.
         #   {"enabled"=>true, "exclude"=>[], "reject"=>[/^[a-z]$/, /[0-9]$/, /[A-Z]/], "accept"=>[]}
@@ -21,7 +22,7 @@ module Reek
               item.is_a?(Regexp) ? item.inspect : item
             end
           end
-          configuration
+          configuration.compact
         end
       end
     end
