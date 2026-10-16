@@ -48,7 +48,7 @@ Then(/^the exit status is (\d+)$/) do |status|
 end
 
 Then /^it reports:$/ do |report|
-  expect(last_command_started).to have_output_on_stdout(report.gsub('\n', "\n"))
+  expect(last_command_started).to have_output_on_stdout("#{report}\n")
 end
 
 Then /^it reports this yaml:$/ do |expected_yaml|
@@ -64,7 +64,7 @@ Then /^it reports this JSON:$/ do |expected_json|
 end
 
 Then /^stderr reports:$/ do |report|
-  expect(last_command_started).to have_output_on_stderr(report.chomp)
+  expect(last_command_started).to have_output_on_stderr("#{report}\n")
 end
 
 Then /^it reports no errors$/ do
@@ -88,7 +88,7 @@ Then /^it should indicate the line numbers of those smells$/ do
 end
 
 Then /^it reports the current version$/ do
-  expect(last_command_started).to have_output("reek #{Reek::Version::STRING}")
+  expect(last_command_started).to have_output("reek #{Reek::Version::STRING}\n")
 end
 
 Then /^it reports this Code Climate output:$/ do |expected_output|
