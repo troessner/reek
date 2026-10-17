@@ -223,7 +223,6 @@ Feature: Directory directives
     And stderr reports:
     """
     Error: `dummy_directory/dummy.rb` is supposed to be a directory but is a file
-
     """
 
   Scenario: In case of overlapping configurations, pick the most appropriate one
