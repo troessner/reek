@@ -114,6 +114,13 @@ module Reek
           optional(:enabled).filled(:bool)
           optional(:exclude).array(:string)
           optional(:max_methods).filled(:integer)
+          optional(:max_public_methods).filled(:integer)
+          optional(:max_protected_methods).filled(:integer)
+          optional(:max_private_methods).filled(:integer)
+          optional(:max_private_and_protected_methods).filled(:integer)
+          optional(:ignore_public_methods).filled(:bool)
+          optional(:ignore_protected_methods).filled(:bool)
+          optional(:ignore_private_methods).filled(:bool)
         end
         optional(:TooManyStatements).filled(:hash) do
           optional(:enabled).filled(:bool)

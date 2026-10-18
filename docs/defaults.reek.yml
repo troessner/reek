@@ -80,6 +80,9 @@ detectors:
     enabled: true
     exclude: []
     max_methods: 15
+    ignore_public_methods: false
+    ignore_protected_methods: false
+    ignore_private_methods: false
   TooManyStatements:
     enabled: true
     exclude:

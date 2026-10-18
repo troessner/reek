@@ -31,5 +31,11 @@ RSpec.describe Reek::Configuration::RakeTaskConverter do
       converted_configuration = described_class.convert configuration_for_smell_detector
       expect(converted_configuration['accept']).to eq(expected_accept)
     end
+
+    it 'omits options that do not have a default value' do
+      converted_configuration = described_class.convert('max_methods' => 15, 'max_public_methods' => nil)
+
+      expect(converted_configuration).to eq('max_methods' => 15)
+    end
   end
 end
