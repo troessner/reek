@@ -114,7 +114,11 @@ module Reek
       end
 
       def source_from_pipe
-        [Source::SourceCode.from($stdin, origin: options.stdin_filename)]
+        stdin_filename = options.stdin_filename
+        locator = Source::SourceLocator.new([], configuration: configuration, options: options)
+        return [] if stdin_filename && locator.excluded_file?(Pathname.new(stdin_filename))
+
+        [Source::SourceCode.from($stdin, origin: stdin_filename)]
       end
 
       def disable_progress_output_unless_verbose

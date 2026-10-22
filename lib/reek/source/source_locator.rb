@@ -29,6 +29,24 @@ module Reek
         source_paths
       end
 
+      # Checks whether the given file is excluded through the configuration.
+      # With the force_exclusion option, a file is also excluded when any of
+      # its parent directories is excluded.
+      #
+      # @param path [Pathname] path of the file to check
+      # @return [Boolean]
+      def excluded_file?(path)
+        if options.force_exclusion?
+          path.ascend do |ascendant|
+            break true if path_excluded?(ascendant)
+
+            false
+          end
+        else
+          path_excluded?(path)
+        end
+      end
+
       private
 
       attr_reader :configuration, :paths, :options
@@ -49,22 +67,10 @@ module Reek
           if path.directory?
             Find.prune if ignore_path?(path)
           elsif ruby_file?(path)
-            relevant_paths << path unless ignore_file?(path)
+            relevant_paths << path unless excluded_file?(path)
           end
         end
         relevant_paths
-      end
-
-      def ignore_file?(path)
-        if options.force_exclusion?
-          path.ascend do |ascendant|
-            break true if path_excluded?(ascendant)
-
-            false
-          end
-        else
-          path_excluded?(path)
-        end
       end
 
       def path_excluded?(path)
