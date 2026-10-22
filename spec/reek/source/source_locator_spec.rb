@@ -165,4 +165,35 @@ RSpec.describe Reek::Source::SourceLocator do
       end
     end
   end
+
+  describe '#excluded_file?' do
+    let(:configuration) do
+      test_configuration_for(CONFIGURATION_DIR.join('with_excluded_paths.reek'))
+    end
+
+    let(:options) { instance_double(Reek::CLI::Options, force_exclusion?: false) }
+    let(:locator) { described_class.new([], configuration: configuration, options: options) }
+
+    context 'when the file does not exist, but is in an excluded directory' do
+      let(:path) { SAMPLES_DIR.join('source_with_exclude_paths', 'ignore_me', 'not_on_disk.rb') }
+
+      it 'excludes the file when options.force_exclusion? is true' do
+        allow(options).to receive(:force_exclusion?).and_return(true)
+        expect(locator).to be_excluded_file(path)
+      end
+
+      it 'does not exclude the file when options.force_exclusion? is false' do
+        expect(locator).not_to be_excluded_file(path)
+      end
+    end
+
+    context 'when the file is not in an excluded directory' do
+      let(:path) { SAMPLES_DIR.join('source_with_exclude_paths', 'not_on_disk.rb') }
+
+      it 'does not exclude the file' do
+        allow(options).to receive(:force_exclusion?).and_return(true)
+        expect(locator).not_to be_excluded_file(path)
+      end
+    end
+  end
 end

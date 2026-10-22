@@ -63,3 +63,38 @@ Feature: Reek reads from $stdin when no files are given
       """
     Then it succeeds
     And it reports nothing
+
+  Scenario: providing a filename that is excluded in the configuration
+    Given an empty file named "db/migrate/create_foos.rb"
+    And a file named "config.reek" with:
+      """
+      ---
+      exclude_paths:
+        - db/migrate/create_foos.rb
+      """
+    When I pass a stdin to reek --config config.reek --stdin-filename db/migrate/create_foos.rb with:
+      """
+      class Turn; def y() @x = 3; end end
+      """
+    Then it succeeds
+    And it reports nothing
+
+  Scenario: providing a filename within an excluded directory
+    Given an empty file named "db/migrate/create_foos.rb"
+    And a file named "config.reek" with:
+      """
+      ---
+      exclude_paths:
+        - db/migrate
+      """
+    When I pass a stdin to reek --config config.reek --stdin-filename db/migrate/create_foos.rb with:
+      """
+      class Turn; def y() @x = 3; end end
+      """
+    Then the exit status indicates smells
+    When I pass a stdin to reek --config config.reek --force-exclusion --stdin-filename db/migrate/create_foos.rb with:
+      """
+      class Turn; def y() @x = 3; end end
+      """
+    Then it succeeds
+    And it reports nothing
