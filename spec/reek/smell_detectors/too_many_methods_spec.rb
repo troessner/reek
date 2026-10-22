@@ -53,4 +53,68 @@ RSpec.describe Reek::SmellDetectors::TooManyMethods do
 
     expect(src).not_to reek_of(:TooManyMethods).with_config(config)
   end
+
+  it 'stops at a nested Struct definition' do
+    src = <<-RUBY
+      class Alfa
+        Hidden = Struct.new(:bravo) do
+          def charlie; end
+          def delta; end
+        end
+
+        def echo; end
+        def foxtrot; end
+      end
+    RUBY
+
+    expect(src).not_to reek_of(:TooManyMethods).with_config(config)
+  end
+
+  it 'stops at a nested Class.new definition' do
+    src = <<-RUBY
+      class Alfa
+        Hidden = Class.new do
+          def charlie; end
+          def delta; end
+        end
+
+        def echo; end
+        def foxtrot; end
+      end
+    RUBY
+
+    expect(src).not_to reek_of(:TooManyMethods).with_config(config)
+  end
+
+  it 'counts methods defined in other kinds of constant assignment' do
+    src = <<-RUBY
+      class Alfa
+        Bravo = class_eval do
+          def charlie; end
+          def delta; end
+        end
+        Echo = def foxtrot; end
+        def golf; end
+      end
+    RUBY
+
+    expect(src).to reek_of(:TooManyMethods, count: 4).with_config(config)
+  end
+
+  it 'counts an outer method that looks the same as one in a nested Struct' do
+    src = <<-RUBY
+      class Alfa
+        Hidden = Struct.new(:bravo) do
+          def charlie; end
+        end
+
+        def charlie; end
+        def delta; end
+        def echo; end
+        def foxtrot; end
+      end
+    RUBY
+
+    expect(src).to reek_of(:TooManyMethods, count: 4).with_config(config)
+  end
 end

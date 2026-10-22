@@ -60,10 +60,17 @@ module Reek
       end
 
       #
+      # Methods defined in the block of a module-defining constant assignment,
+      # like `Foo = Struct.new(:bar) do ... end`, belong to the module created
+      # there and are not included.
+      #
       # @deprecated use `defined_instance_methods` instead
       #
       def node_instance_methods
-        local_nodes(:def).to_a
+        nested_module_method_ids = local_nodes(:casgn).
+          select(&:defines_module?).
+          flat_map { |casgn| casgn.each_node(:def).map(&:object_id) }
+        local_nodes(:def).reject { |node| nested_module_method_ids.include?(node.object_id) }
       end
 
       def descriptively_commented?
