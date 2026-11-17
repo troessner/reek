@@ -41,7 +41,7 @@ Reek::Rake::Task.new do |t|
 end
 ```
 
-Alternatively, you can create your own [Rake::FileList](http://rake.rubyforge.org/classes/Rake/FileList.html) and use that for `source_files`:
+Alternatively, you can create your own [Rake::FileList](https://ruby.github.io/rake/Rake/FileList.html) and use that for `source_files`:
 
 ```ruby
 Reek::Rake::Task.new do |t|
