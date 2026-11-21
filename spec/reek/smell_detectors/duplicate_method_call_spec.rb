@@ -61,6 +61,38 @@ RSpec.describe Reek::SmellDetectors::DuplicateMethodCall do
         and reek_of(:DuplicateMethodCall, name: '@bravo.charlie.delta')
     end
 
+    it 'distinguishes same-named parameters from different blocks' do
+      src = <<-RUBY
+        def alfa
+          bravo.each { |charlie| charlie.delta }
+          echo.each { |charlie| charlie.delta }
+        end
+      RUBY
+
+      expect(src).not_to reek_of(:DuplicateMethodCall, name: 'charlie.delta')
+    end
+
+    it 'reports repeated calls on the same block parameter' do
+      src = <<-RUBY
+        def alfa
+          bravo.each { |charlie| charlie.delta + charlie.delta }
+        end
+      RUBY
+
+      expect(src).to reek_of(:DuplicateMethodCall, name: 'charlie.delta')
+    end
+
+    it 'reports repeated calls on the same outer binding across blocks' do
+      src = <<-RUBY
+        def alfa(bravo)
+          charlie.each { bravo.delta }
+          echo.each { bravo.delta }
+        end
+      RUBY
+
+      expect(src).to reek_of(:DuplicateMethodCall, name: 'bravo.delta')
+    end
+
     it 'ignores calls to new' do
       src = 'def alfa; @bravo.new + @bravo.new; end'
       expect(src).not_to reek_of(:DuplicateMethodCall)
@@ -149,6 +181,26 @@ RSpec.describe Reek::SmellDetectors::DuplicateMethodCall do
       RUBY
 
       expect(src).not_to reek_of(:DuplicateMethodCall)
+    end
+
+    it 'does not treat a compound assignment target as a repeated call' do
+      src = 'def alfa(bravo); bravo.charlie; bravo.charlie += 1; end'
+
+      expect(src).not_to reek_of(:DuplicateMethodCall, name: 'bravo.charlie')
+    end
+
+    it 'reports repeated compound assignment targets' do
+      src = 'def alfa(bravo); bravo.charlie += 1; bravo.charlie += 2; end'
+
+      expect(src).to reek_of(:DuplicateMethodCall, name: 'bravo.charlie')
+    end
+
+    it 'still reports repeated receiver calls inside a compound assignment target' do
+      src = 'def alfa(bravo); bravo.charlie.delta; bravo.charlie.delta += 1; end'
+
+      expect(src).
+        to reek_of(:DuplicateMethodCall, name: 'bravo.charlie').
+        and not_reek_of(:DuplicateMethodCall, name: 'bravo.charlie.delta')
     end
   end
 
